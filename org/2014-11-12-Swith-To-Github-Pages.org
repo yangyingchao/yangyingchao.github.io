@@ -1,0 +1,89 @@
+#+TITLE: 迁移 Blog
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:      yangyingchao[at]gmail[dot]com
+#+OPTIONS: ^:nil toc:1
+#+KEYWORDS: Blog, 搬家, mwb
+#+CATEGORIES: Blog
+#+DESCRIPTION: 将以前陆陆续续写的和收集的一些东西迁移到了 github 上来...
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://tubocurarine.is-programmer.com
+#+LINK_HOME:  http://tubocurarine.is-programmer.com
+#+EXCLUDE_TAGS: noexport
+
+将以前陆陆续续写的和收集的一些东西迁移到了 github 上来。Blog 主题 Copy 了
+[[https://github.com/Linusp/Linusp.github.io]] 。
+
+之前我的 Blog 都是通过 [[https://github.com/yangyingchao/mwb][mwb]] 来管理，发布到了 [[http://www.cnblogs.com/yangyingchao][cnblogs]] 和 [[tubocurarine.is-programmer.com][is-programmer]] 上。Blog
+的迁移并不复杂：
+
+ * 通过 mwb 获取所有已经发布的文章
+
+   Emacs 中输入：
+   #+BEGIN_SRC text
+M-x: mwb-get-recent-posts
+   #+END_SRC
+
+   填写个数字之后将近期的 Blog 取下来。
+
+  * 遍历所有取道的文章并更新到 Github 上
+
+    这个可以用 elisp 来实现：
+
+    #+BEGIN_SRC emacs-lisp
+;;; -*- emacs-lisp -*- -*- coding: utf-8; -*-
+;;;
+;;; File: test.el
+;;; Author: YangYingchao <yangyingchao@gmail.com>
+;;;
+;;;
+
+
+(defun yc/get-mwb-content (fn)
+  "Get metadata of mwb"
+  ;; Load variables if metadata exists.
+  (message "Processing %s" fn)
+  (let* ((content
+          (with-temp-buffer
+            (insert-file-contents fn)
+            (read (set-marker (make-marker) 0 (current-buffer)))))
+         (bfn (yc/string-replace
+               (yc/string-replace
+                (yc/string-replace
+                 (yc/string-replace (cdr (assoc "title" content))
+                                    " " "-")
+                 "/" "_"
+                 )")" "_")
+               "(" "_")))
+
+    (with-temp-file (format
+                     "/home/yyc/Work/yangyingchao.github.io/_posts/%s-%s.html"
+                     (format-time-string current-date-format (current-time))
+                     bfn)
+      (insert "---
+layout     : post
+")
+      (insert "title : "(or (cdr (assoc "title" content)) "Unamed?" ) "\n")
+      (insert "categories : "(or (car (cdr (assoc "categories" content))) "未分类")  "\n")
+      (insert (concat  "\n---\n" (cdr (assoc "description" content))) "\n")
+      )
+    )
+  )
+
+;; (yc/get-mwb-content "/home/yyc/Documents/MetaWebBlog/posts/68215")
+
+(dolist (var (directory-files "/home/yyc/Documents/MetaWebBlog/posts" t))
+  (message "Processing %s" var)
+  (if (not (file-directory-p var))
+      (yc/get-mwb-content var)      )
+
+  )
+
+    #+END_SRC
+
+    Eval 上面的代码后，所有文章都更新到了 github.io 所在的 repository，之后全
+    部添加并上传即可。
