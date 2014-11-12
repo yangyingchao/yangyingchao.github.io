@@ -4,14 +4,14 @@ pygments: true
 
 markdown: kramdown
 
-title : Linusp's Blog
+title : TBlog
 author :
-  name : Linusp
-  email : linusp1024@gmail.com
-  github : Linusp
+  name : Tubo
+  email : yangyingchao@gmail.com
+  github : yangyingchao
 
 
-production_url : http://linusp.github.io
+production_url : http://yangyingchao.github.io
 
 nav:
   - text: 分类
