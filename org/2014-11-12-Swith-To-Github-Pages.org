@@ -30,7 +30,7 @@ M-x: mwb-get-recent-posts
 
    填写个数字之后将近期的 Blog 取下来。
 
-  * 遍历所有取道的文章并更新到 Github 上
+ * 遍历所有取道的文章并更新到 Github 上
 
     这个可以用 elisp 来实现：
 
@@ -90,3 +90,26 @@ M-x: mwb-get-recent-posts
 
     Eval 上面的代码后，所有文章都更新到了 github.io 所在的 repository，之后全
     部添加并上传即可。
+
+
+ * 简单测试下 ditaa
+
+
+ #+BEGIN_SRC ditaa :file ../assets/img/test_ditaa.png
+
+
+
+                                    +--------------+
+                                    | Module A     |
+                                    +------+-------+
+                                           |
+                          +----------------+---------------+
+                          |                                |
+                          |                                |
+                          |                                |
+                          |                                |
+                          V                                v
+                      +--------+                     +--------+
+                      |   B    +-------------------->|    C   |
+                      +--------+                     +--------+
+ #+END_SRC
