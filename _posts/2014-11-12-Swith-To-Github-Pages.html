@@ -1,0 +1,269 @@
+---
+layout : post
+title : 迁移 Blog
+description : 将以前陆陆续续写的和收集的一些东西迁移到了 github 上来...
+Blog : 
+categories : Blog
+tags : Blog, 搬家, mwb
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>迁移 Blog</title>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Yang, Ying-chao" />
+<meta  name="description" content="将以前陆陆续续写的和收集的一些东西迁移到了 github 上来..."
+ />
+<meta  name="keywords" content="Blog, 搬家, mwb" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+<style type="text/css">
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+  pre.src {
+    background-color:#2e3436;
+    color:#fefffe;
+  }
+
+p {font-size: 15px}
+li {font-size: 15px}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<p>
+将以前陆陆续续写的和收集的一些东西迁移到了 github 上来。Blog 主题 Copy 了
+<a href="https://github.com/Linusp/Linusp.github.io">https://github.com/Linusp/Linusp.github.io</a> 。
+</p>
+
+<p>
+之前我的 Blog 都是通过 <a href="https://github.com/yangyingchao/mwb">mwb</a> 来管理，发布到了 <a href="http://www.cnblogs.com/yangyingchao">cnblogs</a> 和 <i>is-programmer</i> 上。Blog
+的迁移并不复杂：
+</p>
+
+<ul class="org-ul">
+<li>通过 mwb 获取所有已经发布的文章
+
+<p>
+Emacs 中输入：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">M-x: mwb-get-recent-posts
+</pre>
+</div>
+
+<p>
+填写个数字之后将近期的 Blog 取下来。
+</p>
+
+<ul class="org-ul">
+<li>遍历所有取道的文章并更新到 Github 上
+
+<p>
+这个可以用 elisp 来实现：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span style="color: #fa8072;">;;; </span><span style="color: #cd5c5c; font-style: italic;">-*- emacs-lisp -*- -*- coding: utf-8; -*-</span>
+<span style="color: #fa8072;">;;;</span>
+<span style="color: #fa8072;">;;; </span><span style="color: #cd5c5c; font-style: italic;">File: mwb-to-github.io</span>
+<span style="color: #fa8072;">;;; </span><span style="color: #cd5c5c; font-style: italic;">Author: YangYingchao <a href="mailto:yangyingchao%40gmail.com">&lt;yangyingchao@gmail.com&gt;</a></span>
+<span style="color: #fa8072;">;;;</span>
+<span style="color: #fa8072;">;;;</span>
+
+
+(<span style="color: #ff4040;">defun</span> <span style="color: #1e90ff; font-weight: bold;">yc/get-mwb-content</span> (fn)
+  <span style="color: #87ceeb;">"Get metadata of mwb"</span>
+  <span style="color: #fa8072;">;; </span><span style="color: #cd5c5c; font-style: italic;">Load variables if metadata exists.</span>
+  (message <span style="color: #d78700;">"Processing %s"</span> fn)
+  (<span style="color: #ff4040;">let*</span> ((content
+          (<span style="color: #ff4040;">with-temp-buffer</span>
+            (insert-file-contents fn)
+            (read (set-marker (make-marker) 0 (current-buffer)))))
+         (bfn (yc/string-replace
+               (yc/string-replace
+                (yc/string-replace
+                 (yc/string-replace (cdr (assoc <span style="color: #d78700;">"title"</span> content))
+                                    <span style="color: #d78700;">" "</span> <span style="color: #d78700;">"-"</span>)
+                 <span style="color: #d78700;">"/"</span> <span style="color: #d78700;">"_"</span>
+                 )<span style="color: #d78700;">")"</span> <span style="color: #d78700;">"_"</span>)
+               <span style="color: #d78700;">"("</span> <span style="color: #d78700;">"_"</span>))
+         (date-cons (cadr (cdr (assoc <span style="color: #d78700;">"dateCreated"</span> content))))
+         (date (format-time-string   <span style="color: #d78700;">"%Y-%m-%d"</span>  (list (car date-cons) (cadr date-cons) 0 0 )))
+         )
+
+    (<span style="color: #ff4040;">with-temp-file</span> (format
+                     <span style="color: #d78700;">"/home/</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">yyc</span><span style="color: #d78700;">/Work/yangyingchao.github.io/_posts/%s-%s.html"</span>
+                     date
+                     bfn)
+      (insert <span style="color: #d78700;">"---</span>
+<span style="color: #d78700;">layout     : post</span>
+<span style="color: #d78700;">"</span>)
+      (insert <span style="color: #d78700;">"title : "</span>(or (cdr (assoc <span style="color: #d78700;">"title"</span> content)) <span style="color: #d78700;">"Unamed?"</span> ) <span style="color: #d78700;">"\n"</span>)
+      (insert <span style="color: #d78700;">"categories : "</span>(or (car (cdr (assoc <span style="color: #d78700;">"categories"</span> content))) <span style="color: #d78700;">"&#26410;&#20998;&#31867;"</span>)  <span style="color: #d78700;">"\n"</span>)
+      (insert (concat  <span style="color: #d78700;">"\n---\n"</span> (cdr (assoc <span style="color: #d78700;">"description"</span> content))) <span style="color: #d78700;">"\n"</span>)
+      )
+    )
+  )
+
+<span style="color: #fa8072;">;; </span><span style="color: #cd5c5c; font-style: italic;">(yc/get-mwb-content "/home/</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">yyc</span><span style="color: #cd5c5c; font-style: italic;">/Documents/MetaWebBlog/posts/68215")</span>
+
+(<span style="color: #ff4040;">dolist</span> (var (directory-files <span style="color: #d78700;">"/home/</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">yyc</span><span style="color: #d78700;">/Documents/MetaWebBlog/posts"</span> t))
+  (message <span style="color: #d78700;">"Processing %s"</span> var)
+  (<span style="color: #ff4040;">if</span> (not (file-directory-p var))
+      (yc/get-mwb-content var)      )
+
+  )
+</pre>
+</div>
+
+<p>
+Eval 上面的代码后，所有文章都更新到了 github.io 所在的 repository，之后全部添加并上传即可。</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="org_postamble" class="status">
+
+  <div style="margin-top: 15px; font-size: 13px;color: #cc0000;"><p align=center><strong>
+ <a href="http://tubocurarine.is-programmer.com">.</a>，
+</strong></div>
+</div>
+</body>
+</html>

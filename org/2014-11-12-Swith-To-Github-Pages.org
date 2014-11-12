@@ -35,53 +35,56 @@ M-x: mwb-get-recent-posts
     这个可以用 elisp 来实现：
 
     #+BEGIN_SRC emacs-lisp
-;;; -*- emacs-lisp -*- -*- coding: utf-8; -*-
-;;;
-;;; File: test.el
-;;; Author: YangYingchao <yangyingchao@gmail.com>
-;;;
-;;;
+      ;;; -*- emacs-lisp -*- -*- coding: utf-8; -*-
+      ;;;
+      ;;; File: mwb-to-github.io
+      ;;; Author: YangYingchao <yangyingchao@gmail.com>
+      ;;;
+      ;;;
 
 
-(defun yc/get-mwb-content (fn)
-  "Get metadata of mwb"
-  ;; Load variables if metadata exists.
-  (message "Processing %s" fn)
-  (let* ((content
-          (with-temp-buffer
-            (insert-file-contents fn)
-            (read (set-marker (make-marker) 0 (current-buffer)))))
-         (bfn (yc/string-replace
-               (yc/string-replace
-                (yc/string-replace
-                 (yc/string-replace (cdr (assoc "title" content))
-                                    " " "-")
-                 "/" "_"
-                 )")" "_")
-               "(" "_")))
+      (defun yc/get-mwb-content (fn)
+        "Get metadata of mwb"
+        ;; Load variables if metadata exists.
+        (message "Processing %s" fn)
+        (let* ((content
+                (with-temp-buffer
+                  (insert-file-contents fn)
+                  (read (set-marker (make-marker) 0 (current-buffer)))))
+               (bfn (yc/string-replace
+                     (yc/string-replace
+                      (yc/string-replace
+                       (yc/string-replace (cdr (assoc "title" content))
+                                          " " "-")
+                       "/" "_"
+                       )")" "_")
+                     "(" "_"))
+               (date-cons (cadr (cdr (assoc "dateCreated" content))))
+               (date (format-time-string   "%Y-%m-%d"  (list (car date-cons) (cadr date-cons) 0 0 )))
+               )
 
-    (with-temp-file (format
-                     "/home/yyc/Work/yangyingchao.github.io/_posts/%s-%s.html"
-                     (format-time-string current-date-format (current-time))
-                     bfn)
-      (insert "---
-layout     : post
-")
-      (insert "title : "(or (cdr (assoc "title" content)) "Unamed?" ) "\n")
-      (insert "categories : "(or (car (cdr (assoc "categories" content))) "未分类")  "\n")
-      (insert (concat  "\n---\n" (cdr (assoc "description" content))) "\n")
-      )
-    )
-  )
+          (with-temp-file (format
+                           "/home/yyc/Work/yangyingchao.github.io/_posts/%s-%s.html"
+                           date
+                           bfn)
+            (insert "---
+      layout     : post
+      ")
+            (insert "title : "(or (cdr (assoc "title" content)) "Unamed?" ) "\n")
+            (insert "categories : "(or (car (cdr (assoc "categories" content))) "未分类")  "\n")
+            (insert (concat  "\n---\n" (cdr (assoc "description" content))) "\n")
+            )
+          )
+        )
 
-;; (yc/get-mwb-content "/home/yyc/Documents/MetaWebBlog/posts/68215")
+      ;; (yc/get-mwb-content "/home/yyc/Documents/MetaWebBlog/posts/68215")
 
-(dolist (var (directory-files "/home/yyc/Documents/MetaWebBlog/posts" t))
-  (message "Processing %s" var)
-  (if (not (file-directory-p var))
-      (yc/get-mwb-content var)      )
+      (dolist (var (directory-files "/home/yyc/Documents/MetaWebBlog/posts" t))
+        (message "Processing %s" var)
+        (if (not (file-directory-p var))
+            (yc/get-mwb-content var)      )
 
-  )
+        )
 
     #+END_SRC
 
