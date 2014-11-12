@@ -14,27 +14,6 @@ body {
 
 /* The white background content wrapper */
 .content {
-       background-color: #fff;
-    padding: 20px;
-    margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-	margin-left: 1px;
-	padding-top: 2px;
-    -moz-box-shadow: 0 0 10px 10px #b9bcbf;
-    -o-box-shadow: 0 0 10px 10px #b9bcbf;
-    -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
-    border-left: .2em solid #b9bcbf;
-    border-right: .2em solid #b9bcbf;
-    box-shadow: 0 0 10px 10px #b9bcbf;
-    margin: auto;
-    max-width: 74.92em;
-    padding: 0 1.5% 1em 1.5%; margin-top: 0;
-    text-align: left;
-}
-
-.span10 {
     background-color: #fff;
     padding: 20px;
     margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
