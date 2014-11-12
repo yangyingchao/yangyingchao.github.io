@@ -22,8 +22,6 @@ nav:
     url : /archive.html
   - text: IF
     url : /if.html
-  - text: 链接
-    url : /link.html
   - text: 关于
     url : /about.html
 
