@@ -1,0 +1,295 @@
+---
+layout     : post
+title : =Ditaa= Source Code Blocks in Org Modecategories : 未分类
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title><code>Ditaa</code> Source Code Blocks in Org Mode</title>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Thomas Dye" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<style type="text/css">#outline-container-introduction{ clear:both; }</style>
+
+<style type="text/css">
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+  pre.src {
+    background-color:#2e3436;
+    color:#fefffe;
+  }
+
+p {font-size: 15px}
+li {font-size: 15px}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Introduction</a></li>
+<li><a href="#sec-2">Requirements and Setup</a></li>
+<li><a href="#sec-3">Org Mode Features for <code>ditaa</code> Source Code Blocks</a>
+<ul>
+<li><a href="#sec-3-1">Header Arguments</a></li>
+<li><a href="#sec-3-2">Sessions</a></li>
+<li><a href="#sec-3-3">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Examples of Use</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<code>Ditaa</code> is a command-line utility that converts diagrams drawn using
+ASCII art into bitmap graphics.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<code>Ditaa</code> is distributed with <code>Org mode</code>. The file <code>ditaa.jar</code> can be found
+in <code>contrib/scripts</code>.
+</p>
+
+<p>
+Activate evaluation of <code>ditaa</code> source code blocks by adding <code>ditaa</code> to
+<code>org-babel-load-languages</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((ditaa . t))) <span style="color: #fa8072;">; </span><span style="color: #cd5c5c; font-style: italic;">this line activates ditaa</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Org Mode Features for <code>ditaa</code> Source Code Blocks</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Header Arguments</h3>
+<div class="outline-text-3" id="text-3-1">
+<dl class="org-dl">
+<dt> file </dt><dd><code>ditaa</code> source code blocks require that an output file
+be specified.
+</dd>
+<dt> cmdline </dt><dd>specify command line arguments for <code>ditaa</code>
+</dd>
+<dt> java </dt><dd>arguments for the <code>java</code> runtimes (JRE)
+</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Sessions</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+<code>ditaa</code> does not support sessions.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Result Types</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+<code>Ditaa</code> source code blocks return a link to a png bitmap file.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Examples of Use</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The obligatory Hello World! example in <code>ditaa</code>:
+</p>
+<pre class="example">
+#+BEGIN_SRC ditaa :file images/hello-world.png
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+#+END_SRC
+</pre>
+
+<p>
+<img src="/user_files/tubocurarine/Image/hello-world.png" alt="hello-world.png" />
+<img src="/user_files/tubocurarine/Image/hello-world_20141107233732.png" alt="hello-world.png" />
+</p>
+
+<p>
+Now, round all corners by passing <code>ditaa</code> the <code>-r,--round-corners</code>
+command line switch.
+</p>
+
+<pre class="example">
+#+BEGIN_SRC ditaa :file images/hello-world-round.png :cmdline -r
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+#+END_SRC
+</pre>
+
+<p>
+<img src="/user_files/tubocurarine/Image/hello-world-round.png" alt="hello-world-round.png" />
+<img src="/user_files/tubocurarine/Image/hello-world-round_20141107233733.png" alt="hello-world-round.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="org_postamble" class="status">
+
+  <div style="margin-top: 15px; font-size: 13px;color: #cc0000;"><p align=center><strong>
+ <a href="http://tubocurarine.is-programmer.com">.</a>，
+</strong></div>
+</div>
+</body>
+</html>
