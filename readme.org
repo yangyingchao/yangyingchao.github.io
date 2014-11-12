@@ -2,4 +2,4 @@
 
 ** 简介
 
-   这是我在Github上搭建的静态博客的所有源代码。
+   这是我在Github上搭建的 [[http://yangyingchao.github.io/][静态博客]] 的所有源代码。
