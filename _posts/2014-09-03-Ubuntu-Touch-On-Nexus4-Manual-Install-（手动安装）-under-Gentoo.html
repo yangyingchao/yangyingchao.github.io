@@ -1,0 +1,245 @@
+---
+layout     : post
+title : Ubuntu Touch On Nexus4 Manual Install （手动安装） under Gentoo
+categories : 未分类
+
+---
+<!--?xml version="1.0" encoding="utf-8"?-->
+<p>&nbsp;</p>
+<style><!--
+/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+--></style>
+<style><!--
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+  pre.src {
+    background-color:#2e3436;
+    color:#fefffe;
+  }
+
+p {font-size: 15px}
+li {font-size: 15px}
+--></style>
+<script type="text/javascript">// <![CDATA[
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*/
+// ]]></script>
+<div id="org_content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 准备工作:</a></li>
+<li><a href="#sec-2">2. Saucy Salamander</a></li>
+<li><a href="#sec-3">3. 刷入 最新 版Touch</a></li>
+</ul>
+</div>
+</div>
+<p>最近手里的 Nexus 4 手机一直闲置，它的配置要比我六年前买的笔记本还好，于是就动起了向里面刷个 <a href="http://www.ubuntu.com/phone">Ubuntu Touch</a> 的想法。</p>
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 准备工作:</h2>
+<div id="text-1" class="outline-text-2"><ol class="org-ol">
+<li>安装 Adb tools， google 一下即可。</li>
+<li>开启开发者模式。</li>
+<li>终端执行 "adb reboot bootloader" 进入 fastboot</li>
+<li>终端执行 "fastboot oem unlock" 解锁。</li>
+<li>刷入第三方的 recovery: "fastboot flash recovery recovery-clockwork-touch-6.0.4.3-mako.img"</li>
+</ol>
+<p>recovery-clockwork-touch-6.0.4.3-mako.img 可以从网上搜索得到。</p>
+<p>之后重启进入 Android 系统，就可以下载 Image 并准备刷机了。</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Saucy Salamander</h2>
+<div id="text-2" class="outline-text-2">
+<p><a href="http://cdimage.ubuntu.com/ubuntu-touch/saucy/daily-preinstalled/20131127/">Saucy Salamander</a> 基于 Ubuntu 13.0 , 相对稳定，刷机也很简单：</p>
+<ol class="org-ol">
+<li>下载文件：
+<div class="org-src-container">
+<pre class="src src-bash">saucy-preinstalled-boot-armhf+mako.img
+saucy-preinstalled-system-armel+mako.img
+saucy-preinstalled-touch-armhf.zip
+</pre>
+</div>
+</li>
+<li>上传 saucy-preinstalled-touch-armhf.zip 到 <em>sdcard</em>
+<div class="org-src-container">
+<pre class="src src-bash">saucy-preinstalled-touch-armhf.zip /sdcard/
+</pre>
+</div>
+</li>
+<li>重启进入 bootloader, 刷入 boot 和 system 镜像：</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-bash">adb reboot bootloader
+fastboot flash boot saucy-preinstalled-boot-armhf+mako.img
+fastboot flash system saucy-preinstalled-system-armel+mako.img
+</pre>
+</div>
+<ol class="org-ol">
+<li>刷入文件系统
+<p>步骤 3 后，按音量键选择进入 Recovery 模式，然后选择 &ldquo; Install Zip&rdquo;，并选中之前传入的 saucy-preinstalled-touch-armhf.zip, 开始刷入文件系统</p>
+</li>
+</ol>
+<p>等刷完之后，重启即可。</p>
+<p>改版稍旧，用起来确实比较别扭，所以用了一会，决定刷个最新的。</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 刷入 <a href="http://cdimage.ubuntu.com/ubuntu-touch/daily-preinstalled/current/">最新</a> 版Touch</h2>
+<div id="text-3" class="outline-text-2"><ol class="org-ol">
+<li>下载相应文件：
+<div class="org-src-container">
+<pre class="src src-bash">utopic-preinstalled-boot-armhf+mako.img
+utopic-preinstalled-system-armel+mako.img
+utopic-preinstalled-touch-armhf.tar.gz
+</pre>
+</div>
+</li>
+</ol>
+<p>但这里并没有之前刷入的 zip 包，我将之前的 zip 包打开看了一下，里面也是个这样的 Tar 包，里面还有个目录里面有用于部署的脚本，里面也没有什么特殊的内容，所以我直接将新的utopic-preinstalled-touch-armhf.tar.gz 重命名为 saucy-preinstalled-touch-armhf.tar.gz 然后用它替换了 Zip 包里面的 tar 包。最后将新的 Zip 包传到 /data/media/0:</p>
+<div class="org-src-container">
+<pre class="src src-bash">adb push saucy-preinstalled-touch-armhf.zip /data/media/0/new.zip
+</pre>
+</div>
+<p>之后重启进入 bootloader：</p>
+<div class="org-src-container">
+<pre class="src src-bash">adb reboot bootloader
+</pre>
+</div>
+<ol class="org-ol">
+<li>刷入 boot/system images&hellip;</li>
+<li>刷入新的 new.zip</li>
+</ol>
+<p>(2&amp;3 可参考前文)</p>
+<p>之后重启即可。</p>
+<p>新的开发版的 Touch 已经做的很不错了，但是如果是第一次进入系统的话，会发现虚拟键不能正常显示，但是重启下机器，就好了。</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 13px; color: #cc0000;">
+<p align="center"><strong> （转载请注明<a href="http://www.cnblogs.com/yangyingchao">出处</a>， 使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/"> 署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></p>
+</div>
+</div>

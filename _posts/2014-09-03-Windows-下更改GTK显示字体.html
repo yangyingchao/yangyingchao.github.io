@@ -1,0 +1,36 @@
+---
+layout     : post
+title : Windows 下更改GTK显示字体
+categories : 未分类
+
+---
+<div id="post-209" class="post">
+<div class="post-top">
+<div class="post-title">
+<h2>&nbsp;</h2>
+<h3><span class="post_author">Posted by <strong>九王爷</strong></span> | <span class="post_cat">Posted in <strong><a title="View all posts in SoftWare" href="http://www.9wy.net/?cat=12" rel="category">SoftWare</a></strong></span> | <span class="post_date">Posted on 05-11-2008&nbsp; http://www.9wy.net/?p=209<br /></span></h3>
+</div>
+<h4>&nbsp;</h4>
+</div>
+<div class="entry">
+<p>介绍如何在 GTK+ 中使用微软雅黑字体。</p>
+<p>找到 &hellip;\etc\pango\pango.aliases 文件，添加一行：</p>
+<blockquote>
+<p>msyh = &ldquo;Microsoft YaHei&rdquo;</p>
+</blockquote>
+<p>这就声明了雅黑字体，当然 Windows 字体目录下面应该有雅黑字体，Microsoft YaHei 就是字体的名字，比如还有 Simsun 宋体。我们把雅黑字体定义为一个字体族 msyh。</p>
+<p>找到 &hellip;\gtk-2.0\gtkrc文件，将下 面内容加到后面</p>
+<blockquote>
+<p>style &ldquo;user-font&rdquo; {<br />
+font_name = &ldquo;msyh 9&Prime;<br />
+}</p>
+<p>widget_class &ldquo;*&rdquo; style &ldquo;user-font&rdquo;</p>
+<p align="left">gtk-font-name=&rdquo;msyh 9&Prime;</p>
+
+</blockquote>
+<p>这样应用程序的字体就变成微软雅黑了。</p>
+
+									</div>
+
+
+			</div>

@@ -1,0 +1,132 @@
+---
+layout     : post
+title : Effective STL 笔记 -- Item 9: Choose carefully among erasing options
+categories : 未分类
+
+---
+<!--?xml version="1.0" encoding="utf-8"?-->
+<p><span style="line-height: 1.5;">假设有一个容器中存放着 int ，Container&lt;int&gt; c, 现在想从其中删除数值 1963，可以有如下方法：</span></p>
+<div id="org_content">
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">1: </span>c.erase(remove(c.begin(), c.end(), 1963), c.end()); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">c is continguous memory container</span>
+<span class="linenr">2: </span>c.remove(1963); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">c is list</span>
+<span class="linenr">3: </span>c.erase(1963)   <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">c is standard associative container</span>
+</pre>
+</div>
+<p>对于 continguous memory container 来说， <em>std::remove()</em> 可以保证返回的 iterator 之前的内存中不包含被删除的值，配合 erase 来用，形成所谓的 <strong>erase-remove idiom</strong> 。而对于 List 来说，应该调用 list 本身的 <em>remove()</em> 方法。对于 map,set 等等，则必须使用 <em>erase()</em> 方法，而不能使用 <em>remove()</em> ，对 associative container 使用 <em>remove()</em> 可能会覆盖容器存储的内容，甚至破坏容器。</p>
+<p>假设我们现在想给定一个条件( <em>bool badValue(int x)</em> )并用这个条件来判断有哪些 Entry 需要删除，对 vector、string、deque、list 可以用下列方法：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">1: </span>c.erase(remove_if(c.begin(), c.end(), badValue), c.end()); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">for vector, string, deque ...</span>
+<span class="linenr">2: </span>c.remove_if(badValue); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">for list.</span>
+</pre>
+</div>
+<p>associative container 没有类似的方法，但可以自行遍历删除：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">AssocContainer</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">c</span>;
+<span style="color: #ff4040; font-size: 105%;">for</span> (<span style="color: #7fffd4;">AssocContainer</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">i</span>=c.begin(); i != c.end(); ++i)
+{
+    <span style="color: #ff4040; font-size: 105%;">if</span> (badValue(*i))
+    {
+        c.erase(i); <span style="color: #cd5c5c;">//</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">XXX</span><span style="color: #cd5c5c;">: This is wrong: when this get executed, iterator will become</span>
+                    <span style="color: #cd5c5c;">//</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">XXX</span><span style="color: #cd5c5c;">: invalid, and ++i will lead to undefined behaviour.</span>
+    }
+}
+
+
+<span style="color: #ff4040; font-size: 105%;">for</span> (<span style="color: #7fffd4;">AssocContainer</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">i</span>=c.begin(); i != c.end(); <span style="color: #cd5c5c;">/*</span><span style="color: #cd5c5c;">Nothing*/</span>)
+{
+    <span style="color: #ff4040; font-size: 105%;">if</span> (badValue(*i))
+    {
+        c.erase(i++); <span style="color: #cd5c5c;">//</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">XXX</span><span style="color: #cd5c5c;">: This works, because we are passing unincreased value to erase,</span>
+                      <span style="color: #cd5c5c;">//</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">XXX</span><span style="color: #cd5c5c;">: but we get it increased before it was passed to erase().</span>
+    }
+    <span style="color: #ff4040; font-size: 105%;">else</span>
+    {
+        i++;
+    }
+}
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">&nbsp;</div>
+<div style="margin-top: 15px; font-size: 11px; color: #cc0000;">
+<p align="center"><strong>（使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></p>
+</div>
+<p>&nbsp;</p>
+<style><!--
+/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+--></style>

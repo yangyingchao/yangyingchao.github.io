@@ -1,0 +1,49 @@
+---
+layout     : post
+title : How to tell your iPhone application that location services are required
+categories : 未分类
+
+---
+<h2 class="post-title">
+	&nbsp;</h2>
+<!--more-->
+<p class="post-date">
+	&nbsp;</p>
+<div class="post-content">
+	<p>
+		Apple has a thing where they like your app to tell them what services, if any, are required.</p>
+	<p>
+		They do this by tracking meta data in what are known as plists. A dictionary of configuration items for your app.</p>
+	<p>
+		My app needs location services. So it wouldn&rsquo;t make sense for any devices to download my app if they don&rsquo;t support location services.</p>
+	<p>
+		The way I tel my app that location services are required is to open my plist file:</p>
+	<p>
+		<img alt="" class="aligncenter size-full wp-image-2984" src="2012/03/plist.png?w=500" title="plist" /></p>
+	<p>
+		and then go to the &lsquo;Required Device Capabilities&rsquo; section and add &lsquo;location-services&rsquo;.</p>
+	<p>
+		<img alt="" class="aligncenter size-full wp-image-2985" src="2012/03/plist-locaitonservices.png?w=500" title="plist-locaitonservices" /></p>
+	<p>
+		Note &ndash; this is a human readable for of what gets stored in the actually plist file. To see the actual property name hold down control and click on item and select the &lsquo;Show Raw Key Values&rsquo; option.</p>
+	<p>
+		<img alt="" class="aligncenter size-full wp-image-2986" src="2012/03/real-property-name.png?w=500" title="real-property-name" /></p>
+	<p>
+		Then you will see the actual underlying property configuration name.</p>
+	<p>
+		<img alt="" class="aligncenter size-full wp-image-2987" src="2012/03/real-location-services-name.png?w=500" title="real-location-services-name" /></p>
+	<div class="sharedaddy sd-like-enabled sd-sharing-enabled" id="jp-post-flair">
+		<div class="sharedaddy sd-sharing-enabled">
+			<div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing">
+				<h3 class="sd-title">
+					&nbsp;</h3>
+			</div>
+			<!-- fe131.syc.search.gq1.yahoo.com Wed Aug 13 03:41:42 UTC 2014 -->
+			<p>
+				&nbsp;</p>
+		</div>
+	</div>
+</div>
+<p>
+	&nbsp;</p>
+

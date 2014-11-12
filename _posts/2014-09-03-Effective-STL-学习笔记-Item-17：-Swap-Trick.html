@@ -1,0 +1,167 @@
+---
+layout     : post
+title : Effective STL 学习笔记 Item 17： Swap Trick
+categories : 未分类
+
+---
+<!--?xml version="1.0" encoding="utf-8"?-->
+<p><span style="line-height: 1.5;">假设有若干对象存于一个 vector 中：</span></p>
+<div id="org_content">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #ff4040; font-size: 105%;">class</span> <span style="color: #32cd32; font-size: 105%;">Widget</span>;
+<span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">Widget</span>&gt; <span style="color: #daa520;">vw</span>;
+</pre>
+</div>
+<p>后来由于某些原因，从该容器中删除了若干对象（参考<a href="http://www.cnblogs.com/yangyingchao/p/3394388.html">erase-remove idiom</a> ）。对于 vector 和 string 来讲， <em>erase()</em> 和 <em>clear()</em> 并不会改变容器的capacity，也就不会改变他们的内存占用。</p>
+<p><em>swap()</em> 本意是用来交换两个容器的内容（ Iterators, pointers, and references），但我们可以用他来快速将容器的 capacity 调整为 <strong>合适</strong> 的大小：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">vector</span>&lt;Widget&gt;(<span style="color: #1e90ff; font-size: 110%; font-weight: bold;">vw</span>).swap(vw);
+</pre>
+</div>
+<p>巧妙之处在于， <em>vector</em> 的拷贝构造函数仅仅拷贝有用的部分而忽略那些未占用的空间，用这个拷贝构造出来的容器来和 vw 进行 <em>swap()</em> 就可以调整 vw 的 capacity 为一个 <strong>相对较小的值</strong> 。</p>
+<p>这里之所以说是 <strong>相对较小的值</strong> 而不是与 <em>size()</em> 绝对相等，是因为容器的 Implementation 在构造的时候会自己选取合适的值来保证分配的空间足够容纳所有的元素，但这个值可能会比 <em>size()</em> 大, 可参考<a href="http://www.cnblogs.com/yangyingchao/p/3398955.html">Item 14</a> 。</p>
+<p>下面是一个简单的例子，对 vector 进行一些操作，然后输出其 erase, swap，clear 之后的 size 与 capacity:</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;vector&gt;</span>
+<span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;iostream&gt;</span>
+<span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;time.h&gt;</span>
+<span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;stdlib.h&gt;</span>
+<span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;fstream&gt;</span>
+<span style="color: #00cd00;">#include</span> <span style="color: #d78700;">&lt;iterator&gt;</span>
+
+<span style="color: #ff4040; font-size: 105%;">using</span> <span style="color: #ff4040; font-size: 105%;">namespace</span> <span style="color: #7fffd4;">std</span>;
+
+<span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">MAX</span> = 1024;
+
+<span style="color: #00cd00;">#define</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">show</span>(<span style="color: #daa520;">v</span>, <span style="color: #daa520;">msg</span>)    printf (<span style="color: #d78700;">"%s -- %s: size: %lu, capacity: %lu\n"</span>, \
+                                #v, msg, v.size(), v.capacity());
+
+<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">main</span>(<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">argc</span>, <span style="color: #32cd32; font-size: 105%;">char</span> *<span style="color: #daa520;">argv</span>[])
+{
+    srand(time(<span style="color: #7fffd4;">NULL</span>));
+
+    printf(<span style="color: #d78700;">"Testing vector...\n"</span>);
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v</span>;
+    show(v, <span style="color: #d78700;">"After init"</span>);
+
+    v.reserve(MAX);
+    show(v, <span style="color: #d78700;">"After reserve()"</span>);
+
+    <span style="color: #ff4040; font-size: 105%;">for</span> (<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">i</span> = 0; i &lt; MAX; ++i)
+    {
+        v.push_back(random()%1000);
+    }
+    show(v, <span style="color: #d78700;">"After Filling"</span>);
+
+    v.erase(remove_if(v.begin(), v.end(), [](<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">x</span>){<span style="color: #ff4040; font-size: 105%;">return</span> x &gt; 100;}), v.end());
+    show(v, <span style="color: #d78700;">"After erase()"</span>);
+
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;(<span style="color: #daa520;">v</span>).swap(v);
+    show(v, <span style="color: #d78700;">"After swap()"</span>);
+
+    v.clear();
+    show(v, <span style="color: #d78700;">"after clear"</span>);
+
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;().swap(v);
+    show(v, <span style="color: #d78700;">"after swap with empty vector"</span>);
+
+    <span style="color: #ff4040; font-size: 105%;">return</span> 0;
+}
+</pre>
+</div>
+<p>其输出如下：</p>
+<div class="org-src-container">
+<pre class="src src-text">Testing vector...
+v -- After init: size: 0, capacity: 0
+v -- After reserve(): size: 0, capacity: 1024
+v -- After Filling: size: 1024, capacity: 1024
+v -- After erase(): size: 106, capacity: 1024
+v -- After swap(): size: 106, capacity: 106
+v -- after clear: size: 0, capacity: 106
+v -- after swap with empty vector: size: 0, capacity: 0
+Program ended with exit code: 0
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 11px; color: #cc0000;">
+<p align="center"><strong>（使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></p>
+</div>
+</div>
+<style><!--
+/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+--></style>

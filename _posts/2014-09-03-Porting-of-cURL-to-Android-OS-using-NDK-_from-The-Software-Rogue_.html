@@ -1,0 +1,226 @@
+---
+layout     : post
+title : Porting of cURL to Android OS using NDK (from The Software Rogue)
+categories : 未分类
+
+---
+<h1 class="post-title entry-title">
+	Porting of cURL to Android OS using NDK</h1>
+<div class="post-header">
+	&nbsp;</div>
+<!--more-->
+<div class="post-body entry-content" id="post-body-1169028269817435414">
+	In continuing my journey into Android territory, I decided it would be useful to understand the NDK development kit.&nbsp; Given I want to transfer some files and possibly do a couple of other projects requiring low level work, I selected the cURL kit to port.&nbsp; I&#39;ve used cURL for a number of projects and it is my hope it runs well under Android.&nbsp; The project, curltest, was run under Android 2.1 but it should work for other versions as well.&nbsp; Given that most Android phones will be getting upgrades rolled out over the next couple of months to version 2.1, seems like a reasonable target.&nbsp; I will be added HTTPS capability as soon as I port openssl, for now, this is strictly unsecured transfers.<br />
+	<br />
+	I did see some examples of partial porting and even in the curl library source there is an Android.mk which describes how to set it up although not in enough detail.&nbsp; Both work helpful but didn&#39;t actually get me to the holy land of a usable test applications. (http://www.mail-archive.com/curl-library@cool.haxx.se/msg03433.html was helpful but didn&#39;t work for me.)<br />
+	<br />
+	I found it worth the exercise of downloading the full android sources and building them.&nbsp; Look at the build process, the bionic library, and well as whats in external.&nbsp; The external directory is where you would add repositories to do things like run configure, etc &nbsp;<br />
+	<br />
+	You won&#39;t actually need Linux since I have included the config file here but in case you want to follow way it was created, I&#39;ve included it.<br />
+	<br />
+	Summary of the steps to take for this port:<br />
+	&nbsp; - Lots of searches and view the current state of curl porting<br />
+	&nbsp; - Setup source repository (I used Linux, you could try windows using cygwin)<br />
+	&nbsp; - Create curl_config.h under the full android source tree<br />
+	&nbsp; - Untar curltest.tar.gz under $NDKROOT or Create NDK JNI App on Windows<br />
+	&nbsp; - Cross-link or add to eclipse project to build Java front-end<br />
+	&nbsp; - Unpack cURL into $NDKROOT/apps/curltest/jni/curl<br />
+	&nbsp; - Copy curltest/jni/curlbuild.h to curltest/jni/curl/include/curl<br />
+	&nbsp; - Copy curltest/jni/curl_config.h to curltest/jni/curl/lib<br />
+	&nbsp; - Build and test<br />
+	<br />
+	<h3>
+		Setup source repository on Linux</h3>
+	It&#39;s one thing to describe doing X, quite another to actually do it.&nbsp; Anyway, I ended up creating my own android repository to start the process.&nbsp; While I was using Windows 7 for my NDK development, I switched to Linux to create the curl_config.h file needed in the build.&nbsp; What this means it that you run a couple of scripts.&nbsp; First up, repo.&nbsp; Created a directory and cd to it.&nbsp; Download the repo script &#39;wget https://android.git.kernel.org/repo&#39;.&nbsp;&nbsp; Move repo script to somewhere in your path and issue &#39;repo init -u git://android.git.kernel.org/platform/manifest.git&#39;&nbsp; then after run &#39;repo sync&#39;.&nbsp; These two should get you all the goodies.&nbsp; I had some stalls where I had to restart the sync process but after a long while it completed successfully.<br />
+	<br />
+	<h3>
+		Create curl_config.h under the full android source tree</h3>
+	Next, I created a script to call the configure command to generated the curl_config.h.&nbsp; CD to&nbsp; $ANDROID_ROOT/external.&nbsp; Untar curl libraries, I renamed my from curl-7.20.1 to just curl.&nbsp; cURL has an Android.mk inside of it.&nbsp; In the file were some instructions for generating the curl_config.h.&nbsp; I found them helpful as a start but ultimately I had to fiddle with a number of things to get this to actually work.&nbsp; Here is the script I used:<br />
+	<br />
+	<div style="font-size: 12px; overflow: auto;">
+		#!/bin/sh<br />
+		<br />
+		ANDROID_ROOT=&quot;$HOME/android_src&quot; &amp;amp;&amp;amp; \<br />
+		TOOLCHAIN_VER=&quot;4.4.0&quot;&nbsp; \<br />
+		PLATFORM_VER=&quot;5&quot; \<br />
+		CROSS_COMPILE=arm-eabi- \<br />
+		PATH=$ANDROID_ROOT/prebuilt/linux-x86/toolchain/arm-eabi-$TOOLCHAIN_VER/bin:$PATH&nbsp; &amp;amp;&amp;amp; \<br />
+		CPPFLAGS=&quot;-I $ANDROID_ROOT/system/core/include -I$ANDROID_ROOT/bionic/libc/include -I$ANDROID_ROOT/ndk/build/platforms/android-5/arch-arm/usr/include -I$ANDROID_ROOT/bionic/libc/kernel/arch-arm -L $ANDROID_ROOT/prebuilt/linux-x86/toolchain/arm-eabi-$TOOLCHAIN_VER/lib/gcc/arm-eabi/$TOOLCHAIN_VER/interwork -L$ANDROID_ROOT/ndk/build/platforms/android-$PLATFORM_VER/arch-arm/usr/lib&nbsp; -L$ANDROID_ROOT/out/target/product/generic/system/lib &quot; \<br />
+		CFLAGS=&quot;-fno-exceptions -Wno-multichar -mthumb -mthumb-interwork -nostdlib -lc -ldl -lm &quot;&nbsp; \<br />
+		./configure CC=arm-eabi-gcc --host=arm-linux --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --without-ssl --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --enable-shared --without-zlib --without-random<br />
+		<br />
+		# openssl/zlib version<br />
+		#./configure CC=arm-eabi-gcc --host=arm-linux --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --with-ssl=$ANDROID_ROOT/external/openssl --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --enable-shared --with-zlib=$ANDROID_ROOT/external/zlib --without-random<br />
+		&nbsp;</div>
+	<br />
+	Run the script in the top curl directory (where configure resides) and it should go through many tests before ultimately creating the lib/curl_config.h file.<br />
+	<br />
+	<h3>
+		Create NDK JNI App on Windows</h3>
+	Untar curltest.tar.gz under $NDKROOT.&nbsp; This has the Java side application already created.&nbsp; Or you can simply create a new Application under Eclipse which will generated the src &amp;amp; res directories that will need to be modified.&nbsp; I&#39;m not going into App generation except that you will target $NDKROOT/apps/curltest/project as your directory tree.<br />
+	<br />
+	Create library name under $NDKROOT/apps/, I used curltest.<br />
+	CD to curltest and create the Application.mk file.<br />
+	APP_PROJECT_PATH := $(call my-dir)/project<br />
+	APP_MODULES := curltest libcurl<br />
+	<br />
+	Once that is done, cd to project and create your standard Java AndroidManifest.xml file.&nbsp; If you created an App from Eclipse you&#39;ll need to modify this file.&nbsp; Make sure to give it INTERNET permissions.&nbsp; The rest depends on what&#39;s in your Java code.<br />
+	<br />
+	<div style="font-size: 12px; overflow: auto;">
+		&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br />
+		&lt;manifest xmlns:android=&quot;/apk/res/android&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; android:versionCode=&quot;1&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; android:versionName=&quot;1.0&quot; package=&quot;com.mtterra.curltest&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;application android:icon=&quot;@drawable/icon&quot; android:label=&quot;@string/app_name&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;activity android:name=&quot;.curltest&quot;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; android:label=&quot;@string/app_name&quot;&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;intent-filter&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/intent-filter&gt;<br />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/activity&gt;<br />
+		<br />
+		&nbsp;&nbsp;&nbsp; &lt;/application&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;uses-sdk android:minSdkVersion=&quot;5&quot;/&gt;<br />
+		&nbsp;&nbsp;&nbsp; &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;<br />
+		<br />
+		&lt;/manifest&gt;<br />
+		<br />
+		&nbsp;</div>
+	<br />
+	<br />
+	Then cd to jni and create the Android.mk file.&nbsp; This is where the one from cURL would go.&nbsp; However, I didn&#39;t use it as anything more than a reference.<br />
+	<br />
+	Now for the actual JNI interfacing.&nbsp; There are lots of complaints here because everything needs to be specified up front and you need different packages for different hardware.&nbsp; Except for some dynamic registration mechanism, I&#39;m not sure you can get away with writing to hardware AND getting independence from it.&nbsp; Actually, I am sure, you can&#39;t.<br />
+	<br />
+	Here is my curltest.c interface:<br />
+	<div style="font-size: 12px; overflow: auto;">
+		<br />
+		typedef struct pageInfo_t {<br />
+		char *data;<br />
+		int len;<br />
+		} pageInfo_t;<br />
+		<br />
+		static size_t<br />
+		HTTPData(void *buffer, size_t size, size_t nmemb, void *userData) {<br />
+		int len = size * nmemb;<br />
+		pageInfo_t *page = (pageInfo_t *)userData;<br />
+		<br />
+		<br />
+		if (buffer &amp;amp;&amp;amp; page-&amp;gt;data &amp;amp;&amp;amp; (page-&amp;gt;len + len &amp;lt; (16 * 1024)) ) { memcpy(&amp;amp;page-&amp;gt;data[page-&amp;gt;len], buffer, len);<br />
+		page-&amp;gt;len += len;<br />
+		}<br />
+		return len;<br />
+		}<br />
+		<br />
+		//Interface function that will receive web page from Java<br />
+		jstring<br />
+		Java_com_mtterra_curltest_curltest_JNIGetWebpage( JNIEnv* env,<br />
+		jobject entryObject,<br />
+		jstring webpageJStr )<br />
+		{<br />
+		pageInfo_t page;<br />
+		CURL *curl;<br />
+		CURLcode res;<br />
+		char *buffer;<br />
+		<br />
+		const jbyte *webpage;<br />
+		webpage = (*env)-&amp;gt;GetStringUTFChars(env, webpageJStr, NULL);<br />
+		if (webpage == NULL) {<br />
+		return NULL; /* OutOfMemoryError already thrown */<br />
+		}<br />
+		<br />
+		page.data = (char *)malloc(16 * 1024);<br />
+		page.len = 0;<br />
+		if (page.data)<br />
+		memset(page.data, 32, 16 * 1024);<br />
+		<br />
+		buffer = (char *)malloc(1024);<br />
+		<br />
+		curl = curl_easy_init();<br />
+		if(curl) {<br />
+		curl_easy_setopt(curl, CURLOPT_URL, webpage);<br />
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, HTTPData);<br />
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &amp;amp;page);<br />
+		<br />
+		res = curl_easy_perform(curl);<br />
+		/* always cleanup */<br />
+		curl_easy_cleanup(curl);<br />
+		(*env)-&amp;gt;ReleaseStringUTFChars(env, webpageJStr, webpage);<br />
+		if(res == 0) {<br />
+		if (buffer) {<br />
+		page.data[page.len &amp;lt; 256 ? page.len : 256] = &#39;\0&#39;; sprintf(buffer, &quot;pagedata(%d): %s. done.\n&quot;, page.len, page.data); return (*env)-&amp;gt;NewStringUTF(env, buffer);<br />
+		}<br />
+		}<br />
+		sprintf(buffer, &quot;Result %d&quot;, res);<br />
+		return (*env)-&amp;gt;NewStringUTF(env, buffer);<br />
+		} else {<br />
+		return (*env)-&amp;gt;NewStringUTF(env, &quot;Unable to init cURL&quot;);<br />
+		}<br />
+		}</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	Finally, it&#39;s time to setup Eclipse to build.&nbsp; There are some assumptions here, like having a functioning Eclipse build environment.&nbsp; In order to get your environment over to Eclipse, you can use File-&amp;gt;Import then select &#39;Existing Projects into Workspace&#39; function.<br />
+	<br />
+	Unpack cURL into $NDKROOT/apps/curltest/jni/curl.&nbsp; Move the curl_config.h file created above to $NDKROOT/apps/curltest/jni/curl/lib.&nbsp;<br />
+	<br />
+	Finally, we create the Android.mk file in curltest/jni and build it.&nbsp; The Android.mk use is as follows:<br />
+	<br />
+	<div style="font-size: 12px; overflow: auto;">
+		LOCAL_PATH:= $(call my-dir)<br />
+		<br />
+		CFLAGS := -Wpointer-arith -Wwrite-strings -Wunused -Winline \<br />
+		&nbsp;-Wnested-externs -Wmissing-declarations -Wmissing-prototypes -Wno-long-long \<br />
+		&nbsp;-Wfloat-equal -Wno-multichar -Wsign-compare -Wno-format-nonliteral \<br />
+		&nbsp;-Wendif-labels -Wstrict-prototypes -Wdeclaration-after-statement \<br />
+		&nbsp;-Wno-system-headers -DHAVE_CONFIG_H<br />
+		<br />
+		include $(CLEAR_VARS)<br />
+		include $(LOCAL_PATH)/curl/lib/Makefile.inc<br />
+		<br />
+		<br />
+		LOCAL_SRC_FILES := $(addprefix curl/lib/,$(CSOURCES))<br />
+		LOCAL_CFLAGS += $(CFLAGS)<br />
+		LOCAL_C_INCLUDES += $(LOCAL_PATH)/curl/include/<br />
+		<br />
+		LOCAL_COPY_HEADERS_TO := libcurl<br />
+		LOCAL_COPY_HEADERS := $(addprefix curl/include/curl/,$(HHEADERS))<br />
+		<br />
+		LOCAL_MODULE:= libcurl<br />
+		<br />
+		include $(BUILD_STATIC_LIBRARY)<br />
+		<br />
+		# Build shared library now<br />
+		# curltest<br />
+		<br />
+		include $(CLEAR_VARS)<br />
+		<br />
+		LOCAL_MODULE := curltest<br />
+		LOCAL_SRC_FILES := curltest.c<br />
+		LOCAL_STATIC_LIBRARIES := libcurl<br />
+		LOCAL_C_INCLUDES += $(LOCAL_PATH)/curl/include<br />
+		include $(BUILD_SHARED_LIBRARY)</div>
+	<br />
+	Going back to your $NDKROOT you should be able to build the library with &#39;make APP=curltest -B V=1&#39;.&nbsp; The -B means rebuilt it all and V=1 makes it verbose.&nbsp;<br />
+	<br />
+	After this, you should be able to build the application.&nbsp; When I get back to Eclipse I&#39;ll hit F5 to refresh the files as a habit although likely not necessary.&nbsp; Another interesting thing is that some people have indicated that you need to do an &#39;adb push&#39; to the emulator so the library is there.&nbsp; I haven&#39;t found this is the case.&nbsp; Basically, if it doesn&#39;t find your library the interface name or some other part is broken and you need to find the issue.<br />
+	<br />
+	The finished result looks something like:<br />
+	<img alt="" src="http://www.cnblogs.com/browse.php?u=UA0humxGdYjHf71CJBXTQv4wvdU4TccHtpcVqUThtXyVO8Mk&amp;b=6" /><br />
+	<br />
+	<br />
+	Here is the <a href="http://www.cnblogs.com/browse.php?u=UA0humxGdYjHf71CJBXTQv4wvdU4TccHtpcVqUS%2FqH7Jf9Q5&amp;b=6">NDK project files </a> used.&nbsp; However, you&#39;ll have to add the curl sources to this.<br />
+	<br />
+	The Software Rogue - <a href="http://www.cnblogs.com/browse.php?u=UA0ho3BXY5XTauRAOR2OS%2FApvYh1Qt0SqZMfrh7ys3KU&amp;b=6">http://thesoftwarerogue.blogspot.com&nbsp; </a>
+	<div style="clear: both;">
+		&nbsp;</div>
+</div>
+<div class="post-footer">
+	<div class="post-footer-line post-footer-line-1">
+		<span class="post-author vcard">Posted by <span class="fn"> <span>Bruce Smith</span> </span> </span> <span class="post-timestamp"> at <a class="timestamp-link" rel="bookmark" title="permanent link"><abbr class="published" title="2010-05-11T00:50:00-07:00">12:50 AM</abbr></a> </span></div>
+</div>
+<p>
+	&nbsp;</p>
+

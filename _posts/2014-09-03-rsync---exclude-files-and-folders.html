@@ -1,0 +1,55 @@
+---
+layout     : post
+title : rsync - exclude files and folders
+categories : 未分类
+
+---
+<h1><a title="rsync - exclude files and folders" href="http://www.cnblogs.com/2007/10/10/rsync-exclude-files-and-folders">rsync - exclude files and folders</a></h1>
+<p>rsync is cool. What would be even cooler would be excluding particular files or even a whole folder from the backup process.</p>
+<p>That's no problem using the rsync '--exclude' option.</p>
+<hr />
+<h3>Why?</h3>
+<p>In the <a title="Backing up your files with rsync" href="http://articles.slicehost.com/2007/10/9/backing-up-your-files-with-rsync">previous article</a>, we looked at backing up files and folders to another server.</p>
+<p>This was easily completed but there may well be some time sensitive files that are not needed such as log files. Sure, there are some log files (perhaps Apache logs) that you want to keep but others you won't such as a Ruby on Rails production log.</p>
+<p>Perhaps there are files containing your DB password, such as a PHP mysqli connection file. Although needed on the main server, it is not needed on the backup.</p>
+<p>A folder I always exclude when completing an rsync on my home folder is the 'sources' directory: I don't need copies of the source code I have download.</p>
+<p>Let's see how to exclude that directory.</p>
+<h3>Single files and folders</h3>
+<p>The original command was like this:</p>
+<pre><code>rsync -e 'ssh -p 30000' -avl --delete --stats --progress demo@123.45.67.890:/home/demo /backup/</code></pre>
+<p>To exclude the sources directory we simply add the '--exclude' option:</p>
+<pre><code>--exclude 'sources'</code></pre>
+<p><strong>Note</strong>: the directory path is relative to the folder you are backing up.</p>
+<p>So looking at the original command, I am backing up /home/demo. Adding the name 'sources' to the exclude pattern will exclude the 'home/demo/sources' folder.</p>
+<p>As such, the final command would look like this:</p>
+<pre><code>rsync -e 'ssh -p 30000' -avl --delete --stats --progress --exclude 'sources' demo@123.45.67.890:/home/demo /backup/</code></pre>
+<p>The same can be applied to files. I have decided that in addition to the sources folder, I want to exclude the file named 'database.txt' which resides in the public_html folder. So I add this:</p>
+<pre><code>--exclude 'public_html/database.txt'</code></pre>
+<p>So now the command looks like:</p>
+<pre><code>rsync -e 'ssh -p 30000' -avl --delete --stats --progress --exclude 'sources' --exclude 'public_html/database.txt' demo@123.45.67.890:/home/demo /backup/</code></pre>
+<h3>Multiple files and folders</h3>
+<p>Unfortunately, I have a load of files and folders I don't want to backup and adding each one like that will get tedious very quickly.</p>
+<p>Not only will it get boring, it will make the command super long and prone to easy mistakes.</p>
+<p>That's OK as I can define all the files and folders I want exclude in a single file and have rsync read that.</p>
+<p>To do this create a file called 'exclude.txt' on the destination machine (the system you give the rsync command on):</p>
+<pre><code>nano /home/backup/exclude.txt</code></pre>
+<h3>Define</h3>
+<p>Then define the files and folders you want to exclude from the rsync:</p>
+<pre><code>sources public_html/database.* downloads/test/*</code></pre>
+<p>As you can see, you can define patterns.</p>
+<p>The first entry is straight forward. It will exclude any file or folder called 'sources' (remember the path is relative).</p>
+<p>The second entry will look int the public_html folder and exclude any files (or folders) that begin with 'database.'. The * at the end indicates a wild card, so 'public_html/database.txt' and 'public_html/database.yaml' will be excluded from the backup.</p>
+<p>Using a wildcard, the final entry will exclude the contents of the 'downloads/test/' but still download the folder (in other words, I will end up with an empty 'test' folder).</p>
+<h3>Final command</h3>
+<p>Now we have defined what to exclude we can direct rsync to the file with:</p>
+<pre><code>--exclude-from '/home/backup/exclude.txt'</code></pre>
+<p><strong>Note</strong>: the path for this file is absolute. You are defining where in the file system rsync should look for the exclude patterns.</p>
+<p>So, this time the final command would be:</p>
+<pre><code>rsync -e 'ssh -p 30000' -avl --delete --stats --progress --exclude-from '/home/backup/exclude.txt' demo@123.45.67.890:/home/demo /backup/</code></pre>
+<p>That's better.</p>
+<h3>Summary</h3>
+<p>Excluding files from a backup can be time and space saver. They usually include superfluous downloads or files that contain sensitive information such as passwords that just don't need to be in several locations.</p>
+<p>Using the exclude-from option allows for easy control over the exclude patterns - you can even define several exclude files and simply point rsync to the one that is convenient.</p>
+<p>PickledOnion.</p>
+<p>&nbsp;</p>
+<p>From http://articles.slicehost.com/2007/10/10/rsync-exclude-files-and-folders</p>

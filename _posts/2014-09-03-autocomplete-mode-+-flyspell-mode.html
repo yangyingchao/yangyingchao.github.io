@@ -1,0 +1,7 @@
+---
+layout     : post
+title : autocomplete-mode + flyspell-mode
+categories : 未分类
+
+---
+<div><font size="4"> <strong>简介：</strong><br></font> <font size="3"><tt>     A known bug in Autocomplete-mode<br>     转载请<a href="http://blog.163.com/vic_kk">注明出处</a>。<br> </tt></font> <br> <br>  <font size="3">   <p>     今天发现，在 enable 了 flyspell-mode 以后，autocomplete 不能正常工作了，     查了一下，发现是 autocomplete 的一个 known issue.<br>     下面的内容摘自：     <a href="http://cx4a.org/software/auto-complete/manual.html"></a> ，     描述了这一问题，并给出了解决方法： <br> <br>  </p><h3 id="Auto_completion_will_not_be_started_in_a_buffer_flyspell-mode_enabled">11.1. Auto completion will not be started in a buffer <code>flyspell-mode</code> enabled</h3><p>A way of delaying processes of <code>flyspell-mode</code> disables auto completion. You can avoid this problem by <code>M-x ac-flyspell-workaround</code>. You can write the following code into your <code>~/.emacs</code>.</p><pre><code>(ac-flyspell-workaround) </code><br></pre> <table known_bugs="" width="&lt;h2 id=">      </table></font> <br> <br> <font color="#CC9966" size="3">   <a href="http://blog.163.com/vic_kk">     Author:yangyingchao,     2011-07-26   </a> </font></div>

@@ -1,0 +1,12 @@
+---
+layout     : post
+title : 杂记两则
+categories : 未分类
+
+---
+<p>1. cpufreq-info not working</p>
+<p>&nbsp; &nbsp; a. &nbsp;make sure "CONFIG_CPU_FREQ" is set to Y (or corresponding module is loaded if compile as module (M))</p>
+<p>&nbsp; &nbsp; b. &nbsp;Make sure corresponding FREQ_GOV is selected (such as ONDEMAN, or USERSPACE) and loaded.</p>
+<p>&nbsp; &nbsp;&nbsp;</p>
+<p>2. KDE's hardware temperature plasmoid not woring</p>
+<p>&nbsp; Make sure that&nbsp;ksysguard is build with USE="lm_sensor".</p>

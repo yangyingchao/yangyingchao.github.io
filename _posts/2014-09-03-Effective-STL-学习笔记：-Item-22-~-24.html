@@ -1,0 +1,309 @@
+---
+layout     : post
+title : Effective STL 学习笔记： Item 22 ~ 24
+categories : 未分类
+
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Effective STL 学习笔记： Item 22 ~ 24</title>
+
+
+
+
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+<style type="text/css">
+  div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012  Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 避免 \(set \& multiset\)  在原位改变 Key</a></li>
+<li><a href="#sec-2">2. Consider replacing associative containers with sorted vectors</a></li>
+<li><a href="#sec-3">3. Choose carefully between map::operator[] and map-insert</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 避免 \(set \& multiset\)  在原位改变 Key</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<i>set, multiset, map, multimap</i> 都是有序的容器，如果直接在原位改变 <i>key</i> 的值，则很有可能容器不有序，后续对该容器的算法会失效。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Consider replacing associative containers with sorted vectors</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Associative Container 中的每个 Node 除了保存真正对象外，还需要维护指向 <i>Parent, Previous,
+Next</i> 的三个指针，相比 vector 来说，更占用内存，范文时间为 O(logn)。 而 vectors，如果配合合适的 Hash Function ，则既省时间又省空间，但不足之处是需要自己始终维持 vector 在有序的状态。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Choose carefully between map::operator[] and map-insert</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<i>map::operator[]</i> 会返回 Value 的一个引用，而如果对应的 Key 在 Map 中没有 Value， map 会调用
+Default Constructor 来创建一个新的，加到 Map 中，然后再将新的 Value 返回出来，例如，下面的代码中：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040; font-size: 105%;">class</span> <span style="color: #32cd32; font-size: 105%;">Widget</span>
+<span class="linenr"> 2: </span>{
+<span class="linenr"> 3: </span><span style="color: #ff4040; font-size: 105%;">public</span>:
+<span class="linenr"> 4: </span>    <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Widget</span>(){}
+<span class="linenr"> 5: </span>    <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Widget</span>(<span style="color: #32cd32; font-size: 105%;">double</span> <span style="color: #daa520;">d</span>):m_value(d){}
+<span class="linenr"> 6: </span>    <span style="color: #ff4040; font-size: 105%;">virtual</span> ~<span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Widget</span>(){}
+<span class="linenr"> 7: </span><span style="color: #ff4040; font-size: 105%;">private</span>:
+<span class="linenr"> 8: </span>    <span style="color: #32cd32; font-size: 105%;">double</span> <span style="color: #daa520;">m_value</span>;
+<span class="linenr"> 9: </span>};
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #32cd32; font-size: 105%;">map</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>, <span style="color: #32cd32; font-size: 105%;">Widget</span>&gt; <span style="color: #daa520;">m</span>;
+<span class="linenr">12: </span>m[1] = 1.50;
+</pre>
+</div>
+
+<p>
+第 12 行一行代码实际上和下面的代码是等效的：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c++"><span class="linenr">13: </span><span style="color: #32cd32; font-size: 105%;">pair</span>&lt;<span style="color: #7fffd4;">map</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>, Widget&gt;::iterator, <span style="color: #32cd32; font-size: 105%;">bool</span>&gt; <span style="color: #daa520;">result</span> =
+<span class="linenr">14: </span>        m.insert(map&lt;<span style="color: #32cd32; font-size: 105%;">int</span>, Widget&gt;::value_type(1, Widget()));
+<span class="linenr">15: </span>result.first-&gt;second = 1.50;
+</pre>
+</div>
+
+<p>
+实际上，我们可以用下面的一行代码来完成所需操作，避免无谓的默认构造：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++">m.insert(map&lt;<span style="color: #32cd32; font-size: 105%;">int</span>, Widget&gt;::value_type(1, 1.50));
+</pre>
+</div>
+
+<p>
+但如果我们想更新已有的 Key， 则 <i>[ ]</i> 更简单一些。
+</p>
+
+<p>
+书中最后给出了一个例子，用于高效的添加或者更新 map:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040; font-size: 105%;">template</span> &lt;<span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #32cd32; font-size: 105%;">MapType</span>,
+<span class="linenr"> 2: </span>          <span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #32cd32; font-size: 105%;">KeyType</span>,
+<span class="linenr"> 3: </span>          <span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #32cd32; font-size: 105%;">ValueType</span>&gt;
+<span class="linenr"> 4: </span><span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #7fffd4;">MapType</span>::<span style="color: #32cd32; font-size: 105%;">iterator</span>
+<span class="linenr"> 5: </span><span style="color: #1e90ff; font-size: 110%; font-weight: bold;">efficientAddOrUpdate</span>(<span style="color: #32cd32; font-size: 105%;">MapType</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span>         <span style="color: #daa520;">map</span>,
+<span class="linenr"> 6: </span>                     cons <span style="color: #32cd32; font-size: 105%;">KeyType</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span>    <span style="color: #daa520;">k</span>,
+<span class="linenr"> 7: </span>                     <span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">ValueType</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">v</span>)
+<span class="linenr"> 8: </span>{
+<span class="linenr"> 9: </span>    <span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #7fffd4;">MapType</span>::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">lb</span> = m.lower_bound(k);
+<span class="linenr">10: </span>    <span style="color: #ff4040; font-size: 105%;">if</span> (lb != m.end() &amp;&amp; !(m.key_comp()(k, lb-&gt;first)))
+<span class="linenr">11: </span>    {
+<span class="linenr">12: </span>        lb-&gt;second = v;
+<span class="linenr">13: </span>        <span style="color: #ff4040; font-size: 105%;">return</span> lb;
+<span class="linenr">14: </span>    }
+<span class="linenr">15: </span>    <span style="color: #ff4040; font-size: 105%;">else</span>
+<span class="linenr">16: </span>    {
+<span class="linenr">17: </span>        <span style="color: #ff4040; font-size: 105%;">typedef</span> <span style="color: #ff4040; font-size: 105%;">typename</span> <span style="color: #7fffd4;">MapType</span>::<span style="color: #32cd32; font-size: 105%;">value_type</span> <span style="color: #32cd32; font-size: 105%;">MVT</span>;
+<span class="linenr">18: </span>        <span style="color: #ff4040; font-size: 105%;">return</span> m.insert(lb, <span style="color: #32cd32;">MVT</span>(k,v));
+<span class="linenr">19: </span>    }
+<span class="linenr">20: </span>}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 13px;color: #cc0000;">
+<p align=center><strong>（转载请注明<a href="http://www.cnblogs.com/yangyingchao">出处</a>，使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></div>
+</div>
+</body>
+</html>

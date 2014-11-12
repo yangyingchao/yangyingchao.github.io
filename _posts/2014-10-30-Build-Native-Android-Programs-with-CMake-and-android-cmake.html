@@ -1,0 +1,59 @@
+---
+layout     : post
+title : Build Native Android Programs with CMake and android-cmake
+categories : 未分类
+
+---
+<div class="entry">
+	<p>
+		Using CMake to organize the source code is pretty cool, because you can quickly generate from it Visual Studio solution files on Windows and make files on Linux, and therefore build and test the code on different platforms without maintaining two separate build scripts.</p>
+	<p>
+		However, CMake does not officially support Android yet. You cannot specify an Android target and ask CMake to generate from your CMakeLists.txt the make files for Android. Luckily some folks have already started to empower us with CMake for Android. One of the efforts is <a href="https://code.google.com/p/android-cmake/">android-cmake</a>. I used the latest version from <a href="https://github.com/taka-no-me/android-cmake">GitHub android-cmake maintained by taka-no-me</a>.</p>
+	<p>
+		Below is a step-by-step walkthrough.</p>
+	<ul>
+		<li>
+			Let&rsquo;s assume you have a C or C++ project with a few binary targets (libraries or executables) in a directory &lt;SRC_DIR&gt;. You have created a CMakeLists.txt under &lt;SRC_DIR&gt;, and you are able to use CMake to generate Visual Studio solutions or GCC make files on Linux. Let&rsquo;s assume this is a C++ utility library or a GUI-less console application (for example, some unit test programs), and nothing else should prevent it form being built on Android.</li>
+		<li>
+			As we know, eventually native Android libraries or applications will be built by <strong>Android NDK</strong> (Native Development Kit). So the first thing you need to have, is <a href="https://developer.android.com/tools/sdk/ndk/index.html">NDK from Google</a>. As a mobile platform, Android&rsquo;s development activities are mostly carried out on a host system, i.e., Android applications are cross-built. Depending on your host OS of daily work, you&rsquo;ll need to download the appropriate NDK for your host. For example, I use Android NDK r9c for Windows 64-bit. You only need to extract the files from the zip file to somewhere on your hard drive, say, &lt;NDK_DIR&gt;. No other &ldquo;installation&rdquo; is necessary for NDK. Before we can use NDK with CMake and android-cmake, we need to do a few more things.
+			<ul>
+				<li>
+					Set the environment variable <strong>ANDROID_NDK</strong> to point to &lt;NDK_DIR&gt;. The android-cmake will need to access this environment variable to know where NDK is.</li>
+				<li>
+					Find the GNU <strong>make.exe</strong> under NDK. This is normally under &lt;NDK_DIR&gt;\prebuilt\windowsXXXX\bin. For example, my NDK has it under &lt;NDK_DIR&gt;\prebuilt\windows-x86_64\bin. Let&rsquo;s call this directory &lt;NDK_PREBUILT_BIN&gt;.</li>
+			</ul>
+		</li>
+		<li>
+			The next thing you need to have, is, obviously, <strong>CMake</strong>. Install it on Windows, and make sure you can invoke cmake.exe from a command line console window.</li>
+		<li>
+			Download <a href="https://github.com/taka-no-me/android-cmake">android-cmake</a>, i.e., the file <strong>android.toolchain.cmake</strong>. Put it in a directory, say &lt;ANDROID_CMAKE_DIR&gt;.</li>
+		<li>
+			We are almost there. Now let CMake generate the make files for Android.
+			<ul>
+				<li>
+					Launch <strong>cmd.exe</strong> to get a console window.</li>
+				<li>
+					Change to your <strong>build directory</strong>, assuming out-of-source build. This directory will house the make files and built binaries. Run:</li>
+				<li>
+					<font face="Consolas"><strong>cmake.exe <font color="#ff0000">-G&quot;MinGW Makefiles&quot;</font> <font color="#008000">-DCMAKE_TOOLCHAIN_FILE=&lt;ANDROID_CMAKE_DIR&gt;\android.toolchain.cmake</font> <font color="#0000ff">-DCMAKE_BUILD_TOOL=&lt;NDK_PREBUILT_BIN&gt;\make.exe</font> <font color="#9b00d3">&lt;SRC_DIR&gt;</font></strong></font></li>
+				<li>
+					The command above asks CMake to use the MinGW Make file generator (basically the make file will use cmd.exe as shell on Windows), use android.toolchain.cmake as toolchain file for cross building, use the NDK&rsquo;s prebuilt make.exe as the build tool for generated make files, and start walking from the CMakeLists.txt in the source directory. If there is no error, congratulations, you get the make files for your Android program in your build directory. Now you can build the program, by simply running:</li>
+				<li>
+					<font face="Consolas"><strong>cmake.exe &ndash;-build .</strong></font></li>
+				<li>
+					The build command above will invoke the NDK prebuilt make.exe, saving you from typing the lengthy path to that make.exe.</li>
+			</ul>
+		</li>
+	</ul>
+	<p>
+		Once you are comfortable with the process above, it is easy to write a simple batch file that would automate most of the steps above, including finding the right make.exe and so on. Note that CMake is quite smart &ndash; if there is no change in the CMakeLists.txt files, it will no regenerate the make files. In the end, you probably only need to double click the batch file, and your Android program is cross built on Windows. The process to cross build an Android program on Linux with CMake and android-cmake is very similar.</p>
+	<p>
+		The android.toolchain.cmake is a <strong>toolchain file</strong> required by <a href="http://www.cmake.org/Wiki/CMake_Cross_Compiling">CMake <em>cross building</em></a>. Normally when you use CMake, it assumes <em>native building</em>. You would see CMake detecting various build environment settings by trying to build some probe programs with the compiler and linker you specified on your host. Obviously, this is impossible for cross building Android programs, because even if CMake tries, it would only detect the build environment for the host system. In cross building, one has to provide all the CMake required build environment settings in a separate toolchain file, such as android.toolchain.cmake, thanks to these guys.</p>
+	<p>
+		You can read android.toolchain.cmake to get much more insight, and this can help you to write your CMakeLists.txt to be Android aware. For example, this toolchain file will set the CMake variable <font face="Consolas"><strong>ANDROID</strong></font>. If you need to add some <strong><font face="Consolas">POST_BUILD</font></strong> commands using adb such that the binary would be pushed to device and run automatically after successful building, you can use <font face="Consolas"><strong>if(ANDROID) add_custom_command &hellip;</strong></font> to achieve that in your CMakeLists.txt.</p>
+	<p class="postmetadata">
+		<small>Posted on February 23, 2014 at 9:47 am in <a href="http://binglongx.wordpress.com/category/c/" rel="category tag">C++</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://binglongx.wordpress.com/2014/02/23/build-native-android-programs-with-cmake-and-android-cmake/feed/">RSS feed</a> |&nbsp;&nbsp;<a href="#respond"> Reply </a>&nbsp;&nbsp;|&nbsp;&nbsp; <a href="http://binglongx.wordpress.com/2014/02/23/build-native-android-programs-with-cmake-and-android-cmake/trackback/" rel="trackback"> Trackback URL</a></small></p>
+	<p class="postmetadata">
+		<small><a href="http://binglongx.wordpress.com/2014/02/23/build-native-android-programs-with-cmake-and-android-cmake/trackback/" rel="trackback">http://binglongx.wordpress.com/ </a> </small></p>
+</div>
+<!--more--><!--.entry-->

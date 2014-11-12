@@ -1,0 +1,424 @@
+---
+layout     : post
+title : Effective STL 学习笔记 31：排序算法
+categories : 未分类
+
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Effective STL 学习笔记 31：排序算法</title>
+
+
+
+
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+<style type="text/css">
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+  pre.src {
+    background-color:#f8f4d7
+  }
+p {font-size: 15px}
+li {font-size: 15px}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012  Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">partial_sort</a></li>
+<li><a href="#sec-2">nth_element</a></li>
+<li><a href="#sec-3">stability</a></li>
+<li><a href="#sec-4">partition</a></li>
+<li><a href="#sec-5">总结</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> partial_sort</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+partial sort 可以进行部分排序，例如，仅 <b>按顺序排出</b> 某个容器中的前 20 名：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">bool</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">qualityCompare</span>(<span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">Widget</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">lhs</span>, <span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">Widget</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">rhs</span>);
+
+partial_sort(widgets.begin(), widgets.begin()+20, widgets.end(), qualityCompare);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> nth_element</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+与 partial_sort  类似， nth_element 也用于部分排序，但它只保证指定的排名前 N 个元素会存放到容器的前N，但这前 N 个元素之间的顺序不一定。更重要的是，它可以保证，如果我们对容器进行完全排序，排在 N 位置的那个元素一定和 <i>nth_element</i> 排序后
+N 位置的元素相同（等值）：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++">nth_element(widgets.begin(),
+            widgets.begin()+20,
+            widgets.end(),
+            qualityCompare);
+</pre>
+</div>
+
+<p>
+此外， <i>nth_element</i> 可以方便地计算出指定容器中指定排名的元素：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #7fffd4; font-weight: bold;">vector</span>&lt;Widget&gt;::<span style="color: #32cd32; font-size: 105%;">size_type</span> <span style="color: #daa520;">goalOffset</span> = 0.21 * widgets.size();
+nth_element(begin, begin+goalOffset, end, qualityCompare);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> stability</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+对于任意的等价对象 <i>A</i> 与 <i>B</i> ，如果 <i>A</i> 在容器中的位置比 <i>B</i> 靠前，且排序后 <i>A</i> 的位置仍然在 <i>B</i> 之前，则称该排序算法为稳定的 (stable) 。 <i>partial_sort</i> 和
+<i>nth_element</i> 都不是稳定的，但算法 <i>stable_sort</i>  可以保证这一点。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> partition</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<i>partition</i> 可以将对 Sequence Container 进行排序，排序完成后返回的迭代器指向满足条件的最后一个元素：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">bool</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">HasAcceptableQuality</span>(<span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">Widget</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">w</span>);
+
+<span style="color: #7fffd4; font-weight: bold;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">Widget</span>&gt;::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">goodEnd</span> =
+        partition(widgets.begin(),
+                  widgets.end(),
+                  HasAcceptableQuality);
+</pre>
+</div>
+
+<p>
+当上述表达式完成之后，返回的 goodEnd 指向了满足  <i>HasAcceptableQuality</i> 的最后一个元素，算法不保证 goodEnd 之前的元素顺序，但  <i>stable_partition</i> 可以保证 stability.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 总结</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>需要对 vector, string, dequeu, array 进行完全排序 \(\rightarrow sort/stable\_sort\)
+</li>
+<li>需要从 vector, string, dequeu, array 中获取排好序的前 N 个元素：\(\rightarrow partial\_sort\)
+</li>
+<li>需要从 vector, string, dequeu, array 中获取无序的前 N 名或者指定的第 N 名： \(\rightarrow nth\_element\)
+</li>
+<li>需要从顺序容器中获取符合某种条件的所有元素： \(\rightarrow partition/stable\_partition\)
+</li>
+<li>需要对 List 进行排序，最好使用 List 本身的相关函数，或者将 List 转换成 vector 再使用 STL 算法。
+</li>
+</ul>
+
+<p>
+上述各种算法的效率：
+</p>
+
+<p>
+\(partition > stable\_partition > nth_element > partial\_sort > sort > stable\_sort\)
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;vector&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;algorithm&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;stdio.h&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;iostream&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;fstream&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;iterator&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;stdlib.h&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;sys/time.h&gt;</span>
+
+<span style="color: #ff4040; font-size: 105%;">using</span> <span style="color: #ff4040; font-size: 105%;">namespace</span> <span style="color: #7fffd4; font-weight: bold;">std</span>;
+
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">N</span>       1000000
+
+<span style="color: #ff4040; font-size: 105%;">typedef</span> <span style="color: #32cd32; font-size: 105%;">unsigned</span> <span style="color: #32cd32; font-size: 105%;">int</span>   <span style="color: #32cd32; font-size: 105%;">uint32</span>;
+
+<span style="color: #ff4040; font-size: 105%;">static</span> <span style="color: #ff4040; font-size: 105%;">inline</span> <span style="color: #32cd32; font-size: 105%;">uint32</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">current_time_ms</span>()
+{
+    <span style="color: #ff4040; font-size: 105%;">struct</span> <span style="color: #32cd32; font-size: 105%;">timeval</span> <span style="color: #daa520;">tv</span>;
+    <span style="color: #ff4040; font-size: 105%;">return</span> (gettimeofday(&amp;tv, <span style="color: #7fffd4; font-weight: bold;">NULL</span>) != -1) ? \
+            tv.tv_sec * 1000 + tv.tv_usec / 1000 : 0;
+}
+
+<span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">show</span>(<span style="color: #daa520;">s</span>,<span style="color: #daa520;">e</span>)           copy(s, e, os); cout &lt;&lt; endl ;
+
+<span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">nth</span>(<span style="color: #daa520;">v</span>, <span style="color: #daa520;">N</span>)       *(v.begin()+N-1)
+
+<span style="color: #32cd32; font-size: 105%;">bool</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">PartitionCond</span>(<span style="color: #32cd32; font-size: 105%;">int</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">i</span>)
+{
+    <span style="color: #ff4040; font-size: 105%;">return</span> i &lt; 50;
+}
+
+<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">main</span>(<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">argc</span>, <span style="color: #32cd32; font-size: 105%;">char</span> *<span style="color: #daa520;">argv</span>[])
+{
+    srand(time(<span style="color: #7fffd4; font-weight: bold;">NULL</span>));
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v</span>(N);
+    <span style="color: #ff4040; font-size: 105%;">for</span> (<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">i</span> = 0; i &lt; N; ++i)
+    {
+        v[i] = i;
+    }
+
+    random_shuffle(v.begin(), v.end());
+
+    <span style="color: #32cd32; font-size: 105%;">ostream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">os</span>(cout, <span style="color: #d78700;">" "</span>);
+
+    cout &lt;&lt; <span style="color: #d78700;">"Original array = "</span> &lt;&lt; endl;
+    show(v.begin(),v.begin()+21);
+
+    cout &lt;&lt; <span style="color: #d78700;">"Partial_sort for 20 elements... "</span>  &lt;&lt; endl;
+
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v1</span>(v);
+    <span style="color: #32cd32; font-size: 105%;">uint32</span> <span style="color: #daa520;">ts</span> = current_time_ms();
+
+    partial_sort(v1.begin(), v1.begin()+21, v1.end(), <span style="color: #32cd32; font-size: 105%;">less</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;());
+    cout &lt;&lt; <span style="color: #d78700;">"time = "</span> &lt;&lt; current_time_ms() - ts &lt;&lt; endl;
+
+    show(v1.begin(),v1.begin()+21);
+
+    cout &lt;&lt; <span style="color: #d78700;">"nth_element of the 20th elements... "</span>  &lt;&lt; endl;
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v2</span>(v);
+    ts = current_time_ms();
+    nth_element(v2.begin(), v2.begin()+20, v2.end(),<span style="color: #32cd32; font-size: 105%;">less</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;());
+    cout &lt;&lt; <span style="color: #d78700;">"time = "</span> &lt;&lt; current_time_ms() - ts &lt;&lt; endl;
+    show(v2.begin(),v2.begin()+21);
+
+    cout &lt;&lt; <span style="color: #d78700;">"v1[19] = "</span> &lt;&lt; nth(v1, 21) &lt;&lt; endl;
+    cout &lt;&lt; <span style="color: #d78700;">"v2[19] = "</span> &lt;&lt; nth(v2, 21) &lt;&lt; endl;
+
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;<span style="color: #daa520;">v5</span>(v);
+    sort(v5.begin(), v5.end());
+
+    <span style="color: #ff4040; font-size: 105%;">if</span> (nth(v5, 21) == nth(v2, 21))
+    {
+        cout &lt;&lt; <span style="color: #d78700;">"nth_element works! "</span> &lt;&lt; endl;
+    }
+    <span style="color: #ff4040; font-size: 105%;">else</span>
+    {
+        cout &lt;&lt; <span style="color: #d78700;">"nth_element is not working correctly! "</span>  &lt;&lt; endl;
+    }
+
+
+    cout &lt;&lt; <span style="color: #d78700;">"Testing partition... "</span> &lt;&lt; endl;
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v3</span>(v);
+    ts = current_time_ms();
+    <span style="color: #7fffd4; font-weight: bold;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">i1</span> = partition(v3.begin(), v3.end(), PartitionCond);
+    cout &lt;&lt; <span style="color: #d78700;">"Time cost = "</span> &lt;&lt; current_time_ms() - ts &lt;&lt; endl;
+    show(v3.begin(), i1);
+
+    cout &lt;&lt; <span style="color: #d78700;">"Testing stable_partition... "</span> &lt;&lt; endl;
+    <span style="color: #32cd32; font-size: 105%;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">v4</span>(v);
+    ts = current_time_ms();
+    <span style="color: #7fffd4; font-weight: bold;">vector</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;::<span style="color: #32cd32; font-size: 105%;">iterator</span> <span style="color: #daa520;">i2</span> = stable_partition(v4.begin(), v4.end(), PartitionCond);
+    cout &lt;&lt; <span style="color: #d78700;">"Time cost = "</span> &lt;&lt; current_time_ms() - ts &lt;&lt; endl;
+    show(v4.begin(), i2);
+
+    <span style="color: #ff4040; font-size: 105%;">return</span> 0;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 13px;color: #cc0000;">
+<p align=center><strong>（转载请注明<a href="http://tubocurarine.is-programmer.com">出处</a>，使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></div>
+</div>
+</body>
+</html>
