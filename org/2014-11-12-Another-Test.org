@@ -1,0 +1,65 @@
+#+TITLE: Another Test
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:      yangyingchao[at]gmail[dot]com
+#+OPTIONS: ^:nil toc:1
+#+KEYWORDS: (nil)
+#+CATEGORIES: (nil)
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://tubocurarine.is-programmer.com
+#+LINK_HOME:  http://tubocurarine.is-programmer.com
+#+EXCLUDE_TAGS: noexport
+
+
+This is a test.
+
+
+* A
+
+* B
+
+** C
+
+#+CAPTION: Test
+#+ATTR_LaTeX: aaa
+#+LABEL: fig:aa
+
+#+BEGIN_SRC c++
+// just a test
+void* func(int a);
+#+END_SRC
+
+
+
+#+BEGIN_SRC ditaa :file images/Test.png :cmdline -r
+
+
+
+                                    +----------+
+                                    |     A    +--------------------------------------+
+                                    +-----+----+                                      |
+                                          |                                           |
+                                          |                                           |
+                                          |                                           |
+                                          v                                           v
+                                     +--------------+                         +--------------------+
+                                     |      B       +-----------------------> |                    |
+                                     |              |                         |                    |
+                                     +--------------+                         |                    |
+                                                                              |      C             |
+                                                                              |                    |
+                                                                              |                    |
+                                                                              |                    |
+                                                                              +--------------------+
+
+
+
+
+
+#+END_SRC
+
+* D
