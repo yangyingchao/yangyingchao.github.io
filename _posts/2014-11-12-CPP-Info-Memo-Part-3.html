@@ -1,0 +1,594 @@
+---
+layout     : post
+title : CPP Info Memo Part 3categories : 未分类
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>CPP Info Memo Part 3</title>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Yang, Ying-chao" />
+<meta  name="keywords" content="Cpp; Preprocessor; Macro" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+<style type="text/css">
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+  pre.src {
+    background-color:#2e3436;
+    color:#fefffe;
+  }
+
+p {font-size: 15px}
+li {font-size: 15px}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Cpp Info Memo Part 1 &#x2013; Overview</a></li>
+<li><a href="#sec-2">2. Cpp Info Memo Part 2 &#x2014; Header Files</a></li>
+<li><a href="#sec-3">3. Macros</a></li>
+</ul>
+</div>
+</div>
+<p>
+这是 Cpp Info Memo 第三部分，前两部分在：
+</p>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> <a href="http://tubocurarine.is-programmer.com/posts/59531.html">Cpp Info Memo Part 1 &#x2013; Overview</a></h2>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <a href="http://tubocurarine.is-programmer.com/posts/59533.html">Cpp Info Memo Part 2 &#x2014; Header Files</a></h2>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Macros</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+宏 (Macro) 实际上是一段被被命名的代码段。从使用的方式上来分，宏可以分为两种：类对象宏
+(object-like macros) 和类函数宏 (function-like macros) 。预编译器并不了解 C 语言中的关键词，因此除了预编译器的操作符 <i>defined</i> 和 C++ 中的命名操作符 (named operators) 之外，所有其他合法的 identifier 都可以被定义成宏。
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 类对象宏</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+<i>object-like macros</i> 是一个简单的标记，它将会在预编译器被真正的代码片段所取代，最常用的方式，就是用来定义一些常量，例如：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUFFER_SIZE</span>       1024
+</pre>
+</div>
+
+<p>
+上面的例子中定义了一个 token <i>BUFFER_SIZE</i> ，其值是 1024，其中：
+</p>
+
+<ul class="org-ul">
+<li><i><b>#define</b></i> 是预编译器的指令，用了声明宏定义
+</li>
+<li><i><b>#BUFFER_SIZE</b></i> 是宏定义的名字
+</li>
+<li><i><b>#1024</b></i> 名字之后的部分是宏定义的展开
+</li>
+</ul>
+
+<p>
+使用示例：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-C"><span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">Before preprocess</span>
+foo = (<span style="color: #32cd32;">char</span> *) malloc (BUFFER_SIZE);
+<span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">After preprocess</span>
+foo = (<span style="color: #32cd32;">char</span> *) malloc (1024);
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> Note:</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li>By convention, macro names are written in <b>UPPERCASE</b>.
+</li>
+
+<li>宏定义结束在 <i>#define</i> 所在的行 <br  />
+   我们可以用 "\" 来折行，但预编译器处理过后的代码中不会折行，所有代码都会成为一行，例如：
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">NUMBERS</span> 1,                              \
+        2,                                      \
+        3
+<span style="color: #32cd32;">int</span> <span style="color: #daa520;">x</span>[] = { NUMBERS };
+<span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">After preprocess...</span>
+<span style="color: #32cd32;">int</span> <span style="color: #daa520;">x</span>[] = { 1, 2, 3 };
+</pre>
+</div>
+</li>
+
+<li>C Preprocessor 按顺序扫描代码，并只在被定义之后才生效
+
+<div class="org-src-container">
+
+<pre class="src src-c">foo = X;
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">X</span> 4
+bar = X;
+
+<span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">produces ...</span>
+
+foo = X;
+bar = 4;
+</pre>
+</div>
+</li>
+
+<li>如果宏定义中包含另外一个宏，会逐级展开
+
+<p>
+当预编译器展开一个宏定义后，如果发现其中还有另外一个宏，会再次处理，如此反复直到全部处理完毕。 例如：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">TABLESIZE</span> BUFSIZE
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUFSIZE</span> 1024
+TABLESIZE
+<span style="color: #fa8072; font-style: italic;">//     </span><span style="color: #cd5c5c; font-style: italic;">==&gt; BUFSIZE  // Expand to TABLESIZE first</span>
+<span style="color: #fa8072; font-style: italic;">//     </span><span style="color: #cd5c5c; font-style: italic;">==&gt; 1024     // Expand to 1024 finally</span>
+</pre>
+</div>
+
+<p>
+需要注意的是，如果宏定义中引用了它自己的名字，该定义不会被再次展开，以防止无限递归。
+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Function-like Macros</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+function-like macros also starts with `#define' directive, but continued immediately
+with a pair of parentheses after the macro name.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">lang_init</span>()  c_init()
+lang_init() <span style="color: #fa8072; font-style: italic;">//</span>
+     ==&gt; c_init()
+</pre>
+</div>
+
+<p>
+   A function-like macro is only expanded if its name appears with a
+pair of parentheses after it.  If you write just the name, it is left
+alone.
+</p>
+
+<p>
+<b>NOTE:</b> <br  />
+   If you put spaces between the macro name and the parentheses in the
+macro definition, that does not define a function-like macro, it defines
+an object-like macro whose expansion happens to begin with a pair of
+parentheses:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">lang_init</span> ()    c_init()
+lang_init() <span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">after expanding:</span>
+     ==&gt; () c_init()()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Macro Arguments</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Function-like macros can take "arguments", just like true functions.
+To define a macro that uses arguments, you insert "parameters" between
+the pair of parentheses in the macro definition that make the macro
+function-like.  The parameters must be valid C identifiers, separated
+by commas and optionally whitespace.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">min</span>(<span style="color: #daa520;">X</span>, <span style="color: #daa520;">Y</span>)  ((X) &lt; (Y) ? (X) : (Y))
+  x = min(a, b);          ==&gt;  x = ((a) &lt; (b) ? (a) : (b));
+  y = min(1, 2);          ==&gt;  y = ((1) &lt; (2) ? (1) : (2));
+  z = min(a + 28, *p);    ==&gt;  z = ((a + 28) &lt; (*p) ? (a + 28) : (*p));
+</pre>
+</div>
+
+<p>
+<b>Things to note:</b>
+</p>
+
+<ul class="org-ul">
+<li>Space and comma
+</li>
+</ul>
+
+<p>
+ Leading and trailing whitespace in each argument is dropped, and all
+whitespace between the tokens of an argument is reduced to a single
+space.  Parentheses within each argument must balance; a comma within
+such parentheses does not end the argument.  However, there is no
+requirement for square brackets or braces to balance, and they do not
+prevent a comma from separating arguments.  Thus,
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c">macro (array[x <span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">=</span> y, x + 1])
+</pre>
+</div>
+
+<p>
+passes two arguments to `macro': `array[x = y' and `x + 1]'.  If you
+want to supply `array[x = y, x + 1]' as an argument, you can write it
+as `array[(x = y, x + 1)]', which is equivalent C code.
+</p>
+
+<ul class="org-ul">
+<li>Empty arguments
+
+<p>
+You can leave macro arguments empty; this is not an error to the
+</p>
+</li>
+</ul>
+<p>
+preprocessor (but many macros will then expand to invalid code).  You
+cannot leave out arguments entirely; if a macro takes two arguments,
+there must be exactly one comma at the top level of its argument list.
+Here are some silly examples using `min':
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c">min(, b)        ==&gt; ((   ) &lt; (b) ? (   ) : (b))
+min(a, )        ==&gt; ((a  ) &lt; ( ) ? (a  ) : ( ))
+min(,)          ==&gt; ((   ) &lt; ( ) ? (   ) : ( ))
+min((,),)       ==&gt; (((,)) &lt; ( ) ? ((,)) : ( ))
+
+min()      <span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">error--&gt; macro "min" requires 2 arguments, but only 1 given</span>
+min(,,)    <span style="color: #fa8072; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">error--&gt; macro "min" passed 3 arguments, but takes just 2</span>
+</pre>
+</div>
+
+<p>
+   Whitespace is not a preprocessing token, so if a macro `foo' takes
+one argument, `foo()' and `foo( )' both supply it an empty argument.
+</p>
+
+
+<ul class="org-ul">
+<li>Strings in macro
+
+<p>
+Macro parameters appearing inside string literals are not replaced by
+</p>
+</li>
+</ul>
+<p>
+their corresponding actual arguments.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">foo</span>(<span style="color: #daa520;">x</span>) x, <span style="color: #d78700;">"x"</span>
+foo(bar)        ==&gt; bar, <span style="color: #d78700;">"x"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Stringification</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+'#' 用来将宏参数子串化。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Concatenation</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+'##' 用来连接 Token: When a macro is
+expanded, the two tokens on either side of each `##' operator are
+combined into a single token, which then replaces the `##' and the two
+original tokens in the macro expansion.
+</p>
+
+<p>
+   Keep in mind that the C preprocessor converts comments to whitespace
+before macros are even considered.  Therefore, you cannot create a
+comment by concatenating `/' and `*'.  You can put as much whitespace
+between `##' and its operands as you like, including comments, and you
+can put comments in arguments that will be concatenated.  However, it
+is an error if `##' appears at either end of a macro body.
+</p>
+
+
+<p>
+   Consider a C program that interprets named commands.  There probably
+needs to be a table of commands, perhaps an array of structures declared
+as follows:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">command</span>
+{
+  <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">name</span>;
+  <span style="color: #32cd32;">void</span> (*<span style="color: #1e90ff; font-weight: bold;">function</span>) (<span style="color: #32cd32;">void</span>);
+};
+
+<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">command</span> <span style="color: #daa520;">commands</span>[] =
+{
+  { <span style="color: #d78700;">"quit"</span>, quit_command },
+  { <span style="color: #d78700;">"help"</span>, help_command },
+  ...
+};
+</pre>
+</div>
+
+<p>
+   It would be cleaner not to have to give each command name twice,
+once in the string constant and once in the function name.  A macro
+which takes the name of a command as an argument can make this
+unnecessary.  The string constant can be created with stringification,
+and the function name by concatenating the argument with `_command'.
+Here is how it is done:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">COMMAND</span>(<span style="color: #daa520;">NAME</span>)  { #NAME, NAME ## _command }
+
+<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">command</span> <span style="color: #daa520;">commands</span>[] =
+{
+  <span style="color: #32cd32;">COMMAND</span> (quit),
+  <span style="color: #32cd32;">COMMAND</span> (help),
+  ...
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Variadic Macros</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+A macro can be declared to accept a variable number of arguments much as
+a function can.  The syntax for defining the macro is similar to that of
+a function.  Here is an example:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">eprintf</span>(...) fprintf (stderr, __VA_ARGS__)
+</pre>
+</div>
+
+
+<p>
+   This kind of macro is called "variadic".  When the macro is invoked,
+all the tokens in its argument list after the last named argument (this
+macro has none), <b>including any commas</b>, become the "variable argument".
+This sequence of tokens replaces the identifier `__VA_ARGS__' in the
+macro body wherever it appears.  Thus, we have this expansion:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c">eprintf (<span style="color: #d78700;">"%s:%d: "</span>, input_file, lineno)
+     ==&gt;  fprintf (stderr, <span style="color: #d78700;">"%s:%d: "</span>, input_file, lineno)
+</pre>
+</div>
+
+<p>
+测试了几个预编译器，包括 GNU/Clang/VS ，他们对 '##' 都加了和 CPP 一样的特殊处理：
+</p>
+
+<p>
+the `##' token paste operator has a special meaning when placed
+between a comma and a variable argument.  If you write
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">eprintf</span>(<span style="color: #daa520;">format</span>, ...) fprintf (stderr, format, ##__VA_ARGS__)
+</pre>
+</div>
+
+
+<p>
+and the variable argument is left out when the `eprintf' macro is used,
+then the comma before the `##' <b>will be deleted</b>.  This does <span class="underline">not</span> happen
+if you pass an empty argument, nor does it happen if the token
+preceding `##' is anything other than a comma.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c">eprintf (<span style="color: #d78700;">"success!\n"</span>)
+     ==&gt; fprintf(stderr, <span style="color: #d78700;">"success!\n"</span>);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> Source file.</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+<a href="/user_files/tubocurarine/File/cpp_info4_20141010181450.zip">/user_files/tubocurarine/File/cpp_info4_20141010181450.zip</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="org_postamble" class="status">
+
+  <div style="margin-top: 15px; font-size: 13px;color: #cc0000;"><p align=center><strong>
+ （转载请注明<a href="http://tubocurarine.is-programmer.com">出处</a>，
+   使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">
+  署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></div>
+</div>
+</body>
+</html>
