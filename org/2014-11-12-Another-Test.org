@@ -35,7 +35,7 @@ void* func(int a);
 
 
 
-#+BEGIN_SRC ditaa :file images/Test.png :cmdline -r
+#+BEGIN_SRC ditaa :file ../assets/img/Test.png
 
 
 
