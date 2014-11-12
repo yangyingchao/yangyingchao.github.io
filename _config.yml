@@ -1,0 +1,36 @@
+permalink: /:year/:month/:day/:title.html
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
+pygments: true
+
+markdown: kramdown
+
+title : Linusp's Blog
+author :
+  name : Linusp
+  email : linusp1024@gmail.com
+  github : Linusp
+
+
+production_url : http://linusp.github.io
+
+nav:
+  - text: 分类
+    url : /categories.html
+  - text: 标签
+    url : /tags.html
+  - text: 归档
+    url : /archive.html
+  - text: IF
+    url : /if.html
+  - text: 链接
+    url : /link.html
+  - text: 关于
+    url : /about.html
+
+JB :
+  version : 0.3.0
+
+  archive_path: /archive.html
+  categories_path : /categories.html
+  tags_path : /tags.html
+  atom_path : /atom.xml
