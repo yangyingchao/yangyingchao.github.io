@@ -1,0 +1,70 @@
+---
+layout     : post
+title : 从 U 盘启动 Virtualbox
+categories : 未分类
+
+---
+<p>转载的文章，介绍了如何从 U 盘启动虚拟机。<br /> </p>
+<h1>Boot your USB Drive in VirtualBox</h1>
+<div class="postMetaSingle"><img src="http://agnipulse.com/wp-content/themes/alltuts/images/ico_author.png" alt="Author" /> An article by <a href="http://agnipulse.com" title="Visit Bharat Balegere&rsquo;s website" rel="external">Bharat Balegere</a>&nbsp;&nbsp;&nbsp; <img src="http://agnipulse.com/wp-content/themes/alltuts/images/ico_comments.png" alt="Comments" /> <a href="http://agnipulse.com/2009/07/boot-your-usb-drive-in-virtualbox/#comments" title="Comment on Boot your USB Drive in VirtualBox">71 Comments</a>&nbsp;&nbsp;Last Modified on January 20, 2011</div>
+<div class="ads-above">
+<script type="text/javascript">// <![CDATA[
+google_ad_client = "pub-5781019165899178";
+/* 300x250, created 6/19/09 */
+google_ad_slot = "6455132945";
+google_ad_width = 300;
+google_ad_height = 250;
+// ]]></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+</div>
+<div id="getsocialmain">
+<p>The GUI of <a target="_blank" title="VirtualBox" rel="homepage" href="http://www.virtualbox.org/">VirtualBox</a> does not have an option to boot a USB drive (Physical Drive) in a virtual machine.</p>
+<p>However you can attach a physical drive to a virtual machine using a command line tool that is bundled with Virtual Box.You can then boot your virtual machine from the attached Physical drive.You need to use VirtualBox with Windows installed in order to use the software for a <a target="_blank" href="http://www.o2.co.uk/">o2 mobile broadband</a> dongle. As you are probably aware, you are unable to use it with Linux.</p>
+<p>This is the continuation of my previous article <a href="http://agnipulse.com/2009/07/test-bootable-usb-drive-without-restarting-your-computer/" target="_blank"> Test bootable USB drive without restarting your computer</a>.You can read more about bootable usb drives in that article.</p>
+<p><strong>Note:This tutorial has been updated for Virtualbox 4.</strong></p>
+<p>In this article I will show you how you can boot a bootable usb drive in <a target="_blank" title="Virtual machine" rel="wikipedia" href="http://en.wikipedia.org/wiki/Virtual_machine">Virtual Machine</a> created by VirtualBox.You can easily test bootable USB drives within Windows or Linux and without restarting using this method.</p>
+<p>Download and install Virtual Box and <a target="_blank" href="http://download.virtualbox.org/virtualbox/4.0.2/Oracle_VM_VirtualBox_Extension_Pack-4.0.2-69518.vbox-extpack">VirtualBox 4.0.2 Oracle VM VirtualBox Extension Pack</a> from <a target="_blank" href="http://www.virtualbox.org/wiki/Downloads">http://www.virtualbox.org/wiki/Downloads</a><br /> The Extension pack adds support for USB 2.0 devices.</p>
+<h3>Attaching a Physical Disk to a Virtual Machine</h3>
+<p>Section 9.6 in the VirtualBox manual contains all the details required to attach a physical disk to a virtual machine.Using the vboxmanage.exe tool you can create a tiny vmdk file which points to your real USB drive (Physical Drive/Disk).You can attach this tiny vmdk to your virtual machine.A vmdk file is a virtual hard disk file which can be used with VirtualBox and <a target="_blank" title="VMware" rel="homepage" href="http://www.vmware.com/">VMWare</a>.</p>
+<p>The vboxmanage.exe tool is bundled with VirtualBox.You don&rsquo;t have to download it separately</p>
+<p>Open Command Prompt</p>
+<p>Navigate to your Virtual Box installation Directory.</p>
+<div class="codecolorer-container text vibrant" style="overflow: auto; white-space: nowrap; width: 435px;">
+<div class="text codecolorer">cd "c:\Program Files\Oracle\VirtualBox"</div>
+</div>
+<p>Type the following command and press enter<br /> Syntax of the command</p>
+<div class="codecolorer-container text vibrant" style="width: 100%;">
+<div class="text codecolorer">VBoxManage internalcommands createrawvmdk -filename path\to\usb.vmdk -rawdisk \\.\PhysicalDrive1</div>
+</div>
+<p>You have to replace <em><strong>pathtousb.vmdk</strong></em> with the path of your choice</p>
+<p>Example</p>
+<div class="codecolorer-container text vibrant" style="width: 100%;">
+<div class="text codecolorer">VBoxManage internalcommands createrawvmdk -filename "%USERPROFILE%\usb.vmdk" -rawdisk \\.\PhysicalDrive1</div>
+</div>
+<p><a href="http://agnipulse.com/wp-content/uploads/2009/07/createraw.jpg" rel="lightbox[352]" title="createraw"><img class="aligncenter size-full wp-image-642" title="createraw" src="http://agnipulse.com/wp-content/uploads/2009/07/createraw.jpg" alt="createraw Boot your USB Drive in VirtualBox" height="163" width="500" /></a></p>
+<p>In Windows your 1st Hard Disk will be <em><strong>\.PhysicalDrive0</strong></em>.Your 2nd Hard disk will be <em><strong>\.PhysicalDrive1</strong></em>.</p>
+<p>Warning:Do not Attach your Primary hard disk to your Virtual Machine and Boot it in the Virtual machine</p>
+<p>To find the correct number for your USB Drive</p>
+<p>Right Click on <em><strong>My Computer-Manage-Disk Management</strong></em></p>
+<p>Here you can find the correct disk number of your USB Drive</p>
+<p><img title="Drive Number of the Physical Drive" src="http://i32.tinypic.com/15zi9s6.jpg" alt="15zi9s6 Boot your USB Drive in VirtualBox" height="384" width="462" /></p>
+<p>You will have to replace <em><strong>\.PhysicalDrive1</strong></em> with the correct drive number.</p>
+<p>In this case there was only 1 hard disk and 1 USB disk.So the USB drive is referred by<em><strong> \.PhysicalDrive1</strong></em></p>
+<p>In linux you have to replace <em><strong>\.PhysicalDrive1</strong></em> with the correct<em><strong> /dev/sdx</strong></em> reference.</p>
+<p>Now you should have a tiny vmdk file.You can start your Virtual Machine with this tiny vmdk and boot from it.</p>
+<ol>
+<li>Start VirtualBox.</li>
+<li>Create a new Machine or Select an Existing Machine.</li>
+<li>Click on Settings<br /> <img title="vmsettings" src="http://agnipulse.com/wp-content/uploads/2009/07/vmsettings.jpg" alt="vmsettings Boot your USB Drive in VirtualBox" height="271" width="446" /></li>
+<li>Storage-Add Hard Disk<img class="aligncenter size-full wp-image-644" title="addharddisk" src="http://agnipulse.com/wp-content/uploads/2009/07/addharddisk.jpg" alt="addharddisk Boot your USB Drive in VirtualBox" height="287" width="420" /></li>
+<li>Select the vmdk file that you had created.<img class="aligncenter size-full wp-image-645" title="selectharddisk" src="http://agnipulse.com/wp-content/uploads/2009/07/selectharddisk.jpg" alt="selectharddisk Boot your USB Drive in VirtualBox" height="159" width="313" /><a href="http://agnipulse.com/wp-content/uploads/2009/07/vmdkfile.jpg" rel="lightbox[352]" title="vmdkfile"><img class="aligncenter size-full wp-image-646" title="vmdkfile" src="http://agnipulse.com/wp-content/uploads/2009/07/vmdkfile.jpg" alt="vmdkfile Boot your USB Drive in VirtualBox" height="419" width="563" /></a></li>
+<li>Make sure that usb.vmdk is your Primary Master.<a href="http://agnipulse.com/wp-content/uploads/2009/07/attachedusb.jpg" rel="lightbox[352]" title="attachedusb"><img class="aligncenter size-full wp-image-647" title="attachedusb" src="http://agnipulse.com/wp-content/uploads/2009/07/attachedusb.jpg" alt="attachedusb Boot your USB Drive in VirtualBox" height="315" width="562" /></a></li>
+<li>System-Boot Order.Set your Hard Disk as the first boot device.</li>
+<li>Now start your Virtual Machine.</li>
+</ol>
+<p>Your virtual machine will boot from your bootable physical USB Drive.</p>
+<p>In this screenshot I have used a bootable Ubuntu USB drive created using Unetbootin.</p>
+<p style="text-align: center;"><img class="aligncenter" title="Grub Menu" src="http://i30.tinypic.com/2jfiy39.jpg" alt="2jfiy39 Boot your USB Drive in VirtualBox" height="256" width="300" /></p>
+<p style="text-align: center;"><img class="aligncenter" title="Ubuntu Loading" src="http://i32.tinypic.com/1470ut.jpg" alt="1470ut Boot your USB Drive in VirtualBox" height="257" width="300" /></p>
+<p style="text-align: center;"><img class="aligncenter" title="Ubuntu Desktop" src="http://i30.tinypic.com/121bekz.jpg" alt="121bekz Boot your USB Drive in VirtualBox" height="249" width="300" /></p>
+</div>

@@ -1,0 +1,84 @@
+---
+layout     : post
+title : Fix Valgrind must-be-redirected error in Gentoo
+categories : 未分类
+
+---
+<p>
+	Last week, I tried to use <a class="reference external" href="http://valgrind.org">Valgrind</a> to identify potential memory related bugs, since segmentation faults occured randomly in a Python C library. However, Valgrind failed to start and displayed the following error message:</p>
+<!--more-->
+<div class="highlight">
+	<pre>
+        valgrind:  Fatal error at startup: a function redirection
+        valgrind:  which is mandatory for this platform-tool combination
+        valgrind:  cannot be set up.  Details of the redirection are:
+        valgrind:
+        valgrind:  A must-be-redirected function
+        valgrind:  whose name matches the pattern:      strlen
+        valgrind:  in an object with soname matching:   ld-linux.so.2
+        valgrind:  was not found whilst processing
+        valgrind:  symbols from the object with soname: ld-linux.so.2
+        valgrind:
+        valgrind:  Possible fixes: (1, short term): install glibc&#39;s debuginfo
+        valgrind:  package on this machine.  (2, longer term): ask the packagers
+        valgrind:  for your Linux distribution to please in future ship a non-
+        valgrind:  stripped ld.so (or whatever the dynamic linker .so is called)
+        valgrind:  that exports the above-named function using the standard
+        valgrind:  calling conventions for this platform.  The package you need
+        valgrind:  to install for fix (1) is called
+        valgrind:
+        valgrind:    On Debian, Ubuntu:                 libc6-dbg
+        valgrind:    On SuSE, openSuSE, Fedora, RHEL:   glibc-debuginfo
+        valgrind:
+        valgrind:  Cannot continue -- exiting now.  Sorry.
+    </pre>
+</div>
+<p>
+	The message mentions how to fix this error in various distributions (Debian, Ubuntu, Fedora, etc), except for Gentoo. Note that there is no such thing as a &quot;debugging symbols package&quot; in Gentoo, because Portage will compile all packages from scratch.</p>
+<p>
+	In order to fix this error, it is necessary to:</p>
+<ol class="arabic simple">
+	<li>
+		enable the <tt class="docutils literal">splitdebug</tt> feature (or rather: it is &quot;recommended&quot; to enable).</li>
+	<li>
+		enable debugging symbols for glibc.</li>
+	<li>
+		recompile <tt class="docutils literal"><span class="pre">sys-libs/glibc</span></tt>.</li>
+</ol>
+<p>
+	The first step is trivial: add <tt class="docutils literal">splitdebug</tt> to <tt class="docutils literal">FEATURES</tt> in <tt class="docutils literal">/etc/make.conf</tt>:</p>
+<div class="highlight">
+	<pre>
+        <span class="nv">FEATURES</span><span class="o">=</span><span class="s2">&quot;$FEATURES splitdebug&quot;</span>
+    </pre>
+</div>
+<p>
+	The second step, enabling debugging symbols, can also be set globally. However Portage allows you to specify <tt class="docutils literal">CFLAGS</tt> and <tt class="docutils literal">CXXFLAGS</tt> per package. So adding <tt class="docutils literal"><span class="pre">-ggdb</span></tt> to both <tt class="docutils literal">CFLAGS</tt> and <tt class="docutils literal">CXXFLAGS</tt> will complete the second step. Create the file <tt class="docutils literal">/etc/portage/env/debug.conf</tt> and add:</p>
+<div class="highlight">
+	<pre>
+        <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;${CFLAGS} -ggdb&quot;</span>
+        <span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">&quot;${CFLAGS} -ggdb&quot;</span>
+    </pre>
+</div>
+<p>
+	Next, add the following line to <tt class="docutils literal">/etc/portage/package.env/glibc</tt>:</p>
+<div class="highlight">
+	<pre>
+        sys-libs/glibc debug.conf
+    </pre>
+</div>
+<p>
+	Note: It is also possible to enable <tt class="docutils literal">splitdebug</tt> on a per package basis, but in my humble opinion it is useful to have debugging symbols system-wide in case you want to backtrace a segfault of an arbitrary executable using <tt class="docutils literal">gdb</tt>.</p>
+<p>
+	The final step is recompiling glibc: <tt class="docutils literal">emerge <span class="pre">sys-libs/glibc</span></tt> (this part should be straightforward). Once glibc is emerged, you should see the file <tt class="docutils literal"><span class="pre">/usr/lib/debug/lib/ld-2.12.2.so.debug</span></tt> (substitute <tt class="docutils literal">2.12.2</tt> with your glibc version number), which contains the stripped debugging symbols of glibc. To confirm this, <tt class="docutils literal">file</tt> will show that the file is not stripped:</p>
+<div class="highlight">
+	<pre>
+        /usr/lib/debug/lib/ld-2.12.2.so.debug: ELF 32-bit LSB shared object, Intel
+        80386, version 1 (SYSV), dynamically linked, not stripped
+    </pre>
+</div>
+<p>
+	If all steps succeeded, you should be able to run Valgrind successfully on Gentoo!</p>
+<p>
+	http://blog.kompiler.org/post/10/2011-11-30/Fix_Valgrind&#39;s_must-be-redirected_error_in_Gentoo/</p>
+

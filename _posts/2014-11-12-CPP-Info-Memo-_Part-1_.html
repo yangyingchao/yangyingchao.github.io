@@ -1,0 +1,126 @@
+---
+layout     : post
+title : CPP Info Memo (Part 1)
+categories : 未分类
+
+---
+<h1 class="title">
+	CPP Info Memo (Part 1)</h1>
+<div id="table-of-contents">
+	<h2>
+		Table of Contents</h2>
+	<div id="text-table-of-contents">
+		<ul>
+			<li>
+				<a href="#sec-1">1 Overview </a>
+				<ul>
+					<li>
+						<a href="#sec-1_1">1.1 Initial Processing </a>
+						<ul>
+							<li>
+								<a href="#sec-1_1_1">1.1.1 End Of Line (EOL) </a></li>
+							<li>
+								<a href="#sec-1_1_2">1.1.2 Continued lines </a></li>
+							<li>
+								<a href="#sec-1_1_3">1.1.3 Comments </a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+<!--more-->
+<div class="outline-2" id="outline-container-1">
+	<h2 id="sec-1">
+		<span class="section-number-2">1</span> Overview</h2>
+	<div class="outline-text-2" id="text-1">
+		&nbsp;</div>
+	<div class="outline-3" id="outline-container-1_1">
+		<h3 id="sec-1_1">
+			<span class="section-number-3">1.1</span> Initial Processing</h3>
+		<div class="outline-text-3" id="text-1_1">
+			&nbsp;</div>
+		<div class="outline-4" id="outline-container-1_1_1">
+			<h4 id="sec-1_1_1">
+				<span class="section-number-4">1.1.1</span> End Of Line (EOL)</h4>
+			<div class="outline-text-4" id="text-1_1_1">
+				<p>
+					GCC 能够识别的 EOL 包括 ASCII 码中的 LF, CR LF 和 CR ， 也就是传说中的 &quot;\n&quot; &quot;\r\n&quot; 和 &quot;\r&quot;。</p>
+				<p>
+					换句话说，即便在 Linux 下去编译 Windows 或者老的 Mac OS 下写的代码， 也完全没有问题。但是，无论采用哪中 EOL ， EOL 在整个文件中应该保持一致， 否则 GCC 可能无法处理行号。</p>
+				<p>
+					此外，如果文件的结尾没有换行符， GCC 会认为最后一个 EOL 由 EOF 来提供， 但标准 C 中规定，该情形会触发未知的行为(undefined behaviour)， 所以 GCC 会在这种情况下给出一个 Warning 。</p>
+			</div>
+		</div>
+		<div class="outline-4" id="outline-container-1_1_2">
+			<h4 id="sec-1_1_2">
+				<span class="section-number-4">1.1.2</span> Continued lines</h4>
+			<div class="outline-text-4" id="text-1_1_2">
+				<p>
+					&quot;\&quot; 用来折行，但 &quot;\&quot; 后面可以接若干 Whitespace ，这些 Whitespace 将会被忽略。 &quot;\&quot; 后面的 WS 经常是拼写时候不小心弄上去的，所以 GCC 会对此给出警告。</p>
+			</div>
+		</div>
+		<div class="outline-4" id="outline-container-1_1_3">
+			<h4 id="sec-1_1_3">
+				<span class="section-number-4">1.1.3</span> Comments</h4>
+			<div class="outline-text-4" id="text-1_1_3">
+				<ul>
+					<li>
+						<strong>1</strong>注释在预编译阶段被替换成 Whitespace，注释无嵌套， Block comments 和 Line Comments 都是如此。
+						<p>
+							一般来讲，从编译器的角度来看，将两者混杂在一起也无不可。如：</p>
+						<pre class="src src-c">
+<span style="color: #cc0000;">/* </span><span style="color: #cc0000;">block comment
+// contains line comment
+   yet more comment
+</span><span style="color: #cc0000;">*/</span> <span style="color: #228b22; font-weight: bold;">outside</span> <span style="color: #a0522d; font-weight: bold;">comment</span>
+
+<span style="color: #cc0000;">// </span><span style="color: #cc0000;">line comment /* contains block comment */
+</span></pre>
+					</li>
+				</ul>
+				<ul>
+					<li>
+						<strong>2</strong>但要注意，不要把 block comments 的尾部从注释中给剥离出来，形如：
+						<pre class="src src-c">
+<span style="color: #cc0000;">// </span><span style="color: #cc0000;">l.c.  /* block comment begins
+</span>   oops! this isn<span style="color: #d14a14; background-color: #1248d1; font-weight: bold;">&#39;</span><span style="color: #ce5c00;">t a comment anymore */
+</span></pre>
+					</li>
+				</ul>
+				<ul>
+					<li>
+						<strong>3</strong> String 中的 &quot;\/*&quot; 和 &quot;*/&quot; 不会被看成注释。</li>
+				</ul>
+				<ul>
+					<li>
+						<strong>4</strong> 此外， 在 C89 中，没有 Line comment 这个东东，他是在 C99 后才加到标准中的， 也就是说，如果我们用的编译器很老，那么有可能不支持 &quot;//&quot; 这种注释。</li>
+				</ul>
+				<ul>
+					<li>
+						<strong>5</strong>最后一点， 预处理是在程序编译的最早阶段执行的，所以即便是下面的这种古怪的写法，实际上也是合法的：
+						<pre class="src src-c">
+/\
+*
+*/ # <span style="color: #cc0000;">/*</span><span style="color: #cc0000;">*/</span> defi\
+ne FO\
+O 10\
+20
+</pre>
+						<p>
+							它实际上等同于：</p>
+						<pre class="src src-c">
+<span style="color: #00ee00;">#define</span> <span style="color: #a0522d; font-weight: bold;">F00</span> 1020
+</pre>
+						<p>
+							但从程序的可读性上来讲，上面的写法并不提倡。</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<p>
+	&nbsp;</p>
+

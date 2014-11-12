@@ -1,0 +1,101 @@
+---
+layout     : post
+title : Tutorial: Reverse debugging with GDB 7 (转载)
+categories : 未分类
+
+---
+<!--?xml version="1.0" encoding="utf-8"?-->
+<p>&nbsp;</p>
+<p>Tutorial: Reverse debugging with GDB 7</p>
+<style><!--
+      @import "css/main.css";
+    
+--></style>
+<div id="page">
+<div id="org_content">
+<h1>Tutorial: Reverse debugging with GDB 7</h1>
+<p class="date">by Jay Conrod<br />
+          posted on 2009-12-01</p>
+<p>GDB 7 came out a few weeks ago, and one of the major new features is reverse debugging. This allows you to record the execution of a process, then play it backward and forward. This is incredibly useful for fixing those mysterious bugs that are so common in C/C++ programs.</p>
+<p>In this post, I'll give a motivating example of why reverse debugging is so useful, then I'll give a summary of the commands you need to know about. You might also want to look at the <a href="http://www.sourceware.org/gdb/wiki/ProcessRecord/Tutorial">official tutorial</a> on the GDB wiki, which is a good reference.</p>
+<p>Here's a typical program we might have in C. It's very simple, but it contains a subtle bug that causes it to crash when we run it.</p>
+<pre>          #include &lt;stdio.h&gt;
+          #include &lt;stdlib.h&gt;
+
+          void initialize(int *array, int size) {
+          for (int i = 0; i &lt;= size; ++i)
+          array[i] = 0;
+          }
+
+          int main(void) {
+          int *p = malloc(sizeof(int));
+          int values[10];
+
+          *p = 37;
+          initialize(values, 10);
+          printf("*p = %d\n", *p);
+          free(p);
+
+          return 0;
+          }
+        </pre>
+<p>This program is compiled with the following command:</p>
+<pre>          gcc -ggdb -std=c99 -O0 test.c -o test
+        </pre>
+<p>When we run this program from the command line, we get a segmentation fault. What happened? We load it into gdb and enable recording:</p>
+<pre>          (gdb) break main
+          Breakpoint 1 at 0x8048449: file test.c, line 11.
+          (gdb) run
+          Starting program: /home/jay/Code/test/test 
+
+          Breakpoint 1, main () at test.c:11
+          (gdb) record
+          (gdb)
+        </pre>
+<p>The <code>record</code> command turns on recording. It must be issued after the program has started running, so the beginning of <code>main</code> is a good place to use it. If you are debugging code that runs before <code>main</code> (such as C++ global constructors), you may want to set a breakpoint in <code>_start</code>, the actual entry point of the program.</p>
+<p>Once recording is enabled, we run the program until the segmentation fault occurs:</p>
+<pre>          (gdb) continue
+          Continuing.
+          warning: Process record ignores the memory change of instruction at
+          address 0xdd45e1 because it can't get the value of the segment 
+          register.
+
+          Program received signal SIGSEGV, Segmentation fault.
+          0x0804847b in main () at test.c:15
+          (gdb)
+        </pre>
+<p>After getting a weird warning (which appears to occur inside <code>malloc</code>), we find that the segmentation fault occurs at the call to <code>printf</code>. The only memory operation here is dereferencing <code>p</code>, so we print its value:</p>
+<pre>          (gdb) print p
+          $1 = (int *) 0x0
+          (gdb) 
+        </pre>
+<p><code>p</code> should not be null! We set it at the beginning with <code>malloc</code> and never changed its value. We can find out where it was changed by setting a watchpoint and using the <code>reverse-continue</code> command. This works just like you would hope: the program runs backwards until the point at which <code>p</code> was changed. Note that we explicitly set a software watchpoint rather than a hardware watchpoint; GDB 7 seems to silently ignore hardware watchpoints when replaying the program.</p>
+<pre>          (gdb) set can-use-hw-watchpoints 0
+          (gdb) watch p
+          Watchpoint 2: p
+          (gdb) reverse-continue
+          Continuing.
+          Watchpoint 2: p
+
+          Old value = (int *) 0x0
+          New value = (int *) 0x804b008
+          0x0804842c in initialize (array=0xbffff5c0, size=10) at test.c:6
+          (gdb) 
+        </pre>
+<p>GDB stops on line 6 in the <code>initialize</code> function. Upon closer examination of the loop, we notice the off-by-one error in the condition. Since the array we passed to <code>initialize</code> is adjacent to <code>p</code> on the stack, we overwrite <code>p</code> when we write off the end of the array.</p>
+<p>This kind of error is an example of a buffer overflow, a common bug in C. More severe versions of this bug can create security vulnerabilities. Overflows are usually quite difficult to track down because a variable like <code>p</code> could change many times before taking on a "bad" value like it did here. If we had set a watchpoint at the beginning of a more complex program, the debugger might stop hundreds of times before we found something interesting. More generally, we frequently debug by sneaking up on a fault from the front; if we accidentally pass the fault, we usually have to start over. Reverse debugging allows us to approach a fault much more quickly from behind. We just let the program run normally until we reach a point shortly after a fault has occurred (for instance, when the <code>SIGSEGV</code> signal is received). We then run the program backward until we find what went wrong. The debugger can do pretty much the same things running backward as forward, including setting new watchpoints and breakpoints.</p>
+<p>Before we wrap up, here's a quick summary of useful commands for reverse debugging:</p>
+<ul>
+<li><code>record</code> - enable recording mode. This command must be issued while the program is running, and you can only run the program back to the point where this command was issued. There is a performance penalty.</li>
+<li><code>reverse-step, reverse-next, reverse-finish, reverse-continue</code> - just like the normal versions of the commands, but in the opposite direction.<code>set exec-direction reverse</code> - switches the program execution direction to reverse. The step, next, finish, continue commands will work in the currect execution direction.</li>
+<li><code>set can-use-hw-watchpoints 0</code> - disables hardware watch points. This is necessary if you want to use watchpoints while running the program in reverse.</li>
+</ul>
+<p>Once again, you need GDB 7 in order to use reverse debugging. It is supplied as part of Ubuntu 9.10 (Karmic) and other newer Linux distributions. Since reverse debugging a fairly new feature, it's not as complete as one would hope, so there's an official <a href="http://www.sourceware.org/gdb/wiki/ProcessRecord/WishList">wish list</a> which contains bugs and feature requests.</p>
+<p>Finally, I'd like to reference <a href="http://intheknow-security.blogspot.com/2009/10/gdb-reverse-debugging-tutorial.html">Sebastien Duquette's tutorial on reverse debugging</a>, which is where I found out that you need to disable hardware watchpoints. If you're interested in how reverse debugging actually works, Michael Snyder (one of the GDB developers responsible for it) has a <a href="http://stackoverflow.com/questions/1470434/how-does-reverse-debugging-work/1535497#1535497">short post on StackOverflow</a> about it.</p>
+<hr />
+<p>Comment by <a href="mailto:lakshmyma@yahoo.co.in">Lakshmy m.a</a> posted on Fri Mar 5 09:24:25 2010</p>
+<p>sir, Am a student of model engineering college trikakkara of ernakulam district,kerala,India.we a group of 4 took this rgdb as our mini project.i would like to get some technical support from your side.can you please send me a mail as your respones, sir i couldnt get ur mail id...so that i can mail you we would like to get a tutorial of each reverse commands implementation + its logic we have downloaded the source code of the new version of gdb.7 but we couldnt understand the logic ,since its very lengthy, and we hav a short time to for our mini project section... It will be very helpful if we get the basic idea behind this.</p>
+<hr />
+<p>http://www.jayconrod.com/posts/28/tutorial-reverse-debugging-with-gdb-7</p>
+</div>
+</div>

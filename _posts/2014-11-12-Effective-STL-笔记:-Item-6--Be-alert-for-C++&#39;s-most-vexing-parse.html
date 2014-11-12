@@ -1,0 +1,167 @@
+---
+layout     : post
+title : Effective STL 笔记: Item 6--Be alert for C++&#39;s most vexing parse
+categories : 未分类
+
+---
+<!--?xml version="1.0" encoding="utf-8"?-->
+<p>&nbsp;</p>
+<div id="org_content">
+<div id="outline-container-sec-1" class="outline-2">
+<div id="text-1" class="outline-text-2">
+<p>假设有个文件里面记录的一系列的 int 值，现在我们想把这些数值存到一个 List 里面，结合 <a href="http://www.cnblogs.com/yangyingchao/p/3392296.html#sec-2">Item 5</a>, 我们可能会写出下面的代码：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">ifstream</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">dataFile</span>(<span style="color: #d78700;">"ints.data"</span>);
+<span style="color: #32cd32; font-size: 105%;">list</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">data</span>(<span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;(<span style="color: #daa520;">dataFile</span>), <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">Start of iterator</span>
+               <span style="color: #32cd32; font-size: 105%;">istream_iterator</span>());             <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">End of iterator</span>
+</pre>
+</div>
+<p>这段代码可以编译，但运行时并不工作，它不会去调用 list 的构造函数，从而不会生成我们想要的这个 List。</p>
+<p>问题，出在 C++ 对代码的解析上。</p>
+<p>假设我们需要声明一个函数，该函数接受 double 类型参数并返回 int 类型，C++ 里面，下面三种方法是等效的：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">f</span>(<span style="color: #32cd32; font-size: 105%;">double</span> <span style="color: #daa520;">d</span>);  <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">Old C style.</span>
+<span class="linenr">2: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">f</span>(<span style="color: #32cd32; font-size: 105%;">double</span>(<span style="color: #daa520;">d</span>)); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">Function style casts.</span>
+<span class="linenr">3: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">f</span>(<span style="color: #32cd32; font-size: 105%;">double</span>);    <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">Same as first but skip parameter.</span>
+</pre>
+</div>
+<p>如果我们要声明另外一个函数，该函数同样返回 int，但接受的参数是一个无参数但返回 double 的函数的指针，则下面的声明是等效的：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">4: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">g</span>(<span style="color: #32cd32; font-size: 105%;">double</span> (*<span style="color: #daa520;">pf</span>)()); <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">g takes a pinter to a function as paramter.</span>
+<span class="linenr">5: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">g</span>(<span style="color: #32cd32; font-size: 105%;">double</span> <span style="color: #daa520;">pf</span>());    <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">same as above</span>
+<span class="linenr">6: </span><span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">g</span>(<span style="color: #32cd32; font-size: 105%;">double</span> ());      <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">same as above, but parameter (function name) skipped.</span>
+</pre>
+</div>
+<p>观察 1 ~ 6 我们可以看到&ldquo; 括号&rdquo;在不同位置时候的不同作用：</p>
+<ul class="org-ul">
+<li><strong>参数</strong> 周围的括号可以被忽略</li>
+<li><strong>单独</strong> 的括号实际上意味着这是一个函数指针的参数列表！</li>
+</ul>
+<p>了解了这个区别之后再返回来看最开始的那个声明:</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">list</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">data</span>(<span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;(<span style="color: #daa520;">dataFile</span>), <span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;());
+</pre>
+</div>
+<p>这个声明定义了一个返回 list&lt;int&gt; 的函数，该函数接受两个参数：</p>
+<ul class="org-ul">
+<li>第一个参数名为 dataFile，类型为 istream_iterator&lt;int&gt;，dataFile 两遍的括号可以忽略。</li>
+<li>第二个参数是一个函数指针，该函数不接受参数但返回一个 istream_iterator&lt;int&gt;。</li>
+</ul>
+<p>这个和我们最开始想象的完全不一样，而产生分歧的原因就在于 C++ 对代码的解析上：</p>
+<p><span style="color: #a40000;"> &nbsp;&nbsp;&nbsp;&nbsp;只要</span>表达式可以被解析成<span style="color: #a40000;"> 函数 </span>，那么该表达式<span style="color: #a40000;"> 就会被编译器解析成函数 </span>！</p>
+<p>想象一下下面这段代码，相信很多人都写出来过，但是它能编译么？</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr"> 7: </span><span style="color: #ff4040; font-size: 105%;">class</span> <span style="color: #32cd32; font-size: 105%;">Widget</span>
+<span class="linenr"> 8: </span>{
+<span class="linenr"> 9: </span><span style="color: #ff4040; font-size: 105%;">public</span>:
+<span class="linenr">10: </span>    <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Widget</span>(){}
+<span class="linenr">11: </span>    <span style="color: #ff4040; font-size: 105%;">virtual</span> ~<span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Widget</span>(){}
+<span class="linenr">12: </span>    <span style="color: #32cd32; font-size: 105%;">void</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Show</span>(){}
+<span class="linenr">13: </span>};
+<span class="linenr">14: </span>
+<span class="linenr">15: </span><span style="color: #32cd32; font-size: 105%;">Widget</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">w</span>();
+<span class="linenr">16: </span>w.Show();
+</pre>
+</div>
+<p>上面片段的第 8 行实际上不是声明了一个 Widget 对象，而是声明了一个用来返回 Widget 对象的函数，第 9 行自然也就出错了。</p>
+<p>理解了上面的内容，也就可以想想怎么解决开始时提出的问题了：给形参声明加上括号不合法，但给函数调用的实参加括号是合法的，通过适当的添加括号，问题得以解决：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32; font-size: 105%;">list</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">data</span>((<span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;(<span style="color: #daa520;">dataFile</span>)),
+<span class="linenr">2: </span>               <span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt;());
+</pre>
+</div>
+<p>这里第一个参数周围添加了多余的括号，假设编译器仍然认为 data() 是一个函数声明，则第一个形参周围就被添加了括号，这是一个非法的行为，所以编译器会丢掉这种可能，转而匹配下一种可能得匹配，认为该表达式声明了一个 list&lt;data&gt; 的变量，并调用适当的区间函数（<a href="http://www.cnblogs.com/yangyingchao/p/3392296.html#sec-2">Item 5</a>）来进行初始化。</p>
+<p>但并非所有的编译器都支持这种匿名对象，如果编译器不支持，我们需要下面的这种显示的写法：</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32; font-size: 105%;">ifstream</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">dataFile</span>(<span style="color: #d78700;">"ints.dat"</span>);
+<span class="linenr">2: </span><span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">dataBegin</span>(dataFile);
+<span class="linenr">3: </span><span style="color: #32cd32; font-size: 105%;">istream_iterator</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #daa520;">dataEnd</span>;
+<span class="linenr">4: </span><span style="color: #32cd32; font-size: 105%;">list</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">data</span>(dataBegin, dataEnd);
+</pre>
+</div>
+<p>这种写法应该通用。</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 11px; color: #cc0000;">
+<p align="center"><strong>（使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></p>
+</div>
+</div>
+<style><!--
+/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+--></style>

@@ -1,0 +1,93 @@
+---
+layout     : post
+title : Emacs 通过 CEDET 实现 Tag 跳转 (C/C++/Python)
+categories : 未分类
+
+---
+<div>
+<div id="outline-container-1" style="padding: 0px; margin: 0px;">
+<h2 id="sec-1" style="margin-top: 0.8em; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1.4em; padding: 0px;"><span style="padding: 0px; margin: 0px;">1</span>&nbsp;Preface</h2>
+<div id="text-1" style="padding: 0px; margin: 0px;">
+<p style="margin-top: 1.5em; margin-bottom: 0px; line-height: 22px;">前面曾经介绍过 GNU Global ， 也提到了它没有直接支持 python 解析， 想要用它来生成 python 文件的 tags 的话，需要自己编写相应的插件。 此外， GNU Global 对 C++ 的支持程度和 C 相同， 如果两个类从包含了同名的成员函数， 在查找这个成员函数的定义时， global 不会准确的跳到相应的函数上， 还需要我们手动去选择相应的 tag 。</p>
+<p style="margin-top: 1.5em; margin-bottom: 0px; line-height: 22px;">CEDET 是 Emacs 中的一个强大的插件，它提供了基于语义的 Tag 跳转， 该功能对 C/C++， Python， Java 等的支持都非常准确， 并且通过 mru-bookmark-mode 中的 semantic-mrub-switch-tags 提供了在多个 Tag 中来回跳转的功能。 但是， 这个跳转需要用户去指定待跳回的 Tag， 且由于默认跳转到最近一次访问的 tag ， 常常会弄的很乱。</p>
+</div>
+</div>
+<div id="outline-container-2" style="padding: 0px; margin: 0px;">
+<h2 id="sec-2" style="margin-top: 0.8em; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 1.4em; padding: 0px;"><span style="padding: 0px; margin: 0px;">2</span>&nbsp;Solution</h2>
+<div id="text-2" style="padding: 0px; margin: 0px;">
+<p style="margin-top: 1.5em; margin-bottom: 0px; line-height: 22px;">&nbsp;<span class="Apple-style-span" style="color: #333333; font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;">新建一个栈，每次通过 semantic-ia-fast-jump 或者 semantic-ia-complete-jump 跳转的时候， 都将原 Tag 信息入栈，而每次想要跳回的时候，都从栈中 pop 出一个，并跳到刚刚 pop 出的 tag 中。</span></p>
+<div class="outline-2" id="outline-container-2" style="padding: 0px; margin: 0px;">
+<div class="outline-text-2" id="text-2" style="padding: 0px; margin: 0px;">
+<p style="margin-top: 1.5em; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 22px; padding: 0px;">代码如下：</p>
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">require</span> '<span style="color: #008b8b; padding: 0px; margin: 0px;">cedet</span>)
+
+<span style="color: #cc0000; padding: 0px; margin: 0px;">;; </span><span style="color: #cc0000; padding: 0px; margin: 0px;">Enable code helpers.
+</span>(semantic-load-enable-code-helpers)
+(global-semantic-mru-bookmark-mode 1)
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defvar</span> <span style="color: #a0522d; font-weight: bold; padding: 0px; margin: 0px;">mru-tag-stack</span> '()
+  <span style="color: #204a87; padding: 0px; margin: 0px;">"Tag stack, when jumping to new tag, current tag will be stored here,
+and when jumping back, it will be removed."</span>)
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">yc/store-mru-tag</span> (pt)
+  <span style="color: #204a87; padding: 0px; margin: 0px;">"Store tag info into mru-tag-stack"</span>
+  (interactive <span style="color: #ce5c00; padding: 0px; margin: 0px;">"d"</span>)
+  (<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">let*</span> ((tag (semantic-mrub-find-nearby-tag pt)))
+    (<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">if</span> tag
+        (<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">let</span> ((sbm (semantic-bookmark (semantic-tag-name tag)
+                                      <span style="color: #32cd32; font-weight: bold; padding: 0px; margin: 0px;">:tag</span> tag)))
+          (semantic-mrub-update sbm pt 'mark)
+          (add-to-list 'mru-tag-stack sbm)
+          )
+      (<span style="color: #d14a14; background-color: #1248d1; font-weight: bold; padding: 0px; margin: 0px;">error</span> <span style="color: #ce5c00; padding: 0px; margin: 0px;">"No tag to go!"</span>)))
+  )
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">yc/goto-func</span> (pt)
+  <span style="color: #204a87; padding: 0px; margin: 0px;">"Store current postion and call (semantic-ia-fast-jump)"</span>
+  (interactive <span style="color: #ce5c00; padding: 0px; margin: 0px;">"d"</span>)
+  (yc/store-mru-tag pt)
+  (semantic-ia-fast-jump pt)
+)
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">yc/goto-func-any</span> (pt)
+  <span style="color: #204a87; padding: 0px; margin: 0px;">"Store current postion and call (semantic-ia-fast-jump)"</span>
+  (interactive <span style="color: #ce5c00; padding: 0px; margin: 0px;">"d"</span>)
+  (yc/store-mru-tag pt)
+  (semantic-complete-jump)
+  )
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">yc/symref</span> (pt)
+  (interactive <span style="color: #ce5c00; padding: 0px; margin: 0px;">"d"</span>)
+  (yc/store-mru-tag pt)
+  (semantic-symref))
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">yc/return-func</span>()
+  <span style="color: #204a87; padding: 0px; margin: 0px;">"Return to previous tag."</span>
+  (interactive)
+  (<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">if</span> (car mru-tag-stack)
+      (semantic-mrub-switch-tags (pop mru-tag-stack))
+    (<span style="color: #d14a14; background-color: #1248d1; font-weight: bold; padding: 0px; margin: 0px;">error</span> <span style="color: #ce5c00; padding: 0px; margin: 0px;">"TagStack is empty!"</span>)))
+
+(<span style="color: #a020f0; font-weight: bold; padding: 0px; margin: 0px;">defun</span> <span style="color: #0000ff; font-weight: bold; padding: 0px; margin: 0px;">setup-program-keybindings</span>()
+  <span style="color: #cc0000; padding: 0px; margin: 0px;">;;;; </span><span style="color: #cc0000; padding: 0px; margin: 0px;">Common program-keybindings
+</span>  (interactive)
+  (local-set-key <span style="color: #ce5c00; padding: 0px; margin: 0px;">"\C-cR"</span> 'yc/symref)
+  (local-set-key <span style="color: #ce5c00; padding: 0px; margin: 0px;">"\C-cb"</span> 'semantic-mrub-switch-tags)
+  (local-set-key <span style="color: #ce5c00; padding: 0px; margin: 0px;">"\C-c\C-j"</span> 'yc/goto-func-any)
+  (local-set-key <span style="color: #ce5c00; padding: 0px; margin: 0px;">"\C-cj"</span> 'yc/goto-func)
+  (local-set-key [S-f12] 'yc/return-func)
+  (local-set-key [M-S-f12] 'yc/return-func)
+  (local-set-key (kbd <span style="color: #ce5c00; padding: 0px; margin: 0px;">"C-x SPC"</span>) 'yc/store-mru-tag)
+  )
+</pre>
+<p style="margin-top: 1.5em; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 22px; padding: 0px;">用法： 参考函数 setup-program-keybindings 。</p>
+</div>
+</div>
+<p style="margin-top: 1.5em; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 22px; padding: 0px;">&nbsp;</p>
+</div>
+</div>
+<div style="padding: 0px; margin: 0px;">
+<div style="padding: 0px; margin: 0px;"></div>
+</div>
+
+<wbr></wbr></div>

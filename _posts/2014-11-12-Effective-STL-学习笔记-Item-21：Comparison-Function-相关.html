@@ -1,0 +1,376 @@
+---
+layout     : post
+title : Effective STL 学习笔记 Item 21：Comparison Function 相关
+categories : 未分类
+
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Effective STL 学习笔记 Item 21：Comparison Function 相关</title>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="keywords" content="C++,STL,Effective,Operator" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+<style type="text/css">
+  div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012  Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Always have comparison functions return false for equal values</a></li>
+<li><a href="#sec-2">2. Strict Weak Ordering</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Always have comparison functions return false for equal values</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+执行下面的代码：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #32cd32; font-size: 105%;">set</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>, <span style="color: #32cd32; font-size: 105%;">less_equal</span>&lt;<span style="color: #32cd32; font-size: 105%;">int</span>&gt; &gt;<span style="color: #daa520;">s</span>; <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">s is sorted by "&lt;="</span>
+s.insert(10);                <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">insert the value 10a.</span>
+s.insert(10);                <span style="color: #cd5c5c;">// </span><span style="color: #cd5c5c;">Insert the value 10b again...</span>
+</pre>
+</div>
+
+<p>
+第三行会成功么？这里我们使用了 <i>less_equal</i> 作为计算是否 Equivalence 的比较算法，结合<a href="http://www.cnblogs.com/yangyingchao/p/3406321.html#sec-1">前面</a> 对于 Equivalence 的定义，我们可以知道：
+</p>
+
+\begin{equation}
+\left.\begin{matrix}
+ & !(10_a <= 10_b) \\
+ & !(10_b <= 10_a)
+\end{matrix}\right\}\Rightarrow !true \& !true \Rightarrow false \& false \Rightarrow false
+\end{equation}
+
+<p>
+最后的结论是先插入的 10 和后插入的 10 不是等价的 (Equivalence) ，最后会导致 10 在这个 set 里面出现两次。
+</p>
+
+<p>
+同样的问题即便是在 multiset 里面也存在。 Multiset 确实允许一个元素在 set 里面出现多次，但如调用该容器的 equal_range 方法，该方法会对容器的每个元素调用上面的公式，最后发现相同的值并不等价，从而不能返回完整的 range。
+</p>
+
+<p>
+让比较函数在比较等值对象的时候，始终返回 false 则解决了上面的问题，假设：
+</p>
+
+<p>
+\(pred(10a, 10b) = pred(10b, 10a) =false\) ，则：
+</p>
+
+\begin{equation}
+\left.\begin{matrix}
+ & !pred(10_a, 10_b) \\
+ & !pred(10_b, 10_a)
+\end{matrix}\right\}\Rightarrow !false \& !false \Rightarrow true \& true \Rightarrow true
+\end{equation}
+
+<p>
+对于 set 和 multiset，无论是插入还是 equal_range 都没有问题了，记住，给定两个对象，比较函数：
+ \(pred(a, b)\)  <b>决定了对象 a 是否应该插在对象 b 的前面</b>  。 对象 A 永远不应该插在它自己（ 或者其等值对象之前）,要永远返回 False 。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Strict Weak Ordering</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+STL 容器中的 \(operator <()\) 要满足 <a href="http://en.wikipedia.org/wiki/Weak_ordering#Strict_weak_orderings">Strict Weak Ordering</a> ，直译为“严格弱排序 ”，名字比较诡异，但其实就是一个受到若干“ <b>严格</b> ”约束的 <b>&lt;</b> 操作符，该操作符可以用于集合的排序，形成一个符合
+STL 要求的集合。 这些约束条件包括：
+</p>
+
+<ul class="org-ul">
+<li><b>反自反性 (irreflexive):</b>  对给定的元素 x，始终满足： \(!(x < x)\) <br  />
+   返回去看前面的内容，即要求 \(pred(x, x) = false\) ，要求排序算法对等值对象始终返回 false，其实也正事要求符合反自反性。
+</li>
+<li><b>非对称性 (asymmetry):</b> 即 $ (x &lt; y)&rArr; !(y &lt; x)$
+</li>
+<li><b>传递性 (Transitivity)</b>: \((x < y) \& (y < z) \Rightarrow (x < z)\)
+</li>
+<li><b>不可比较的传递性:</b>  对于给定的 x, y, z，如果 x 不能和 y 比较，y 不能和 z 比较，则 x 不能和 z 比较。
+</li>
+</ul>
+
+<p>
+上面的这个定义不是太好记忆，下面这个衍化版倒是好记：
+</p>
+
+<ul class="org-ul">
+<li><b>Strict:</b> pred (X, X) is always false.
+</li>
+<li><b>Weak:</b>  If !pred (X, Y) &amp;&amp; !pred (Y, X), X==Y.
+</li>
+<li><b>Ordering:</b> If pred (X, Y) &amp;&amp; pred (Y, Z), then pred (X, Z).
+</li>
+</ul>
+
+<p>
+如果不符合上面的规定，则对两个对象执行 <a href="http://www.cnblogs.com/yangyingchao/p/3406321.html#sec-1">Equivalence</a> 判定会出问题， Associative Container 的定义也就不完全。
+</p>
+
+<p>
+例如，有个表示屏幕坐标点的类，为其写 \(operator<\) 时经常犯的一个错误就是：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #ff4040; font-size: 105%;">class</span> <span style="color: #32cd32; font-size: 105%;">Pos</span>
+{
+<span style="color: #ff4040; font-size: 105%;">public</span>:
+    <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Pos</span>(<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">x</span>, <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">y</span>)
+            :m_x(x),
+             m_y(y)
+    {}
+    <span style="color: #ff4040; font-size: 105%;">virtual</span> ~<span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Pos</span>(){}
+    <span style="color: #32cd32; font-size: 105%;">bool</span> <span style="color: #ff4040; font-size: 105%;">operator</span><span style="color: #1e90ff; font-size: 110%; font-weight: bold;">&lt;</span> (<span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">Pos</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">p</span>) <span style="color: #ff4040; font-size: 105%;">const</span>
+    {
+        <span style="color: #ff4040; font-size: 105%;">return</span> m_x &lt; p.m_x &amp;&amp; m_y &lt; p.m_y;
+    }
+<span style="color: #ff4040; font-size: 105%;">private</span>:
+    <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">m_x</span>;
+    <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">m_y</span>;
+};
+</pre>
+</div>
+
+<p>
+上面的 \(operator <\) 中，可以发现 \(pred((0, 1), (1, 0)) ==false\) 且：
+\(pred((1, 0), (0, 1)) ==false\) ， 根据定义，则 (1, 0) == (0, 1)， 这明显是一个错误的结论。
+</p>
+
+<p>
+正确的写法应该是：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #ff4040; font-size: 105%;">class</span> <span style="color: #32cd32; font-size: 105%;">Pos</span>
+{
+<span style="color: #ff4040; font-size: 105%;">public</span>:
+    <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Pos</span>(<span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">x</span>, <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">y</span>)
+            :m_x(x),
+             m_y(y)
+    {}
+    <span style="color: #ff4040; font-size: 105%;">virtual</span> ~<span style="color: #1e90ff; font-size: 110%; font-weight: bold;">Pos</span>(){}
+    <span style="color: #32cd32; font-size: 105%;">bool</span> <span style="color: #ff4040; font-size: 105%;">operator</span><span style="color: #1e90ff; font-size: 110%; font-weight: bold;">&lt;</span> (<span style="color: #ff4040; font-size: 105%;">const</span> <span style="color: #32cd32; font-size: 105%;">Pos</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">p</span>) <span style="color: #ff4040; font-size: 105%;">const</span>
+    {
+        <span style="color: #ff4040; font-size: 105%;">if</span> (m_x &lt; p.m_x)
+        {
+            <span style="color: #ff4040; font-size: 105%;">return</span> <span style="color: #7fffd4;">true</span>;
+        }
+        <span style="color: #ff4040; font-size: 105%;">else</span> <span style="color: #ff4040; font-size: 105%;">if</span> (m_x &gt; p.m_x)
+        {
+            <span style="color: #ff4040; font-size: 105%;">return</span> <span style="color: #7fffd4;">false</span>;
+        }
+
+        <span style="color: #ff4040; font-size: 105%;">if</span> (m_y &lt; p.m_y)
+        {
+            <span style="color: #ff4040; font-size: 105%;">return</span> <span style="color: #7fffd4;">true</span>;
+        }
+        <span style="color: #ff4040; font-size: 105%;">else</span> <span style="color: #ff4040; font-size: 105%;">if</span> (m_y &gt; p.m_y)
+        {
+            <span style="color: #ff4040; font-size: 105%;">return</span> <span style="color: #7fffd4;">false</span>;
+        }
+        <span style="color: #ff4040; font-size: 105%;">return</span> <span style="color: #7fffd4;">false</span>;
+    }
+<span style="color: #ff4040; font-size: 105%;">private</span>:
+    <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">m_x</span>;
+    <span style="color: #32cd32; font-size: 105%;">int</span> <span style="color: #daa520;">m_y</span>;
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 13px;color: #cc0000;">
+<p align=center><strong>（使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></div>
+</div>
+</body>
+</html>

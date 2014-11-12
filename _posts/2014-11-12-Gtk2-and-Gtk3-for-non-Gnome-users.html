@@ -1,0 +1,36 @@
+---
+layout     : post
+title : Gtk2 and Gtk3 for non-Gnome users
+categories : 未分类
+
+---
+<p>I&rsquo;m over gnome. Even when I was a gnome user I did minimal gnome installs. However, I like many still use many gtk applications. Most of the applications I use are gtk applications. However, I don&rsquo;t use a DE, I either use xfce4.8 or compiz as a standalone wm.</p>
+<p>However, I still want my desktop to look nice. Now with some of the gtk applications I use adopting&nbsp;<strong>gtk3</strong>, such as Nautilus and Gedit, I want my gtk2 and&nbsp;<strong>gtk3</strong>&nbsp;apps to use the same<strong>icon</strong>&nbsp;and gtk theme.</p>
+<p>The first step to acheiving this is using&nbsp;<strong>icon</strong>&nbsp;and gtk themes that support both gtk2 and<strong>gtk3</strong>. I went over to gnome-looks and selected the &ldquo;Zukitwo&rdquo; theme.</p>
+<p>To&nbsp;<strong>change</strong>&nbsp;gtk themes without installing an application is rather simple. However, there are two seperate files for gtk2 and&nbsp;<strong>gtk3</strong>&nbsp;which you must edit. Below are examples of the two files on my system.</p>
+<p>&nbsp;</p>
+<div id="highlighter_683791" class="syntaxhighlighter  ">
+<div class="bar                    show">
+<div class="toolbar">&nbsp;
+<div class="cnblogs_code">
+<pre>## ~/.gtkrc-2.0<br />## Edit GTK2 Theme Settings<br />gtk-theme-name="Zukitwo-Dark"<br />gtk-&lt;b style="color:black;background-color:#99ff99"&gt;icon&lt;/b&gt;-theme-name="Tango"<br />gtk-font-name="Zekton 10"<br />gtk-toolbar-style=2</pre>
+</div>
+</div>
+</div>
+</div>
+<p>&nbsp;　　</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code">
+<pre>## ~/.config/gtk-3.0/settings.ini<br />## Edit &lt;b style="color:black;background-color:#ffff66"&gt;GTK3&lt;/b&gt; Theme Settings<br />## Create this File if it doesn't already exist<br /><span style="color: #800000; font-weight: bold;">[</span><span style="color: #800000;">Settings</span><span style="color: #800000; font-weight: bold;">]</span><br />gtk-theme-name = Zukitwo-Dark<br />gtk-&lt;b style="color:black;background-color:#99ff99"&gt;icon&lt;/b&gt;-theme-name = Tango<br />gtk-fallback-&lt;b style="color:black;background-color:#99ff99"&gt;icon&lt;/b&gt;-theme = gnome<br /># next option is applicable only if selected theme supports it<br />gtk-application-prefer-dark-theme = true<br /># set font name and dimension<br />gtk-font-name = Zekton 10</pre>
+</div>
+<p><br /><a href="http://zitzlinux.wordpress.com/2011/06/03/gtk2-and-gtk3-for-non-gnome-users/">http://zitzlinux.wordpress.com/2011/06/03/gtk2-and-gtk3-for-non-gnome-users/</a>&nbsp;</p>
+<div id="highlighter_32859" class="syntaxhighlighter  ">
+<div class="lines">&nbsp;</div>
+</div>
+<p>&nbsp;</p>

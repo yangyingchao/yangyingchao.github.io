@@ -1,0 +1,464 @@
+---
+layout     : post
+title : Emacs 启动优化二三事
+categories : 未分类
+
+---
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Emacs 启动优化二三事</title>
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Yang, Ying-chao" />
+<meta  name="keywords" content="Emacs, Startup, Optimization" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+<style type="text/css">
+div.org-src-container {
+    font-size: 85%;
+    font-family: monospace;
+  }
+p {font-size: 15px}
+li {font-size: 15px}
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012  Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org_content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">启动（加载）时间检测</a></li>
+<li><a href="#sec-2">autoload and eval-after-load</a></li>
+<li><a href="#sec-3">backtrace</a></li>
+<li><a href="#sec-4">function and advice</a></li>
+</ul>
+</div>
+</div>
+<p>
+这两天一直在折腾 Emacs 的配置文件以优化启动时间，这里做个简单的总结。
+</p>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 启动（加载）时间检测</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+检测配置文件的加载时间非常简单，开始加载之间加个时间戳，加载结束之后计算一下时间即可：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">&#12; <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">Load all configuration and packages.</span>
+(<span style="color: #ff4040; font-size: 105%;">let</span> ((ts-init (current-time)))
+  (setq missing-packages-list nil
+        package-init-statistic nil)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '01-rc-generic t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '02-rc-functions t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '04-rc-other-modes t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '05-rc-misc t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '03-rc-prog-mode t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '06-rc-complete t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '09-rc-keybindings t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '10-emacs-custome t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '99-proj t)
+  (<span style="color: #ff4040; font-size: 105%;">try-require</span> '100-private t)
+  <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">Report package statistics.</span>
+
+  (message <span style="color: #d78700;">"\n\nShowing package initialization statistics:\n%s"</span>
+           (mapconcat (<span style="color: #ff4040; font-size: 105%;">lambda</span> (x)
+                        (format <span style="color: #d78700;">"package %s cost %.2f seconds"</span> (car x) (cdr x)))
+                      (reverse package-init-statistic)
+                      <span style="color: #d78700;">"\n"</span>
+                      ))
+  (message <span style="color: #d78700;">"Finished startup in %.2f seconds,  %d packages missing%s\n\n"</span>
+           (float-time (time-since ts-init)) (length missing-packages-list)
+           (<span style="color: #ff4040; font-size: 105%;">if</span> missing-packages-list
+               <span style="color: #d78700;">". Refer to `missing-packages-list` for missing packages."</span>
+             <span style="color: #d78700;">"."</span>)))
+</pre>
+</div>
+
+<p>
+上面代码中有个 <i>try-require</i> ，最早取自 <a href="http://www.emacswiki.org/emacs/RequiredFeature">这里</a> ， 后来对他加了一些改动：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">&#12; <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">Function to collect information of packages.</span>
+(<span style="color: #ff4040; font-size: 105%;">defvar</span> <span style="color: #daa520;">missing-packages-list</span> nil
+  <span style="color: #87ceeb;">"List of packages that `</span><span style="color: #ff4040; font-size: 105%;">try-require</span><span style="color: #87ceeb;">' can't find."</span>)
+
+(<span style="color: #ff4040; font-size: 105%;">defvar</span> <span style="color: #daa520;">package-init-statistic</span> nil <span style="color: #87ceeb;">"Package loading statistics"</span>)
+
+<span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">attempt to load a feature/library, failing silently</span>
+(<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #ff4040; font-size: 105%;">try-require</span> (feature <span style="color: #32cd32; font-size: 105%;">&amp;optional</span> click)
+  <span style="color: #87ceeb;">"Attempt to load a library or module. Return true if the</span>
+<span style="color: #87ceeb;">library given as argument is successfully loaded. If not, instead</span>
+<span style="color: #87ceeb;">of an error, just add the package to a list of missing packages."</span>
+  (<span style="color: #ff4040; font-size: 105%;">condition-case</span> err
+      <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">protected form</span>
+      (<span style="color: #ff4040; font-size: 105%;">let</span> ((timestamp (current-time))
+            (package (<span style="color: #ff4040; font-size: 105%;">if</span> (stringp feature) feature (symbol-name feature))))
+        (<span style="color: #ff4040; font-size: 105%;">if</span> (stringp feature)
+            (load-library feature)
+          (<span style="color: #ff4040; font-size: 105%;">require</span> <span style="color: #7fffd4;">feature</span>))
+        (<span style="color: #ff4040; font-size: 105%;">if</span> click
+            (<span style="color: #ff4040; font-size: 105%;">add-to-list</span> 'package-init-statistic
+                         (cons (<span style="color: #ff4040; font-size: 105%;">if</span> (stringp feature) feature (symbol-name feature))
+                               (float-time (time-since timestamp)))))
+        (message <span style="color: #d78700;">"Checking for library `</span><span style="color: #d78700;">%s</span><span style="color: #d78700;">'... Found, cost %.2f seconds"</span>
+                 feature (float-time (time-since timestamp))))
+    <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">error handler</span>
+    (file-error  <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">condition</span>
+     (<span style="color: #ff4040; font-size: 105%;">progn</span>
+       (message <span style="color: #d78700;">"Checking for library `</span><span style="color: #d78700;">%s</span><span style="color: #d78700;">'... Missing"</span> feature)
+       (<span style="color: #ff4040; font-size: 105%;">add-to-list</span> 'missing-packages-list feature 'append))
+     nil)))
+</pre>
+</div>
+
+<p>
+该函数检查 <i>feature</i> 时候存在，如果在则加载并输出加载所用的时间，如果不在，输出警告信息并记录缺失的文件。 同时，如果可选参数 <i>click</i> 被设置成，则还将加载耗费的时间信息记录到全局的 <i>package-init-statistic</i> 中，以便后续查询。
+</p>
+
+<p>
+在我的机器上，上述配置会产生下面的信息：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">Showing package initialization statistics:
+package 01-rc-generic cost 0.16 seconds
+package 02-rc-functions cost 0.15 seconds
+package 04-rc-other-modes cost 0.03 seconds
+package 05-rc-misc cost 0.53 seconds
+package 03-rc-prog-mode cost 1.22 seconds
+package 06-rc-complete cost 0.18 seconds
+package 09-rc-keybindings cost 0.08 seconds
+package 10-emacs-custome cost 0.00 seconds
+package 99-proj cost 0.00 seconds
+package 100-private cost 0.01 seconds
+Finished startup in 2.40 seconds,  0 packages missing.
+</pre>
+</div>
+
+<p>
+可见配置信息加载之后总共话费了 2.4 秒，相对于 Emacs 强大的功能来说，加载时间还算不错，尤其是启动之后 <i>server-mdoe</i> 会自动启动，此时再用 <i>emacs-client</i> 来打开文件时，时间消耗会非常小了。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> autoload and eval-after-load</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+上述代码中仅简单说明了要通过 <i>try-require</i>  来加载哪些配置文件，单个配置文件中则大量使用了 <i>autoload</i> 和 <i>eval-after-load</i> 来将 <i>mode</i> 相关的配置时间尽量延后，关于 <i>autoload</i> 和 <i>eval-after-load</i> ，<a href="http://emacser.com/eval-after-load.htm">这里</a> 有比较详细的解释，简单来说，
+</p>
+
+<ul class="org-ul">
+<li><b><i>autoload</i></b> 可以从让 Emacs 知道去哪个文件中去找指定的函数或者定义，但不用去真正的加载它。
+</li>
+<li><b><i>eval-after-load</i></b> 则可以安排 Emacs 在真正加载某个文件或者符号的时候去做一些事情。
+</li>
+</ul>
+
+<p>
+有时候我还想知道 <i>eval-after-load</i> 安排的事情在执行时候花费多少时间，为此写了个 Emacs Macro：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040; font-size: 105%;">defmacro</span> <span style="color: #ff4040; font-size: 105%;">yc/eval-after-load</span> (name <span style="color: #32cd32; font-size: 105%;">&amp;rest</span> args)
+  <span style="color: #87ceeb;">"Macro to set expressions in `arg` to be executed after `name` is loaded."</span>
+  `(<span style="color: #ff4040; font-size: 105%;">eval-after-load</span> ,name
+     ',(append (list 'progn
+                     `(<span style="color: #ff4040; font-size: 105%;">let</span> ((ts (current-time)))
+                        (message <span style="color: #d78700;">"Loading configuration for: %s..."</span> ,name)
+                        ,@args
+                        (message <span style="color: #d78700;">"Configuration for %s finished in %.2f seconds"</span> ,name
+                                 (float-time (time-since ts ))))))))
+</pre>
+</div>
+
+<p>
+使用实例：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040; font-size: 105%;">autoload</span> 'erlang-mode <span style="color: #d78700;">"erlang"</span> <span style="color: #87ceeb;">"erlang"</span>  t)
+(<span style="color: #ff4040; font-size: 105%;">add-to-list</span> 'auto-mode-alist '(<span style="color: #d78700;">"\\.erl\\'"</span> . erlang-mode))
+(<span style="color: #ff4040; font-size: 105%;">add-to-list</span> 'auto-mode-alist '(<span style="color: #d78700;">"\\.escript\\'"</span> . erlang-mode))
+(<span style="color: #ff4040; font-size: 105%;">yc/eval-after-load</span> <span style="color: #d78700;">"erlang"</span>
+                    (<span style="color: #ff4040; font-size: 105%;">try-require</span> 'erlang-flymake)
+                    (<span style="color: #ff4040; font-size: 105%;">let</span> ((erl-root
+                           (<span style="color: #ff4040; font-size: 105%;">cond</span>
+                            ((string= system-type <span style="color: #d78700;">"windows-nt"</span>) nil)
+                            ((string= system-type <span style="color: #d78700;">"darwin"</span>) nil)
+                            (t <span style="color: #d78700;">"/usr/lib/erlang"</span>))))
+                      (setq erlang-root-dir erl-root)))
+</pre>
+</div>
+
+<p>
+上面的代码告诉 Emacs 从 "erlang.el" 这个文件中可以找到 <i>erlang-mode</i> 这个 Mode， 并安排在加载 <i>erlang.el</i> 之后加载 <i>erlang-flymake</i> 并设置一些变量。 当打开一个 erl 文件后，会有如下的输出：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">Loading configuration for: erlang...
+Checking for library `erlang-flymake'... Found, cost 0.00 seconds
+Configuration for erlang finished in 0.00 seconds
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> backtrace</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<i>backtrace</i> 当然是用来打印 <i>backtrace</i> 的，它不会帮助解决文件加载速度，但如果我们觉得某些文件不应该加载，但启动时候却自动加载了，那么可以在
+<i>eval-after-load</i> 的后面加上这句话，然后看下 <i>backtrace</i> 。
+</p>
+
+<p>
+我遇到的一个问题是，每次 Emacs 启动时候都会自动尝自动加载 magit 的配置，搜索无果后在 magit 的配置里面加上 <i>backtrace</i> ， 结果定位到是其他的 <i>package</i>
+里用了 <i>(require 'magit)</i> ，对那个 <i>package</i> 稍作修改即可。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> function and advice</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+这个 <i>advice</i> 其实和 Emacs 启动加载没什么关系，但懒得单独再写什么东西了，这里简单记上两笔。
+</p>
+
+<ul class="org-ul">
+<li>Emacs 很独特，用户可以为某个 function 给出一些建议，并可以让该建议在函数执行之前，之后，或者之前加上之后来执行。
+</li>
+<li>对于上面的第三种情况 (around-advice)，如果 <i>advice</i>  中没有用到 <i>ad-do-it</i> ，则 function 本身无任何作用，相当于覆盖了原有的function。
+</li>
+<li><i>advice</i> 中可以通过变量 <i>ad-return-value</i> 来设置返回值。
+</li>
+</ul>
+
+<p>
+更具体的信息可以查看 elisp 的 info ，这里几下一个简单的例子， <i>hideif</i> 中的
+<i>hide-ifdefs</i> 总会输出信息来通知用户 hiding 的启动和结束，很讨厌，我们可以通过 <i>advice</i> 来直接覆盖掉原来的函数：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040; font-size: 105%;">autoload</span> 'hide-ifdef-mode <span style="color: #d78700;">"hideif"</span> <span style="color: #87ceeb;">""</span>  t)
+
+(<span style="color: #ff4040; font-size: 105%;">yc/eval-after-load</span>
+ <span style="color: #d78700;">"hideif"</span>
+ (setq hide-ifdef-shadow t)
+ (setq-default hide-ifdef-env
+               '((__KERNEL__ . 1)
+                 (DEBUG . 1)
+                 (CONFIG_PCI . 1)
+                 ))
+
+ (<span style="color: #ff4040; font-size: 105%;">defadvice</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">hide-ifdefs</span> (around yc/hideifdefs (<span style="color: #32cd32; font-size: 105%;">&amp;optional</span> nomsg))
+   (interactive)
+   (setq hif-outside-read-only buffer-read-only)
+   (<span style="color: #ff4040; font-size: 105%;">unless</span> hide-ifdef-mode (hide-ifdef-mode 1)) <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">turn on hide-ifdef-mode</span>
+   (<span style="color: #ff4040; font-size: 105%;">if</span> hide-ifdef-hiding
+       (show-ifdefs))           <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">Otherwise, deep confusion.</span>
+   (setq hide-ifdef-hiding t)
+   (hide-ifdef-guts)
+   (setq buffer-read-only (or hide-ifdef-read-only hif-outside-read-only))
+   )
+ (ad-activate 'hide-ifdefs)
+
+
+ (<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">yc/add-to-ifdef-env</span> (lst)
+   <span style="color: #87ceeb;">"Helper function to update ifdef-env."</span>
+   (<span style="color: #ff4040; font-size: 105%;">let</span> (kvp k v)
+     (<span style="color: #ff4040; font-size: 105%;">while</span> (setq kvp (pop lst))
+       (setq k (car kvp)
+             v (cdr kvp))
+       (hif-set-var k v)
+       (<span style="color: #ff4040; font-size: 105%;">when</span> (and (symbolp k) (symbolp v))
+         (<span style="color: #ff4040; font-size: 105%;">add-to-list</span> 'semantic-lex-c-preprocessor-symbol-map (cons (symbol-name k)
+                                                                    (symbol-name v)))))))
+
+ (<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">yc/toggle-hide-if-def-shadow</span> ()
+   <span style="color: #87ceeb;">"Toggle shadow"</span>
+   (interactive)
+   (setq hide-ifdef-shadow (not hide-ifdef-shadow))
+   (hide-ifdefs))
+
+ <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">Copied from Ahei:</span>
+ <span style="color: #cd5c5c;">;; </span><span style="color: #cd5c5c;">http://code.google.com/p/dea/source/browse/trunk/my-lisps/hide-ifdef-settings.el</span>
+ (<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">hif-goto-endif</span> ()
+   <span style="color: #87ceeb;">"Goto #endif."</span>
+   (interactive)
+   (<span style="color: #ff4040; font-size: 105%;">unless</span> (or (hif-looking-at-endif)
+               (<span style="color: #ff4040; font-size: 105%;">save-excursion</span>)
+               (hif-ifdef-to-endif))))
+
+ (<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">hif-goto-if</span> ()
+   <span style="color: #87ceeb;">"Goto #if."</span>
+   (interactive)
+   (hif-endif-to-ifdef))
+
+ (<span style="color: #ff4040; font-size: 105%;">defun</span> <span style="color: #1e90ff; font-size: 110%; font-weight: bold;">hif-goto-else</span> ()
+   <span style="color: #87ceeb;">"Goto #else."</span>
+   (interactive)
+   (hif-find-next-relevant)
+   (<span style="color: #ff4040; font-size: 105%;">cond</span> ((hif-looking-at-else)
+          'done)
+         ((hif-ifdef-to-endif) <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">find endif of nested if</span>
+          (hif-goto-endif)) <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">find outer endif or else</span>
+
+         ((hif-looking-at-else)
+          (hif-goto-endif)) <span style="color: #cd5c5c;">; </span><span style="color: #cd5c5c;">find endif following else</span>
+
+         ((hif-looking-at-endif)
+          'done)
+
+         (t
+          (<span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">error</span> <span style="color: #d78700;">"Mismatched #ifdef #endif pair"</span>))))
+ )
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<div style="margin-top: 15px; font-size: 13px;color: #cc0000;">
+<p align=center><strong>（转载请注明<a href="http://www.cnblogs.com/yangyingchao">出处</a>，使用许可：<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/">署名-非商业性使用-相同方式共享 3.0 中国大陆许可协议</a> 。）</strong></div>
+</div>
+</body>
+</html>

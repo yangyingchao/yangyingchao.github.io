@@ -1,0 +1,107 @@
+---
+layout     : post
+title : Designated Initializer & C++
+categories : 未分类
+
+---
+<div id="org_content">
+	<p>
+		Sadly, C++ does not support designated initializer which is a C99 standard&hellip;.</p>
+	<h2>
+		<a href="
+                 http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=550">Two Core C99 Features that C++11 Lacks </a></h2>
+	<p>
+		Last updated Jan 1, 2003.</p>
+	<p>
+		It&#39;s too late now to make changes to the C++11 FDIS, and yet it&#39;s still worth looking at two core-language features that were added to <a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=215">C99</a> and never made it into C++.</p>
+	<p>
+		&nbsp;</p>
+	<!-- more -->
+	<h4>
+		<tt>restrict</tt> Pointers</h4>
+	<p>
+		The C99 keyword <a href="http://dsc.sun.com/solaris/articles/cc_restrict.html">restrict</a> is a pointer qualifier. It means that for the lifetime of the qualified pointer, only it or a value directly derived from it (such as <tt>p+1</tt>, <tt>*p</tt> etc.<tt>​</tt>) will be used to access the object to which it points. Such a guarantee about a given pointer enables certain caching optimizations and minimizes the effects of pointer aliasing. The following example demonstrates this:</p>
+	<pre>
+            void update(int *p1, int *p2, int *val)
+            {
+            ,*p1 += *val;
+            ,*p2 += *val;
+        }</pre>
+	<p>
+		The three pointer arguments aren&#39;t <tt>restrict</tt>-qualified. Therefore, the compiler has to assume that they might refer to the same memory location. Consequently, it will be forced to generate less optimal code. By contrast, if the programmer applies <tt>restrict </tt>to each of the three pointer arguments, as in:</p>
+	<pre>
+            void update(int * restrict p1, int * restrict p2, int * restrict val) //C99 only
+            {
+            ,*p1 += *val;
+            ,*p2 += *val;
+        }</pre>
+	<p>
+		&nbsp;</p>
+	<p>
+		the compiler can assume that <tt>p1</tt>, <tt>p2</tt> and <tt>val</tt> point to different locations, and updating one pointer will not affect any other pointer. Under this assumption, the compiler can optimize the generated code.</p>
+	<p>
+		<tt>restrict</tt> has been around since 1999, and possibly earlier when the first C99 drafts started circulating. Some of the committee members I&#39;ve spoken to agree that from their experience, <tt>restrict</tt> can improve performance quite noticeably. In fact, I believe that there&#39;s a consensus about <tt>restrict</tt>&#39;s performance benefits, after more than 10 years of real-world experience. And yet, C++ doesn&#39;t support <tt>restrict</tt> pointers. No one has come up with a convincing argument against <tt>restrict</tt> in C++. I can only assume that C++ lacks this feature for the wrong reasons: lack of interest, lack of time and maybe some tug of wars between the C and C++ standards committees (to be fair, there&#39;s much better collaboration between the two committees today. It wasn&#39;t always the case, though).</p>
+	<p>
+		On a practical note, adding <tt>restrict</tt> to C++ would require additional research and testing. Should it apply to references as well? Should it apply to both lvalue references and <a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=310">rvalue references</a>? How does restrict interact with <a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=395">concurrency-related</a> features and the new memory model of C+11? I doubt that anyone has had the time to explore these issues yet because the current specification of C++11 rvalue references was finalized very lately. However, it might be a good idea to consider it, at least for the next C++ standard.</p>
+	<h4>
+		Designated Initializers</h4>
+	<p>
+		One of the most convenient core-language features of C99 is called <em>designated initializers</em>. They let you initialize aggregates (structs, unions and arrays) partially, specifying only the members/elements that you want initialized, while skipping the rest (these are default initialized). Consider:</p>
+	<pre>
+            struct S //C99 only
+            {
+            int a;
+            int b;
+            int c;
+        } q = { .a = 99, .c = 100 };</pre>
+	<p>
+		&nbsp;</p>
+	<p>
+		The braces include designated initializers for the data member <tt>a</tt> and <tt>c</tt>. Since <tt>b</tt> has no explicit initializer, it&#39;s zero-initialized implicitly. Notice that unlike <a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=427">class member initializers</a> in C++, designated initializers let you specify ad-hoc initializers for a given object. A different instance of the same struct might use different initializers:</p>
+	<pre>
+        struct S r={.a=5}; //C99, b and c are zero initialized</pre>
+	<p>
+		&nbsp;</p>
+	<p>
+		Similarly, you can use the same technique to initialize a union:</p>
+	<pre>
+            union U//C99 only
+            {
+            int a;
+            double d;
+            char * c;
+        } t = { .c =NULL};</pre>
+	<p>
+		&nbsp;</p>
+	<p>
+		You initialize arrays like this:</p>
+	<pre>
+        int arr[4] = { [2] = 3, [1] = 9 };//C99 only</pre>
+	<p>
+		&nbsp;</p>
+	<p>
+		The elements <tt>arr[2]</tt> and <tt>arr[1]</tt> are initialized to 3 and 9, respectively. The remaining elements are zero-initialized.</p>
+	<h4>
+		Designated Initializers and C++</h4>
+	<p>
+		Sadly, designated initializers didn&#39;t make it into C++11 either. Again, I can&#39;t think of a good reason for that. This issue has been raised several times on the committee&#39;s reflectors (list servers) and has either been greeted with cynicism or completely ignored.</p>
+	<p>
+		One could argue -- as some have -- that C++ doesn&#39;t need this feature because it rarely uses POD aggregates. Instead of POD structs you&#39;d normally use a class with proper constructors, and instead of arrays you&#39;d better use <tt>std::vector</tt> and <tt>std::array</tt>. This may be true to some extent but there are at least three reasons for supporting designated initializers in C++ in spite of that:</p>
+	<p>
+		<em>Computability with C</em>. Like it or not, C is a very popular programming language these days and it will surely remain so in the foreseeable future. The lack of support for designated initializers in C++ breaks compatibility with C programs that use this feature.</p>
+	<p>
+		<a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=542http://drdobbs.com/blogs/cpp/229500116">Public data members are coming out of the closet.</a> We may have lulled ourselves into thinking that public data members are a faux pas, but Koenig&#39;s <a href="http://drdobbs.com/blogs/cpp/229500116">seminal article</a> proved us wrong in this respect. If public data members are allowed in some circumstances, maybe we should permit designated initializers for them too.</p>
+	<h4>
+		Designated Initializers</h4>
+	<p>
+		C99 is old news. The new C standard, C1x, brings even more new features that C++11 won&#39;t support. Letting the gaping chasms between the two languages expand is a strategic mistake. The efforts needed to make C++ more compatible with C are minimal -- just a few months of work. By contrast, the damage of the growing incompatibility between the two languages is significant:</p>
+	<p>
+		<em>Breaking compatibility</em>. As I&#39;ve explained above, the assumption that C++ is a superset of C and that every C program is a valid C++ program (with perhaps minimal adjustments) is gradually becoming tapering down.</p>
+	<p>
+		<em>Dialectal splits</em>. When the C++ standards committee drags its feet, compiler vendors take the initiative, adding support for non-standard extensions, e.g., C99 features, to their C++ compilers. Consequently, you end up having different dialects of C++ -- one dialect per implementation.</p>
+	<p>
+		<em>Denial</em>. C++ users can pretend that the aforementioned C99 aren&#39;t needed or useful in C++. That isn&#39;t the case. The fact is that these features could prove at least as useful in C++ as they are in C.</p>
+</div>
+<p>
+	&nbsp;</p>
+

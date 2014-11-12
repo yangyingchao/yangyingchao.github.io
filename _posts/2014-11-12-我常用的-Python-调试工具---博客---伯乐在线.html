@@ -1,0 +1,459 @@
+---
+layout     : post
+title : 我常用的 Python 调试工具 - 博客 - 伯乐在线
+categories : 未分类
+
+---
+
+        <!-- / Yoast WordPress SEO plugin. -->
+
+        <link rel='stylesheet' id='wp-recentcomments-css'  href='http://blog.jobbole.com/wp-content/plugins/wp-recentcomments/css/wp-recentcomments.css?ver=2.2.7' type='text/css' media='screen' />
+        <link rel='stylesheet' id='v48fv_images-css'  href='http://blog.jobbole.com/wp-content/plugins/mu-widgets/library/base/public/css/images.css?ver=1.2.v48fv' type='text/css' media='all' />
+        <link rel='stylesheet' id='v48fv_front-css'  href='http://blog.jobbole.com/wp-content/plugins/mu-widgets/library/base/public/css/front.css?ver=1.2.v48fv' type='text/css' media='all' />
+        <link rel='stylesheet' id='v48fv_common-css'  href='http://blog.jobbole.com/wp-content/plugins/mu-widgets/library/base/public/css/common.css?ver=1.2.v48fv' type='text/css' media='all' />
+        <link rel='stylesheet' id='bbp-default-bbpress-css'  href='http://blog.jobbole.com/wp-content/plugins/bbpress/templates/default/css/bbpress.css?ver=2.3.2' type='text/css' media='screen' />
+        <link rel='stylesheet' id='bp-legacy-css-css'  href='http://blog.jobbole.com/wp-content/plugins/buddypress/bp-templates/bp-legacy/css/buddypress.css?ver=1.7.2' type='text/css' media='screen' />
+        <link rel='stylesheet' id='cptchStylesheet-css'  href='http://blog.jobbole.com/wp-content/plugins/captcha/css/style.css?ver=3.5.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='bpbbpst-bbpress-widget-css-css'  href='http://blog.jobbole.com/wp-content/plugins/buddy-bbpress-support-topic/css/bpbbpst-bbpress-widget.css?ver=3.5.2' type='text/css' media='all' />
+        <link rel='stylesheet' id='core3.0-css'  href='http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='core-Default3.0-css'  href='http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shCoreDefault.css?ver=3.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='theme-Default3.0-css'  href='http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0' type='text/css' media='all' />
+        <link rel='stylesheet' id='lightboxStyle-css'  href='http://blog.jobbole.com/wp-content/plugins/lightbox-plus/css/shadowed/colorbox.css?ver=2.6' type='text/css' media='screen' />
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-includes/js/jquery/jquery.js?ver=1.8.3'></script>
+        <script type='text/javascript'>
+            /* <![CDATA[ */
+            var BP_DTheme = {"my_favs":"\u6211\u7684\u6536\u85cf","accepted":"\u5df2\u63a5\u53d7","rejected":"\u5df2\u62d2\u7edd","show_all_comments":"\u663e\u793a\u8be5\u8bdd\u9898\u6240\u6709\u8bc4\u8bba","show_all":"\u663e\u793a\u5168\u90e8","comments":"\u8bc4\u8bba","close":"\u5173\u95ed","view":"\u67e5\u770b","mark_as_fav":"\u6536\u85cf","remove_fav":"\u79fb\u9664\u6536\u85cf"};
+            /* ]]> */
+        </script>
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-content/plugins/buddypress/bp-templates/bp-legacy/js/buddypress.js?ver=1.7.2'></script>
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-includes/js/comment-reply.min.js?ver=3.5.2'></script>
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-content/plugins/q2w3-fixed-widget/js/q2w3-fixed-widget.js?ver=3.0'></script>
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-content/themes/jobboleblogv3/_assets/js/modernizr.js?ver=2.5.3'></script>
+        <script type='text/javascript' src='http://blog.jobbole.com/wp-content/plugins/wp-syntaxhighlighter/js/rc-textarea-hl.js?ver=1.3'></script>
+        <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.jobbole.com/xmlrpc.php?rsd" />
+        <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.jobbole.com/wp-includes/wlwmanifest.xml" />
+        <link rel='shortlink' href='http://blog.jobbole.com/?p=51062' />
+
+		<script type="text/javascript">
+			/* <![CDATA[ */
+
+			jQuery(document).ready( function() {
+
+			/* Use backticks instead of <code> for the Code button in the editor */
+			if ( typeof( edButtons ) !== 'undefined' ) {
+			edButtons[110] = new QTags.TagButton( 'code', 'code', '`', '`', 'c' );
+			QTags._buttonsInit();
+			}
+
+			/* Tab from topic title */
+			jQuery( '#bbp_topic_title' ).bind( 'keydown.editor-focus', function(e) {
+			if ( e.which !== 9 )
+			return;
+
+			if ( !e.ctrlKey && !e.altKey && !e.shiftKey ) {
+			if ( typeof( tinymce ) !== 'undefined' ) {
+			if ( ! tinymce.activeEditor.isHidden() ) {
+			var editor = tinymce.activeEditor.editorContainer;
+			jQuery( '#' + editor + ' td.mceToolbar > a' ).focus();
+			} else {
+			jQuery( 'textarea.bbp-the-content' ).focus();
+			}
+			} else {
+			jQuery( 'textarea.bbp-the-content' ).focus();
+			}
+
+			e.preventDefault();
+			}
+			});
+
+			/* Shift + tab from topic tags */
+			jQuery( '#bbp_topic_tags' ).bind( 'keydown.editor-focus', function(e) {
+			if ( e.which !== 9 )
+			return;
+
+			if ( e.shiftKey && !e.ctrlKey && !e.altKey ) {
+			if ( typeof( tinymce ) !== 'undefined' ) {
+			if ( ! tinymce.activeEditor.isHidden() ) {
+			var editor = tinymce.activeEditor.editorContainer;
+			jQuery( '#' + editor + ' td.mceToolbar > a' ).focus();
+			} else {
+			jQuery( 'textarea.bbp-the-content' ).focus();
+			}
+			} else {
+			jQuery( 'textarea.bbp-the-content' ).focus();
+			}
+
+			e.preventDefault();
+			}
+			});
+			});
+			/* ]]> */
+		</script>
+
+
+	    <script type="text/javascript">var ajaxurl = 'http://blog.jobbole.com/wp-admin/admin-ajax.php';</script>
+
+
+        <!-- Comment Rating plugin Version: 2.9.32 by Bob King, http://wealthynetizen.com/, dynamic comment voting & styling. -->
+        <style type="text/css" media="screen">
+            .ckrating_highly_rated {background-color:#FFFFCC !important;}
+            .ckrating_poorly_rated {opacity:0.6;filter:alpha(opacity=60) !important;}
+            .ckrating_hotly_debated {background-color:#FFF0F5 !important;}
+        </style>
+
+        <script type="text/javascript">
+	        window._wp_rp_static_base_url = 'http://dtmvdvtzf8rz0.cloudfront.net/static/';
+	        window._wp_rp_wp_ajax_url = "http://blog.jobbole.com/wp-admin/admin-ajax.php";
+	        window._wp_rp_plugin_version = '2.8';
+	        window._wp_rp_post_id = '51062';
+	        window._wp_rp_num_rel_posts = '10';
+        </script>
+
+        <!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code Begin -->
+        <style type='text/css'>
+            .syntaxhighlighter,
+            .syntaxhighlighter a,
+            .syntaxhighlighter div,
+            .syntaxhighlighter code,
+            .syntaxhighlighter table,
+            .syntaxhighlighter table td,
+            .syntaxhighlighter table tr,
+            .syntaxhighlighter table tbody,
+            .syntaxhighlighter table thead,
+            .syntaxhighlighter table caption,
+            .syntaxhighlighter textarea {
+            font-size: 12px !important; /* Set the font size in pixels */
+            font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */
+            }
+            .syntaxhighlighter table caption {
+            /* For Title(Caption) */
+            font-size: 14px !important; /* Set the font size in pixels */
+            font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */
+            }
+            .syntaxhighlighter.nogutter td.code .line {
+            /* Set the left padding space when no-gutter in ver. 3.0 */
+            padding-left: 3px !important;
+            }
+            .syntaxhighlighter {
+            /* For Chrome/Safari(WebKit) */
+            /* Hide the superfluous vertical scrollbar in ver. 3.0 */
+            overflow-y: hidden !important;
+            padding: 1px !important;
+            }
+            .widget-area.syntaxhighlighter a,
+            .widget-area.syntaxhighlighter div,
+            .widget-area.syntaxhighlighter code,
+            .widget-area.syntaxhighlighter table,
+            .widget-area.syntaxhighlighter table td,
+            .widget-area.syntaxhighlighter table tr,
+            .widget-area.syntaxhighlighter table tbody,
+            .widget-area.syntaxhighlighter table thead,
+            .widget-area.syntaxhighlighter table caption,
+            .widget-area.syntaxhighlighter textarea {
+            /* For Widget */
+            font-size: 14px !important; /* Set the font size in pixels */
+            font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */
+            }
+            .widget-area table caption {
+            /* For Widget */
+            /* For Title(Caption) */
+            font-size: 10px !important; /* Set the font size in pixels */
+            font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */
+            }
+            div.container{
+            width:inherit
+            }
+        </style>
+        <!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code End -->
+
+	    <!-- CSS -->
+	    <link rel="stylesheet" href="http://blog.jobbole.com/wp-content/themes/jobboleblogv3/style.css" media="screen" />
+	    <style>
+			*::selection { background: #0099cc; }
+		    *::-moz-selection { background: #0099cc; }
+		    body { background: #ffffff  }
+		    a, .tabs ul.nav li a:hover, .tabs ul.nav li.active a, .dropcap, .toggle.hover .toggle-title, li.comment cite a:hover, h3.widget-title, .post-meta .meta-title:hover, .the-latest a:hover h4, .aw_socialcounter_widget li a:hover, .aw_tabbed_widget #tab-latest-comments a:hover { color: #0099cc; }
+		    a:hover { color: #b30000; }
+		    input:focus, textarea:focus { border-color: #0099cc; }
+		    #searchsubmit, .highlight, .aw_tabbed_widget .tabs ul.nav li.active a, footer .aw_tabbed_widget .tabs ul.nav li.active a, #top .aw_tabbed_widget .tabs ul.nav li.active a, .aw_tabbed_widget .tabs ul.nav li a:hover, footer .aw_tabbed_widget .tabs ul.nav li a:hover, #top .aw_tabbed_widget .tabs ul.nav li a:hover, .aw_twitter_widget .twitter-icon, .testimonial-icon, #top-closed:hover, .flex-control-nav a:hover, .flex-control-nav a.flex-active { background-color: #0099cc; }
+		    .submit { background-color: #0099cc; border-color: #007399; }
+		    .submit:hover { background-color: #b30000; border-color: #860000; }
+		    #searchsubmit:hover { background-color: #b30000; }
+		    .toggle.hover .toggle-icon { border-top-color: #0099cc; }
+		    .toggle.hover.active .toggle-icon { border-bottom-color: #0099cc; }
+		    .flex-direction-nav li .flex-prev:hover { border-right-color: #0099cc; }
+		    .flex-direction-nav li .flex-next:hover { border-left-color: #0099cc; }
+		    @media only screen and (min-width: 768px) and (max-width: 959px) {
+			.aw_tabbed_widget .tabs ul.nav li a:hover, .tabs ul.nav li.active a { color: #0099cc; }
+		    }
+		    @media screen and (max-width: 767px) {
+			.tabs ul.nav li a:hover, .tabs ul.nav li.active a { color: #0099cc; }
+		    }
+	    </style>
+
+	    <!--[if IE 8]>
+		    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		    <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+            <![endif]-->
+
+	    <!-- Links: RSS + Atom Syndication + Pingback etc. -->
+	    <link rel="alternate" type="application/rss+xml" title="博客 &#8211; 伯乐在线 RSS Feed" href="http://blog.jobbole.com/feed/" />
+	    <link rel="alternate" type="text/xml" title="RSS .92" href="http://blog.jobbole.com/feed/rss/" />
+	    <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://blog.jobbole.com/feed/atom/" />
+	    <link rel="pingback" href="http://blog.jobbole.com/xmlrpc.php" />
+
+        <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2606191112" type="text/javascript" charset="utf-8"></script>
+
+        <!-- END head -->
+    </head>
+
+    <!-- BEGIN body -->
+    <body>
+
+	    <!-- BEGIN #wrapper -->
+	    <div id="wrapper" class="container">
+
+            <div class="entry-header">
+
+		        <h1>我常用的 Python 调试工具</h1>
+
+	        </div>
+
+	        <!-- BEGIN .entry -->
+	        <div class="entry">
+		        <b>本文由 <a href='http://blog.jobbole.com'>伯乐在线</a> - <a href='http://blog.jobbole.com/author/kaulie/'>高磊</a> 翻译自 <a target='_blank' href='http://blog.ionelmc.ro/2013/06/05/python-debugging-tools/'>Ionel Cristian Mărieș</a>。欢迎加入<a target='_blank' href='http://www.jobbole.com/groups/6/'>技术翻译小组</a>。转载请参见文章末尾处的要求。</b><br/><br/>
+                <p>以下是我做调试或分析时用过的工具的一个概览。如果你知道有更好的工具，请在评论中留言，可以不用很完整的介绍。</p>
+                <h3>日志</h3>
+                <p>没错，就是日志。再多强调在你的应用里保留足量的日志的重要性也不为过。你应当对重要的内容打日志。如果你的日志打的足够好的话，单看日志你就能发现问题所在。那样可以节省你大量的时间。</p>
+                <p>如果一直以来你都在代码里乱用 print 语句，马上停下来。换用logging.debug。以后你还可以继续复用，或是全部停用等等。</p>
+                <p>&nbsp;</p>
+                <h3>跟踪</h3>
+                <p>有时更好的办法是看执行了哪些语句。你可以使用一些IDE的调试器的单步执行，但你需要明确知道你在找那些语句，否则整个过程会进行地非常缓慢。<br />
+                标准库里面的<a href="http://docs.python.org/2/library/trace.html#cmdoption-trace-t" target="_blank">trace</a>模块，可以打印运行时包含在其中的模块里所有执行到的语句。(就像制作一份项目<a href="http://docs.python.org/2/library/trace.html#cmdoption-trace-c" target="_blank">报告</a>)</p>
+                <pre class="brush: bash; gutter: true">python -mtrace –trace script.py</pre>
+                <p>这会产生大量输出（执行到的每一行都会被打印出来，你可能想要用grep过滤那些你感兴趣的模块）.<br />
+                比如：</p>
+                <pre class="brush: bash; gutter: true">python -mtrace –trace script.py | egrep &#039;^(mod1.py|mod2.py)&#039;</pre>
+                <p>&nbsp;</p>
+                <h3>调试器</h3>
+                <p>以下是如今应该人尽皆知的一个基础介绍：</p>
+                <pre class="brush: python; gutter: true">import pdb
+                pdb.set_trace() # 开启pdb提示</pre>
+                <p>或者</p>
+                <pre class="brush: actionscript3; gutter: true">try:
+                （一段抛出异常的代码）
+                except:
+                import pdb
+                pdb.pm() # 或者 pdb.post_mortem()</pre>
+                <p>或者(输入 c 开始执行脚本)</p>
+                <pre class="brush: bash; gutter: true">python -mpdb script.py</pre>
+                <p>在输入-计算-输出循环(注：REPL，READ-EVAL-PRINT-LOOP的缩写)环境下，可以有如下操作：</p>
+                <ul>
+                    <li>c or continue</li>
+                    <li>q or quit</li>
+                    <li>l or list, 显示当前步帧的源码</li>
+                    <li>w or where,回溯调用过程</li>
+                    <li>d or down, 后退一步帧（注：相当于回滚）</li>
+                    <li>u or up, 前进一步帧</li>
+                    <li>(回车), 重复上一条指令</li>
+                </ul>
+                <p>其余的几乎全部指令（还有很少的其他一些命令除外）,在当前步帧上当作python代码进行解析。</p>
+                <p>如果你觉得挑战性还不够的话，可以试下<a href="https://github.com/dhellmann/smiley" target="_blank">smiley</a>，-它可以给你展示那些变量而且你能使用它来远程追踪程序。</p>
+                <p>&nbsp;</p>
+                <h3>更好的调试器</h3>
+                <p>pdb的直接替代者：<br />
+                ipdb(easy_install ipdb) &#8211; 类似ipython(有自动完成，显示颜色等)<br />
+                pudb(easy_install pudb) &#8211; 基于curses（类似图形界面接口），特别适合浏览源代码</p>
+                <p>&nbsp;</p>
+                <h3>远程调试器</h3>
+                <p>安装方式:</p>
+                <pre class="brush: bash; gutter: true">sudo apt-get install winpdb</pre>
+                <p>用下面的方式取代以前的pdb.set_trace()：</p>
+                <pre class="brush: python; gutter: true">import rpdb2
+                rpdb2.start_embedded_debugger(&quot;secretpassword&quot;)</pre>
+                <p>现在运行winpdb,文件-关联</p>
+                <p>不喜欢Winpdb?也可以直接包装PDB在TCP之上运行！</p>
+                <p>这样做：</p>
+                <pre class="brush: python; gutter: true">import loggging
+
+                class Rdb(pdb.Pdb):
+                &quot;&quot;&quot;
+                This will run pdb as a ephemeral telnet service. Once you connect no one
+                else can connect. On construction this object will block execution till a
+                client has connected.
+
+                Based on https://github.com/tamentis/rpdb I think ...
+
+                To use this::
+
+                Rdb(4444).set_trace()
+
+                Then run: telnet 127.0.0.1 4444
+                &quot;&quot;&quot;
+                def __init__(self, port=0):
+                self.old_stdout = sys.stdout
+                self.old_stdin = sys.stdin
+                self.listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.listen_socket.bind((&#039;0.0.0.0&#039;, port))
+                if not port:
+                logging.critical(&quot;PDB remote session open on: %s&quot;, self.listen_socket.getsockname())
+                print &gt;&gt; sys.__stderr__, &quot;PDB remote session open on:&quot;, self.listen_socket.getsockname()
+                sys.stderr.flush()
+                self.listen_socket.listen(1)
+                self.connected_socket, address = self.listen_socket.accept()
+                self.handle = self.connected_socket.makefile(&#039;rw&#039;)
+                pdb.Pdb.__init__(self, completekey=&#039;tab&#039;, stdin=self.handle, stdout=self.handle)
+                sys.stdout = sys.stdin = self.handle
+
+                def do_continue(self, arg):
+                sys.stdout = self.old_stdout
+                sys.stdin = self.old_stdin
+                self.handle.close()
+                self.connected_socket.close()
+                self.listen_socket.close()
+                self.set_continue()
+                return 1
+
+                do_c = do_cont = do_continue
+
+                def set_trace():
+                &quot;&quot;&quot;
+                Opens a remote PDB on first available port.
+                &quot;&quot;&quot;
+                rdb = Rdb()
+                rdb.set_trace()</pre>
+                <p>只想要一个REPL环境？试试IPython如何？<br />
+                如果你不需要一个完整齐全的调试器，那就只需要用一下的方式启动一个IPython即可：</p>
+                <pre class="brush: python; gutter: true">import IPython
+                IPython.embed()</pre>
+                <p>&nbsp;</p>
+                <h3>标准linux工具</h3>
+                <p>我常常惊讶于它们竟然远未被充分利用。你能用这些工具解决很大范围内的问题：从性能问题（太多的系统调用，内存分配等等）到死锁，网络问题，磁盘问题等等。<br />
+                其中最有用的是最直接的strace，只需要运行 sudo strace -p 12345 或者 strace -f 指令(-f 即同时追踪fork出来的子进程)，这就行了。输出一般会非常大，所以你可能想要把它重定向到一个文件以便作更多的分析（只需要加上 &amp;&gt; 文件名）。</p>
+                <p>再就是ltrace,有点类似strace，不同的是，它输出的是库函数调用。参数大体相同。</p>
+                <p>还有lsof 用来指出你在ltrace/strace中看到的句柄数值的意义。比如：</p>
+                <pre class="brush: bash; gutter: true">lsof -p 12345</pre>
+                <p>&nbsp;</p>
+                <h3>更好的跟踪</h3>
+                <p>使用简单而可以做很多事情-人人都该装上htop！</p>
+                <pre class="brush: bash; gutter: true">sudo apt-get install htop
+                sudo htop</pre>
+                <p>现在找到那些你想要的进程，再输入：</p>
+                <pre class="brush: bash; gutter: true">s - 代表系统调用过程(类似strace)
+                L - 代表库调用过程(类似ltrace)
+                l - 代表lsof</pre>
+                <p>&nbsp;</p>
+                <h3>监控</h3>
+                <p>没 有好的持续的服务器监控，但是如果你曾遇到一些很诡异的情况，诸如为什么一切都运行的那么慢，那些系统资源都干什么去了，。。。等这些问题，想弄明白却又 无处下手之际，不必动用<a href="http://linux.die.net/man/1/iotop" target="_blank">iotop</a>,<a href="http://linux.die.net/man/8/iftop" target="_blank">iftop</a>,<a href="http://linux.die.net/man/1/htop" target="_blank">htop</a>,<a href="http://linux.die.net/man/1/iostat" target="_blank">iostat</a>,<a href="http://linux.die.net/man/8/vmstat" target="_blank">vmstat</a>这些工具，就用<a href="http://linux.die.net/man/1/dstat" target="_blank">dstat</a>吧！它可以做之前我们提过的大部分工作可 以做的事情，而且也许可以做的更好！<br />
+                它会用一种紧凑的，代码高亮的方式（不同于iostat,vmstat）向你持续展示数据，你还经常可以看到过去的数据（不同于iftop,iostop,htop）。</p>
+                <p>只需运行：</p>
+                <pre class="brush: bash; gutter: true">dstat --cpu --io --mem --net --load --fs --vm --disk-util --disk-tps --freespace --swap --top-io --top-bio-adv</pre>
+                <p>很可能有一种更简短的方式来写上面这条命令，</p>
+                <p>这是一个相当复杂而又强大的工具，但是这里我只提到了一些基本的内容（安装以及基础的命令）</p>
+                <pre class="brush: bash; gutter: true">sudo apt-get install gdb python-dbg
+                zcat /usr/share/doc/python2.7/gdbinit.gz &gt; ~/.gdbinit</pre>
+                <p>用python2.7-dbg 运行程序：</p>
+                <pre class="brush: bash; gutter: true">sudo gdb -p 12345</pre>
+                <p>现在使用：</p>
+                <pre class="brush: c; gutter: true">bt - 堆栈跟踪（C 级别）
+                pystack - python 堆栈跟踪,不幸的是你需要有~/.gdbinit 并且使用python-dbg
+                c - 继续</pre>
+                <h3></h3>
+                <h3>发生段错误？用faulthandler ！</h3>
+                <p>python 3.3版本以后新增的一个很棒的功能，可以向后<a href="https://pypi.python.org/pypi/faulthandler/" target="_blank">移植</a>到python2.x版本。只需要运行下面的语句，你就可以大抵知道什么原因引起来段错误。</p>
+                <pre class="brush: python; gutter: true">import faulthandler
+                faulthandler.enable()</pre>
+                <h3></h3>
+                <h3>内存泄露</h3>
+                <p>嗯，这种情况下有很多的工具可以使用，其中有一些专门针对WSGI的程序比如<a href="https://pypi.python.org/pypi/Dozer" target="_blank">Dozer</a>，但是我最喜欢的当然是<a href="https://pypi.python.org/pypi/objgraph" target="_blank">objgraph</a>。使用简单方便，让人惊讶！<br />
+                它没有集成WSGI或者其他，所以你需要自己去发现运行代码的方法，像下面这样：</p>
+                <pre class="brush: bash; gutter: true">import objgraph
+                objs = objgraph.by_type(&quot;Request&quot;)[:15]
+                objgraph.show_backrefs(objs, max_depth=20, highlight=lambda v: v in objs,</pre>
+                <pre class="brush: bash; gutter: true">filename=&quot;/tmp/graph.png&quot;)
+                Graph written to /tmp/objgraph-zbdM4z.dot (107 nodes)
+                Image generated as /tmp/graph.png</pre>
+                <p>你会得到像这样一张<a href="http://blog.ionelmc.ro/images/objgraph-plot.png" target="_blank">图</a>（注意：它非常大)。你也可以得到一张<a href="http://www.graphviz.org/content/dot-language" target="_blank">点</a>输出。</p>
+                <p>&nbsp;</p>
+                <h3>内存使用</h3>
+                <p>有时你想少用些内存。更少的内存分配常常可以使程序执行的更快，更好，用户希望内存合适好用)<br />
+                有许多可用的<a href="https://github.com/wyplay/pytracemalloc#see-also工具">工具</a>，但在我看来最好用的是<a href="https://github.com/wyplay/pytracemalloc" target="_blank">pytracemalloc</a>。与其他工具相比，它开销非常小（不需要依赖于严重影响速度的<a href="http://docs.python.org/2/library/sys.html#sys.settrace" target="_blank">sys.settrace</a>）而且输出非常详尽。但安装起来比较痛苦，你需要重新编译python，但有了apt，做起来也非常容易。</p>
+                <p>只需要运行这些命令然后去吃顿午餐或者干点别的：</p>
+                <pre class="brush: bash; gutter: true">apt-get source python2.7
+                cd python2.7-*
+                wget? https://github.com/wyplay/pytracemalloc/raw/master/python2.7_track_free_list.patch
+                patch -p1 &lt; python2.7_track_free_list.patch
+                debuild -us -uc
+                cd ..
+                sudo dpkg -i python2.7-minimal_2.7*.deb python2.7-dev_*.deb</pre>
+                <p>接着安装pytracemalloc （注意如果你在一个virtualenv虚拟环境下操作，你需要在重新安装python后再次重建 &#8211; 只需要运行 virtualenv myenv）</p>
+                <pre class="brush: bash; gutter: true">pip install pytracemalloc</pre>
+                <p>现在像下面这样在代码里包装你的应用程序</p>
+                <pre class="brush: python; gutter: true">import tracemalloc, time
+                tracemalloc.enable()
+                top = tracemalloc.DisplayTop(
+                5000, # log the top 5000 locations
+                file=open(&#039;/tmp/memory-profile-%s&#039; % time.time(), &quot;w&quot;)
+                )
+                top.show_lineno = True
+                try:
+                # code that needs to be traced
+                finally:
+                top.display()</pre>
+                <p>输出会像这样：</p>
+                <pre class="brush: bash; gutter: true">2013-05-31 18:05:07: Top 5000 allocations per file and line
+                #1: .../site-packages/billiard/_connection.py:198: size=1288 KiB, count=70 (+0),
+                average=18 KiB
+                #2: .../site-packages/billiard/_connection.py:199: size=1288 KiB, count=70 (+0),
+                average=18 KiB
+                #3: .../python2.7/importlib/__init__.py:37: size=459 KiB, count=5958 (+0),
+                average=78 B
+                #4: .../site-packages/amqp/transport.py:232: size=217 KiB, count=6960 (+0),
+                average=32 B
+                #5: .../site-packages/amqp/transport.py:231: size=206 KiB, count=8798 (+0),
+                average=24 B
+                #6: .../site-packages/amqp/serialization.py:210: size=199 KiB, count=822 (+0),
+                average=248 B
+                #7: .../lib/python2.7/socket.py:224: size=179 KiB, count=5947 (+0), average=30
+                B
+                #8: .../celery/utils/term.py:89: size=172 KiB, count=1953 (+0), average=90 B
+                #9: .../site-packages/kombu/connection.py:281: size=153 KiB, count=2400 (+0),
+                average=65 B
+                #10: .../site-packages/amqp/serialization.py:462: size=147 KiB, count=4704
+                (+0), average=32 B</pre>
+                <p>&#8230;</p>
+                <p>很美，不是吗？</p>
+                <p>补充：更多有关调试的内容见<a href="http://blog.ionelmc.ro/2013/06/08/python-profiling-tools" target="_blank">这里</a>。</p>
+
+                <br/>
+
+                <br/><br/>
+
+                原文链接： <a target='_blank' ref='nofollow'
+                href='http://blog.ionelmc.ro/2013/06/05/python-debugging-tools/'>Ionel
+                Cristian Mărieș</a>&nbsp;&nbsp;&nbsp;翻译： <a
+                href='http://blog.jobbole.com'> 伯乐在线 </a> - <a
+                href='http://blog.jobbole.com/author/kaulie/'>高磊</a><br/>译文链接：
+                <a
+                    href='http://blog.jobbole.com/51062/'>http://blog.jobbole.com/51062/</a><br/>[ <span style='color:#ff0000'><b>转载必须在正文中标注并保留原文链接、译文链接和译者等信息。</b></span>]<br/><br/>
+
+
+                <h3 class="widget-title">关于作者： <a href="http://blog.jobbole.com/author/kaulie/">高磊</a></h3>
+	            <div class="alignleft">
+		            <a href="http://blog.jobbole.com/author/kaulie/">
+			        <img src="http://blog.jobbole.com/wp-content/plugins/buddypress/bp-core/images/mystery-man.jpg" class="avatar user-11313-avatar avatar-60 photo" width="60" height="60" alt="高磊 的头像" />		</a>
+	            </div>
+	            <p>关注后台技术，渴望将技术做到极致
+                新浪微博<a href="http://weibo.com/p/1005051800460410">@kaulie</a></p>
+	            <p><a style="text-decoration: none;" href="http://blog.jobbole.com/author/kaulie/">查看高磊的更多文章 >> </a></p>
+	            <div class="clear"></div>
+
+
+	        </div>
+        </div>
+    </div>
+</body>
+<!-- END body -->
+
+</html>
+

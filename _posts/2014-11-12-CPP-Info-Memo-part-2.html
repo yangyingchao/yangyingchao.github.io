@@ -1,0 +1,207 @@
+---
+layout     : post
+title : CPP Info Memo part 2
+categories : 未分类
+
+---
+<h1 class="title">
+	Table of Contents</h1>
+<div id="table-of-contents">
+	<div id="text-table-of-contents">
+		<ul>
+			<li>
+				<a href="http://www.cnblogs.com/yangyingchao/archive/2011/10/28/2227599.html">1 Overview </a></li>
+			<li>
+				<a href="#sec-2">2 Header Files </a>
+				<ul>
+					<li>
+						<a href="#sec-2_1">2.1 Include 语法 </a></li>
+					<li>
+						<a href="#sec-2_2">2.2 Include 操作 </a>
+						<ul>
+							<li>
+								<a href="#sec-2_2_1">2.2.1 头文件的展开 </a></li>
+							<li>
+								<a href="#sec-2_2_2">2.2.2 Files that can be included </a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="#sec-2_3">2.3 搜索路径 </a>
+						<ul>
+							<li>
+								<a href="#sec-2_3_1">2.3.1 默认路径 </a></li>
+							<li>
+								<a href="#sec-2_3_2">2.3.2 路径的修改 </a></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+<!--more-->
+<div class="outline-2" id="outline-container-1">
+	<h2 id="sec-1">
+		<span class="section-number-2">1</span> Overview</h2>
+	<div class="outline-text-2" id="text-1">
+		&nbsp;</div>
+</div>
+<div class="outline-2" id="outline-container-2">
+	<h2 id="sec-2">
+		<span class="section-number-2">2</span> Header Files</h2>
+	<div class="outline-text-2" id="text-2">
+		<p>
+			C 里面有很多声明和宏定义是专门用来在多个源文件(source file)中共享的， 这些东西被放在专门的文件中，即传说中的头文件(Header file)。 我们可以通过 #include 来通知 preprocessor 来把他们 include 进来。</p>
+		<p>
+			include 一个头文件，实际上和把这个头文件的内容拷贝进源文件是等效的。 但拷贝操作耗时，且一旦一个头文件稍作修改，所有源文件都要随之变化。 而 include 则解决了这个问题。</p>
+	</div>
+	<div class="outline-3" id="outline-container-2_1">
+		<h3 id="sec-2_1">
+			<span class="section-number-3">2.1</span> Include 语法</h3>
+		<div class="outline-text-3" id="text-2_1">
+			<p>
+				include 有两个用法，即</p>
+			<pre class="src src-c">
+<span style="color: #00ee00;">#include</span> <span style="color: #ce5c00;">&lt;FILE&gt;</span>
+
+<span style="color: #00ee00;">#include</span> <span style="color: #ce5c00;">&quot;FILE&quot;</span>
+</pre>
+			<p>
+				区别在于：</p>
+			<ul>
+				<li>
+					#include &lt;FILE&gt;<br />
+					该用法用于 include 系统提供的头文件。 它从标准的系统搜索路径中去寻找指定的头文件。 GCC 中，我们可以通过 -I 来将某个目录添加到搜索路径中去。</li>
+			</ul>
+			<ul>
+				<li>
+					#Include &quot;FILE&quot;<br />
+					该用法用来 include 用户自己的头文件。 它先从当前路径下搜索，随后去所谓的引用目录(quoted directory)去找， 最后去系统的标准搜索路径中去找。 引用目录可以通过 -iquote 选项来指定。</li>
+			</ul>
+			<p>
+				无论哪种形式，include 后面的参数在预编译的时候都会被当作字符串常量一样来看待。 其中的*/、/* 不会被当成注释，其中的宏也不会被展开，连 &quot;\&quot; 也不会被看作是转义字符。</p>
+		</div>
+	</div>
+	<div class="outline-3" id="outline-container-2_2">
+		<h3 id="sec-2_2">
+			<span class="section-number-3">2.2</span> Include 操作</h3>
+		<div class="outline-text-3" id="text-2_2">
+			&nbsp;</div>
+		<div class="outline-4" id="outline-container-2_2_1">
+			<h4 id="sec-2_2_1">
+				<span class="section-number-4">2.2.1</span> 头文件的展开</h4>
+			<div class="outline-text-4" id="text-2_2_1">
+				<p>
+					如果一个源文件中包涵了 include 指令， include 指令会让 preprocessor 扫描指定的头文件， 并将源文件其他的内容添加到扫描的输出后面。</p>
+				<p>
+					例如下面的这个例子：</p>
+				<pre class="src src-c">
+<span style="color: #cc0000;">// </span><span style="color: #cc0000;">Contents in header.h
+</span>
+<span style="color: #228b22; font-weight: bold;">char</span> *<span style="color: #0000ff; font-weight: bold;">test</span> (<span style="color: #228b22; font-weight: bold;">void</span>);
+
+<span style="color: #cc0000;">// </span><span style="color: #cc0000;">Contents in test.c
+</span>
+<span style="color: #228b22; font-weight: bold;">int</span> <span style="color: #a0522d; font-weight: bold;">x</span>;
+<span style="color: #00ee00;">#include</span> <span style="color: #ce5c00;">&quot;header.h&quot;</span>
+
+<span style="color: #228b22; font-weight: bold;">int</span>
+<span style="color: #0000ff; font-weight: bold;">main</span> (<span style="color: #228b22; font-weight: bold;">void</span>)
+{
+    puts (test ());
+}
+</pre>
+				<p>
+					上面代码中有两个文件： header.h 和 test.c ， 则经过预编译后，会变成：</p>
+				<pre class="src src-c">
+<span style="color: #228b22; font-weight: bold;">int</span> <span style="color: #a0522d; font-weight: bold;">x</span>;
+<span style="color: #228b22; font-weight: bold;">char</span> *<span style="color: #0000ff; font-weight: bold;">test</span> (<span style="color: #228b22; font-weight: bold;">void</span>);
+
+<span style="color: #228b22; font-weight: bold;">int</span>
+<span style="color: #0000ff; font-weight: bold;">main</span> (<span style="color: #228b22; font-weight: bold;">void</span>)
+{
+  puts (test ());
+}
+</pre>
+			</div>
+		</div>
+		<div class="outline-4" id="outline-container-2_2_2">
+			<h4 id="sec-2_2_2">
+				<span class="section-number-4">2.2.2</span> Files that can be included</h4>
+			<div class="outline-text-4" id="text-2_2_2">
+				<p>
+					可以被用来作为 include 的参数的，不只是头文件， 任何包含了 C 程序的片段的文件都可以&mdash;&mdash;只要被包含的文件包含有完整的 tokens 。</p>
+				<p>
+					因此，Teacher Tan 在他的书中教给学生去 include 一个源文件，也没什么错， 只是这么做不值得推荐而已。 被包含的头文件中，最好是仅有完整的语法单元： 函数声明或者定义、类型声明等等。</p>
+			</div>
+		</div>
+	</div>
+	<div class="outline-3" id="outline-container-2_3">
+		<h3 id="sec-2_3">
+			<span class="section-number-3">2.3</span> 搜索路径</h3>
+		<div class="outline-text-3" id="text-2_3">
+			&nbsp;</div>
+		<div class="outline-4" id="outline-container-2_3_1">
+			<h4 id="sec-2_3_1">
+				<span class="section-number-4">2.3.1</span> 默认路径</h4>
+			<div class="outline-text-4" id="text-2_3_1">
+				<p>
+					GCC 会在多个不同的目录下搜索头文件，例如我的机器上用 CEDET 查到的编译 C++ 时候的搜索路径如下：</p>
+				<pre class="src src-emacs-lisp">
+(semantic-gcc-get-include-paths <span style="color: #ce5c00;">&quot;c++&quot;</span>)
+
+(<span style="color: #ce5c00;">&quot;/usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4&quot;</span>
+ <span style="color: #ce5c00;">&quot;/usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4/x86_64-pc-linux-gnu&quot;</span>
+ <span style="color: #ce5c00;">&quot;/usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4/backward&quot;</span>
+ <span style="color: #ce5c00;">&quot;/usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include&quot;</span>
+ <span style="color: #ce5c00;">&quot;/usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include-fixed&quot;</span>
+ <span style="color: #ce5c00;">&quot;/usr/include&quot;</span>)
+
+</pre>
+			</div>
+		</div>
+		<div class="outline-4" id="outline-container-2_3_2">
+			<h4 id="sec-2_3_2">
+				<span class="section-number-4">2.3.2</span> 路径的修改</h4>
+			<div class="outline-text-4" id="text-2_3_2">
+				<p>
+					我们可以通过选项来修改搜索路径：</p>
+				<ul>
+					<li id="sec-2_3_2_1">
+						&quot;-I&quot;<br />
+						<p>
+							该选项用来向这个路径中添加搜索路径，自行添加的路径将会被放到搜索路径的最前端。</p>
+					</li>
+				</ul>
+				<ul>
+					<li id="sec-2_3_2_2">
+						&quot;-nostdinc&quot;<br />
+						<p>
+							该选项用于禁止 GCC 去默认搜索路径中搜索文件，例如编译内核时会用到该选项， Linux 内核中相关的部分 Makefile 如下：</p>
+						<pre class="src src-makefile">
+<span style="color: #a0522d; font-weight: bold;">NOSTDINC_FLAGS</span> += -nostdinc -isystem $(<span style="color: #a0522d; font-weight: bold;">shell</span> $(<span style="color: #a0522d; font-weight: bold;">CC</span>) -print-file-name=include)
+<span style="color: #a0522d; font-weight: bold;">CHECKFLAGS</span>     += $(<span style="color: #a0522d; font-weight: bold;">NOSTDINC_FLAGS</span>)
+</pre>
+						<p>
+							但是，通过 &quot;-I&quot; 选项向其中添加的路径不会被禁止。</p>
+					</li>
+				</ul>
+				<ul>
+					<li id="sec-2_3_2_3">
+						&quot;-iquote&quot;<br />
+						<p>
+							该选项用于在使用</p>
+						<pre class="src src-c">
+<span style="color: #00ee00;">#inclde</span> <span style="color: #ce5c00;">&quot;FILE&quot;</span>
+</pre>
+						<p>
+							这种形式时候添加搜索路径。</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<p>
+	&nbsp;</p>
+
