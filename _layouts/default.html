@@ -110,8 +110,7 @@
 
         {% for category in site.categories %}
 	    <li class="category">
-          {% assign pages_list = category[1] %}
-          <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
+          {{ category[0] | join: "/" }}
         </li>
         {% endfor %}
 
