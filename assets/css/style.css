@@ -9,7 +9,7 @@ body {
     text-align: center; /* center align it with the container */
 }
 .container {
-    width: 75em; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+    /*width: 75em; */ /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
     padding-left: 10em
 }
 
@@ -30,7 +30,7 @@ body {
     border-right: .2em solid #b9bcbf;
     box-shadow: 0 0 10px 10px #b9bcbf;
     margin: auto;
-    max-width: 74.92em;
+    /*max-width: 74.92em;*/
     padding: 0 1.5% 1em 1.5%; margin-top: 0;
     text-align: left;
 }
