@@ -92,7 +92,7 @@ body {
 }
 
 /* Added by Tyang*/
-#sidebar{
+.sidebar{
 	float: left;
 	padding: 40px;
 	padding-top: 0;
