@@ -94,7 +94,7 @@ body {
 /* Added by Tyang*/
 
 /*************************************
- +Sidebar
+ Sidebar
 *************************************/
 #sidebar{
 	float: left;
@@ -157,5 +157,41 @@ input, textarea, select {
 #category li {
     font-size: 12px;
     line-height: 20px;
+}
+
+/*************************************
+ Content
+*************************************/
+
+#content {
+	float: left;
+	margin-left: 1px;
+	padding-top: 2px;
+	padding: 40px;
+	width: 70%; /*	border: 1px solid black;*/
+    -icab-box-shadow: 0 0 10px 10px #b9bcbf;
+    -moz-box-shadow: 0 0 10px 10px #b9bcbf;
+    -o-box-shadow: 0 0 10px 10px #b9bcbf;
+    -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
+    background-color: white;
+    border-left: .2em solid #b9bcbf;
+    border-right: .2em solid #b9bcbf;
+    box-shadow: 0 0 10px 10px #b9bcbf;
+    margin: auto;
+    max-width: 74.92em;
+    padding: 0 1.5% 1em 1.5%; margin-top: 0;
+    text-align: left;
+}
+
+#content h1 {
+    font-weight:bold;
+    padding: 0; margin: .7em 0 .9em 0;
+    color: #334683; text-shadow: #999 1px 1px 0;
+    font-size: 2.4em;
+}
+
+
+#content h2 {
+    font-size: 2em;
 }
 
