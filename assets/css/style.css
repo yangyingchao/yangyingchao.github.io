@@ -157,13 +157,6 @@ background-color: rgba(255, 255, 255, 0.5);
     margin-bottom: -3px;
     margin-right: 2px;
 }
-#category {
-    text-align: left;
-}
-#category li {
-    font-size: 12px;
-    line-height: 20px;
-}
 
 /*************************************
  Content
@@ -208,5 +201,26 @@ background-color: rgba(255, 255, 255, 0.5);
     color: #FFF;
     font-weight: bold;
     position: absolute;
+}
+
+
+/*************************************
+Category
+*************************************/
+
+#category {
+    text-align: left;
+}
+#category li {
+    font-size: 12px;
+    line-height: 20px;
+}
+
+
+#category a {
+    color: #4b4b4b;
+    text-decoration: none;
+    line-height: inherit;
+    font-weight: inherit;
 }
 
