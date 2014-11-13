@@ -112,10 +112,11 @@ body {
 }
 
 #sidebar h2 {
-    margin-bottom: 5px;
     color: #555555;
     font-size: 15px;
-    background-color:#eee
+    background-color:#eee;
+    margin-top: 1.5em;
+    margin-bottom: 5px
 }
 #sidebar ul{ margin: 0; padding: 0; list-style-type: none }
 
@@ -139,6 +140,9 @@ input, textarea, select {
     font-size: small;
     margin: 5px 0px 0px 0px;
 }
+input:hover{color:#000;}
+input:focus, textarea:focus {
+             }
 
 #article_header {
     color: #777;
