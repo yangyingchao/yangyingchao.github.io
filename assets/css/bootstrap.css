@@ -39,7 +39,6 @@ a{color:#0069d6;text-decoration:none;line-height:inherit;font-weight:inherit;}a:
 .row:after{clear:both;}
 .row>[class*="span"]{display:inline;float:left;margin-left:20px;}
 .span4{width:120px;}
-
 .span14{width:820px;}
 .row>.offset1{margin-left:80px;}
 .row>.offset2{margin-left:140px;}
