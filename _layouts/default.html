@@ -110,13 +110,9 @@
 
         {% for category in site.categories %}
 	    <li class="category">
-	      <a href="/categories/4769/posts">未分类</a>
-	    </li>
-        <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
-        <ul>
           {% assign pages_list = category[1] %}
-          {% include JB/pages_list %}
-        </ul>
+          <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
+        </li>
         {% endfor %}
 
         <h2>RSS</h2>

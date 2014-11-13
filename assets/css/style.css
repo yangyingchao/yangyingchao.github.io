@@ -38,6 +38,10 @@ body {
     width:88%;
 }
 
+#list_sidebar {
+    float:right;
+    width:180px;
+}
 /* add by Linusp */
 /* .span10 p {text-indent: 2em;} */
 /* .span10 li {margin-left: 2em;} */
@@ -87,3 +91,18 @@ body {
 	color:#FFF;
 }
 
+/* Added by Tyang*/
+#sidebar{
+	float: left;
+	padding: 40px;
+	padding-top: 0;
+	width: 12%;
+	font-size: 11px;
+    overflow: hidden;
+    color: #4b4b4b;
+    text-shadow: #fff 0 1px;
+}
+
+.sidebar li a{
+    color:#999;
+}
