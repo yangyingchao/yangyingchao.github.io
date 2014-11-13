@@ -222,5 +222,11 @@ Category
     text-decoration: none;
     line-height: inherit;
     font-weight: inherit;
+    padding: 3px 6px;
+	margin: 2px;
 }
 
+#category a span {
+vertical-align: super;
+font-size: 0.8em;
+}
