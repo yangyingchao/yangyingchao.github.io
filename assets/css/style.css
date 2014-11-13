@@ -93,7 +93,9 @@ body {
 
 /* Added by Tyang*/
 
-/* Side bar */
+/*************************************
+ +Sidebar
+*************************************/
 #sidebar{
 	float: left;
 	padding: 40px;
@@ -109,14 +111,28 @@ body {
     color:#999;
 }
 
-#sidebar h2{ margin-bottom: 5px; color: #555555; font-size: 15px }
-/*************************************
- +Sidebar
-*************************************/
+#sidebar h2 {
+    margin-bottom: 5px;
+    color: #555555;
+    font-size: 15px;
+    background-color:#fff
+}
 #sidebar ul{ margin: 0; padding: 0; list-style-type: none }
 
 #sidebar ul li{
 	border-bottom: 1px dotted #DDDDDD;
 	margin-bottom: 0.3em;
 	padding: 0.3em
+}
+
+
+
+#search_form #s{
+    width:90%;
+}
+img.feed{
+    margin-bottom:-1px;
+}
+img.trackbacks{
+    margin-bottom:-3px;
 }
