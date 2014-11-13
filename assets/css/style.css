@@ -142,8 +142,14 @@ input, textarea, select {
 
 #article_header {
     color: #777;
-    margin: 0px 0px 8px 10px;
-    padding: 0px 10px 0px 30px;
+    background-color: #f5f5f5;
+    padding: 20px 20px 10px;
+    margin: -20px -20px 20px;
+}
+
+#article_header h1 {
+margin-bottom: 8px;
+background-color: rgba(255, 255, 255, 0.5);
 }
 
 #article_header img {
@@ -203,3 +209,4 @@ input, textarea, select {
     font-weight: bold;
     position: absolute;
 }
+
