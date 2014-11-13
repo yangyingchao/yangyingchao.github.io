@@ -139,3 +139,23 @@ input, textarea, select {
     font-size: small;
     margin: 5px 0px 0px 0px;
 }
+
+#article_header {
+    color: #777;
+    margin: 0px 0px 8px 10px;
+    padding: 0px 10px 0px 30px;
+}
+
+#article_header img {
+    border: 0px;
+    margin-bottom: -3px;
+    margin-right: 2px;
+}
+#category {
+    text-align: left;
+}
+#category li {
+    font-size: 12px;
+    line-height: 20px;
+}
+
