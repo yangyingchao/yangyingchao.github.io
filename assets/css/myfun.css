@@ -599,19 +599,19 @@ body {
 	margin-left: 1px;
 	padding-top: 2px;
 	padding: 40px;
-	width: 70%; /*	border: 1px solid black;*/
-    -icab-box-shadow: 0 0 10px 10px #b9bcbf;
-    -moz-box-shadow: 0 0 10px 10px #b9bcbf;
-    -o-box-shadow: 0 0 10px 10px #b9bcbf;
-    -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
-    background-color: white;
-    border-left: .2em solid #b9bcbf;
-    border-right: .2em solid #b9bcbf;
-    box-shadow: 0 0 10px 10px #b9bcbf;
-    margin: auto;
-    max-width: 74.92em;
-    padding: 0 1.5% 1em 1.5%; margin-top: 0;
-    text-align: left;
+	width: 80%; /*	border: 1px solid black;*/
+    /* -icab-box-shadow: 0 0 10px 10px #b9bcbf; */
+    /* -moz-box-shadow: 0 0 10px 10px #b9bcbf; */
+    /* -o-box-shadow: 0 0 10px 10px #b9bcbf; */
+    /* -webkit-box-shadow: 0 0 10px 10px #b9bcbf; */
+    /* background-color: white; */
+    /* border-left: .2em solid #b9bcbf; */
+    /* border-right: .2em solid #b9bcbf; */
+    /* /\* box-shadow: 0 0 10px 10px #b9bcbf; *\/ */
+    /* margin: auto; */
+    /* max-width: 74.92em; */
+    /* padding: 0 1.5% 1em 1.5%; margin-top: 0; */
+    /* text-align: left; */
 }
 
 div.pre_next_post {
