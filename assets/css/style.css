@@ -195,3 +195,18 @@ input, textarea, select {
     font-size: 2em;
 }
 
+
+.topbar{
+    font-family: "FreeSans", sans-"Microsoft YaHei", serif;
+    font-size: 1.3em;
+    color: #FFF;
+    margin-bottom: 4px;
+    border-color: #470101;
+    height: 94.78125px;
+    font-weight: bold;
+    padding-bottom: inherit;
+    position: absolute;
+    top:0;left:0;right:0;z-index:10000;
+    overflow:visible;
+    margin-bottom: 10px;
+}
