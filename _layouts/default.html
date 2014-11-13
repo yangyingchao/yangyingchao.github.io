@@ -250,11 +250,14 @@
 
       <h2>分类</h2>
       <ul id="category">
-        {% for category in site.categories %}
-	    <li class="category">
-          {{ category[0] | join: "/" }}
-        </li>
-        {% endfor %}
+        {% assign categories_list = site.categories %}
+        {% include JB/categories_list %}
+
+        <!-- {% for category in site.categories %} -->
+	    <!-- <li class="category"> -->
+        <!--   {{ category[0] | join: "/" }} -->
+        <!-- </li> -->
+        <!-- {% endfor %} -->
 
         <h2>RSS</h2>
         <div style="text-align:center;">
