@@ -1,7 +1,8 @@
 ---
 layout     : post
 title : HOWTO: Increase write speed by &#39;aligning&#39; FAT32(通过对齐 FAT32 提高U盘访问速度， 转载)
-categories : 未分类
+categories : Utility
+tags : FAT32, USB
 
 ---
 <p>I like many who visit this sub-forum, do so because they, or a program they used, formatted their USB stick at some point - afterwards noticing a substantial decrease in write performance on the drive. You can fix this by aligning the FAT32 file system to the 128K "blocks" or "cells" that flash memory uses. After much trial and error, and not being an expert in file systems, I was able to read up on the subject and figure out how to align my file system on the drive. The tools you need to perform these operations should be readily available in most any Linux distribution -&nbsp;<em>don't let that scare you away</em>, you can burn a Linux install CD and boot off of it to perform all of these commands without even needing to install Linux on your computer, for any that support a "Live CD" or "Try First before Install" feature, for instance Ubuntu is a popular distro that supports this feature. People who already understand aligning partitions, but want to align a FAT32 format to the aligned partition, can learn how in Step 3.<br /> <br /> <span data-mce-=""><strong>Following this procedure will destroy all contents on your USB stick, back up important files BEFORE starting - you have been warned.</strong></span><br /> </p>
