@@ -197,14 +197,6 @@ background-color: rgba(255, 255, 255, 0.5);
 }
 
 
-.topbar{
-    font-family: "FreeSans", sans-"Microsoft YaHei", serif;
-    font-size: 1.3em;
-    color: #FFF;
-    font-weight: bold;
-    position: absolute;
-}
-
 
 /*************************************
 Category
@@ -235,18 +227,24 @@ font-size: 0.8em;
 
 .topbar .btn {
     border: 0;
-    font-family: "FreeSans", sans-"Microsoft YaHei", serif;
+
+}
+
+.topbar{
     /* background: url(http://tubocurarine.is-programmer.com/stylesheets/admin/header.jpg) repeat; */
     background: #333;
-    font-size: 1.3em;
-    color: #FFF;
-    margin: 0 0 0 0;
-    margin-bottom: 4px;
     border-color: #470101;
-    height: 94.78125px;
+    color: #FFF;
+    font-family: "FreeSans", sans-"Microsoft YaHei", serif;
+    font-size: 1.3em;
     font-weight: bold;
-    padding-top: 1.5em;
+    height: 94.78125px;
+    margin-bottom: 4px;
+    margin: 0 0 0 0;
     padding-bottom: 1.5em;
     padding-left: 55px;
     padding-right: 55px
+    padding-top: 1.5em;
+    position: absolute;
 }
+
