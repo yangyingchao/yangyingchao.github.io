@@ -55,9 +55,6 @@ body {
     margin: -20px -20px 20px;
 }
 
-.topbar .btn {
-    border: 0;
-}
 
 
 /* tag_box ======================================================== */
@@ -234,4 +231,22 @@ Category
 #category a span {
 vertical-align: super;
 font-size: 0.8em;
+}
+
+.topbar .btn {
+    border: 0;
+    font-family: "FreeSans", sans-"Microsoft YaHei", serif;
+    /* background: url(http://tubocurarine.is-programmer.com/stylesheets/admin/header.jpg) repeat; */
+    background: #333;
+    font-size: 1.3em;
+    color: #FFF;
+    margin: 0 0 0 0;
+    margin-bottom: 4px;
+    border-color: #470101;
+    height: 94.78125px;
+    font-weight: bold;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    padding-left: 55px;
+    padding-right: 55px
 }
