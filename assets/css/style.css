@@ -225,13 +225,13 @@ vertical-align: super;
 font-size: 0.8em;
 }
 
-.topbar .btn {
+#topbar .btn {
     border: 0;
 
 }
 
-.topbar{
-    /* background: url(http://tubocurarine.is-programmer.com/stylesheets/admin/header.jpg) repeat; */
+#topbar{
+    /* background: url(/assets/img/header.jpg) repeat; */
     background: #333;
     border-color: #470101;
     color: #FFF;
