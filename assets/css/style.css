@@ -279,3 +279,13 @@ h3 small{font-size:14px;}
     white-space: normal;/*overcome bootstrap nowrap*/
     padding: 3px 4px 0px 4px;/*overcome bootstrap padding*/
 }
+
+#footer{
+	float: right;
+	clear: both;
+	padding-right: 70px;
+	padding-bottom: 5px;
+	color: #888888;
+	font-size: 9px;
+	text-align: center
+}
