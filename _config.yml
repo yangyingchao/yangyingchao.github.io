@@ -1,14 +1,14 @@
 permalink: /:year/:month/:day/:title.html
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "org"]
 pygments: true
 
 markdown: kramdown
 
 title : TBlog
 author :
-  name : Tubo
-  email : yangyingchao@gmail.com
-  github : yangyingchao
+name : Tubo
+email : yangyingchao@gmail.com
+github : yangyingchao
 
 
 production_url : http://yangyingchao.github.io
