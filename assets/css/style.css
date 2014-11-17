@@ -267,6 +267,15 @@ font-size: 0.8em;
  +Hn and p
 *************************************/
 
-h3{font-size:18px;border: none ;}
-h3 small{font-size:14px;}
-#sidebar h2{ margin-bottom: 5px; color: #555555; font-size: 15px }
+/* h3{font-size:18px;border: none ;} */
+/* h3 small{font-size:14px;} */
+/* #sidebar h2{ margin-bottom: 5px; color: #555555; font-size: 15px } */
+
+*:not(pre)>code{
+    border: 1px solid #ddd;
+    color: #c03;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    white-space: normal;/*overcome bootstrap nowrap*/
+    padding: 3px 4px 0px 4px;/*overcome bootstrap padding*/
+}
