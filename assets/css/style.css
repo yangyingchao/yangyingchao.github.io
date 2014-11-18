@@ -276,6 +276,7 @@ h3 small{font-size:14px;}
     color: #c03;
     background-color: #f8f8f8;
     border-radius: 3px;
+    font-size: 85%;
     white-space: normal;/*overcome bootstrap nowrap*/
     padding: 3px 4px 0px 4px;/*overcome bootstrap padding*/
 }
