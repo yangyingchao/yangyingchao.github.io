@@ -39,7 +39,7 @@ layout: default
 	<div class="ds-thread"
          data-thread-key="{{page.url}}"
          data-title="{{page.title}}"
-         data-url="{{ site.production_url }}{{ page.url }"></div>
+         data-url="{{ site.production_url }}{{ page.url }}"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -57,8 +57,18 @@ layout: default
 
   </div>
 
-  <div class="span4">
-    <h4>AA发布日期</h4>
-    <div class="date"><span>{{ page.date | date: "%Y年 %m月 %d日" }}</span></div>
+  <div class="span45">
+    <h4>发布日期</h4>
+    <div class="date">
+      <span>{{ page.date | date: "%Y年 %m月 %d日" }}</span>
+    </div>
+    <div id="footer">
+      <p align="center">
+        Hosted by
+    <a href="//github.com/" target="_blank">GitHub</a>
+    and powered by
+    <a href="//jekyllrb.com/">Jekyll</a>.</p>
   </div>
+  </div>
+
 </div>
