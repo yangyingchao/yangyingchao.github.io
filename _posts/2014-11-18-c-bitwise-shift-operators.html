@@ -1,0 +1,103 @@
+---
+layout : post
+title : 有符号数右移引发的 bug
+description : None
+categories : C/C++
+tags : C bitwise shift
+---
+<p>
+最近在整理以前的代码，想让整个工程可以顺利的在 64 位系统上运行，同时趁机改掉尽可能多的编警告。整理过程中发现很多的警告都是由有符号数 (signed value) 和无符号数 (unsigned
+value) 的隐式转换因起来的比如：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">StoreValue</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">value</span>); <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">declared in other sources.</span>
+<span class="linenr">2: </span>
+<span class="linenr">3: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">TestFunc</span>()
+<span class="linenr">4: </span>{
+<span class="linenr">5: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span> <span style="color: #daa520;">value</span> = 0;
+<span class="linenr">6: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">operations on value...</span>
+<span class="linenr">7: </span>    StoreValue(value);
+<span class="linenr">8: </span>}
+</pre>
+</div>
+
+<p>
+To make compiler happy，很多地方简单的改成了：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">TestFunc</span>()
+<span class="linenr">2: </span>{
+<span class="linenr">3: </span>     <span style="color: #32cd32;">int</span> <span style="color: #daa520;">value</span> = 0;
+<span class="linenr">4: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">operations on value...</span>
+<span class="linenr">5: </span>    StoreValue(value);
+<span class="linenr">6: </span>}
+</pre>
+</div>
+
+<p>
+貌似没什么问题，但是有一个地方的类似改动却让程序进入了死循环：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #32cd32;">void</span>* <span style="color: #1e90ff; font-weight: bold;">test_func</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">value</span>)
+<span class="linenr">2: </span>{
+<span id="coderef-1" class="coderef-off"><span class="linenr">3: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #daa520;">v</span> = value; <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">&#20043;&#21518;&#25913;&#25104;&#20102; int v = value;</span></span>
+<span id="coderef-2" class="coderef-off"><span class="linenr">4: </span>    <span style="color: #ff4040;">while</span> (v <span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&gt;&gt;=</span> 1) {</span>
+<span class="linenr">5: </span>        <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">other operations...</span>
+<span class="linenr">6: </span>    }
+<span class="linenr">7: </span>}
+</pre>
+</div>
+
+<p>
+死循环之后在 XCode 中直接将程序暂停，发现此时 <code>v = -1</code> ，并且之后始终为 -1。后来查了一下，发现 C 语言的左移右移有如下的规定：
+</p>
+
+<ul class="org-ul">
+<li>If the value of the right operand is negative or is greater than or equal to the width of the promoted left operand, the behavior is undefined.
+</li>
+
+<li>The result of <code>E1 &lt;&lt; E2</code> is <code>E1</code> <i>left-shifted</i> <code>E2</code> bit positions; vacated bits are filled with zeros.
+
+<ul class="org-ul">
+<li>If <code>E1</code> has an unsigned type, the value of the result is <code>E1 × 2^E2</code> , reduced modulo one more than the maximum value representable in the result type:
+
+<p>
+\(mod(E1*2^{E2}, MaxValueOfThisType)\)
+</p>
+</li>
+
+<li>If <code>E1</code> has a signed type and non-negative value,
+<ul class="org-ul">
+<li>If <code>E1 × 2^E2</code> is representable in the result type, then that is the resulting value;
+</li>
+<li>Otherwise, the behavior is undefined.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+<li>The result of <code>E1 &gt;&gt; E2</code> is <code>E1</code> <i>right-shifted</i> <code>E2</code> bit positions.
+
+<ul class="org-ul">
+<li>If <code>E1</code> has an unsigned type or if <code>E1</code> has a signed type and a nonnegative value:
+the value of the result is the integral part of the quotient of <code>E1 / 2^E2</code> .
+</li>
+<li>If <code>E1</code> has a signed type and a negative value, resulting value is <b>implementation-defined</b>.
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+上面的例子中，  <a href="#coderef-1"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-1');" onmouseout="CodeHighlightOff(this, 'coderef-1');">3</a>  中如果将其换成 <code>int</code> ，并且输入为负数，<a href="#coderef-2"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-2');" onmouseout="CodeHighlightOff(this, 'coderef-2');">4</a> 中 clang 自动将补齐的位置位成 1，最后导致 <code>v</code> 永远为 -1，循环就永远也出不来了。。
+</p>
+
+<p>
+感兴趣的可以看看<a href="http://stackoverflow.com/questions/1857928/right-shifting-negative-numbers-in-c">这里</a> 。</p>

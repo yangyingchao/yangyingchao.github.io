@@ -1,0 +1,79 @@
+#+TITLE: 有符号数右移引发的 bug
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:      yangyingchao[at]gmail[dot]com
+#+OPTIONS: ^:nil toc:1
+#+KEYWORDS: C bitwise shift
+#+CATEGORIES: C/C++
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+最近在整理以前的代码，想让整个工程可以顺利的在 64 位系统上运行，同时趁机改掉尽可能多的
+编警告。整理过程中发现很多的警告都是由有符号数 (signed value) 和无符号数 (unsigned
+value) 的隐式转换因起来的比如：
+
+#+BEGIN_SRC c -n
+  void StoreValue(int value); // declared in other sources.
+
+  void TestFunc()
+  {
+      unsigned int value = 0;
+      // operations on value...
+      StoreValue(value);
+  }
+#+END_SRC
+
+To make compiler happy，很多地方简单的改成了：
+
+#+BEGIN_SRC c -n
+  void TestFunc()
+  {
+       int value = 0;
+      // operations on value...
+      StoreValue(value);
+  }
+#+END_SRC
+
+貌似没什么问题，但是有一个地方的类似改动却让程序进入了死循环：
+
+#+BEGIN_SRC c -n -r
+  void* test_func(int value)
+  {
+      unsigned v = value; // 之后改成了 int v = value; (ref:1)
+      while (v >>= 1) { (ref:2)
+          // other operations...
+      }
+  }
+#+END_SRC
+
+死循环之后在 XCode 中直接将程序暂停，发现此时 =v = -1= ，并且之后始终为 -1。后来查了一
+下，发现 C 语言的左移右移有如下的规定：
+
+ * If the value of the right operand is negative or is greater than or equal to the width of the promoted left operand, the behavior is undefined.
+
+ * The result of =E1 << E2= is =E1= /left-shifted/ =E2= bit positions; vacated bits are filled with zeros.
+
+   + If =E1= has an unsigned type, the value of the result is =E1 × 2^E2= , reduced modulo one more than the maximum value representable in the result type:
+
+     $mod(E1*2^{E2}, MaxValueOfThisType)$
+
+   + If =E1= has a signed type and non-negative value,
+     + If =E1 × 2^E2= is representable in the result type, then that is the resulting value;
+     + Otherwise, the behavior is undefined.
+
+ * The result of =E1 >> E2= is =E1= /right-shifted/ =E2= bit positions.
+
+    + If =E1= has an unsigned type or if =E1= has a signed type and a nonnegative value:
+      the value of the result is the integral part of the quotient of =E1 / 2^E2= .
+    + If =E1= has a signed type and a negative value, resulting value is *implementation-defined*.
+
+ 上面的例子中，  [[(1)]]  中如果将其换成 =int= ，并且输入为负数，[[(2)]] 中 clang 自动将补齐的位置位
+ 成 1，最后导致 =v= 永远为 -1，循环就永远也出不来了。。
+
+ 感兴趣的可以看看[[http://stackoverflow.com/questions/1857928/right-shifting-negative-numbers-in-c][这里]] 。
