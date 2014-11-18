@@ -1,9 +1,8 @@
-#+TITLE: 2014-11-18-Ditaa-Source-Code-Blocks-in-Org-Mode
 #+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
-#+TITLE:      =Ditaa= Source Code Blocks in Org Mode
+#+TITLE:      Ditaa Source Code Blocks in Org Mode
 #+AUTHOR:     Thomas Dye
 #+EMAIL:      tsd[at]tsdye[dot]com
 #+LANGUAGE:   en
