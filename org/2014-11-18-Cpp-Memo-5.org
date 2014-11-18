@@ -38,9 +38,6 @@
    #+END_SRC
 
  * =#warning= is like =#error=, but cuases the preprocessor to issue a wanrning and then continue preprocessing.
-
-
-
    It is usually used in obsolete header files:
 
    #+BEGIN_SRC c
