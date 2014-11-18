@@ -1,0 +1,60 @@
+#+TITLE: CPP Info Memo Part 5 -- Diagnostics
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:      yangyingchao[at]gmail[dot]com
+#+OPTIONS: ^:nil toc:1
+#+KEYWORDS: preprocessor diagnostics
+#+CATEGORIES: C/C++
+#+DESCRIPTION: introduction of warning and error directives.
+#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD:      <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+
+=#error= and =#warning= are used for diagnostics.
+
+ * =#error= will cause proprocessor to report a fatal error and stop pre-processing.
+
+    =#error= normally should be placed inside a conditional that detects a combination
+   of parameters which should not be supported, for example:
+
+   #+BEGIN_SRC c
+     #ifdef __vax__
+     #error "Won't work on VAXen.  See comments at get_last_object."
+     #endif
+   #+END_SRC
+
+   Or:
+
+   #+BEGIN_SRC c
+     #if !defined(UNALIGNED_INT_ASM_OP) && defined(DWARF2_DEBUGGING_INFO)
+     #error "DWARF2_DEBUGGING_INFO requires UNALIGNED_INT_ASM_OP."
+     #endif
+   #+END_SRC
+
+ * =#warning= is like =#error=, but cuases the preprocessor to issue a wanrning and then continue preprocessing.
+
+
+
+   It is usually used in obsolete header files:
+
+   #+BEGIN_SRC c
+     #ifndef _OBSOLETE_H_
+     #define _OBSOLETE_H_
+
+     #warning "This file is obsoleted..."
+
+     #endif /* _OBSOLETE_H_ */
+   #+END_SRC
+
+
+     Neither =#error= nor =#warning= macro-expands its argument.
+Internal whitespace sequences are each replaced with a single space.
+The line must consist of complete tokens.  It is wisest to make the
+argument of these directives be a single string constant; this avoids
+problems with apostrophes and the like.
