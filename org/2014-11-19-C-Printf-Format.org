@@ -41,8 +41,7 @@
    - *flags*
      =%= 之后可以有 0 或多个 flags。
 
-     + =#=\\
-       The value  should be converted to  an "alternate form".
+     + =#=    The value  should be converted to  an "alternate form". \\
 
        * For =o=  conversions\\
          the first character of the output string is made zero (by prefixing a 0 if it
