@@ -1,0 +1,244 @@
+---
+layout : post
+title : Chrome Extension Overview 笔记
+description : Chrome Extension Overview 笔记，省得忘。。
+categories : Web
+tags : (nil)
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 基础</a></li>
+<li><a href="#sec-2">2. 文件</a></li>
+<li><a href="#sec-3">3. 框架</a></li>
+<li><a href="#sec-4">4. 使用 Chrome API</a></li>
+<li><a href="#sec-5">5. 页面之间的交互</a></li>
+<li><a href="#sec-6">6. 数据的存储</a></li>
+</ul>
+</div>
+</div>
+<p>
+记录一下 阅读 chrome extension 的笔记，原文地址：<a href="https://developer.chrome.com/extensions/overview">https://developer.chrome.com/extensions/overview</a>.
+</p>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 基础</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Chrome 扩展实际上是打包在一起的一个文件集合，包括： HTML, CSS, JavaScript, images 等等。这些文件组成的扩展用于向浏览器增加新的功能。 Chrome 扩展本质上就是网页，可以使用从 <code>XMLHttpRequest</code> , <code>json</code> ,  <code>HTML5</code> 等所有的浏览器提供的 API。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 文件</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Chrome 扩展有如下的文件：
+</p>
+
+<ul class="org-ul">
+<li>一个 Manifest File
+</li>
+<li>一个或多个的 HTML 文件
+</li>
+<li>（可选） 一个或多个的 <code>JavaScript</code> 文件
+</li>
+<li>（可选） 任何其他的所需文件，如图片等
+</li>
+</ul>
+
+<p>
+扩展开发的时候，将所有文件放在一个目录下，Chrome 可以从该目录下加载开发中的插件。开发完成之后，其中的所有文件会被打包成一个扩展名为 <code>.rts</code> ZIP 包。
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Manifest 文件</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Manifest 文件用于向浏览器提供扩展的基本信息，比如文件以及兼容性等。下面是一个典型的
+Manifest 文件：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span class="linenr"> 1: </span>{
+<span class="linenr"> 2: </span>  <span style="color: #d78700;">"name"</span>: <span style="color: #d78700;">"My Extension"</span>,
+<span class="linenr"> 3: </span>  <span style="color: #d78700;">"version"</span>: <span style="color: #d78700;">"2.1"</span>,
+<span class="linenr"> 4: </span>  <span style="color: #d78700;">"description"</span>: <span style="color: #d78700;">"Gets information from Google."</span>,
+<span class="linenr"> 5: </span>  <span style="color: #d78700;">"icons"</span>: { <span style="color: #d78700;">"128"</span>: <span style="color: #d78700;">"icon_128.png"</span> },
+<span class="linenr"> 6: </span>  <span style="color: #d78700;">"background"</span>: {
+<span class="linenr"> 7: </span>    <span style="color: #d78700;">"persistent"</span>: <span style="color: #7fffd4; font-weight: bold;">false</span>,
+<span class="linenr"> 8: </span>    <span style="color: #d78700;">"scripts"</span>: [<span style="color: #d78700;">"bg.js"</span>]
+<span class="linenr"> 9: </span>  },
+<span class="linenr">10: </span>  <span style="color: #d78700;">"permissions"</span>: [<span style="color: #d78700;">"http://*.google.com/"</span>, <span style="color: #d78700;">"https://*.google.com/"</span>],
+<span class="linenr">11: </span>  <span style="color: #d78700;">"browser_action"</span>: {
+<span class="linenr">12: </span>    <span style="color: #d78700;">"default_title"</span>: <span style="color: #d78700;">""</span>,
+<span class="linenr">13: </span>    <span style="color: #d78700;">"default_icon"</span>: <span style="color: #d78700;">"icon_19.png"</span>,
+<span class="linenr">14: </span>    <span style="color: #d78700;">"default_popup"</span>: <span style="color: #d78700;">"popup.html"</span>
+<span class="linenr">15: </span>  }
+<span class="linenr">16: </span>}
+</pre>
+</div>
+
+<p>
+Manifest 的具体细节，参考：<a href="https://developer.chrome.com/extensions/manifest">https://developer.chrome.com/extensions/manifest</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 框架</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+扩展的大概组成如下：
+</p>
+
+<ul class="org-ul">
+<li><i>后台页</i> ( <i>background page</i> ) ： 不可见但包含了该扩展主要逻辑的页面。
+</li>
+<li><i>UI Pages</i> ： 用于展示扩展提供的某些内容。
+</li>
+<li><i>Content Script</i> ： 用于与加载的网页交互的 JS 脚本。
+</li>
+</ul>
+</div>
+
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <a href="https://developer.chrome.com/extensions/background_pages">Background Page</a></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+后台页包含了扩展的主要逻辑。根据后台页是否始终打开，分为两种：
+</p>
+
+<ul class="org-ul">
+<li>Persistent background pages : 始终打开
+</li>
+<li>Event Pages: 按需打开和关闭.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> UI Pages</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+扩展可以有多个 UI Pages，例如：
+</p>
+
+<ul class="org-ul">
+<li><i>Popup page</i>: 用于 BrowserActions。
+</li>
+<li><i>Options</i> : 用于更改选项。
+</li>
+</ul>
+
+<p>
+同一扩展中的 UI Pages 可以访问其他 UI Pages 的 DOM。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Content Scripts</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+扩展通过 Content Scripts 与网页交互，它由 JavaScript 组成，并在加载网页时候执行。
+Content Scripts 可以访问网页的 DOM，但是无法更改 background page 的 DOM。
+</p>
+
+<p>
+Content Scripts 通过消息与后台页以及其他 UI Pages 交互。
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/chrome_extention_components.png" alt="chrome_extention_components.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 使用 Chrome API</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Chrome 为扩展提供了以 <code>chrome.</code> 开头的 Chrome API，用于让扩展和浏览器合作的更紧密。
+</p>
+</div>
+
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 同步与异步</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> 异步 API</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+<code>chrome.*</code> 的 API 大多为异步 API：该类型 API 调用时候会直接返回，执行的结果将通过注册的回调通知给扩展。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span class="linenr">1: </span>chrome.tabs.create(object createProperties, <span style="color: #ff4040;">function</span> callback)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> 同步 API</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+有些 API 为同步 API，不需要回调，该类 API 在结果返回之前会阻塞。例如：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span class="linenr">1: </span>string chrome.runtime.getURL()
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 页面之间的交互</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+扩展的页面间可以直接相互交互，=chrome.extension= 提供了 <code>getViews()</code> 和
+<code>getBackgroundPage()</code> 用于获取某个 Page 和后台页。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 数据的存储</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+插件可以通过 <a href="https://developer.chrome.com/extensions/storage">Storage API</a> 或者 HTML5 的 <a href="http://dev.w3.org/html5/webstorage/">Web Storage API</a> 来存储数据。但如果扩展处于匿名模式 (incognito mode)，则无法存储数据，可以通过相关的 Tab 或者 Window 的 <code>incognito</code>
+属性来检查插件是否处于匿名状态：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-js"><span class="linenr">1: </span><span style="color: #ff4040;">function</span> <span style="color: #1e90ff; font-weight: bold;">saveTabData</span>(<span style="color: #daa520;">tab</span>, <span style="color: #daa520;">data</span>) {
+<span class="linenr">2: </span>  <span style="color: #ff4040;">if</span> (tab.incognito) {
+<span class="linenr">3: </span>    chrome.runtime.getBackgroundPage(<span style="color: #ff4040;">function</span>(<span style="color: #daa520;">bgPage</span>) {
+<span class="linenr">4: </span>      bgPage[tab.url] = data;      <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">Persist data ONLY in memory</span>
+<span class="linenr">5: </span>    });
+<span class="linenr">6: </span>  } <span style="color: #ff4040;">else</span> {
+<span class="linenr">7: </span>    localStorage[tab.url] = data;  <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">OK to store data</span>
+<span class="linenr">8: </span>  }
+<span class="linenr">9: </span>}
+</pre>
+</div>
+</div>
+</div>
