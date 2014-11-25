@@ -1,0 +1,110 @@
+#+TITLE: zlib uncompress error
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: extension, chrome
+#+CATEGORIES: Web
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+* 问题描述
+
+有段代码，示例如下：
+
+#+BEGIN_SRC c -r -n
+  uint32_t dstLen = 1024*80; (ref:invalid_arg)
+  unsigned char out = malloc(dstLen);
+  memset(out, 0, dstLen);
+
+  err = uncompress(out, &dstLen, com, dl);
+#+END_SRC
+
+当将 Target 设置成 32 位时，工作正常。当 Target 为 64 位时， Debug 版工作正常，Release
+版会报错，错误码为 =Z_BUF_ERROR= 。查阅 =uncompress= 的文档，返回值的解释如下：
+
+#+BEGIN_SRC c -r -n
+  /* uncompress returns Z_OK if success, Z_MEM_ERROR if there was not
+     enough memory, Z_BUF_ERROR if there was not enough room in the output
+     buffer, or Z_DATA_ERROR if the input data was corrupted.
+  ,*/
+#+END_SRC
+
+看起来是因为输出区不够大，是这样么？
+
+* 问题的解决
+
+查看64位的编译log，发现其中有提示：
+
+#+BEGIN_QUOTE
+warning: passing argument 2 of ‘uncompress’ from incompatible pointer type [enabled by default]
+note: expected ‘uLongf *’ but argument is of type ‘uint32_t *’
+#+END_QUOTE
+
+按照编译器的提示，更改如下：
+#+BEGIN_SRC c -r -n
+  uint32_t dstLen = 1024*80;
+  unsigned char out = malloc(dstLen);
+  memset(out, 0, dstLen);
+  uLongf tmpLen = dstLen;
+  err = uncompress(out, &tmpLen, com, dl);
+#+END_SRC
+
+更改之后，问题解决了。但为什么 32 位下没有问题？而且为什么 64 位 Debug 版没有问题，
+Release 版有问题？
+
+* 问题原因
+
+翻开 zlib 的源码看了一下，=uncompress= 开始有一段检查：
+
+#+BEGIN_SRC c -r -n
+  stream.next_out = dest;
+  stream.avail_out = (uInt)*destLen; (ref:A)
+  if ((uLong)stream.avail_out != *destLen) return Z_BUF_ERROR; (ref:B)
+#+END_SRC
+
+这里 zlib 将传入的 =destLen= 强转成了 =uInt= ，并随后又强转成了 =uLong= 并和传入的
+=destLen= 做了个比较，如果不相等，则返回 =Z_BUF_ERROR= 。
+
+这里有些地方值得注意：
+
+=uInt= 在 32/64 位下均为 32 bits， =uLongf= 在 32 位OS 下为 32 bits， 64 位下为 64 位。
+64 位下，如果 =destLen= 是指向 =uint32= 的指针，如 line [[invalid_arg]] 所示，line [[A]] & [[B]] 所读到的
+范围将超出 =desLen= 的真正范围，如果没有发生 SegmentFault，则读到的值有可能并不正确。
+
+第 [[A]] 行还好，最后的强转会将高位的 4 字节丢掉，得到的值和 line [[invalid_arg]] 的值一样，但
+是对于第 [[B]] 行，得到的值很可能会不一样。这就解释了为什么 64 位下有问题，而 32 位下没有
+问。
+
+那 Debug 和 Release 的区别呢？
+
+Release 版相对 Debug 打开了编译器的优化，优化后生成的二进制文件更小，执行也更快。Release
+版生成的可执行文件在运行过程中使用的栈貌似更加“紧凑”。没研究过编译器，不知道怎么表达更
+合一些，还是看下例子吧：
+
+#+BEGIN_SRC c -r -n
+    uint32_t* ptr = &dstLen;
+    fprintf(stderr, "ptr: %p, value: %"PRIX32"\n", ptr, *ptr); (ref:1)
+    ptr++;
+    fprintf(stderr, "ptr: %p, value: %"PRIX32"\n", ptr, *ptr); (ref:2)
+#+END_SRC
+
+这段代码中， [[2]] 中尝试去打印栈对象的指针的“下一个”（ =ptr++= ），Debug 版上，打印出的结
+果大多为 =0= ，而 Release 版则大多非零。该非零值作为 64 位的 uLong 的高 4个 Byte，得到
+的值也就和传入的值不再相同，从而 Line [[B]] 返回的 =Z_BUF_ERROR= 。
+
+所以 Relase 版有问题，Debug 版的没问题其实只能算是巧合了。
+
+
+zlib 为什么加了这段转换和检查\\
+不知道，看起来像是想强制检查入参的类型是否与自己的期望相符？
+
+* 结论
+
+ [[http://www.kuqin.com/effectivec2e/ch12d.htm][重视编译器警告。。。]]

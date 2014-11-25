@@ -1,0 +1,165 @@
+---
+layout : post
+title : zlib uncompress error
+description : (nil)
+categories : Web
+tags : extension, chrome
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 问题描述</a></li>
+<li><a href="#sec-2">2. 问题的解决</a></li>
+<li><a href="#sec-3">3. 问题原因</a></li>
+<li><a href="#sec-4">4. 结论</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 问题描述</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+有段代码，示例如下：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span id="coderef-invalid_arg" class="coderef-off"><span class="linenr">1: </span><span style="color: #32cd32;">uint32_t</span> <span style="color: #daa520;">dstLen</span> = 1024*80;</span>
+<span class="linenr">2: </span><span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">char</span> <span style="color: #daa520;">out</span> = malloc(dstLen);
+<span class="linenr">3: </span>memset(out, 0, dstLen);
+<span class="linenr">4: </span>
+<span class="linenr">5: </span>err = uncompress(out, &amp;dstLen, com, dl);
+</pre>
+</div>
+
+<p>
+当将 Target 设置成 32 位时，工作正常。当 Target 为 64 位时， Debug 版工作正常，Release
+版会报错，错误码为 <code>Z_BUF_ERROR</code> 。查阅 <code>uncompress</code> 的文档，返回值的解释如下：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">uncompress returns Z_OK if success, Z_MEM_ERROR if there was not</span>
+<span class="linenr">2: </span><span style="color: #cd5c5c; font-style: italic;">   enough memory, Z_BUF_ERROR if there was not enough room in the output</span>
+<span class="linenr">3: </span><span style="color: #cd5c5c; font-style: italic;">   buffer, or Z_DATA_ERROR if the input data was corrupted.</span>
+<span class="linenr">4: </span><span style="color: #fa8072;">*/</span>
+</pre>
+</div>
+
+<p>
+看起来是因为输出区不够大，是这样么？
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 问题的解决</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+查看64位的编译log，发现其中有提示：
+</p>
+
+<blockquote>
+<p>
+warning: passing argument 2 of ‘uncompress’ from incompatible pointer type [enabled by default]
+note: expected ‘uLongf *’ but argument is of type ‘uint32_t *’
+</p>
+</blockquote>
+
+<p>
+按照编译器的提示，更改如下：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #32cd32;">uint32_t</span> <span style="color: #daa520;">dstLen</span> = 1024*80;
+<span class="linenr">2: </span><span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">char</span> <span style="color: #daa520;">out</span> = malloc(dstLen);
+<span class="linenr">3: </span>memset(out, 0, dstLen);
+<span class="linenr">4: </span><span style="color: #32cd32;">uLongf</span> <span style="color: #daa520;">tmpLen</span> = dstLen;
+<span class="linenr">5: </span>err = uncompress(out, &amp;tmpLen, com, dl);
+</pre>
+</div>
+
+<p>
+更改之后，问题解决了。但为什么 32 位下没有问题？而且为什么 64 位 Debug 版没有问题，
+Release 版有问题？
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 问题原因</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+翻开 zlib 的源码看了一下，=uncompress= 开始有一段检查：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span>stream.next_out = dest;
+<span id="coderef-A" class="coderef-off"><span class="linenr">2: </span>stream.avail_out = (uInt)*destLen;</span>
+<span id="coderef-B" class="coderef-off"><span class="linenr">3: </span><span style="color: #ff4040;">if</span> ((<span style="color: #32cd32;">uLong</span>)stream.avail_out != *destLen) <span style="color: #ff4040;">return</span> Z_BUF_ERROR;</span>
+</pre>
+</div>
+
+<p>
+这里 zlib 将传入的 <code>destLen</code> 强转成了 <code>uInt</code> ，并随后又强转成了 <code>uLong</code> 并和传入的
+<code>destLen</code> 做了个比较，如果不相等，则返回 <code>Z_BUF_ERROR</code> 。
+</p>
+
+<p>
+这里有些地方值得注意：
+</p>
+
+<p>
+<code>uInt</code> 在 32/64 位下均为 32 bits， <code>uLongf</code> 在 32 位OS 下为 32 bits， 64 位下为 64 位。
+64 位下，如果 <code>destLen</code> 是指向 <code>uint32</code> 的指针，如 line <i>invalid_arg</i> 所示，line <i>A</i> &amp; <i>B</i> 所读到的范围将超出 <code>desLen</code> 的真正范围，如果没有发生 SegmentFault，则读到的值有可能并不正确。
+</p>
+
+<p>
+第 <i>A</i> 行还好，最后的强转会将高位的 4 字节丢掉，得到的值和 line <i>invalid_arg</i> 的值一样，但是对于第 <i>B</i> 行，得到的值很可能会不一样。这就解释了为什么 64 位下有问题，而 32 位下没有问。
+</p>
+
+<p>
+那 Debug 和 Release 的区别呢？
+</p>
+
+<p>
+Release 版相对 Debug 打开了编译器的优化，优化后生成的二进制文件更小，执行也更快。Release
+版生成的可执行文件在运行过程中使用的栈貌似更加“紧凑”。没研究过编译器，不知道怎么表达更合一些，还是看下例子吧：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #32cd32;">uint32_t</span>* <span style="color: #daa520;">ptr</span> = &amp;dstLen;
+<span id="coderef-1" class="coderef-off"><span class="linenr">2: </span>fprintf(stderr, <span style="color: #d78700;">"ptr: %p, value: %"</span>PRIX32<span style="color: #d78700;">"\n"</span>, ptr, *ptr);</span>
+<span class="linenr">3: </span>ptr++;
+<span id="coderef-2" class="coderef-off"><span class="linenr">4: </span>fprintf(stderr, <span style="color: #d78700;">"ptr: %p, value: %"</span>PRIX32<span style="color: #d78700;">"\n"</span>, ptr, *ptr);</span>
+</pre>
+</div>
+
+<p>
+这段代码中， <i>2</i> 中尝试去打印栈对象的指针的“下一个”（ <code>ptr++</code> ），Debug 版上，打印出的结果大多为 <code>0</code> ，而 Release 版则大多非零。该非零值作为 64 位的 uLong 的高 4个 Byte，得到的值也就和传入的值不再相同，从而 Line <i>B</i> 返回的 <code>Z_BUF_ERROR</code> 。
+</p>
+
+<p>
+所以 Relase 版有问题，Debug 版的没问题其实只能算是巧合了。
+</p>
+
+
+<p>
+zlib 为什么加了这段转换和检查<br  />
+不知道，看起来像是想强制检查入参的类型是否与自己的期望相符？
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 结论</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="http://www.kuqin.com/effectivec2e/ch12d.htm">重视编译器警告。。。</a></p>
+</div>
+</div>
