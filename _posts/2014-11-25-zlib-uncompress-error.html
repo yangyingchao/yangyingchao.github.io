@@ -115,11 +115,11 @@ Release 版有问题？
 
 <p>
 <code>uInt</code> 在 32/64 位下均为 32 bits， <code>uLongf</code> 在 32 位OS 下为 32 bits， 64 位下为 64 位。
-64 位下，如果 <code>destLen</code> 是指向 <code>uint32</code> 的指针，如 line <a href="#coderef-invalid_arg"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-invalid_arg');" onmouseout="CodeHighlightOff(this, 'coderef-invalid_arg');">1</a> 所示，line <a href="#coderef-A"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-A');" onmouseout="CodeHighlightOff(this, 'coderef-A');">2</a> &amp; <a href="#coderef-A"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-A');" onmouseout="CodeHighlightOff(this, 'coderef-A');">2</a> 所读到的范围将超出 <code>desLen</code> 的真正范围，如果没有发生 SegmentFault，则读到的值有可能并不正确。
+64 位下，如果 <code>destLen</code> 是指向 <code>uint32</code> 的指针，如 line <a href="#coderef-invalid_arg"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-invalid_arg');" onmouseout="CodeHighlightOff(this, 'coderef-invalid_arg');">1</a> 所示，line <a href="#coderef-A"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-A');" onmouseout="CodeHighlightOff(this, 'coderef-A');">2</a> &amp; <a href="#coderef-B"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-B');" onmouseout="CodeHighlightOff(this, 'coderef-B');">3</a> 所读到的范围将超出 <code>desLen</code> 的真正范围，如果没有发生 SegmentFault，则读到的值有可能并不正确。
 </p>
 
 <p>
-第 <a href="#coderef-A"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-A');" onmouseout="CodeHighlightOff(this, 'coderef-A');">2</a> 行还好，最后的强转会将高位的 4 字节丢掉，得到的值和 line <i>invalid_arg</i> 的值一样，但是对于第 <a href="#coderef-B"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-B');" onmouseout="CodeHighlightOff(this, 'coderef-B');">3</a> 行，得到的值很可能会不一样。这就解释了为什么 64 位下有问题，而 32 位下没有问。
+第 <a href="#coderef-A"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-A');" onmouseout="CodeHighlightOff(this, 'coderef-A');">2</a> 行还好，最后的强转会将高位的 4 字节丢掉，得到的值和 line <a href="#coderef-invalid_arg"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-invalid_arg');" onmouseout="CodeHighlightOff(this, 'coderef-invalid_arg');">1</a> 的值一样，但是对于第 <a href="#coderef-B"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-B');" onmouseout="CodeHighlightOff(this, 'coderef-B');">3</a> 行，得到的值很可能会不一样。这就解释了为什么 64 位下有问题，而 32 位下没有问。
 </p>
 
 <p>
