@@ -1,0 +1,48 @@
+#+TITLE: TDictionay Plugin
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: extension, chrome
+#+CATEGORIES: Web
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+* 简介
+
+业余时间做的一个 [[https://github.com/yangyingchao/TDictionary/tree/master/chrome-extension][chrome extension]], 已完成的特性包括：
+
+ - 右键取词
+ - 基本翻译 （源自 [[http://www.youdao.com/][有道]]）。
+ - TTS 语音
+
+* 安装
+
+下载后需手动安装。
+
+* 截图
+
+#+CAPTION: Screenshot
+[[../assets/img/tdict.png]]
+
+
+* 记录一下开发 TDictionary 过程中的若干小问题
+
+ - Placing a background image after =h2=
+
+   #+BEGIN_SRC css -r -n
+     #tdict-bubble-main h2 {
+         font-size: 1.5em;
+         background-image: url(your_url);
+         background-repeat: no-repeat;
+         padding: .4em 30px .4em 0;
+         background-position: right;
+         display: inline;
+     }
+   #+END_SRC
