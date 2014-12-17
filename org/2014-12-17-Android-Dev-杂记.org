@@ -1,0 +1,20 @@
+#+TITLE: Android Dev 杂记
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: android, color, alpha, xml
+#+CATEGORY: Android
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+* 如何在 XML 里指定 Alpha 通道
+
+[[http://stackoverflow.com/questions/15852122/hex-transparency-in-colors]]
+[[http://stackoverflow.com/questions/16611759/how-set-alpha-opacity-value-to-color-on-xml-drawable]]
