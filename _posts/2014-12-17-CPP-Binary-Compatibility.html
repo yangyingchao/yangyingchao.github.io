@@ -1,0 +1,66 @@
+---
+layout : post
+title : C++ 二进制兼容性
+categories : C/C++
+tags : Binary Compatibility
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 二进制兼容与源代码兼容</a></li>
+<li><a href="#sec-2">2. The Do's and Don'ts</a></li>
+</ul>
+</div>
+</div>
+<p>
+前两天扫了一眼 JNI 的一部分代码，被长达 22 个参数的函数着实震惊了一把，而且从文件历史上看，参数个数近来仍在增长中。每次增长之后，一旦 Java 代码和 C
+库不匹配，App 总是直接 Crash 掉。这个问题的解决办法暂且不谈，但它让我想起了另外一个问题：<a href="https://techbase.kde.org/Policies/Binary_Compatibility_Issues_With_C%252B%252B">二进制兼容性 (Binary Compatibility)</a>。摘录一下。
+</p>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 二进制兼容与源代码兼容</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+如果一个应用程序动态链接到一个共享库，并且该库更新之后，应用程序无需重新编译即可继续使用，则该动态库具有 <b>二进制兼容性 (Binary Compatibility)</b> 。
+</p>
+
+<p>
+相对的，如果应用程序需要重新编译才能运行，则该库具有 <b>源代码兼容性 (Source
+Code Compatibility)</b>
+</p>
+
+<p>
+而如果应用程序必须修改源代码才能编译运行，通常我们称其为不兼容。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> The Do's and Don'ts</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+简单来说，如果修改了某些个类，但是这些修改并没有改变类实例 (class instances) 的大小，同时也没有改变类的虛函数表 (Virtual Function Table) ，则该改动通常具有二进制兼容性，反之则不具备。
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> The Do's</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>增加新的非虛成员函数
+</li>
+<li>为一个类增加新的枚举类型
+</li>
+<li>为类增加新的静态方法
+</li>
+<li></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> The Don'ts</h3>
+</div>
+</div>
