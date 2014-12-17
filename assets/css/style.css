@@ -4,9 +4,9 @@ html, body {
 }
 body {
     padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
-        background-color: white;
+    background-color: white;
 	color: #555555;
-	font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,"Microsoft YaHei", serif,"Times New Roman", Times, "Microsoft YaHei", serif;
+	font-family: "Microsoft YaHei", serif,"Times New Roman", Times;
 	font-size: 14px;
 	line-height: 1.5
 }
