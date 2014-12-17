@@ -3,7 +3,7 @@
 #+EMAIL:      yangyingchao[at]gmail[dot]com
 #+OPTIONS: ^:nil toc:2
 #+KEYWORDS: (nil)
-#+CATEGORIES: (nil)
+#+CATEGORIES: C/C++
 #+DESCRIPTION: (nil)
 #+OPTIONS:    H:3 toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
