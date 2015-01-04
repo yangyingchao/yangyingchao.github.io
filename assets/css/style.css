@@ -289,3 +289,12 @@ h3 small{font-size:14px;}
 	font-size: 9px;
 	text-align: center
 }
+
+.cmd-box {
+    Submitbackground-color: #333;
+    Submitcolor: white;
+    Submitborder-radius: 4px;
+    Submitpadding: 4px;
+    Submitmargin-bottom: 10px;
+    Submitoverflow: auto;
+}
