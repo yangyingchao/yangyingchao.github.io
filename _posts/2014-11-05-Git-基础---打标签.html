@@ -250,5 +250,17 @@ To git@github.com:schacon/simplegit.git
 	</div>
 </div>
 <p>
-	&nbsp;</p>
+  &nbsp;</p>
 
+<h3 id="删除远端标签">
+  <a href="#删除远端标签">分享标签</a></h3>
+<p>
+  本地删除标签后，<code>git push</code> 并不会把远端服务器上标签远端仓库的标签也删除掉，只有通过显式命令
+  才能删除。
+
+  运行 <code>git push origin :[tagname]</code> 即可：</p>
+		<pre>
+<code>git push origin :v1.3.1
+To git@github.com:yangyingchao/mget.git
+ - [deleted]         v1.3.1
+</code></pre>
