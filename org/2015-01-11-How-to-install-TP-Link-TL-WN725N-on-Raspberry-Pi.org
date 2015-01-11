@@ -1,0 +1,279 @@
+#+TITLE: How to install TP Link TL WN725N on Raspberry Pi
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+#+BEGIN_HTML
+
+  <!DOCTYPE html>
+  <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en-US"><![endif]-->
+  <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en-US"><![endif]-->
+  <!--[if IE 8]><html class="no-js lt-ie9" lang="en-US"><![endif]-->
+  <!--[if gt IE 8]><!--><html class="no-js" lang="en-US"><!--<![endif]-->
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to install TP-Link TL-WN725N on Raspberry Pi | Laurent Hinoul</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <link rel='stylesheet' id='jetpack_related-posts-group-css' href='http://laurenthinoul.com/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/jetpack/modules/related-posts/related-posts.css,wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css,wp-content/plugins/crayon-syntax-highlighter/themes/eclipse/eclipse.css,wp-content/plugins/crayon-syntax-highlighter/fonts/consolas.css,wp-content/plugins/download-manager/css/front.css,wp-content/plugins/download-manager/bootstrap/css/bootstrap.css,wp-content/plugins/jetpack/modules/likes/style.css,wp-content/themes/ward/style.css,wp-content/plugins/jetpack/modules/widgets/top-posts/style.css,wp-content/plugins/tablepress/css/default.min.css,wp-content/plugins/jetpack/modules/sharedaddy/sharing.css,wp-content/plugins/jetpack/_inc/genericons/genericons/genericons.css,wp-content/plugins/jetpack/css/jetpack.css' type='text/css' media='all' />
+  <script type='text/javascript'>
+  /* <![CDATA[ */
+  var CrayonSyntaxSettings = {"version":"2.6.9","is_admin":"0","ajaxurl":"http:\/\/laurenthinoul.com\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+  var CrayonSyntaxStrings = {"copy":"Press %s to Copy, %s to Paste","minimize":"Click To Expand Code"};
+  /* ]]> */
+  </script>
+
+  </style>
+
+  <style type="text/css" media="screen">body{position:relative}#dynamic-to-top{display:none;overflow:hidden;width:auto;z-index:90;position:fixed;bottom:20px;right:20px;top:auto;left:auto;font-family:sans-serif;font-size:1em;color:#fff;text-decoration:none;padding:17px 16px;border:1px solid #000;background:#272727;-webkit-background-origin:border;-moz-background-origin:border;-icab-background-origin:border;-khtml-background-origin:border;-o-background-origin:border;background-origin:border;-webkit-background-clip:padding-box;-moz-background-clip:padding-box;-icab-background-clip:padding-box;-khtml-background-clip:padding-box;-o-background-clip:padding-box;background-clip:padding-box;-webkit-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-ms-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-moz-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-o-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-khtml-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-icab-box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );box-shadow:0 1px 3px rgba( 0, 0, 0, 0.4 ), inset 0 0 0 1px rgba( 0, 0, 0, 0.2 ), inset 0 1px 0 rgba( 255, 255, 255, .4 ), inset 0 10px 10px rgba( 255, 255, 255, .1 );-webkit-border-radius:30px;-moz-border-radius:30px;-icab-border-radius:30px;-khtml-border-radius:30px;border-radius:30px}#dynamic-to-top:hover{background:#4e9c9c;background:#272727 -webkit-gradient( linear, 0% 0%, 0% 100%, from( rgba( 255, 255, 255, .2 ) ), to( rgba( 0, 0, 0, 0 ) ) );background:#272727 -webkit-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 -khtml-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 -moz-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 -o-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 -ms-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 -icab-linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );background:#272727 linear-gradient( top, rgba( 255, 255, 255, .2 ), rgba( 0, 0, 0, 0 ) );cursor:pointer}#dynamic-to-top:active{background:#272727;background:#272727 -webkit-gradient( linear, 0% 0%, 0% 100%, from( rgba( 0, 0, 0, .3 ) ), to( rgba( 0, 0, 0, 0 ) ) );background:#272727 -webkit-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 -moz-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 -khtml-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 -o-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 -ms-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 -icab-linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) );background:#272727 linear-gradient( top, rgba( 0, 0, 0, .1 ), rgba( 0, 0, 0, 0 ) )}#dynamic-to-top,#dynamic-to-top:active,#dynamic-to-top:focus,#dynamic-to-top:hover{outline:none}#dynamic-to-top span{display:block;overflow:hidden;width:14px;height:12px;background:url( http://laurenthinoul.com/wp-content/plugins/dynamic-to-top/css/images/up.png )no-repeat center center}</style><script type="text/javascript">
+  (function(url){
+  if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+  var wfscr = document.createElement('script');
+  wfscr.type = 'text/javascript';
+  wfscr.async = true;
+  wfscr.src = url + '&r=' + Math.random();
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+  })('//laurenthinoul.com/wp-admin/admin-ajax.php?action=wordfence_logHuman&hid=59757AC433619245D4DC018729D87776');
+  </script>
+  <!-- Jetpack Open Graph Tags -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to install TP-Link TL-WN725N on Raspberry Pi" />
+  <meta property="og:url" content="http://laurenthinoul.com/how-to-install-tp-link-tl-wn725n-on-raspberry-pi/" />
+  <meta property="og:description" content="The TP-Link TL-WN725N is known as a hard one to get working on your Raspberry Pi. After searching for a long time, I finally got it working. In this post, I will tell you how to install it. It is r..." />
+  <meta property="article:published_time" content="2014-02-18T19:42:47+00:00" />
+  <meta property="article:modified_time" content="2014-12-02T13:01:51+00:00" />
+  <meta property="article:author" content="http://laurenthinoul.com/author/deb31377n2/" />
+  <meta property="og:site_name" content="Laurent Hinoul" />
+  <meta property="og:image" content="http://laurenthinoul.com/wp-content/uploads/2014/02/wpa_gui.png" />
+  <meta name="twitter:site" content="@jetpack" />
+  <meta name="twitter:image" content="http://laurenthinoul.com/wp-content/uploads/2014/02/wpa_gui.png?w=240" />
+  <meta name="twitter:card" content="summary" />
+  </head>
+
+  <body class="single single-post postid-657 single-format-standard basic">
+
+      <div id="page">
+          <div id="main" class="container">
+              <div class="row">
+
+      <div id="primary" class="col-md-8">
+
+
+
+      <article id="post-657" class="post-657 post type-post status-publish format-standard hentry category-raspberry-pi tag-network tag-raspberry-pi-2 tag-wifi no-featured-image">
+
+                  <div class="">
+
+                          <h3 class="post-category"><a href="http://laurenthinoul.com/category/raspberry-pi/" rel="category tag">Raspberry Pi</a></h3>
+          <h1 class="entry-title">
+                      How to install TP-Link TL-WN725N on Raspberry Pi            </h1>
+
+      <div class="entry-meta">
+          <a href="http://laurenthinoul.com/how-to-install-tp-link-tl-wn725n-on-raspberry-pi/" class="time"><time class="published updated" datetime="2014-02-18">Feb 18, 2014</time></a>&nbsp;&bull;&nbsp;<a href="http://laurenthinoul.com/how-to-install-tp-link-tl-wn725n-on-raspberry-pi/#comments" title="Comment on How to install TP-Link TL-WN725N on Raspberry Pi">21 Comments</a>  </div>
+                      <div class="entry-content">
+                          <p>The TP-Link TL-WN725N is known as a hard one to get working on your Raspberry Pi. After searching for a long time, I finally got it working. In this post, I will tell you how to install it.</p>
+  <p><span id="more-657"></span></p>
+  <p>It is recommended to upgrade your Raspberry Pi first. Originally, my Raspberry Pi version was 3.10.25+ #622. After trying many times to install the TP-Link, it still wouldn&#8217;t work. So I upgraded my Pi to 3.10.33+ #654. To upgrade your Raspberry Pi, use the following command:</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e050ef574062742" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  rpi-update</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e050ef574062742-1">1</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e050ef574062742-1"><span class="crayon-v">rpi</span><span class="crayon-o">-</span><span class="crayon-v">update</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0006 seconds] -->
+  <p> </p>
+  <p>If the command is not found, you need to install that. To do so, use the following command:</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e050fa034271772" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  sudo apt-get install rpi-update</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e050fa034271772-1">1</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e050fa034271772-1"><span class="crayon-e">sudo </span><span class="crayon-v">apt</span><span class="crayon-o">-</span><span class="crayon-r">get</span><span class="crayon-h"> </span><span class="crayon-e">install </span><span class="crayon-v">rpi</span><span class="crayon-o">-</span><span class="crayon-v">update</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0004 seconds] -->
+  <p> </p>
+  <p>Now you are able to run the &#8216;rpi-update&#8217; command. To control if you upgraded your Raspberry Pi, run the following command to see your operating system number. In my case, I upgraded from 3.10.25+ #622 to 3.10.33+ #654.</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e050ff273587231" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  uname -a</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e050ff273587231-1">1</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e050ff273587231-1"><span class="crayon-r">uname</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">a</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0003 seconds] -->
+  <p></p>
+  <p>After you finished upgrading. It is recommended to upgrade and update your packages. Do this with the following commands:</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e05102358864854" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  sudo apt-get update
+  sudo apt-get upgrade
+  sudo reboot</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e05102358864854-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-54b1d26e05102358864854-2">2</div><div class="crayon-num" data-line="crayon-54b1d26e05102358864854-3">3</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e05102358864854-1"><span class="crayon-e">sudo </span><span class="crayon-v">apt</span><span class="crayon-o">-</span><span class="crayon-r">get</span><span class="crayon-h"> </span><span class="crayon-e">update</span></div><div class="crayon-line crayon-striped-line" id="crayon-54b1d26e05102358864854-2"><span class="crayon-e">sudo </span><span class="crayon-v">apt</span><span class="crayon-o">-</span><span class="crayon-r">get</span><span class="crayon-h"> </span><span class="crayon-e">upgrade</span></div><div class="crayon-line" id="crayon-54b1d26e05102358864854-3"><span class="crayon-e">sudo </span><span class="crayon-v">reboot</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0006 seconds] -->
+  <p></p>
+  <p>Now, it&#8217;s time to install the driver for the WN725N adapter. To do so, type the following commands: (The .bin file is not needed for operating systems above 3.10.33+). <strong>Make sure you use the correct dropbox url. This can be found at: <a href="http://www.raspberrypi.org/forum/viewtopic.php?p=462982#p462982" target="_blank">http://www.raspberrypi.org/forum/viewtopic.php?p=462982</a></strong></p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e05106926419510" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20140307.tar.gz //make sure you use the correct dropbox url for your Raspberry version
+  tar -zxvf 8188eu-20140307.tar.gz
+  sudo cp rtl8188eufw.bin /lib/firmware/rtlwifi //not needed anymore if your operating system is above 3.10.33+
+  sudo install -p -m 644 8188eu.ko /lib/modules/3.10.33+/kernel/drivers/net/wireless
+  sudo insmod /lib/modules/3.10.33+/kernel/drivers/net/wireless/8188eu.ko
+  sudo depmod -a
+  sudo reboot</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e05106926419510-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-54b1d26e05106926419510-2">2</div><div class="crayon-num" data-line="crayon-54b1d26e05106926419510-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-54b1d26e05106926419510-4">4</div><div class="crayon-num" data-line="crayon-54b1d26e05106926419510-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-54b1d26e05106926419510-6">6</div><div class="crayon-num" data-line="crayon-54b1d26e05106926419510-7">7</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e05106926419510-1"><span class="crayon-e">wget </span><span class="crayon-v">https</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-o">/</span><span class="crayon-v">dl</span><span class="crayon-e">.dropboxusercontent</span><span class="crayon-e">.com</span><span class="crayon-o">/</span><span class="crayon-v">u</span><span class="crayon-o">/</span><span class="crayon-cn">80256631</span><span class="crayon-o">/</span><span class="crayon-cn">8188eu</span><span class="crayon-o">-</span><span class="crayon-cn">20140307.tar.gz</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">/</span><span class="crayon-r">make</span><span class="crayon-h"> </span><span class="crayon-e">sure </span><span class="crayon-e">you </span><span class="crayon-st">use</span><span class="crayon-h"> </span><span class="crayon-e">the </span><span class="crayon-e">correct </span><span class="crayon-e">dropbox </span><span class="crayon-e">url </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-e">your </span><span class="crayon-e">Raspberry </span><span class="crayon-e">version</span></div><div class="crayon-line crayon-striped-line" id="crayon-54b1d26e05106926419510-2"><span class="crayon-v">tar</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">zxvf</span><span class="crayon-h"> </span><span class="crayon-cn">8188eu</span><span class="crayon-o">-</span><span class="crayon-cn">20140307.tar.gz</span></div><div class="crayon-line" id="crayon-54b1d26e05106926419510-3"><span class="crayon-e">sudo </span><span class="crayon-r">cp</span><span class="crayon-h"> </span><span class="crayon-v">rtl8188eufw</span><span class="crayon-e">.bin</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">lib</span><span class="crayon-o">/</span><span class="crayon-v">firmware</span><span class="crayon-o">/</span><span class="crayon-v">rtlwifi</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-o">/</span><span class="crayon-st">not</span><span class="crayon-h"> </span><span class="crayon-e">needed </span><span class="crayon-e">anymore </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">your </span><span class="crayon-e">operating </span><span class="crayon-e">system </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-i">above</span><span class="crayon-h"> </span><span class="crayon-cn">3.10.33</span><span class="crayon-o">+</span></div><div class="crayon-line crayon-striped-line" id="crayon-54b1d26e05106926419510-4"><span class="crayon-e">sudo </span><span class="crayon-v">install</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-v">p</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">m</span><span class="crayon-h"> </span><span class="crayon-cn">644</span><span class="crayon-h"> </span><span class="crayon-cn">8188eu.ko</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">lib</span><span class="crayon-o">/</span><span class="crayon-v">modules</span><span class="crayon-o">/</span><span class="crayon-cn">3.10.33</span><span class="crayon-o">+</span><span class="crayon-o">/</span><span class="crayon-v">kernel</span><span class="crayon-o">/</span><span class="crayon-v">drivers</span><span class="crayon-o">/</span><span class="crayon-v">net</span><span class="crayon-o">/</span><span class="crayon-e">wireless</span></div><div class="crayon-line" id="crayon-54b1d26e05106926419510-5"><span class="crayon-e">sudo </span><span class="crayon-v">insmod</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">lib</span><span class="crayon-o">/</span><span class="crayon-v">modules</span><span class="crayon-o">/</span><span class="crayon-cn">3.10.33</span><span class="crayon-o">+</span><span class="crayon-o">/</span><span class="crayon-v">kernel</span><span class="crayon-o">/</span><span class="crayon-v">drivers</span><span class="crayon-o">/</span><span class="crayon-v">net</span><span class="crayon-o">/</span><span class="crayon-v">wireless</span><span class="crayon-o">/</span><span class="crayon-cn">8188eu.ko</span></div><div class="crayon-line crayon-striped-line" id="crayon-54b1d26e05106926419510-6"><span class="crayon-e">sudo </span><span class="crayon-v">depmod</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">a</span></div><div class="crayon-line" id="crayon-54b1d26e05106926419510-7"><span class="crayon-e">sudo </span><span class="crayon-v">reboot</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0030 seconds] -->
+  <p> </p>
+  <p>After you have rebooted, log in into Raspberry with username &#8216;pi&#8217; and password &#8216;raspberry&#8217;. Then type te following command:</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e05109167572324" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  startx</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e05109167572324-1">1</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e05109167572324-1"><span class="crayon-v">startx</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0003 seconds] -->
+  <p> </p>
+  <p>Now, a graphical user interface will show up. On the screen, you can see an icon with the name &#8216;WPA_GUI&#8217;. Open that. Now, you can see a window like here below:</p>
+  <p><a href="http://i0.wp.com/laurenthinoul.com/wp-content/uploads/2014/02/wpa_gui.png"><img src="http://i0.wp.com/laurenthinoul.com/wp-content/uploads/2014/02/wpa_gui.png?resize=350%2C368" alt="wpa_gui" class="aligncenter size-full wp-image-658" data-recalc-dims="1" /></a></p>
+  <p>Now, you can use WPS to access your network or perform a scan to detect all possible network in your environment.</p>
+  <p>To control if your TP-Link is connected to the internet, type the following command and look if the adapter got an IP-address:</p>
+  <p></p><!-- Crayon Syntax Highlighter v2.6.9 -->
+
+          <div id="crayon-54b1d26e0510d792487378" class="crayon-syntax crayon-theme-eclipse crayon-font-consolas crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important;">
+
+              <div class="crayon-toolbar" data-settings=" mouseover overlay hide delay" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+              <div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Toggle Line Numbers"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Toggle Plain Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Toggle Line Wrap"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Open Code In New Window"><div class="crayon-button-icon"></div></div><span class="crayon-language">Shell</span></div></div>
+              <div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+              <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+  ifconfig</textarea></div>
+              <div class="crayon-main" style="">
+                  <table class="crayon-table">
+                      <tr class="crayon-row">
+                  <td class="crayon-nums " data-settings="show">
+                      <div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-54b1d26e0510d792487378-1">1</div></div>
+                  </td>
+                          <td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-54b1d26e0510d792487378-1"><span class="crayon-v">ifconfig</span></div></div></td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+  <!-- [Format Time: 0.0003 seconds] -->
+  <p> </p>
+  <h3>IMPORTANT!</h3>
+  <p><strong>After each operating system update, the driver changes. To install the driver for your RP version, you can find the dropbox link <a href="http://www.raspberrypi.org/forum/viewtopic.php?p=462982#p462982" target="_blank">here</a>.</strong> Reading this article is really recommended!</p>
+  <p>Hopefully it worked for you too. If it did, please share, If it didn&#8217;t, contact me and we can work on a solution. Enjoy! <img src="http://i0.wp.com/laurenthinoul.com/wp-includes/images/smilies/icon_smile.gif?w=1170" alt=":-)" class="wp-smiley" data-recalc-dims="1" /></p>
+
+  <div id='jp-relatedposts' class='jp-relatedposts' >
+      <h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+  </div>                  </div><!-- .entry-content -->
+                          <footer class="entry">
+          <p class="tags"><span>Tags:</span><a href="http://laurenthinoul.com/tag/network/" rel="tag">network</a> <a href="http://laurenthinoul.com/tag/raspberry-pi-2/" rel="tag">raspberry pi</a> <a href="http://laurenthinoul.com/tag/wifi/" rel="tag">wifi</a></p>   </footer><!-- .entry -->
+                  </div>
+              </article><!-- #post-657 -->
+
+  </div></body>
+  </html>
+  <!-- Dynamic page generated in 1.550 seconds. -->
+  <!-- Cached page generated by WP-Super-Cache on 2015-01-11 02:31:26 -->
+
+  <!-- super cache -->
+#+END_HTML
