@@ -1,0 +1,227 @@
+#+TITLE: JNI FindClass Error in Native Thread
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+
+* Q:
+
+If we try to find java class in native thread, it probably results with an error: Can't find
+class.
+
+* A:
+
+[[http://developer.android.com/training/articles/perf-jni.html][Here]] is the explanation:
+
+#+BEGIN_HTML
+
+<a name="faq_FindClass" id="faq_FindClass"></a>
+<h2>FAQ: Why didn't <code>FindClass</code> find my class?</h2>
+
+<p>(Most of this advice applies equally well to failures to find methods
+with <code>GetMethodID</code> or <code>GetStaticMethodID</code>, or fields
+with <code>GetFieldID</code> or <code>GetStaticFieldID</code>.)</p>
+
+<p>Make sure that the class name string has the correct format.  JNI class
+names start with the package name and are separated with slashes,
+such as <code>java/lang/String</code>.  If you're looking up an array class,
+you need to start with the appropriate number of square brackets and
+must also wrap the class with 'L' and ';', so a one-dimensional array of
+<code>String</code> would be <code>[Ljava/lang/String;</code>.
+If you're looking up an inner class, use '$' rather than '.'. In general,
+using <code>javap</code> on the .class file is a good way to find out the
+internal name of your class.</p>
+
+<p>If you're using ProGuard, make sure that
+<a href="/tools/help/proguard.html#configuring">ProGuard didn't
+strip out your class</a>. This can happen if your class/method/field is only
+used from JNI.
+
+<p>If the class name looks right, you could be running into a class loader
+issue.  <code>FindClass</code> wants to start the class search in the
+class loader associated with your code.  It examines the call stack,
+which will look something like:
+<pre>    Foo.myfunc(Native Method)
+    Foo.main(Foo.java:10)</pre>
+
+<p>The topmost method is <code>Foo.myfunc</code>.  <code>FindClass</code>
+finds the <code>ClassLoader</code> object associated with the <code>Foo</code>
+class and uses that.</p>
+
+<p>This usually does what you want.  You can get into trouble if you
+create a thread yourself (perhaps by calling <code>pthread_create</code>
+and then attaching it with <code>AttachCurrentThread</code>). Now there
+are no stack frames from your application.
+If you call <code>FindClass</code> from this thread, the
+JavaVM will start in the "system" class loader instead of the one associated
+with your application, so attempts to find app-specific classes will fail.</p>
+
+<p>There are a few ways to work around this:</p>
+<ul>
+    <li>Do your <code>FindClass</code> lookups once, in
+    <code>JNI_OnLoad</code>, and cache the class references for later
+    use.  Any <code>FindClass</code> calls made as part of executing
+    <code>JNI_OnLoad</code> will use the class loader associated with
+    the function that called <code>System.loadLibrary</code> (this is a
+    special rule, provided to make library initialization more convenient).
+    If your app code is loading the library, <code>FindClass</code>
+    will use the correct class loader.
+    <li>Pass an instance of the class into the functions that need
+    it, by declaring your native method to take a Class argument and
+    then passing <code>Foo.class</code> in.
+    <li>Cache a reference to the <code>ClassLoader</code> object somewhere
+    handy, and issue <code>loadClass</code> calls directly.  This requires
+    some effort.
+</ul>
+
+#+END_HTML
+
+** Solution 1: cache =jclass=:
+
+Here is what I did in =JNI_OnLoad()= to cache =jclass=:
+
+#+BEGIN_SRC c -r -n
+
+  #include "android/log.h"
+
+  #undef PDEBUG
+  #define PDEBUG(fmt, ...)                                                \
+      do {                                                                \
+          __android_log_print(ANDROID_LOG_ERROR,                          \
+                              "TDEBUG", "%s(%d)-%s: " fmt,                \
+                              __FILE__, __LINE__,__FUNCTION__, ##  __VA_ARGS__); \
+      } while(0)
+
+  typedef struct _nativeClientEnv {
+      JavaVM* vm;
+      JNIEnv* env;
+      jobject obj;
+      jclass cls;
+      jmethodID cbID;
+  } nativeClientEnv;
+
+  static nativeClientEnv* cEnv = NULL;
+
+  JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
+  {
+      cEnv     = ZALLOC1(nativeClientEnv);
+      cEnv->vm = vm;
+
+      JNIEnv* env = NULL;
+
+      (*vm)->AttachCurrentThread(vm, &env, NULL);
+      if (!env) {
+          PDEBUG ("Failed to find proper java env..\n");
+          exit(1);
+      }
+
+      jclass cls = (*env)->FindClass(env,  "com/remotedx/jni/NativeClientWrapper");
+      if (!cls) {
+          PDEBUG ("Can't find java class...\n");
+          exit(1);
+      }
+
+      cEnv->cls = (*env)->NewGlobalRef(env, cls);
+      return JNI_VERSION_1_4;
+  }
+#+END_SRC
+
+Then in another thread, I used the =jclass= find in =JNI_OnLoad()= to find proper =jmethodID=:
+
+#+BEGIN_SRC c -r -n
+static void callback(client_status status, rxp_header* rxp, void* priv)
+{
+    if (status == THREAD_CREATED) {
+        if((*(cEnv->vm))->AttachCurrentThread(cEnv->vm, &cEnv->env, NULL) != JNI_OK) {
+            PDEBUG ("Failed to attach current thread..\n");
+            return;
+        }
+        if (!cEnv->cls)  {
+            PDEBUG ("Failed to find proper class(%lX) or method(%lX)\n",
+                    cEnv->cls, cEnv->cbID);
+            return;
+        }
+
+        cEnv->cbID = (*(cEnv->env))->GetStaticMethodID(cEnv->env, cEnv->cls,
+                                                       "statusCallback", "(IJ)V");
+        if (!cEnv->cbID)  {
+            PDEBUG ("Failed to find method...\n");
+            exit(1);
+        }
+    }
+    else if (status == THREAD_END) {
+        PDEBUG ("here\n");
+        if((*(cEnv->vm))->DetachCurrentThread(cEnv->vm) != JNI_OK) {
+            PDEBUG("DetachCurrentThread() failed");
+        }
+    }
+    else
+    {
+        switch (status)
+        {
+            default:
+            {
+                PDEBUG ("here, status: %d\n", (int)status);
+                PDEBUG ("cEnv: %p -- %p -- %lX --> %lX\n",
+                        cEnv, cEnv->env, cEnv->cls, cEnv->cbID);
+                (*cEnv->env)->CallStaticVoidMethod(cEnv->env, cEnv->cls, cEnv->cbID, (int)status, NULL);
+                PDEBUG ("finish...\n");
+                break;
+            }
+        }
+    }
+}
+#+END_SRC
+
+You can get source code at [[https://github.com/yangyingchao/remotedx/blob/master/client/jni/native_client.c][github]] .
+
+** Solution 2: cache /class loader/ :
+
+There is another solution in [[http://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni][StackOverflow]], which caches /class loader/ :
+
+#+BEGIN_SRC c++ -r -n
+static jmethodID gFindClassMethod;
+
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *pjvm, void *reserved) {
+    gJvm = pjvm;  // cache the JavaVM pointer
+    auto env = getEnv();
+    //replace with one of your classes in the line below
+    auto randomClass = env->FindClass("com/example/RandomClass");
+    jclass classClass = env->GetObjectClass(randomClass);
+    auto classLoaderClass = env->FindClass("java/lang/ClassLoader");
+    auto getClassLoaderMethod = env->GetMethodID(classClass, "getClassLoader",
+                                             "()Ljava/lang/ClassLoader;");
+    gClassLoader = env->CallObjectMethod(randomClass, getClassLoaderMethod);
+    gFindClassMethod = env->GetMethodID(classLoaderClass, "findClass",
+                                    "(Ljava/lang/String;)Ljava/lang/Class;");
+
+    return JNI_VERSION_1_6;
+}
+
+jclass findClass(const char* name) {
+    return static_cast<jclass>(getEnv()->CallObjectMethod(gClassLoader, gFindClassMethod, getEnv()->NewStringUTF(name)));
+}
+
+JNIEnv* getEnv() {
+    JNIEnv *env;
+    int status = gJvm->GetEnv((void**)&env, JNI_VERSION_1_6);
+    if(status < 0) {
+        status = gJvm->AttachCurrentThread(&env, NULL);
+        if(status < 0) {
+            return nullptr;
+        }
+    }
+    return env;
+}
+#+END_SRC
