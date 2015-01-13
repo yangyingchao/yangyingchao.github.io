@@ -128,22 +128,19 @@ Here is what I did in <code>JNI_OnLoad()</code> to cache <code>jclass</code>:
 <span class="linenr">24: </span>    cEnv-&gt;vm = vm;
 <span class="linenr">25: </span>
 <span class="linenr">26: </span>    <span style="color: #32cd32;">JNIEnv</span>* <span style="color: #daa520;">env</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
-<span class="linenr">27: </span>
-<span class="linenr">28: </span>    (*vm)-&gt;AttachCurrentThread(vm, &amp;env, <span style="color: #7fffd4; font-weight: bold;">NULL</span>);
-<span class="linenr">29: </span>    <span style="color: #ff4040;">if</span> (!env) {
-<span class="linenr">30: </span>        <span style="color: #32cd32;">PDEBUG</span> (<span style="color: #d78700;">"Failed to find proper java env..\n"</span>);
-<span class="linenr">31: </span>        exit(1);
-<span class="linenr">32: </span>    }
-<span class="linenr">33: </span>
-<span class="linenr">34: </span>    <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">cls</span> = (*env)-&gt;FindClass(env,  <span style="color: #d78700;">"com/remotedx/jni/NativeClientWrapper"</span>);
-<span class="linenr">35: </span>    <span style="color: #ff4040;">if</span> (!cls) {
-<span class="linenr">36: </span>        <span style="color: #32cd32;">PDEBUG</span> (<span style="color: #d78700;">"Can't find java class...\n"</span>);
-<span class="linenr">37: </span>        exit(1);
-<span class="linenr">38: </span>    }
-<span class="linenr">39: </span>
-<span class="linenr">40: </span>    cEnv-&gt;cls = (*env)-&gt;NewGlobalRef(env, cls);
-<span class="linenr">41: </span>    <span style="color: #ff4040;">return</span> JNI_VERSION_1_4;
-<span class="linenr">42: </span>}
+<span class="linenr">27: </span>    <span style="color: #ff4040;">if</span> ((*vm)-&gt;GetEnv(vm, &amp;env, JNI_VERSION_1_6) != JNI_OK) {
+<span class="linenr">28: </span>        <span style="color: #ff4040;">return</span> -1;
+<span class="linenr">29: </span>    }
+<span class="linenr">30: </span>
+<span class="linenr">31: </span>    <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">cls</span> = (*env)-&gt;FindClass(env,  <span style="color: #d78700;">"com/remotedx/jni/NativeClientWrapper"</span>);
+<span class="linenr">32: </span>    <span style="color: #ff4040;">if</span> (!cls) {
+<span class="linenr">33: </span>        <span style="color: #32cd32;">PDEBUG</span> (<span style="color: #d78700;">"Can't find java class...\n"</span>);
+<span class="linenr">34: </span>        exit(1);
+<span class="linenr">35: </span>    }
+<span class="linenr">36: </span>
+<span class="linenr">37: </span>    cEnv-&gt;cls = (*env)-&gt;NewGlobalRef(env, cls);
+<span class="linenr">38: </span>    <span style="color: #ff4040;">return</span> JNI_VERSION_1_6;
+<span class="linenr">39: </span>}
 </pre>
 </div>
 

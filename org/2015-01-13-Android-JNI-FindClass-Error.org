@@ -92,7 +92,6 @@ with your application, so attempts to find app-specific classes will fail.</p>
 Here is what I did in =JNI_OnLoad()= to cache =jclass=:
 
 #+BEGIN_SRC c -r -n
-
   #include "android/log.h"
 
   #undef PDEBUG
@@ -119,11 +118,8 @@ Here is what I did in =JNI_OnLoad()= to cache =jclass=:
       cEnv->vm = vm;
 
       JNIEnv* env = NULL;
-
-      (*vm)->AttachCurrentThread(vm, &env, NULL);
-      if (!env) {
-          PDEBUG ("Failed to find proper java env..\n");
-          exit(1);
+      if ((*vm)->GetEnv(vm, &env, JNI_VERSION_1_6) != JNI_OK) {
+          return -1;
       }
 
       jclass cls = (*env)->FindClass(env,  "com/remotedx/jni/NativeClientWrapper");
@@ -133,7 +129,7 @@ Here is what I did in =JNI_OnLoad()= to cache =jclass=:
       }
 
       cEnv->cls = (*env)->NewGlobalRef(env, cls);
-      return JNI_VERSION_1_4;
+      return JNI_VERSION_1_6;
   }
 #+END_SRC
 
