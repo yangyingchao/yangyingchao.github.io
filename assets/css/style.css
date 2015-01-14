@@ -271,13 +271,13 @@ h3 small{font-size:14px;}
 #sidebar h2{ margin-bottom: 5px; color: #555555; font-size: 15px }
 
 *:not(pre)>code{
+    color: black;
+    background-color: #f9f9f9;
     border: 1px solid #ddd;
-    color: #c03;
-    background-color: #f8f8f8;
-    border-radius: 3px;
+    border-radius: 2px;
+    padding: 1px 4px;
     font-size: 85%;
     white-space: normal;/*overcome bootstrap nowrap*/
-    padding: 3px 4px 0px 4px;/*overcome bootstrap padding*/
 }
 
 #footer{
@@ -297,4 +297,19 @@ h3 small{font-size:14px;}
     Submitpadding: 4px;
     Submitmargin-bottom: 10px;
     Submitoverflow: auto;
+}
+
+
+pre {
+    color: black;
+    display: block;
+    padding: 8.5px;
+    margin: 10px 0 18px;
+    line-height: 18px;
+    font-size: 12px;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
 }
