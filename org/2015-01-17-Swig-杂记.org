@@ -1,0 +1,477 @@
+#+TITLE: SWIG 杂记
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: SWIG, JNI, typemap
+#+CATEGORY: Development
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+
+用了两天 [[http://www.swig.org/][SWIG]] 来将 C++ 接口转成 Java 接口，在此简单记录一下用到 =typemap= 解决的几个问题，以
+备查询。关于 =typemap= ，可参考 [[http://www.swig.org/Doc1.3/Typemaps.html][官方文档]] 。
+
+
+* [[../assets/sources/swig/example1.7z][Example1]] Return =byte[]= instead of =std::string=
+
+**  C++ Header:
+
+ #+BEGIN_SRC c++ -r -n
+   #ifndef _EXAMPLE1_H_
+   #define _EXAMPLE1_H_
+   #include <string>
+   class Example1
+   {
+   public:
+       Example1();
+       virtual ~Example1();
+       std::string GetString();
+   };
+   #endif /* _EXAMPLE1_H_ */
+ #+END_SRC
+
+**  修改的 *SWIG* 接口文件：
+
+ #+BEGIN_SRC swig -r -n
+   %module exampl1
+   %{
+   #include "example1.h"
+   %}
+
+   %include <std_string.i>
+
+   %typemap(jstype) std::string GetString "byte[]";
+   %typemap(jtype) std::string GetString "byte[]";
+   %typemap(jni) std::string GetString "jbyteArray";
+   %typemap(out) std::string GetString
+   {
+       if ($1.empty())
+       {
+           return NULL;
+       }
+
+       $result = JCALL1(NewByteArray, jenv, $1.size());
+       JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.size(), (const jbyte*)$1.c_str());
+   }
+
+   %include "example1.h"
+
+ #+END_SRC
+
+** 生成的文件
+
+*** Java:
+
+
+#+BEGIN_SRC java -r -n
+  public class Example1 {
+    public Example1() {
+      this(exampl1JNI.new_Example1(), true);
+    }
+
+    public byte[] GetString() {
+      return exampl1JNI.Example1_GetString(swigCPtr, this);
+    }
+  }
+#+END_SRC
+
+*** Java JNI:
+
+#+BEGIN_SRC java -r -n
+  public class exampl1JNI {
+    public final static native long new_Example1();
+    public final static native void delete_Example1(long jarg1);
+    public final static native byte[] Example1_GetString(long jarg1, Example1 jarg1_);
+  }
+#+END_SRC
+
+*** JNI Code CPP:
+
+#+BEGIN_SRC c++ -r -n
+  SWIGEXPORT jbyteArray JNICALL Java_exampl1JNI_Example1_1GetString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+      jbyteArray jresult = 0 ;
+      Example1 *arg1 = (Example1 *) 0 ;
+      std::string result;
+
+      (void)jenv;
+      (void)jcls;
+      (void)jarg1_;
+      arg1 = *(Example1 **)&jarg1;
+      result = (arg1)->GetString();
+      {
+          if ((&result)->empty())
+          {
+              return NULL;
+          }
+
+          jresult = jenv->NewByteArray((&result)->size());
+          jenv->SetByteArrayRegion(jresult, 0, (&result)->size(), (const jbyte*)(&result)->c_str());
+      }
+      return jresult;
+  }
+#+END_SRC
+
+* [[../assets/sources/swig/example2.7z][Example2: ]]转引用为bytearrary：
+
+** C++
+#+BEGIN_SRC c++ -r -n
+  #ifndef _EXAMPLE1_H_
+  #define _EXAMPLE1_H_
+  #include <string>
+  class Example1
+  {
+  public:
+      void GetString(std::string &out);
+  };
+  #endif /* _EXAMPLE1_H_ */
+
+#+END_SRC
+
+** SWIG Interface
+#+BEGIN_SRC swig -r -n
+  %module exampl1
+  %{
+  #include "example2.h"
+  %}
+
+  %include <std_string.i>
+
+  %typemap(jstype) std::string& out "byte[]";
+  %typemap(jtype) std::string& out "byte[]";
+  %typemap(jni) std::string& out "jbyteArray";
+  %typemap(argout) std::string& out
+  {
+      if ($1.empty())
+      {
+          return NULL;
+      }
+
+      $result = JCALL1(NewByteArray, jenv, $1.size());
+      JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.size(), (const jbyte*)$1.c_str());
+  }
+
+  %include "example2.h"
+#+END_SRC
+
+** Generated Codes:
+*** Java Layer
+
+#+BEGIN_SRC java -r -n
+  public class Example2 {
+    private long swigCPtr;
+    protected boolean swigCMemOwn;
+
+    protected Example2(long cPtr, boolean cMemoryOwn) {
+      swigCMemOwn = cMemoryOwn;
+      swigCPtr = cPtr;
+    }
+
+    protected static long getCPtr(Example2 obj) {
+      return (obj == null) ? 0 : obj.swigCPtr;
+    }
+
+    protected void finalize() {
+      delete();
+    }
+
+    public synchronized void delete() {
+      if (swigCPtr != 0) {
+        if (swigCMemOwn) {
+          swigCMemOwn = false;
+          exampl1JNI.delete_Example2(swigCPtr);
+        }
+        swigCPtr = 0;
+      }
+    }
+
+    public void GetString(byte[] out) {
+      exampl1JNI.Example2_GetString(swigCPtr, this, SWIGTYPE_p_std__string.getCPtr(out));
+    }
+
+    public Example2() {
+      this(exampl1JNI.new_Example2(), true);
+    }
+
+  }
+
+#+END_SRC
+
+
+*** Java JNI
+#+BEGIN_SRC java -r -n
+
+  public class exampl2JNI {
+    public final static native void Example2_GetString(long jarg1, Example2 jarg1_, byte[] jarg2);
+    public final static native long new_Example2();
+    public final static native void delete_Example2(long jarg1);
+  }
+#+END_SRC
+
+*** C++ JNI:
+#+BEGIN_SRC c++ -r -n
+  SWIGEXPORT void JNICALL Java_exampl2JNI_Example2_1GetString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
+      Example2 *arg1 = (Example2 *) 0 ;
+      std::string *arg2 = 0 ;
+
+      (void)jenv;
+      (void)jcls;
+      (void)jarg1_;
+      arg1 = *(Example2 **)&jarg1;
+      arg2 = *(std::string **)&jarg2;
+      if (!arg2) {
+          SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "std::string & reference is null");
+          return ;
+      }
+      (arg1)->GetString(*arg2);
+      {
+          if ((&arg2)->empty())
+          {
+              return NULL;
+          }
+
+          jresult = jenv->NewByteArray((&arg2)->size());
+          jenv->SetByteArrayRegion(jresult, 0, (&arg2)->size(), (const jbyte*)(&arg2)->c_str());
+      }
+  }
+
+#+END_SRC
+
+* [[../assets/sources/swig/example3.7z][Example3: ]]Director
+
+** C++
+
+#+BEGIN_SRC c++ -r -n
+  #include <string>
+  class Example3
+  {
+  public:
+      virtual ~Example3() {}
+      virtual void Updated(const std::string& o, const std::string& n) = 0;
+  };
+#+END_SRC
+
+** SWIG Interface
+#+BEGIN_SRC swig -r -n
+%module (directors="1") exampl3
+%{
+#include "example3.h"
+%}
+
+%include <std_string.i>
+
+%feature("director") Example3;
+
+%typemap(jtype) const std::string& o "byte[]"
+%typemap(jtype) const std::string& n "byte[]"
+%typemap(jstype) const std::string& o "byte[]"
+%typemap(jstype) const std::string& n "byte[]"
+%typemap(jni) const std::string& o "jbyteArray"
+%typemap(jni) const std::string& n "jbyteArray"
+
+%typemap(directorin,descriptor="[b") const std::string&
+{
+    if ($1.empty())
+    {
+        return NULL;
+    }
+
+    $input = JCALL1(NewByteArray, jenv, $1.size());
+    JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.size(), (const jbyte*)$1.c_str());
+}
+
+%typemap(in) const std::string& // we can add variable names to narrow down pattern matching.
+{
+    jbyte* dataPtr = (jbyte*)JCALL(env->GetByteArrayElements($input, 0));
+    jsize  dataSize = JCALL11(env->GetArrayLength($input));
+    if (olddata && dataSize)
+    {
+        $1 = std::string(dataPtr, dataSize);
+    }
+}
+
+%include "example3.h"
+#+END_SRC
+
+** Generated Codes:
+
+*** Java
+
+#+BEGIN_SRC java -r -n
+  public class Example3 {
+    private long swigCPtr;
+    protected boolean swigCMemOwn;
+
+    protected Example3(long cPtr, boolean cMemoryOwn) {
+      swigCMemOwn = cMemoryOwn;
+      swigCPtr = cPtr;
+    }
+
+    protected static long getCPtr(Example3 obj) {
+      return (obj == null) ? 0 : obj.swigCPtr;
+    }
+
+    public synchronized void delete() {
+      if (swigCPtr != 0) {
+        if (swigCMemOwn) {
+          swigCMemOwn = false;
+          throw new UnsupportedOperationException("C++ destructor does not have public access");
+        }
+        swigCPtr = 0;
+      }
+    }
+
+    protected void swigDirectorDisconnect() {
+      swigCMemOwn = false;
+      delete();
+    }
+
+    public void swigReleaseOwnership() {
+      swigCMemOwn = false;
+      exampl3JNI.Example3_change_ownership(this, swigCPtr, false);
+    }
+
+    public void swigTakeOwnership() {
+      swigCMemOwn = true;
+      exampl3JNI.Example3_change_ownership(this, swigCPtr, true);
+    }
+
+    public void Updated(byte[] o, byte[] n) {
+      exampl3JNI.Example3_Updated(swigCPtr, this, o, n);
+    }
+
+    public Example3() {
+      this(exampl3JNI.new_Example3(), true);
+      exampl3JNI.Example3_director_connect(this, swigCPtr, swigCMemOwn, true);
+    }
+
+  }
+
+#+END_SRC
+
+*** Java JNI
+#+BEGIN_SRC java -r -n
+public class exampl3JNI {
+  public final static native void Example3_Updated(long jarg1, Example3 jarg1_, byte[] jarg2, byte[] jarg3);
+  public final static native long new_Example3();
+  public final static native void Example3_director_connect(Example3 obj, long cptr, boolean mem_own, boolean weak_global);
+  public final static native void Example3_change_ownership(Example3 obj, long cptr, boolean take_or_release);
+
+  public static void SwigDirector_Example3_Updated(Example3 self, byte[] o, byte[] n) {
+    self.Updated(o, n);
+  }
+
+  private final static native void swig_module_init();
+  static {
+    swig_module_init();
+  }
+}
+
+#+END_SRC
+
+*** C++ Wrapper
+#+BEGIN_SRC c++ -r -n
+  void SwigDirector_Example3::Updated(std::string const &o, std::string const &n) {
+      JNIEnvWrapper swigjnienv(this) ;
+      JNIEnv * jenv = swigjnienv.getJNIEnv() ;
+      jobject swigjobj = (jobject) NULL ;
+      jbyteArray jo = 0 ;
+      jbyteArray jn = 0 ;
+
+      if (!swig_override[0]) {
+          SWIG_JavaThrowException(JNIEnvWrapper(this).getJNIEnv(), SWIG_JavaDirectorPureVirtual, "Attempted to invoke pure virtual method Example3::Updated.");
+          return;
+      }
+      swigjobj = swig_get_self(jenv);
+      if (swigjobj && jenv->IsSameObject(swigjobj, NULL) == JNI_FALSE) {
+          {
+              if ((&o)->empty())
+              {
+                  return NULL;
+              }
+
+              jo = jenv->NewByteArray((&o)->size());
+              jenv->SetByteArrayRegion($result, 0, (&o)->size(), (const jbyte*)(&o)->c_str());
+          }
+          {
+              if ((&n)->empty())
+              {
+                  return NULL;
+              }
+
+              jn = jenv->NewByteArray((&n)->size());
+              jenv->SetByteArrayRegion($result, 0, (&n)->size(), (const jbyte*)(&n)->c_str());
+          }
+          jenv->CallStaticVoidMethod(Swig::jclass_exampl3JNI, Swig::director_methids[0], swigjobj, jo, jn);
+          if (jenv->ExceptionCheck() == JNI_TRUE) return ;
+      } else {
+          SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null upcall object");
+      }
+      if (swigjobj) jenv->DeleteLocalRef(swigjobj);
+  }
+
+
+  #ifdef __cplusplus
+  extern "C" {
+  #endif
+
+  SWIGEXPORT void JNICALL Java_exampl3JNI_Example3_1Updated(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jbyteArray jarg3) {
+      Example3 *arg1 = (Example3 *) 0 ;
+      std::string *arg2 = 0 ;
+      std::string *arg3 = 0 ;
+
+      (void)jenv;
+      (void)jcls;
+      (void)jarg1_;
+      arg1 = *(Example3 **)&jarg1;
+      {
+          jbyte* dataPtr = (jbyte*)JCALL(env->GetByteArrayElements(jarg2, 0));
+          jsize  dataSize = JCALL11(env->GetArrayLength(jarg2));
+          if (olddata && dataSize)
+          {
+              arg2 = std::string(dataPtr, dataSize);
+          }
+      }
+      {
+          jbyte* dataPtr = (jbyte*)JCALL(env->GetByteArrayElements(jarg3, 0));
+          jsize  dataSize = JCALL11(env->GetArrayLength(jarg3));
+          if (olddata && dataSize)
+          {
+              arg3 = std::string(dataPtr, dataSize);
+          }
+      }
+      (arg1)->Updated((std::string const &)*arg2,(std::string const &)*arg3);
+  }
+
+  SWIGEXPORT void JNICALL Java_exampl3JNI_swig_1module_1init(JNIEnv *jenv, jclass jcls) {
+      int i;
+
+      static struct {
+          const char *method;
+          const char *signature;
+      } methods[1] = {
+          {
+              "SwigDirector_Example3_Updated", "(LExample3;[B[B)V"
+          }
+      };
+      Swig::jclass_exampl3JNI = (jclass) jenv->NewGlobalRef(jcls);
+      if (!Swig::jclass_exampl3JNI) return;
+      for (i = 0; i < (int) (sizeof(methods)/sizeof(methods[0])); ++i) {
+          Swig::director_methids[i] = jenv->GetStaticMethodID(jcls, methods[i].method, methods[i].signature);
+          if (!Swig::director_methids[i]) return;
+      }
+  }
+
+
+  #ifdef __cplusplus
+  }
+  #endif
+
+
+#+END_SRC
