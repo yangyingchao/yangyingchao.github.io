@@ -1,0 +1,76 @@
+---
+layout : post
+title : How To Start SSH Server on Android
+categories : 未分类
+---
+<p>
+Repost from <a href="http://android.stackexchange.com/questions/15503/how-to-start-ssh-server-in-my-android">http://android.stackexchange.com/questions/15503/how-to-start-ssh-server-in-my-android</a>
+</p>
+
+<div>
+    <div class="post-text" itemprop="text">
+
+        <p>I am trying to login to Android Eee pad transformer from my other linux box using SSH. This are the step i followed and failed. So asking here for the correct answer.</p>
+
+<p>1) Go to Android market and download install Connectbot</p>
+
+<ul>
+<li>Launching ConnectBot</li>
+<li>Asks ssh or telnet or local</li>
+<li>Press local</li>
+<li>Asks username</li>
+<li>Username applied dummy</li>
+<li>Connected to local Android</li>
+<li>type ip addr; in the terminal
+shows ip address and i can ping 8.8.8.8</li>
+</ul>
+
+<p><img src="http://i.stack.imgur.com/zLtpY.png" alt="enter image description here"></p>
+
+<p>2) Now i want to access to this box from outside box</p>
+
+<ul>
+<li>Go to Android market and install SSDroid and SuperUser</li>
+<li>Launch SSDroid</li>
+<li>SSDroid says root:off, sftp://root@ipOfthisAndroidBox:2222 ready</li>
+<li>From another box i try to login using ssh root@ipOfthisAndroidBox:2222 fails</li>
+</ul>
+
+<p><img src="http://i.stack.imgur.com/SbGIv.png" alt="enter image description here"></p>
+
+<p>3) Launch SuperUser it tries to install something but fails</p>
+
+<p><img src="http://i.stack.imgur.com/yw912.png" alt="enter image description here"></p>
+
+<p>All i get to verify am i rooted, always it shows:</p>
+
+<pre><code>$ su
+su: permission denied
+</code></pre>
+
+<p><strong>Follow up:</strong> How do i login after installing SSHDroid?</p>
+
+<pre><code>[sun@example ~]$ ssh root@94.xx.xx.xx -p 2222
+The authenticity of host '[94.xx.xx.xx]:2222 ([94.xx.xx.xx]:2222)' can't be established.
+RSA key fingerprint is 14:ae:33:xxxx.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '[94.xx.xx.xx]:2222' (RSA) to the list of known hosts.
+SSHDroid
+Use 'root' on rooted devices otherwise any username works
+Default password is 'admin'
+root@94.xx.xx.xx's password:
+/data/data/berserker.android.apps.sshdroid/home $ uname -a
+Linux localhost 2.6.36.3-00004-g069b8b5 #1 SMP PREEMPT Wed May 11 22:14:22 CST 2011 armv7l GNU/Linux
+/data/data/berserker.android.apps.sshdroid/home $ uptime
+ 09:20:16 up 2 min, load average: 0.26, 0.25, 0.11
+
+/ $ ls
+EeePad_bootup_first_page.rle  acct                          default.prop                  init.ventana.rc               sys
+OSD_battery_100.rle           bin                           dev                           mnt                           system
+OSD_battery_25.rle            cache                         etc                           proc                          ueventd.goldfish.rc
+OSD_battery_50.rle            config                        init                          root                          ueventd.rc
+OSD_battery_75.rle            d                             init.goldfish.rc              sbin                          ueventd.ventana.rc
+Removable                     data                          init.rc                       sdcard                        vendor
+
+ More informations: https://gist.github.com/1357588
+</code></pre>
