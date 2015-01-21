@@ -349,13 +349,4 @@ on the wall for quick reference at any time.</p>
 <p class="centered"><a href="http://nvie.com/files/Git-branching-model.pdf"><img alt="" src="../assets/img/pdf@2x.png" width="128" /></a><br />
 <a href="/files/Git-branching-model.pdf">Git-branching-model.pdf</a></p>
   </div>
-
-
-    <div class="flattr-btn">
-      <script id='fbgcxfq'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=nvie&button=compact&url=http%3A//nvie.com/posts/a-successful-git-branching-model/';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbgcxfq');</script>
-    </div>
-
-
-  <p>If you want to get in touch, I'm <a href="http://twitter.com/nvie">@nvie</a> on Twitter.</p>
-
 #+END_HTML
