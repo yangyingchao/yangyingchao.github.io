@@ -270,11 +270,14 @@ h3 {font-size:18px;border: none }
 h3 small{font-size:14px;}
 #sidebar h2{ margin-bottom: 5px; color: #555555; font-size: 15px }
 
+code, pre {
+    border-radius: 5px;
+	border: 1px solid #e5e5e5;
+}
+
 *:not(pre)>code{
     color: black;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 2px;
     padding: 1px 4px;
     font-size: 85%;
     white-space: normal;/*overcome bootstrap nowrap*/
@@ -311,5 +314,4 @@ pre {
     white-space: pre-wrap;
     word-wrap: break-word;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
 }
