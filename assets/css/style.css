@@ -317,7 +317,11 @@ pre {
 }
 
 .right {
-float: right;
-margin-left: 20px;
-margin-bottom: 20px;
+    float: right;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.centered {
+    text-align: center;
 }
