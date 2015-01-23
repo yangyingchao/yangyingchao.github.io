@@ -18,3 +18,13 @@
 
 [[http://stackoverflow.com/questions/15852122/hex-transparency-in-colors]]
 [[http://stackoverflow.com/questions/16611759/how-set-alpha-opacity-value-to-color-on-xml-drawable]]
+
+* How to force layout to refresh/repaint android?
+
+[[http://stackoverflow.com/questions/18470753/force-layout-to-refresh-repaint-android]]
+
+#+BEGIN_SRC java -r -n
+  FrameLayout container = (FrameLayout)findViewById(R.id.main_fragment_container);
+  container.invalidate();
+  container.requestLayout();
+#+END_SRC
