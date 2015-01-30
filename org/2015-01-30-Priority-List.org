@@ -1,0 +1,411 @@
+#+TITLE: Priority List
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: Kernel, Linux, List
+#+CATEGORY: kernel
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+* 概念与实现
+
+Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序排列优先级的链表。
+
+#+BEGIN_SRC c -r
+  /**
+   ,* Simplifications of the original code by
+   ,* Oleg Nesterov <oleg@tv-sign.ru>
+   ,*
+   ,* Licensed under the FSF's GNU Public License v2 or later.
+   ,*
+   ,* Based on simple lists (include/linux/list.h).
+   ,*
+   ,* This is a priority-sorted list of nodes; each node has a
+   ,* priority from INT_MIN (highest) to INT_MAX (lowest).
+   ,*
+   ,* Addition is O(K), removal is O(1), change of priority of a node is
+   ,* O(K) and K is the number of RT priority levels used in the system.
+   ,* (1 <= K <= 99)
+   *
+   */
+#+END_SRC
+
+相关定义：
+
+#+BEGIN_SRC c -r  -n
+  struct list_head { (ref:lh)
+      struct list_head *next, *prev;
+  };
+
+  struct plist_head { (ref:plh)
+      struct list_head node_list;
+  };
+
+  struct plist_node { (ref:pn)
+      int         prio;
+      struct list_head    prio_list;
+      struct list_head    node_list;
+  };
+
+#+END_SRC
+
+其中：
+
+ - =list_head=  [[(lh)]] 是简单的双向链表
+ - =plist_head= [[(plh)]] 是 Priority List
+ - =plist_node= [[(pn)]] 是 PList 的节点
+
+ =plist_head= 可被其他模块作为 List 头来使用，而 =plist_node= 则是 plist 实现的核心，其中：
+
+ - =prio= 为优先级\\
+   如前面的注释所解释的一样，优先级可以是 =INT_MIN= 到 =INT_MAX= 的任意数值。
+ - =prio_list=  优先级列表 \\
+   用来标识不同优先级的节点。并非所有的 =plist_node= 都会被使用该表，在同一个 plist 里面，每
+   一个优先级里面只会有一个 =plist_node= 会用到 =prio_list= ，其余的node 的该表指针均指向他自
+   己。这在 =plist_add= 的代码中可以看出来。 =prio_list= 起到的作用和 =skip_list= 类似，可以
+   快速的定位到第一个优先级为 =prio= 的 data node 上。
+ - =node_list= 排序的 node list\\
+   所有的节点的 =node_list= 都会被使用，并最终链接都表头。
+
+函数 =plist_add= 用于向 =plist_head= 中添加新的 =plist_node= ，其实现的代码很精简，可以体现
+出插入过程中做了什么东西，也可以推测插入后的效果：
+
+#+BEGIN_SRC c -r -n
+
+  /**
+   ,* plist_add - add @node to @head
+   ,*
+   ,* @node:   &struct plist_node pointer
+   ,* @head:   &struct plist_head pointer
+   ,*/
+  void plist_add(struct plist_node *node, struct plist_head *head)
+  {
+      struct plist_node *first, *iter, *prev = NULL;
+      struct list_head *node_next = &head->node_list;
+
+      plist_check_head(head);
+      WARN_ON(!plist_node_empty(node));
+      WARN_ON(!list_empty(&node->prio_list));
+
+      if (plist_head_empty(head))
+          goto ins_node;
+
+      first = iter = plist_first(head);
+
+      do {
+          if (node->prio < iter->prio) {
+              node_next = &iter->node_list;
+              break;
+          }
+
+          prev = iter;
+          iter = list_entry(iter->prio_list.next,
+                  struct plist_node, prio_list);
+      } while (iter != first);
+
+      if (!prev || prev->prio != node->prio)
+          list_add_tail(&node->prio_list, &iter->prio_list);
+  ins_node:
+      list_add_tail(&node->node_list, node_next);
+
+      plist_check_head(head);
+  }
+
+#+END_SRC
+
+* 图解几个状态
+
+1. 未添加任何 node 的表头
+#+BEGIN_SRC dot :file ../assets/img/empty_phead.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled];
+      edge[color="#666666" style=dashed arrowhead=open];
+      // rankdir=LR;
+
+      //XXX: Place to put subgraphs
+      node_plist_node[shape=record
+                      label="{<f0> plist_head |\
+                 {prev|next}}"];
+
+
+  }
+#+END_SRC
+
+2. 未加入 list 的 =plist_node=
+
+   各种指针都指向自己
+
+    #+BEGIN_SRC dot :file ../assets/img/pnode_0.png :cmdline -Kdot -Tpng
+      digraph Name {
+          node [fontsize=12 fontname=Courier style=filled];
+          edge[color="#666666" style=dashed arrowhead=open];
+          // rankdir=LR;
+
+          //XXX: Place to put subgraphs
+          node_plist_node[shape=record
+                  label="{<f0> plist_node |\
+      +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
+      {p_prev(self)|p_next(self)}|\
+      {d_prev(self)|d_next(self)} \
+      }"];
+
+      }
+    #+END_SRC
+
+3. 添加一个 =plist_node=
+
+   #+BEGIN_SRC dot :file ../assets/img/1node.png :cmdline -Kdot -Tpng
+     digraph Name {
+         node [fontsize=12 fontname=Courier style=filled];
+         edge[color="#666666" style=dashed arrowhead=open];
+         // rankdir=LR;
+
+         //XXX: Place to put subgraphs
+
+       node_plist_head[shape=record
+                       label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next(points:node_1)}}"];
+
+         node_plist_node[shape=record
+                       label="{<f0> plist_node_1 |\
+     +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
+     {p_prev(self)|p_next(self)}|\
+     <f1>data_list|\
+     {<f2>d_prev(point:head)|<f3>d_next(head)} \
+     }"];
+
+     node_plist_head:f2->node_plist_node:f1[color=invis];
+
+      }
+   #+END_SRC
+
+4. 添加两个不同的 Node:
+
+   #+BEGIN_SRC dot :file ../assets/img/2nodes.png :cmdline -Kdot -Tpng
+     digraph Name {
+         node [fontsize=12 fontname=Courier style=filled];
+         edge[color="#666666" style=dashed arrowhead=open];
+         // rankdir=LR;
+
+         //XXX: Place to put subgraphs
+
+       node_plist_head[shape=record
+                       label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next(points:node_2)}}"];
+
+     subgraph  {
+         color=invis;
+         style=filled;
+         rank=same;
+         node_plist_node[shape=record
+                       label="{<f0> plist_node_1 |\
+     +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
+     {p_prev(points:node_2)|p_next(self)}|\
+     <f1>data_list|\
+     {<f2>d_prev(node_2)|<f3>d_next(plist_head)} \
+     }"];
+
+
+         node_plist_node2[shape=record
+                       label="{<f0> plist_node_2 |\
+     +prio &#32;&#32;&#32;&#32;&#32; : 8\l|\
+     {p_prev(self)|p_next(node_1)}|\
+     <f1>data_list|\
+     {<f2>d_prev(plist_head)|<f3>d_next(node_1)} \
+     }"];
+
+
+     }
+
+     node_plist_head:f2->node_plist_node2:f1[color=invis];
+     node_plist_node:f3->node_plist_head:f0[color=invis];
+
+      }
+   #+END_SRC
+
+
+   5. 添加三个 Node，其中有两个 prio 相同:
+
+      #+BEGIN_SRC dot :file ../assets/img/3nodes.png :cmdline -Kdot -Tpng
+        digraph Name {
+            node [fontsize=12 fontname=Courier style=filled];
+            edge[color="#666666" style=dashed arrowhead=open];
+            // rankdir=LR;
+
+            //XXX: Place to put subgraphs
+
+          node_plist_head[shape=record
+                          label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next(points:node_2)}}"];
+
+        subgraph  {
+            color=invis;
+            style=filled;
+            rank=same;
+            node_plist_node[shape=record
+                          label="{<f0> plist_node_1 |\
+        +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
+        {p_prev(points:node_2)|p_next(self)}|\
+        <f1>data_list|\
+        {<f2>d_prev(node_3)|<f3>d_next(plist_head)} \
+        }"];
+
+
+            node_plist_node3[shape=record
+                          label="{<f0> plist_node_3 |\
+        +prio &#32;&#32;&#32;&#32;&#32; : 8\l|\
+        {p_prev(node_2)|p_next(node_1)}|\
+        <f1>data_list|\
+        {<f2>d_prev(node_2)|<f3>d_next(node_1)} \
+        }"];
+
+
+            node_plist_node2[shape=record
+                          label="{<f0> plist_node_2 |\
+        +prio &#32;&#32;&#32;&#32;&#32; : 8\l|\
+        {p_prev(self)|p_next(node_1)}|\
+        <f1>data_list|\
+        {<f2>d_next(plist_head)|<f3>d_prev(node_3)} \
+        }"];
+
+        node_plist_node -> node_plist_node3 -> node_plist_node2[color=invis];
+
+
+        }
+
+        node_plist_head:f2->node_plist_node2:f1[color=invis];
+
+         }
+      #+END_SRC
+
+* 测试代码
+
+#+BEGIN_SRC c -r -n
+  #include <linux/module.h>   /* Needed by all modules */
+  #include <linux/kernel.h>   /* Needed for KERN_INFO */
+  #include <linux/list.h>
+  #include <linux/plist.h>
+
+  MODULE_LICENSE("Dual BSD/GPL");
+
+
+  extern void plist_add(struct plist_node *node, struct plist_head *head);
+
+  struct
+  {
+      struct plist_node n;
+      int idx;
+  } t_node;
+
+  #define ARRAY_SIZE(X)       (int)(sizeof(X)/sizeof(X[0]))
+
+  static inline void t_node_init(t_node* n, int i) {
+      plist_node_init((struct plist_node*)n, 0);
+      n->idx = i;
+  }
+  void plist_add(struct plist_node *node, struct plist_head *head)
+  {
+      struct plist_node *first, *iter, *prev = NULL;
+      struct list_head *node_next = &head->node_list;
+
+      WARN_ON(!plist_node_empty(node));
+      WARN_ON(!list_empty(&node->prio_list));
+
+      if (plist_head_empty(head))
+          goto ins_node;
+
+      first = iter = plist_first(head);
+
+      do {
+          if (node->prio < iter->prio) {
+              node_next = &iter->node_list;
+              break;
+          }
+
+          prev = iter;
+          iter = list_entry(iter->prio_list.next,
+                            struct plist_node, prio_list);
+      } while (iter != first);
+
+      if (!prev || prev->prio != node->prio)
+          list_add_tail(&node->prio_list, &iter->prio_list);
+  ins_node:
+      list_add_tail(&node->node_list, node_next);
+
+  }
+
+  static int  __init plist_test2(void)
+  {
+      int i;
+      struct plist_head test_head;
+      t_node test_node[16];
+      t_node* p = test_node;
+      struct plist_node* pn;
+
+      plist_head_init(&test_head);
+
+      for (i = 0; i < ARRAY_SIZE(test_node); i++) {
+          p = test_node + i;
+          t_node_init(p, i);
+          p->n.prio = i % 3;
+          plist_add((struct plist_node*)p, &test_head);
+      }
+
+      plist_for_each(pn, &test_head) {
+          p = (t_node*) pn;
+          printk(KERN_INFO
+                 "Note: %p, priv: %d, index: %d,  dnext: %p, dprev: %p, pnext: %p, pprev: %p,\n",
+                  p,  p->n.prio, p->idx,
+                  p->n.node_list.next, p->n.node_list.prev,
+                  p->n.prio_list.next, p->n.prio_list.prev
+                  );
+      }
+      return 0;
+  }
+
+  module_init(plist_test2);
+#+END_SRC
+
+=Makefile= 如下：
+
+#+BEGIN_SRC makefile -r -n
+  #
+  # Makefile by appleboy <appleboy.tw AT gmail.com>
+  #
+  obj-m       += test_list.o
+  KVERSION := $(shell uname -r)
+
+  all:
+      $(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) modules
+
+  clean:
+      $(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) clean
+
+#+END_SRC
+
+当将 =test_list.ko= 插入内核时：
+
+#+BEGIN_SRC text -r -n
+  localhost libtool # dmesg
+  [ 5746.704648] Note: ffff88000430fa20, priv: 0, index: 0,  dnext: ffff88000430fac8, dprev: ffff88000430fa10, pnext: ffff88000430fa58, pprev: ffff88000430fa88,
+  [ 5746.704652] Note: ffff88000430fab0, priv: 0, index: 3,  dnext: ffff88000430fb58, dprev: ffff88000430fa38, pnext: ffff88000430fab8, pprev: ffff88000430fab8,
+  [ 5746.704653] Note: ffff88000430fb40, priv: 0, index: 6,  dnext: ffff88000430fbe8, dprev: ffff88000430fac8, pnext: ffff88000430fb48, pprev: ffff88000430fb48,
+  [ 5746.704655] Note: ffff88000430fbd0, priv: 0, index: 9,  dnext: ffff88000430fc78, dprev: ffff88000430fb58, pnext: ffff88000430fbd8, pprev: ffff88000430fbd8,
+  [ 5746.704656] Note: ffff88000430fc60, priv: 0, index: 12,  dnext: ffff88000430fd08, dprev: ffff88000430fbe8, pnext: ffff88000430fc68, pprev: ffff88000430fc68,
+  [ 5746.704658] Note: ffff88000430fcf0, priv: 0, index: 15,  dnext: ffff88000430fa68, dprev: ffff88000430fc78, pnext: ffff88000430fcf8, pprev: ffff88000430fcf8,
+  [ 5746.704659] Note: ffff88000430fa50, priv: 1, index: 1,  dnext: ffff88000430faf8, dprev: ffff88000430fd08, pnext: ffff88000430fa88, pprev: ffff88000430fa28,
+  [ 5746.704661] Note: ffff88000430fae0, priv: 1, index: 4,  dnext: ffff88000430fb88, dprev: ffff88000430fa68, pnext: ffff88000430fae8, pprev: ffff88000430fae8,
+  [ 5746.704662] Note: ffff88000430fb70, priv: 1, index: 7,  dnext: ffff88000430fc18, dprev: ffff88000430faf8, pnext: ffff88000430fb78, pprev: ffff88000430fb78,
+  [ 5746.704664] Note: ffff88000430fc00, priv: 1, index: 10,  dnext: ffff88000430fca8, dprev: ffff88000430fb88, pnext: ffff88000430fc08, pprev: ffff88000430fc08,
+  [ 5746.704665] Note: ffff88000430fc90, priv: 1, index: 13,  dnext: ffff88000430fa98, dprev: ffff88000430fc18, pnext: ffff88000430fc98, pprev: ffff88000430fc98,
+  [ 5746.704667] Note: ffff88000430fa80, priv: 2, index: 2,  dnext: ffff88000430fb28, dprev: ffff88000430fca8, pnext: ffff88000430fa28, pprev: ffff88000430fa58,
+  [ 5746.704668] Note: ffff88000430fb10, priv: 2, index: 5,  dnext: ffff88000430fbb8, dprev: ffff88000430fa98, pnext: ffff88000430fb18, pprev: ffff88000430fb18,
+  [ 5746.704669] Note: ffff88000430fba0, priv: 2, index: 8,  dnext: ffff88000430fc48, dprev: ffff88000430fb28, pnext: ffff88000430fba8, pprev: ffff88000430fba8,
+  [ 5746.704671] Note: ffff88000430fc30, priv: 2, index: 11,  dnext: ffff88000430fcd8, dprev: ffff88000430fbb8, pnext: ffff88000430fc38, pprev: ffff88000430fc38,
+  [ 5746.704672] Note: ffff88000430fcc0, priv: 2, index: 14,  dnext: ffff88000430fa10, dprev: ffff88000430fc48, pnext: ffff88000430fcc8, pprev: ffff88000430fcc8,
+
+#+END_SRC
