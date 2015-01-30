@@ -1,0 +1,344 @@
+---
+layout : post
+title : Priority List
+categories : kernel
+tags : Kernel, Linux, List
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 概念与实现</a></li>
+<li><a href="#sec-2">2. 图解几个状态</a></li>
+<li><a href="#sec-3">3. 测试代码</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 概念与实现</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序排列优先级的链表。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #87ceeb;">/**</span>
+<span style="color: #87ceeb;"> * Simplifications of the original code by</span>
+<span style="color: #87ceeb;"> * Oleg Nesterov <a href="mailto:oleg%40tv-sign.ru">&lt;oleg</a></span><span style="color: #87ceeb; font-weight: bold;"><a href="mailto:oleg%40tv-sign.ru">@tv</a></span><span style="color: #87ceeb;"><a href="mailto:oleg%40tv-sign.ru">-sign.ru&gt;</a></span>
+<span style="color: #87ceeb;"> *</span>
+<span style="color: #87ceeb;"> * Licensed under the FSF's GNU Public License v2 or later.</span>
+<span style="color: #87ceeb;"> *</span>
+<span style="color: #87ceeb;"> * Based on simple lists (include/linux/list.h).</span>
+<span style="color: #87ceeb;"> *</span>
+<span style="color: #87ceeb;"> * This is a priority-sorted list of nodes; each node has a</span>
+<span style="color: #87ceeb;"> * priority from INT_MIN (highest) to INT_MAX (lowest).</span>
+<span style="color: #87ceeb;"> *</span>
+<span style="color: #87ceeb;"> * Addition is O(K), removal is O(1), change of priority of a node is</span>
+<span style="color: #87ceeb;"> * O(K) and K is the number of RT priority levels used in the system.</span>
+<span style="color: #87ceeb;"> * (1 &lt;= K &lt;= 99)</span>
+<span style="color: #87ceeb;"> *</span>
+<span style="color: #87ceeb;"> */</span>
+</pre>
+</div>
+
+<p>
+相关定义：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span id="coderef-lh" class="coderef-off"><span class="linenr"> 1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> {</span>
+<span class="linenr"> 2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">next</span>, *<span style="color: #daa520;">prev</span>;
+<span class="linenr"> 3: </span>};
+<span class="linenr"> 4: </span>
+<span id="coderef-plh" class="coderef-off"><span class="linenr"> 5: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_head</span> {</span>
+<span class="linenr"> 6: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> <span style="color: #daa520;">node_list</span>;
+<span class="linenr"> 7: </span>};
+<span class="linenr"> 8: </span>
+<span id="coderef-pn" class="coderef-off"><span class="linenr"> 9: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> {</span>
+<span class="linenr">10: </span>    <span style="color: #32cd32;">int</span>         <span style="color: #daa520;">prio</span>;
+<span class="linenr">11: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">prio_list</span>;
+<span class="linenr">12: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">node_list</span>;
+<span class="linenr">13: </span>};
+</pre>
+</div>
+
+<p>
+其中：
+</p>
+
+<ul class="org-ul">
+<li><code>list_head</code>  <a href="#coderef-lh"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-lh');" onmouseout="CodeHighlightOff(this, 'coderef-lh');">1</a> 是简单的双向链表
+</li>
+<li><code>plist_head</code> <a href="#coderef-plh"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-plh');" onmouseout="CodeHighlightOff(this, 'coderef-plh');">5</a> 是 Priority List
+</li>
+<li><code>plist_node</code> <a href="#coderef-pn"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-pn');" onmouseout="CodeHighlightOff(this, 'coderef-pn');">9</a> 是 PList 的节点
+</li>
+</ul>
+
+<p>
+<code>plist_head</code> 可被其他模块作为 List 头来使用，而 <code>plist_node</code> 则是 plist 实现的核心，其中：
+</p>
+
+<ul class="org-ul">
+<li><code>prio</code> 为优先级<br  />
+   如前面的注释所解释的一样，优先级可以是 <code>INT_MIN</code> 到 <code>INT_MAX</code> 的任意数值。
+</li>
+<li><code>prio_list</code>  优先级列表 <br  />
+   用来标识不同优先级的节点。并非所有的 <code>plist_node</code> 都会被使用该表，在同一个 plist 里面，每一个优先级里面只会有一个 <code>plist_node</code> 会用到 <code>prio_list</code> ，其余的node 的该表指针均指向他自己。这在 <code>plist_add</code> 的代码中可以看出来。 <code>prio_list</code> 起到的作用和 <code>skip_list</code> 类似，可以快速的定位到第一个优先级为 <code>prio</code> 的 data node 上。
+</li>
+<li><code>node_list</code> 排序的 node list<br  />
+   所有的节点的 <code>node_list</code> 都会被使用，并最终链接都表头。
+</li>
+</ul>
+
+<p>
+函数 <code>plist_add</code> 用于向 <code>plist_head</code> 中添加新的 <code>plist_node</code> ，其实现的代码很精简，可以体现出插入过程中做了什么东西，也可以推测插入后的效果：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #87ceeb;">/**</span>
+<span class="linenr"> 2: </span><span style="color: #87ceeb;"> * plist_add - add </span><span style="color: #87ceeb; font-weight: bold;">@node</span><span style="color: #87ceeb;"> to </span><span style="color: #87ceeb; font-weight: bold;">@head</span>
+<span class="linenr"> 3: </span><span style="color: #87ceeb;"> *</span>
+<span class="linenr"> 4: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@node</span><span style="color: #87ceeb;">:   &amp;struct plist_node pointer</span>
+<span class="linenr"> 5: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@head</span><span style="color: #87ceeb;">:   &amp;struct plist_head pointer</span>
+<span class="linenr"> 6: </span><span style="color: #87ceeb;"> */</span>
+<span class="linenr"> 7: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">plist_add</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> *<span style="color: #daa520;">node</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_head</span> *<span style="color: #daa520;">head</span>)
+<span class="linenr"> 8: </span>{
+<span class="linenr"> 9: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> *<span style="color: #daa520;">first</span>, *<span style="color: #daa520;">iter</span>, *<span style="color: #daa520;">prev</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">10: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">node_next</span> = &amp;head-&gt;node_list;
+<span class="linenr">11: </span>
+<span class="linenr">12: </span>    plist_check_head(head);
+<span class="linenr">13: </span>    <span style="color: #32cd32;">WARN_ON</span>(!plist_node_empty(node));
+<span class="linenr">14: </span>    <span style="color: #32cd32;">WARN_ON</span>(!list_empty(&amp;node-&gt;prio_list));
+<span class="linenr">15: </span>
+<span class="linenr">16: </span>    <span style="color: #ff4040;">if</span> (plist_head_empty(head))
+<span class="linenr">17: </span>        <span style="color: #ff4040;">goto</span> <span style="color: #7fffd4; font-weight: bold;">ins_node</span>;
+<span class="linenr">18: </span>
+<span class="linenr">19: </span>    first = iter = plist_first(head);
+<span class="linenr">20: </span>
+<span class="linenr">21: </span>    <span style="color: #ff4040;">do</span> {
+<span class="linenr">22: </span>        <span style="color: #ff4040;">if</span> (node-&gt;prio &lt; iter-&gt;prio) {
+<span class="linenr">23: </span>            node_next = &amp;iter-&gt;node_list;
+<span class="linenr">24: </span>            <span style="color: #ff4040;">break</span>;
+<span class="linenr">25: </span>        }
+<span class="linenr">26: </span>
+<span class="linenr">27: </span>        prev = iter;
+<span class="linenr">28: </span>        iter = list_entry(iter-&gt;prio_list.next,
+<span class="linenr">29: </span>                <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span>, prio_list);
+<span class="linenr">30: </span>    } <span style="color: #ff4040;">while</span> (iter != first);
+<span class="linenr">31: </span>
+<span class="linenr">32: </span>    <span style="color: #ff4040;">if</span> (!prev || prev-&gt;prio != node-&gt;prio)
+<span class="linenr">33: </span>        list_add_tail(&amp;node-&gt;prio_list, &amp;iter-&gt;prio_list);
+<span class="linenr">34: </span><span style="color: #7fffd4; font-weight: bold;">ins_node</span>:
+<span class="linenr">35: </span>    list_add_tail(&amp;node-&gt;node_list, node_next);
+<span class="linenr">36: </span>
+<span class="linenr">37: </span>    plist_check_head(head);
+<span class="linenr">38: </span>}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 图解几个状态</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>未添加任何 node 的表头
+</li>
+</ol>
+
+<div class="figure">
+<p><img src="../../../assets/img/empty_phead.png" alt="empty_phead.png" />
+</p>
+</div>
+
+<ol class="org-ol">
+<li>未加入 list 的 <code>plist_node</code>
+
+<p>
+各种指针都指向自己
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/pnode_0.png" alt="pnode_0.png" />
+</p>
+</div>
+</li>
+
+<li>添加一个 <code>plist_node</code>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/1node.png" alt="1node.png" />
+</p>
+</div>
+</li>
+
+<li>添加两个不同的 Node:
+
+
+<div class="figure">
+<p><img src="../../../assets/img/2nodes.png" alt="2nodes.png" />
+</p>
+</div>
+</li>
+</ol>
+
+
+<ol class="org-ol">
+<li>添加三个 Node，其中有两个 prio 相同:
+
+
+<div class="figure">
+<p><img src="../../../assets/img/3nodes.png" alt="3nodes.png" />
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 测试代码</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;linux/module.h&gt;</span>   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Needed by all modules </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 2: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;linux/kernel.h&gt;</span>   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Needed for KERN_INFO </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;linux/list.h&gt;</span>
+<span class="linenr"> 4: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;linux/plist.h&gt;</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #32cd32;">MODULE_LICENSE</span>(<span style="color: #d78700;">"Dual BSD/GPL"</span>);
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #ff4040;">extern</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">plist_add</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> *<span style="color: #daa520;">node</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_head</span> *<span style="color: #daa520;">head</span>);
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #ff4040;">struct</span>
+<span class="linenr">12: </span>{
+<span class="linenr">13: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> <span style="color: #daa520;">n</span>;
+<span class="linenr">14: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">idx</span>;
+<span class="linenr">15: </span>} <span style="color: #daa520;">t_node</span>;
+<span class="linenr">16: </span>
+<span class="linenr">17: </span><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">ARRAY_SIZE</span>(<span style="color: #daa520;">X</span>)       (<span style="color: #32cd32;">int</span>)(<span style="color: #ff4040;">sizeof</span>(X)/<span style="color: #ff4040;">sizeof</span>(X[0]))
+<span class="linenr">18: </span>
+<span class="linenr">19: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">inline</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">t_node_init</span>(<span style="color: #32cd32;">t_node</span>* <span style="color: #daa520;">n</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">i</span>) {
+<span class="linenr">20: </span>    plist_node_init((<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span>*)n, 0);
+<span class="linenr">21: </span>    n-&gt;idx = i;
+<span class="linenr">22: </span>}
+<span class="linenr">23: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">plist_add</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> *<span style="color: #daa520;">node</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_head</span> *<span style="color: #daa520;">head</span>)
+<span class="linenr">24: </span>{
+<span class="linenr">25: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span> *<span style="color: #daa520;">first</span>, *<span style="color: #daa520;">iter</span>, *<span style="color: #daa520;">prev</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">26: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">node_next</span> = &amp;head-&gt;node_list;
+<span class="linenr">27: </span>
+<span class="linenr">28: </span>    <span style="color: #32cd32;">WARN_ON</span>(!plist_node_empty(node));
+<span class="linenr">29: </span>    <span style="color: #32cd32;">WARN_ON</span>(!list_empty(&amp;node-&gt;prio_list));
+<span class="linenr">30: </span>
+<span class="linenr">31: </span>    <span style="color: #ff4040;">if</span> (plist_head_empty(head))
+<span class="linenr">32: </span>        <span style="color: #ff4040;">goto</span> <span style="color: #7fffd4; font-weight: bold;">ins_node</span>;
+<span class="linenr">33: </span>
+<span class="linenr">34: </span>    first = iter = plist_first(head);
+<span class="linenr">35: </span>
+<span class="linenr">36: </span>    <span style="color: #ff4040;">do</span> {
+<span class="linenr">37: </span>        <span style="color: #ff4040;">if</span> (node-&gt;prio &lt; iter-&gt;prio) {
+<span class="linenr">38: </span>            node_next = &amp;iter-&gt;node_list;
+<span class="linenr">39: </span>            <span style="color: #ff4040;">break</span>;
+<span class="linenr">40: </span>        }
+<span class="linenr">41: </span>
+<span class="linenr">42: </span>        prev = iter;
+<span class="linenr">43: </span>        iter = list_entry(iter-&gt;prio_list.next,
+<span class="linenr">44: </span>                          <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span>, prio_list);
+<span class="linenr">45: </span>    } <span style="color: #ff4040;">while</span> (iter != first);
+<span class="linenr">46: </span>
+<span class="linenr">47: </span>    <span style="color: #ff4040;">if</span> (!prev || prev-&gt;prio != node-&gt;prio)
+<span class="linenr">48: </span>        list_add_tail(&amp;node-&gt;prio_list, &amp;iter-&gt;prio_list);
+<span class="linenr">49: </span><span style="color: #7fffd4; font-weight: bold;">ins_node</span>:
+<span class="linenr">50: </span>    list_add_tail(&amp;node-&gt;node_list, node_next);
+<span class="linenr">51: </span>
+<span class="linenr">52: </span>}
+<span class="linenr">53: </span>
+<span class="linenr">54: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">int</span>  <span style="color: #1e90ff; font-weight: bold;">__init</span> plist_test2(<span style="color: #32cd32;">void</span>)
+<span class="linenr">55: </span>{
+<span class="linenr">56: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">i</span>;
+<span class="linenr">57: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_head</span> <span style="color: #daa520;">test_head</span>;
+<span class="linenr">58: </span>    <span style="color: #32cd32;">t_node</span> <span style="color: #daa520;">test_node</span>[16];
+<span class="linenr">59: </span>    <span style="color: #32cd32;">t_node</span>* <span style="color: #daa520;">p</span> = test_node;
+<span class="linenr">60: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span>* <span style="color: #daa520;">pn</span>;
+<span class="linenr">61: </span>
+<span class="linenr">62: </span>    plist_head_init(&amp;test_head);
+<span class="linenr">63: </span>
+<span class="linenr">64: </span>    <span style="color: #ff4040;">for</span> (i = 0; i &lt; <span style="color: #32cd32;">ARRAY_SIZE</span>(test_node); i++) {
+<span class="linenr">65: </span>        p = test_node + i;
+<span class="linenr">66: </span>        t_node_init(p, i);
+<span class="linenr">67: </span>        p-&gt;n.prio = i % 3;
+<span class="linenr">68: </span>        plist_add((<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">plist_node</span>*)p, &amp;test_head);
+<span class="linenr">69: </span>    }
+<span class="linenr">70: </span>
+<span class="linenr">71: </span>    <span style="color: #daa520;">plist_for_each</span>(<span style="color: #32cd32;">pn</span>, &amp;test_head) {
+<span class="linenr">72: </span>        p = (<span style="color: #32cd32;">t_node</span>*) pn;
+<span class="linenr">73: </span>        printk(KERN_INFO
+<span class="linenr">74: </span>               <span style="color: #d78700;">"Note: %p, priv: %d, index: %d,  dnext: %p, dprev: %p, pnext: %p, pprev: %p,\n"</span>,
+<span class="linenr">75: </span>                p,  p-&gt;n.prio, p-&gt;idx,
+<span class="linenr">76: </span>                p-&gt;n.node_list.next, p-&gt;n.node_list.prev,
+<span class="linenr">77: </span>                p-&gt;n.prio_list.next, p-&gt;n.prio_list.prev
+<span class="linenr">78: </span>                );
+<span class="linenr">79: </span>    }
+<span class="linenr">80: </span>    <span style="color: #ff4040;">return</span> 0;
+<span class="linenr">81: </span>}
+<span class="linenr">82: </span>
+<span class="linenr">83: </span>module_init(plist_test2);
+</pre>
+</div>
+
+<p>
+<code>Makefile</code> 如下：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-makefile"><span class="linenr"> 1: </span><span style="color: #fa8072;">#</span>
+<span class="linenr"> 2: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Makefile by appleboy &lt;appleboy.tw AT gmail.com&gt;</span>
+<span class="linenr"> 3: </span><span style="color: #fa8072;">#</span>
+<span class="linenr"> 4: </span><span style="color: #daa520;">obj-m</span>       += test_list.o
+<span class="linenr"> 5: </span><span style="color: #daa520;">KVERSION</span> := $(<span style="color: #daa520;">shell</span> uname -r)
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #1e90ff; font-weight: bold;">all</span>:
+<span class="linenr"> 8: </span>    $(<span style="color: #daa520;">MAKE</span>) -C /lib/modules/$(<span style="color: #daa520;">KVERSION</span>)/build M=$(<span style="color: #daa520;">PWD</span>) modules
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span><span style="color: #1e90ff; font-weight: bold;">clean</span>:
+<span class="linenr">11: </span>    $(<span style="color: #daa520;">MAKE</span>) -C /lib/modules/$(<span style="color: #daa520;">KVERSION</span>)/build M=$(<span style="color: #daa520;">PWD</span>) clean
+</pre>
+</div>
+
+<p>
+当将 <code>test_list.ko</code> 插入内核时：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text"><span class="linenr"> 1: </span>localhost libtool # dmesg
+<span class="linenr"> 2: </span>[ 5746.704648] Note: ffff88000430fa20, priv: 0, index: 0,  dnext: ffff88000430fac8, dprev: ffff88000430fa10, pnext: ffff88000430fa58, pprev: ffff88000430fa88,
+<span class="linenr"> 3: </span>[ 5746.704652] Note: ffff88000430fab0, priv: 0, index: 3,  dnext: ffff88000430fb58, dprev: ffff88000430fa38, pnext: ffff88000430fab8, pprev: ffff88000430fab8,
+<span class="linenr"> 4: </span>[ 5746.704653] Note: ffff88000430fb40, priv: 0, index: 6,  dnext: ffff88000430fbe8, dprev: ffff88000430fac8, pnext: ffff88000430fb48, pprev: ffff88000430fb48,
+<span class="linenr"> 5: </span>[ 5746.704655] Note: ffff88000430fbd0, priv: 0, index: 9,  dnext: ffff88000430fc78, dprev: ffff88000430fb58, pnext: ffff88000430fbd8, pprev: ffff88000430fbd8,
+<span class="linenr"> 6: </span>[ 5746.704656] Note: ffff88000430fc60, priv: 0, index: 12,  dnext: ffff88000430fd08, dprev: ffff88000430fbe8, pnext: ffff88000430fc68, pprev: ffff88000430fc68,
+<span class="linenr"> 7: </span>[ 5746.704658] Note: ffff88000430fcf0, priv: 0, index: 15,  dnext: ffff88000430fa68, dprev: ffff88000430fc78, pnext: ffff88000430fcf8, pprev: ffff88000430fcf8,
+<span class="linenr"> 8: </span>[ 5746.704659] Note: ffff88000430fa50, priv: 1, index: 1,  dnext: ffff88000430faf8, dprev: ffff88000430fd08, pnext: ffff88000430fa88, pprev: ffff88000430fa28,
+<span class="linenr"> 9: </span>[ 5746.704661] Note: ffff88000430fae0, priv: 1, index: 4,  dnext: ffff88000430fb88, dprev: ffff88000430fa68, pnext: ffff88000430fae8, pprev: ffff88000430fae8,
+<span class="linenr">10: </span>[ 5746.704662] Note: ffff88000430fb70, priv: 1, index: 7,  dnext: ffff88000430fc18, dprev: ffff88000430faf8, pnext: ffff88000430fb78, pprev: ffff88000430fb78,
+<span class="linenr">11: </span>[ 5746.704664] Note: ffff88000430fc00, priv: 1, index: 10,  dnext: ffff88000430fca8, dprev: ffff88000430fb88, pnext: ffff88000430fc08, pprev: ffff88000430fc08,
+<span class="linenr">12: </span>[ 5746.704665] Note: ffff88000430fc90, priv: 1, index: 13,  dnext: ffff88000430fa98, dprev: ffff88000430fc18, pnext: ffff88000430fc98, pprev: ffff88000430fc98,
+<span class="linenr">13: </span>[ 5746.704667] Note: ffff88000430fa80, priv: 2, index: 2,  dnext: ffff88000430fb28, dprev: ffff88000430fca8, pnext: ffff88000430fa28, pprev: ffff88000430fa58,
+<span class="linenr">14: </span>[ 5746.704668] Note: ffff88000430fb10, priv: 2, index: 5,  dnext: ffff88000430fbb8, dprev: ffff88000430fa98, pnext: ffff88000430fb18, pprev: ffff88000430fb18,
+<span class="linenr">15: </span>[ 5746.704669] Note: ffff88000430fba0, priv: 2, index: 8,  dnext: ffff88000430fc48, dprev: ffff88000430fb28, pnext: ffff88000430fba8, pprev: ffff88000430fba8,
+<span class="linenr">16: </span>[ 5746.704671] Note: ffff88000430fc30, priv: 2, index: 11,  dnext: ffff88000430fcd8, dprev: ffff88000430fbb8, pnext: ffff88000430fc38, pprev: ffff88000430fc38,
+<span class="linenr">17: </span>[ 5746.704672] Note: ffff88000430fcc0, priv: 2, index: 14,  dnext: ffff88000430fa10, dprev: ffff88000430fc48, pnext: ffff88000430fcc8, pprev: ffff88000430fcc8,
+</pre>
+</div>
+</div>
+</div>
