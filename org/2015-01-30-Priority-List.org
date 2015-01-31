@@ -267,7 +267,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
             node_plist_node3[shape=record
                           label="{<f0> plist_node_3 |\
         +prio &#32;&#32;&#32;&#32;&#32; : 8\l|\
-        {p_prev(node_2)|p_next(node_1)}|\
+        {p_prev(self)|p_next(self)}|\
         <f1>data_list|\
         {<f2>d_prev(node_2)|<f3>d_next(node_1)} \
         }"];
