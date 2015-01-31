@@ -131,10 +131,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
       //XXX: Place to put subgraphs
       node_plist_node[shape=record
-                      label="{<f0> plist_head |\
-                 {prev|next}}"];
-
-
+                      label="{<f0> plist_head | {prev|next}}"];
   }
 #+END_SRC
 
@@ -163,24 +160,32 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
    #+BEGIN_SRC dot :file ../assets/img/1node.png :cmdline -Kdot -Tpng
      digraph Name {
-         node [fontsize=12 fontname=Courier style=filled];
-         edge[color="#666666" style=dashed arrowhead=open];
-         // rankdir=LR;
+         node [fontsize=12 fontname=Courier style=filled shape=record];
+         edge[color="#666666" style=dashed arrowhead=open tailclip=false];
+         edge [tailclip=false];
+         node_plist_head[shape=record label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next((points:node_1))}}"];
 
-         //XXX: Place to put subgraphs
-
-       node_plist_head[shape=record
-                       label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next(points:node_1)}}"];
-
+         subgraph  {
+             color=invis;
+             style=filled;
+             rank=same;
          node_plist_node[shape=record
                        label="{<f0> plist_node_1 |\
      +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
      {p_prev(self)|p_next(self)}|\
      <f1>data_list|\
-     {<f2>d_prev(point:head)|<f3>d_next(head)} \
+     {<f2>d_next(head)|<f3>d_prev(point:head)} \
      }"];
 
-     node_plist_head:f2->node_plist_node:f1[color=invis];
+     node_inviss[label="" color=invis];
+
+         }
+
+
+         node_plist_head:f2:c->node_plist_node[arrowhead=vee, arrowtail=dot, dir=both, color=brown];
+         node_inviss -> node_plist_node[arrowhead=dot, arrowtail=none, dir=both, color=brown];
+         node_inviss->node_plist_head:f1[arrowhead=vee, arrowtail=none, dir=both, color=brown];
+
 
       }
    #+END_SRC
@@ -189,25 +194,21 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
    #+BEGIN_SRC dot :file ../assets/img/2nodes.png :cmdline -Kdot -Tpng
      digraph Name {
-         node [fontsize=12 fontname=Courier style=filled];
-         edge[color="#666666" style=dashed arrowhead=open];
-         // rankdir=LR;
-
-         //XXX: Place to put subgraphs
-
-       node_plist_head[shape=record
-                       label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next(points:node_2)}}"];
+         node [fontsize=12 fontname=Courier style=filled shape=record];
+         edge[color="#666666" style=dashed arrowhead=open tailclip=false];
+         node_plist_head[shape=record label="{<f0> plist_head| {<f1>prev(points:node_1)|<f2>next((points:node_1))}}"];
 
      subgraph  {
          color=invis;
          style=filled;
          rank=same;
+
          node_plist_node[shape=record
                        label="{<f0> plist_node_1 |\
      +prio &#32;&#32;&#32;&#32;&#32; : 10\l|\
      {p_prev(points:node_2)|p_next(self)}|\
      <f1>data_list|\
-     {<f2>d_prev(node_2)|<f3>d_next(plist_head)} \
+     {<f2>d_next(plist_head)|<f3>d_prev(node_2)} \
      }"];
 
 
@@ -216,14 +217,22 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
      +prio &#32;&#32;&#32;&#32;&#32; : 8\l|\
      {p_prev(self)|p_next(node_1)}|\
      <f1>data_list|\
-     {<f2>d_prev(plist_head)|<f3>d_next(node_1)} \
+     {<f2>d_next(node_1)|<f3>d_prev(plist_head)} \
      }"];
 
 
      }
+     node_invis1[color=invis label=""];
 
-     node_plist_head:f2->node_plist_node2:f1[color=invis];
-     node_plist_node:f3->node_plist_head:f0[color=invis];
+     node_plist_head:f2:c->node_plist_node2:f2[arrowhead=vee, arrowtail=dot, dir=both, color=brown];
+     node_plist_node:f2:c->node_plist_head[arrowhead=vee, arrowtail=dot, dir=both, color=brown];
+
+     node_plist_node2:f2:c->node_invis1[arrowhead=none, arrowtail=dot, dir=both, color=brown];
+     node_invis1->node_plist_node:f2[arrowhead=vee, arrowtail=none, dir=both, color=brown];
+
+
+         // node_inviss -> node_plist_node[arrowhead=dot, arrowtail=none, dir=both, color=brown];
+         // node_inviss->node_plist_head:f1[arrowhead=vee, arrowtail=none, dir=both, color=brown];
 
       }
    #+END_SRC
