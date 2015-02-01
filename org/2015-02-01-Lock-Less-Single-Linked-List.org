@@ -1,0 +1,76 @@
+#+TITLE: Lock Less Single Linked List
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: Kernel, Lock-less, List
+#+CATEGORY: kernel
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+
+除了之前介绍的[[http://yangyingchao.github.io/2015/01/31/List-And-Hash-List.html][双向链表]] 和[[http://yangyingchao.github.io/2015/01/30/Priority-List.html][优先级链表]] 外，内核还提供了用原子操作实现的无锁单向链表 =llist=
+
+=llist= 的结构和双向链表类似，但更简单：
+
+#+BEGIN_SRC c -r -n
+struct llist_head {
+	struct llist_node *first;
+};
+
+struct llist_node {
+	struct llist_node *next;
+};
+#+END_SRC
+
+如图：
+
+#+BEGIN_SRC dot :file ../assets/img/llist.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open  tailclip=false];
+      rankdir=LR;
+
+      node_head[label="llist_head|<f0>"];
+      node1[label="<f0>|"];
+      node2[label="<f0>|"];
+      node3[label="<f0>|"];
+
+      node_head:f0:c -> node1:f0[arrowhead=vee, arrowtail=dot, dir=both];
+      node1:f0:c -> node2:f0[arrowhead=vee, arrowtail=dot, dir=both];
+      node2:f0:c -> node3:f0[arrowhead=vee, arrowtail=dot, dir=both];
+  }
+#+END_SRC
+
+=llist_add_batch= 中展示了如何使用原子操作来实现 llist_add..
+
+#+BEGIN_SRC c -r -n
+/**
+ * llist_add_batch - add several linked entries in batch
+ * @new_first:	first entry in batch to be added
+ * @new_last:	last entry in batch to be added
+ * @head:	the head for your lock-less list
+ *
+ * Return whether list is empty before adding.
+ */
+bool llist_add_batch(struct llist_node *new_first, struct llist_node *new_last,
+		     struct llist_head *head)
+{
+	struct llist_node *first;
+
+	do {
+		new_last->next = first = ACCESS_ONCE(head->first);
+	} while (cmpxchg(&head->first, first, new_first) != first);
+
+	return !first;
+}
+EXPORT_SYMBOL_GPL(llist_add_batch);
+#+END_SRC
+
+无锁链表 （无锁队列） 的更多内容可参考：[[%20http://coolshell.cn/articles/8239.html][ http://coolshell.cn/articles/8239.html]]

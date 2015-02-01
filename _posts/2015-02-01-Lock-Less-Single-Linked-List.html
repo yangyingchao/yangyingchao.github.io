@@ -1,0 +1,68 @@
+---
+layout : post
+title : Lock Less Single Linked List
+categories : kernel
+tags : Kernel, Lock-less, List
+---
+<p>
+除了之前介绍的<a href="http://yangyingchao.github.io/2015/01/31/List-And-Hash-List.html">双向链表</a> 和<a href="http://yangyingchao.github.io/2015/01/30/Priority-List.html">优先级链表</a> 外，内核还提供了用原子操作实现的无锁单向链表 <code>llist</code>
+</p>
+
+<p>
+<code>llist</code> 的结构和双向链表类似，但更简单：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_head</span> {
+<span class="linenr">2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> *<span style="color: #daa520;">first</span>;
+<span class="linenr">3: </span>};
+<span class="linenr">4: </span>
+<span class="linenr">5: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> {
+<span class="linenr">6: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> *<span style="color: #daa520;">next</span>;
+<span class="linenr">7: </span>};
+</pre>
+</div>
+
+<p>
+如图：
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/llist.png" alt="llist.png" />
+</p>
+</div>
+
+<p>
+<code>llist_add_batch</code> 中展示了如何使用原子操作来实现 llist_add..
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #87ceeb;">/**</span>
+<span class="linenr"> 2: </span><span style="color: #87ceeb;"> * llist_add_batch - add several linked entries in batch</span>
+<span class="linenr"> 3: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@new_first</span><span style="color: #87ceeb;">:  first entry in batch to be added</span>
+<span class="linenr"> 4: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@new_last</span><span style="color: #87ceeb;">:   last entry in batch to be added</span>
+<span class="linenr"> 5: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@head</span><span style="color: #87ceeb;">:   the head for your lock-less list</span>
+<span class="linenr"> 6: </span><span style="color: #87ceeb;"> *</span>
+<span class="linenr"> 7: </span><span style="color: #87ceeb;"> * Return whether list is empty before adding.</span>
+<span class="linenr"> 8: </span><span style="color: #87ceeb;"> */</span>
+<span class="linenr"> 9: </span><span style="color: #32cd32;">bool</span> <span style="color: #1e90ff; font-weight: bold;">llist_add_batch</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> *<span style="color: #daa520;">new_first</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> *<span style="color: #daa520;">new_last</span>,
+<span class="linenr">10: </span>             <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_head</span> *<span style="color: #daa520;">head</span>)
+<span class="linenr">11: </span>{
+<span class="linenr">12: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">llist_node</span> *<span style="color: #daa520;">first</span>;
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>    <span style="color: #ff4040;">do</span> {
+<span class="linenr">15: </span>        new_last-&gt;next = first = <span style="color: #32cd32;">ACCESS_ONCE</span>(head-&gt;first);
+<span class="linenr">16: </span>    } <span style="color: #ff4040;">while</span> (cmpxchg(&amp;head-&gt;first, first, new_first) != first);
+<span class="linenr">17: </span>
+<span class="linenr">18: </span>    <span style="color: #ff4040;">return</span> !first;
+<span class="linenr">19: </span>}
+<span class="linenr">20: </span><span style="color: #32cd32;">EXPORT_SYMBOL_GPL</span>(llist_add_batch);
+</pre>
+</div>
+
+<p>
+无锁链表 （无锁队列） 的更多内容可参考：<i> <a href="http://coolshell.cn/articles/8239.html">http://coolshell.cn/articles/8239.html</a></i>
+</p>
