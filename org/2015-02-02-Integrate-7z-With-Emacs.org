@@ -132,3 +132,6 @@ your dot emacs if you want.
   (ad-activate 'dired-compress)
 
 #+END_SRC
+
+ You can find it at
+ [[https://github.com/yangyingchao/tubo-env/blob/master/.emacs.d/rc/05-rc-misc.el]] line:129.
