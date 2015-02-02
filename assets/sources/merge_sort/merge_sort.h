@@ -34,6 +34,9 @@ static inline void show_list(slist* h, const char* name)
     printf ("%s contains: %d.\n", name, --i);
 }
 
+long get_sts_1();
+long get_sts_2();
+long get_sts_3();
 
 #define SHOW_LIST(X)
 

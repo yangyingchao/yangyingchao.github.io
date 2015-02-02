@@ -16,18 +16,43 @@ slist* generate_list()
     return h;
 }
 
-static clock_t ts = 0;
+slist* dup_list(slist* in)
+{
+    slist *h = NULL, **tail = &h;
+    while (in) {
+        slist* n = (slist*)malloc(sizeof(slist));
+        n->val = in->val;
+        n->next = NULL;
+        *tail = n;
+        tail = &n->next;
+        in = in->next;
+    }
+
+    return h;
+}
+
+long get_time_ms()
+{
+    struct timespec res;
+    int ret = clock_gettime(CLOCK_MONOTONIC, &res);
+    return ret == -1 ? 0: res.tv_sec*1000+res.tv_nsec/1000000;
+}
+
+static long ts = 0;
+
 void print_time()
 {
-    clock_t c = clock() - ts;
-    printf ("Cost: %d, %.f ms\n", c, ((float)c*1000)/CLOCKS_PER_SEC);
+    long t = get_time_ms();
+    if (t)
+        printf ("Cost: %ld ms\n", t - ts);
 }
+
 int main(int argc, char *argv[])
 {
 
     slist* h = generate_list();
-    slist* h2 = generate_list();
-    slist* h3 = generate_list();
+    slist* h2 = dup_list(h);
+    slist* h3 = dup_list(h);
 
     SHOW_LIST(h);
 
@@ -35,26 +60,26 @@ int main(int argc, char *argv[])
     printf ("Sorting...\n");
 
 
-    ts = clock();
+    ts = get_time_ms();
     h = merge_sort_1(h);
     print_time();
-    printf ("Sorting Done...\n");
+    printf ("Sorting Done: %ld...\n", get_sts_1());
 
     printf ("2....");
     printf ("Sorting...\n");
 
-    ts = clock();
+    ts = get_time_ms();
     h = merge_sort_2(h2);
     print_time();
-    printf ("Sorting Done...\n");
+    printf ("Sorting Done: %ld...\n", get_sts_2());
 
     printf ("3....");
     printf ("Sorting...\n");
 
-    ts = clock();
+    ts = get_time_ms();
     h = merge_sort_3(h3);
     print_time();
-    printf ("Sorting Done...\n");
+    printf ("Sorting Done: %ld...\n", get_sts_3());
 
 
     SHOW_LIST(h);

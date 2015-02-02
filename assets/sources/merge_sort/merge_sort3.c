@@ -1,7 +1,9 @@
 #include "merge_sort.h"
 
+static long sts = 0;
 static slist* get_middle_list(slist* h)
 {
+    sts ++;
     slist* p = h;
     slist* q = h;
     slist* k = q;
@@ -18,6 +20,7 @@ static slist* get_middle_list(slist* h)
 
 static slist* merge(slist*a, slist* b)
 {
+    sts ++;
     slist head, *tail = &head;
 	while (a && b) {
 		if (a->val <= b->val) {
@@ -37,6 +40,7 @@ static slist* merge(slist*a, slist* b)
 
 slist* merge_sort_3(slist* h)
 {
+    sts ++;
     if (!h || !h->next)
         return h;
 
@@ -44,4 +48,9 @@ slist* merge_sort_3(slist* h)
     slist* nh = s->next;
     s->next = NULL;
     return merge(merge_sort_3(h), merge_sort_3(nh));
+}
+
+long get_sts_3()
+{
+    return sts;
 }
