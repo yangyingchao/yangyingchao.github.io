@@ -276,7 +276,7 @@ code, pre {
 }
 
 *:not(pre)>code{
-    color: black;
+    color: #c03;
     background-color: #f9f9f9;
     padding: 1px 4px;
     font-size: 85%;
