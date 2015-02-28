@@ -18,182 +18,182 @@ Report from: [[%20http://nshipster.com/network-link-conditioner/][http://nshipst
 [[hulefei29.iteye.com/blog/1782376]]
 
 #+BEGIN_HTML
-  <div class="content" itemprop="articleBody" data-swiftype-index="true">
-    <p>Product design is about empathy. Knowing what a user wants, what they like, what they dislike, what causes them frustration, and learning to understand and embody those motivations in design decisions—this is what it takes to make something insanely great.</p>
+    <div class="contentfff" itemprop="articleBody" data-swiftype-index="true">
+      <p>Product design is about empathy. Knowing what a user wants, what they like, what they dislike, what causes them frustration, and learning to understand and embody those motivations in design decisions—this is what it takes to make something insanely great.</p>
 
-<p>And so we invest in reaching beyond our own operational model of the world. We tailor our experience for <a href="http://nshipster.com/nslocalizedstring/">different locales</a>. We consider the usability implications of <a href="http://nshipster.com/uiaccessibility/">screen readers or other assistive technologiess</a>. We <a href="http://nshipster.com/unit-testing/">continuously evaluate</a> our implementation against these expectations.</p>
+  <p>And so we invest in reaching beyond our own operational model of the world. We tailor our experience for <a href="http://nshipster.com/nslocalizedstring/">different locales</a>. We consider the usability implications of <a href="http://nshipster.com/uiaccessibility/">screen readers or other assistive technologiess</a>. We <a href="http://nshipster.com/unit-testing/">continuously evaluate</a> our implementation against these expectations.</p>
 
-<p>There is, though, one critical factor that app developers often miss the first time around, and that is <strong>network condition</strong>, or more specifically the latency and bandwidth of an Internet connection. For something so essential to a user&#39;s experience with a product, it&#39;s unfortunate that most developers take an ad-hoc approach to field testing different kinds of environments, if at all.</p>
+  <p>There is, though, one critical factor that app developers often miss the first time around, and that is <strong>network condition</strong>, or more specifically the latency and bandwidth of an Internet connection. For something so essential to a user&#39;s experience with a product, it&#39;s unfortunate that most developers take an ad-hoc approach to field testing different kinds of environments, if at all.</p>
 
-<p>This week on NSHipster, we&#39;ll be talking about the <a href="https://developer.apple.com/downloads/index.action?q=Network%20Link%20Conditioner">Network Link Conditioner</a>, a utility that allows Mac and iOS devices to accurately and consistently simulate adverse networking environments.</p>
+  <p>This week on NSHipster, we&#39;ll be talking about the <a href="https://developer.apple.com/downloads/index.action?q=Network%20Link%20Conditioner">Network Link Conditioner</a>, a utility that allows Mac and iOS devices to accurately and consistently simulate adverse networking environments.</p>
 
-<h2 id="installation">Installation</h2>
+  <h2 id="installation">Installation</h2>
 
-<p>Network Link Conditioner can be found in the &quot;Hardware IO Tools for Xcode&quot; package. This can be downloaded from the <a href="https://developer.apple.com/downloads/index.action?q=Network%20Link%20Conditioner">Apple Developer Downloads</a> page.</p>
+  <p>Network Link Conditioner can be found in the &quot;Hardware IO Tools for Xcode&quot; package. This can be downloaded from the <a href="https://developer.apple.com/downloads/index.action?q=Network%20Link%20Conditioner">Apple Developer Downloads</a> page.</p>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-download.png" alt="Download"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-download.png" alt="Download"></p>
 
-<p>Search for &quot;Network Link Conditioner&quot;, and select the appropriate release of the &quot;Hardware IO Tools for Xcode&quot; package.</p>
+  <p>Search for &quot;Network Link Conditioner&quot;, and select the appropriate release of the &quot;Hardware IO Tools for Xcode&quot; package.</p>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-dmg.png" alt="Package"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-dmg.png" alt="Package"></p>
 
-<p>Once the download has finished, open the DMG and double-click &quot;Network Link Condition.prefPane&quot; to install.</p>
+  <p>Once the download has finished, open the DMG and double-click &quot;Network Link Condition.prefPane&quot; to install.</p>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-install.png" alt="System Preferences"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-install.png" alt="System Preferences"></p>
 
-<p>From now on, you can enable the Network Link Conditioner from its preference pane at the bottom of System Preferences.</p>
+  <p>From now on, you can enable the Network Link Conditioner from its preference pane at the bottom of System Preferences.</p>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-system-preference.png" alt="Network Link Conditioner"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-system-preference.png" alt="Network Link Conditioner"></p>
 
-<p>When enabled, the Network Link Conditioner can change the network environment of the iPhone Simulator according to one of the built-in presets:</p>
+  <p>When enabled, the Network Link Conditioner can change the network environment of the iPhone Simulator according to one of the built-in presets:</p>
 
-<ul>
-<li>EDGE</li>
-<li>3G</li>
-<li>DSL</li>
-<li>WiFi</li>
-<li>High Latency DNS</li>
-<li>Very Bad Network</li>
-<li>100% Loss</li>
-</ul>
+  <ul>
+  <li>EDGE</li>
+  <li>3G</li>
+  <li>DSL</li>
+  <li>WiFi</li>
+  <li>High Latency DNS</li>
+  <li>Very Bad Network</li>
+  <li>100% Loss</li>
+  </ul>
 
-<p>Each preset can set a limit for uplink or downlink <a href="http://en.wikipedia.org/wiki/Bandwidth_%28computing%29">bandwidth</a>, <a href="http://en.wikipedia.org/wiki/Latency_%28engineering%29%23Communication_latency">latency</a>, and rate of <a href="http://en.wikipedia.org/wiki/Packet_loss">packet loss</a> (when any value is set to 0, that value is unchanged from your computer&#39;s network environment).</p>
+  <p>Each preset can set a limit for uplink or downlink <a href="http://en.wikipedia.org/wiki/Bandwidth_%28computing%29">bandwidth</a>, <a href="http://en.wikipedia.org/wiki/Latency_%28engineering%29%23Communication_latency">latency</a>, and rate of <a href="http://en.wikipedia.org/wiki/Packet_loss">packet loss</a> (when any value is set to 0, that value is unchanged from your computer&#39;s network environment).</p>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-preset.png" alt="Preset"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-preset.png" alt="Preset"></p>
 
-<p>You can also create your own preset, if you wish to simulate a particular combination of factors simultaneously.</p>
+  <p>You can also create your own preset, if you wish to simulate a particular combination of factors simultaneously.</p>
 
-<p>Try running your app in the simulator with the Network Link Conditioner enabled under various presets and see what happens. How does network latency affect your app startup? What effect does bandwidth have on table view scroll performance? Does your app work at all with 100% packet loss?</p>
+  <p>Try running your app in the simulator with the Network Link Conditioner enabled under various presets and see what happens. How does network latency affect your app startup? What effect does bandwidth have on table view scroll performance? Does your app work at all with 100% packet loss?</p>
 
-<blockquote>
-<p>If your app uses <a href="https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html">Reachability</a> to detect network availability, you may experience some unexpected results while using the Network Link Conditioner. As such, any reachability behavior under Airplane mode or WWan / WiFi distinctions is something that should be tested separately from network conditioning.</p>
-</blockquote>
+  <blockquote>
+  <p>If your app uses <a href="https://developer.apple.com/library/ios/samplecode/Reachability/Introduction/Intro.html">Reachability</a> to detect network availability, you may experience some unexpected results while using the Network Link Conditioner. As such, any reachability behavior under Airplane mode or WWan / WiFi distinctions is something that should be tested separately from network conditioning.</p>
+  </blockquote>
 
-<h2 id="enabling-network-link-conditioner-on-ios-devices">Enabling Network Link Conditioner on iOS Devices</h2>
+  <h2 id="enabling-network-link-conditioner-on-ios-devices">Enabling Network Link Conditioner on iOS Devices</h2>
 
-<p>While the preference pane works well for developing on the simulator, it&#39;s also important to test on actual devices. Fortunately, as of iOS 6, the Network Link Conditioner is available on the devices themselves.</p>
+  <p>While the preference pane works well for developing on the simulator, it&#39;s also important to test on actual devices. Fortunately, as of iOS 6, the Network Link Conditioner is available on the devices themselves.</p>
 
-<p>To enable it, you need to set up your device for development:</p>
+  <p>To enable it, you need to set up your device for development:</p>
 
-<ol>
-<li>Connect your iPhone or iPad to your Mac</li>
-<li>In Xcode, go to Window &gt; Organizer (⇧⌘2)</li>
-<li>Select your device in the sidebar</li>
-<li>Click &quot;Use for Development&quot;</li>
-</ol>
+  <ol>
+  <li>Connect your iPhone or iPad to your Mac</li>
+  <li>In Xcode, go to Window &gt; Organizer (⇧⌘2)</li>
+  <li>Select your device in the sidebar</li>
+  <li>Click &quot;Use for Development&quot;</li>
+  </ol>
 
-<p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-ios.png" alt="iOS Devices"></p>
+  <p><img src="http://nshipster.s3.amazonaws.com/network-link-conditioner-ios.png" alt="iOS Devices"></p>
 
-<p>Now you&#39;ll have access to the Developer section of the Settings app, where you&#39;ll find the Network Link Conditioner (just don&#39;t forget to turn it off after you&#39;re done testing!).</p>
+  <p>Now you&#39;ll have access to the Developer section of the Settings app, where you&#39;ll find the Network Link Conditioner (just don&#39;t forget to turn it off after you&#39;re done testing!).</p>
 
+    </div>
+
+    <footer role="complementary">
+
+
+
+
+    <div id="blog_content" class="blog_content">
+      <div style="font-size: 14px;" class="iteye-blog-content-contain">
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;">在Xcode4.1中有一个工具叫Network Link Conditioner，可以让用户模拟不同的网络连接和带宽，可供Mac和iOS开发者测试自己的程序在不同网络环境下的表现。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;">在Xcode4.3中，此工具不再随Xcode工具提供，需要单独下载。在Xcode4.3中通过Xcode-&gt;Open Developer Tool-&gt;More Developer Tools…菜单</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><br><span style="font-size: 14px;"><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d.png"></span><br><span style="font-size: 14px;"> 可进入Apple开发者下载中心，Network Link Conditioner包含在Hardware IO Tools工具包中，点击下载。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c.png"><br> 下载安装后，可看到其中有一个Network Link Conditioner.prefPane文件。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5.png"><br> 点击运行Network Link Conditioner.prefPane后，Network Link Conditioner就会被添加到系统偏好设置的其他分类中。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7.png"><br> 点击打开，Network Link Conditioner界面为</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080.png"><br> 在Profile中包含预置的几种网络环境，包含3G,DSL,Edge,Wifi，每种网络环境对应不同的上下行带宽，丢包率和网络延迟,DNS延迟。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a.png"><br> 还可以根据需要自定义不同的网络环境，点击左下角锁按钮输入系统密码解锁后，右侧Manage Profiles…就变为可用，点击后可进入管理Profiles窗口,在其中可定义自己需要的Profile.</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb.png"><br> 把ON/OFF按钮滑动到ON,即启动了网络模拟器。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984.png"><br> 这时在系统右上角会显示图标，可以点击图标取消网络限制或打开Network Link Conditioner重新配置。</span></p>
+  <p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672.png"><br> 启动Network Link Conditioner就可以使用iOS模拟器测试APP在此种环境下的运行情况了。</span></p>
+  <p><span style="color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial; line-height: 26px; text-indent: 20px; font-size: 14px;">在测试完毕时，记得停止Network Link Conditioner，Network Link Conditioners是对整个系统有效的，普通上网的速度也会被限制。</span></p>
   </div>
-
-  <footer role="complementary">
-
+    </div>
 
 
-
-  <div id="blog_content" class="blog_content">
-    <div style="font-size: 14px;" class="iteye-blog-content-contain">
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;">在Xcode4.1中有一个工具叫Network Link Conditioner，可以让用户模拟不同的网络连接和带宽，可供Mac和iOS开发者测试自己的程序在不同网络环境下的表现。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;">在Xcode4.3中，此工具不再随Xcode工具提供，需要单独下载。在Xcode4.3中通过Xcode-&gt;Open Developer Tool-&gt;More Developer Tools…菜单</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><br><span style="font-size: 14px;"><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d.png"></span><br><span style="font-size: 14px;"> 可进入Apple开发者下载中心，Network Link Conditioner包含在Hardware IO Tools工具包中，点击下载。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c.png"><br> 下载安装后，可看到其中有一个Network Link Conditioner.prefPane文件。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5.png"><br> 点击运行Network Link Conditioner.prefPane后，Network Link Conditioner就会被添加到系统偏好设置的其他分类中。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7.png"><br> 点击打开，Network Link Conditioner界面为</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080.png"><br> 在Profile中包含预置的几种网络环境，包含3G,DSL,Edge,Wifi，每种网络环境对应不同的上下行带宽，丢包率和网络延迟,DNS延迟。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a.png"><br> 还可以根据需要自定义不同的网络环境，点击左下角锁按钮输入系统密码解锁后，右侧Manage Profiles…就变为可用，点击后可进入管理Profiles窗口,在其中可定义自己需要的Profile.</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb.png"><br> 把ON/OFF按钮滑动到ON,即启动了网络模拟器。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984.png"><br> 这时在系统右上角会显示图标，可以点击图标取消网络限制或打开Network Link Conditioner重新配置。</span></p>
-<p style="padding: 0px 0px 15px; text-indent: 20px; line-height: 26px; color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial;"><span style="font-size: 14px;"><br><img alt="" src="http://dl.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672.png"><br> 启动Network Link Conditioner就可以使用iOS模拟器测试APP在此种环境下的运行情况了。</span></p>
-<p><span style="color: #333333; font-family: 'Microsoft YaHei', Tahoma, Arial; line-height: 26px; text-indent: 20px; font-size: 14px;">在测试完毕时，记得停止Network Link Conditioner，Network Link Conditioners是对整个系统有效的，普通上网的速度也会被限制。</span></p>
-</div>
-  </div>
+    <div class="attachments">
 
 
-  <div class="attachments">
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
 
-
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1667/20679f31-00a6-3702-854a-4c26263afc5d-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
-
-          <li>大小: 89.7 KB</li>
-        </ul>
+            <li>大小: 89.7 KB</li>
+          </ul>
 
 
 
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1669/63aa6738-c53c-3e25-bd8b-e3c12214c02c-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
 
-          <li>大小: 442.2 KB</li>
-        </ul>
-
-
-
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
-
-          <li>大小: 63.7 KB</li>
-        </ul>
+            <li>大小: 442.2 KB</li>
+          </ul>
 
 
 
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1671/be215461-fe8f-389a-8d2c-481e6be71dd5-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
 
-          <li>大小: 120.6 KB</li>
-        </ul>
-
-
-
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
-
-          <li>大小: 61.4 KB</li>
-        </ul>
+            <li>大小: 63.7 KB</li>
+          </ul>
 
 
 
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1673/0f2a3524-10b8-3a50-a5a9-86f2a60314d7-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
 
-          <li>大小: 85.9 KB</li>
-        </ul>
-
-
-
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
-
-          <li>大小: 90.5 KB</li>
-        </ul>
+            <li>大小: 120.6 KB</li>
+          </ul>
 
 
 
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1675/e98d9b39-ebf5-36fc-be9e-ca58a6322080-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
 
-          <li>大小: 66 KB</li>
-        </ul>
-
-
-
-        <ul style="display:none;">
-          <li><a href="http://dl2.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
-
-          <li>大小: 22.5 KB</li>
-        </ul>
+            <li>大小: 61.4 KB</li>
+          </ul>
 
 
-  </div>
+
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1677/9b40d84e-ce6f-3f32-af20-27f2a471dc1a-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+
+            <li>大小: 85.9 KB</li>
+          </ul>
 
 
-  </footer>
-</article>
+
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1679/ca601922-6188-3a7b-9fc6-e058005606cb-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+
+            <li>大小: 90.5 KB</li>
+          </ul>
+
+
+
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1681/edcb7627-09a4-33e0-88c7-f56f93588984-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+
+            <li>大小: 66 KB</li>
+          </ul>
+
+
+
+          <ul style="display:none;">
+            <li><a href="http://dl2.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672.png" target="_blank"><img src='http://dl2.iteye.com/upload/attachment/0080/1683/b67e0770-c2f1-38b0-9afb-c2aa2a8e3672-thumb.png' class='magplus' title='点击查看原始大小图片' /></a></li>
+
+            <li>大小: 22.5 KB</li>
+          </ul>
+
 
     </div>
 
 
-  </div>
+    </footer>
+  </article>
+
+      </div>
+
+
+    </div>
 
 #+END_HTML
