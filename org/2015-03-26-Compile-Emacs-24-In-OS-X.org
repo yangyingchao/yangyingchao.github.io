@@ -1,0 +1,53 @@
+#+TITLE: Compile Emacs-24 In OS X 10.9
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+
+Simply a tip: if you failed to compile Emacs under OS X 10.9, and it is caused by =tputs=:
+
+#+BEGIN_SRC text -r -n
+The required function `tputs' was not found in any library.
+The following libraries were tried (in order):
+  libtinfo, libncurses, libterminfo, libtermcap, libcurses
+Please try installing whichever of these libraries is most appropriate
+for your system, together with its header files.
+For example, a libncurses-dev(el) or similar package.
+#+END_SRC
+
+This can be resolved by specifying =--without-imagemagick= during configuration.
+
+
+If you use gentoo prefix, you can try following patch:
+
+#+BEGIN_SRC text -r -n
+  ,*** 167,173 ****
+          fi
+      elif use aqua; then
+          einfo "Configuring to build with Nextstep (Cocoa) support"
+  !       myconf+=" --with-ns --disable-ns-self-contained --without-imagemagick"
+          myconf+=" --without-x"
+      else
+          myconf+=" --without-x --without-ns"
+  --- 167,173 ----
+          fi
+      elif use aqua; then
+          einfo "Configuring to build with Nextstep (Cocoa) support"
+  !       myconf+=" --with-ns --disable-ns-self-contained"
+          myconf+=" --without-x"
+      else
+          myconf+=" --without-x --without-ns"
+
+
+#+END_SRC
