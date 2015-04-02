@@ -1,0 +1,80 @@
+#+TITLE: EXT2 笔记
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: EXT2, FileSystem
+#+CATEGORY: kernel
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+记录一下 Ext2 文件系统相关的一些知识。
+
+* Specification
+
+ * Blocks
+
+ 磁盘或文件被划分成块 （Blocks），块大小在文件系统创建时指定，可为 1024, 2048, 4096 或
+ 8192。较小的 block size 意味着单个文件浪费的空间更小，但也意味着内核需要管理更多的块，
+ 从而在管理和统计上花费更多的资源。
+
+ * Block Groups
+
+   + Blocks are clustered into block groups in order to reduce fragmentation
+     and minimise the amount of head seeking when reading a large amount of consecutive data.
+   + Information about each block group is kept in a
+     descriptor table stored in the block(s) immediately after the superblock.
+   + Two blocks near the start of each group are reserved for the block usage
+     bitmap and the inode usage bitmap which show which blocks and inodes
+     are in use.
+   + The block(s) following the bitmaps in each block group are designated
+     as the inode table for that block group and the remainder are the data
+     blocks
+   + The block allocation algorithm attempts to allocate data blocks
+     in the same block group as the inode which contains them.
+
+   #+BEGIN_SRC ditaa :file ../assets/img/name.png  :cmdline -r -s 0.8
+
+     +-----------+-------------------+---------------+
+     | SuperBlock| Block Group Infor |  Block Group1 |
+     +---------------+---------------+---------------+
+     |  Block Group1 | Block group 2 |  ........     |
+     +---------------+---------------+---------------+
+
+     /                 \
+     /                   \
+     /                     \
+     /                       \
+     /                         \
+     /                           \
+     /                             \
+     /                               \
+     /                                 \
+     +----+----+----+------+------+----------+
+     | BM | IM | IT | BLK1 | BLK2 | .....    |
+     +----+----++---+------+------+----------+
+
+     BM --  Bblock BitMap
+     IM --  INode BitMap
+     IT --  INode Table
+   #+END_SRC
+
+ * Superblock
+
+   超块中保存了文件系统的所有配置信息。超块信息保存在设备起始点的1024字节偏移处，该信
+   息在文件系统挂载时被内核读取。此外，超块信息还有若干备份，用户可以选择将其保存在所
+   有的 BlockGroup 中，或者选择将其保存在 0，1，以及 2 的 3，5，7次冥的超块中。
+
+   超块中保存的数据包括：
+   - 文件系统中 iNode 与 block 的数量以及使用情况
+   - 每个 block group 中的 inode 和 block 数量
+   - 文件系统上一次被挂载和修改的时间
+   - 文件系统的创建时间和文件系统的版本信息。
+
+   超块中的所有信息均以小端格式写入磁盘。
