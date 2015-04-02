@@ -1,7 +1,8 @@
 #include "merge_sort.h"
-
+static long sts;
 static  slist *merge(slist *a,  slist *b)
 {
+    sts ++;
     slist head, *tail = &head;
 	while (a && b) {
 		if (a->val <= b->val) {
@@ -20,6 +21,7 @@ static  slist *merge(slist *a,  slist *b)
 
 slist* merge_sort_2(slist* head)
 {
+    sts ++;
     if (!head || !head->next)
         return head;
 
@@ -56,3 +58,7 @@ slist* merge_sort_2(slist* head)
 }
 
 
+long get_sts_2()
+{
+    return sts;
+}

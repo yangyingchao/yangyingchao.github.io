@@ -1,0 +1,308 @@
+#+TITLE: Merge Sort Of Lists
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: Kernel, Sort, List
+#+CATEGORY: Kernel
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+=list_sort.c= from linux kernel provides a function to sort double linked list, it says:
+
+#+BEGIN_SRC c -r -n
+  /**
+   ,* This function implements "merge sort", which has O(nlog(n))
+   ,* complexity.
+   */
+#+END_SRC
+
+But if you look at the implementation, you may be surprised: the implementation differs from
+normal ordinary "merge sort"!
+
+#+BEGIN_SRC c -r -n
+  /*
+   ,* Returns a list organized in an intermediate format suited
+   ,* to chaining of merge() calls: null-terminated, no reserved or
+   ,* sentinel head node, "prev" links not maintained.
+   ,*/
+  static struct list_head *merge(void *priv, (ref:merge)
+                                 int (*cmp)(void *priv, struct list_head *a,
+                                            struct list_head *b),
+                                 struct list_head *a, struct list_head *b)
+  {
+      struct list_head head, *tail = &head;
+
+      while (a && b) {
+          /* if equal, take 'a' -- important for sort stability */
+          if ((*cmp)(priv, a, b) <= 0) {
+              tail->next = a;
+              a = a->next;
+          } else {
+              tail->next = b;
+              b = b->next;
+          }
+          tail = tail->next;
+      }
+      tail->next = a?:b;
+      return head.next;
+  }
+
+#+END_SRC
+
+Function [[merge]] is so clear and clean compared normally ones, for example this one from wiki:
+
+#+BEGIN_SRC c -r -n
+  typedef struct _slist
+  {
+      struct _slist* next;
+      int   val;
+  } slist;
+
+
+  slist* merge(slist*a, slist* b)
+  {
+      sts ++;
+      slist* head = NULL;
+      slist* tail = NULL;
+      slist* p = a;
+      slist* q = b;
+      while (p && q) {
+          if (p->val < q->val) {
+              if (!head) {
+                  head = p;
+                  tail = p;
+                  p = p->next;
+              }
+              else {
+                  tail->next = p;
+                  tail = p;
+                  p = p->next;
+              }
+          }
+          else {
+              if (!head) {
+                  head = q;
+                  tail = q;
+                  q = q->next;
+              }
+              else {
+                  tail->next = q;
+                  tail = q;
+                  q = q->next;
+              }
+          }
+      }
+
+      if (p)
+          tail->next = p;
+      if (q)
+          tail->next = q;
+
+      return head;
+  }
+#+END_SRC
+
+And the sort function:
+
+#+BEGIN_SRC c -r -n
+  /**
+   ,* list_sort - sort a list
+   ,* @priv: private data, opaque to list_sort(), passed to @cmp
+   ,* @head: the list to sort
+   ,* @cmp: the elements comparison function
+   ,*
+   ,* This function implements "merge sort", which has O(nlog(n))
+   ,* complexity.
+   ,*
+   ,* The comparison function @cmp must return a negative value if @a
+   ,* should sort before @b, and a positive value if @a should sort after
+   ,* @b. If @a and @b are equivalent, and their original relative
+   ,* ordering is to be preserved, @cmp must return 0.
+   ,*/
+  void list_sort(void *priv, struct list_head *head, (ref:sort)
+                 int (*cmp)(void *priv, struct list_head *a,
+                            struct list_head *b))
+  {
+      struct list_head *part[MAX_LIST_LENGTH_BITS+1]; /* sorted partial lists
+                                                         -- last slot is a sentinel */
+      int lev;  /* index into part[] */
+      int max_lev = 0;
+      struct list_head *list;
+
+      if (list_empty(head))
+          return;
+
+      memset(part, 0, sizeof(part));
+
+      head->prev->next = NULL;
+      list = head->next;
+
+      while (list) {
+          struct list_head *cur = list;
+          list = list->next;
+          cur->next = NULL;
+
+          for (lev = 0; part[lev]; lev++) {
+              cur = merge(priv, cmp, part[lev], cur);
+              part[lev] = NULL;
+          }
+          if (lev > max_lev) {
+              if (unlikely(lev >= ARRAY_SIZE(part)-1)) {
+                  printk_once(KERN_DEBUG "list passed to"
+                              " list_sort() too long for"
+                              " efficiency\n");
+                  lev--;
+              }
+              max_lev = lev;
+          }
+          part[lev] = cur;
+      }
+
+      for (lev = 0; lev < max_lev; lev++)
+          if (part[lev])
+              list = merge(priv, cmp, part[lev], list);
+
+      merge_and_restore_back_links(priv, cmp, head, part[max_lev], list);
+  }
+#+END_SRC
+
+But wait, is this really =merge sort= ? A merge sort should normally consist of two parts:
+sort and merge. For example, this one:
+
+#+BEGIN_SRC c -r -n
+slist* get_middle_list(slist* h)
+{
+    sts ++;
+    slist* p = h;
+    slist* q = h;
+    slist* k = q;
+    while (p) {
+        p = p->next;
+        if (p) {
+            p = p->next;
+        }
+        k = q;
+        q = q->next;
+    }
+    return k;
+}
+
+slist* merge(slist*a, slist* b)
+{
+    sts ++;
+    slist* head = NULL;
+    slist* tail = NULL;
+    slist* p = a;
+    slist* q = b;
+    while (p && q) {
+        if (p->val < q->val) {
+            if (!head) {
+                head = p;
+                tail = p;
+                p = p->next;
+            }
+            else {
+                tail->next = p;
+                tail = p;
+                p = p->next;
+            }
+        }
+        else {
+            if (!head) {
+                head = q;
+                tail = q;
+                q = q->next;
+            }
+            else {
+                tail->next = q;
+                tail = q;
+                q = q->next;
+            }
+        }
+    }
+
+    if (p)
+        tail->next = p;
+    if (q)
+        tail->next = q;
+
+    return head;
+}
+
+
+slist* merge_sort_1(slist* h)
+{
+    sts ++;
+    if (!h->next)
+        return h;
+
+    slist* s = get_middle_list(h);
+    slist* nh = s->next;
+    s->next = NULL;
+    return merge(merge_sort_1(h), merge_sort_1(nh));
+}
+#+END_SRC
+
+Here, the kernel implementation does not use helper function to "*divide*" list, but uses a
+table to store partially sorted list. The following figure show the =parts= will look like
+after processed the first 127 (2^6-1) elements:
+
+#+BEGIN_SRC dot :file ../assets/img/list_sort.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open tailclip=false dir=both arrowtail=dot];
+      // rankdir=LR;
+
+      //XXX: Place to put subgraphs
+  node_parts[label="{parts|{<f0>0|<f1>1|<f2>2|<f3>3|<f4>4|<f5>5|6|||...}}"];
+  node_l5[label="{<f0>0|1|2|3|...|2^5}"]
+  node_l4[label="{<f0>0|1|2|3|...|2^4}"]
+  node_l3[label="{<f0>0|1|2|3|...|2^3}"]
+  node_l2[label="{<f0>0|1|2|3|...|2^2}"]
+  node_l1[label="{<f0>0|2^1}"]
+  node_l0[label="{<f0>0}"]
+
+node_parts:f5:c->node_l5:f0;
+node_parts:f4:c->node_l4:f0;
+node_parts:f3:c->node_l3:f0;
+node_parts:f2:c->node_l2:f0;
+node_parts:f1:c->node_l1:f0;
+node_parts:f0:c->node_l0:f0;
+  }
+#+END_SRC
+
+And after processed the 128th elements, the first 6 places of parts are empty, and the 7th
+element of parts array are filled with a sorted list of the first 128 nodes:
+
+#+BEGIN_SRC dot :file ../assets/img/lsort_2.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open tailclip=false dir=both arrowtail=dot];
+      // rankdir=LR;
+
+      //XXX: Place to put subgraphs
+    node_parts[label="{parts|{<f0>0|<f1>1|<f2>2|<f3>3|<f4>4|<f5>5|<f6>6|||...}}"];
+    node_l6[label="{<f0>0|1|2|3|...|2^6}"]
+    node_parts:f6:c->node_l6;
+
+  }
+#+END_SRC
+
+I don't know how guys figured out this subtle solution. It is really more efficient and
+elegant than ordinary ones.
+
+I wrote a similar one with same algorithm to test it, to process 1M elements, it uses 411
+ms, with 570641 times of function calls, while the C implementation in [[http://zh.wikipedia.org/wiki/%25E5%25BD%2592%25E5%25B9%25B6%25E6%258E%2592%25E5%25BA%258F][wiki]] takes more than
+502 ms,with 7452856 function calls.
+
+Compare solution provided by wiki and the kernel one, I guess both function calls and
+[[http://blog.jobbole.com/83828/]['if-else' statement]] can make performance worse. But normally, that should be acceptable.
+
+I put my test codes at [[https://github.com/yangyingchao/yangyingchao.github.io/tree/master/assets/sources/merge_sort][here]], you can download and try them yourself.

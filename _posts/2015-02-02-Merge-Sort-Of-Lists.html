@@ -1,0 +1,303 @@
+---
+layout : post
+title : Merge Sort Of Lists
+categories : Kernel
+tags : Kernel, Sort, List
+---
+<p>
+<code>list_sort.c</code> from linux kernel provides a function to sort double linked list, it says:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #87ceeb;">/**</span>
+<span class="linenr">2: </span><span style="color: #87ceeb;"> * This function implements "merge sort", which has O(nlog(n))</span>
+<span class="linenr">3: </span><span style="color: #87ceeb;"> * complexity.</span>
+<span class="linenr">4: </span><span style="color: #87ceeb;"> */</span>
+</pre>
+</div>
+
+<p>
+But if you look at the implementation, you may be surprised: the implementation differs from
+normal ordinary "merge sort"!
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #fa8072;">/*</span>
+<span class="linenr"> 2: </span><span style="color: #cd5c5c; font-style: italic;"> * Returns a list organized in an intermediate format suited</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;"> * to chaining of merge() calls: null-terminated, no reserved or</span>
+<span class="linenr"> 4: </span><span style="color: #cd5c5c; font-style: italic;"> * sentinel head node, "prev" links not maintained.</span>
+<span class="linenr"> 5: </span><span style="color: #cd5c5c; font-style: italic;"> </span><span style="color: #fa8072;">*/</span>
+<span id="coderef-merge" class="coderef-off"><span class="linenr"> 6: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #1e90ff; font-weight: bold;">merge</span>(<span style="color: #32cd32;">void</span> *<span style="color: #daa520;">priv</span>,</span>
+<span class="linenr"> 7: </span>                               <span style="color: #32cd32;">int</span> (*<span style="color: #daa520;">cmp</span>)(<span style="color: #32cd32;">void</span> *<span style="color: #daa520;">priv</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">a</span>,
+<span class="linenr"> 8: </span>                                          <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">b</span>),
+<span class="linenr"> 9: </span>                               <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">a</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">b</span>)
+<span class="linenr">10: </span>{
+<span class="linenr">11: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> <span style="color: #daa520;">head</span>, *<span style="color: #daa520;">tail</span> = &amp;head;
+<span class="linenr">12: </span>
+<span class="linenr">13: </span>    <span style="color: #ff4040;">while</span> (a &amp;&amp; b) {
+<span class="linenr">14: </span>        <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">if equal, take 'a' -- important for sort stability </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">15: </span>        <span style="color: #ff4040;">if</span> ((*cmp)(priv, a, b) &lt;= 0) {
+<span class="linenr">16: </span>            tail-&gt;next = a;
+<span class="linenr">17: </span>            a = a-&gt;next;
+<span class="linenr">18: </span>        } <span style="color: #ff4040;">else</span> {
+<span class="linenr">19: </span>            tail-&gt;next = b;
+<span class="linenr">20: </span>            b = b-&gt;next;
+<span class="linenr">21: </span>        }
+<span class="linenr">22: </span>        tail = tail-&gt;next;
+<span class="linenr">23: </span>    }
+<span class="linenr">24: </span>    tail-&gt;next = a?:b;
+<span class="linenr">25: </span>    <span style="color: #ff4040;">return</span> head.next;
+<span class="linenr">26: </span>}
+</pre>
+</div>
+
+<p>
+Function <i>merge</i> is so clear and clean compared normally ones, for example this one from wiki:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">typedef</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">_slist</span>
+<span class="linenr"> 2: </span>{
+<span class="linenr"> 3: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">_slist</span>* <span style="color: #daa520;">next</span>;
+<span class="linenr"> 4: </span>    <span style="color: #32cd32;">int</span>   <span style="color: #daa520;">val</span>;
+<span class="linenr"> 5: </span>} <span style="color: #32cd32;">slist</span>;
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #32cd32;">slist</span>* <span style="color: #1e90ff; font-weight: bold;">merge</span>(<span style="color: #32cd32;">slist</span>*<span style="color: #daa520;">a</span>, <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">b</span>)
+<span class="linenr"> 9: </span>{
+<span class="linenr">10: </span>    sts ++;
+<span class="linenr">11: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">head</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">12: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">tail</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">13: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">p</span> = a;
+<span class="linenr">14: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">q</span> = b;
+<span class="linenr">15: </span>    <span style="color: #ff4040;">while</span> (p &amp;&amp; q) {
+<span class="linenr">16: </span>        <span style="color: #ff4040;">if</span> (p-&gt;val &lt; q-&gt;val) {
+<span class="linenr">17: </span>            <span style="color: #ff4040;">if</span> (!head) {
+<span class="linenr">18: </span>                head = p;
+<span class="linenr">19: </span>                tail = p;
+<span class="linenr">20: </span>                p = p-&gt;next;
+<span class="linenr">21: </span>            }
+<span class="linenr">22: </span>            <span style="color: #ff4040;">else</span> {
+<span class="linenr">23: </span>                tail-&gt;next = p;
+<span class="linenr">24: </span>                tail = p;
+<span class="linenr">25: </span>                p = p-&gt;next;
+<span class="linenr">26: </span>            }
+<span class="linenr">27: </span>        }
+<span class="linenr">28: </span>        <span style="color: #ff4040;">else</span> {
+<span class="linenr">29: </span>            <span style="color: #ff4040;">if</span> (!head) {
+<span class="linenr">30: </span>                head = q;
+<span class="linenr">31: </span>                tail = q;
+<span class="linenr">32: </span>                q = q-&gt;next;
+<span class="linenr">33: </span>            }
+<span class="linenr">34: </span>            <span style="color: #ff4040;">else</span> {
+<span class="linenr">35: </span>                tail-&gt;next = q;
+<span class="linenr">36: </span>                tail = q;
+<span class="linenr">37: </span>                q = q-&gt;next;
+<span class="linenr">38: </span>            }
+<span class="linenr">39: </span>        }
+<span class="linenr">40: </span>    }
+<span class="linenr">41: </span>
+<span class="linenr">42: </span>    <span style="color: #ff4040;">if</span> (p)
+<span class="linenr">43: </span>        tail-&gt;next = p;
+<span class="linenr">44: </span>    <span style="color: #ff4040;">if</span> (q)
+<span class="linenr">45: </span>        tail-&gt;next = q;
+<span class="linenr">46: </span>
+<span class="linenr">47: </span>    <span style="color: #ff4040;">return</span> head;
+<span class="linenr">48: </span>}
+</pre>
+</div>
+
+<p>
+And the sort function:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #87ceeb;">/**</span>
+<span class="linenr"> 2: </span><span style="color: #87ceeb;"> * list_sort - sort a list</span>
+<span class="linenr"> 3: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@priv</span><span style="color: #87ceeb;">: private data, opaque to </span><span style="color: #87ceeb; font-weight: bold;">list_sort()</span><span style="color: #87ceeb;">, passed to </span><span style="color: #87ceeb; font-weight: bold;">@cmp</span>
+<span class="linenr"> 4: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@head</span><span style="color: #87ceeb;">: the list to sort</span>
+<span class="linenr"> 5: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@cmp</span><span style="color: #87ceeb;">: the elements comparison function</span>
+<span class="linenr"> 6: </span><span style="color: #87ceeb;"> *</span>
+<span class="linenr"> 7: </span><span style="color: #87ceeb;"> * This function implements "merge sort", which has O(nlog(n))</span>
+<span class="linenr"> 8: </span><span style="color: #87ceeb;"> * complexity.</span>
+<span class="linenr"> 9: </span><span style="color: #87ceeb;"> *</span>
+<span class="linenr">10: </span><span style="color: #87ceeb;"> * The comparison function </span><span style="color: #87ceeb; font-weight: bold;">@cmp</span><span style="color: #87ceeb;"> must return a negative value if </span><span style="color: #87ceeb; font-weight: bold;">@a</span>
+<span class="linenr">11: </span><span style="color: #87ceeb;"> * should sort before </span><span style="color: #87ceeb; font-weight: bold;">@b</span><span style="color: #87ceeb;">, and a positive value if </span><span style="color: #87ceeb; font-weight: bold;">@a</span><span style="color: #87ceeb;"> should sort after</span>
+<span class="linenr">12: </span><span style="color: #87ceeb;"> * </span><span style="color: #87ceeb; font-weight: bold;">@b</span><span style="color: #87ceeb;">. If </span><span style="color: #87ceeb; font-weight: bold;">@a</span><span style="color: #87ceeb;"> and </span><span style="color: #87ceeb; font-weight: bold;">@b</span><span style="color: #87ceeb;"> are equivalent, and their original relative</span>
+<span class="linenr">13: </span><span style="color: #87ceeb;"> * ordering is to be preserved, </span><span style="color: #87ceeb; font-weight: bold;">@cmp</span><span style="color: #87ceeb;"> must return 0.</span>
+<span class="linenr">14: </span><span style="color: #87ceeb;"> */</span>
+<span id="coderef-sort" class="coderef-off"><span class="linenr">15: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">list_sort</span>(<span style="color: #32cd32;">void</span> *<span style="color: #daa520;">priv</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">head</span>,</span>
+<span class="linenr">16: </span>               <span style="color: #32cd32;">int</span> (*<span style="color: #daa520;">cmp</span>)(<span style="color: #32cd32;">void</span> *<span style="color: #daa520;">priv</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">a</span>,
+<span class="linenr">17: </span>                          <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">b</span>))
+<span class="linenr">18: </span>{
+<span class="linenr">19: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">part</span>[MAX_LIST_LENGTH_BITS+1]; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">sorted partial lists</span>
+<span class="linenr">20: </span><span style="color: #cd5c5c; font-style: italic;">                                                       -- last slot is a sentinel </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">21: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">lev</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">index into part[] </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">22: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">max_lev</span> = 0;
+<span class="linenr">23: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">list</span>;
+<span class="linenr">24: </span>
+<span class="linenr">25: </span>    <span style="color: #ff4040;">if</span> (list_empty(head))
+<span class="linenr">26: </span>        <span style="color: #ff4040;">return</span>;
+<span class="linenr">27: </span>
+<span class="linenr">28: </span>    memset(part, 0, <span style="color: #ff4040;">sizeof</span>(part));
+<span class="linenr">29: </span>
+<span class="linenr">30: </span>    head-&gt;prev-&gt;next = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">31: </span>    list = head-&gt;next;
+<span class="linenr">32: </span>
+<span class="linenr">33: </span>    <span style="color: #ff4040;">while</span> (list) {
+<span class="linenr">34: </span>        <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span> *<span style="color: #daa520;">cur</span> = list;
+<span class="linenr">35: </span>        list = list-&gt;next;
+<span class="linenr">36: </span>        cur-&gt;next = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">37: </span>
+<span class="linenr">38: </span>        <span style="color: #ff4040;">for</span> (lev = 0; part[lev]; lev++) {
+<span class="linenr">39: </span>            cur = merge(priv, cmp, part[lev], cur);
+<span class="linenr">40: </span>            part[lev] = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">41: </span>        }
+<span class="linenr">42: </span>        <span style="color: #ff4040;">if</span> (lev &gt; max_lev) {
+<span class="linenr">43: </span>            <span style="color: #ff4040;">if</span> (unlikely(lev &gt;= <span style="color: #32cd32;">ARRAY_SIZE</span>(part)-1)) {
+<span class="linenr">44: </span>                printk_once(KERN_DEBUG <span style="color: #d78700;">"list passed to"</span>
+<span class="linenr">45: </span>                            <span style="color: #d78700;">" list_sort() too long for"</span>
+<span class="linenr">46: </span>                            <span style="color: #d78700;">" efficiency\n"</span>);
+<span class="linenr">47: </span>                lev--;
+<span class="linenr">48: </span>            }
+<span class="linenr">49: </span>            max_lev = lev;
+<span class="linenr">50: </span>        }
+<span class="linenr">51: </span>        part[lev] = cur;
+<span class="linenr">52: </span>    }
+<span class="linenr">53: </span>
+<span class="linenr">54: </span>    <span style="color: #ff4040;">for</span> (lev = 0; lev &lt; max_lev; lev++)
+<span class="linenr">55: </span>        <span style="color: #ff4040;">if</span> (part[lev])
+<span class="linenr">56: </span>            list = merge(priv, cmp, part[lev], list);
+<span class="linenr">57: </span>
+<span class="linenr">58: </span>    merge_and_restore_back_links(priv, cmp, head, part[max_lev], list);
+<span class="linenr">59: </span>}
+</pre>
+</div>
+
+<p>
+But wait, is this really <code>merge sort</code> ? A merge sort should normally consist of two parts:
+sort and merge. For example, this one:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">slist</span>* <span style="color: #1e90ff; font-weight: bold;">get_middle_list</span>(<span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">h</span>)
+<span class="linenr"> 2: </span>{
+<span class="linenr"> 3: </span>    sts ++;
+<span class="linenr"> 4: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">p</span> = h;
+<span class="linenr"> 5: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">q</span> = h;
+<span class="linenr"> 6: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">k</span> = q;
+<span class="linenr"> 7: </span>    <span style="color: #ff4040;">while</span> (p) {
+<span class="linenr"> 8: </span>        p = p-&gt;next;
+<span class="linenr"> 9: </span>        <span style="color: #ff4040;">if</span> (p) {
+<span class="linenr">10: </span>            p = p-&gt;next;
+<span class="linenr">11: </span>        }
+<span class="linenr">12: </span>        k = q;
+<span class="linenr">13: </span>        q = q-&gt;next;
+<span class="linenr">14: </span>    }
+<span class="linenr">15: </span>    <span style="color: #ff4040;">return</span> k;
+<span class="linenr">16: </span>}
+<span class="linenr">17: </span>
+<span class="linenr">18: </span><span style="color: #32cd32;">slist</span>* <span style="color: #1e90ff; font-weight: bold;">merge</span>(<span style="color: #32cd32;">slist</span>*<span style="color: #daa520;">a</span>, <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">b</span>)
+<span class="linenr">19: </span>{
+<span class="linenr">20: </span>    sts ++;
+<span class="linenr">21: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">head</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">22: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">tail</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">23: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">p</span> = a;
+<span class="linenr">24: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">q</span> = b;
+<span class="linenr">25: </span>    <span style="color: #ff4040;">while</span> (p &amp;&amp; q) {
+<span class="linenr">26: </span>        <span style="color: #ff4040;">if</span> (p-&gt;val &lt; q-&gt;val) {
+<span class="linenr">27: </span>            <span style="color: #ff4040;">if</span> (!head) {
+<span class="linenr">28: </span>                head = p;
+<span class="linenr">29: </span>                tail = p;
+<span class="linenr">30: </span>                p = p-&gt;next;
+<span class="linenr">31: </span>            }
+<span class="linenr">32: </span>            <span style="color: #ff4040;">else</span> {
+<span class="linenr">33: </span>                tail-&gt;next = p;
+<span class="linenr">34: </span>                tail = p;
+<span class="linenr">35: </span>                p = p-&gt;next;
+<span class="linenr">36: </span>            }
+<span class="linenr">37: </span>        }
+<span class="linenr">38: </span>        <span style="color: #ff4040;">else</span> {
+<span class="linenr">39: </span>            <span style="color: #ff4040;">if</span> (!head) {
+<span class="linenr">40: </span>                head = q;
+<span class="linenr">41: </span>                tail = q;
+<span class="linenr">42: </span>                q = q-&gt;next;
+<span class="linenr">43: </span>            }
+<span class="linenr">44: </span>            <span style="color: #ff4040;">else</span> {
+<span class="linenr">45: </span>                tail-&gt;next = q;
+<span class="linenr">46: </span>                tail = q;
+<span class="linenr">47: </span>                q = q-&gt;next;
+<span class="linenr">48: </span>            }
+<span class="linenr">49: </span>        }
+<span class="linenr">50: </span>    }
+<span class="linenr">51: </span>
+<span class="linenr">52: </span>    <span style="color: #ff4040;">if</span> (p)
+<span class="linenr">53: </span>        tail-&gt;next = p;
+<span class="linenr">54: </span>    <span style="color: #ff4040;">if</span> (q)
+<span class="linenr">55: </span>        tail-&gt;next = q;
+<span class="linenr">56: </span>
+<span class="linenr">57: </span>    <span style="color: #ff4040;">return</span> head;
+<span class="linenr">58: </span>}
+<span class="linenr">59: </span>
+<span class="linenr">60: </span>
+<span class="linenr">61: </span><span style="color: #32cd32;">slist</span>* <span style="color: #1e90ff; font-weight: bold;">merge_sort_1</span>(<span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">h</span>)
+<span class="linenr">62: </span>{
+<span class="linenr">63: </span>    sts ++;
+<span class="linenr">64: </span>    <span style="color: #ff4040;">if</span> (!h-&gt;next)
+<span class="linenr">65: </span>        <span style="color: #ff4040;">return</span> h;
+<span class="linenr">66: </span>
+<span class="linenr">67: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">s</span> = get_middle_list(h);
+<span class="linenr">68: </span>    <span style="color: #32cd32;">slist</span>* <span style="color: #daa520;">nh</span> = s-&gt;next;
+<span class="linenr">69: </span>    s-&gt;next = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
+<span class="linenr">70: </span>    <span style="color: #ff4040;">return</span> merge(merge_sort_1(h), merge_sort_1(nh));
+<span class="linenr">71: </span>}
+</pre>
+</div>
+
+<p>
+Here, the kernel implementation does not use helper function to "<b>divide</b>" list, but uses a
+table to store partially sorted list. The following figure show the <code>parts</code> will look like
+after processed the first 127 (2^6-1) elements:
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/list_sort.png" alt="list_sort.png" />
+</p>
+</div>
+
+<p>
+And after processed the 128th elements, the first 6 places of parts are empty, and the 7th
+element of parts array are filled with a sorted list of the first 128 nodes:
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/lsort_2.png" alt="lsort_2.png" />
+</p>
+</div>
+
+<p>
+I don't know how guys figured out this subtle solution. It is really more efficient and
+elegant than ordinary ones.
+</p>
+
+<p>
+I wrote a similar one with same algorithm to test it, to process 1M elements, it uses 411
+ms, with 570641 times of function calls, while the C implementation in <a href="http://zh.wikipedia.org/wiki/%25E5%25BD%2592%25E5%25B9%25B6%25E6%258E%2592%25E5%25BA%258F">wiki</a> takes more than
+502 ms,with 7452856 function calls.
+</p>
+
+<p>
+Compare solution provided by wiki and the kernel one, I guess both function calls and
+<a href="http://blog.jobbole.com/83828/">'if-else' statement</a> can make performance worse. But normally, that should be acceptable.
+</p>
+
+<p>
+I put my test codes at <a href="https://github.com/yangyingchao/yangyingchao.github.io/tree/master/assets/sources/merge_sort">here</a>, you can download and try them yourself.
+</p>

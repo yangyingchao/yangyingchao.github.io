@@ -1,0 +1,60 @@
+---
+layout : post
+title : How To Mount Ext4 Under OSX
+categories : Utility
+tags : Ext4, Mac
+---
+<div class="post">
+<h1>How to Mount EXT4 Linux File Systems on a Mac with OS X Fuse</h1>
+
+
+<div class="contenttext">
+<div class="KonaBody"><p><img src="http://cdn.osxdaily.com/wp-content/uploads/2014/03/mount-ext-mac-272x300.jpg" alt="Mount EXT file systems on a Mac" width="272" height="300" class="alignright size-medium wp-image-43734" /> The EXT file system (short for Extended File System) and it&#8217;s family members of EXT2, EXT3, and EXT4, are the file systems used by Linux. Mac users who work with multiple platforms may notice that OS X is unable to mount EXT partitions on its own, and thus anyone wishing to mount and read EXT drives and other file systems will need to rely on a third party utility. </p>
+<p>OSXFuse is one such tool, a free open source offering that allows OS X to read EXT volumes, and if you&#8217;re comfortable with some uncertainty and risk to the Linux partition, you can even enable an experimental EXT write function too.<br />
+<span id="more-43733"></span></p>
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:left;margin:10px 10px 10px 0;">
+<div style="padding-right:20px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 336x280 in page article -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-7321635426958037"
+     data-ad-slot="4239339108"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div>
+
+<ol>
+<li><a href="http://osxfuse.github.io/" target="_blank">Get OSXFuse from the developer (free)</a> and run the package installer</li>
+<li>Choose to install the &#8220;MacFUSE Compatibility Layer&#8221;, this is optional but necessary for FUSE-EXT2</li>
+<p><img src="http://cdn.osxdaily.com/wp-content/uploads/2014/03/installing-fuse-ext-support-mac-610x434.jpg" alt="Installing FUSE EXT support for Mac OS X " width="610" height="434" class="aligncenter size-large wp-image-43735" /></p>
+<li>Reboot the Mac when installation is finished, you&#8217;ll find the &#8220;Fuse for OS X&#8221; control panel in System Preferences</li>
+</ol>
+<p><img src="http://cdn.osxdaily.com/wp-content/uploads/2014/03/os-x-fuse-ext-support-mac-pref-panel.jpg" alt="OS X FUSE EXT support for Mac system preference panel" width="620" height="216" class="aligncenter size-full wp-image-43736" /></p>
+<p>At this point you can connect EXT file system drives and/or partitions from the Linux world to the Mac and be able to read data from them as expected. That means you can access files and copy files from the EXT volume over to the Mac, but not vice versa (more on using EXT write support in a moment).</p>
+<p>When EXT drives are mounted with FUSE, the volumes are interpreted as network drives or servers, so if you are hiding desktop icons or connected servers from Finder preferences you won&#8217;t see it except in a Finder window sidebar.</p>
+<p><a target="_blank" href="http://cdn.osxdaily.com/wp-content/uploads/2014/03/network-volume-mac-icon.jpg"><img src="http://cdn.osxdaily.com/wp-content/uploads/2014/03/network-volume-mac-icon-290x300.jpg" alt="network volume icon in mac os x" width="290" height="300" class="aligncenter size-medium wp-image-43737" /></a></p>
+<p>Longtime OS X users may recognize OSXFuse as the successor to the now defunct <a href="http://osxdaily.com/2007/11/08/read-and-write-ntfs-partitions-from-mac-os-x/">MacFUSE</a>, which, once upon a time, was necessary to gain Windows NTFS support on the Mac as well. Of course, now you can just <a href="http://osxdaily.com/2013/10/02/enable-ntfs-write-support-mac-os-x/">enable NTFS write support on Macs directly</a> without the need for any third party tools, but not too long ago that wasn&#8217;t the case.</p>
+<h4>Enabling EXT Write Support</h4>
+<p>While OSXFuse adds EXT read support, write support to EXT is disabled by default and probably not recommended to use at all, it&#8217;s considered experimental and unsupported by FUSE for a reason. </p>
+<p>Nonetheless, if you absolutely have to write to a Linux partition from OS X and you have a backup of the data and/or drive in question, and you don&#8217;t mind potentially toasting the data on the drive, you can enable writing to EXT with the following steps:</p>
+<ul>
+<li><a href="https://github.com/osxfuse/osxfuse/wiki/Ext" target="_blank">Get FUSE-EXT2</a> and install it onto of MacFUSE</li>
+<p><img src="http://cdn.osxdaily.com/wp-content/uploads/2014/03/fuse-ext2-ext3-write-support-610x434.jpg" alt="FUse EXT2" width="610" height="434" class="aligncenter size-large wp-image-43738" /></p>
+<li>Reboot the Mac, then use following command string to enable write support:</li>
+<p><code>sudo sed -e 's/OPTIONS="auto_xattr,defer_permissions"/OPTIONS="auto_xattr,defer_permissions,rw+"/' -i .orig /System/Library/Filesystems/fuse-ext2.fs/fuse-ext2.util</code></p>
+<li>Cross your fingers and hope for the best, this is experimental and not recommended for a reason</li>
+</ul>
+<p>Again, enabling EXT write support is not recommended. This can&#8217;t be overstated enough. Be sure to understand there are considerable risks to the drive and it&#8217;s quite possible to damage the Linux partition or drives file system by doing so. Do not do this without a backup.</p>
+<p>By the way, an alternative for those who wish to safely read <em>and write</em> files between OS X and Linux (and Windows for that matter) by using an external drive are probably better off <a href="http://osxdaily.com/2012/04/22/format-drive-mac-pc-compatible/">formatting a drive for maximum compatibility</a> with the MS-DOS file system, which can be accessed by just about every operating system out there. This is particularly helpful for USB thumb drives and external disks that you want to use for quick file storage and sharing outside of a network. Otherwise, networked computers can just <a href="http://osxdaily.com/2011/09/08/share-files-from-mac-to-windows-pc/">use the SMB protocol</a> and share files between Mac OS X, Linux, and Windows over a local network connection. No, it&#8217;s not the same as mounting an existing EXT file system, but it works if the only intention is to be able to read and write data between different OS&#8217;s.</p>
+<h3>Uninstalling OSXFuse</h3>
+<p>The easiest way to uninstall OSXFuse is by using the packages control panel:</p>
+<ul>
+<li>Head to System Preferences by way of  Apple menu and choose &#8220;Fuse for OS X&#8221;</li>
+<li>Click the &#8220;Remove OSXFuse&#8221; button and enter the admin password to uninstall FUSE from the Mac</li>
+</ul>
+<p>Removing OSXFuse obviously removes the ability to mount all EXT linux file systems from the Mac. You will want to uninstall the FUSE packages from OS X if you intend on using one of the other third party EXT mounting solutions out there, whether from Paragon or elsewhere.</p>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div></div>
+</div>
