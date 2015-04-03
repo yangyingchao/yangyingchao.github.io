@@ -39,7 +39,7 @@
    + The block allocation algorithm attempts to allocate data blocks
      in the same block group as the inode which contains them.
 
-   #+BEGIN_SRC ditaa :file ../assets/img/block1.png  :cmdline -r -s 0.8
+   #+BEGIN_SRC ditaa :file ../assets/img/block1.png  :cmdline -r -s 1.5
 
    +-----------+-------------------+---------------+
    | SuperBlock| Block Group Infor |  Block Group1 |
@@ -204,7 +204,7 @@ DESCRIPTION
 
 #+END_SRC
 
-#+BEGIN_SRC ditaa :file ../assets/img/mount_flow.png  :cmdline -r -s 0.8
+#+BEGIN_SRC ditaa :file ../assets/img/mount_flow.png  :cmdline -r -s 1.5
   |
   |   +-------+
   |   | mount |
