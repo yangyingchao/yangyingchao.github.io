@@ -1,0 +1,248 @@
+---
+layout : post
+title : EXT2 笔记
+categories : kernel
+tags : EXT2, FileSystem
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Specification</a></li>
+<li><a href="#sec-2">2. Module Initialization</a></li>
+<li><a href="#sec-3">3. Mount</a></li>
+</ul>
+</div>
+</div>
+<p>
+记录一下 Ext2 文件系统相关的一些知识。
+</p>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Specification</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Blocks
+</li>
+</ul>
+
+<p>
+磁盘或文件被划分成块 （Blocks），块大小在文件系统创建时指定，可为 1024, 2048, 4096 或
+8192。较小的 block size 意味着单个文件浪费的空间更小，但也意味着内核需要管理更多的块，从而在管理和统计上花费更多的资源。
+</p>
+
+<ul class="org-ul">
+<li>Block Groups
+
+<ul class="org-ul">
+<li>Blocks are clustered into block groups in order to reduce fragmentation
+and minimise the amount of head seeking when reading a large amount of consecutive data.
+</li>
+<li>Information about each block group is kept in a
+descriptor table stored in the block(s) immediately after the superblock.
+</li>
+<li>Two blocks near the start of each group are reserved for the block usage
+bitmap and the inode usage bitmap which show which blocks and inodes
+are in use.
+</li>
+<li>The block(s) following the bitmaps in each block group are designated
+as the inode table for that block group and the remainder are the data
+blocks
+</li>
+<li>The block allocation algorithm attempts to allocate data blocks
+in the same block group as the inode which contains them.
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="../../../assets/img/block1.png" alt="block1.png" />
+</p>
+</div>
+</li>
+
+<li>Superblock
+
+<p>
+超块中保存了文件系统的所有配置信息。超块信息保存在设备起始点的1024字节偏移处，该信息在文件系统挂载时被内核读取。此外，超块信息还有若干备份，用户可以选择将其保存在所有的 BlockGroup 中，或者选择将其保存在 0，1，以及 2 的 3，5，7次冥的超块中。
+</p>
+
+<p>
+超块中保存的数据包括：
+</p>
+<ul class="org-ul">
+<li>文件系统中 iNode 与 block 的数量以及使用情况
+</li>
+<li>每个 block group 中的 inode 和 block 数量
+</li>
+<li>文件系统上一次被挂载和修改的时间
+</li>
+<li>文件系统的创建时间和文件系统的版本信息。
+</li>
+</ul>
+<p>
+超块中的所有信息均以小端格式写入磁盘。
+</p>
+</li>
+
+<li>Inodes (Index Nodes)
+索引节点是 Ext2 文件系统中的一个基础概念，文件系统的每个对象都通过一个 inode 来表示。
+inode 中通过指针指向包含对象内容的 blocks，以及相关的除名字之外的所有元数据 (metadata) 。
+</li>
+
+<li>Directories
+
+<p>
+目录同文件一样，也是包含有 inode 的文件系统对象。不同之处在于，目录其实是一个特殊格式的文件，它里面包含了若干属于该目录的文件名字和与之对应的 inode number。
+</p>
+</li>
+
+<li>Special files
+
+<ul class="org-ul">
+<li>Symbolic Links: 如果符号链接小于 60 字节，则其数据会占用若干应该指向 block 的指针，从而将数据存储到 inode 里面，避免了浪费额外的 block。
+</li>
+
+<li>字符设备与块设备都直接将数据存到 inode 中，没有额外的 block，与小型的符号链接一样。
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Module Initialization</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">__init</span> init_ext2_fs(<span style="color: #32cd32;">void</span>)
+<span class="linenr"> 2: </span>{
+<span class="linenr"> 3: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">err</span> = init_ext2_xattr();
+<span class="linenr"> 4: </span>    <span style="color: #ff4040;">if</span> (err)
+<span class="linenr"> 5: </span>        <span style="color: #ff4040;">return</span> err;
+<span class="linenr"> 6: </span>    err = init_inodecache();
+<span class="linenr"> 7: </span>    <span style="color: #ff4040;">if</span> (err)
+<span class="linenr"> 8: </span>        <span style="color: #ff4040;">goto</span> <span style="color: #7fffd4; font-weight: bold;">out1</span>;
+<span class="linenr"> 9: </span>        err = register_filesystem(&amp;ext2_fs_type);
+<span class="linenr">10: </span>    <span style="color: #ff4040;">if</span> (err)
+<span class="linenr">11: </span>        <span style="color: #ff4040;">goto</span> <span style="color: #7fffd4; font-weight: bold;">out</span>;
+<span class="linenr">12: </span>    <span style="color: #ff4040;">return</span> 0;
+<span class="linenr">13: </span><span style="color: #7fffd4; font-weight: bold;">out</span>:
+<span class="linenr">14: </span>    destroy_inodecache();
+<span class="linenr">15: </span><span style="color: #7fffd4; font-weight: bold;">out1</span>:
+<span class="linenr">16: </span>    exit_ext2_xattr();
+<span class="linenr">17: </span>    <span style="color: #ff4040;">return</span> err;
+<span class="linenr">18: </span>}
+</pre>
+</div>
+
+<p>
+初始化 <code>xattr</code> 和 <code>inode</code> cache 之后，将 <code>ext2_fs_type</code> 注册到内核中。
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/fs_type.png" alt="fs_type.png" />
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> <span style="color: #daa520;">ext2_fs_type</span> = {
+<span class="linenr">2: </span>    .owner      = THIS_MODULE,
+<span class="linenr">3: </span>    .name       = <span style="color: #d78700;">"ext2"</span>,
+<span class="linenr">4: </span>    .mount      = ext2_mount,
+<span class="linenr">5: </span>    .kill_sb    = kill_block_super,
+<span class="linenr">6: </span>    .fs_flags   = FS_REQUIRES_DEV,
+<span class="linenr">7: </span>};
+</pre>
+</div>
+
+<p>
+初始化就这么结束了，函数返回，默默等待触发。怎么触发？何时触发？ mount&#x2026;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Mount</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 从系统调用到注册的函数指针</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+
+<pre class="src src-Man"><span class="linenr"> 1: </span>MOUNT(2)                               Linux Programmer's Manual                              MOUNT(2)
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span>NAME
+<span class="linenr"> 4: </span>       mount - mount filesystem
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span>SYNOPSIS
+<span class="linenr"> 7: </span>       #include &lt;sys/mount.h&gt;
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span>       int mount(const char *source, const char *target,
+<span class="linenr">10: </span>                 const char *filesystemtype, unsigned long mountflags,
+<span class="linenr">11: </span>                 const void *data);
+<span class="linenr">12: </span>
+<span class="linenr">13: </span>DESCRIPTION
+<span class="linenr">14: </span>       mount() attaches the filesystem specified by source (which is often a device name, but can also
+<span class="linenr">15: </span>       be a directory name or a dummy) to the directory specified by target.
+<span class="linenr">16: </span>
+<span class="linenr">17: </span>       Appropriate privilege (Linux: the CAP_SYS_ADMIN capability) is required to mount filesystems.
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #1e90ff; font-weight: bold;">SYSCALL_DEFINE5</span>(<span style="color: #32cd32;">mount</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dev_name</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dir_name</span>,
+<span class="linenr">2: </span>                <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">type</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">flags</span>, <span style="color: #32cd32;">void</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">data</span>)
+<span class="linenr">3: </span>{
+<span class="linenr">4: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr">5: </span>    ret = do_mount(kernel_dev, kernel_dir-&gt;name, kernel_type, flags,
+<span class="linenr">6: </span>                   (<span style="color: #32cd32;">void</span> *) data_page);
+<span class="linenr">7: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">....</span>
+<span class="linenr">8: </span>    <span style="color: #ff4040;">return</span> ret;
+<span class="linenr">9: </span>}
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/mount_flow.png" alt="mount_flow.png" />
+</p>
+</div>
+
+<p>
+<code>do_new_mount</code> 从已注册的文件系统列表中根据文件系统类型找到之前注册的 <code>ext2_fs_type</code> ，然后使 <code>vfs_kern_mount</code> 来挂载文件系统。
+<code>vfs_kern_mount</code> 分配出新的 <code>mount</code> 对象，然后通过 <code>mount_fs()</code> 来调用之前注册的
+<code>ext2_fs_type</code> 中的函数指针。
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/vfs_mount.png" alt="vfs_mount.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 挂载 ext2 文件系统</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *<span style="color: #1e90ff; font-weight: bold;">ext2_mount</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> *<span style="color: #daa520;">fs_type</span>,
+<span class="linenr">2: </span>                                 <span style="color: #32cd32;">int</span> <span style="color: #daa520;">flags</span>, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">dev_name</span>, <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">data</span>)
+<span class="linenr">3: </span>{
+<span class="linenr">4: </span>    <span style="color: #ff4040;">return</span> mount_bdev(fs_type, flags, dev_name, data, ext2_fill_super);
+<span class="linenr">5: </span>}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> mount_bdev</h3>
+</div>
+</div>

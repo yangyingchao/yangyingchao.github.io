@@ -39,7 +39,7 @@
    + The block allocation algorithm attempts to allocate data blocks
      in the same block group as the inode which contains them.
 
-   #+BEGIN_SRC ditaa :file ../assets/img/name.png  :cmdline -r -s 0.8
+   #+BEGIN_SRC ditaa :file ../assets/img/block1.png  :cmdline -r -s 0.8
 
    +-----------+-------------------+---------------+
    | SuperBlock| Block Group Infor |  Block Group1 |
@@ -97,39 +97,283 @@
 
 * Module Initialization
 
- #+BEGIN_SRC dot :file ../assets/img/mbcache.png :cmdline -Kdot -Tpng
-   digraph Name {
-       node [fontsize=12 fontname=Courier style=filled shape=record];
-       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
-       // rankdir=LR;
+#+BEGIN_SRC c -r -n
+static int __init init_ext2_fs(void)
+{
+	int err = init_ext2_xattr();
+	if (err)
+		return err;
+	err = init_inodecache();
+	if (err)
+		goto out1;
+        err = register_filesystem(&ext2_fs_type);
+	if (err)
+		goto out;
+	return 0;
+out:
+	destroy_inodecache();
+out1:
+	exit_ext2_xattr();
+	return err;
+}
+#+END_SRC
 
-       //XXX: Place to put subgraphs
-   node_mb_cache[shape=record
-               label="{<f0> mb_cache |\
-   +c_cache_list &#32; : struct list_head\l\
-   +c_name &#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
-   +c_entry_count  : atomic_t\l\
-   +c_max_entries  : int\l\
-   +c_bucket_bits  : int\l\
-   +c_entry_cache  : struct kmem_cache *\l\
-   +c_block_hash &#32; : struct list_head *\l\
-   +c_index_hash &#32; : struct list_head *\l\
-   |\
-   }"];
+初始化 =xattr= 和 =inode= cache 之后，将 =ext2_fs_type= 注册到内核中。
+
+#+BEGIN_SRC dot :file ../assets/img/fs_type.png :cmdline -Kdot -Tpng
+digraph Name {
+    node [fontsize=12 fontname=Courier style=filled shape=record];
+    edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+    // rankdir=LR;
+
+    //XXX: Place to put subgraphs
+    node_file_system_type[shape=record
+            label="{<f0> file_system_type |\
++name &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
++fs_flags &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
++FS_REQUIRES_DEV &#32;&#32;&#32;&#32;&#32;&#32; : \l\
++FS_BINARY_MOUNTDATA &#32;&#32; : \l\
++FS_HAS_SUBTYPE &#32;&#32;&#32;&#32;&#32;&#32;&#32; : \l\
++FS_USERNS_MOUNT &#32;&#32;&#32;&#32;&#32;&#32; : \l\
++FS_USERNS_DEV_MOUNT &#32;&#32; : \l\
++FS_RENAME_DOES_D_MOVE  : \l\
++owner &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct module *\l\
++next &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct file_system_type *\l\
++fs_supers &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct hlist_head\l\
++s_lock_key &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
++s_umount_key &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
++s_vfs_rename_key &#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
++s_writers_key &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key []\l\
++i_lock_key &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
++i_mutex_key &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
++i_mutex_dir_key &#32;&#32;&#32;&#32;&#32;&#32; : struct lock_class_key\l\
+|\
++mount (...)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct dentry *\l\
++kill_sb (...)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : void\l\
+}"];
+
+}
+#+END_SRC
+
+#+BEGIN_SRC c++ -r -n
+static struct file_system_type ext2_fs_type = {
+	.owner		= THIS_MODULE,
+	.name		= "ext2",
+	.mount		= ext2_mount,
+	.kill_sb	= kill_block_super,
+	.fs_flags	= FS_REQUIRES_DEV,
+};
+#+END_SRC
+
+ 初始化就这么结束了，函数返回，默默等待触发。怎么触发？何时触发？ mount....
+
+* Mount
+
+** 从系统调用到注册的函数指针
+#+BEGIN_SRC Man -r -n
+MOUNT(2)                               Linux Programmer's Manual                              MOUNT(2)
+
+NAME
+       mount - mount filesystem
+
+SYNOPSIS
+       #include <sys/mount.h>
+
+       int mount(const char *source, const char *target,
+                 const char *filesystemtype, unsigned long mountflags,
+                 const void *data);
+
+DESCRIPTION
+       mount() attaches the filesystem specified by source (which is often a device name, but can also
+       be a directory name or a dummy) to the directory specified by target.
+
+       Appropriate privilege (Linux: the CAP_SYS_ADMIN capability) is required to mount filesystems.
+
+#+END_SRC
+
+#+BEGIN_SRC c -r -n
+  SYSCALL_DEFINE5(mount, char __user *, dev_name, char __user *, dir_name,
+                  char __user *, type, unsigned long, flags, void __user *, data)
+  {
+      // ...
+      ret = do_mount(kernel_dev, kernel_dir->name, kernel_type, flags,
+                     (void *) data_page);
+      //....
+      return ret;
+  }
+
+#+END_SRC
+
+#+BEGIN_SRC ditaa :file ../assets/img/mount_flow.png  :cmdline -r -s 0.8
+  |
+  |   +-------+
+  |   | mount |
+  |   +-------+
+  |
+  |             +-----------------+
+  |             |mount system call|
+  |             +-----------------+
+  |
+  |                             +-----------+
+  |                             | do_mount  |
+  |                             +-----------+
+  |
+  |                                        +--------------+
+  |                                        | do_new_mount |
+  |                                        +--------------+
+  |
+  |                                                 +---------------+
+  |                                                 |vfs_kern_mount |
+  |                                                 +---------------+
+  |
+  |                                                       +----------+
+  |                                                       | mount_fs |
+  |                                                       +----------+
+  |
+  |                                                                 +---------------+
+  |                                                                 | type->mount() |
+  |                                                                 +---------------+
+  |
+#+END_SRC
+
+=do_new_mount= 从已注册的文件系统列表中根据文件系统类型找到之前注册的 =ext2_fs_type= ，然后
+使 =vfs_kern_mount= 来挂载文件系统。
+=vfs_kern_mount= 分配出新的 =mount= 对象，然后通过 =mount_fs()= 来调用之前注册的
+=ext2_fs_type= 中的函数指针。
+
+#+BEGIN_SRC dot :file ../assets/img/vfs_mount.png :cmdline -Kdot -Tpng
+    digraph Name {
+        node [fontsize=12 fontname=Courier style=filled shape=record];
+        edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+        // rankdir=LR;
+
+        //XXX: Place to put subgraphs
+        node_vfsmount[shape=record
+                label="{<f0> vfsmount |\
+    +mnt_root &#32; : struct dentry *\l\
+    +mnt_sb &#32;&#32;&#32; : struct super_block *\l\
+    +mnt_flags  : int\l\
+    |\
+    }"];
+
+  node_mount[shape=record
+              label="{<f0> mount |\
+  +mnt_hash &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct hlist_node\l\
+  +mnt_parent &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mount *\l\
+  +mnt_mountpoint &#32;&#32;&#32;&#32; : struct dentry *\l\
+  +mnt &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct vfsmount\l\
+  +mnt_rcu &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct rcu_head\l\
+  +mnt_pcp &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : __percpu *\l\
+  +mnt_mounts &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_child &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_instance &#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_devname &#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
+  +mnt_list &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_expire &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_share &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_slave_list &#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_slave &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+  +mnt_master &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mount *\l\
+  +mnt_ns &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mnt_namespace *\l\
+  +mnt_mp &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mountpoint *\l\
+  +mnt_fsnotify_marks  : struct hlist_head\l\
+  +mnt_fsnotify_mask &#32; : __u32\l\
+  +mnt_id &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +mnt_group_id &#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +mnt_expiry_mark &#32;&#32;&#32; : int\l\
+  +mnt_pinned &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +mnt_ex_mountpoint &#32; : struct path\l\
+  |\
+  }"];
 
 
-   node_mb_cache_entry[shape=record
-               label="{<f0> mb_cache_entry |\
-   +e_lru_list &#32;&#32; : struct list_head\l\
-   +e_cache &#32;&#32;&#32;&#32;&#32; : struct mb_cache *\l\
-   +e_used &#32;&#32;&#32;&#32;&#32;&#32; : unsigned short\l\
-   +e_queued &#32;&#32;&#32;&#32; : unsigned short\l\
-   +e_bdev &#32;&#32;&#32;&#32;&#32;&#32; : struct block_device *\l\
-   +e_block &#32;&#32;&#32;&#32;&#32; : sector_t\l\
-   +e_block_list  : struct list_head\l\
-   +e_index &#32;&#32;&#32;&#32;&#32; : struct \l\
-   |\
-   }"];
+  node_vfsmount -> node_mount [arrowtail=empty style=solid dir=back];
 
+   // node_dentry[shape=record
+   //             label="{<f0> dentry |\
+   // +d_flags &#32;&#32; : unsigned int\l\
+   // +d_seq &#32;&#32;&#32;&#32; : seqcount_t\l\
+   // +d_hash &#32;&#32;&#32; : struct hlist_bl_node\l\
+   // +d_parent &#32; : struct dentry *\l\
+   // +d_name &#32;&#32;&#32; : struct qstr\l\
+   // +d_inode &#32;&#32; : struct inode *\l\
+   // +d_iname &#32;&#32; : unsigned char []\l\
+   // +d_lockref  : struct lockref\l\
+   // +d_op &#32;&#32;&#32;&#32;&#32; : struct dentry_operations *\l\
+   // +d_sb &#32;&#32;&#32;&#32;&#32; : struct super_block *\l\
+   // +d_time &#32;&#32;&#32; : unsigned long\l\
+   // +d_fsdata &#32; : void *\l\
+   // +d_lru &#32;&#32;&#32;&#32; : struct list_head\l\
+   // +d_u &#32;&#32;&#32;&#32;&#32;&#32; : union \l\
+   // +d_subdirs  : struct list_head\l\
+   // +d_alias &#32;&#32; : struct hlist_node\l\
+   // |\
+   // }"];
+
+   // node_super_block[shape=record
+   //             label="{<f0> super_block |\
+   // +s_list &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+   // +s_dev &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : dev_t\l\
+   // +s_blocksize_bits &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : unsigned char\l\
+   // +s_blocksize &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : unsigned long\l\
+   // +s_maxbytes &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : loff_t\l\
+   // +s_type &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct file_system_type *\l\
+   // +s_op &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct super_operations *\l\
+   // +dq_op &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct dquot_operations *\l\
+   // +s_qcop &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct quotactl_ops *\l\
+   // +s_export_op &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct export_operations *\l\
+   // +s_flags &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : unsigned long\l\
+   // +s_magic &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : unsigned long\l\
+   // +s_root &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct dentry *\l\
+   // +s_umount &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct rw_semaphore\l\
+   // +s_count &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+   // +s_active &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : atomic_t\l\
+   // +s_xattr &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct xattr_handler *\l\
+   // +s_inodes &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+   // +s_anon &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct hlist_bl_head\l\
+   // +s_mounts &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct list_head\l\
+   // +s_bdev &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct block_device *\l\
+   // +s_bdi &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct backing_dev_info *\l\
+   // +s_mtd &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mtd_info *\l\
+   // +s_instances &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct hlist_node\l\
+   // +s_dquot &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct quota_info\l\
+   // +s_writers &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct sb_writers\l\
+   // +s_id &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : char []\l\
+   // +s_uuid &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8 []\l\
+   // +s_fs_info &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : void *\l\
+   // +s_max_links &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : unsigned int\l\
+   // +s_mode &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : fmode_t\l\
+   // +s_time_gran &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u32\l\
+   // +s_vfs_rename_mutex &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct mutex\l\
+   // +s_subtype &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
+   // +s_options &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : __rcu *\l\
+   // +s_d_op &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct dentry_operations *\l\
+   // +cleancache_poolid &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+   // +s_shrink &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct shrinker\l\
+   // +s_remove_count &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : atomic_long_t\l\
+   // +s_readonly_remount &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+   // +s_dio_done_wq &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct workqueue_struct *\l\
+   // +____cacheline_aligned_in_smp  : s_dentry_lru\l\
+   // +____cacheline_aligned_in_smp  : s_inode_lru\l\
+   // +rcu &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct rcu_head\l\
+   // |\
+   // }"];
+
+
+   // node_vfsmount -> node_super_block [arrowtail=diamond arrowhead=none style=solid dir=back];
+   // node_vfsmount -> node_dentry [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+    }
+#+END_SRC
+
+** 挂载 ext2 文件系统
+
+ #+BEGIN_SRC c -r -n
+   static struct dentry *ext2_mount(struct file_system_type *fs_type,
+                                    int flags, const char *dev_name, void *data)
+   {
+       return mount_bdev(fs_type, flags, dev_name, data, ext2_fill_super);
    }
  #+END_SRC
+
+** mount_bdev
