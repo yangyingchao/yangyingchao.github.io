@@ -94,3 +94,42 @@
      将数据存储到 inode 里面，避免了浪费额外的 block。
 
    - 字符设备与块设备都直接将数据存到 inode 中，没有额外的 block，与小型的符号链接一样。
+
+* Module Initialization
+
+ #+BEGIN_SRC dot :file ../assets/img/mbcache.png :cmdline -Kdot -Tpng
+   digraph Name {
+       node [fontsize=12 fontname=Courier style=filled shape=record];
+       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+       // rankdir=LR;
+
+       //XXX: Place to put subgraphs
+   node_mb_cache[shape=record
+               label="{<f0> mb_cache |\
+   +c_cache_list &#32; : struct list_head\l\
+   +c_name &#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
+   +c_entry_count  : atomic_t\l\
+   +c_max_entries  : int\l\
+   +c_bucket_bits  : int\l\
+   +c_entry_cache  : struct kmem_cache *\l\
+   +c_block_hash &#32; : struct list_head *\l\
+   +c_index_hash &#32; : struct list_head *\l\
+   |\
+   }"];
+
+
+   node_mb_cache_entry[shape=record
+               label="{<f0> mb_cache_entry |\
+   +e_lru_list &#32;&#32; : struct list_head\l\
+   +e_cache &#32;&#32;&#32;&#32;&#32; : struct mb_cache *\l\
+   +e_used &#32;&#32;&#32;&#32;&#32;&#32; : unsigned short\l\
+   +e_queued &#32;&#32;&#32;&#32; : unsigned short\l\
+   +e_bdev &#32;&#32;&#32;&#32;&#32;&#32; : struct block_device *\l\
+   +e_block &#32;&#32;&#32;&#32;&#32; : sector_t\l\
+   +e_block_list  : struct list_head\l\
+   +e_index &#32;&#32;&#32;&#32;&#32; : struct \l\
+   |\
+   }"];
+
+   }
+ #+END_SRC
