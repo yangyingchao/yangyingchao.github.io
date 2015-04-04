@@ -239,10 +239,119 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 <span class="linenr">5: </span>}
 </pre>
 </div>
+
+<p>
+该函数调用 <code>mount_bdev</code> 来挂载文件系统。
+</p>
 </div>
 </div>
 
 <div id="outline-container-sec-3-3" class="outline-3">
 <h3 id="sec-3-3"><span class="section-number-3">3.3</span> mount_bdev</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+<code>mount_bdev</code> 是文件系统提供的 Utility， 该函数首先使用 <code>blkdev_get_by_path</code> 来根据磁盘（分区）路径获取对应的块设备，并增加块设备的引用计数。随后尝试 创建新的 <code>super_block</code> 对象，并设置一些相关信息，=super_block= 定义如下：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_block</span> {
+<span class="linenr"> 2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_list</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Keep this first </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 3: </span>    <span style="color: #32cd32;">dev_t</span>           <span style="color: #daa520;">s_dev</span>;      <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">search index; _not_ kdev_t </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 4: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">char</span>       <span style="color: #daa520;">s_blocksize_bits</span>;
+<span class="linenr"> 5: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>       <span style="color: #daa520;">s_blocksize</span>;
+<span class="linenr"> 6: </span>    <span style="color: #32cd32;">loff_t</span>          <span style="color: #daa520;">s_maxbytes</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Max file size </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 7: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> *<span style="color: #daa520;">s_type</span>;
+<span class="linenr"> 8: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_operations</span>   *<span style="color: #daa520;">s_op</span>;
+<span class="linenr"> 9: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dquot_operations</span>   *<span style="color: #daa520;">dq_op</span>;
+<span class="linenr">10: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">quotactl_ops</span>   *<span style="color: #daa520;">s_qcop</span>;
+<span class="linenr">11: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">export_operations</span> *<span style="color: #daa520;">s_export_op</span>;
+<span class="linenr">12: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>       <span style="color: #daa520;">s_flags</span>;
+<span class="linenr">13: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>       <span style="color: #daa520;">s_magic</span>;
+<span class="linenr">14: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span>       *<span style="color: #daa520;">s_root</span>;
+<span class="linenr">15: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">rw_semaphore</span> <span style="color: #daa520;">s_umount</span>;
+<span class="linenr">16: </span>    <span style="color: #32cd32;">int</span>         <span style="color: #daa520;">s_count</span>;
+<span class="linenr">17: </span>    <span style="color: #32cd32;">atomic_t</span>        <span style="color: #daa520;">s_active</span>;
+<span class="linenr">18: </span><span style="color: #32cd32;">#ifdef</span> CONFIG_SECURITY
+<span class="linenr">19: </span>    <span style="color: #32cd32;">void</span>                    *<span style="color: #daa520;">s_security</span>;
+<span class="linenr">20: </span><span style="color: #32cd32;">#endif</span>
+<span class="linenr">21: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">xattr_handler</span> **<span style="color: #daa520;">s_xattr</span>;
+<span class="linenr">22: </span>
+<span class="linenr">23: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_inodes</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">all inodes </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">24: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">hlist_bl_head</span>    <span style="color: #daa520;">s_anon</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">anonymous dentries for (nfs) exporting </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">25: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_mounts</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">list of mounts; _not_ for fs use </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">26: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">block_device</span> *<span style="color: #daa520;">s_bdev</span>;
+<span class="linenr">27: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">backing_dev_info</span> *<span style="color: #daa520;">s_bdi</span>;
+<span class="linenr">28: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">mtd_info</span>     *<span style="color: #daa520;">s_mtd</span>;
+<span class="linenr">29: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">hlist_node</span>   <span style="color: #daa520;">s_instances</span>;
+<span class="linenr">30: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">quota_info</span>   <span style="color: #daa520;">s_dquot</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Diskquota specific options </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">31: </span>
+<span class="linenr">32: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">sb_writers</span>   <span style="color: #daa520;">s_writers</span>;
+<span class="linenr">33: </span>
+<span class="linenr">34: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">s_id</span>[32];              <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Informational name </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">35: </span>    <span style="color: #32cd32;">u8</span> <span style="color: #daa520;">s_uuid</span>[16];              <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">UUID </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">36: </span>
+<span class="linenr">37: </span>    <span style="color: #32cd32;">void</span>            *<span style="color: #daa520;">s_fs_info</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Filesystem private info </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">38: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>        <span style="color: #daa520;">s_max_links</span>;
+<span class="linenr">39: </span>    <span style="color: #32cd32;">fmode_t</span>         <span style="color: #daa520;">s_mode</span>;
+<span class="linenr">40: </span>
+<span class="linenr">41: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Granularity of c/m/atime in ns.</span>
+<span class="linenr">42: </span><span style="color: #cd5c5c; font-style: italic;">       Cannot be worse than a second </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">43: </span>    <span style="color: #32cd32;">u32</span>        <span style="color: #daa520;">s_time_gran</span>;
+<span class="linenr">44: </span>
+<span class="linenr">45: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">46: </span><span style="color: #cd5c5c; font-style: italic;">     * The next field is for VFS *only*. No filesystems have any business</span>
+<span class="linenr">47: </span><span style="color: #cd5c5c; font-style: italic;">     * even looking at it. You had been warned.</span>
+<span class="linenr">48: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">49: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">mutex</span> <span style="color: #daa520;">s_vfs_rename_mutex</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Kludge </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">50: </span>
+<span class="linenr">51: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">52: </span><span style="color: #cd5c5c; font-style: italic;">     * Filesystem subtype.  If non-empty the filesystem type field</span>
+<span class="linenr">53: </span><span style="color: #cd5c5c; font-style: italic;">     * in /proc/mounts will be "type.subtype"</span>
+<span class="linenr">54: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">55: </span>    <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">s_subtype</span>;
+<span class="linenr">56: </span>
+<span class="linenr">57: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">58: </span><span style="color: #cd5c5c; font-style: italic;">     * Saved mount options for lazy filesystems using</span>
+<span class="linenr">59: </span><span style="color: #cd5c5c; font-style: italic;">     * generic_show_options()</span>
+<span class="linenr">60: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">61: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__rcu</span> *s_options;
+<span class="linenr">62: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry_operations</span> *<span style="color: #daa520;">s_d_op</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">default d_op for dentries </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">63: </span>
+<span class="linenr">64: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">65: </span><span style="color: #cd5c5c; font-style: italic;">     * Saved pool identifier for cleancache (-1 means none)</span>
+<span class="linenr">66: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">67: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">cleancache_poolid</span>;
+<span class="linenr">68: </span>
+<span class="linenr">69: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">shrinker</span> <span style="color: #daa520;">s_shrink</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">per-sb shrinker handle </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">70: </span>
+<span class="linenr">71: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Number of inodes with nlink == 0 but still referenced </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">72: </span>    <span style="color: #32cd32;">atomic_long_t</span> <span style="color: #daa520;">s_remove_count</span>;
+<span class="linenr">73: </span>
+<span class="linenr">74: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Being remounted read-only </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">75: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">s_readonly_remount</span>;
+<span class="linenr">76: </span>
+<span class="linenr">77: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">AIO completions deferred from interrupt context </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">78: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">workqueue_struct</span> *<span style="color: #daa520;">s_dio_done_wq</span>;
+<span class="linenr">79: </span>
+<span class="linenr">80: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">81: </span><span style="color: #cd5c5c; font-style: italic;">     * Keep the lru lists last in the structure so they always sit on their</span>
+<span class="linenr">82: </span><span style="color: #cd5c5c; font-style: italic;">     * own individual cachelines.</span>
+<span class="linenr">83: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">84: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_lru</span>     <span style="color: #32cd32;">s_dentry_lru</span> <span style="color: #daa520;">____cacheline_aligned_in_smp</span>;
+<span class="linenr">85: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_lru</span>     <span style="color: #32cd32;">s_inode_lru</span> <span style="color: #daa520;">____cacheline_aligned_in_smp</span>;
+<span class="linenr">86: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">rcu_head</span>     <span style="color: #daa520;">rcu</span>;
+<span class="linenr">87: </span>};
+</pre>
+</div>
+
+<p>
+随后，调用 <code>mount_bdev</code> 调用传入的 <code>ext2_fill_super</code> 来读取和填充超块信息。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> ext2_fill_super</h3>
 </div>
 </div>
