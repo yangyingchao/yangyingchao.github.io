@@ -1,0 +1,55 @@
+#+TITLE: Switching To ELPA
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: Emacs, ELPA
+#+CATEGORY: emacs
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+I used to use =submodule= of =git= to pull emacs modules, and today, I decided to switch to
+ELPA. The main reason is: I don't want to keep track of changes of those modules.
+
+It is really easy and convenient to use elpa, adding following lines into =~/.emacs=:
+
+#+BEGIN_SRC emacs-lisp -r -n
+  (defvar yc/packages
+    (list 'ac-helm 'edit-server 'flycheck 'magit 'yasnippet 'js3-mode 'autopair 'cmake-mode)
+    "List of needed packages.")
+
+  (defun yc/install-packages ()
+    "Install all packages."
+    (interactive)
+    (package-refresh-contents)
+    (mapc
+     (lambda (p)
+       (unless (package-installed-p p)
+         (message "Installing %s" (symbol-name p))
+         (package-install p)))
+     yc/packages)
+    (message "All packages installed..."))
+
+  (defun yc/all-packages-available-p ()
+    "Check if all modules are available or not."
+    (interactive)
+    (let ((r t))
+      (dolist (p yc/packages)
+        (setq r (and r (package-installed-p p))))
+      r))
+
+  (unless (yc/all-packages-available-p)
+    (message "Trying to install missing modules...")
+    (yc/install-packages))
+#+END_SRC
+
+ Whenever emacs starts, it will check if all needed packages are installed. And it will try
+ to install them if necessary.
+
+ This makes it is easier to port my emacs configurations into different machines.

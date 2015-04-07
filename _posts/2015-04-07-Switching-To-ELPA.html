@@ -1,0 +1,54 @@
+---
+layout : post
+title : Switching To ELPA
+categories : emacs
+tags : Emacs, ELPA
+---
+<p>
+I used to use <code>submodule</code> of <code>git</code> to pull emacs modules, and today, I decided to switch to
+ELPA. The main reason is: I don't want to keep track of changes of those modules.
+</p>
+
+<p>
+It is really easy and convenient to use elpa, adding following lines into <code>~/.emacs</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr"> 1: </span>(<span style="color: #ff4040;">defvar</span> <span style="color: #daa520;">yc/packages</span>
+<span class="linenr"> 2: </span>  (list 'ac-helm 'edit-server 'flycheck 'magit 'yasnippet 'js3-mode 'autopair 'cmake-mode)
+<span class="linenr"> 3: </span>  <span style="color: #87ceeb;">"List of needed packages."</span>)
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span>(<span style="color: #ff4040;">defun</span> <span style="color: #1e90ff; font-weight: bold;">yc/install-packages</span> ()
+<span class="linenr"> 6: </span>  <span style="color: #87ceeb;">"Install all packages."</span>
+<span class="linenr"> 7: </span>  (interactive)
+<span class="linenr"> 8: </span>  (package-refresh-contents)
+<span class="linenr"> 9: </span>  (mapc
+<span class="linenr">10: </span>   (<span style="color: #ff4040;">lambda</span> (p)
+<span class="linenr">11: </span>     (<span style="color: #ff4040;">unless</span> (package-installed-p p)
+<span class="linenr">12: </span>       (message <span style="color: #d78700;">"Installing %s"</span> (symbol-name p))
+<span class="linenr">13: </span>       (package-install p)))
+<span class="linenr">14: </span>   yc/packages)
+<span class="linenr">15: </span>  (message <span style="color: #d78700;">"All packages installed..."</span>))
+<span class="linenr">16: </span>
+<span class="linenr">17: </span>(<span style="color: #ff4040;">defun</span> <span style="color: #1e90ff; font-weight: bold;">yc/all-packages-available-p</span> ()
+<span class="linenr">18: </span>  <span style="color: #87ceeb;">"Check if all modules are available or not."</span>
+<span class="linenr">19: </span>  (interactive)
+<span class="linenr">20: </span>  (<span style="color: #ff4040;">let</span> ((r t))
+<span class="linenr">21: </span>    (<span style="color: #ff4040;">dolist</span> (p yc/packages)
+<span class="linenr">22: </span>      (setq r (and r (package-installed-p p))))
+<span class="linenr">23: </span>    r))
+<span class="linenr">24: </span>
+<span class="linenr">25: </span>(<span style="color: #ff4040;">unless</span> (yc/all-packages-available-p)
+<span class="linenr">26: </span>  (message <span style="color: #d78700;">"Trying to install missing modules..."</span>)
+<span class="linenr">27: </span>  (yc/install-packages))
+</pre>
+</div>
+
+<p>
+Whenever emacs starts, it will check if all needed packages are installed. And it will try
+to install them if necessary.
+</p>
+
+<p>
+This makes it is easier to port my emacs configurations into different machines.</p>
