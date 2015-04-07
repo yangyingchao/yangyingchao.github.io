@@ -836,5 +836,115 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
   }
 #+END_SRC
 
+=ext2_iget= 除了分配和读取 inode 之外，还根据 inode 类型为将来的 inode 操作指定了函数
+指，用于将来的其他操作:
+
+#+BEGIN_SRC c -r -n
+  struct inode_operations {
+      struct dentry * (*lookup) (struct inode *,struct dentry *, unsigned int);
+      void * (*follow_link) (struct dentry *, struct nameidata *);
+      int (*permission) (struct inode *, int);
+      struct posix_acl * (*get_acl)(struct inode *, int);
+
+      int (*readlink) (struct dentry *, char __user *,int);
+      void (*put_link) (struct dentry *, struct nameidata *, void *);
+
+      int (*create) (struct inode *,struct dentry *, umode_t, bool);
+      int (*link) (struct dentry *,struct inode *,struct dentry *);
+      int (*unlink) (struct inode *,struct dentry *);
+      int (*symlink) (struct inode *,struct dentry *,const char *);
+      int (*mkdir) (struct inode *,struct dentry *,umode_t);
+      int (*rmdir) (struct inode *,struct dentry *);
+      int (*mknod) (struct inode *,struct dentry *,umode_t,dev_t);
+      int (*rename) (struct inode *, struct dentry *,
+                     struct inode *, struct dentry *);
+      int (*setattr) (struct dentry *, struct iattr *);
+      int (*getattr) (struct vfsmount *mnt, struct dentry *, struct kstat *);
+      int (*setxattr) (struct dentry *, const char *,const void *,size_t,int);
+      ssize_t (*getxattr) (struct dentry *, const char *, void *, size_t);
+      ssize_t (*listxattr) (struct dentry *, char *, size_t);
+      int (*removexattr) (struct dentry *, const char *);
+      int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start,
+                    u64 len);
+      int (*update_time)(struct inode *, struct timespec *, int);
+      int (*atomic_open)(struct inode *, struct dentry *,
+                         struct file *, unsigned open_flag,
+                         umode_t create_mode, int *opened);
+      int (*tmpfile) (struct inode *, struct dentry *, umode_t);
+      int (*set_acl)(struct inode *, struct posix_acl *, int);
+  };
+
+  struct file_operations {
+      struct module *owner;
+      loff_t (*llseek) (struct file *, loff_t, int);
+      ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
+      ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+      ssize_t (*aio_read) (struct kiocb *, const struct iovec *, unsigned long, loff_t);
+      ssize_t (*aio_write) (struct kiocb *, const struct iovec *, unsigned long, loff_t);
+      int (*iterate) (struct file *, struct dir_context *);
+      unsigned int (*poll) (struct file *, struct poll_table_struct *);
+      long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+      long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+      int (*mmap) (struct file *, struct vm_area_struct *);
+      int (*open) (struct inode *, struct file *);
+      int (*flush) (struct file *, fl_owner_t id);
+      int (*release) (struct inode *, struct file *);
+      int (*fsync) (struct file *, loff_t, loff_t, int datasync);
+      int (*aio_fsync) (struct kiocb *, int datasync);
+      int (*fasync) (int, struct file *, int);
+      int (*lock) (struct file *, int, struct file_lock *);
+      ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int);
+      unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+      int (*check_flags)(int);
+      int (*flock) (struct file *, int, struct file_lock *);
+      ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
+      ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
+      int (*setlease)(struct file *, long, struct file_lock **);
+      long (*fallocate)(struct file *file, int mode, loff_t offset,
+                        loff_t len);
+      int (*show_fdinfo)(struct seq_file *m, struct file *f);
+  };
+
+  struct inode {
+      // ...
+      const struct inode_operations   *i_op;
+      // ...
+      const struct file_operations    *i_fop; /* former ->i_op->default_file_ops */
+      // ...
+  };
+
+  extern const struct inode_operations ext2_file_inode_operations;
+  extern const struct file_operations ext2_file_operations;
+  extern const struct file_operations ext2_xip_file_operations;
+
+  struct inode *ext2_iget (struct super_block *sb, unsigned long ino)
+  {
+
+      // ...
+      if (S_ISREG(inode->i_mode)) {
+          inode->i_op = &ext2_file_inode_operations;
+          if (ext2_use_xip(inode->i_sb)) {
+              inode->i_mapping->a_ops = &ext2_aops_xip;
+              inode->i_fop = &ext2_xip_file_operations;
+          } else if (test_opt(inode->i_sb, NOBH)) {
+              inode->i_mapping->a_ops = &ext2_nobh_aops;
+              inode->i_fop = &ext2_file_operations;
+          } else {
+              inode->i_mapping->a_ops = &ext2_aops;
+              inode->i_fop = &ext2_file_operations;
+          }
+      } else if (S_ISDIR(inode->i_mode)) {
+          inode->i_op = &ext2_dir_inode_operations;
+          inode->i_fop = &ext2_dir_operations;
+          if (test_opt(inode->i_sb, NOBH))
+              inode->i_mapping->a_ops = &ext2_nobh_aops;
+          else
+              inode->i_mapping->a_ops = &ext2_aops;
+      }
+      //...
+  }
+#+END_SRC
+
+
  root inode 读取完成之后，为 root inode 建立 dentry，并将 super_block 信息写回磁盘，完
  成了 super_block 初始化工作。
