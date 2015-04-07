@@ -1,0 +1,37 @@
+#+TITLE: 10 Years of Git: An Interview with Git Creator Linus Torvalds
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
+#+LINK_UP:    http://yangyingchao.github.io
+#+LINK_HOME:  http://yangyingchao.github.io
+#+EXCLUDE_TAGS: noexport
+
+时值 Git 十周年，Linux.com 刊登了一篇对其创造者 Linux 的[[http://www.linux.com/news/featured-blogs/185-jennifer-cloer/821541-10-years-of-git-an-interview-with-git-creator-linus-torvalds][报道]]， 其中提到了一个
+ *Getting the basic ideas right* ：
+
+ #+BEGIN_QUOTE
+
+  It wasn't like it was some kind of mad dash of coding. The actual amount of that
+ early code is actually fairly small, it all depended on getting the basic ideas
+ right. And that I had been mulling over for a while before the whole project started.
+ I'd seen the problems others had. I'd seen what I wanted to avoid doing.
+
+
+ #+END_QUOTE
+
+  It wasn't like it was some kind of mad dash of coding. The actual amount of that
+ early code is actually fairly small, it all depended on getting the basic ideas
+ right. And that I had been mulling over for a while before the whole project started.
+ I'd seen the problems others had. I'd seen what I wanted to avoid doing.
+
+
+ 项目开始之前能够对整个项目有一个完整的认识，知道可能会有哪些问题，知道如何解决和避免
+ 这些问题，把基本的东西搞对，无疑对项目的整体会有极大的帮助。
