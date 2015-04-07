@@ -1,4 +1,4 @@
-#+TITLE: 10 Years of Git: An Interview with Git Creator Linus Torvalds
+#+TITLE: 10 Years of Git
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+KEYWORDS: (nil)
