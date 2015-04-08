@@ -11,6 +11,7 @@ tags : EXT2, FileSystem
 <li><a href="#sec-1">1. Specification</a></li>
 <li><a href="#sec-2">2. Module Initialization</a></li>
 <li><a href="#sec-3">3. Mount</a></li>
+<li><a href="#sec-4">4. Open</a></li>
 </ul>
 </div>
 </div>
@@ -638,7 +639,7 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 <span class="linenr"> 92: </span>            inode-&gt;i_fop = &amp;ext2_file_operations;
 <span class="linenr"> 93: </span>        }
 <span class="linenr"> 94: </span>    } <span style="color: #ff4040;">else</span> <span style="color: #ff4040;">if</span> (<span style="color: #32cd32;">S_ISDIR</span>(inode-&gt;i_mode)) {
-<span class="linenr"> 95: </span>        inode-&gt;i_op = &amp;ext2_dir_inode_operations;
+<span id="coderef-set_dir_inode_ops" class="coderef-off"><span class="linenr"> 95: </span>        inode-&gt;i_op = &amp;ext2_dir_inode_operations;</span>
 <span class="linenr"> 96: </span>        inode-&gt;i_fop = &amp;ext2_dir_operations;
 <span class="linenr"> 97: </span>        <span style="color: #ff4040;">if</span> (test_opt(inode-&gt;i_sb, NOBH))
 <span class="linenr"> 98: </span>            inode-&gt;i_mapping-&gt;a_ops = &amp;ext2_nobh_aops;
@@ -656,5 +657,29 @@ root inode 读取完成之后，为 root inode 建立 dentry，并将 super_bloc
 </p>
 </div>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Open</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Open Flow</h3>
+<div class="outline-text-3" id="text-4-1">
+
+<div class="figure">
+<p><img src="../../../assets/img/ext2_open_flow.png" alt="ext2_open_flow.png" />
+</p>
+</div>
+
+<p>
+<code>inode-&gt;i_op-&gt;create</code> 是一个函数指针，对 ext2 文件系统来讲，指向
+<code>ext2_dir_inode_operations.create</code>  <a href="#coderef-set_dir_inode_ops"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-set_dir_inode_ops');" onmouseout="CodeHighlightOff(this, 'coderef-set_dir_inode_ops');">95</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> ext2_create (namei.c(ext2))</h3>
 </div>
 </div>
