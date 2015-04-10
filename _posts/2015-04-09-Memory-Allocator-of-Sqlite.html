@@ -110,13 +110,11 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 <span class="linenr">15: </span><span style="color: #32cd32;">#endif</span>
 </pre>
 </div>
-</div>
-</div>
 
+<p>
+上述的各种方案均通过各自提供的 <code>sqlite3MemSetDefault()</code> 来设置函数指针：
+</p>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Mem1</h2>
-<div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">sqlite3MemSetDefault</span>(<span style="color: #32cd32;">void</span>){
@@ -134,7 +132,13 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 <span class="linenr">13: </span>}
 </pre>
 </div>
+</div>
+</div>
 
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Mem1</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 <code>mem1</code> 中的内存操作函数是对 <code>malloc/free</code> 的封装。
 </p>
@@ -193,8 +197,106 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> Mem2</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<code>mem2</code> 同样采用系统的 <code>malloc/free/realloc</code> 来分配内存，但在其基础上增加了额外的调试信息，可以帮助检测内存泄漏和内存的其他错误。
+</p>
+
+<p>
+每块内存的布局如下：
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/mem2_allocation.png" alt="mem2_allocation.png" />
+</p>
 </div>
 
+<p>
+但 <code>mem2</code> 的使用者只能看到 <code>allocation</code>  的指针。
+</p>
+
+<p>
+<code>MemBlockHdr</code> :
+</p>
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">MemBlockHdr</span> {
+<span class="linenr">2: </span>  <span style="color: #32cd32;">i64</span> <span style="color: #daa520;">iSize</span>;                          <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Size of this allocation </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">3: </span>  <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">MemBlockHdr</span> *<span style="color: #daa520;">pNext</span>, *<span style="color: #daa520;">pPrev</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Linked list of all unfreed memory </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">4: </span>  <span style="color: #32cd32;">char</span> <span style="color: #daa520;">nBacktrace</span>;                    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Number of backtraces on this alloc </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">5: </span>  <span style="color: #32cd32;">char</span> <span style="color: #daa520;">nBacktraceSlots</span>;               <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Available backtrace slots </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">6: </span>  <span style="color: #32cd32;">u8</span> <span style="color: #daa520;">nTitle</span>;                          <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Bytes of title; includes '\0' </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">7: </span>  <span style="color: #32cd32;">u8</span> <span style="color: #daa520;">eType</span>;                           <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Allocation type code </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">8: </span>  <span style="color: #32cd32;">int</span> <span style="color: #daa520;">iForeGuard</span>;                     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Guard word for sanity </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">9: </span>};
+</pre>
+</div>
+
+<p>
+<code>mem2</code> 中另有一个静态的 <code>mem</code> 变量， 其中有指向分配的 <code>MemBlockHdr</code> 指针：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #fa8072;">/*</span>
+<span class="linenr"> 2: </span><span style="color: #cd5c5c; font-style: italic;">** All of the static variables used by this module are collected</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;">** into a single structure named "mem".  This is to keep the</span>
+<span class="linenr"> 4: </span><span style="color: #cd5c5c; font-style: italic;">** static variables organized and to reduce namespace pollution</span>
+<span class="linenr"> 5: </span><span style="color: #cd5c5c; font-style: italic;">** when this module is combined with other in the amalgamation.</span>
+<span class="linenr"> 6: </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 7: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> {
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">10: </span><span style="color: #cd5c5c; font-style: italic;">    ** Mutex to control access to the memory allocation subsystem.</span>
+<span class="linenr">11: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">12: </span>    <span style="color: #32cd32;">sqlite3_mutex</span> *<span style="color: #daa520;">mutex</span>;
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">15: </span><span style="color: #cd5c5c; font-style: italic;">    ** Head and tail of a linked list of all outstanding allocations</span>
+<span class="linenr">16: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">17: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">MemBlockHdr</span> *<span style="color: #daa520;">pFirst</span>;
+<span class="linenr">18: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">MemBlockHdr</span> *<span style="color: #daa520;">pLast</span>;
+<span class="linenr">19: </span>
+<span class="linenr">20: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">21: </span><span style="color: #cd5c5c; font-style: italic;">    ** The number of levels of backtrace to save in new allocations.</span>
+<span class="linenr">22: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">23: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">nBacktrace</span>;
+<span class="linenr">24: </span>    <span style="color: #32cd32;">void</span> (*<span style="color: #1e90ff; font-weight: bold;">xBacktrace</span>)(<span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">void</span> **);
+<span class="linenr">25: </span>
+<span class="linenr">26: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">27: </span><span style="color: #cd5c5c; font-style: italic;">    ** Title text to insert in front of each block</span>
+<span class="linenr">28: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">29: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">nTitle</span>;        <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Bytes of zTitle to save.  Includes '\0' and padding </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">30: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">zTitle</span>[100];  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">The title text </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">31: </span>
+<span class="linenr">32: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">33: </span><span style="color: #cd5c5c; font-style: italic;">    ** sqlite3MallocDisallow() increments the following counter.</span>
+<span class="linenr">34: </span><span style="color: #cd5c5c; font-style: italic;">    ** sqlite3MallocAllow() decrements it.</span>
+<span class="linenr">35: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">36: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">disallow</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Do not allow memory allocation </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">37: </span>
+<span class="linenr">38: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">39: </span><span style="color: #cd5c5c; font-style: italic;">    ** Gather statistics on the sizes of memory allocations.</span>
+<span class="linenr">40: </span><span style="color: #cd5c5c; font-style: italic;">    ** nAlloc[i] is the number of allocation attempts of i*8</span>
+<span class="linenr">41: </span><span style="color: #cd5c5c; font-style: italic;">    ** bytes.  i==NCSIZE is the number of allocation attempts for</span>
+<span class="linenr">42: </span><span style="color: #cd5c5c; font-style: italic;">    ** sizes more than NCSIZE*8 bytes.</span>
+<span class="linenr">43: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">44: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">nAlloc</span>[NCSIZE];      <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Total number of allocations </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">45: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">nCurrent</span>[NCSIZE];    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Current number of allocations </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">46: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">mxCurrent</span>[NCSIZE];   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Highwater mark for nCurrent </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">47: </span>
+<span class="linenr">48: </span>} <span style="color: #daa520;">mem</span>;
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/mem_2_mem.png" alt="mem_2_mem.png" />
+</p>
+</div>
+</div>
+</div>
 
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Mem3</h2>

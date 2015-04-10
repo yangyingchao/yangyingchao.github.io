@@ -74,8 +74,8 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 #endif
 #+END_SRC
 
+上述的各种方案均通过各自提供的 =sqlite3MemSetDefault()= 来设置函数指针：
 
-* Mem1
 #+BEGIN_SRC c -r -n
   void sqlite3MemSetDefault(void){
       static const sqlite3_mem_methods defaultMethods = {
@@ -91,6 +91,9 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
       sqlite3_config(SQLITE_CONFIG_MALLOC, &defaultMethods);
   }
 #+END_SRC
+
+
+* Mem1
 
 =mem1= 中的内存操作函数是对 =malloc/free= 的封装。
 
@@ -135,6 +138,162 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
 * Mem2
 
+=mem2= 同样采用系统的 =malloc/free/realloc= 来分配内存，但在其基础上增加了额外的调试信息，可
+以帮助检测内存泄漏和内存的其他错误。
+
+每块内存的布局如下：
+
+#+BEGIN_SRC ditaa :file ../assets/img/mem2_allocation.png  :cmdline -r -s 1.5
+  +-------+---------------------+--------------+-------------+-----------+
+  | Title |  backtrace pointers |  MemBlockHdr |  allocation |  EndGuard |
+  +-------+---------------------+--------------+-------------+-----------+
+#+END_SRC
+
+但 =mem2= 的使用者只能看到 =allocation=  的指针。
+
+=MemBlockHdr= :
+#+BEGIN_SRC c -r -n
+  struct MemBlockHdr {
+    i64 iSize;                          /* Size of this allocation */
+    struct MemBlockHdr *pNext, *pPrev;  /* Linked list of all unfreed memory */
+    char nBacktrace;                    /* Number of backtraces on this alloc */
+    char nBacktraceSlots;               /* Available backtrace slots */
+    u8 nTitle;                          /* Bytes of title; includes '\0' */
+    u8 eType;                           /* Allocation type code */
+    int iForeGuard;                     /* Guard word for sanity */
+  };
+
+#+END_SRC
+
+=mem2= 中另有一个静态的 =mem= 变量， 其中有指向分配的 =MemBlockHdr= 指针：
+
+#+BEGIN_SRC c -r -n
+  /*
+  ,** All of the static variables used by this module are collected
+  ,** into a single structure named "mem".  This is to keep the
+  ,** static variables organized and to reduce namespace pollution
+  ,** when this module is combined with other in the amalgamation.
+  ,*/
+  static struct {
+
+      /*
+      ,** Mutex to control access to the memory allocation subsystem.
+      ,*/
+      sqlite3_mutex *mutex;
+
+      /*
+      ,** Head and tail of a linked list of all outstanding allocations
+      ,*/
+      struct MemBlockHdr *pFirst;
+      struct MemBlockHdr *pLast;
+
+      /*
+      ,** The number of levels of backtrace to save in new allocations.
+      ,*/
+      int nBacktrace;
+      void (*xBacktrace)(int, int, void **);
+
+      /*
+      ,** Title text to insert in front of each block
+      ,*/
+      int nTitle;        /* Bytes of zTitle to save.  Includes '\0' and padding */
+      char zTitle[100];  /* The title text */
+
+      /*
+      ,** sqlite3MallocDisallow() increments the following counter.
+      ,** sqlite3MallocAllow() decrements it.
+      ,*/
+      int disallow; /* Do not allow memory allocation */
+
+      /*
+      ,** Gather statistics on the sizes of memory allocations.
+      ,** nAlloc[i] is the number of allocation attempts of i*8
+      ,** bytes.  i==NCSIZE is the number of allocation attempts for
+      ,** sizes more than NCSIZE*8 bytes.
+      ,*/
+      int nAlloc[NCSIZE];      /* Total number of allocations */
+      int nCurrent[NCSIZE];    /* Current number of allocations */
+      int mxCurrent[NCSIZE];   /* Highwater mark for nCurrent */
+
+  } mem;
+#+END_SRC
+
+#+BEGIN_SRC dot :file ../assets/img/mem_2_mem.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+      // rankdir=LR;
+
+      //XXX: Place to put subgraphs
+      node_mem[shape=record
+              label="{<f0> mem |\
+  +mutex &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : sqlite3_mutex *\l\
+  +nBacktrace &#32;&#32;&#32;&#32;&#32; : int\l\
+  +nTitle &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +zTitle &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : char []\l\
+  +disallow &#32;&#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +nAlloc &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : int []\l\
+  +nCurrent &#32;&#32;&#32;&#32;&#32;&#32;&#32; : int []\l\
+  +mxCurrent &#32;&#32;&#32;&#32;&#32;&#32; : int []\l\
+  +xBacktrace (...) : void\l\
+  |\
+  <f1>+pFirst &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  |\
+  <f2>+pLast &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  }"];
+
+  node_mem:f1->node_MemBlockHdr1;
+  node_mem:f2->node_MemBlockHdr3;
+
+  subgraph  {
+      color=invis;
+      style=filled;
+      rank=same;
+      node_MemBlockHdr1[shape=record
+              label="{<f0> MemBlockHdr|\
+  +iSize &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : i64\l\
+  +pNext &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +pPrev &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +nBacktrace &#32;&#32;&#32;&#32;&#32; : char\l\
+  +nBacktraceSlots  : char\l\
+  +nTitle &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +eType &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +iForeGuard &#32;&#32;&#32;&#32;&#32; : int\l\
+  }"];
+
+  node_MemBlockHdr2[shape=record
+              label="{<f0> MemBlockHdr|\
+  +iSize &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : i64\l\
+  +pNext &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +pPrev &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +nBacktrace &#32;&#32;&#32;&#32;&#32; : char\l\
+  +nBacktraceSlots  : char\l\
+  +nTitle &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +eType &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +iForeGuard &#32;&#32;&#32;&#32;&#32; : int\l\
+  }"];
+
+  node_MemBlockHdr3[shape=record
+              label="{<f0> MemBlockHdr |\
+  +iSize &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : i64\l\
+  +pNext &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +pPrev &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : struct MemBlockHdr *\l\
+  +nBacktrace &#32;&#32;&#32;&#32;&#32; : char\l\
+  +nBacktraceSlots  : char\l\
+  +nTitle &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +eType &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +iForeGuard &#32;&#32;&#32;&#32;&#32; : int\l\
+  }"];
+
+  }
+
+
+  node_MemBlockHdr1->node_MemBlockHdr2[dir=both minlen=6];
+  node_MemBlockHdr2->node_MemBlockHdr3[dir=both minlen=6];
+
+
+  }
+#+END_SRC
 
 * Mem3
 
