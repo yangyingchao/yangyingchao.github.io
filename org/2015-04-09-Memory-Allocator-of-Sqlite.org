@@ -17,6 +17,68 @@
 * Sqlite 中的内存管理
 
 =sqlite3_initialize()= 会检查和设置 Sqlite 的内存分配方案。设置通过
-=sqlite3MallocInit()= 来完成。
+=sqlite3MallocInit()= 来完成。 =sqlite3MallocInit()=  会检查全局设置中的内存操作指
+针是否为空，是的话则使用 =sqlite3MemSetDefault()= 来采用默认设置。
 
-* Mem5 笔记
+Sqlite 提供了六种分配方式，分别为 =mem0=, =mem1=, =mem2=, =mem3=, =mem5= 以及针对
+win32 的 =winMemMethods= ，具体使用哪一个在编译
+期通过宏来决定。
+
+相关的宏包括：
+
+ * =SQLITE_ZERO_MALLOC=
+
+   这个宏启用的时候，会使用 =mem0= ，所有内存分配都会返回空指针。也许只是用来测试的？
+
+ * =SQLITE_SYSTEM_MALLOC=
+
+   该宏启用使用， =mem1= 被启用，会使用标准 C 提供的 =malloc()= 来分配内存。
+
+   此外，如果编译期没有指定内存分配器，Sqlite 默认将此启用。
+
+ * =SQLITE_MEMDEBUG=
+
+   对应 =mem3= ，同样使用系统的 =malloc()= ，但包含一些额外的信息用于调试内存分配。
+
+ * =SQLITE_WIN32_MALLOC=
+
+   对应 =winMemMethods= ，将启用 Win32 native heap API。
+
+ * =SQLITE_ENABLE_MEMSYS3=
+
+   对应 =mem3= ，所有内存都从预先传入的堆中分配，不会使用 =malloc= 。
+
+ * =SQLITE_ENABLE_MEMSYS5=
+
+   对应 =mem5= ，所有内存都从预先传入的堆中分配，不会使用 =malloc= 。
+
+   *TOOD：* 与 =mem3= 区别？？？
+
+如果编译期没有指定内存分配方式， =mem1= 将被采用：
+
+#+BEGIN_SRC c -r -n
+#if defined(SQLITE_SYSTEM_MALLOC) \
+  + defined(SQLITE_WIN32_MALLOC) \
+  + defined(SQLITE_ZERO_MALLOC) \
+  + defined(SQLITE_MEMDEBUG)>1
+# error "Two or more of the following compile-time configuration options\
+ are defined but at most one is allowed:\
+ SQLITE_SYSTEM_MALLOC, SQLITE_WIN32_MALLOC, SQLITE_MEMDEBUG,\
+ SQLITE_ZERO_MALLOC"
+#endif
+#if defined(SQLITE_SYSTEM_MALLOC) \
+  + defined(SQLITE_WIN32_MALLOC) \
+  + defined(SQLITE_ZERO_MALLOC) \
+  + defined(SQLITE_MEMDEBUG)==0
+# define SQLITE_SYSTEM_MALLOC 1
+#endif
+#+END_SRC
+
+
+* Mem1
+
+
+* Mem3
+
+
+* Mem5

@@ -1,0 +1,128 @@
+---
+layout : post
+title : Memory Allocator of Sqlite
+categories : 未分类
+tags : Memory, Allocator, Sqlite
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Sqlite 中的内存管理</a></li>
+<li><a href="#sec-2">2. Mem1</a></li>
+<li><a href="#sec-3">3. Mem3</a></li>
+<li><a href="#sec-4">4. Mem5</a></li>
+</ul>
+</div>
+</div>
+
+<!--more-->
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Sqlite 中的内存管理</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<code>sqlite3_initialize()</code> 会检查和设置 Sqlite 的内存分配方案。设置通过
+<code>sqlite3MallocInit()</code> 来完成。 <code>sqlite3MallocInit()</code>  会检查全局设置中的内存操作指针是否为空，是的话则使用 <code>sqlite3MemSetDefault()</code> 来采用默认设置。
+</p>
+
+<p>
+Sqlite 提供了六种分配方式，分别为 <code>mem0</code>, <code>mem1</code>, <code>mem2</code>, <code>mem3</code>, <code>mem5</code> 以及针对
+win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过宏来决定。
+</p>
+
+<p>
+相关的宏包括：
+</p>
+
+<ul class="org-ul">
+<li><code>SQLITE_ZERO_MALLOC</code>
+
+<p>
+这个宏启用的时候，会使用 <code>mem0</code> ，所有内存分配都会返回空指针。也许只是用来测试的？
+</p>
+</li>
+
+<li><code>SQLITE_SYSTEM_MALLOC</code>
+
+<p>
+该宏启用使用， <code>mem1</code> 被启用，会使用标准 C 提供的 <code>malloc()</code> 来分配内存。
+</p>
+
+<p>
+此外，如果编译期没有指定内存分配器，Sqlite 默认将此启用。
+</p>
+</li>
+
+<li><code>SQLITE_MEMDEBUG</code>
+
+<p>
+对应 <code>mem3</code> ，同样使用系统的 <code>malloc()</code> ，但包含一些额外的信息用于调试内存分配。
+</p>
+</li>
+
+<li><code>SQLITE_WIN32_MALLOC</code>
+
+<p>
+对应 <code>winMemMethods</code> ，将启用 Win32 native heap API。
+</p>
+</li>
+
+<li><code>SQLITE_ENABLE_MEMSYS3</code>
+
+<p>
+对应 <code>mem3</code> ，所有内存都从预先传入的堆中分配，不会使用 <code>malloc</code> 。
+</p>
+</li>
+
+<li><code>SQLITE_ENABLE_MEMSYS5</code>
+
+<p>
+对应 <code>mem5</code> ，所有内存都从预先传入的堆中分配，不会使用 <code>malloc</code> 。
+</p>
+
+<p>
+<b>TOOD：</b> 与 <code>mem3</code> 区别？？？
+</p>
+</li>
+</ul>
+
+<p>
+如果编译期没有指定内存分配方式， <code>mem1</code> 将被采用：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">#if</span> <span style="color: #32cd32;">defined</span>(SQLITE_SYSTEM_MALLOC) \
+<span class="linenr"> 2: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_WIN32_MALLOC) \
+<span class="linenr"> 3: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_ZERO_MALLOC) \
+<span class="linenr"> 4: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_MEMDEBUG)&gt;1
+<span class="linenr"> 5: </span><span style="color: #32cd32;"># error</span> <span style="color: #d78700;">"Two or more of the following compile-time configuration options\</span>
+<span class="linenr"> 6: </span><span style="color: #d78700;"> are defined but at most one is allowed:\</span>
+<span class="linenr"> 7: </span><span style="color: #d78700;"> SQLITE_SYSTEM_MALLOC, SQLITE_WIN32_MALLOC, SQLITE_MEMDEBUG,\</span>
+<span class="linenr"> 8: </span><span style="color: #d78700;"> SQLITE_ZERO_MALLOC"</span>
+<span class="linenr"> 9: </span><span style="color: #32cd32;">#endif</span>
+<span class="linenr">10: </span><span style="color: #32cd32;">#if</span> <span style="color: #32cd32;">defined</span>(SQLITE_SYSTEM_MALLOC) \
+<span class="linenr">11: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_WIN32_MALLOC) \
+<span class="linenr">12: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_ZERO_MALLOC) \
+<span class="linenr">13: </span>  + <span style="color: #32cd32;">defined</span>(SQLITE_MEMDEBUG)==0
+<span class="linenr">14: </span><span style="color: #32cd32;"># define</span> <span style="color: #daa520;">SQLITE_SYSTEM_MALLOC</span> 1
+<span class="linenr">15: </span><span style="color: #32cd32;">#endif</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Mem1</h2>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Mem3</h2>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Mem5</h2>
+</div>
