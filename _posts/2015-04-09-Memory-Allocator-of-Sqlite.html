@@ -10,8 +10,9 @@ tags : Memory, Allocator, Sqlite
 <ul>
 <li><a href="#sec-1">1. Sqlite 中的内存管理</a></li>
 <li><a href="#sec-2">2. Mem1</a></li>
-<li><a href="#sec-3">3. Mem3</a></li>
-<li><a href="#sec-4">4. Mem5</a></li>
+<li><a href="#sec-3">3. Mem2</a></li>
+<li><a href="#sec-4">4. Mem3</a></li>
+<li><a href="#sec-5">5. Mem5</a></li>
 </ul>
 </div>
 </div>
@@ -56,7 +57,7 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 <li><code>SQLITE_MEMDEBUG</code>
 
 <p>
-对应 <code>mem3</code> ，同样使用系统的 <code>malloc()</code> ，但包含一些额外的信息用于调试内存分配。
+对应 <code>mem2</code> ，同样使用系统的 <code>malloc()</code> ，但包含一些额外的信息用于调试内存分配。
 </p>
 </li>
 
@@ -190,12 +191,16 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 </div>
 </div>
 
-
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Mem3</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Mem2</h2>
 </div>
 
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Mem5</h2>
+<h2 id="sec-4"><span class="section-number-2">4</span> Mem3</h2>
+</div>
+
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Mem5</h2>
 </div>

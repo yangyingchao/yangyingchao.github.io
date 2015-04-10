@@ -38,7 +38,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
  * =SQLITE_MEMDEBUG=
 
-   对应 =mem3= ，同样使用系统的 =malloc()= ，但包含一些额外的信息用于调试内存分配。
+   对应 =mem2= ，同样使用系统的 =malloc()= ，但包含一些额外的信息用于调试内存分配。
 
  * =SQLITE_WIN32_MALLOC=
 
@@ -132,6 +132,8 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
        p--;
      }
    #+END_SRC
+
+* Mem2
 
 
 * Mem3
