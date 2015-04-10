@@ -76,6 +76,62 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
 
 * Mem1
+#+BEGIN_SRC c -r -n
+  void sqlite3MemSetDefault(void){
+      static const sqlite3_mem_methods defaultMethods = {
+          sqlite3MemMalloc,
+          sqlite3MemFree,
+          sqlite3MemRealloc,
+          sqlite3MemSize,
+          sqlite3MemRoundup,
+          sqlite3MemInit,
+          sqlite3MemShutdown,
+          0
+      };
+      sqlite3_config(SQLITE_CONFIG_MALLOC, &defaultMethods);
+  }
+#+END_SRC
+
+=mem1= 中的内存操作函数是对 =malloc/free= 的封装。
+
+如果系统提供了 =malloc.h= ，则可以通过系统提供的 API 来获取某一已经分配的
+空间的大小， =sqlite3_mem_methods= 中定义的所有方法都是简单调用。否则的话，
+需要对 =malloc/free= 做一些封装。
+
+ * =sqlite3MemMalloc=
+ 分配内存时，多分配了一些字节，并用最高的 8 个字节来保存分配的 size，
+ 并将指针加 8 后返回。
+
+ #+BEGIN_SRC c -r -n
+   /*
+   ,** Round up a number to the next larger multiple of 8.  This is used
+   ,** to force 8-byte alignment on 64-bit architectures.
+   ,*/
+   #define ROUND8(x)     (((x)+7)&~7)
+
+   static void *sqlite3MemMalloc(int nByte){
+       sqlite3_int64 *p;
+       assert( nByte>0 );
+       nByte = ROUND8(nByte);
+       p = SQLITE_MALLOC( nByte+8 );
+       if( p ){
+           p[0] = nByte;
+           p++;
+       }else{/**/}
+       return (void *)p;
+   }
+ #+END_SRC
+
+ * =sqlite3MemFree=
+   =sqlite3MemFree=  的反向操作，指针减 8 之后删除，删除即可：
+
+   #+BEGIN_SRC c -r -n
+     static void sqlite3MemFree(void *pPrior){
+       sqlite3_int64 *p = (sqlite3_int64*)pPrior;
+       assert( pPrior!=0 );
+       p--;
+     }
+   #+END_SRC
 
 
 * Mem3

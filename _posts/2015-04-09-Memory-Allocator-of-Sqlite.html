@@ -115,6 +115,79 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 
 <div id="outline-container-sec-2" class="outline-2">
 <h2 id="sec-2"><span class="section-number-2">2</span> Mem1</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">sqlite3MemSetDefault</span>(<span style="color: #32cd32;">void</span>){
+<span class="linenr"> 2: </span>    <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">sqlite3_mem_methods</span> <span style="color: #daa520;">defaultMethods</span> = {
+<span class="linenr"> 3: </span>        sqlite3MemMalloc,
+<span class="linenr"> 4: </span>        sqlite3MemFree,
+<span class="linenr"> 5: </span>        sqlite3MemRealloc,
+<span class="linenr"> 6: </span>        sqlite3MemSize,
+<span class="linenr"> 7: </span>        sqlite3MemRoundup,
+<span class="linenr"> 8: </span>        sqlite3MemInit,
+<span class="linenr"> 9: </span>        sqlite3MemShutdown,
+<span class="linenr">10: </span>        0
+<span class="linenr">11: </span>    };
+<span class="linenr">12: </span>    sqlite3_config(SQLITE_CONFIG_MALLOC, &amp;defaultMethods);
+<span class="linenr">13: </span>}
+</pre>
+</div>
+
+<p>
+<code>mem1</code> 中的内存操作函数是对 <code>malloc/free</code> 的封装。
+</p>
+
+<p>
+如果系统提供了 <code>malloc.h</code> ，则可以通过系统提供的 API 来获取某一已经分配的空间的大小， <code>sqlite3_mem_methods</code> 中定义的所有方法都是简单调用。否则的话，需要对 <code>malloc/free</code> 做一些封装。
+</p>
+
+<ul class="org-ul">
+<li><code>sqlite3MemMalloc</code>
+</li>
+</ul>
+<p>
+分配内存时，多分配了一些字节，并用最高的 8 个字节来保存分配的 size，并将指针加 8 后返回。
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #fa8072;">/*</span>
+<span class="linenr"> 2: </span><span style="color: #cd5c5c; font-style: italic;">** Round up a number to the next larger multiple of 8.  This is used</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;">** to force 8-byte alignment on 64-bit architectures.</span>
+<span class="linenr"> 4: </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 5: </span><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">ROUND8</span>(<span style="color: #daa520;">x</span>)     (((x)+7)&amp;~7)
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">void</span> *<span style="color: #1e90ff; font-weight: bold;">sqlite3MemMalloc</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">nByte</span>){
+<span class="linenr"> 8: </span>    <span style="color: #32cd32;">sqlite3_int64</span> *<span style="color: #daa520;">p</span>;
+<span class="linenr"> 9: </span>    assert( nByte&gt;0 );
+<span class="linenr">10: </span>    nByte = ROUND8(nByte);
+<span class="linenr">11: </span>    p = <span style="color: #32cd32;">SQLITE_MALLOC</span>( nByte+8 );
+<span class="linenr">12: </span>    <span style="color: #ff4040;">if</span>( p ){
+<span class="linenr">13: </span>        p[0] = nByte;
+<span class="linenr">14: </span>        p++;
+<span class="linenr">15: </span>    }<span style="color: #ff4040;">else</span>{<span style="color: #87ceeb;">/**/</span>}
+<span class="linenr">16: </span>    <span style="color: #ff4040;">return</span> (<span style="color: #32cd32;">void</span> *)p;
+<span class="linenr">17: </span>}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>sqlite3MemFree</code>
+   <code>sqlite3MemFree</code>  的反向操作，指针减 8 之后删除，删除即可：
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">sqlite3MemFree</span>(<span style="color: #32cd32;">void</span> *<span style="color: #daa520;">pPrior</span>){
+<span class="linenr">2: </span>  <span style="color: #32cd32;">sqlite3_int64</span> *<span style="color: #daa520;">p</span> = (<span style="color: #32cd32;">sqlite3_int64</span>*)pPrior;
+<span class="linenr">3: </span>  assert( pPrior!=0 );
+<span class="linenr">4: </span>  p--;
+<span class="linenr">5: </span>}
+</pre>
+</div>
+</li>
+</ul>
+</div>
 </div>
 
 
