@@ -13,7 +13,6 @@
 #+LINK_UP:    http://yangyingchao.github.io
 #+LINK_HOME:  http://yangyingchao.github.io
 #+EXCLUDE_TAGS: noexport
-#+INFOJS_OPT: view:showall path:../assets/js/org-info.js
 
 
 * Sqlite 中的内存管理
@@ -95,7 +94,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 #+END_SRC
 
 
-* Mem1
+* Mem1 -- Standard Memory Management
 
 =mem1= 中的内存操作函数是对 =malloc/free= 的封装。
 
@@ -138,7 +137,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
      }
    #+END_SRC
 
-* Mem2
+* Mem2 -- Standard Memory with Debug Info
 
 =mem2= 同样采用系统的 =malloc/free/realloc= 来分配内存，但在其基础上增加了额外的调试信息，可
 以帮助检测内存泄漏 *(HOW?)* 和内存的其他错误。
