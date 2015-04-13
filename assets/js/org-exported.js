@@ -1,3 +1,27 @@
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 function CodeHighlightOn(elem, id)
 {
   var target = document.getElementById(id);
@@ -17,41 +41,3 @@ function CodeHighlightOff(elem, id)
   if(elem.cacheClassTarget)
     target.className = elem.cacheClassTarget;
 }
-
-MathJax.Hub.Config({
-  // Only one of the two following lines, depending on user settings
-  // First allows browser-native MathML display, second forces HTML/CSS
-  //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
-  jax: ["input/TeX", "output/HTML-CSS"],
-  extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
-               "TeX/noUndefined.js"],
-  tex2jax: {
-    inlineMath: [ ["\\(","\\)"] ],
-    displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
-    skipTags: ["script","noscript","style","textarea","pre","code"],
-    ignoreClass: "tex2jax_ignore",
-    processEscapes: false,
-    processEnvironments: true,
-    preview: "TeX"
-  },
-  showProcessingMessages: true,
-  displayAlign: "center",
-  displayIndent: "2em",
-
-  "HTML-CSS": {
-    scale: 100,
-    availableFonts: ["STIX","TeX"],
-    preferredFont: "TeX",
-    webFont: "TeX",
-    imageFont: "TeX",
-    showMathMenu: true,
-  },
-  MMLorHTML: {
-    prefer: {
-      MSIE:    "MML",
-      Firefox: "MML",
-      Opera:   "HTML",
-      other:   "HTML"
-    }
-  }
-});
