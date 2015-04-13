@@ -31,16 +31,4 @@ textarea { overflow-x: auto; }
 .org-info-js_search-highlight
 { background-color: #ffff00; color: #000000; font-weight: bold; }
 
-div.org-src-container {
-    font-size: 85%;
-    font-family: monospace;
-}
-pre.src {
-    background-color:#2e3436;
-    color:#fefffe;
-}
-
-p {font-size: 15px}
-li {font-size: 15px}
-
 #outline-container-introduction{ clear:both; }

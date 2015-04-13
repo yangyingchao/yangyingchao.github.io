@@ -2,7 +2,7 @@
 {
     html {
 	    margin: 0;
-        font-family: "Microsoft YaHei", serif,"Times New Roman", Times;
+        /* font-family: "Microsoft YaHei", serif,"Times New Roman", Times; */
 	    font: 300 .9em/1.6em "Droid Serif", Cambria, Georgia, "DejaVu Serif", serif;
 	    background-attachment: fixed;
 	    background-position: right bottom;
@@ -969,6 +969,8 @@ content: "*** "
         position: relative;
         overflow: visible;
         padding-top: 1.2em;
+        background-color:#2e3436;
+        color:#fefffe;
     }
     pre.src:before {
         display: none;
@@ -988,6 +990,45 @@ content: "*** "
     pre.src-java:before  { content: 'Java'; }
     pre.src-sql:before   { content: 'SQL'; }
 
+    div.org-src-container {
+        font-size: 85%;
+        font-family: monospace;
+
+        table { border-collapse:collapse; }
+        caption.t-above { caption-side: top; }
+        caption.t-bottom { caption-side: bottom; }
+        td, th { vertical-align:top;  }
+        th.right  { text-align: center;  }
+        th.left   { text-align: center;   }
+        th.center { text-align: center; }
+        td.right  { text-align: right;  }
+        td.left   { text-align: left;   }
+        td.center { text-align: center; }
+        dt { font-weight: bold; }
+        .footpara:nth-child(2) { display: inline; }
+        .footpara { display: block; }
+        .footdef  { margin-bottom: 1em; }
+        .figure { padding: 1em; }
+        .figure p { text-align: center; }
+        .inlinetask {
+            padding: 10px;
+            border: 2px solid gray;
+            margin: 10px;
+            background: #ffffcc;
+        }
+        #org-div-home-and-up
+        { text-align: right; font-size: 70%; white-space: nowrap; }
+        textarea { overflow-x: auto; }
+        .linenr { font-size: smaller }
+        .code-highlighted { background-color: #ffff00; }
+        .org-info-js_info-navigation { border-style: none; }
+        #org-info-js_console-label
+        { font-size: 10px; font-weight: bold; white-space: nowrap; }
+        .org-info-js_search-highlight
+        { background-color: #ffff00; color: #000000; font-weight: bold; }
+
+        #outline-container-introduction{ clear:both; }
+    }
 
 } /* END OF @media all */
 
