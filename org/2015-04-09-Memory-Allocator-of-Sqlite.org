@@ -14,7 +14,6 @@
 #+LINK_HOME:  http://yangyingchao.github.io
 #+EXCLUDE_TAGS: noexport
 
-
 * Sqlite 中的内存管理
 
 =sqlite3_initialize()= 会检查和设置 Sqlite 的内存分配方案。设置通过
