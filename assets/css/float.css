@@ -27,7 +27,7 @@
 	    /* box-shadow: 3px 3px 5px #888; */
     }
     body .title {
-	    margin-left: 0px;
+        text-align: center;
 	    font-size: 22pt;
     }
 
@@ -159,7 +159,11 @@ content: "*** "
     }
 
     .tag {
-
+        background-color: #eee;
+        font-family: monospace;
+        padding: 2px;
+        font-size: 80%;
+        font-weight: normal;
     }
 
     li {
@@ -178,13 +182,22 @@ content: "*** "
 	    border: none;
     }
 
-    code {
+    code, pre {
 	    font-size: 100%;
 	    color: black;
-	    border: 1px solid #DEDEDE;
 	    padding: 0px 0.2em;
+        border-radius: 5px;
+	    border: 1px solid #e5e5e5;
     }
 
+    *:not(pre)>code{
+    color: #c03;
+    background-color: #f9f9f9;
+    padding: 1px 4px;
+    font-size: 85%;
+    white-space: normal;/*overcome bootstrap nowrap*/
+    }
+    
     img {
 	    border: none;
     }

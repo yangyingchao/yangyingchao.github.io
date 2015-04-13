@@ -1,28 +1,3 @@
-code, pre {
-    border-radius: 5px;
-	border: 1px solid #e5e5e5;
-}
-
-*:not(pre)>code{
-    color: #c03;
-    background-color: #f9f9f9;
-    padding: 1px 4px;
-    font-size: 85%;
-    white-space: normal;/*overcome bootstrap nowrap*/
-}
-.title  { text-align: center; }
-.todo   { font-family: monospace; color: red; }
-.done   { color: green; }
-.tag    { background-color: #eee; font-family: monospace;
-          padding: 2px; font-size: 80%; font-weight: normal; }
-.timestamp { color: #bebebe; }
-.timestamp-kwd { color: #5f9ea0; }
-.right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-.left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-.center { margin-left: auto; margin-right: auto; text-align: center; }
-.underline { text-decoration: underline; }
-#postamble p, #preamble p { font-size: 90%; margin: .2em; }
-p.verse { margin-left: 3%; }
 pre {
     border: 1px solid #ccc;
     box-shadow: 3px 3px 3px #eee;
