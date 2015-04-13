@@ -141,7 +141,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 =mem2= 同样采用系统的 =malloc/free/realloc= 来分配内存，但在其基础上增加了额外的调试信息，可
 以帮助检测内存泄漏 *(HOW?)* 和内存的其他错误。
 
-** =sqlite3MemMalloc()=
+** sqlite3MemMalloc()
 
 每块内存的布局如下：
 
@@ -396,3 +396,81 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 回收内存时，将 chunk 链入 =mem3->aiSmall=  或者 =mem3->aiHash= 。
 
 * Mem5
+
+ mem5 遵循三条规则：
+
+ * 分配的大小，向上取整对齐到的 2 的 N 次方
+ * 如果存在两块相邻的同等大小的内存，则合并之。
+ * 新内存始终从第一块空闲的内存块中分配。
+
+** memsys5Init()
+
+与之前的几种分配方式相同，mem5 中也有一个静态变量用于记录全局信息， =memsys5Init()= 用于初始
+化它：
+ #+BEGIN_SRC c -r -n
+
+   /*
+   ,** Maximum size of any allocation is ((1<<LOGMAX)*mem5.szAtom). Since
+   ,** mem5.szAtom is always at least 8 and 32-bit integers are used,
+   ,** it is not actually possible to reach this limit.
+   ,*/
+   #define LOGMAX 30
+
+   static SQLITE_WSD struct Mem5Global {
+       /*
+       ,** Memory available for allocation
+       ,*/
+       int szAtom;      /* Smallest possible allocation in bytes */
+       int nBlock;      /* Number of szAtom sized blocks in zPool */
+       u8 *zPool;       /* Memory available to be allocated */
+
+       /*
+       ,** Mutex to control access to the memory allocation subsystem.
+       ,*/
+       sqlite3_mutex *mutex;
+
+       /*
+       ,** Performance statistics
+       ,*/
+       u64 nAlloc;         /* Total number of calls to malloc */
+       u64 totalAlloc;     /* Total of all malloc calls - includes internal frag */
+       u64 totalExcess;    /* Total internal fragmentation */
+       u32 currentOut;     /* Current checkout, including internal fragmentation */
+       u32 currentCount;   /* Current number of distinct checkouts */
+       u32 maxOut;         /* Maximum instantaneous currentOut */
+       u32 maxCount;       /* Maximum instantaneous currentCount */
+       u32 maxRequest;     /* Largest allocation (exclusive of internal frag) */
+
+       /*
+       ,** Lists of free blocks.  aiFreelist[0] is a list of free blocks of
+       ,** size mem5.szAtom.  aiFreelist[1] holds blocks of size szAtom*2.
+       ,** and so forth.
+       ,*/
+       int aiFreelist[LOGMAX+1];
+
+       /*
+       ,** Space for tracking which blocks are checked out and the size
+       ,** of each block.  One byte per block.
+       ,*/
+       u8 *aCtrl;
+
+   } mem5;
+
+ #+END_SRC
+
+ * =zPool=\\
+   用户（程序）指定的堆。
+
+ * =szAtom=\\
+   内存分配的最小单元，其值为 =sqlite3GlobalConfig.mnReq= 向上取整到 2 整次幂与 =Mem5Link=
+   中的较大值。
+
+ * =aCtrl= \\
+   用于跟踪 block 使用情况的字符数组，每一个 block 都有一个对应的 =ctrl= 。
+
+ * =nBlock=
+   由于每个 block 都需要一个额外的 byte 来记录使用信息，所以每个 block 实际的大小为：
+   =szAtom+1= ，总共可用的 block 个数为：
+   #+BEGIN_SRC c -r -n
+     mem5.nBlock = (nByte / (mem5.szAtom+sizeof(u8)));
+   #+END_SRC

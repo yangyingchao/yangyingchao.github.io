@@ -183,9 +183,10 @@
         font-size: 85%;
         white-space: normal;/*overcome bootstrap nowrap*/
     }
-    
+
     img {
 	    border: none;
+        width: 90%;
     }
 
     .share img {
