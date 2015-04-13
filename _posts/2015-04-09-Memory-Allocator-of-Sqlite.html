@@ -335,6 +335,86 @@ win32 的 <code>winMemMethods</code> ，具体使用哪一个在编译期通过�
 
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Mem3</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<code>mem3</code> 不使用 <code>malloc/free</code> ，而是从预先分好的内存中（ <code>sqlite3GlobalConfig.pHeap</code> ）动态规划。整个 Heap 被分成 N 个 chunk ( N = size_of_Heap/sizeof(Mem3Block)):
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">typedef</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">Mem3Block</span> <span style="color: #32cd32;">Mem3Block</span>;
+<span class="linenr"> 2: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">Mem3Block</span> {
+<span class="linenr"> 3: </span>    <span style="color: #ff4040;">union</span> {
+<span class="linenr"> 4: </span>        <span style="color: #ff4040;">struct</span> {
+<span class="linenr"> 5: </span>            <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">prevSize</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Size of previous chunk in Mem3Block elements </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 6: </span>            <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">size4x</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">4x the size of current chunk in Mem3Block elements </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 7: </span>        } <span style="color: #daa520;">hdr</span>;
+<span class="linenr"> 8: </span>        <span style="color: #ff4040;">struct</span> {
+<span class="linenr"> 9: </span>            <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">next</span>;       <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Index in mem3.aPool[] of next free chunk </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">10: </span>            <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">prev</span>;       <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Index in mem3.aPool[] of previous free chunk </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">11: </span>        } <span style="color: #daa520;">list</span>;
+<span class="linenr">12: </span>    } <span style="color: #daa520;">u</span>;
+<span class="linenr">13: </span>};
+</pre>
+</div>
+
+<p>
+所有全局信息存于静态变量 <code>mem3</code> 中：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> SQLITE_WSD <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">Mem3Global</span> {
+<span class="linenr"> 2: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;">    ** Memory available for allocation. nPool is the size of the array</span>
+<span class="linenr"> 4: </span><span style="color: #cd5c5c; font-style: italic;">    ** (in Mem3Blocks) pointed to by aPool less 2.</span>
+<span class="linenr"> 5: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 6: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">nPool</span>;
+<span class="linenr"> 7: </span>    <span style="color: #32cd32;">Mem3Block</span> *<span style="color: #daa520;">aPool</span>;
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">10: </span><span style="color: #cd5c5c; font-style: italic;">    ** True if we are evaluating an out-of-memory callback.</span>
+<span class="linenr">11: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">12: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">alarmBusy</span>;
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">15: </span><span style="color: #cd5c5c; font-style: italic;">    ** Mutex to control access to the memory allocation subsystem.</span>
+<span class="linenr">16: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">17: </span>    <span style="color: #32cd32;">sqlite3_mutex</span> *<span style="color: #daa520;">mutex</span>;
+<span class="linenr">18: </span>
+<span class="linenr">19: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">20: </span><span style="color: #cd5c5c; font-style: italic;">    ** The minimum amount of free space that we have seen.</span>
+<span class="linenr">21: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">22: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">mnMaster</span>;
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">25: </span><span style="color: #cd5c5c; font-style: italic;">    ** iMaster is the index of the master chunk.  Most new allocations</span>
+<span class="linenr">26: </span><span style="color: #cd5c5c; font-style: italic;">    ** occur off of this chunk.  szMaster is the size (in Mem3Blocks)</span>
+<span class="linenr">27: </span><span style="color: #cd5c5c; font-style: italic;">    ** of the current master.  iMaster is 0 if there is not master chunk.</span>
+<span class="linenr">28: </span><span style="color: #cd5c5c; font-style: italic;">    ** The master chunk is not in either the aiHash[] or aiSmall[].</span>
+<span class="linenr">29: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">30: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">iMaster</span>;
+<span class="linenr">31: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">szMaster</span>;
+<span class="linenr">32: </span>
+<span class="linenr">33: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">34: </span><span style="color: #cd5c5c; font-style: italic;">    ** Array of lists of free blocks according to the block size</span>
+<span class="linenr">35: </span><span style="color: #cd5c5c; font-style: italic;">    ** for smaller chunks, or a hash on the block size for larger</span>
+<span class="linenr">36: </span><span style="color: #cd5c5c; font-style: italic;">    ** chunks.</span>
+<span class="linenr">37: </span><span style="color: #cd5c5c; font-style: italic;">    </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">38: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">aiSmall</span>[MX_SMALL-1];   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">For sizes 2 through MX_SMALL, inclusive </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">39: </span>    <span style="color: #32cd32;">u32</span> <span style="color: #daa520;">aiHash</span>[N_HASH];        <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">For sizes MX_SMALL+1 and larger </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">40: </span>} <span style="color: #daa520;">mem3</span> = { 97535575 };
+</pre>
+</div>
+
+<p>
+分配内存时，优先从 <code>mem3-&gt;aiSmall</code> 或者 <code>mem3-&gt;aiHash</code> 中寻找何时的 chunk，如果找不到，则从 <code>mem3-&gt;aPool</code> 中分配，并设置 block header.
+</p>
+
+<p>
+回收内存时，将 chunk 链入 <code>mem3-&gt;aiSmall</code>  或者 <code>mem3-&gt;aiHash</code> 。
+</p>
+</div>
 </div>
 
 <div id="outline-container-sec-5" class="outline-2">
