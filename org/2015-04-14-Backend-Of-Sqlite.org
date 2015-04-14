@@ -1,7 +1,7 @@
 #+TITLE: Backend Of Sqlite
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: sqlite,
+#+KEYWORDS: Sqlite,
 #+CATEGORY: Database
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
@@ -9,7 +9,155 @@
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+LANGUAGE:   en
-#+HTML_HEAD: <style type="text/css">#outline-container-introduction{ clear:both; }</style>
 #+LINK_UP:    http://yangyingchao.github.io
 #+LINK_HOME:  http://yangyingchao.github.io
 #+EXCLUDE_TAGS: noexport
+
+* Backends
+
+Sqlite 默认有两个后端，一个作为主存，另外一个用作存储临时表。
+
+#+BEGIN_SRC c -r -n
+  /*
+  ,** Each database connection is an instance of the following structure.
+  ,*/
+  struct sqlite3 {
+      sqlite3_vfs *pVfs;            /* OS Interface */
+      struct Vdbe *pVdbe;           /* List of active virtual machines */
+      CollSeq *pDfltColl;           /* The default collating sequence (BINARY) */
+      sqlite3_mutex *mutex;         /* Connection mutex */
+      Db *aDb;                      /* All backends */
+      int nDb;                      /* Number of backends currently in use */
+      //...
+      Db aDbStatic[2];              /* Static space for the 2 default backends */
+      //...
+  };
+
+  /*
+  ,** Each database file to be accessed by the system is an instance
+  ,** of the following structure.  There are normally two of these structures
+  ,** in the sqlite.aDb[] array.  aDb[0] is the main database file and
+  ,** aDb[1] is the database file used to hold temporary tables.  Additional
+  ,** databases may be attached.
+  ,*/
+  struct Db {
+      char *zName;         /* Name of this database */
+      Btree *pBt;          /* The B*Tree structure for this database file */
+      u8 safety_level;     /* How aggressive at syncing data to disk */
+      Schema *pSchema;     /* Pointer to database schema (possibly shared) */
+  };
+#+END_SRC
+
+默认后端使用 BTree 实现，并在 在打开数据库时( =openDatabase()= ) 打开和设置：
+
+#+BEGIN_SRC c -r -n
+  static int openDatabase(
+      const char *zFilename, /* Database filename UTF-8 encoded */
+      sqlite3 **ppDb,        /* OUT: Returned database handle */
+      unsigned int flags,    /* Operational flags */
+      const char *zVfs       /* Name of the VFS to use */
+                          ){
+
+      //...
+      /* Open the backend database driver */
+      rc = sqlite3BtreeOpen(db->pVfs, zOpen, db, &db->aDb[0].pBt, 0,
+                            flags | SQLITE_OPEN_MAIN_DB);
+      sqlite3BtreeEnter(db->aDb[0].pBt);
+      db->aDb[0].pSchema = sqlite3SchemaGet(db, db->aDb[0].pBt);
+      sqlite3BtreeLeave(db->aDb[0].pBt);
+      db->aDb[1].pSchema = sqlite3SchemaGet(db, 0);
+
+      /* The default safety_level for the main database is 'full'; for the temp
+      ,** database it is 'NONE'. This matches the pager layer defaults.
+      ,*/
+      db->aDb[0].zName = "main";
+      db->aDb[0].safety_level = 3;
+      db->aDb[1].zName = "temp";
+      db->aDb[1].safety_level = 1;
+
+      db->magic = SQLITE_MAGIC_OPEN;
+
+      //...
+  }
+#+END_SRC
+
+
+* BTree
+
+* Schema
+
+
+* DataGram
+#+BEGIN_SRC dot :file ../assets/img/sq_bk.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+      // rankdir=LR;
+
+      //XXX: Place to put subgraphs
+      node_sqlite3[shape=record
+              label="{<f0> sqlite3 |\
+  +pVfs &#32;&#32;&#32;&#32;&#32; : sqlite3_vfs *\l\
+  +pVdbe &#32;&#32;&#32;&#32; : struct Vdbe *\l\
+  +pDfltColl  : CollSeq *\l\
+  +mutex &#32;&#32;&#32;&#32; : sqlite3_mutex *\l\
+  +aDb &#32;&#32;&#32;&#32;&#32;&#32; : Db *\l\
+  +nDb &#32;&#32;&#32;&#32;&#32;&#32; : int\l\
+  +aDbStatic  : Db []\l\
+  |\
+  }"];
+
+  node_Db[shape=record
+              label="{<f0> Db |\
+  +zName &#32;&#32;&#32;&#32;&#32;&#32;&#32; : char *\l\
+  +pBt &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : Btree *\l\
+  +safety_level  : u8\l\
+  +pSchema &#32;&#32;&#32;&#32;&#32; : Schema *\l\
+  |\
+  }"];
+
+  subgraph  {
+      color=invis;
+      style=filled;
+      rank=same;
+
+  node_Schema[shape=record
+              label="{<f0> Schema |\
+  +schema_cookie  : int\l\
+  +iGeneration &#32;&#32; : int\l\
+  +tblHash &#32;&#32;&#32;&#32;&#32;&#32; : Hash\l\
+  +idxHash &#32;&#32;&#32;&#32;&#32;&#32; : Hash\l\
+  +trigHash &#32;&#32;&#32;&#32;&#32; : Hash\l\
+  +fkeyHash &#32;&#32;&#32;&#32;&#32; : Hash\l\
+  +pSeqTab &#32;&#32;&#32;&#32;&#32;&#32; : Table *\l\
+  +file_format &#32;&#32; : u8\l\
+  +enc &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +schemaFlags &#32;&#32; : u16\l\
+  +cache_size &#32;&#32;&#32; : int\l\
+  |\
+  }"];
+
+  node_Btree[shape=record
+              label="{<f0> Btree |\
+  +db &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : sqlite3 *\l\
+  +pBt &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : BtShared *\l\
+  +inTrans &#32;&#32;&#32;&#32;&#32; : u8\l\
+  +sharable &#32;&#32;&#32;&#32; : u8\l\
+  +locked &#32;&#32;&#32;&#32;&#32;&#32; : u8\l\
+  +wantToLock &#32;&#32; : int\l\
+  +nBackup &#32;&#32;&#32;&#32;&#32; : int\l\
+  +iDataVersion  : u32\l\
+  +pNext &#32;&#32;&#32;&#32;&#32;&#32;&#32; : Btree *\l\
+  +pPrev &#32;&#32;&#32;&#32;&#32;&#32;&#32; : Btree *\l\
+  +lock &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32; : BtLock\l\
+  |\
+  }"];
+
+  }
+
+  node_sqlite3 -> node_Db [arrowtail=diamond arrowhead=none style=solid dir=back];
+  node_Db -> node_Schema [arrowtail=diamond arrowhead=none style=solid dir=back];
+  node_Db -> node_Btree [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  }
+#+END_SRC
