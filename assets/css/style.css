@@ -358,7 +358,6 @@
     h1 {
         margin-bottom: 8px;
         background-color: rgba(255, 255, 255, 0.5);
-        font-size:2.1em;
 	    padding:15px 0 15px 0;
 	    margin-top: 10px;
 	    margin-right: 7%;
@@ -372,6 +371,16 @@
 	    margin-right: 7%;
         color: grey;
         font-size: 85%;
+    }
+
+    div#article_header h1{
+        margin-bottom: 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+        font-size:2.1em;
+	    padding:15px 0 15px 0;
+	    margin-top: 10px;
+	    margin-right: 7%;
+        color: grey;
     }
 
     /**/
@@ -536,7 +545,7 @@
 
     .figure img {
 	    border: none;
-        width: 90%;
+        width: 75%;
     }
 
     .share img {
