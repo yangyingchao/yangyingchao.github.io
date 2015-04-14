@@ -3,7 +3,7 @@
 #+EMAIL:      yangyingchao[at]gmail[dot]com
 #+OPTIONS: ^:nil toc:1
 #+KEYWORDS: Blog, 搬家, mwb
-#+CATEGORIES: Blog
+#+CATEGORY: Blog
 #+DESCRIPTION: 将以前陆陆续续写的和收集的一些东西迁移到了 github 上来...
 #+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks
