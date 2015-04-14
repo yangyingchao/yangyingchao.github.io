@@ -355,7 +355,7 @@
         Submitoverflow: auto;
     }
 
-    #article_header h1 {
+    h1 {
         margin-bottom: 8px;
         background-color: rgba(255, 255, 255, 0.5);
         font-size:2.1em;
