@@ -14,6 +14,8 @@ github : yangyingchao
 production_url : http://yangyingchao.github.io
 
 nav:
+  - text: 首页
+    url : /index.html
   - text: 分类
     url : /categories.html
   - text: 标签
