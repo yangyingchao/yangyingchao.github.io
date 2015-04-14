@@ -2,7 +2,7 @@
 layout     : post
 title : fvwm 中通过 corner  调用 WindowList
 categories : Utility
-tags :  Fvwm
+tags :   fvwm
 
 ---
 <div><div id="outline-container-1"><br><div id="text-1">   <p> 家里的机器装上了 gnome3 ， gnome3 里面，只要将鼠标移到左上角， 当前桌面上所有的活动就会以缩略图的形式平铺在桌面上， 然后鼠标再轻轻一点就可以切换到所需的程序上去。很方便。 </p> <p> 而公司里面的工作机的配置不高，且不能通过 git 获取代码，所以没有升到 gnome3 ， 但在工作中使用鼠标的时候，总是习惯使然的把鼠标移动到左上角想要切换程序， 然后总是败兴而归。 </p> <p> 刚刚折腾了一下，居然通过五行代码就可以通过鼠标的移动来调用 windowlist ， 虽然不能像 Gnome3 那样看到缩略图，但也算聊胜于无吧！ </p> <p> 代码如下：</p><p># Show WindowList if place mouse at top left corner.<br>EdgeCommand Left PopupWindowList $[pointer.x] $[pointer.y]<br>EdgeCommand Top PopupWindowList $[pointer.x] $[pointer.y]<br><br>DestroyFunc PopupWindowList<br>AddToFunc PopupWindowList<br>+ I PipeRead `[ $[pointer.x]&nbsp; -lt 30 ] &amp;&amp; [ $[pointer.y] -lt 30 ] &amp;&amp; echo "Windowlist (CurrentPage) NoDeskSort, SelectOnRelease, Meta_L,CurrentAtEnd, IconifiedAtEnd"`<br><br><br></p><pre> </pre>   </div> </div> <div id="postamble"> </div></div>
