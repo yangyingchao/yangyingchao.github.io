@@ -366,11 +366,9 @@
     }
 
     div#article_header {
-        margin-bottom: 8px;
         background-color: rgba(255, 255, 255, 0.5);
-	    padding:15px 0 30px 0;
+	    padding:15px 0 15px 0;
 	    margin-top: 10px;
-	    margin-bottom: 10px;
 	    margin-right: 7%;
         color: grey;
     }
