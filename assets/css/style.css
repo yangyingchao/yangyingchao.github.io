@@ -14,23 +14,124 @@
 	    font-size: 12pt;
 	    line-height: 18pt;
 	    color: black;
-	    margin-top: 0;
-
+        padding-top: 40px;
     }
+
     body #content {
-	    padding-top: 0px;
+	    padding-top: 6px;
 	    max-width: 80%;
 	    min-width: 700px;
-	    margin-left: 20px;
-	    background-color: white;
-	    padding: 2em;
-	    /* box-shadow: 3px 3px 5px #888; */
+        background-color: #fff;
+        margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
+        -webkit-border-radius: 0 0 6px 6px;
+        -moz-border-radius: 0 0 6px 6px;
+        border-radius: 0 0 6px 6px;
+	    margin-left: 1px;
+	    padding-top: 2px;
+        -moz-box-shadow: 0 0 10px 10px #b9bcbf;
+        -o-box-shadow: 0 0 10px 10px #b9bcbf;
+        -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
+        border-left: .2em solid #b9bcbf;
+        border-right: .2em solid #b9bcbf;
+        box-shadow: 0 0 10px 10px #b9bcbf;
+        margin: auto;
+        max-width: 74.92em;
+        padding: 0 1.5% 1em 1.5%;
+        margin-left: 190px;
+        margin-top: 6px;
+        text-align: left;
     }
     body .title {
         text-align: center;
 	    font-size: 22pt;
     }
 
+    /*Sidebar*/
+    #sidebar {
+	    float: left;
+	    padding-top: 0;
+	    width: 180px;
+	    font-size: 11px;
+        overflow: hidden;
+        color: #4b4b4b;
+        text-shadow: #fff 0 1px;
+    }
+
+    .container > footer p {
+        text-align: center; /* center align it with the container */
+    }
+
+    .container {
+        /*width: 75em; */ /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+        padding-left: 10em
+    }
+
+    .sidebar li a{
+        color:#999;
+    }
+
+    #sidebar h2 {
+        color: #555555;
+        font-size: 15px;
+        background-color:#eee;
+        margin-top: 1.5em;
+        margin-bottom: 5px
+    }
+    #sidebar ul{ margin: 0; padding: 0; list-style-type: none }
+
+    #sidebar ul li{
+	    border-bottom: 1px dotted #DDDDDD;
+	    margin-bottom: 0.3em;
+	    padding: 0.3em
+    }
+
+    /*Topbar*/
+    .topbar .btn {
+        border: 0;
+    }
+
+    .topbar{
+        /* background: url(/assets/img/header.jpg) repeat; */
+        /* background: #333; */
+        border-color: #470101;
+        color: #FFF;
+        font-family: "FreeSans", sans-"Microsoft YaHei", serif;
+        font-size: 1.3em;
+        font-weight: bold;
+        /* height: 94.78125px; */
+        margin-bottom: 4px;
+        margin: 0 0 0 0;
+        /* padding-bottom: 1.5em; */
+        padding-left: 55px;
+        padding-right: 55px;
+        padding-top: 1.5em;
+        position: absolute;
+        margin-left:auto;
+        margin-right:auto;
+        zoom:1;
+    }
+
+    #footer{
+	    float: right;
+	    clear: both;
+	    padding-right: 70px;
+	    padding-bottom: 5px;
+	    color: #888888;
+	    font-size: 9px;
+	    text-align: center
+    }
+
+    .cmd-box {
+        Submitbackground-color: #333;
+        Submitcolor: white;
+        Submitborder-radius: 4px;
+        Submitpadding: 4px;
+        Submitmargin-bottom: 10px;
+        Submitoverflow: auto;
+    }
+
+
+    /**/
     #org-div-home-and-up{
 	    position: fixed;
 	    right: 0;
@@ -184,7 +285,7 @@
         white-space: normal;/*overcome bootstrap nowrap*/
     }
 
-    img {
+    .figure img {
 	    border: none;
         width: 90%;
     }
@@ -1009,5 +1110,3 @@
 	    overflow: auto;
     }
 } /* END OF @media screen */
-
-
