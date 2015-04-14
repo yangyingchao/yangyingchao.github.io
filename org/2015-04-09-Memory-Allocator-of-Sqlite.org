@@ -2,7 +2,7 @@
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+KEYWORDS: Memory, Allocator, Sqlite
-#+CATEGORY: (nil)
+#+CATEGORY: Database
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate
@@ -474,3 +474,34 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
    #+BEGIN_SRC c -r -n
      mem5.nBlock = (nByte / (mem5.szAtom+sizeof(u8)));
    #+END_SRC
+
+ * =aiFreelist= \\
+   List of free blocks
+   #+BEGIN_SRC dot :file ../assets/img/mem5_aiFreeList.png :cmdline -Kdot -Tpng
+     digraph Name {
+         node [fontsize=12 fontname=Courier style=filled shape=record];
+         edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+         // rankdir=LR;
+
+         //XXX: Place to put subgraphs
+         node_ai_FreeList[label="<f0>0|<f1>1|<f2>2|...|<f3>MAX"];
+
+         node_mem0[label="{mem5.szAtom|mem5.szAtom|mem5.szAtom|...}"];
+         node_mem1[label="{mem5.szAtom*(1\<\<1)|mem5.szAtom*(1\<\<1)|mem5.szAtom*(1\<\<1)|..}"];
+         node_mem2[label="{mem5.szAtom*(1\<\<2)|mem5.szAtom*(1\<\<2)|mem5.szAtom*(1\<\<2)|..}"];
+         node_memn[label="{mem5.szAtom*(1\<\<n)|mem5.szAtom*(1\<\<n)|mem5.szAtom*(1\<\<n)|..}"];
+
+         node_ai_FreeList:f0->node_mem0;
+         node_ai_FreeList:f1->node_mem1;
+         node_ai_FreeList:f2->node_mem2;
+         node_ai_FreeList:f3->node_memn;
+     }
+   #+END_SRC
+
+** memsys5Malloc()
+
+
+ * Round nByte up to the next valid power of two
+ * Make sure mem5.aiFreelist[iLogsize] contains at least one free
+   block.  If not, then split a block of the next larger power of
+   two in order to create a new free block of size iLogsize.

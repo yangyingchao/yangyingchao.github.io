@@ -1,7 +1,7 @@
 ---
 layout : post
 title : Memory Allocator of Sqlite
-categories : 未分类
+categories : Database
 tags : Memory, Allocator, Sqlite
 ---
 <div id="table-of-contents">
@@ -20,6 +20,7 @@ tags : Memory, Allocator, Sqlite
 <li><a href="#sec-5">5. Mem5</a>
 <ul>
 <li><a href="#sec-5-1">5.1. memsys5Init()</a></li>
+<li><a href="#sec-5-2">5.2. memsys5Malloc()</a></li>
 </ul>
 </li>
 </ul>
@@ -521,6 +522,29 @@ mem5 遵循三条规则：
 <pre class="src src-c"><span class="linenr">1: </span>mem5.nBlock = (nByte / (mem5.szAtom+<span style="color: #ff4040;">sizeof</span>(u8)));
 </pre>
 </div>
+</li>
+
+<li><code>aiFreelist</code> <br  />
+   List of free blocks
+
+<div class="figure">
+<p><img src="../../../assets/img/mem5_aiFreeList.png" alt="mem5_aiFreeList.png" />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> memsys5Malloc()</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>Round nByte up to the next valid power of two
+</li>
+<li>Make sure mem5.aiFreelist[iLogsize] contains at least one free
+block.  If not, then split a block of the next larger power of
+two in order to create a new free block of size iLogsize.
 </li>
 </ul>
 </div>
