@@ -41,6 +41,58 @@
         text-align: left;
     }
 
+    blockquote {
+        display:block;
+        background-color: #faebbc;
+        /* padding: 15px 20px 15px 45px; */
+        position: relative;
+        padding-left: 20px;
+        padding-right: 45px;
+        /* background-image: url(../img/openquote1.gif); */
+        /* text-indent: 20px; */
+        background-position: top left;
+        background-repeat: no-repeat;
+        /*Font*/
+        font-family: Georgia, serif;
+        font-size: 16px;
+        line-height: 1.2;
+        color: #666;
+        text-align: justify;
+        border-top: 1px solid #e1cc89;
+        border-bottom: 1px solid #e1cc89;
+        /*Borders - (Optional)*/
+        border-left: 15px solid #c76c0c;
+        border-right: 2px solid #c76c0c;
+
+        /*Box Shadow - (Optional)*/
+        -moz-box-shadow: 2px 2px 15px #ccc;
+        -webkit-box-shadow: 2px 2px 15px #ccc;
+        box-shadow: 2px 2px 15px #ccc;
+    }
+
+    /*   blockquote p { */
+    /* 	display: block; */
+    /* 	background-image: url(../img/closequote1.gif); */
+    /* 	background-repeat: no-repeat; */
+    /* 	background-position: bottom right; */
+  	/* } */
+
+    blockquote a{
+        text-decoration: none;
+        background: #eee;
+        cursor: pointer;
+        padding: 0 3px;
+        color: #c76c0c;
+    }
+
+    blockquote a:hover{
+        color: #666;
+    }
+
+    blockquote em{
+        font-style: italic;
+    }
+
     body .title {
         text-align: center;
 	    font-size: 22pt;
