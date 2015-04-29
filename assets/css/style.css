@@ -579,7 +579,9 @@
     }
 
     code, pre {
-	    font-size: 100%;
+	    font-size: 85%;
+	    background-color: #ffffff;
+	    overflow: auto;
 	    color: black;
 	    padding: 0px 0.2em;
         border-radius: 5px;
@@ -610,16 +612,6 @@
 	    opacity: 1;
 	    -moz-opacity: 1;
 	    filter: alpha(opacity=100);
-    }
-
-    pre {
-	    font-family: Droid Sans Mono, Monaco, Consolas, "Lucida Console", monospace;
-	    color: black;
-	    font-size: 90%;
-	    background-color: #ffffff;
-	    padding: 1.2em;
-	    border: 2px solid #dddddd;
-	    overflow: auto;
     }
 
     .org-info-box {

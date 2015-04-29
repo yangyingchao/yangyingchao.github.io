@@ -23,19 +23,19 @@ tags :   c99 designated initializer
 	<p>
 		The C99 keyword <a href="http://dsc.sun.com/solaris/articles/cc_restrict.html">restrict</a> is a pointer qualifier. It means that for the lifetime of the qualified pointer, only it or a value directly derived from it (such as <tt>p+1</tt>, <tt>*p</tt> etc.<tt>​</tt>) will be used to access the object to which it points. Such a guarantee about a given pointer enables certain caching optimizations and minimizes the effects of pointer aliasing. The following example demonstrates this:</p>
 	<pre>
-            void update(int *p1, int *p2, int *val)
-            {
-            ,*p1 += *val;
-            ,*p2 += *val;
-        }</pre>
+void update(int *p1, int *p2, int *val)
+{
+    *p1 += *val;
+    *p2 += *val;
+}</pre>
 	<p>
 		The three pointer arguments aren&#39;t <tt>restrict</tt>-qualified. Therefore, the compiler has to assume that they might refer to the same memory location. Consequently, it will be forced to generate less optimal code. By contrast, if the programmer applies <tt>restrict </tt>to each of the three pointer arguments, as in:</p>
 	<pre>
-            void update(int * restrict p1, int * restrict p2, int * restrict val) //C99 only
-            {
-            ,*p1 += *val;
-            ,*p2 += *val;
-        }</pre>
+void update(int * restrict p1, int * restrict p2, int * restrict val) //C99 only
+{
+    *p1 += *val;
+    *p2 += *val;
+}</pre>
 	<p>
 		&nbsp;</p>
 	<p>
@@ -49,35 +49,35 @@ tags :   c99 designated initializer
 	<p>
 		One of the most convenient core-language features of C99 is called <em>designated initializers</em>. They let you initialize aggregates (structs, unions and arrays) partially, specifying only the members/elements that you want initialized, while skipping the rest (these are default initialized). Consider:</p>
 	<pre>
-            struct S //C99 only
-            {
-            int a;
-            int b;
-            int c;
-        } q = { .a = 99, .c = 100 };</pre>
+struct S //C99 only
+{
+    int a;
+    int b;
+    int c;
+} q = { .a = 99, .c = 100 };</pre>
 	<p>
 		&nbsp;</p>
 	<p>
 		The braces include designated initializers for the data member <tt>a</tt> and <tt>c</tt>. Since <tt>b</tt> has no explicit initializer, it&#39;s zero-initialized implicitly. Notice that unlike <a href="http://www.informit.com/guides/content.aspx?g=cplusplus&amp;seqNum=427">class member initializers</a> in C++, designated initializers let you specify ad-hoc initializers for a given object. A different instance of the same struct might use different initializers:</p>
 	<pre>
-        struct S r={.a=5}; //C99, b and c are zero initialized</pre>
+struct S r={.a=5}; //C99, b and c are zero initialized</pre>
 	<p>
 		&nbsp;</p>
 	<p>
 		Similarly, you can use the same technique to initialize a union:</p>
 	<pre>
-            union U//C99 only
-            {
-            int a;
-            double d;
-            char * c;
-        } t = { .c =NULL};</pre>
+union U//C99 only
+{
+    int a;
+    double d;
+    char * c;
+} t = { .c =NULL};</pre>
 	<p>
 		&nbsp;</p>
 	<p>
 		You initialize arrays like this:</p>
 	<pre>
-        int arr[4] = { [2] = 3, [1] = 9 };//C99 only</pre>
+int arr[4] = { [2] = 3, [1] = 9 };//C99 only</pre>
 	<p>
 		&nbsp;</p>
 	<p>
