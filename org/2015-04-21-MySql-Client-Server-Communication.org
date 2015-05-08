@@ -1,0 +1,44 @@
+#+TITLE: MySql Client Server Communication
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: mysql, database
+#+CATEGORY: database
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+
+* Flow
+
+* Packet Format
+
+#+BEGIN_SRC dot :file ../assets/img/my_pf.png :cmdline -Kdot -Tpng
+  digraph Name {
+      node [fontsize=12 fontname=Courier style=filled shape=record];
+      edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+      rankdir=LR;
+
+      //XXX: Place to put subgraphs
+      node_c[label="Compressed\lNon-Compressed"];
+      node_c -> "Commands";
+      node_r[label="Responses"];
+      node_c -> node_r;
+
+      node_d[label="data"];
+      node_eod[label="End of Data Stream (EOD)"];
+      node_ok[label="Success Report(OK)"];
+      node_er[label="Error Message"];
+
+      node_r -> node_d;
+      node_r -> node_eod;
+      node_r -> node_ok;
+      node_r -> node_er;
+  }
+#+END_SRC
+
+#+CAPTION: Package Format
+#+RESULTS:

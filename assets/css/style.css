@@ -1554,6 +1554,13 @@
         background-color: #ffff00;
     }
 
+    .ag-quote {
+        color: #999;
+        cursor: row-resize;
+        margin-bottom: -1em;
+        overflow: hidden;
+    }
+
     div.org-src-container {
         font-size: 85%;
         font-family: monospace;

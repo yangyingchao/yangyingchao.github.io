@@ -1,0 +1,52 @@
+---
+layout : post
+title : Valgrind On Gentoo: Perpackage splitdebug
+categories : utility
+tags : gentoo  valgrind
+---
+<p>
+<a href="https://archives.gentoo.org/gentoo-user/message/f456c607cb337b10fd0a8afec7bc4712">https://archives.gentoo.org/gentoo-user/message/f456c607cb337b10fd0a8afec7bc4712</a>
+</p>
+
+<pre class="ag-message-content">On 08/23/2011 09:17 AM, Leonardo Guilherme wrote:
+<div class="ag-quote">&gt; Hi.
+&gt;
+&gt; I've turned on splitdebug feature (and -ggdb in CFLAGS) so debug
+&gt; information are saved and I can debug anything that crashes. I went to
+&gt; /usr/lib/debug, just out of curiosity, to see how much space was taken
+&gt; and I found that it was almost 2GB, which chromium + firefox adds up
+&gt; 1.5GB and python gets another 0.3. I would like to disable splitdebug
+&gt; for these specific packages now and in the future, so removing
+&gt; splitdebug from features, re-emerging them and then activating
+&gt; splitdebug again won't quite cut.
+&gt;
+&gt; I wonder if there's a way to active features to some specific
+&gt; packages, just like USE flags.</div>
+
+There is.  And it's a very powerful one even.  First, remove -ggdb (I
+use just -g though; if you don't need the extra info -ggdb gives, plain
+-g will save you some space and time) from your CFLAGS and splitdebug
+from your FEATURES in make.conf.  Then, create a file:
+
+   /etc/portage/env/splitdebug.conf
+
+with the following contents:
+
+   CFLAGS="${CFLAGS} -ggdb"
+   CXXFLAGS="${CXXFLAGS} -ggdb"
+   FEATURES="${FEATURES} splitdebug"
+
+Now, in /etc/portage/package.env, you can "execute" splitdebug.conf for
+the packages you want.  My package.env for example looks like:
+
+   sys-libs/glibc splitdebug.conf
+   media-libs/mesa splitdebug.conf
+   kde-base/kdelibs splitdebug.conf
+   kde-base/kwin splitdebug.conf
+
+The result is that, for example, when glibc is emerged, splitdebug.conf
+is executed which adds -ggdb to CFLAGS and CXXFLAGS (do not forget
+CXXFLAGS!) and splitdebug to FEATURES.
+
+As you can guess, you can create arbitrary .conf files like this; it
+isn't in any way specific to splitdebug.</pre>
