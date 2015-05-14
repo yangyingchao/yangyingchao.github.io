@@ -1,8 +1,8 @@
 #+TITLE: Compile Emacs-24 In OS X 10.9
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: (nil)
-#+CATEGORY: (nil)
+#+KEYWORDS: emacs, osx
+#+CATEGORY: emacs
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate
