@@ -1,0 +1,126 @@
+#+TITLE: Global CTags and Emacs
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: global,ctags,emacs
+#+CATEGORY: Emacs
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+工作交接得差不多了，这几天比较闲，又折腾了几天的 Emacs 和 [[http://www.gnu.org/software/global/global.html][Gnu Global]] ，解决了几个以前
+一直存在、但没时间折腾的问题，这里简单做个记录。
+
+
+* Global
+** Gnu Global & C++
+
+之前在工作中发现 global 貌似不能正确的解析 C++ 的命名空间 (namespace) 。比如：
+
+#+BEGIN_SRC c++ -r -n
+  namespace Test
+  {
+  class TestObject
+  {
+  public:
+      TestObject()
+          : m_value(0) {}
+      virtual ~TestObject() {}
+      void Show() {}
+  private:
+      int m_value;
+  };
+  }
+
+#+END_SRC
+
+很简单的一个定义，但一旦将类的定义/实现放在了 =namespace= 里面，gtags 就解析不到这个符
+号。一直觉得这应该是个配置上的问题，后来终于发现，默认情况下，对 CPP & H 文件，gtags
+用的 Parser 居然是 C parser：
+
+#+BEGIN_QUOTE
+ [2442] extracting tags of test.cpp
+ File './test.cpp' is handled as follows:
+	suffix:   |.cpp|
+	language: |cpp|
+	parser:   |C|
+	library:  |built-in|
+#+END_QUOTE
+
+折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：[[*Global%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6][Global 配置文件]]。
+
+** Global, Ctags & pygments
+global 本身支持多种语言的 TAG 的交叉查找，包括 c/c++, java, elisp, php 等等，此外还可
+以通过插件来支持其他的语言。
+
+*** ctags
+
+Global 可以通过 ctags 来解析其他的语言，安装方法参考：[[https://github.com/leoliu/ggtags]]
+
+#+BEGIN_QUOTE
+Compile and install Global with exuberant-ctags
+
+./configure --prefix=<PREFIX> --with-exuberant-ctags=/usr/local/bin/ctags
+make && make install
+The executable ctags is unfortunately named because emacs also includes a command of the same name. So make sure it is from http://ctags.sourceforge.net. See plugin-factory/README in GNU Global source for further information.
+#+END_QUOTE
+
+*** Pygments
+
+新版 (6.4) 的 Global 内置了 pygments，用于检索和高亮 python 文件，
+[[https://github.com/leoliu/ggtags]] 上给出了 pygments 的手动安装方法：
+
+#+BEGIN_QUOTE
+The pygments plugin has been included in global since version 6.3.2. pip install pygments is the only step required. Note the plugin is not activated by the default gtags.conf or .globalrc. See global/plugin-factory/PLUGIN_HOWTO.pygments for details.
+
+The following instructions are for older global.
+
+pip install pygments
+git clone https://github.com/yoshizow/global-pygments-plugin.git
+cd global-pygments-plugin/
+sh reconf.sh
+./configure --prefix=<PREFIX> --with-exuberant-ctags=/usr/local/bin/ctags
+make && make install
+cp sample.globalrc $HOME/.globalrc
+Make sure the value of <PREFIX> agree with step 1.
+#+END_QUOTE
+
+*** My gentoo overlay
+
+[[https://github.com/yangyingchao/gentoo-overlay-tubo/blob/master/dev-util/global/global-6.4.ebuild][这里]] 有一个 global 的 ebuild，已经添加了 ctags 和 pygments 的支持，Gentoo 和 Prefix 的
+用可以拿它来安装 global.
+
+** Global 配置文件
+
+前面提到的 C++ 解析和 Ctags, pygments 都需要相应的配置文件。可惜的是，global 的配置文
+件文档不全，磕磕绊绊折腾了比较长的时间才弄好一份:
+[[https://github.com/yangyingchao/tubo-env/blob/master/.globalrc_rc]]
+
+* Global & Emacs
+关于 global 和 Emacs 的整合，网络上已经有很多的教程和插件了，比如：
+
+ - https://github.com/leoliu/ggtags
+ - https://github.com/syohex/emacs-helm-gtags
+ - http://emacswiki.org/emacs/GnuGlobal
+
+自从从 [[https://github.com/dkogan/xcscope.el][cscope ]] 转到 global 之后， 我之前一直在用 [[http://www.emacswiki.org/emacs/xgtags.el][xgtags]] ，用的很习惯。但前几天开始接触
+[[https://github.com/emacs-helm/helm][helm]] 之后，逐渐的习惯和喜欢上了 Helm 的这个交互式的操作，所以尝试了一段时间 [[https://github.com/syohex/emacs-helm-gtags][helm-gtags]]，
+但习惯了 xgtags 的操作和界面，用 helm-gtags 总是感觉不习惯，而且 helm-gtags 里面加了很
+多个人感觉莫名其妙或者没什么大用的东西。所以花了几天时间把原来的 xgtags 做了修改。
+
+修改后的 xgtags 和原来相比：
+
+- 增加了通过 helm 来实现 Tag/file 的过滤
+- =xgtags-select-mode= 下可以触发 =helm-xgtags--activate= 。
+- =xgtags-parse-file= 下高亮并 preselect 当前函数。
+
+修改后的 xgtags 与 helm-ggtags 相比：
+
+- 有更好的高亮显示
+- 可以通过 =xgtags-select-next-tag= / =xgtags-select-prev-tag= 直接选择之前或之后的tag
+- =xgtags-parse-file= 下高亮并 preselect 当前函数。
+
+感兴趣的 Emacser 可以从 [[https://github.com/yangyingchao/tubo-env/blob/master/.emacs.d/site-lisp/prog/xgtags.el][这里]] 找到源码。
