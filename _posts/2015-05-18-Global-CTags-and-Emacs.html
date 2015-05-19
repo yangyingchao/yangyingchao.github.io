@@ -96,7 +96,13 @@ Compile and install Global with exuberant-ctags
 
 <p>
 ./configure &#x2013;prefix=&lt;PREFIX&gt; &#x2013;with-exuberant-ctags=/usr/local/bin/ctags
+</p>
+
+<p>
 make &amp;&amp; make install
+</p>
+
+<p>
 The executable ctags is unfortunately named because emacs also includes a command of the same name. So make sure it is from <a href="http://ctags.sourceforge.net">http://ctags.sourceforge.net</a>. See plugin-factory/README in GNU Global source for further information.
 </p>
 </blockquote>
@@ -122,12 +128,33 @@ The following instructions are for older global.
 
 <p>
 pip install pygments
+</p>
+
+<p>
 git clone <a href="https://github.com/yoshizow/global-pygments-plugin.git">https://github.com/yoshizow/global-pygments-plugin.git</a>
+</p>
+
+<p>
 cd global-pygments-plugin/
+</p>
+
+<p>
 sh reconf.sh
+</p>
+
+<p>
 ./configure &#x2013;prefix=&lt;PREFIX&gt; &#x2013;with-exuberant-ctags=/usr/local/bin/ctags
+</p>
+
+<p>
 make &amp;&amp; make install
+</p>
+
+<p>
 cp sample.globalrc $HOME/.globalrc
+</p>
+
+<p>
 Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </p>
 </blockquote>
