@@ -41,14 +41,15 @@
 号。一直觉得这应该是个配置上的问题，后来终于发现，默认情况下，对 CPP & H 文件，gtags
 用的 Parser 居然是 C parser：
 
-#+BEGIN_QUOTE
- [2442] extracting tags of test.cpp
+#+BEGIN_SRC text
+ extracting tags of test.cpp
  File './test.cpp' is handled as follows:
 	suffix:   |.cpp|
 	language: |cpp|
 	parser:   |C|
 	library:  |built-in|
-#+END_QUOTE
+#+END_SRC
+
 
 折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：[[*Global%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6][Global 配置文件]]。
 

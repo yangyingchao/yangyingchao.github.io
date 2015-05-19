@@ -57,16 +57,17 @@ tags : global ctags emacs
 用的 Parser 居然是 C parser：
 </p>
 
-<blockquote>
-<p>
-<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> extracting tags of test.cpp
+<div class="org-src-container">
+
+<pre class="src src-text">extracting tags of test.cpp
 File './test.cpp' is handled as follows:
    suffix:   |.cpp|
    language: |cpp|
    parser:   |C|
    library:  |built-in|
-</p>
-</blockquote>
+</pre>
+</div>
+
 
 <p>
 折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：<i>Global 配置文件</i>。
@@ -231,14 +232,5 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 
 <p>
 感兴趣的 Emacser 可以从 <a href="https://github.com/yangyingchao/tubo-env/blob/master/.emacs.d/site-lisp/prog/xgtags.el">这里</a> 找到源码。</p>
-</div>
-</div>
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p>DEFINITION NOT FOUND.</p></div>
-
-
 </div>
 </div>
