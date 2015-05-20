@@ -1,0 +1,40 @@
+#+TITLE: emacs lisp tip: Function Variable and Symbol
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+Some tips related to =function= , =variable=, =symbol= and =symbol name=.
+
+ - How to check whether a function is defined? =*fboundp*=
+   #+BEGIN_SRC emacs-lisp -r -n
+     (fboundp 'function-name)
+   #+END_SRC
+
+ - How to check whether a variable is defined? =*boundp=
+   #+BEGIN_SRC emacs-lisp -r -n
+     (boundp 'var-name)
+
+   #+END_SRC
+
+ - How to Stringify a symbol, for example: 'aa --> "aa" ? =*symbol-name*=
+
+   #+BEGIN_SRC emacs-lisp -r -n
+     (symbol-name 'aa)
+   #+END_SRC
+
+ - How to make a named variable ? =*intern*=
+   #+BEGIN_SRC emacs-lisp -r -n
+     (intern "aa")
+   #+END_SRC
+ - How to check whether a feature is loaded? =*featurep*=
+   #+BEGIN_SRC emacs-lisp -r -n
+     (featurep 'magit)
+   #+END_SRC

@@ -1,0 +1,50 @@
+---
+layout : post
+title : emacs lisp tip: Function Variable and Symbol
+categories : 未分类
+---
+<p>
+Some tips related to <code>function</code> , <code>variable</code>, <code>symbol</code> and <code>symbol name</code>.
+</p>
+
+<ul class="org-ul">
+<li>How to check whether a function is defined? <code>*fboundp*</code>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span>(<span style="color: #ff4040;">fboundp</span> 'function-name)
+</pre>
+</div>
+</li>
+
+<li>How to check whether a variable is defined? <code>*boundp</code>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span>(<span style="color: #ff4040;">boundp</span> 'var-name)
+</pre>
+</div>
+</li>
+
+<li>How to Stringify a symbol, for example: 'aa &#x2013;&gt; "aa" ? <code>*symbol-name*</code>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span>(symbol-name 'aa)
+</pre>
+</div>
+</li>
+
+<li>How to make a named variable ? <code>*intern*</code>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span>(intern <span style="color: #d78700;">"aa"</span>)
+</pre>
+</div>
+</li>
+<li>How to check whether a feature is loaded? <code>*featurep*</code>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span>(<span style="color: #ff4040;">featurep</span> '<span style="color: #7fffd4; font-weight: bold;">magit</span>)
+</pre>
+</div>
+</li>
+</ul>
