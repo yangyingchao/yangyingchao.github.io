@@ -1,4 +1,4 @@
-#+TITLE: emacs lisp tip: Function Variable and Symbol
+#+TITLE: Emacs Lisp Tip, Function Variable and Symbol
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+KEYWORDS: emacs, lisp
@@ -12,29 +12,30 @@
 #+EXCLUDE_TAGS: noexport
 
 
-* How to check whether a function is defined? =*fboundp*=
+- How to check whether a function is defined? =*fboundp*=
 
 #+BEGIN_SRC emacs-lisp -r
      (fboundp 'functioname)
 #+END_SRC
 
-* How to check whether a variable is defined? =*boundp=
+- How to check whether a variable is defined? =*boundp=
 #+BEGIN_SRC emacs-lisp -r
      (boundp 'varame)
 
 #+END_SRC
 
-* How to Stringify a symbol, for example: 'aa --> "aa" ? =*symbolame*=
+- How to Stringify a symbol, for example: 'aa --> "aa" ? =*symbolame*=
 
 #+BEGIN_SRC emacs-lisp -r
      (symbolame 'aa)
 #+END_SRC
 
-* How to make a named variable ? =*intern*=
+- How to make a named variable ? =*intern*=
 #+BEGIN_SRC emacs-lisp -r
      (intern "aa")
 #+END_SRC
-* How to check whether a feature is loaded? =*featurep*=
+
+- How to check whether a feature is loaded? =*featurep*=
 #+BEGIN_SRC emacs-lisp -r
      (featurep 'magit)
 #+END_SRC
