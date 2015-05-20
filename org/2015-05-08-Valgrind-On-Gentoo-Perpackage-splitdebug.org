@@ -1,4 +1,4 @@
-#+TITLE: Valgrind On Gentoo: Perpackage splitdebug
+#+TITLE: Valgrind On Gentoo- Perpackage splitdebug
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+KEYWORDS: gentoo, valgrind
