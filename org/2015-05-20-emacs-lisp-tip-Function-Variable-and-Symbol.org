@@ -1,4 +1,4 @@
-#+TITLE: Emacs Lisp Tip, Function Variable and Symbol
+#+TITLE: Emacs Lisp Tip: Function Variable and Symbol
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+KEYWORDS: emacs, lisp
