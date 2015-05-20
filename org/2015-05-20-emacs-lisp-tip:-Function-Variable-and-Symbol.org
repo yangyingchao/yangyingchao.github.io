@@ -11,6 +11,8 @@
 #+LANGUAGE:   en
 #+EXCLUDE_TAGS: noexport
 
+*
+
 Some tips related to =function= , =variable=, =symbol= and =symbol name=.
 
  - How to check whether a function is defined? =*fboundp*=
