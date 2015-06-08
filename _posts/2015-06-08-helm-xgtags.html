@@ -1,0 +1,104 @@
+---
+layout : post
+title : helm&#32;xgtags
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Why helm-xgtags?</a></li>
+<li><a href="#sec-2">2. Installation</a></li>
+<li><a href="#sec-3">3. Customization</a></li>
+</ul>
+</div>
+</div>
+<p>
+helm-xgtags is helm interface for <a href="http://www.emacswiki.org/emacs/xgtags.el">xgtags</a>.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Why <a href="https://github.com/yangyingchao/helm-xgtags">helm-xgtags</a>?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="http://www.emacswiki.org/emacs/xgtags.el">xgtags</a> is great, but when there are multiple candidates of definitions or references,
+we have to use <code>C-s</code> to locate/find specified file in <code>xgtags-select-mode</code>.
+</p>
+
+<p>
+<a href="https://github.com/syohex/emacs-helm-gtags">helm-gtags</a>, on the other hand, provided better interaction, but I don't like its
+colors/faces, and some functionality are missing, for example, jump to next/previous
+tag.
+</p>
+
+<p>
+So I modified xgtags a little and make it integrated with <a href="https://github.com/emacs-helm/helm">helm</a>.
+</p>
+
+<p>
+Compared with <code>xgtags</code>, it can:
+</p>
+
+<ul class="org-ul">
+<li>Select/Filter tags/files with help of helm.
+</li>
+<li>Press any key in <code>helm-xgtags-select-mode</code> to activate helm.
+</li>
+<li><code>helm-xgtags-parse-file</code> can preselect tag/function of current line.
+</li>
+<li>Update database when file is saved
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Installation</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+To use helm-xgtags copy this file to some place where emacs can find it,
+if necessary add the path you chose to the load-path variable. In
+your .emacs add the line
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">require</span> '<span style="color: #7fffd4; font-weight: bold;">helm-xgtags</span>)
+</pre>
+</div>
+
+
+<p>
+In any buffer you can now toggle helm-xgtags-mode by calling the
+interactive command with same name. Since this is a bit annoying,
+you might choose to turn it on for some specific modes. For c-mode
+you can add something like the following snippet to your .emacs
+file. Other modes provide similar hooks.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">add-hook</span> 'c-mode-common-hook
+          (<span style="color: #ff4040;">lambda</span> ()
+       (helm-xgtags-mode 1)))
+</pre>
+</div>
+
+
+<p>
+After that you can use the predefined keybindings to query your
+GLOBAL database. Call 'describe-function RE'S helm-xgtags-mode' to get an
+overview of those bindings.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Customization</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+It is recommended to use <code>Easy Csutomization</code> to customize <code>helm-xgtags</code>.
+Simple execute <code>customize</code>, and search for <code>helm-xgtags</code>.
+</p>
+</div>
+</div>

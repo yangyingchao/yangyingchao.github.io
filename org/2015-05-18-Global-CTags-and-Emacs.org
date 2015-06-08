@@ -133,4 +133,4 @@ Make sure the value of <PREFIX> agree with step 1.
 - 可以通过 =xgtags-select-next-tag= / =xgtags-select-prev-tag= 直接选择之前或之后的tag
 - =xgtags-parse-file= 下高亮并 preselect 当前函数。
 
-感兴趣的 Emacser 可以从 [[https://github.com/yangyingchao/tubo-env/blob/master/.emacs.d/site-lisp/prog/xgtags.el][这里]] 找到源码。
+感兴趣的 Emacser 可以从 [[https://github.com/yangyingchao/helm-xgtags][这里]] 找到源码。
