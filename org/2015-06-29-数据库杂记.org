@@ -1,0 +1,58 @@
+#+TITLE: 数据库杂记
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+记录一些概念性的东西。
+
+* [[http://www.databasejournal.com/features/mysql/article.php/3914401/Use-Derived-Tables-in-Your-MySQL-Queries-to-Improve-Database-Performance.htm][Subquery and Dreived-Tables]]
+
+** Subquery
+A subquery is defined as any query that appears within another SQL command.
+These can be further broken down into two kinds of subqueries:
+
+- *stand-alone sub-queries:*\\
+  The ones that can run independent of the command that contains it
+
+- *correlated sub-queries:*\\
+  which relate to fields from the containing command.
+
+The most common use for subqueries is *filtering data* in the =WHERE= clause of a SQL
+command or in the column list.
+
+Here’s a subquery that retrieves a list of all customers who placed orders in the
+specified year. The main query uses that list to find the reverse - those who didn't
+order in that year:
+
+#+BEGIN_SRC sql -r -n
+  SELECT CompanyName
+  FROM   Customers
+  WHERE  CustomerID NOT IN (SELECT CustomerID
+                            FROM   Orders
+                            WHERE  YEAR(OrderDate) = 2003);
+
+
+#+END_SRC
+
+** Derived-Tables
+
+Compare the previous query to the following one:
+
+#+BEGIN_SRC sql -r -n
+  SELECT u.last_name,
+         a.state
+  FROM   User AS u,
+         (SELECT user_id, state FROM Address) AS a
+  WHERE  u.id = a.user_id;
+
+#+END_SRC
+
+The above query selects directly from the derived table created by the subquery.
