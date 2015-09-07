@@ -1,0 +1,64 @@
+#+TITLE: install p4merge with git
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: git
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+Reposted from: [[http://blogs.pdmlab.com/alexander.zeitler/articles/installing-and-configuring-p4merge-for-git-on-ubuntu/]]
+
+#+BEGIN_HTML
+
+
+  <div class="page color-4">
+    <div class="inner-page row-fluid">
+      <div class="span12">
+        <h1>Installing and configuring P4Merge for Git on Ubuntu</h1>
+        <p class="author">Geschrieben von <span class="author"><a href="mailto:alexander.zeitler@pdmlab.com">Alexander Zeitler</a></span><span> am&nbsp;</span><span>03. August 2014</span>
+        </p>
+        <p class="autor"><span>Tags:&nbsp;</span><a href="/alexander.zeitler/tag/english/1/" class="big-tag">english</a>,&nbsp;<a href="/alexander.zeitler/tag/p4merge/1/" class="big-tag">p4merge</a>,&nbsp;<a href="/alexander.zeitler/tag/git/1/" class="big-tag">git</a>,&nbsp;<a href="/alexander.zeitler/tag/ubuntu/1/" class="big-tag">ubuntu</a>
+        </p>
+        <article class="article">
+          <section class="content"><p>I’m using <a href="http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools">P4Merge</a> as Git merge and diff tool on all platforms.<br>This post describes how to install it on&nbsp;Ubuntu.</p>
+            <p><span class="more"></span></p>
+            <p>In order to set up P4Merge on Ubuntu, copy the extracted P4Merge download to <code>/opt/p4merge</code>:</p>
+            <pre><code class="lang-bash">[~/Downloads/p4merge/p4v-<span class="number">2014.1</span>.<span class="number">888424</span>]$ <span class="built_in">sudo</span> mv * /opt/p4merge
+            </code></pre>
+            <p>Then symlink&nbsp;p4merge:</p>
+            <pre><code class="lang-bash"><span class="built_in">sudo</span> ln <span class="operator">-s</span> /opt/p4merge/bin/p4merge /usr/local/bin/p4merge
+            </code></pre>
+            <p>After that, add this to your <code>~/.gitconfig</code>:</p>
+            <pre><code class="lang-bash">[merge]
+                keepBackup = <span class="literal">false</span>;
+                tool = p4merge
+                [mergetool]
+                prompt = <span class="literal">false</span>
+                [mergetool <span class="string">"p4merge"</span>]
+                cmd = p4merge <span class="string">"<span class="variable">$<span class="caps">BASE</span></span>"</span> <span class="string">"<span class="variable">$<span class="caps">LOCAL</span></span>"</span> <span class="string">"<span class="variable">$<span class="caps">REMOTE</span></span>"</span> <span class="string">"<span class="variable">$<span class="caps">MERGED</span></span>"</span>
+                keepTemporaries = <span class="literal">false</span>
+                trustExitCode = <span class="literal">false</span>
+                keepBackup = <span class="literal">false</span>
+                [diff]
+                tool = p4merge
+                [difftool]
+                prompt = <span class="literal">false</span>
+                [difftool <span class="string">"p4merge"</span>]
+                cmd = p4merge <span class="string">"<span class="variable">$<span class="caps">LOCAL</span></span>"</span> <span class="string">"<span class="variable">$<span class="caps">REMOTE</span></span>"</span>
+                keepTemporaries = <span class="literal">false</span>
+                trustExitCode = <span class="literal">false</span>
+                keepBackup = <span class="literal">false</span>
+            </code></pre>
+            <p>Your next call of <code>git difftool</code> should look like this:
+              <img src="../../../assets/img/p4merge.png" alt="P4Merge diff"></p>
+          </section>
+        </article>
+    </div>
+  </div>
+  </div>
+#+END_HTML
