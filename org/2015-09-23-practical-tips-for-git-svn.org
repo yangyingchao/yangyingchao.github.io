@@ -11,6 +11,7 @@
 #+LANGUAGE:   en
 #+EXCLUDE_TAGS: noexport
 
+http://www.janosgyerik.com/practical-tips-for-using-git-with-large-subversion-repositories/
 #+BEGIN_HTML
           <div class="row">
             <div class="content col-lg-12">
