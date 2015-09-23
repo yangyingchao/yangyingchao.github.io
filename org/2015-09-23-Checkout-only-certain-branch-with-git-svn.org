@@ -1,0 +1,44 @@
+If you want to clone an svn repository with git-svn but don't want it to push all the existing branches, here's what you should do.
+
+ * Clone with git-svn using the -T parameter to define your trunk path inside the svnrepo, at the same time instructing it to clone only the trunk:
+
+  git svn clone -T trunk http://example.com/PROJECT
+
+ * If instead of cloning trunk you just want to clone a certain branch, do the same thing but change the path given to -T:
+
+  git svn clone -T branches/somefeature http://example.com/PROJECT
+
+This way, git svn will think that branch is the trunk and generate the following config on your .git/config file:
+
+
+[svn-remote "svn"]
+	url = https://example.com/
+	fetch = PROJECT/branches/somefeature:refs/remotes/trunk
+
+ * If at any point after this you want to checkout additional branches, you first need to add it on your configuration file:
+
+
+[svn-remote "svn"]
+	url = https://example.com/
+	fetch = PROJECT/branches/somefeature:refs/remotes/trunk
+        branches = PROJECT/branches/{anotherfeature}:refs/remotes/*
+
+The branches config always needs a glob. In this case, we're just specifying just one branch but we could specify more, comma separating them, or all with a *.
+
+ * After this, issue the following command:
+
+  git svn fetch
+
+Sit back. It's gonna take a while, and on large repos it might even fail. Sometimes just hitting CTRL+C and starting over solves it. Some dark magic here.
+
+ * After this, if you issue a git branch -r you can see your remote branch definitions:
+
+  git branch -r
+
+  anotherfeature
+
+ * Now you can add a local branch which tracks the remote svn branch:
+
+  git branch --track myanotherfeature remotes/anotherfeature
+
+Try not to use the same branch name for the local one if you don't wanna mess it up easily.
