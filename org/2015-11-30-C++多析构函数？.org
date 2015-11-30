@@ -1,0 +1,121 @@
+#+TITLE: C++多析构函数？
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+
+一个宕机的堆栈里面发现个有意思的事情：类 A 的析构函数在调用它自己:
+
+#+BEGIN_SRC text
+...
+A::~A()
+A::~A()
+...
+#+END_SRC
+
+觉得很奇怪，后来自己试了一个简单的例子，发现只要 析构函数为 virtual 就会生成多个析构函
+数。duckduckgo 了一下，找到了原因，参考：
+[[http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq%3D1][http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1]]
+和
+http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors
+
+摘录一下：
+
+*** G++ 生成的 ABI 遵循 http://mentorembedded.github.io/cxx-abi/abi.html
+
+       #+BEGIN_HTML
+       <div class="post-text" itemprop="text">
+    <p>We'll start by declaring that <a href="http://gcc.gnu.org/onlinedocs/gcc/Compatibility.html">GCC follows</a> <a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html">the Itanium C++ ABI</a>.</p>
+
+    <hr>
+
+    <p>According to the ABI, the mangled name for your <code>Thing::foo()</code> is easily parsed:</p>
+
+    <pre class="default prettyprint prettyprinted"><code><span class="pln">_Z     </span><span class="pun">|</span><span class="pln"> N      </span><span class="pun">|</span><span class="pln"> </span><span class="lit">5Thing</span><span class="pln">  </span><span class="pun">|</span><span class="pln"> </span><span class="lit">3foo</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> E          </span><span class="pun">|</span><span class="pln"> v
+    prefix </span><span class="pun">|</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> </span><span class="str">`Thing`</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="str">`foo`</span><span class="pun">|</span><span class="pln"> </span><span class="kwd">end</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> parameters</span><span class="pun">:</span><span class="pln"> </span><span class="str">`void`</span></code></pre>
+
+    <p>You can read the constructor names similarly, as below. Notice how the constructor "name" isn't given, but instead a <code>C</code> clause:</p>
+
+    <pre class="default prettyprint prettyprinted"><code><span class="pln">_Z     </span><span class="pun">|</span><span class="pln"> N      </span><span class="pun">|</span><span class="pln"> </span><span class="lit">5Thing</span><span class="pln">  </span><span class="pun">|</span><span class="pln"> C1          </span><span class="pun">|</span><span class="pln"> E          </span><span class="pun">|</span><span class="pln"> i
+    prefix </span><span class="pun">|</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> </span><span class="str">`Thing`</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="typ">Constructor</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="kwd">end</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> parameters</span><span class="pun">:</span><span class="pln"> </span><span class="str">`int`</span></code></pre>
+
+    <hr>
+
+    <p>But what's this <code>C1</code>? Your duplicate has <code>C2</code>. What does this <em>mean</em>?</p>
+
+    <p>Well, <a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html#mangling">this is quite simple too</a>:</p>
+
+    <pre class="default prettyprint prettyprinted"><code><span class="pln">  </span><span class="tag">&lt;ctor-dtor-name&gt;</span><span class="pln"> ::= C1   # complete object constructor
+                       ::= C2   # base object constructor
+                       ::= C3   # complete object allocating constructor
+                       ::= D0   # deleting destructor
+                       ::= D1   # complete object destructor
+                       ::= D2   # base object destructor</span></code></pre>
+
+    <hr>
+        </div>
+       #+END_HTML
+
+*** G++ 生成多个析构函数，其意义如下
+
+    （参考：
+        http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors/6614369#6614369)
+
+       #+BEGIN_HTML
+          <ul>
+    <li>D2 is the "base object destructor". It destroys the object itself, as well as data members and non-virtual base classes.</li>
+    <li>D1 is the "complete object destructor". It additionally destroys virtual base classes.</li>
+    <li>D0 is the "deleting object destructor". It does everything the complete object destructor does, plus it calls <code>operator delete</code> to actually free the memory.</li>
+    </ul>
+
+       #+END_HTML
+
+
+*** D0~D3 的调用顺序
+
+  1) 示例 1:
+
+          #+BEGIN_SRC c++ -r -n
+            class A
+            {
+            public:
+                A(){}
+                virtual ~A(){}
+            };
+
+            A* a = new A;
+            delete a;
+          #+END_SRC
+            顺序： =DA0 -> DA1 -> DA0=
+
+
+  2) 示例 2:
+
+         #+BEGIN_SRC c++ -r -n
+           class A
+           {
+           public:
+               A(){}
+               virtual ~A(){}
+           };
+
+           class B: public A
+           {
+           public:
+               B(){}
+               virtual ~B(){}
+           };
+
+           A* a = new B;
+           delete a;
+         #+END_SRC
+
+             顺序： =DB0 -> DB1 -> DA1 -> DB1 -> Db0=
