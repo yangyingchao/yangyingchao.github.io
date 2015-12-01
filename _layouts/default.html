@@ -1,91 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <meta name="generator" content="Org-mode" />
-        <meta name="author" content="Yang, Ying-chao" />
-        <meta name="baidu-site-verification" content="SzhNnSrJlB" />
-        {% if page.description %}
-        <meta name="description" content="{{ page.description }}">
-            {% endif %}
-            <meta name="author" content="{{ site.author.name }}">
-                <title>
-                    {% if page.title %}
-                    {{ page.title }}
-                    {% else %}
-                    {{ site.title }}
-                    {% endif %}
-                </title>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="generator" content="Org-mode" />
+    <meta name="author" content="Yang, Ying-chao" />
+    <meta name="baidu-site-verification" content="SzhNnSrJlB" />
+    {% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+    {% endif %}
+    <meta name="author" content="{{ site.author.name }}">
+    <title>
+      {% if page.title %}
+      {{ page.title }}
+      {% else %}
+      {{ site.title }}
+      {% endif %}
+    </title>
 
-                <link href="/assets/css/style.css" rel="stylesheet" type="text/css"/>
-                <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
-                <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
-                <script type="text/javascript" src="/assets/js/org-exported.js"></script>
-                <script type="text/javascript" src="/assets/js/mathjax/MathJax.js"></script>
-                <script type="text/javascript"
-                        src="/assets/js/jax-config.js"></script>
-            </meta>
-        </meta>
-    </head>
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <script type="text/javascript" src="/assets/js/org-exported.js"></script>
+    <script type="text/javascript" src="/assets/js/mathjax/MathJax.js"></script>
+    <script type="text/javascript" src="/assets/js/jax-config.js"></script>
+  </head>
 
-    <body>
-        <div class="mainWrapp">
-            <div class="topWrapp">
-                <div class="headerWrapp">
-                </div>
-                <div class="navbarWrapp">
-                    <ul class="nav">
-	                    {% for link in site.nav %}
-	                    {% assign active = nil %}
-	                    {% if page.url == link.url or page.layout == link.layout %}
-	                    <li class="active"><a href="{{ link.url }}">{{ link.text }}</a></li>
-	                    {% else %}
-	                    <li><a href="{{ link.url }}">{{ link.text }}</a></li>
-	                    {% endif %}
-	                    {% endfor %}
-	                    <li><a href="/atom.xml" target="_blank">Feed</a></li>
-                    </ul>
-                </div>
-                <div class="contentWrapp">
-                    <div class="postWrapp">
-                        {{ content }}
-                    </div>
-                    <div class="sidebarWrapp">
-                        <h2>tubo</h2>
-                        <div id="head">
-                            <img alt="Avatar" height="120" src="../../../assets/img/thubnail.png" width="120" />
-                            <div id="info"></div>
-                        </div>
-
-                        <h2>计数器</h2>
-                        <div id='count' style='text-align:center;'>
-	                        Not Implemented...
-                        </div>
-                        <h2>搜索</h2>
-                        <div id="chito_search">
-                            <form accept-charset="UTF-8" action="/posts" id="search_form" method="get">
-                                <div style="margin:0;padding:0;display:inline">
-                                <input name="utf8" type="hidden" value="&#x2713;" /></div>
-                                <input id="s" name="s" size="10" type="text" value="" />
-                                <input name="commit" type="submit" value="搜索" />
-                        </form></div>
-
-                        <h2>分类</h2>
-                        <ul id="category">
-                            {% assign categories_list = site.categories %}
-                            {% include JB/categories_list %}
-
-                            <h2>RSS</h2>
-                            <div style="text-align:center;">
-                                <a href="/atom.xml">
-                                <img alt="RSS Feed" src="/assets/img/rss_feed.png" /></a>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer">
-                </div>
-            </div>
+  <body>
+    <div class="topbar">
+      <div class="container">
+        <div class="fill">
+          <ul class="nav">
+	        {% for link in site.nav %}
+	        {% assign active = nil %}
+	        {% if page.url == link.url or page.layout == link.layout %}
+	        <li class="active"><a href="{{ link.url }}">{{ link.text }}</a></li>
+	        {% else %}
+	        <li><a href="{{ link.url }}">{{ link.text }}</a></li>
+	        {% endif %}
+	        {% endfor %}
+	        <li><a href="/atom.xml" target="_blank">Feed</a></li>
+          </ul>
         </div>
-    </body>
+      </div>
+    </div>
+
+    <div id="sidebar">
+      <h2>tubo</h2>
+      <div id="head">
+        <img alt="Avatar" height="120" src="../../../assets/img/thubnail.png" width="120" />
+        <div id="info"></div>
+      </div>
+
+      <h2>计数器</h2>
+      <div id='count' style='text-align:center;'>
+	    Not Implemented...
+      </div>
+      <h2>搜索</h2>
+      <div id="chito_search">
+        <form accept-charset="UTF-8" action="/posts" id="search_form" method="get">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="&#x2713;" /></div>
+          <input id="s" name="s" size="10" type="text" value="" />
+          <input name="commit" type="submit" value="搜索" />
+      </form></div>
+
+      <h2>分类</h2>
+      <ul id="category">
+        {% assign categories_list = site.categories %}
+        {% include JB/categories_list %}
+
+        <h2>RSS</h2>
+        <div style="text-align:center;">
+          <a href="/atom.xml">
+            <img alt="RSS Feed" src="/assets/img/rss_feed.png" /></a>
+        </div>
+    </div>
+
+    <div id="content">
+      {{ content }}
+    </div
+  </body>
 </html>
