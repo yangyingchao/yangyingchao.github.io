@@ -1,0 +1,190 @@
+---
+layout : post
+title : Clang&#32;Static&#32;Analyze&#32;How&#32;To
+categories : 未分类
+---
+<p>
+Repost from: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Testing/Clang_static_analysis">https://developer.mozilla.org/en-US/docs/Mozilla/Testing/Clang_static_analysis</a>
+</p>
+
+<div id="wiki-column-container" class="wiki-right-present wiki-left-closed wiki-left-none">
+
+
+          <!-- content row with three strips -->
+          <div class="column-container column-container-reverse">
+
+                          <!-- TOC, approvals, etc -->
+              <div class="column-strip wiki-column" id="wiki-right">
+                            <!-- table of contents -->
+              <div id="toc" class="toc toggleable">
+                <a href="#toc" class="title toggler" data-open-icon="icon-plus" data-closed-icon="icon-minus">In This Article<i></i></a>
+                <ol class="toggle-container">
+                  <li><a href="#Installing_Clang" rel="internal">Installing Clang</a></li><li><a href="#Configuring_the_build_environment" rel="internal">Configuring the build environment</a></li><li><a href="#Performing_scanning_builds" rel="internal">Performing scanning builds</a></li><li><a href="#Performing_scanning_builds_2" rel="internal">Performing scanning builds</a></li><li><a href="#Analyzing_the_output" rel="internal">Analyzing the output</a></li><li><a href="#False_positives" rel="internal">False positives</a></li><li><a href="#See_also" rel="internal">See also</a>
+                </li></ol>
+              </div>
+                            </div>
+
+
+            <!-- center: main article content -->
+            <div id="wiki-content" class="column-main wiki-column text-content">
+
+
+
+
+              <!-- just the article content -->
+              <article id="wikiArticle">
+                                                      <p>Clang has a <a href="http://clang-analyzer.llvm.org/" class="external" title="http://clang-analyzer.llvm.org/">built-in static analyzer</a>. The gist is you add a wrapper around the compiler which directs all static analysis results to a common location. At the end of a build, these reports are aggregated into a report document showing all the potential issues.</p>
+
+<p>These instructions will only work where Mozilla already compiles with Clang. At the time this was written, Mac OS X has strong support. Linux should work, but isn't well tested.</p>
+
+<p>Ideally, the static analysis would be performed independently from compilation. See <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=663442" class="external" title="Consider redesigning static analysis in the build system">bug&nbsp;663442</a> to track a work around that facilitates easier static analysis.</p>
+
+<h2 id="Installing_Clang" class="ace-line">Installing Clang<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#Installing_Clang" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>The first step to running static analysis is installing Clang. Clang is rapidly changing, so it is recommended that you use the latest version you can get your hands on, including the latest development source. At the time this was written, the Clang shipping with Xcode on OS X does not have all the tools necessary. You will need to install Clang yourself.</p>
+
+<p>See the Clang <a href="http://llvm.org/docs/GettingStarted.html" class="external" title="http://llvm.org/docs/GettingStarted.html">Getting Started documentation</a> for the full instructions. But here's a quick look at what you need to do.&nbsp; Make sure that you have <a href="http://martine.github.io/ninja/" class="external">Ninja</a> installed.</p>
+
+<pre># Obtain the source code and set up Git
+$ git clone http://llvm.org/git/llvm.git
+$ cd llvm/tools
+$ git clone http://llvm.org/git/clang.git
+$ cd clang
+$ git config branch.master.rebase true
+$ cd ../..
+$ git config branch.master.rebase true
+# You should be in the llvm parent directory
+
+# Prepare your object directory. This is where all your compiled files go (similar to Mozilla object dirs)
+$ mkdir obj
+$ cd obj
+
+# Configure with optimized builds set to install in /usr/local/llvm
+# We build optimized because it is a lot faster. You can use any --with-prefix
+# path, but the following instructions assume /usr/local/llvm.
+$ cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local/llvm
+$ ninja install
+</pre>
+
+<h2 id="Configuring_the_build_environment">Configuring the build environment<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#Configuring_the_build_environment" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>Once you have your Clang build in place, you'll need to set up tools to use it.</p>
+
+<p>First, ensure that the default <code>clang</code> and <code>clang++</code> binaries are the ones you just installed:</p>
+
+<pre>$ export PATH=/usr/local/llvm/bin:$PATH
+$ which clang
+/usr/local/llvm/bin/clang
+</pre>
+
+<p>Next, tell the Mozilla build environment to use the Clang static analyzer wrappers for compiling. In your <a href="/en/Configuring_Build_Options" title="en/Configuring_Build_Options"><code>.mozconfig</code></a>, add the following:</p>
+
+<pre>CC=/path/to/llvm/tools/clang/tools/scan-build/ccc-analyzer
+CXX=path/to/llvm/tools/clang/tools/scan-build/c++-analyzer
+</pre>
+
+<p>Please note that the location of these tools should be the full path to Clang source code you obtained earlier.</p>
+
+<p>A full working .mozconfig for the desktop browser is:</p>
+
+<pre>CC=/path/to/llvm/tools/clang/tools/scan-build/ccc-analyzer
+CXX=/path/to/llvm/tools/clang/tools/scan-build/c++-analyzer
+
+. $topsrcdir/browser/config/mozconfig
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-ff-dbg
+
+ac_add_options --enable-debug
+</pre>
+
+<p>Attempts to use <code><a href="/en/ccache" title="ccache">ccache</a></code> will likely result in failure to compile. It is also necessary to avoid optimized builds, as these will modify macros which will result in many false positives.</p>
+
+<p>At this point, your Mozilla build environment should be configured to compile via the Clang static analyzer!</p>
+
+<h2 id="Performing_scanning_builds">Performing scanning builds<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#Performing_scanning_builds" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>It is not enough to simply start the build like normal. Instead, you need to run the build through a Clang utility script which will keep track of all produced analysis and consolidate it automatically.</p>
+
+<p>That script is scan-build. You can find it in $clang_source/tools/scan-build/scan-build.</p>
+
+<p>Try running your build through scan-build:</p>
+
+<pre>$ cd /path/to/mozilla/source
+
+# Blow away your object directory because incremental builds don't make sense
+$ rm -rf obj-dir
+
+$ /path/to/llvm/tools/clang/tools/scan-build/scan-build --use-analyzer /usr/local/bin/clang ./mach build
+
+# The above should execute without any errors. However, it should take longer than
+# normal because all compilation will be executing through Clang's static analyzer,
+# which adds overhead.
+</pre>
+
+<h2 id="Performing_scanning_builds_2">Performing scanning builds<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#Performing_scanning_builds_2" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>It is not enough to simply start the build like normal. Instead, you need to run the build through a Clang utility script which will keep track of all produced analysis and consolidate it automatically.</p>
+
+<p>That script is <code>scan-build</code>. You can find it in <code>$clang_source/tools/scan-build/scan-build</code>.</p>
+
+<p>Try running your build through scan-build:</p>
+
+<pre>$ cd obj-ff-dbg
+$ /Users/gps/src/llvm/tools/clang/tools/scan-build/scan-build make -j6 --no-print-directory
+</pre>
+
+<p>If things are working properly, you should see a bunch of console spew, just like any build.</p>
+
+<p>The first time you run scan-build, CTRL+C after a few files are compiled. You should see output like:</p>
+
+<pre>scan-build: 3 bugs found.
+scan-build: Run 'scan-view /Users/gps/tmp/mcsb/2011-12-15-3' to examine bug reports.
+</pre>
+
+<p>If you see a message like:</p>
+
+<pre>scan-build: Removing directory '/var/folders/s2/zc78dpsx2rz6cpc_21r9g5hr0000gn/T/scan-build-2011-12-15-1' because it contains no reports.
+</pre>
+
+<p>either no static analysis results were available yet or your environment is not configured properly.</p>
+
+<p>By default, <code>scan-build</code> writes results to a folder in a pseudo-temporary location. You can control where results go by passing the <code>-o /path/to/output</code> arguments to <code>scan-build</code>.</p>
+
+<p>You may also want to run <code>scan-build --help</code> to see all the options available. It is possible to selectively enable and disable individual analyzers, for example.</p>
+
+<h2 id="Analyzing_the_output">Analyzing the output<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#Analyzing_the_output" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>Once the build has completed, <code>scan-build</code> will produce a report summarizing all the findings. This is called <code>index.html</code> in the output directory. You can run <code>scan-view</code> (from <code>$clang_source/tools/scan-view/scan-view</code>) as <code>scan-build's</code> output suggests; this merely fires up a local HTTP server. Or you should be able to open the <code>index.html</code> directly with your browser.</p>
+
+<h2 id="False_positives">False positives<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#False_positives" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<p>There are currently many false positives in the static analyzer. A lot of these are due to the analyzer having difficulties following the relatively complicated error handling in various preprocessor macros. For example, most of our <code>ASSERT()</code> macros call other functions which themselves call <code>assert()</code> or do something else.</p>
+
+<p>In the long term, we should add a set of macros enabled via <code>#ifdef</code> which provide simple macros understandable by the static analyzer. There are also some <code>pragma</code>s and compiler extensions we can investigate using to silence warnings.</p>
+
+<h2 id="See_also">See also<a href="/en-US/docs/Mozilla/Testing/Clang_static_analysis$edit#See_also" class="button section-edit only-icon"><i aria-hidden="true" class="icon-pencil"></i><span>Edit</span></a></h2>
+
+<ul>
+ <li><a href="/en/Configuring_Build_Options" title="Configuring Build Options">Configuring Build Options</a></li>
+ <li><a href="/En/Developer_Guide" title="Developer Guide">Developer Guide</a></li>
+</ul>
+                                                </article>
+
+
+                <!-- contributors -->
+                <div class="wiki-block contributors">
+                  <h2 class="offscreen">Document Tags and Contributors</h2>
+
+                                      <div class="contributors-sub">
+                      <i aria-hidden="true" class="icon-group icon-fw"></i>&nbsp;<strong>Contributors to this page:</strong>         <a href="/en-US/profiles/bbouvier">bbouvier</a>,             <a href="/en-US/profiles/Ehsan">Ehsan</a>,             <a href="/en-US/profiles/Sheppy">Sheppy</a>,             <a href="/en-US/profiles/gps">gps</a>
+                    </div>
+
+                                      <div class="contributors-sub">
+                      <i aria-hidden="true" class="icon-clock-o icon-fw"></i>&nbsp;<strong>Last updated by:</strong>
+                      <a href="/en-US/profiles/bbouvier">bbouvier</a>,
+                      <time datetime="2015-09-16T06:04:42-07:00">Sep 16, 2015, 6:04:42 AM</time>
+                    </div>
+                                  </div>
+                          </div>
+
+                      </div>
+        </div>
