@@ -1,0 +1,27 @@
+#+TITLE: rpm list files in packet
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+
+Simply two tips:
+
+1. List files in a  RPM package which is not installed:
+
+   #+BEGIN_SRC sh -r -n
+rpm -qlp xxxx.rpm
+   #+END_SRC
+
+2. List files in a RPM package which is installed:
+
+      #+BEGIN_SRC sh -r -n
+rpm -ql xxxx #with out extension name
+      #+END_SRC

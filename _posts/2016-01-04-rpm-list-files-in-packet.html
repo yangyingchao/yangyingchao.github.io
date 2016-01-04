@@ -1,0 +1,28 @@
+---
+layout : post
+title : rpm&#32;list&#32;files&#32;in&#32;packet
+categories : 未分类
+---
+<p>
+Simply two tips:
+</p>
+
+<ol class="org-ol">
+<li>List files in a  RPM package which is not installed:
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span>rpm -qlp xxxx.rpm
+</pre>
+</div>
+</li>
+
+<li>List files in a RPM package which is installed:
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr">1: </span>rpm -ql xxxx #with out extension name
+</pre>
+</div>
+</li>
+</ol>
