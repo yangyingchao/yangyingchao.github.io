@@ -19,8 +19,8 @@ tags : git
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span class="linenr">1: </span>$ git checkout feature
-<span class="linenr">2: </span>$ git rebase master
+<pre class="src src-sh">$ git checkout feature
+$ git rebase master
 </pre>
 </div>
 
@@ -57,7 +57,7 @@ Git会为你提供3个选择来修复导致冲突的提交（fa39187）：
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span class="linenr">1: </span>$ git stash
+<pre class="src src-sh">$ git stash
 </pre>
 </div>
 
@@ -69,10 +69,10 @@ HEAD is now at 3fc175f fix race condition
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span class="linenr">1: </span>$ git status
-<span class="linenr">2: </span>
-<span class="linenr">3: </span># On branch feature
-<span class="linenr">4: </span>nothing to commit, working directory clean
+<pre class="src src-sh">$ git status
+
+# On branch feature
+nothing to commit, working directory clean
 </pre>
 </div>
 
@@ -94,13 +94,13 @@ stash@{0}: WIP on feature: 3fc175f fix race condition
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span class="linenr">1: </span>$ git stash pop
-<span class="linenr">2: </span>On branch feature
-<span class="linenr">3: </span>Changes not staged for commit:
-<span class="linenr">4: </span>  (use "git add ..." to update what will be committed)
-<span class="linenr">5: </span>
-<span class="linenr">6: </span>     modified:   index.html
-<span class="linenr">7: </span>Dropped refs/stash@{0} (ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8)
+<pre class="src src-sh">$ git stash pop
+On branch feature
+Changes not staged for commit:
+  (use "git add ..." to update what will be committed)
+
+     modified:   index.html
+Dropped refs/stash@{0} (ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8)
 </pre>
 </div>
 
@@ -111,9 +111,9 @@ stash@{0}: WIP on feature: 3fc175f fix race condition
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span class="linenr">1: </span>$ git stash save "describe it"   # give the stash a name
-<span class="linenr">2: </span>$ git stash clear                # delete a stashed commit
-<span class="linenr">3: </span>$ git stash save --keep-index    # stash only unstaged files
+<pre class="src src-sh">$ git stash save "describe it"   # give the stash a name
+$ git stash clear                # delete a stashed commit
+$ git stash save --keep-index    # stash only unstaged files
 </pre>
 </div>
 

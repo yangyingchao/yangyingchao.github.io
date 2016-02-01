@@ -18,7 +18,7 @@
 
 分支合并会被记录为一次合并提交，这种做法是很有意义的。比如说，可以通过这种方式来标识一个新特性被合并到了发布分支中。不过，当多个团队成员工作在一个项目中并使用常规的git pull来同步分支时，提交时间线就会被不必要的合并提交所污染。更好的做法则是使用git rebase将一个feature分支变基到master分支：
 
-#+BEGIN_SRC sh -r -n
+#+BEGIN_SRC sh
 $ git checkout feature
 $ git rebase master
 #+END_SRC
@@ -40,7 +40,7 @@ Git会为你提供3个选择来修复导致冲突的提交（fa39187）：
 
 在工作进行中时，有些东西常常会处于凌乱的状态。如果这时需要切换到不同的分支该怎么办呢？Git是不允许你这么做的，因为还有尚未保存的修改。坦率地说，你并不想将半成品提交上去，后面再来修改。这个问题的解决之道就是使用git stash命令。Stash会接收工作目录的当前状态（比如说，修改了的追踪文件与暂存区的修改等），并将其保存到未完成的修改栈中，这样后面随时可以再来修改。可以通过如下命令来暂存你的工作：
 
-#+BEGIN_SRC sh -r -n
+#+BEGIN_SRC sh
 $ git stash
 #+END_SRC
 
@@ -48,7 +48,7 @@ Saved working directory and index state WIP on feature: 3fc175f fix race conditi
 HEAD is now at 3fc175f fix race condition
 现在，工作目录就是干净的了：
 
-#+BEGIN_SRC sh -r -n
+#+BEGIN_SRC sh
 $ git status
 
 # On branch feature
@@ -66,7 +66,7 @@ stash@{0}: WIP on feature: 3fc175f fix race condition
 
 稍后，在回到feature分支后，你就可以取回所有暂存的变更了：
 
-#+BEGIN_SRC sh -r -n
+#+BEGIN_SRC sh
 $ git stash pop
 On branch feature
 Changes not staged for commit:
@@ -80,7 +80,7 @@ Dropped refs/stash@{0} (ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8)
 
 关于暂存，还有其他一些选项可用，如下所示：
 
-#+BEGIN_SRC sh -r -n
+#+BEGIN_SRC sh
 $ git stash save "describe it"   # give the stash a name
 $ git stash clear                # delete a stashed commit
 $ git stash save --keep-index    # stash only unstaged files
