@@ -1,6 +1,6 @@
 permalink: /:year/:month/:day/:title.html
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "org"]
-highlighter: pygments
+highlighter: rouge
 
 markdown: kramdown
 
