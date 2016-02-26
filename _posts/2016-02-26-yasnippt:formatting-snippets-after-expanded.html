@@ -61,9 +61,8 @@ We can add a hook in <code>yas-after-exi</code> to do this:
    ((member major-mode '(c-mode c++-mode objc-mode))
     (<span style="color: #ff4040;">unless</span> (<span style="color: #ff4040;">fboundp</span> 'emr-cc-format-region)
       (load <span style="color: #d78700;">"emr-c.el"</span>))
-    (message <span style="color: #d78700;">"fffffff"</span>)
-    <span style="color: #fa8072;">;; </span><span style="color: #cd5c5c; font-style: italic;">(save-excursion</span>
-    <span style="color: #fa8072;">;;   </span><span style="color: #cd5c5c; font-style: italic;">(emr-cc-format-region yas-snippet-beg yas-snippet-end))</span>
+    (<span style="color: #ff4040;">save-excursion</span>
+      (emr-cc-format-region yas-snippet-beg yas-snippet-end))
     (<span style="color: #ff4040;">when</span> (and (not (looking-back (rx bol (* space))))
                (&lt; (point) yas-snippet-end))
       (newline-and-indent))

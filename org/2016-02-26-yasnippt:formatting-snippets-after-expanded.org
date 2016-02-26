@@ -44,21 +44,20 @@ We can achieve this with 3 steps.
    We can add a hook in =yas-after-exi= to do this:
 
    #+BEGIN_SRC emacs-lisp -r
-  (defun yc/yas-after-snippet ()
-    "Format inserted snippets, if possible."
-    (cond
-     ((member major-mode '(c-mode c++-mode objc-mode))
-      (unless (fboundp 'emr-cc-format-region)
-        (load "emr-c.el"))
-      (message "fffffff")
-      ;; (save-excursion
-      ;;   (emr-cc-format-region yas-snippet-beg yas-snippet-end))
-      (when (and (not (looking-back (rx bol (* space))))
-                 (< (point) yas-snippet-end))
-        (newline-and-indent))
-      (if (looking-at "\n\n") (kill-line)))
-     (t ""))
-    )
+     (defun yc/yas-after-snippet ()
+       "Format inserted snippets, if possible."
+       (cond
+        ((member major-mode '(c-mode c++-mode objc-mode))
+         (unless (fboundp 'emr-cc-format-region)
+           (load "emr-c.el"))
+         (save-excursion
+           (emr-cc-format-region yas-snippet-beg yas-snippet-end))
+         (when (and (not (looking-back (rx bol (* space))))
+                    (< (point) yas-snippet-end))
+           (newline-and-indent))
+         (if (looking-at "\n\n") (kill-line)))
+        (t ""))
+       )
 
-  (add-hook 'yas-after-exit-snippet-hook 'yc/yas-after-snippet))
+     (add-hook 'yas-after-exit-snippet-hook 'yc/yas-after-snippet))
    #+END_SRC
