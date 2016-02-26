@@ -1,0 +1,64 @@
+#+TITLE: yasnippt:formatting snippets after expanded
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: yasnippet,formatting
+#+CATEGORY: emacs
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+Suppose you need to maintain multiple projects with different coding styles, and if
+you are using same snippets from =Yasnippet=. Is it possible for =yasnippet= to format
+inserted snippets automatically to match different styles?
+
+The answer is *YES* .
+
+We can achieve this with 3 steps.
+
+1. Install =emr=
+   =emr= is a package stands for [[https://github.com/chrisbarrett/emacs-refactor][emacs-refactor]] . this could be easily done with
+   =package=
+
+    #+BEGIN_SRC lisp -r
+      (package-install "emr")
+    #+END_SRC
+
+     =emr= provides some functionalists to refactor codes. Please refer to its homepage
+     for more details. Here, what we will used is emr-cc-format-region, which in turn uses
+     [[http://clang.llvm.org/docs/ClangFormat.html][clang-format]] to format codes.
+
+2. Configure clang-format
+
+   This could be by placing files named =.clang-format= in different
+   folders. =clang-format= will read configurations from those files, and format codes as
+   specified in those files. Then we need to set =emr-clang-format-style= to "file". This
+   could be done by =M-x: cumtomize=, then search for =emr-clang-format-style= .
+
+   For  details related to clang, please refert to  [[http://clang.llvm.org/docs/ClangFormat.html][clang-format]] .
+
+3. Format codes after snippets inserted.
+   We can add a hook in =yas-after-exi= to do this:
+
+   #+BEGIN_SRC emacs-lisp -r
+  (defun yc/yas-after-snippet ()
+    "Format inserted snippets, if possible."
+    (cond
+     ((member major-mode '(c-mode c++-mode objc-mode))
+      (unless (fboundp 'emr-cc-format-region)
+        (load "emr-c.el"))
+      (message "fffffff")
+      ;; (save-excursion
+      ;;   (emr-cc-format-region yas-snippet-beg yas-snippet-end))
+      (when (and (not (looking-back (rx bol (* space))))
+                 (< (point) yas-snippet-end))
+        (newline-and-indent))
+      (if (looking-at "\n\n") (kill-line)))
+     (t ""))
+    )
+
+  (add-hook 'yas-after-exit-snippet-hook 'yc/yas-after-snippet))
+   #+END_SRC

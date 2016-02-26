@@ -1,0 +1,78 @@
+---
+layout : post
+title : yasnippt:formatting snippets after expanded
+categories : emacs
+tags : yasnippet formatting
+---
+<p>
+Suppose you need to maintain multiple projects with different coding styles, and if
+you are using same snippets from <code>Yasnippet</code>. Is it possible for <code>yasnippet</code> to format
+inserted snippets automatically to match different styles?
+</p>
+
+<p>
+The answer is <b>YES</b> .
+</p>
+
+<p>
+We can achieve this with 3 steps.
+</p>
+
+<ol class="org-ol">
+<li>Install <code>emr</code>
+<code>emr</code> is a package stands for <a href="https://github.com/chrisbarrett/emacs-refactor">emacs-refactor</a> . this could be easily done with
+<code>package</code>
+
+<div class="org-src-container">
+
+<pre class="src src-lisp">(package-install <span style="color: #d78700;">"emr"</span>)
+</pre>
+</div>
+
+<p>
+<code>emr</code> provides some functionalists to refactor codes. Please refer to its homepage
+for more details. Here, what we will used is emr-cc-format-region, which in turn uses
+<a href="http://clang.llvm.org/docs/ClangFormat.html">clang-format</a> to format codes.
+</p>
+</li>
+
+<li>Configure clang-format
+
+<p>
+This could be by placing files named <code>.clang-format</code> in different
+folders. <code>clang-format</code> will read configurations from those files, and format codes as
+specified in those files. Then we need to set <code>emr-clang-format-style</code> to "file". This
+could be done by <code>M-x: cumtomize</code>, then search for <code>emr-clang-format-style</code> .
+</p>
+
+<p>
+For  details related to clang, please refert to  <a href="http://clang.llvm.org/docs/ClangFormat.html">clang-format</a> .
+</p>
+</li>
+
+<li>Format codes after snippets inserted.
+We can add a hook in <code>yas-after-exi</code> to do this:
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">defun</span> <span style="color: #ff4040;">yc/yas-after-snippet</span> ()
+  <span style="color: #87ceeb;">"Format inserted snippets, if possible."</span>
+  (<span style="color: #ff4040;">cond</span>
+   ((member major-mode '(c-mode c++-mode objc-mode))
+    (<span style="color: #ff4040;">unless</span> (<span style="color: #ff4040;">fboundp</span> 'emr-cc-format-region)
+      (load <span style="color: #d78700;">"emr-c.el"</span>))
+    (message <span style="color: #d78700;">"fffffff"</span>)
+    <span style="color: #fa8072;">;; </span><span style="color: #cd5c5c; font-style: italic;">(save-excursion</span>
+    <span style="color: #fa8072;">;;   </span><span style="color: #cd5c5c; font-style: italic;">(emr-cc-format-region yas-snippet-beg yas-snippet-end))</span>
+    (<span style="color: #ff4040;">when</span> (and (not (looking-back (rx bol (* space))))
+               (&lt; (point) yas-snippet-end))
+      (newline-and-indent))
+    (<span style="color: #ff4040;">if</span> (looking-at <span style="color: #d78700;">"\n\n"</span>) (kill-line)))
+   (t <span style="color: #d78700;">""</span>))
+  )
+
+(<span style="color: #ff4040;">add-hook</span> 'yas-after-exit-snippet-hook '<span style="color: #ff4040;">yc/yas-after-snippet</span>))
+</pre>
+</div>
+</li>
+</ol>
