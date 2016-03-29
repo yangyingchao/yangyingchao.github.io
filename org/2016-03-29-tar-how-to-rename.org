@@ -12,7 +12,7 @@
 #+EXCLUDE_TAGS: noexport
 
 
-1. Use -C and --strip-components (See man tar).
+* Use -C and --strip-components (See man tar).
 
 Example:
 
@@ -27,7 +27,7 @@ tar -xz FILENAME -C FOLDER --strip-components=1
 #+END_SRC
 
 
-2. Use =--transform=
+* Use =--transform=
 
    You can also use the --transform option for a bit more flexibility. It accepts any sed replacement (s) operation.
 
