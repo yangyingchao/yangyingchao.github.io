@@ -1,0 +1,39 @@
+#+TITLE: tar how to rename
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: tar
+#+CATEGORY: utils
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+
+1. Use -C and --strip-components (See man tar).
+
+Example:
+
+#+BEGIN_SRC sh -r
+mkdir FOLDER
+# for remote tar file
+curl -L ’remote_tar_file' | tar -xz - -C FOLDER --strip-components=1
+
+# for local tar file
+tar -xz FILENAME -C FOLDER --strip-components=1
+
+#+END_SRC
+
+
+2. Use =--transform=
+
+   You can also use the --transform option for a bit more flexibility. It accepts any sed replacement (s) operation.
+
+For example, this is how I extract a Linux tarball to a new directory so I can apply a patch:
+
+#+BEGIN_SRC sh -r
+tar -xjf linux-2.6.38.tar.bz2 --transform 's/linux-2.6.38/linux-2.6.38.1/'
+
+#+END_SRC

@@ -1,0 +1,45 @@
+---
+layout : post
+title : tar how to rename
+categories : utils
+tags : tar
+---
+<ol class="org-ol">
+<li>Use -C and &#x2013;strip-components (See man tar).
+</li>
+</ol>
+
+<p>
+Example:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">mkdir FOLDER
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">for remote tar file</span>
+curl -L &#8217;remote_tar_file<span style="color: #d78700;">' | tar -xz - -C FOLDER --strip-components=1</span>
+
+<span style="color: #d78700;"># for local tar file</span>
+<span style="color: #d78700;">tar -xz FILENAME -C FOLDER --strip-components=1</span>
+</pre>
+</div>
+
+
+<ol class="org-ol">
+<li>Use <code>--transform</code>
+
+<p>
+You can also use the &#x2013;transform option for a bit more flexibility. It accepts any sed replacement (s) operation.
+</p>
+</li>
+</ol>
+
+<p>
+For example, this is how I extract a Linux tarball to a new directory so I can apply a patch:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">tar -xjf linux-2.6.38.tar.bz2 --transform <span style="color: #d78700;">'s/linux-2.6.38/linux-2.6.38.1/'</span>
+</pre>
+</div>
