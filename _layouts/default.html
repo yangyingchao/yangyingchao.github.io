@@ -1,72 +1,28 @@
+---
+layout: compress
+---
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-        <meta name="generator" content="Org-mode" />
-        <meta name="author" content="Yang, Ying-chao" />
-        <meta name="baidu-site-verification" content="SzhNnSrJlB" />
-        {% if page.description %}
-        <meta name="description" content="{{ page.description }}" />
-        {% endif %}
-        <meta name="author" content="{{ site.author.name }}" />
-        <title>
-            {% if page.title %}
-            {{ page.title }}
-            {% else %}
-            {{ site.title }}
-            {% endif %}
-        </title>
+<html>
+  {% include head.html %}
+  <body>
+    {% include sidebar.html %}
 
-        <link rel="stylesheet" href="/assets/css/reset.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="stylesheet" href="/assets/css/text.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="stylesheet" href="/assets/css/960_24_col.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="stylesheet" href="/assets/css/twilight.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="stylesheet" href="/assets/css/myfun.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="stylesheet" href="/assets/css/org.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-        <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
-        <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico"/>
-        <script type="text/javascript" src="/assets/js/org-exported.js"></script>
-        <script type="text/javascript" src="/assets/js/mathjax/MathJax.js"></script>
-        <script type="text/javascript" src="/assets/js/jax-config.js"></script>
-    </head>
+    <main id="main">
+      {{ content }}
 
-    <body>
-
-        <div class="container_24">
-            <div class="grid_6" id="sidebar">
-                <div class="container">
-                    <div id="head">
-                        <a class="home" href="/">
-                            <img alt="Avatar" height="120" src="../../../assets/img/thubnail.png" width="120" />
-                        </a>
-                        <div id="info"></div>
-                    </div>
-                    <h2><a class="home" href="/">Tubo</a></h2>
-                    <ul id="nav">
-                        {% assign categories_list = site.categories %}
-                        {% include JB/categories_list %}
-                    </ul>
-                </div>
-
-            </div>
-            <div class="grid_18" id="main-content">
-
-                {{ content }}
-
-                <div id="footer">
-                    <p style="text-align:center;">
-                        <a href="/index.html">首页</a> |
-                        <a href="/categories.html">分类</a> |
-                        <a href="/tags.html">标签</a> |
-                        <a href="/archive.html">归档</a> |
-                        <a href="https://github.com/yangyingchao">github</a> |
-                        <a href="/about.html">关于</a> |
-                        <a href="/atom.xml">rss</a>
-                    </p>
-                    <p class="copyright">© 2015 Tubo Yang</p>
-                </div>
-                <hr/>
-            </div>
+      <div class="footer">
+        <div class="container">
+          <p class="footer-entry">All content is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></p>
+          <p class="footer-entry">Buit with <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://github.com/P233/3-Jekyll" target="_blank">3-Jekyll theme</a> • Hosted on <a href="https://pages.github.com/" target="_blank">Github</a></p>
         </div>
-    </body>
+      </div>
+    </main>
+
+    <button id="menu">
+      <span id="menu-icons"></span>
+    </button>
+
+    {% include scripts.html %}
+    {% include googleanalytics.html %}
+  </body>
 </html>

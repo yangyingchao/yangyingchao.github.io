@@ -10,25 +10,32 @@ name : Tubo
 email : yangyingchao@gmail.com
 github : yangyingchao
 
+rss_url: /pages/feed.xml
+
 
 production_url : http://yangyingchao.github.io
 
-nav:
-  - text: 首页
-    url : /index.html
-  - text: 分类
-    url : /categories.html
-  - text: 标签
-    url : /tags.html
-  - text: 归档
-    url : /archive.html
-  - text: 关于
-    url : /about.html
+# Sidebar filter
+# Choose 'tag' or 'category' as filter in sidebar.
+filter: 'category'
 
-JB :
-  version : 0.3.0
+# Social account
+twitter:
+# weibo:    ID
+# codepen:  username
+# dribbble: username
 
-  archive_path: /archive.html
-  categories_path : /categories.html
-  tags_path : /tags.html
-  atom_path : /atom.xml
+
+# Build settings
+permalink: /:year/:month/:day/:title.html
+markdown: kramdown
+highlighter: rouge
+sass:
+style: compressed
+
+# Jekyll Plugin
+# https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/
+gems:
+- jekyll-sitemap
+- jekyll-seo-tag
+- jekyll-feed
