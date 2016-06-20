@@ -15,16 +15,15 @@ layout: default
 
 <div class="post-share">
   <div class="container">
-    <a href="https://twitter.com/share?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&text={{ page.title }}" target="_blank" class="post-share-icon twitter"></a>
-    <a href="https://www.evernote.com/clip.action?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&title={{ page.title }}" target="_blank" class="post-share-icon evernote"></a>
-    <a href="http://service.weibo.com/share/share.php?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&title={{ page.title }}" target="_blank" class="post-share-icon weibo"></a>
+    <p style="text-align:center;">
+      <a href="/index.html">首页</a> |
+      <a href="/categories.html">分类</a> |
+      <a href="/tags.html">标签</a> |
+      <a href="/archive.html">归档</a> |
+      <a href="https://github.com/yangyingchao">github</a> |
+      <a href="/about.html">关于</a> |
+      <a href="/atom.xml">rss</a>
+    </p>
+    <p class="copyright">© 2015 Tubo Yang</p>
   </div>
 </div>
-
-{% if site.disqus.shortname %}
-<div class="comment container">
-  <div id="disqus_thread">
-    <a href=""></a>
-  </div>
-</div>
-{% endif %}
