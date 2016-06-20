@@ -1,18 +1,42 @@
 ---
-layout: default
-tagline: []
+layout: post
 ---
+
 <div class="page-header">
-  <h1>文章列表 <small>{{ page.tagline }}</small></h1>
+  <h1>Categories <small>{{ page.tagline }}</small></h1>
 </div>
 
 <div class="row">
   <div class="span14">
-    <ul class="posts">
-      {% for post in site.posts %}
-      <li><span>{{ post.date | date: "%Y-%m-%d" }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
-      {% endfor %}
+      <ul class="posts">
+
+{% for category in site.categories %}
+  <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
+  <ul>
+    {% assign pages_list = category[1] %}
+    {% include JB/pages_list %}
+  </ul>
+{% endfor %}
+
     </ul>
   </div>
 </div>
 
+
+<div class="page-header">
+  <h1>Tags <small>{{ page.tagline }}</small></h1>
+</div>
+
+<div class="row">
+  <div class="span14">
+      <ul class="posts">
+{% for tag in site.tags %}
+  <h2 id="{{ tag[0] }}-ref">{{ tag[0] }}</h2>
+  <ul>
+    {% assign pages_list = tag[1] %}
+    {% include JB/pages_list %}
+  </ul>
+{% endfor %}
+    </ul>
+  </div>
+</div>
