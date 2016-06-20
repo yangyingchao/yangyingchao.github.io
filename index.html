@@ -14,7 +14,6 @@ layout: post
   <h2 id="{{ category[0] }}-ref">{{ category[0] | join: "/" }}</h2>
   <ul>
     {% assign pages_list = category[1] %}
-    {% include JB/pages_list %}
   </ul>
 {% endfor %}
 
@@ -34,7 +33,6 @@ layout: post
   <h2 id="{{ tag[0] }}-ref">{{ tag[0] }}</h2>
   <ul>
     {% assign pages_list = tag[1] %}
-    {% include JB/pages_list %}
   </ul>
 {% endfor %}
     </ul>
