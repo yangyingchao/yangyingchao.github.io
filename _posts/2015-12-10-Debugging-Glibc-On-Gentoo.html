@@ -1,81 +1,106 @@
 ---
 layout : post
 title : Debugging&#32;Glibc&#32;On&#32;Gentoo
-categories : 未分类
+categories : development
 ---
 <p>
 Repost from: <a href="https://wiki.gentoo.org/wiki/Debugging">https://wiki.gentoo.org/wiki/Debugging</a>
 </p>
 
-
 <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="content" class="mw-body" role="main">
-                        <a id="top"></a>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="content" class="mw-body" role="main">
+				<a id="top"></a>
 
-                        <h1 id="firstHeading" class="first-header" lang="en">
-                            <span dir="auto">Debugging</span>
-                        </h1>
+				<h1 id="firstHeading" class="first-header" lang="en">
+					<span dir="auto">Debugging</span>
+				</h1>
 
-                        <div id="bodyContent" class="mw-body-content">
-                            <div id="siteSub">From Gentoo Wiki</div>
-                            <div id="contentSub">
-                                                            </div>
-                                                                                    <div id="jump-to-nav" class="mw-jump">
-                                Jump to:                                <a href="#column-one">navigation</a>,                               <a href="#searchInput">search</a>
-                            </div>
+				<div id="bodyContent" class="mw-body-content">
+					<div id="siteSub">From Gentoo Wiki</div>
+					<div id="contentSub">
+					</div>
+					<div id="jump-to-nav" class="mw-jump">
+						Jump to:								<a href="#column-one">navigation</a>, 								<a href="#searchInput">search</a>
+					</div>
 
-                            <!-- start content -->
-                            <div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="alert alert-info"><span class="fa fa-fw fa-pencil"></span> This article is a <a href="/wiki/Category:Stub" title="Category:Stub">stub</a>. You can help Gentoo Wiki by <a rel="nofollow" class="external text" href="//wiki.gentoo.org/index.php?title=Debugging&amp;action=edit">expanding it</a>.</div>
-<h2><span class="mw-headline" id="Install_debugging_information_and_sources_for_selected_packages">Install debugging information and sources for selected packages</span></h2>
-<p>To install debugging information you can use the <code>splitdebug</code> feature (or alternatively the <code>nostrip</code> feature and to install the source code you need the <code>installsources</code> feature which in turn requires the <a rel="nofollow" class="external text" href="https://packages.gentoo.org/packages/dev-util/debugedit">dev-util/debugedit</a>. These features are integrated so they provide you with an environment where <a rel="nofollow" class="external text" href="https://packages.gentoo.org/packages/sys-devel/gdb">sys-devel/gdb</a> can find both the debugging information and the sources and lets you fully use its interactive debugging features.
-</p>
-<div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;"><a href="/wiki//etc/portage/env" title="/etc/portage/env" class="mw-redirect">/etc/portage/env/debug</a></code></strong><strong></strong></div><pre class="captioned"><div dir="ltr" class="mw-geshi mw-code mw-content-ltr"><div class="text source-text"><pre class="de1">CFLAGS="${CFLAGS} -ggdb"
-FEATURES="${FEATURES} splitdebug installsources"</pre></div></div></pre>
-<div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;"><a href="/wiki//etc/portage/package.env" title="/etc/portage/package.env">/etc/portage/package.env</a></code></strong><strong></strong></div><pre class="captioned"><div dir="ltr" class="mw-geshi mw-code mw-content-ltr"><div class="text source-text"><pre class="de1">category/your-package debug</pre></div></div></pre>
-<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask dev-util/debugedit sys-devel/gdb</code></div></div>
-<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask&nbsp;--oneshot category/your-package</code></div></div>
-<h2><span class="mw-headline" id="Valgrind">Valgrind</span></h2>
-<p>You often need to have gcc debug information in order to run valgrind on any binary at all.
-</p>
-<div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;">/etc/portage/package.env</code></strong><strong></strong></div><pre class="captioned"><div dir="ltr" class="mw-geshi mw-code mw-content-ltr"><div class="text source-text"><pre class="de1">sys-libs/glibc debug</pre></div></div></pre>
-<div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask&nbsp;--oneshot sys-libs/glibc</code></div></div>
+					<!-- start content -->
+					<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="alert alert-info"><span class="fa fa-fw fa-pencil"></span> This article is a <a href="/wiki/Category:Stub" title="Category:Stub">stub</a>. You can help Gentoo Wiki by <a rel="nofollow" class="external text" href="//wiki.gentoo.org/index.php?title=Debugging&amp;action=edit">expanding it</a>.</div>
+                        <h2><span class="mw-headline" id="Install_debugging_information_and_sources_for_selected_packages">Install debugging information and sources for selected packages</span></h2>
+                        <p>To install debugging information you can use the <code>splitdebug</code> feature (or alternatively the <code>nostrip</code> feature) and to install the source code you need the <code>installsources</code> feature which in turn requires the <a rel="nofollow" class="external text" href="https://packages.gentoo.org/packages/dev-util/debugedit">dev-util/debugedit</a>. These features are integrated so they provide you with an environment where <a rel="nofollow" class="external text" href="https://packages.gentoo.org/packages/sys-devel/gdb">sys-devel/gdb</a> can find both the debugging information and the sources and lets you fully use its interactive debugging features.
+                        </p>
+                        <div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;"><a href="/wiki//etc/portage/env" title="/etc/portage/env" class="mw-redirect">/etc/portage/env/debug</a></code></strong><strong></strong></div><pre class="captioned"><div class="mw-highlight mw-content-ltr" dir="ltr"><pre>CFLAGS="${CFLAGS} -ggdb"
+                                    FEATURES="${FEATURES} splitdebug installsources"
+                        </pre></div></pre>
+                        <div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;"><a href="/wiki//etc/portage/package.env" title="/etc/portage/package.env">/etc/portage/package.env</a></code></strong><strong></strong></div><pre class="captioned"><div class="mw-highlight mw-content-ltr" dir="ltr"><pre>category/your-package debug
+                        </pre></div></pre>
+                        <div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask dev-util/debugedit sys-devel/gdb</code></div></div>
+                        <div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask&nbsp;--oneshot category/your-package</code></div></div>
+                        <h2><span class="mw-headline" id="Valgrind">Valgrind</span></h2>
+                        <p>You often need to have gcc debug information in order to run valgrind on any binary at all.
+                        </p>
+                        <div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;">/etc/portage/package.env</code></strong><strong></strong></div><pre class="captioned"><div class="mw-highlight mw-content-ltr" dir="ltr"><pre>sys-libs/glibc debug
+                        </pre></div></pre>
+                        <p>It is possible that valgrind refuses to launch with an error containing the following.
+                        </p>
+                        <pre>valgrind:  A must-be-redirected function
+                            valgrind:  whose name matches the pattern:      strlen
+                            valgrind:  in an object with soname matching:   ld-linux-x86-64.so.2
+                        </pre>
+                        <p>In this case, you need to<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup>:
+                        </p><p>Create a copy of the glibc ebuild in a <a href="/wiki/Overlay/Local_overlay" title="Overlay/Local overlay">local overlay</a>, then edit the file sys-libs/glibc/files/eblits/common.eblit, line 226&nbsp;:
+                        </p>
+                        <div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;">/path/to/overlay/.../sys-libs/glibc/files/eblits/common.eblit</code></strong><strong></strong></div><pre class="captioned"><div class="mw-highlight mw-content-ltr" dir="ltr"><pre>append-flags -O2 -fno-strict-aliasing
+                        </pre></div></pre>
+                        and add <pre>-fno-builtin-strlen</pre> at the end of the line.
+                        <p>Also, aactivate the nostrip feature:
+                        </p>
+                        <div class="box-caption"><span class="label" style="margin-right: .5em; background-color: #54487A">FILE</span> <strong><code style="border: none; background: none; color: #54487A; margin-right: .5em;">/etc/portage/make.conf</code></strong><strong></strong></div><pre class="captioned"><div class="mw-highlight mw-content-ltr" dir="ltr"><pre>FEATURES="nostrip"
+                        </pre></div></pre>
+                        <div class="cmd-box"><div><code style="color: #ef2929; font-weight: bold;">root #</code><span class="tripleclick-separator"></span><code>emerge --ask&nbsp;--oneshot sys-libs/glibc</code></div></div>
+                        You can remove or comment out the FEATURES line after glibc is merged.<ol class="references">
+                            <li id="cite_note-1"><span class="mw-cite-backlink"><a href="#cite_ref-1"><span class="cite-accessibility-label">Jump up </span>↑</a></span> <span class="reference-text"><a rel="nofollow" class="external free" href="https://wwwtech.de/articles/2012/jan/valgrind-again:-strlen-redirection">https://wwwtech.de/articles/2012/jan/valgrind-again:-strlen-redirection</a></span>
+                            </li>
+                        </ol>
 
-<!--
-NewPP limit report
-CPU time usage: 0.084 seconds
-Real time usage: 0.101 seconds
-Preprocessor visited node count: 577/1000000
-Preprocessor generated node count: 1781/1000000
-Post‐expand include size: 8006/2097152 bytes
-Template argument size: 2077/2097152 bytes
-Highest expansion depth: 11/40
-Expensive parser function count: 0/100
--->
+                        <!--
+                             NewPP limit report
+                             Cached time: 20160619200144
+                             Cache expiry: 86400
+                             Dynamic content: false
+                             CPU time usage: 0.108 seconds
+                             Real time usage: 0.118 seconds
+                             Preprocessor visited node count: 675/1000000
+                             Preprocessor generated node count: 1979/1000000
+                             Post‐expand include size: 9531/2097152 bytes
+                             Template argument size: 2623/2097152 bytes
+                             Highest expansion depth: 11/40
+                             Expensive parser function count: 0/100
+                          -->
 
-<!--
-Transclusion expansion time report (%,ms,calls,template)
-100.00%   79.068      1 - -total
- 50.58%   39.996      3 - Template:Emerge
- 43.80%   34.632      3 - Template:RootCmd
- 29.44%   23.279      3 - Template:GenericCmd
- 21.11%   16.690      3 - Template:FileBox
- 15.26%   12.065      3 - Template:PreBox
- 14.20%   11.226      2 - Template:Package
- 11.28%    8.922      1 - Template:Stub
- 11.18%    8.843      7 - Template:Trim
-  8.05%    6.364      3 - Template:GenericCmd/Line
--->
+                        <!--
+                             Transclusion expansion time report (%,ms,calls,template)
+                             100.00%   85.096      1 - -total
+                             42.90%   36.509      3 - Template:Emerge
+                             37.32%   31.755      3 - Template:RootCmd
+                             25.31%   21.539      5 - Template:FileBox
+                             25.23%   21.466      3 - Template:GenericCmd
+                             19.67%   16.742      5 - Template:PreBox
+                             11.58%    9.856      2 - Template:Package
+                             9.34%    7.949      7 - Template:Trim
+                             8.94%    7.610      1 - Template:Stub
+                             6.70%    5.701      3 - Template:GenericCmd/Line
+                          -->
 
-<!-- Saved in parser cache with key gentoo-wiki:pcache:idhash:60488-0!*!0!!*!*!* and timestamp 20151209113259 and revision id 317846
- -->
-</div><div class="printfooter">
-Retrieved from "<a dir="ltr" href="http://wiki.gentoo.org/index.php?title=Debugging&amp;oldid=317846">http://wiki.gentoo.org/index.php?title=Debugging&amp;oldid=317846</a>"</div>
-                                                            <div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:Stub" title="Category:Stub">Stub</a></li></ul></div></div>                                                      <!-- end content -->
+                        <!-- Saved in parser cache with key gentoo-wiki:pcache:idhash:60488-0!*!0!!*!*!* and timestamp 20160619200144 and revision id 501782
+                          -->
+                    </div><div class="printfooter">
+                        Retrieved from "<a dir="ltr" href="http://wiki.gentoo.org/index.php?title=Debugging&amp;oldid=501782">http://wiki.gentoo.org/index.php?title=Debugging&amp;oldid=501782</a>"</div>
+					<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/wiki/Category:Stub" title="Category:Stub">Stub</a></li></ul></div></div>														<!-- end content -->
 
-                                                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
