@@ -1,0 +1,47 @@
+#+TITLE: Oracle的并行计算
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: Database
+#+CATEGORY: database,parallel
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+记录一下 Oracle 数据库中并行计算相关的东西。
+
+
+* 理论和概念
+
+- *并行度 (Degree of parallelism, DOP):*  并行计算中所使用的独立进程数。
+
+- DOP 的评估\\
+  DOP 的值显然不是越大越好。启用并行后，任务划分，节点间的协作，数据同步等等都是消耗。如果待处理的数据量
+  本身很小，则没有必要去起并行操作。数据库里面，由数据库引擎根据各种运算的成本自动对
+  DOP 进行评估。
+
+- 数据划分\\
+  决定好了 DOP 之后，就需要对数据进行划分，并分配给各个进程。数据的划分基本上根据架构分为两大
+  类。
+
+    #+CAPTION: share_nothing
+    #+LABEL: fig:Shared Nothing
+    [[../assets/img/shared_nothing_everything.tiff]]
+
+  + Shared Nothing 架构 \\
+
+    一般应用于大规模并行处理 (Massively Parallel Processing, MPP) 中，数据通过一定
+    Hash 算法分布到集群中的不同节点上，节点间不共享任何数据。如
+
+    该架构下，节点只能访问自己的数据，数据划分的算法在 MPP 初始化时就已经决定：数据处
+    理单元的数量即是最小的 DOP。
+
+  + Shared Everything 架构
+
+    Oracle 采用的是 shared nothing 架构，该架构无需预先定义数据切分。所有数据对于所有
+    的处理单元都可见，DOP 也因此与实际的数据存储解耦。
+
+* Oracle 的并行执行
