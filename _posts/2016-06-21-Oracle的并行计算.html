@@ -133,20 +133,13 @@ Oracle 的 SQL 并行执行建立于几个基本概念之上。
 
 <ul class="org-ul">
 <li>块基颗粒 <br  />
+  Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的粒度
 </li>
-</ul>
-<p>
-Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的粒度
-</p>
 
-<ul class="org-ul">
 <li>片基颗粒 <br  />
+  块基颗粒对应还有一种颗粒名为 “片基颗粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
 </li>
 </ul>
-
-<p>
-块基颗粒对应还有一种颗粒名为 “片基颗粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
-</p>
 
 
 <p>

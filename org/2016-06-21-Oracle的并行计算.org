@@ -74,13 +74,12 @@ Oracle 的 SQL 并行执行建立于几个基本概念之上。
 颗粒 (granule) 是指访问数据是的最小的工作单元。
 
 - 块基颗粒 \\
-Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的
-粒度
+  Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的
+  粒度
 
 - 片基颗粒 \\
-
-块基颗粒对应还有一种颗粒名为 “片基颗
-粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
+  块基颗粒对应还有一种颗粒名为 “片基颗
+  粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
 
 
 当分片数大于 DOP 时， Oracle 引擎才会考虑使用片基颗粒，此过程用户无法干预。
