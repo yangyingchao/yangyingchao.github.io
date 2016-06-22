@@ -1,0 +1,152 @@
+---
+layout : post
+title : Emacs On OSX
+categories : Emacs
+tags : emacs  osx
+---
+<p>
+OS X 下可以通过 <a href="https://wiki.gentoo.org/wiki/Project:Prefix">Gentoo Prefix</a> 或者 <a href="https://www.macports.org">macport</a> 或者 <a href="http://brew.sh/index_zh-cn.html">home brew</a> 来安装 Emacs。安装完的 Emacs
+使 OS X 原生的 Cocoa UI，很不错。但如果在 Finder 里面直接双机打开文件的话，每次都会新创出一个新的 Frame 来。
+</p>
+
+<p>
+在使用 Finder 打开文件时，可不可以这样：
+</p>
+
+<ul class="org-ul">
+<li>如果没有启动的 Emacs 实例，则创建 Emacs 实例，并打开文件。
+</li>
+<li>如果已经有启动的 Emacs，则在新的 buffer 中打开，并升起 Emacs 窗口。
+</li>
+</ul>
+
+<p>
+Google 一下，发现有现成的解决方案：Automator。
+</p>
+
+
+<p>
+具体步骤如下：
+</p>
+
+<ol class="org-ol">
+<li>打开 Automator，创建一个新的 App。
+</li>
+<li>从 Automator 中选择 shell，并添加如下代码：
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">!/bin/</span><span style="color: #ff4040;">bash</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+
+<span style="color: #daa520;">EMACS</span>=/opt/Applications/Gentoo/Emacs-24.app/Contents/MacOS/Emacs
+<span style="color: #daa520;">EMACSCLIENT</span>=/opt/usr/bin/emacsclient
+
+<span style="color: #32cd32;">export</span> <span style="color: #daa520;">LC_CTYPE</span>=zh_CN.UTF-8
+<span style="color: #32cd32;">export</span> <span style="color: #daa520;">LC_ALL</span>=
+
+<span style="color: #1e90ff; font-weight: bold;">_is_emacs_daemon_started</span> () {
+    netstat -nl 2&gt; /dev/null | awk <span style="color: #d78700;">'{print $NF}'</span> | grep -q <span style="color: #d78700;">"emacs"</span>
+}
+
+<span style="color: #1e90ff; font-weight: bold;">_is_emacs_window_exist</span> () {
+    _is_emacs_daemon_started &amp;&amp; <span style="color: #d78700;">\ </span>$<span style="color: #daa520;">EMACSCLIENT</span> -e <span style="color: #d78700;">'(&lt;= </span><span style="color: #32cd32;">2</span><span style="color: #d78700;"> (length (visible-frame-list)))'</span> | grep -q -x t
+}
+
+<span style="color: #1e90ff; font-weight: bold;">kill_emacs</span> () {
+    <span style="color: #ff4040;">if</span> _is_emacs_daemon_started;
+    <span style="color: #ff4040;">then</span> $<span style="color: #daa520;">EMACSCLIENT</span> -e -n <span style="color: #d78700;">'(let ((desktop-save '\''if-exists)) (dolist (f (cdr-safe (reverse (frame-list)))) (delete-f</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">rame f t)) (kill-emacs "yyyyyy"))'</span>
+         <span style="color: #ff4040;">if</span> _is_emacs_daemon_started;
+         <span style="color: #ff4040;">then</span> ps -u $<span style="color: #daa520;">UID</span> -o pid,<span style="color: #daa520;">comm</span>= | grep Emacs$ | cut -d<span style="color: #d78700;">' '</span> -f1 | xargs -n 1 kill
+         <span style="color: #ff4040;">fi</span>
+    <span style="color: #ff4040;">fi</span>
+    <span style="color: #ff4040;">return</span> 0
+}
+
+<span style="color: #1e90ff; font-weight: bold;">start_emacs</span> ()
+{
+    $<span style="color: #daa520;">EMACS</span> &amp;&gt;/dev/null &amp;
+    <span style="color: #ff4040;">return</span> $<span style="color: #daa520;">?</span>
+}
+
+<span style="color: #1e90ff; font-weight: bold;">main</span> () {
+    _is_emacs_daemon_started
+    <span style="color: #ff4040;">if</span> [ $<span style="color: #daa520;">?</span> -ne 0 ] ; <span style="color: #ff4040;">then</span>
+        start_emacs
+        <span style="color: #ff4040;">if</span> [ $<span style="color: #daa520;">?</span> -eq 0 ]; <span style="color: #ff4040;">then</span>
+            <span style="color: #32cd32;">echo</span> <span style="color: #d78700;">' [sucess]'</span>
+        <span style="color: #ff4040;">else</span>
+            <span style="color: #32cd32;">echo</span> <span style="color: #d78700;">' [faild]'</span>
+            <span style="color: #ff4040;">return</span> 1
+        <span style="color: #ff4040;">fi</span>
+    <span style="color: #ff4040;">fi</span>
+
+    <span style="color: #ff4040;">if</span> [ <span style="color: #d78700;">"$1"</span> = <span style="color: #d78700;">"-t"</span> ]; <span style="color: #ff4040;">then</span>
+        $<span style="color: #daa520;">EMACSCLIENT</span> -n <span style="color: #d78700;">"$@"</span>
+    <span style="color: #ff4040;">elif</span> [ -z <span style="color: #d78700;">"$1"</span> ];  <span style="color: #ff4040;">then</span>
+        <span style="color: #ff4040;">if</span> ! _is_emacs_window_exist;  <span style="color: #ff4040;">then</span>
+            $<span style="color: #daa520;">EMACSCLIENT</span> -n
+        <span style="color: #ff4040;">fi</span>
+        osascript -e <span style="color: #d78700;">'tell application "Emacs" to activate'</span>
+        <span style="color: #ff4040;">return</span> 0
+    <span style="color: #ff4040;">else</span>
+        <span style="color: #ff4040;">if</span> ! _is_emacs_window_exist;  <span style="color: #ff4040;">then</span>
+            $<span style="color: #daa520;">EMACSCLIENT</span> -n
+        <span style="color: #ff4040;">fi</span>
+        <span style="color: #ff4040;">if ! </span><span style="color: #32cd32;">echo</span> <span style="color: #d78700;">"$*"</span> | grep -q -e <span style="color: #d78700;">'-n'</span>; <span style="color: #ff4040;">then</span>
+            osascript -e <span style="color: #d78700;">'tell application "Emacs" to activate'</span>
+        <span style="color: #ff4040;">fi</span>
+        $<span style="color: #daa520;">EMACSCLIENT</span> -n <span style="color: #d78700;">"$@"</span>
+    <span style="color: #ff4040;">fi</span>
+    osascript -e <span style="color: #d78700;">'tell application "Emacs" to activate'</span>
+}
+
+main <span style="color: #d78700;">"$@"</span>
+</pre>
+</div>
+
+<p>
+其中的 <code>EMACS</code> 和 <code>EMACSCLIENT</code> 根据实际情况填写正确的路径。
+</p>
+
+<p>
+之后将右侧的传递输入改成 “作为自变量”，最后将工程保存为 RunEmacs.App 即可：
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/automator-emacs.png" alt="automator-emacs.png" />
+</p>
+</div>
+</li>
+
+<li>将 RunEmacs.app 设置为默认程序即可。
+</li>
+</ol>
+
+
+<p>
+PS：
+</p>
+
+<p>
+修改 RunEmacs 的图标 <a href="http://apple.stackexchange.com/questions/369/can-i-change-the-application-icon-of-an-automator-script%EF%BC%9A">http://apple.stackexchange.com/questions/369/can-i-change-the-application-icon-of-an-automator-script%EF%BC%9A</a>
+</p>
+
+
+   <div class="post-text" itemprop="text">
+<p>After the script has been created do the following :</p>
+
+<ol>
+<li><p>Find the <strong>source app</strong> with the icon you want</p></li>
+<li><p><em>Get Info</em> of the <strong>source app</strong> (<kbd>cmd</kbd>-<kbd>i</kbd>)</p></li>
+<li><p>Click on the icon inside the <strong>source app's</strong> info window
+(Not the one in the big Preview section at the bottom, if you have one of those; the little one in the top-left corner.)</p></li>
+<li><p>Copy it (<kbd>cmd</kbd>-<kbd>c</kbd>)</p></li>
+<li><p><em>Get Info</em> of the automator script (i.e., the <strong>destination app</strong>) (<kbd>cmd</kbd>-<kbd>i</kbd>)</p></li>
+<li><p>Click on the icon inside the <strong>destination app's</strong> info window</p></li>
+<li><p>Paste the icon from the clipboard (<kbd>cmd</kbd>-<kbd>v</kbd>)</p></li>
+</ol>
+
+<p>This method works for every files in Mac OS X.</p>
+    </div>

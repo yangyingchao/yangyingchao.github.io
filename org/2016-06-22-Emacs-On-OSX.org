@@ -1,0 +1,131 @@
+#+TITLE: Emacs On OSX
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao[at]gmail[dot]com
+#+KEYWORDS: emacs, osx
+#+CATEGORY: Emacs
+#+DESCRIPTION: (nil)
+#+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+
+OS X 下可以通过 [[https://wiki.gentoo.org/wiki/Project:Prefix][Gentoo Prefix]] 或者 [[https://www.macports.org][macport]] 或者 [[http://brew.sh/index_zh-cn.html][home brew]] 来安装 Emacs。安装完的 Emacs
+使 OS X 原生的 Cocoa UI，很不错。但如果在 Finder 里面直接双机打开文件的话，每次都会新
+创出一个新的 Frame 来。
+
+在使用 Finder 打开文件时，可不可以这样：
+
+- 如果没有启动的 Emacs 实例，则创建 Emacs 实例，并打开文件。
+- 如果已经有启动的 Emacs，则在新的 buffer 中打开，并升起 Emacs 窗口。
+
+Google 一下，发现有现成的解决方案：Automator。
+
+
+具体步骤如下：
+
+1. 打开 Automator，创建一个新的 App。
+2. 从 Automator 中选择 shell，并添加如下代码：
+
+   #+BEGIN_SRC sh
+     #!/bin/bash
+     #
+
+     EMACS=/opt/Applications/Gentoo/Emacs-24.app/Contents/MacOS/Emacs
+     EMACSCLIENT=/opt/usr/bin/emacsclient
+
+     export LC_CTYPE=zh_CN.UTF-8
+     export LC_ALL=
+
+     _is_emacs_daemon_started () {
+         netstat -nl 2> /dev/null | awk '{print $NF}' | grep -q "emacs"
+     }
+
+     _is_emacs_window_exist () {
+         _is_emacs_daemon_started && \ $EMACSCLIENT -e '(<= 2 (length (visible-frame-list)))' | grep -q -x t
+     }
+
+     kill_emacs () {
+         if _is_emacs_daemon_started;
+         then $EMACSCLIENT -e -n '(let ((desktop-save '\''if-exists)) (dolist (f (cdr-safe (reverse (frame-list)))) (delete-frame f t)) (kill-emacs "yyyyyy"))'
+              if _is_emacs_daemon_started;
+              then ps -u $UID -o pid,comm= | grep Emacs$ | cut -d' ' -f1 | xargs -n 1 kill
+              fi
+         fi
+         return 0
+     }
+
+     start_emacs ()
+     {
+         $EMACS &>/dev/null &
+         return $?
+     }
+
+     main () {
+         _is_emacs_daemon_started
+         if [ $? -ne 0 ] ; then
+             start_emacs
+             if [ $? -eq 0 ]; then
+                 echo ' [sucess]'
+             else
+                 echo ' [faild]'
+                 return 1
+             fi
+         fi
+
+         if [ "$1" = "-t" ]; then
+             $EMACSCLIENT -n "$@"
+         elif [ -z "$1" ];  then
+             if ! _is_emacs_window_exist;  then
+                 $EMACSCLIENT -n
+             fi
+             osascript -e 'tell application "Emacs" to activate'
+             return 0
+         else
+             if ! _is_emacs_window_exist;  then
+                 $EMACSCLIENT -n
+             fi
+             if ! echo "$*" | grep -q -e '-n'; then
+                 osascript -e 'tell application "Emacs" to activate'
+             fi
+             $EMACSCLIENT -n "$@"
+         fi
+         osascript -e 'tell application "Emacs" to activate'
+     }
+
+     main "$@"
+   #+END_SRC
+
+   其中的 =EMACS= 和 =EMACSCLIENT= 根据实际情况填写正确的路径。
+
+   之后将右侧的传递输入改成 “作为自变量”，最后将工程保存为 RunEmacs.App 即可：
+
+   [[../assets/img/automator-emacs.png]]
+
+3. 将 RunEmacs.app 设置为默认程序即可。
+
+
+PS：
+
+修改 RunEmacs 的图标 http://apple.stackexchange.com/questions/369/can-i-change-the-application-icon-of-an-automator-script：
+
+   #+BEGIN_HTML
+
+   <div class="post-text" itemprop="text">
+<p>After the script has been created do the following :</p>
+
+<ol>
+<li><p>Find the <strong>source app</strong> with the icon you want</p></li>
+<li><p><em>Get Info</em> of the <strong>source app</strong> (<kbd>cmd</kbd>-<kbd>i</kbd>)</p></li>
+<li><p>Click on the icon inside the <strong>source app's</strong> info window
+(Not the one in the big Preview section at the bottom, if you have one of those; the little one in the top-left corner.)</p></li>
+<li><p>Copy it (<kbd>cmd</kbd>-<kbd>c</kbd>)</p></li>
+<li><p><em>Get Info</em> of the automator script (i.e., the <strong>destination app</strong>) (<kbd>cmd</kbd>-<kbd>i</kbd>)</p></li>
+<li><p>Click on the icon inside the <strong>destination app's</strong> info window</p></li>
+<li><p>Paste the icon from the clipboard (<kbd>cmd</kbd>-<kbd>v</kbd>)</p></li>
+</ol>
+
+<p>This method works for every files in Mac OS X.</p>
+    </div>
+   #+END_HTML
