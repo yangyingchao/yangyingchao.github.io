@@ -1,8 +1,6 @@
-permalink: /:year/:month/:day/:title.html
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "org"]
-highlighter: rouge
-
-markdown: kramdown
+future: true
+permalink: /:title/
+url: http://yangyingchao.github.io
 
 title : TBlog
 author :
@@ -10,32 +8,6 @@ name : Tubo
 email : yangyingchao@gmail.com
 github : yangyingchao
 
-rss_url: /pages/feed.xml
-
-
-production_url : http://yangyingchao.github.io
-
-# Sidebar filter
-# Choose 'tag' or 'category' as filter in sidebar.
-filter: 'category'
-
-# Social account
-twitter:
-# weibo:    ID
-# codepen:  username
-# dribbble: username
-
-
-# Build settings
-permalink: /:year/:month/:day/:title.html
-markdown: kramdown
+paginate: 20
 highlighter: rouge
-sass:
-style: compressed
-
-# Jekyll Plugin
-# https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/
-gems:
-- jekyll-sitemap
-- jekyll-seo-tag
-- jekyll-feed
+truncate: true
