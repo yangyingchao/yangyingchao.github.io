@@ -1,0 +1,41 @@
+
+#menu
+  margin-right: 4ex
+  right: 30px
+  z-index: 300
+  height: 42px
+  background: transparent
+  border: none
+  outline: none
+  overflow: hidden
+  position: absolute
+  top: 1rem
+  left: 1rem
+  width: 2.2rem
+  color: #2D3436
+  padding: .5rem .65rem
+  border-radius: 4px
+  cursor: pointer
+
+  &-icons
+    display: block
+    width: 200%
+    height: 42px
+    margin-left: -100%
+    @extend %icon
+    font-size: 24px
+    line-height: 42px
+    color: #2D3436
+    overflow: hidden
+    transition: transform .35s $time-function
+
+    &:before
+      @extend %icon-menu
+      /* float: left
+      /* width: 50%
+    &:after
+      @extend %icon-menu
+      /* float: left
+      /* width: 50%
+  /* &.open > &-icons
+  /*   transform: translateX(50%)
