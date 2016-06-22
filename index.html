@@ -14,7 +14,7 @@ layout: page
     <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
     <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
     <p>
-      {{ post.excerpt | remove: '<p>' | remove: '</p>' }} &raquo;
+      {{ post.excerpt |  strip_html | truncate: 500 }} &raquo;
   	<a href="{{ post.url }}">read more...</a>
   	</p>
   </li>
