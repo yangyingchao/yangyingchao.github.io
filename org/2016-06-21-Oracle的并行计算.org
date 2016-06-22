@@ -27,8 +27,6 @@
   决定好了 DOP 之后，就需要对数据进行划分，并分配给各个进程。数据的划分基本上根据架构分为两大
   类。
 
-    #+CAPTION: share_nothing
-    #+LABEL: fig:Shared Nothing
     [[../assets/img/shared_nothing_everything.tiff]]
 
   + Shared Nothing 架构 \\
@@ -45,3 +43,44 @@
     的处理单元都可见，DOP 也因此与实际的数据存储解耦。
 
 * Oracle 的并行执行
+
+Oracle 可以在无需人为干预的情况进行复杂任务的并行化执行，例如：数据加载，查询，DML，
+DDL 等。
+
+** SQL 语句的并行处理
+
+Oracle 的 SQL 并行执行建立于几个基本概念之上。
+
+*** Query Coordinator (QC) and Parallel Execution (PX) servers
+
+- *QC* 查询协调器\\
+  指发起查询语句的那个会话，负责向 *PX Server* 分布任务，并执行少量的不能并行的任务。
+
+- *PX server* 并行执行服务器\\
+  真正执行并行运算的节点。由于 Oracle 采用了 shared_nothing 架构， PX server 实际上是
+  从一个 PX Server Pool 里面选取的，在该会话过程当中只服务于本会话。
+
+两者之间以及他们和用户之间的关系如下图：
+#+LABEL: fig:qc_px
+[[../assets/img/qc_px.png]]
+
+*** 生产者消费者模型
+
+*PX Servers* 可以进一步分为两类：
+- 生产者 (Producer) 用来生成数据
+- 消费者 (Consumer) 用来消费数据
+
+*** 颗粒
+颗粒 (granule) 是指访问数据是的最小的工作单元。
+
+- 块基颗粒 \\
+Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的
+粒度
+
+- 片基颗粒 \\
+
+块基颗粒对应还有一种颗粒名为 “片基颗
+粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
+
+
+当分片数大于 DOP 时， Oracle 引擎才会考虑使用片基颗粒，此过程用户无法干预。
