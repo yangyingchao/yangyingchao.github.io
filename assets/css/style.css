@@ -11,7 +11,7 @@
 
 body{font-size:14px;word-spacing:1px;
 	 margin-left:auto;
-	 font: "Open Sans", "Hiragino Sans GB", sans-serif;
+	 font-family:Monaco,Menlo,"Courier New",monospace;
 	 margin-right:auto;
 	 color:#000000;background-color:#ffffff;}
 *{padding:0;margin: 0;border:none;outline:none;}
