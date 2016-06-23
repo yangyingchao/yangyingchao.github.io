@@ -2,6 +2,7 @@ body {
 	font-size: 15px;
 	word-spacing: 1px;
 	margin-left: auto;
+
 	font-family: Helvetica, Verdana, Arial, sans-serif;
 	margin-right: auto;
 	color: #000000;
@@ -21,35 +22,35 @@ a {
 	text-decoration: none;
 }
 
-a: hover {
+a:hover {
 	color: #309E85;
 	text-decoration: underline;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  color: #25BFBF;
-  letter-spacing: -.025rem;
+ font-family: "PT Sans", Helvetica, Arial, sans-serif;
+ font-weight: 400;
+ color: #25BFBF;
+ letter-spacing: -.025rem;
 }
 
 h1 {
-  font-size: 2rem;
+ font-size: 2rem;
 }
 
 h2 {
-  margin-top: 1rem;
-  font-size: 1.5rem;
+ margin-top: 1rem;
+ font-size: 1.5rem;
 }
 
 h3 {
-  margin-top: 1.5rem;
-  font-size: 1.25rem;
+ margin-top: 1.5rem;
+ font-size: 1.25rem;
 }
 
 h4, h5, h6 {
-  margin-top: 1rem;
-  font-size: 1rem;
+ margin-top: 1rem;
+ font-size: 1rem;
 }
 
 
@@ -128,7 +129,7 @@ blockquote p {
 	margin-bottom: 1em;
 }
 
-#tag_cloud a: hover {
+#tag_cloud a:hover {
 	color: #333333 !important;
 	text-decoration: none;
 }
@@ -186,7 +187,7 @@ nav a {
 	color: #000000;
 }
 
-nav a: hover {
+nav a:hover {
 	background-color: #309E85;
 	text-decoration: none;
 	color: #f9f9f9;
@@ -256,7 +257,7 @@ footer a {
 	text-decoration: none;
 }
 
-footer a: hover {
+footer a:hover {
 	border-bottom: 1px dashed #BBB;
 	text-decoration: none;
 }
@@ -308,7 +309,7 @@ footer a: hover {
 	background: #ff0000;
 }
 
-.paginator a: hover {
+.paginator a:hover {
 	color: white;
 	background: #83BF73;
 }
