@@ -31,7 +31,7 @@
 
   + Shared Nothing 架构 \\
 
-    一般应用于大规模并行处理 (Massively Parallel Processing, MPP) 中，数据通过一定
+    一般应用于海量并行处理 (Massively Parallel Processing, MPP) 中，数据通过一定
     Hash 算法分布到集群中的不同节点上，节点间不共享任何数据。如
 
     该架构下，节点只能访问自己的数据，数据划分的算法在 MPP 初始化时就已经决定：数据处
