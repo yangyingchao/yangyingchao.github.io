@@ -1,0 +1,283 @@
+---
+layout : post
+title : Info Of Bison
+categories : Develop
+tags : bison  parser
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. 简介</a></li>
+<li><a href="#sec-2">2. Tutorial Sections</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Bison 基本概念</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 简介</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Bison 是一个生成解释器的生成器，用于将上下文无关的语法转换成为特定的解释表。 Bison 可以兼容 yacc。
+</p>
+
+
+<div class="figure">
+<p><img src="../../../assets/img/grammer_bison_language.png" alt="grammer_bison_language.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Tutorial Sections</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Bison 基本概念</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Languages and Context-Free Grammars</h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div><ol class="org-ol"><li><a id="sec-2-1-1-1" name="sec-2-1-1-1"></a>Context-Free Grammer<br  /><div class="outline-text-5" id="text-2-1-1-1">
+<ul class="org-ul">
+<li><i>Context-Free Grammer</i> 是一系列的语法规则，最常见的表达形式为 <i>Backus-Naur Form</i> 即巴克斯范式(BNF)。
+</li>
+<li><i>Context-Free Grammer</i> 有很多子类，但 Bison 为 LR 做了更多的优化。
+</li>
+<li><b>LR</b> : Deterministric LR.
+</li>
+<li><b>GLR</b>: Generalized LR.
+</li>
+</ul>
+</div>
+</li>
+
+
+<li><a id="sec-2-1-1-2" name="sec-2-1-1-2"></a><b>Symbols</b>: 任意的词法单元及其组合被称为 符号。<br  /><div class="outline-text-5" id="text-2-1-1-2">
+<ul class="org-ul">
+<li><b>NonTernimal Symbols</b> : 由更小的 symbol 根据语法规则组合而成。
+</li>
+<li><b>Terminal Symbols</b> : 无法继续细分的 symbols，又名 <code>Token Types</code> .
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-2-1-1-3" name="sec-2-1-1-3"></a><code>Start Symbol</code><br  /><div class="outline-text-5" id="text-2-1-1-3">
+<p>
+One nonterminal symbol must be distinguished as the special one which
+defines a complete utterance in the language.  It is called the "start
+symbol".
+</p>
+
+<p>
+The Bison parser reads a sequence of tokens as its input, and groups
+the tokens using the grammar rules.  If the input is valid, the end
+result is that the entire token sequence reduces to a single grouping
+whose symbol is the grammar's start symbol.
+</p>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> From Formal Rules to Bison Input</h4>
+<div class="outline-text-4" id="text-2-1-2">
+</div><ol class="org-ol"><li><a id="sec-2-1-2-1" name="sec-2-1-2-1"></a>Representation of symbols<br  /><div class="outline-text-5" id="text-2-1-2-1">
+<ul class="org-ul">
+<li>Non-terminal Symbol
+<ul class="org-ul">
+<li>also known as <b>identifier</b>
+</li>
+<li>should be in lower case, such as `expr', `stmt'.
+</li>
+</ul>
+</li>
+
+<li>Ternminal Symbol
+<ul class="org-ul">
+<li>also known as `token type'
+</li>
+<li>should be upper case, such as `INTEGER', `IF'.
+</li>
+<li>keyword `error' is reserved by Bison.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-2-1-2-2" name="sec-2-1-2-2"></a>Example:<br  /><div class="outline-text-5" id="text-2-1-2-2">
+<div class="org-src-container">
+
+<pre class="src src-bison"><span class="linenr">1: </span><span style="color: #ff4040;">%token</span> RETURN;
+<span class="linenr">2: </span><span style="color: #7fffd4; font-weight: bold;">stmt</span>: <span style="color: #32cd32;">RETURN</span> <span style="color: #daa520;">expr</span> <span style="color: #d78700;">';'</span> ;
+</pre>
+</div>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> Semantic Values</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+Each token in a Bison grammar has both a token type and a "semantic value".
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-2-1-3-1" name="sec-2-1-3-1"></a>Token Type<br  /><div class="outline-text-5" id="text-2-1-3-1">
+<ul class="org-ul">
+<li>The token type is a terminal symbol defined in the grammar, such as `INTEGER', `IDENTIFIER' or `',''.
+</li>
+<li>It tells everything you need to know to decide where the token may validly appear and how to group it with other tokens.
+</li>
+<li>The grammar rules know nothing about tokens except their types.
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-2-1-3-2" name="sec-2-1-3-2"></a>Semantic Value<br  /><div class="outline-text-5" id="text-2-1-3-2">
+<p>
+The semantic value has all the rest of the information about the
+meaning of the token, such as the value of an integer, or the name of an
+identifier.  (A token such as `','' which is just punctuation doesn't
+need to have any semantic value.)
+</p>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-2-1-4" class="outline-4">
+<h4 id="sec-2-1-4"><span class="section-number-4">2.1.4</span> Semantic Actions</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+In order to be useful, a program must do more than parse input; it must
+also produce some output based on the input.  In a Bison grammar, a
+grammar rule can have an "action" made up of C statements.  Each time
+the parser recognizes a match for that rule, the action is executed.
+</p>
+
+<p>
+For example, here is a rule that says an expression can be the sum of
+two subexpressions:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bison"><span class="linenr">1: </span><span style="color: #7fffd4; font-weight: bold;">expr</span>: expr <span style="color: #d78700;">'+'</span> expr   { $$ = $1 + $3; } ;
+</pre>
+</div>
+
+
+<p>
+The action says how to produce the semantic value of the sum expression
+from the values of the two subexpressions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-5" class="outline-4">
+<h4 id="sec-2-1-5"><span class="section-number-4">2.1.5</span> Stages in Using Bison</h4>
+<div class="outline-text-4" id="text-2-1-5">
+</div><ol class="org-ol"><li><a id="sec-2-1-5-1" name="sec-2-1-5-1"></a>Grammar specification:<br  /><div class="outline-text-5" id="text-2-1-5-1">
+<ul class="org-ul">
+<li>Provide Grammar file.
+</li>
+<li>Provide Lexcial analyzer
+</li>
+<li>Write Controlling function
+</li>
+<li>Write error-reporting routines.
+</li>
+</ul>
+</div>
+</li>
+
+<li><a id="sec-2-1-5-2" name="sec-2-1-5-2"></a>Turn source code into executable app:<br  /><div class="outline-text-5" id="text-2-1-5-2">
+<ul class="org-ul">
+<li>Run Bison to produce parser.
+</li>
+<li>Compile code output by Bison and other files.
+</li>
+<li>Link object files to produce finished product.
+</li>
+</ul>
+</div>
+</li></ol>
+</div>
+
+<div id="outline-container-sec-2-1-6" class="outline-4">
+<h4 id="sec-2-1-6"><span class="section-number-4">2.1.6</span> The Overall Layout of a Bison Grammar</h4>
+<div class="outline-text-4" id="text-2-1-6">
+<p>
+Bison grammar file looks like:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">%{
+PROLOGUE
+%}
+
+BISON DECLARATIONS
+
+%%
+GRAMMAR RULES
+%%
+EPILOGUE
+</pre>
+</div>
+
+<p>
+其中:
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="sec-2-1-6-1" name="sec-2-1-6-1"></a><code>%%</code> 与 <code>%{</code> <code>%}</code><br  /><div class="outline-text-5" id="text-2-1-6-1">
+<p>
+section 的分界，界定不同的 section.
+</p>
+</div>
+</li>
+
+<li><a id="sec-2-1-6-2" name="sec-2-1-6-2"></a>prologue 序言<br  /><div class="outline-text-5" id="text-2-1-6-2">
+<p>
+用于引入所需的头文件，定义错误处理函数，定义自己的宏等等。
+</p>
+</div>
+</li>
+
+<li><a id="sec-2-1-6-3" name="sec-2-1-6-3"></a>Bison declarations<br  /><div class="outline-text-5" id="text-2-1-6-3">
+<p>
+declare the names of the terminal and
+nonterminal symbols, and may also describe operator precedence and the
+data types of semantic values of various symbols.
+</p>
+</div>
+</li>
+
+<li><a id="sec-2-1-6-4" name="sec-2-1-6-4"></a>grammar rules<br  /><div class="outline-text-5" id="text-2-1-6-4">
+<p>
+define how to construct each nonterminal symbol from its parts.
+</p>
+</div>
+</li>
+
+<li><a id="sec-2-1-6-5" name="sec-2-1-6-5"></a>epilogue<br  /><div class="outline-text-5" id="text-2-1-6-5">
+<p>
+contain any code you want to use.  Often the
+definitions of functions declared in the prologue go here.  In a simple
+program, all the rest of the program can go here.
+</p>
+</div>
+</li></ol>
+</div>
+</div>
+</div>
