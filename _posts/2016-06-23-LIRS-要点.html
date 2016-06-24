@@ -8,22 +8,30 @@ tags : algorithm
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">概念</a>
+<li><a href="#sec-1">Recency &amp; Inter-reference Recency</a>
 <ul>
-<li><a href="#sec-1-1">Recency &amp; Inter-reference Recency</a></li>
-<li><a href="#sec-1-2">冷页与热页</a></li>
-<li><a href="#sec-1-3">Stack &amp; Queue</a></li>
-<li><a href="#sec-1-4">页替换规则</a>
-<ul>
-<li><a href="#sec-1-4-1">热页</a></li>
-<li><a href="#sec-1-4-2">驻留冷页</a></li>
-<li><a href="#sec-1-4-3">非驻留冷页</a></li>
+<li><a href="#sec-1-1">Recency \\</a></li>
+<li><a href="#sec-1-2">IRR: Inter-Reference Recency \\</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">页的状态</a></li>
+<li><a href="#sec-2">冷页与热页</a></li>
+<li><a href="#sec-3">Stack &amp; Queue</a>
+<ul>
+<li><a href="#sec-3-1">Stack</a></li>
+<li><a href="#sec-3-2">Queue</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">NCDB 中的 LIRS</a></li>
+<li><a href="#sec-4">页替换规则</a>
+<ul>
+<li><a href="#sec-4-1">热页</a></li>
+<li><a href="#sec-4-2">驻留冷页</a></li>
+<li><a href="#sec-4-3">如果该页之前已经在栈里：\\</a></li>
+<li><a href="#sec-4-4">如果该页之前仅在队里（之前为冷页）：\\</a></li>
+<li><a href="#sec-4-5">非驻留冷页</a></li>
+<li><a href="#sec-4-6">如果该页之前仅在队里（之前为冷页）：\\</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">页的状态</a></li>
 </ul>
 </div>
 </div>
@@ -31,161 +39,162 @@ tags : algorithm
 简单记录一下 <b>LIRS</b> 相关要点。
 </p>
 
+
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">概念</h2>
+<h2 id="sec-1">Recency &amp; Inter-reference Recency</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Recency &amp; Inter-reference Recency</h3>
+<p>
+LIRS*: Low Inter-reference Recency Set，中文？？
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Recency \\</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-<b>LIRS</b>: Low Inter-reference Recency Set，中文？？
-</p>
-
-<ul class="org-ul">
-<li>Recency <br  />
-</li>
-</ul>
-<p>
-页面上次访问至今，共访问了多少其他页面。
-</p>
-
-<ul class="org-ul">
-<li>IRR: Inter-Reference Recency <br  />
-</li>
-</ul>
-<p>
-该页最近两次访问之间访问了多少次其他页面。 IRR 越大 (high)，表示该页被使用的间隔越长，频率越低，即越 “冷”。反之， IRR 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
+面上次访问至今，共访问了多少其他页面。
 </p>
 </div>
 </div>
-
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">冷页与热页</h3>
+<h3 id="sec-1-2">IRR: Inter-Reference Recency \\</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-页面根据 IRR 分为了两类： LIR (low IRR) 与 HIR (high IRR) ，也即：热页与冷页。其中，热页驻留内存，而冷页则不一定驻留。
-</p>
-
-<p>
-热页的数量略小于 Cache 中能缓存的页面总数大小，再热页限制到达之前，所有页面都是热页。而当热页限制到达之后， <b>LIRS</b> 根据<i>算法</i> 来进行后续处理。
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">Stack &amp; Queue</h3>
-<div class="outline-text-3" id="text-1-3">
-<p>
-<b>LIRS</b> 算法中借用了两个数据结构来实现： Stack &amp; Queue
-</p>
-
-<ul class="org-ul">
-<li>Stack <br  />
-</li>
-</ul>
-
-<p>
-Stack (栈) 是 LIRS  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
-Stack 本身依据 Recency 排序：越老的越靠近栈底，越新的越靠近栈顶。栈里面比 least recent hot page 还老的页会从栈中移除 (stack pruning)，因此栈底的页始终是热页。
-</p>
-
-<p>
-Stack 中的冷页其实是住在一个 “试用期”，如果期间冷页被再次引用，则转为热页，否则将最终被从栈底移除。
-</p>
-
-<ul class="org-ul">
-<li>Queue <br  />
-</li>
-</ul>
-
-<p>
-Queue (队) 中保存了所有驻留内存的冷页。当热页从 Stack 中移除时，该页被加入到 Queue
-的末尾。而当需要进行页面替代时， <b>LIRS</b> 会从 Queue 的首部取出一个页面以供使用。
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">页替换规则</h3>
-<div class="outline-text-3" id="text-1-4">
-<p>
-当向 <b>LIRS List</b> 中插入页时，会根据待插入的页类型来进行处理：
-</p>
-</div>
-
-<div id="outline-container-sec-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1">热页</h4>
-<div class="outline-text-4" id="text-1-4-1">
-<p>
-如果待插入页为热页，将该页置于栈顶，而如果该页之前处于栈底，则需对栈进行<i>清理</i>
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2">驻留冷页</h4>
-<div class="outline-text-4" id="text-1-4-2">
-<p>
-首先将该页置于栈顶，并做如下处理：
-</p>
-
-<ul class="org-ul">
-<li>如果该页之前已经在栈里：<br  />
-<ol class="org-ol">
-<li>则将其转换为热页，并从队中移除。
-</li>
-<li>将栈底标记为冷页，并移到队尾。
-</li>
-<li>对栈进行<i>清理</i> 。
-</li>
-</ol>
-</li>
-
-<li>如果该页之前仅在队里（之前为冷页）：<br  />
-  不改变冷热状态，但挪动队尾。
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3">非驻留冷页</h4>
-<div class="outline-text-4" id="text-1-4-3">
-<p>
-从队首移除一条记录，并将其从 Cache 中驱逐。如果被驱逐的记录之前已经在栈里，则其仍处于未绑定状，依然处于试用期。将这个记录与 cache 页绑定，并移植栈顶：如果该页之前已经在栈里：<br  />
-</p>
-<ol class="org-ol">
-<li>则将其转换为热页，并从队中移除。
-</li>
-<li>将栈底标记为冷页，并移到队尾。
-</li>
-<li>对栈进行<i>清理</i> 。
-</li>
-
-<li>如果该页之前仅在队里（之前为冷页）：<br  />
-  不改变冷热状态，但挪动队尾。
-</li>
-</ol>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">页的状态</h3>
-<div class="outline-text-3" id="text-1-5">
-<p>
-栈里面的页可以是绑定的，页可以是非绑定的，但队里面的页必须是绑定状态的。
+页最近两次访问之间访问了多少次其他页面。 IRR 越大 (high)，表示该页被使用的间隔越长，频率越低，越 “冷”。反之， IRR 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
 </p>
 </div>
 </div>
 </div>
+
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">NCDB 中的 LIRS</h2>
+<h2 id="sec-2">冷页与热页</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-实现在了 <code>pgman.hpp</code> 中。
+面根据 IRR 分为了两类： LIR (low IRR) 与 HIR (high IRR) ，也即：热页与冷页。中，热页驻留内存，而冷页则不一定驻留。
+</p>
+
+<p>
+页的数量略小于 Cache 中能缓存的页面总数大小，再热页限制到达之前，所有页面都是热页。而当热限制到达之后， <b>LIRS</b> 根据<i>算法</i> 来进行后续处理。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Stack &amp; Queue</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+LIRS* 算法中借用了两个数据结构来实现： Stack &amp; Queue
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Stack</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+tack (栈) 是 LIRS  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
+tack 本身依据 Recency 排序：越老的越靠近栈底，越新的越靠近栈顶。栈里面比 least recent hot page 还的页会从栈中移除 (stack pruning)，因此栈底的页始终是热页。
+</p>
+
+<p>
+tack 中的冷页其实是住在一个 “试用期”，如果期间冷页被再次引用，则转为热页，否则将最终被栈底移除。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Queue</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+ueue (队) 中保存了所有驻留内存的冷页。当热页从 Stack 中移除时，该页被加入到 Queue
+末尾。而当需要进行页面替代时， <b>LIRS</b> 会从 Queue 的首部取出一个页面以供使用。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">页替换规则</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+向 <b>LIRS List</b> 中插入页时，会根据待插入的页类型来进行处理：
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">热页</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+果待插入页为热页，将该页置于栈顶，而如果该页之前处于栈底，则需对栈进行<a href="#sec-3-1">清理</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">驻留冷页</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+先将该页置于栈顶，并做如下处理：
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">如果该页之前已经在栈里：\\</h3>
+<div class="outline-text-3" id="text-4-3">
+<ol class="org-ol">
+<li>则将其转换为热页，并从队中移除。
+</li>
+<li>将栈底标记为冷页，并移到队尾。
+</li>
+<li>对栈进行<a href="#sec-3-1">清理</a> 。
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">如果该页之前仅在队里（之前为冷页）：\\</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+不改变冷热状态，但挪动队尾。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">非驻留冷页</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+队首移除一条记录，并将其从 Cache 中驱逐。如果被驱逐的记录之前已经在栈里，则其仍处于未绑定，依然处于试用期。将这个记录与 cache 页绑定，并移植栈顶：果该页之前已经在栈里：<br  />
+</p>
+<ol class="org-ol">
+<li>则将其转换为热页，并从队中移除。
+</li>
+<li>将栈底标记为冷页，并移到队尾。
+</li>
+<li>对栈进行<a href="#sec-3-1">清理</a> 。
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">如果该页之前仅在队里（之前为冷页）：\\</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+不改变冷热状态，但挪动队尾。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">页的状态</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+栈里面的页可以是绑定的，页可以是非绑定的，但队里面的页必须是绑定状态的。
 </p>
 </div>
 </div>
