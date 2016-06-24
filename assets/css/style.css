@@ -1,17 +1,14 @@
-@import url(http://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Droid+Serif);
-
 @media all
 {
 	html {
 		margin: 0;
-		font: .9em/1.6em "Droid Serif", Cambria, Georgia, "DejaVu Serif", serif;
-		/* font-family: Helvetica, Verdana, Arial, sans-serif; */
+		font-family: Helvetica, Verdana, Arial, sans-serif;
 		background-color: white;
 	}
 
 	body {
 		font-size: 12pt;
-		line-height: 18pt;
+		line-height: 1.5;
 		color: black;
 		margin-top: 0;
 	}
