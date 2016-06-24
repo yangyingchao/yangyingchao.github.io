@@ -1,13 +1,1 @@
-("未分类""Algorithm,Lirs,Cache""Develop""Emacs""Web""Database,Parallel""database,parallel"#("杂记" 0 2
-  (ws-butler-chg chg))
-#("utils" 0 5
-  (ws-butler-chg chg))
-#("linux" 0 5
-  (ws-butler-chg chg))
-#("python" 0 6
-  (ws-butler-chg chg))
-"emacs""git"nil#("ggggggg" 0 7
-  (ws-butler-chg chg))
-#("fffffffffff" 0 11
-  (ws-butler-chg chg))
-)
+("未分类" "Algorithm""Develop""Emacs""Web""Database" "杂记" "Utils" "Linux")
