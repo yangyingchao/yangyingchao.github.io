@@ -8,16 +8,32 @@ tags : algorithm
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 概念</a>
+<li><a href="#sec-1">概念</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Recency &amp; Inter-reference Recency</a></li>
-<li><a href="#sec-1-2">1.2. 冷页与热页</a></li>
-<li><a href="#sec-1-3">1.3. Stack &amp; Queue</a></li>
-<li><a href="#sec-1-4">1.4. 页替换规则</a></li>
-<li><a href="#sec-1-5">1.5. 页的状态</a></li>
+<li><a href="#sec-1-1">Recency &amp; Inter-reference Recency</a>
+<ul>
+<li><a href="#sec-1-1-1">Recency</a></li>
+<li><a href="#sec-1-1-2">IRR: Inter-Reference Recency</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. NCDB 中的 LIRS</a></li>
+<li><a href="#sec-1-2">冷页与热页</a></li>
+<li><a href="#sec-1-3">Stack &amp; Queue</a>
+<ul>
+<li><a href="#sec-1-3-1">Stack</a></li>
+<li><a href="#sec-1-3-2">Queue</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">页替换规则</a>
+<ul>
+<li><a href="#sec-1-4-1">热页</a></li>
+<li><a href="#sec-1-4-2">驻留冷页</a></li>
+<li><a href="#sec-1-4-3">非驻留冷页</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">页的状态</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">NCDB 中的 LIRS</a></li>
 </ul>
 </div>
 </div>
@@ -26,17 +42,17 @@ tags : algorithm
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 概念</h2>
+<h2 id="sec-1">概念</h2>
 <div class="outline-text-2" id="text-1">
 </div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Recency &amp; Inter-reference Recency</h3>
+<h3 id="sec-1-1">Recency &amp; Inter-reference Recency</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 <b>LIRS</b>: Low Inter-reference Recency Set，中文？？
 </p>
 </div>
 <div id="outline-container-sec-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Recency</h4>
+<h4 id="sec-1-1-1">Recency</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 页面上次访问至今，共访问了多少其他页面。
@@ -45,7 +61,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> IRR: Inter-Reference Recency</h4>
+<h4 id="sec-1-1-2">IRR: Inter-Reference Recency</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 该页最近两次访问之间访问了多少次其他页面。 <b>IRR</b> 越大 (high)，表示该页被使用的间隔越长，频率越低，即越 “冷”。反之， <b>IRR</b> 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
@@ -56,7 +72,7 @@ tags : algorithm
 
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 冷页与热页</h3>
+<h3 id="sec-1-2">冷页与热页</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 页面根据 <b>IRR</b> 分为了两类： <b>LIR (low IRR)</b> 与 <b>HIR (high IRR)</b> ，也即：热页与冷页。其中，热页驻留内存，而冷页则不一定驻留。
@@ -69,7 +85,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Stack &amp; Queue</h3>
+<h3 id="sec-1-3">Stack &amp; Queue</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 <b>LIRS</b> 算法中借用了两个数据结构来实现： <b>Stack</b> &amp; <b>Queue</b>
@@ -77,7 +93,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Stack</h4>
+<h4 id="sec-1-3-1">Stack</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 <b><i>Stack</i> (栈)</b> 是 <b>LIRS</b>  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
@@ -91,7 +107,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Queue</h4>
+<h4 id="sec-1-3-2">Queue</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 <b><i>Queue</i> (队)</b> 中保存了所有驻留内存的冷页。当热页从 <b><i>Stack</i></b> 中移除时，该页被加入到 <b><i>Queue</i></b>
@@ -102,7 +118,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 页替换规则</h3>
+<h3 id="sec-1-4">页替换规则</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 当向 <b>LIRS List</b> 中插入页时，会根据待插入的页类型来进行处理：
@@ -110,7 +126,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> 热页</h4>
+<h4 id="sec-1-4-1">热页</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <p>
 如果待插入页为热页，将该页置于栈顶，而如果该页之前处于栈底，则需对栈进行<a href="#sec-1-3-1">清理</a>
@@ -119,7 +135,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> 驻留冷页</h4>
+<h4 id="sec-1-4-2">驻留冷页</h4>
 <div class="outline-text-4" id="text-1-4-2">
 <p>
 首先将该页置于栈顶，并做如下处理：
@@ -145,7 +161,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> 非驻留冷页</h4>
+<h4 id="sec-1-4-3">非驻留冷页</h4>
 <div class="outline-text-4" id="text-1-4-3">
 <p>
 从队首移除一条记录，并将其从 Cache 中驱逐。如果被驱逐的记录之前已经在栈里，则其仍处于未绑定状，依然处于试用期。将这个记录与 cache 页绑定，并移植栈顶：如果该页之前已经在栈里：<br  />
@@ -167,7 +183,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 页的状态</h3>
+<h3 id="sec-1-5">页的状态</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 栈里面的页可以是绑定的，页可以是非绑定的，但队里面的页必须是绑定状态的。
@@ -177,7 +193,7 @@ tags : algorithm
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> NCDB 中的 LIRS</h2>
+<h2 id="sec-2">NCDB 中的 LIRS</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 实现在了 <code>pgman.hpp</code> 中。
