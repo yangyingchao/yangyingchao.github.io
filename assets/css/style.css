@@ -1,8 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Droid+Serif);
+
 @media all
 {
 	html {
 		margin: 0;
-		font-family: Helvetica, Verdana, Arial, sans-serif;
+		font: .9em/1.6em "Droid Serif", Cambria, Georgia, "DejaVu Serif", serif;
+		/* font-family: Helvetica, Verdana, Arial, sans-serif; */
 		background-color: white;
 	}
 
@@ -11,11 +14,6 @@
 		line-height: 18pt;
 		color: black;
 		margin-top: 0;
-		margin-left: auto;
-		margin-right: auto;
-		color: #000000;
-		background-color: #ffffff;
-		line-height: 1.5;
 	}
 
 	* {
@@ -1142,9 +1140,6 @@
     div.org-src-container {
         font-size: 90%;
         font-family: monospace;
-        table {
-            border-collapse:collapse;
-        }
 
         caption.t-above {
             caption-side: top;
