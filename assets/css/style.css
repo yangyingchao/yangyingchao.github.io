@@ -20,6 +20,21 @@
 		outline: none;
 	}
 
+	body #content {
+		padding-top: 0px;
+		max-width: 80%;
+		min-width: 700px;
+		margin-left: 20px;
+		background-color: white;
+		padding: 2em;
+		/* box-shadow: 3px 3px 5px #888; */
+	}
+
+    body .title {
+		margin-left: 0px;
+		font-size: 22pt;
+    }
+
 	h1, h2, h3, h4, h5, h6 {
 		font-family: "PT Sans", Helvetica, Arial, sans-serif;
 		font-weight: 400;
@@ -150,6 +165,13 @@
 
 	img {
 		border: none;
+		max-width: 900px;
+		display: block;
+		margin: 4px auto;
+		-webkit-box-shadow: #999 1px 1px 4px;
+		-moz-box-shadow: #999 1px 1px 4px;
+		box-shadow: #999 1px 1px 4px;
+
 	}
 
 	.share img {
@@ -184,24 +206,6 @@
 		width: 900px;
 		display: block;
 		padding: 0 2em;
-	}
-
-	.content {
-		padding-top: 0px;
-		max-width: 90%;
-		min-width: 700px;
-		margin-left: 20px;
-		background-color: white;
-		padding: 2em;
-	}
-
-	.content img {
-		max-width: 900px;
-		display: block;
-		margin: 4px auto;
-		-webkit-box-shadow: #999 1px 1px 4px;
-		-moz-box-shadow: #999 1px 1px 4px;
-		box-shadow: #999 1px 1px 4px;
 	}
 
 	#tag_cloud {
