@@ -51,6 +51,7 @@ tags : algorithm
 <b>LIRS</b>: Low Inter-reference Recency Set，中文？？
 </p>
 </div>
+
 <div id="outline-container-sec-1-1-1" class="outline-4">
 <h4 id="sec-1-1-1">Recency</h4>
 <div class="outline-text-4" id="text-1-1-1">
@@ -64,7 +65,7 @@ tags : algorithm
 <h4 id="sec-1-1-2">IRR: Inter-Reference Recency</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
-该页最近两次访问之间访问了多少次其他页面。 <b>IRR</b> 越大 (high)，表示该页被使用的间隔越长，频率越低，即越 “冷”。反之， <b>IRR</b> 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
+该页最近两次访问之间访问了多少次其他页面。 IRR 越大 (high)，表示该页被使用的间隔越长，频率越低，即越 “冷”。反之， IRR 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
 </p>
 </div>
 </div>
@@ -75,7 +76,7 @@ tags : algorithm
 <h3 id="sec-1-2">冷页与热页</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
-页面根据 <b>IRR</b> 分为了两类： <b>LIR (low IRR)</b> 与 <b>HIR (high IRR)</b> ，也即：热页与冷页。其中，热页驻留内存，而冷页则不一定驻留。
+页面根据 IRR 分为了两类： LIR (low IRR) 与 HIR (high IRR) ，也即：热页与冷页。其中，热页驻留内存，而冷页则不一定驻留。
 </p>
 
 <p>
@@ -88,7 +89,7 @@ tags : algorithm
 <h3 id="sec-1-3">Stack &amp; Queue</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
-<b>LIRS</b> 算法中借用了两个数据结构来实现： <b>Stack</b> &amp; <b>Queue</b>
+<b>LIRS</b> 算法中借用了两个数据结构来实现： Stack &amp; Queue
 </p>
 </div>
 
@@ -96,12 +97,12 @@ tags : algorithm
 <h4 id="sec-1-3-1">Stack</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
-<b><i>Stack</i> (栈)</b> 是 <b>LIRS</b>  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
-<b><i>Stack</i></b> 本身依据 Recency 排序：越老的越靠近栈底，越新的越靠近栈顶。栈里面比 least recent hot page 还老的页会从栈中移除 (stack pruning)，因此栈底的页始终是热页。
+Stack (栈) 是 LIRS  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
+Stack 本身依据 Recency 排序：越老的越靠近栈底，越新的越靠近栈顶。栈里面比 least recent hot page 还老的页会从栈中移除 (stack pruning)，因此栈底的页始终是热页。
 </p>
 
 <p>
-<b><i>Stack</i></b> 中的冷页其实是住在一个 “试用期”，如果期间冷页被再次引用，则转为热页，否则将最终被从栈底移除。
+Stack 中的冷页其实是住在一个 “试用期”，如果期间冷页被再次引用，则转为热页，否则将最终被从栈底移除。
 </p>
 </div>
 </div>
@@ -110,8 +111,8 @@ tags : algorithm
 <h4 id="sec-1-3-2">Queue</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
-<b><i>Queue</i> (队)</b> 中保存了所有驻留内存的冷页。当热页从 <b><i>Stack</i></b> 中移除时，该页被加入到 <b><i>Queue</i></b>
- 的末尾。而当需要进行页面替代时， <b>LIRS</b> 会从 <b><i>Queue</i></b> 的首部取出一个页面以供使用。
+Queue (队) 中保存了所有驻留内存的冷页。当热页从 Stack 中移除时，该页被加入到 Queue
+的末尾。而当需要进行页面替代时， <b>LIRS</b> 会从 Queue 的首部取出一个页面以供使用。
 </p>
 </div>
 </div>
