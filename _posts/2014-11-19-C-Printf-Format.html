@@ -1,24 +1,434 @@
 ---
 layout : post
 title : C Printf Format
-categories : C-Family
+categories : Cfamily
+tags : 
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">1. printf family format:</a></li>
-<li><a href="#sec-2">2. C99 Enhancement</a></li>
+<li><a href="#sec-2">2. C99 Enhancement</a>
+<ul>
+<li><a href="#sec-2-1">2.1. stdint.h</a></li>
+<li><a href="#sec-2-2">2.2. inttypes.h</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> printf family format:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="#sec:one"><code>ordinary characters</code></a> + <a href="#sec:conversion"><code>conversion sepcifications</code></a>
+</p>
+
+
+<p>
+<a id="sec:one" name="sec:one"></a>
+</p>
+<ul class="org-ul">
+<li><b>Ordinary Characters</b> <br  />
+   <i>ordinary characters</i> (not %), are copied unchanged to the output stream.
+
+<p>
+<a id="sec:conversion" name="sec:conversion"></a>
+</p>
+</li>
+<li><b>Conversion Specifications</b> <br  />
+   Each <i>specification</i> results in  fetching  zero  or   more  subsequent  arguments.
+
+<p>
+Conversion specification is introduced by:
+</p>
+
+<p>
+<a href="#sec:f"><code>%</code></a> + <a href="#sec:flags"><code>flags</code></a> + <a href="#sec:field"><code>field width</code></a> + <a href="#sec:precision"><code>precision</code></a> + <a href="#sec:length"><code>length modifier</code></a> + <a href="#sec:cs"><code>conversion specifier</code></a>
+</p>
+
+<p>
+<a id="sec:f" name="sec:f"></a>
+</p>
+<ul class="org-ul">
+<li><b>%</b> <br  />
+     Mark of the start of an <i>convertion specifier</i>
+</li>
+</ul>
+<p>
+<a id="sec:flags" name="sec:flags"></a>
+</p>
+<ul class="org-ul">
+<li><b>flags</b>
+     <code>%</code> 之后可以有 0 或多个 flags。
+
+<ul class="org-ul">
+<li><code>#</code>    The value  should be converted to  an "alternate form". <br  />
+
+<ul class="org-ul">
+<li>For <code>o</code>  conversions<br  />
+         the first character of the output string is made zero (by prefixing a 0 if it
+was not zero already).
+</li>
+
+<li>For  <code>x</code>  and <code>X</code>  conversions<br  />
+         a nonzero result has the string "0x" (or "0X" for X conversions) prepended to
+</li>
+</ul>
+<p>
+it.
+</p>
+
+<ul class="org-ul">
+<li>For <code>a</code>,  <code>A</code>,  <code>e</code>, <code>E</code>,  <code>f</code>, <code>F</code>,  <code>g</code>, and  <code>G</code> conversions<br  />
+         The result will always contain a decimal point, even if no digits follow it
+</li>
+</ul>
+<p>
+(normally, a decimal point appears in the results of those conversions only if
+a digit follows). For <code>g</code> and <code>G</code> conversions, trailing zeros are not removed from
+the result as they would otherwise be. For other conversions, the result is
+undefined.
+</p>
+</li>
+
+<li><code>0</code><br  />
+       The value should be zero padded.  For d, i, o, u, x, X,
+a, A, e,  E, f, F, g, and G  conversions, the converted
+value  is padded  on the  left with  zeros rather  than
+blanks.  If the  0 and - flags both appear,  the 0 flag
+is ignored.   If a  precision is  given with  a numeric
+conversion  (d, i,  o,  u, x,  and X),  the  0 flag  is
+ignored.   For  other   conversions,  the  behavior  is
+undefined.
+</li>
+<li><code>-</code> <br  />
+       The converted value is to be left adjusted on the field
+boundary.  (The  default is right  justification.)  The
+converted  value is  padded on  the right  with blanks,
+rather  than on  the left  with blanks  or zeros.   A -
+overrides a 0 if both are given.
+</li>
+<li><code>SPACE</code><br  />
+       (a  space) A  blank should  be left  before a  positive
+number  (or   empty  string)   produced  by   a  signed
+conversion.
+</li>
+<li><code>+</code><br  />
+       A sign (+ or -) should always be placed before a number
+produced by a signed conversion.   By default a sign is
+used only for negative numbers.   A + overrides a space
+if both are used.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>
+<a id="sec:field" name="sec:field"></a>
+</p>
+<ul class="org-ul">
+<li><b>field width</b> <br  />
+          An optional decimal digit  string (with nonzero first digit)
+specifying a  minimum field  width.  If the  converted value
+has fewer characters than the field width, it will be padded
+with spaces  on the left  (or right, if  the left-adjustment
+flag has been given).  Instead of a decimal digit string one
+may  write "*"  or "*m$"  (for  some decimal  integer m)  to
+specify that the field width  is given in the next argument,
+or in the m-th argument, respectively, which must be of type
+int.  A negative field width is taken as a '-' flag followed
+by a positive field width.  In no case does a nonexistent or
+small field width cause truncation of a field; if the result
+of a conversion is wider than  the field width, the field is
+expanded to contain the conversion result.
+</li>
+</ul>
+
+<p>
+<a id="sec:precision" name="sec:precision"></a>
+</p>
+<ul class="org-ul">
+<li><b>precision</b> <br  />
+          An  optional  precision,  in  the form  of  a  period  ('.')
+followed by an optional decimal  digit string.  Instead of a
+decimal digit  string one may  write "*" or "*m$"  (for some
+decimal integer m) to specify that the precision is given in
+the next  argument, or  in the m-th  argument, respectively,
+which must  be of type  int.  If  the precision is  given as
+just '.',  the precision  is taken to  be zero.   A negative
+precision is taken  as if the precision  were omitted.  This
+gives the minimum number of digits to appear for d, i, o, u,
+x, and X  conversions, the number of digits  to appear after
+the radix  character for a, A,  e, E, f, and  F conversions,
+the  maximum  number  of  significant digits  for  g  and  G
+conversions,  or  the maximum  number  of  characters to  be
+printed from a string for s and S conversions.
+</li>
+</ul>
+
+<p>
+<a id="sec:length" name="sec:length"></a>
+</p>
+<ul class="org-ul">
+<li><b>length modifier</b> <br  />
+     Here, "integer  conversion" stands for <code>d</code>,  <code>i</code>, <code>o</code>, <code>u</code>, <code>=x</code>,  or <code>X</code>
+     conversion.
+
+<ul class="org-ul">
+<li><code>hh</code> <br  />
+       A following integer conversion  corresponds to a signed
+char  or  unsigned  char  argument, or  a  following  n
+conversion corresponds  to a  pointer to a  signed char
+argument.
+</li>
+
+<li><code>h</code> <br  />
+       A following  integer conversion corresponds to  a short
+int or  unsigned short int  argument, or a  following n
+conversion  corresponds to  a  pointer to  a short  int
+argument.
+</li>
+
+<li><code>l</code><br  />
+       A  following integer conversion corresponds  to a
+long int or unsigned long  int argument, or a following
+n conversion  corresponds to  a pointer  to a  long int
+argument, or a following  c conversion corresponds to a
+wint_t   argument,   or   a  following   s   conversion
+corresponds to a pointer to wchar_t argument.
+</li>
+
+<li><code>ll</code>   <br  />
+       A following  integer conversion corresponds
+to a long long int  or unsigned long long int argument,
+or a following n conversion corresponds to a pointer to
+a long long int argument.
+</li>
+
+<li><code>L</code><br  />
+       A  following a,  A,  e, E,  f, F,  g,  or G  conversion
+corresponds  to a  long double  argument.  (C99  allows
+%LF, but SUSv2 does not.)  This is a synonym for ll.
+</li>
+
+<li><code>j</code>  <br  />
+       A  following  integer   conversion  corresponds  to  an
+intmax_t  or  uintmax_t  argument,  or  a  following  n
+conversion  corresponds to  a  pointer  to an  intmax_t
+argument.
+</li>
+
+<li><code>z</code> <br  />
+       A following integer conversion  corresponds to a size_t
+or  ssize_t  argument,  or  a  following  n  conversion
+corresponds to a pointer to a size_t argument.
+</li>
+
+<li><code>t</code> <br  />
+      A  following   integer  conversion  corresponds   to  a
+ptrdiff_t  argument,   or  a  following   n  conversion
+corresponds to a pointer to a ptrdiff_t argument.
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>
+<a id="sec:cs" name="sec:cs"></a>
+</p>
+<ul class="org-ul">
+<li><b>conversion specifier</b> <br  />
+     A  character that  specifies the  type of  conversion to  be
+applied.  The conversion specifiers and their meanings are:
+
+<ul class="org-ul">
+<li><code>d, i</code><br  />
+      The  int  argument  is   converted  to  signed  decimal
+notation.   The precision,  if any,  gives the  minimum
+number  of digits  that must  appear; if  the converted
+value requires fewer  digits, it is padded  on the left
+with zeros.   The default  precision is  1.  When  0 is
+printed  with an  explicit precision  0, the  output is
+empty.
+</li>
+
+<li><code>o, u, x, X</code><br  />
+       The  unsigned int  argument  is  converted to  unsigned
+octal   (o),   unsigned   decimal  (u),   or   unsigned
+hexadecimal (x and X) notation.  The letters abcdef are
+used for x conversions; the letters ABCDEF are used for
+X  conversions.   The  precision,  if  any,  gives  the
+minimum  number  of digits  that  must  appear; if  the
+converted value requires fewer  digits, it is padded on
+the left with zeros.  The default precision is 1.  When
+0 is printed  with an explicit precision  0, the output
+is empty.
+</li>
+
+<li><code>e, E</code><br  />
+       The  double argument  is rounded  and converted  in the
+style [-]d.ddde+/-dd  where there  is one  digit before
+the decimal-point  character and  the number  of digits
+after it is equal to the precision; if the precision is
+missing, it is taken as 6; if the precision is zero, no
+decimal-point character appears.   An E conversion uses
+the letter E (rather than e) to introduce the exponent.
+The exponent  always contains  at least two  digits; if
+the value is zero, the exponent is 00.
+</li>
+
+<li><code>f, F</code><br  />
+       The double argument is rounded and converted to decimal
+notation in  the style [-]ddd.ddd, where  the number of
+digits after  the decimal-point  character is  equal to
+the  precision  specification.   If  the  precision  is
+missing,  it  is  taken  as  6;  if  the  precision  is
+explicitly  zero, no  decimal-point character  appears.
+If a decimal point appears,  at least one digit appears
+before it.
+
+<p>
+(SUSv2 does  not know about  F and says  that character
+string representations for infinity and NaN may be made
+available.  SUSv3 adds a  specification for F.  The C99
+standard  specifies   "[-]inf"  or   "[-]infinity"  for
+infinity, and a string starting  with "nan" for NaN, in
+the case of f conversion, and "[-]INF" or "[-]INFINITY"
+or "NAN*" in the case of F conversion.)
+</p>
+</li>
+
+<li><code>g, G</code><br  />
+       The double argument is converted in  style f or e (or F
+or E  for G conversions).  The  precision specifies the
+number  of significant  digits.   If  the precision  is
+missing, 6 digits are given;  if the precision is zero,
+it is  treated as 1.  Style  e is used if  the exponent
+from its conversion is less  than -4 or greater than or
+equal  to the  precision.  Trailing  zeros are  removed
+from the fractional part of the result; a decimal point
+appears only if it is followed by at least one digit.
+</li>
+
+<li><code>a, A</code><br  />
+       (C99;  not  in  SUSv2,  but   added  in  SUSv3)  For  a
+conversion,  the   double  argument  is   converted  to
+hexadecimal notation (using the  letters abcdef) in the
+style [-]0xh.hhhhp+/-; for A  conversion the prefix 0X,
+the  letters ABCDEF,  and the  exponent separator  P is
+used.   There  is  one  hexadecimal  digit  before  the
+decimal point,  and the  number of  digits after  it is
+equal to the precision.  The default precision suffices
+for an  exact representation of  the value if  an exact
+representation  in  base  2  exists  and  otherwise  is
+sufficiently  large  to   distinguish  values  of  type
+double.   The   digit  before  the  decimal   point  is
+unspecified for nonnormalized  numbers, and nonzero but
+otherwise unspecified for normalized numbers.
+</li>
+
+<li><code>c</code><br  />
+       If  no  l modifier  is  present,  the int  argument  is
+converted  to  an  unsigned  char,  and  the  resulting
+character is written.  If an l modifier is present, the
+wint_t  (wide character)  argument  is  converted to  a
+multibyte  sequence   by  a  call  to   the  wcrtomb(3)
+function,  with  a  conversion state  starting  in  the
+initial state,  and the  resulting multibyte  string is
+written.
+</li>
+
+<li><code>s</code> <br  />
+       If no l modifier is  present: The const char * argument
+is expected  to be a  pointer to an array  of character
+type (pointer to a  string).  Characters from the array
+are  written up  to (but  not including)  a terminating
+null byte ('\0'); if a  precision is specified, no more
+than the number specified  are written.  If a precision
+is  given,  no  null  byte  need  be  present;  if  the
+precision is not specified, or is greater than the size
+of the array, the array must contain a terminating null
+byte.
+
+<p>
+If  an  l  modifier  is present:  The  const  wchar_t *
+argument is  expected to  be a pointer  to an  array of
+wide characters.   Wide characters  from the  array are
+converted to  multibyte characters  (each by a  call to
+the  wcrtomb(3)  function,   with  a  conversion  state
+starting  in the  initial state  before the  first wide
+character), up to and including a terminating null wide
+character.   The  resulting  multibyte  characters  are
+written up to (but  not including) the terminating null
+byte.  If a precision is  specified, no more bytes than
+the  number  specified  are  written,  but  no  partial
+multibyte  characters  are   written.   Note  that  the
+precision determines  the number of bytes  written, not
+the number of wide characters or screen positions.  The
+array must  contain a terminating null  wide character,
+unless a precision is given and it is so small that the
+number of  bytes written exceeds  it before the  end of
+the array is reached.
+</p>
+</li>
+
+<li><code>n</code> <br  />
+      The number of characters written  so far is stored into
+the integer  pointed to by the  corresponding argument.
+That argument shall be an  int *, or variant whose size
+matches  the   (optionally)  supplied   integer  length
+modifier.  No  argument is converted.  The  behavior is
+undefined if the  conversion specification includes any
+flags, a field width, or a precision.
+</li>
+
+<li><code>%</code> <br  />
+      A  '%'  is written.   No  argument  is converted.   The
+complete conversion specification is '%%'.
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 
 
 
 <div id="outline-container-sec-2" class="outline-2">
 <h2 id="sec-2"><span class="section-number-2">2</span> C99 Enhancement</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+为了让代码可移植性更好，C99 提供了两个极为有用的头文件。
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> stdint.h</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+该文件提供了诸如 <code>int32</code>, <code>uint32</code>, <code>uint16</code> 等等类型的定义
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> inttypes.h</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+该文件提供了若干宏用于格式化输出，可以用于 <code>printf</code> 以及 <code>scanf</code> 。
+</p>
+
+<p>
+可以参考这里：
+ <a href="http://en.wikipedia.org/wiki/C_data_types#inttypes.h">http://en.wikipedia.org/wiki/C_data_types#inttypes.h</a>
+</p>
+</div>
+</div>
 </div>
