@@ -1,9 +1,15 @@
-body {
-	font-size: 15px;
-	word-spacing: 1px;
-	margin-left: auto;
-
+html {
+	margin: 0;
 	font-family: Helvetica, Verdana, Arial, sans-serif;
+	background-color: white;
+}
+
+body {
+	font-size: 12pt;
+	line-height: 18pt;
+	color: black;
+	margin-top: 0;
+	margin-left: auto;
 	margin-right: auto;
 	color: #000000;
 	background-color: #ffffff;
@@ -108,8 +114,12 @@ blockquote p {
 }
 
 .content {
-	font-size: 16px;
-	line-height: 24px;
+	padding-top: 0px;
+	max-width: 80%;
+	min-width: 700px;
+	margin-left: 20px;
+	background-color: white;
+	padding: 2em;
 }
 
 .content h1 {
