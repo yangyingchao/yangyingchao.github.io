@@ -35,13 +35,6 @@
 		font-size: 22pt;
     }
 
-	h1, h2, h3, h4, h5, h6 {
-		font-family: "PT Sans", Helvetica, Arial, sans-serif;
-		font-weight: 400;
-		color: #25BFBF;
-		letter-spacing: -.025rem;
-	}
-
 	h1 {
 		font-size:2.1em;
 		padding:0 0 30px 0;
@@ -53,12 +46,13 @@
 	}
 
 	h2 {
- 		font-family:sans-serif;
-		font-size:1.45em;
-		line-height:16px;
-		padding:10px 0 10px 0;
-		color: black;
-		border-bottom: 1px solid #ddd;
+ 		font-family: sans-serif;
+ 		font-size: 1.45em;
+ 		line-height: 16px;
+ 		padding: 10px 0 10px 0;
+ 		margin-bottom: 0.2em;
+ 		color: black;
+ 		border-bottom: 1px solid #ddd;
 	}
 
 	.outline-text-2 {
@@ -251,16 +245,17 @@
 	}
 
 	header {
-		padding-top: 1em;
+		/* padding-top: 1em; */
 		margin-bottom: -1.2em;
+		margin-top: -1.2em;
 	}
 
 	nav {
 		font-family: "PT Sans", Helvetica, Arial, sans-serif;
 		font-size: 1em;
 		text-transform: uppercase;
-		margin-left: -8em;
-		text-align: center;
+		margin-left: 10px;
+		text-align: left;
 		padding-bottom: 10px;
 		margin-bottom: 10px;
 		border-bottom: 1px solid #cccccc;
@@ -366,7 +361,7 @@
 		color: white;
 		background: #83BF73;
 	}
-	    pre {
+	pre {
 	    font-family: Droid Sans Mono, Monaco, Consolas, "Lucida Console", monospace;
 	    font-size: 90%;
 	    padding: 1.2em;
@@ -1142,11 +1137,11 @@
         font-size: 90%;
         font-family: monospace;
 
-        caption.t-above {
+        caption t-above {
             caption-side: top;
         }
 
-        caption.t-bottom {
+        caption t-bottom {
             caption-side: bottom;
         }
 
