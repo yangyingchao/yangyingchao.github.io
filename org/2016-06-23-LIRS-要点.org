@@ -21,7 +21,7 @@
 ** Recency
   面上次访问至今，共访问了多少其他页面。
 
-** IRR: Inter-Reference Recency \\
+** IRR: Inter-Reference Recency
   页最近两次访问之间访问了多少次其他页面。 IRR 越大 (high)，表示该页被使用的间隔越长，频率越低，
   越 “冷”。反之， IRR 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
 
