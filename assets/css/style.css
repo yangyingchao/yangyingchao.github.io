@@ -1138,7 +1138,7 @@
 	    z-index: -1000;
     }
 
-    div.org-src-container {
+    .org-src-container {
         font-size: 90%;
         font-family: monospace;
 
