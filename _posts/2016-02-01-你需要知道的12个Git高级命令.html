@@ -1,7 +1,7 @@
 ---
 layout : post
 title : 你需要知道的12个Git高级命令
-categories : git
+categories : Git
 tags : git
 ---
 <div id="table-of-contents">
@@ -88,7 +88,7 @@ HEAD is now at 3fc175f fix race condition
 
 <pre class="src src-sh">$ git status
 
-# On branch feature
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">On branch feature</span>
 nothing to commit, working directory clean
 </pre>
 </div>
@@ -114,7 +114,7 @@ stash@{0}: WIP on feature: 3fc175f fix race condition
 <pre class="src src-sh">$ git stash pop
 On branch feature
 Changes not staged for commit:
-  (use "git add ..." to update what will be committed)
+  (use <span style="color: #d78700;">"git add ..."</span> to update what will be committed)
 
      modified:   index.html
 Dropped refs/stash@{0} (ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8)
@@ -128,9 +128,9 @@ Dropped refs/stash@{0} (ac2321cc3a33ba712b8e50c99a99d3c20da9d6b8)
 
 <div class="org-src-container">
 
-<pre class="src src-sh">$ git stash save "describe it"   # give the stash a name
-$ git stash clear                # delete a stashed commit
-$ git stash save --keep-index    # stash only unstaged files
+<pre class="src src-sh">$ git stash save <span style="color: #d78700;">"describe it"</span>   <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">give the stash a name</span>
+$ git stash clear                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">delete a stashed commit</span>
+$ git stash save --keep-index    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">stash only unstaged files</span>
 </pre>
 </div>
 </div>
@@ -210,7 +210,7 @@ $ git checkout
 <div class="org-src-container">
 
 <pre class="src src-sh">$ screen
-$ for((i=1;i&lt;=10000;i+=1)); do sleep X &amp;&amp; git pull; done
+$ for((<span style="color: #daa520;">i</span>=1;i&lt;=10000;<span style="color: #daa520;">i</span>+=1)); <span style="color: #ff4040;">do</span> sleep X &amp;&amp; git pull; <span style="color: #ff4040;">done</span>
 </pre>
 </div>
 </div>
@@ -226,9 +226,9 @@ $ for((i=1;i&lt;=10000;i+=1)); do sleep X &amp;&amp; git pull; done
 <div class="org-src-container">
 
 <pre class="src src-sh">$ git filter-branch --prune-empty --subdirectory-filter  master
-# Filter the master branch to your directory and remove empty commits
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Filter the master branch to your directory and remove empty commits</span>
 Rewrite 48dc599c80e20527ed902928085e7861e6b3cbe6 (89/89)
-Ref 'refs/heads/master' was rewritten
+Ref <span style="color: #d78700;">'refs/heads/master'</span> was rewritten
 </pre>
 </div>
 
@@ -248,9 +248,9 @@ Ref 'refs/heads/master' was rewritten
 
 <div class="org-src-container">
 
-<pre class="src src-sh">$ git clean -f     # remove untracked files
-$ git clean -fd    # remove untracked files/directories
-$ git clean -nfd   # list all files/directories that would be removed
+<pre class="src src-sh">$ git clean -f     <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">remove untracked files</span>
+$ git clean -fd    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">remove untracked files/directories</span>
+$ git clean -nfd   <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">list all files/directories that would be removed</span>
 </pre>
 </div>
 </div>

@@ -1,7 +1,7 @@
 ---
 layout : post
 title : How to update a GitHub forked repository
-categories : git
+categories : Git
 tags : git
 ---
 <p>
@@ -11,21 +11,21 @@ Reposted from:
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Add the remote, call it "upstream":</span>
+<pre class="src src-sh"><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Add the remote, call it "upstream":</span>
 git remote add upstream https://github.com/whoever/whatever.git
 
-<span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Fetch all the branches of that remote into remote-tracking branches,</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Fetch all the branches of that remote into remote-tracking branches,</span>
 git fetch upstream
 
-<span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Make sure that you're on your master branch:</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Make sure that you're on your master branch:</span>
 git checkout master
 
-<span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Rewrite your master branch so that any commits of yours that aren't already in</span>
-<span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">upstream/master are replayed on top of that other branch:</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Rewrite your master branch so that any commits of yours that aren't already in</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">upstream/master are replayed on top of that other branch:</span>
 
 git rebase upstream/master
 
-<span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Finally, push commits to origin/mastere</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Finally, push commits to origin/mastere</span>
 git push -f origin master
 </pre>
 </div>
