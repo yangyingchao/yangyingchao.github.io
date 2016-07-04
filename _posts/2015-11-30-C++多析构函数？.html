@@ -2,6 +2,7 @@
 layout : post
 title : C++多析构函数？
 categories : C-Family
+tags : c++
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
@@ -98,15 +99,15 @@ prefix </span><span class="pun">|</span><span class="pln"> nested </span><span c
 
 <div class="org-src-container">
 
-<pre class="src src-c++"><span class="linenr">1: </span>class A
+<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">A</span>
 <span class="linenr">2: </span>{
-<span class="linenr">3: </span>public:
-<span class="linenr">4: </span>    A(){}
-<span class="linenr">5: </span>    virtual ~A(){}
+<span class="linenr">3: </span><span style="color: #ff4040;">public</span>:
+<span class="linenr">4: </span>    <span style="color: #32cd32;">A</span>(){}
+<span class="linenr">5: </span>    <span style="color: #ff4040;">virtual</span> ~<span style="color: #32cd32;">A</span>(){}
 <span class="linenr">6: </span>};
 <span class="linenr">7: </span>
-<span class="linenr">8: </span>A* a = new A;
-<span class="linenr">9: </span>delete a;
+<span class="linenr">8: </span><span style="color: #32cd32;">A</span>* <span style="color: #daa520;">a</span> = <span style="color: #ff4040;">new</span> <span style="color: #32cd32;">A</span>;
+<span class="linenr">9: </span><span style="color: #ff4040;">delete</span> a;
 </pre>
 </div>
 <p>
@@ -121,22 +122,22 @@ prefix </span><span class="pun">|</span><span class="pln"> nested </span><span c
 
 <div class="org-src-container">
 
-<pre class="src src-c++"><span class="linenr"> 1: </span>class A
+<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">A</span>
 <span class="linenr"> 2: </span>{
-<span class="linenr"> 3: </span>public:
-<span class="linenr"> 4: </span>    A(){}
-<span class="linenr"> 5: </span>    virtual ~A(){}
+<span class="linenr"> 3: </span><span style="color: #ff4040;">public</span>:
+<span class="linenr"> 4: </span>    <span style="color: #32cd32;">A</span>(){}
+<span class="linenr"> 5: </span>    <span style="color: #ff4040;">virtual</span> ~<span style="color: #32cd32;">A</span>(){}
 <span class="linenr"> 6: </span>};
 <span class="linenr"> 7: </span>
-<span class="linenr"> 8: </span>class B: public A
+<span class="linenr"> 8: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">B</span>: <span style="color: #ff4040;">public</span> <span style="color: #32cd32;">A</span>
 <span class="linenr"> 9: </span>{
-<span class="linenr">10: </span>public:
-<span class="linenr">11: </span>    B(){}
-<span class="linenr">12: </span>    virtual ~B(){}
+<span class="linenr">10: </span><span style="color: #ff4040;">public</span>:
+<span class="linenr">11: </span>    <span style="color: #32cd32;">B</span>(){}
+<span class="linenr">12: </span>    <span style="color: #ff4040;">virtual</span> ~<span style="color: #32cd32;">B</span>(){}
 <span class="linenr">13: </span>};
 <span class="linenr">14: </span>
-<span class="linenr">15: </span>A* a = new B;
-<span class="linenr">16: </span>delete a;
+<span class="linenr">15: </span><span style="color: #32cd32;">A</span>* <span style="color: #daa520;">a</span> = <span style="color: #ff4040;">new</span> <span style="color: #32cd32;">B</span>;
+<span class="linenr">16: </span><span style="color: #ff4040;">delete</span> a;
 </pre>
 </div>
 
