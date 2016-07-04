@@ -1,0 +1,55 @@
+#+TITLE: Gentoo Portage 迁移至 git
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: gentoo portage git
+#+CATEGORY: Gentoo
+#+DESCRIPTION: (nil)
+
+转载自： [[http://kafiry.lofter.com/post/1d293d40_8016615]]
+
+更新portage
+
+#+BEGIN_SRC sh -r
+emerge --update sys-apps/portage
+
+#mkdir /etc/portage/repos.conf
+#touch /etc/portage/repos.conf/gentoo.conf
+#mv /usr/portage /usr/portage.bak
+
+#+END_SRC
+
+
+更改/etc/portage/repos.conf/gentoo.conf
+
+#+BEGIN_SRC conf -r
+[gentoo]
+location = /usr/portage
+sync-type = git
+sync-uri = git://anongit.gentoo.org/repo/gentoo.git
+auto-sync = yes
+
+#+END_SRC
+
+
+同步树倒是快。。。
+
+
+eix：
+
+#+BEGIN_SRC sh -r
+    CACHE_METHOD="/usr/portage parse|ebuild*" eix-update
+#+END_SRC
+
+or
+#+BEGIN_SRC sh -r
+    CACHE_METHOD="/usr/portage/ parse|ebuild*"  >>   /etc/eixrc/eixrc
+#+END_SRC
+
+
+略慢。。。

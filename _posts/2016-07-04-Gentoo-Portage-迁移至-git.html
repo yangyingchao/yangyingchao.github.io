@@ -1,0 +1,67 @@
+---
+layout : post
+title : Gentoo Portage 迁移至 git
+categories : Gentoo
+tags : gentoo portage git
+---
+<p>
+转载自： <a href="http://kafiry.lofter.com/post/1d293d40_8016615">http://kafiry.lofter.com/post/1d293d40_8016615</a>
+</p>
+
+<p>
+更新portage
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">emerge --update sys-apps/portage
+
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">mkdir /etc/portage/repos.conf</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">touch /etc/portage/repos.conf/gentoo.conf</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">mv /usr/portage /usr/portage.bak</span>
+</pre>
+</div>
+
+
+<p>
+更改/etc/portage/repos.conf/gentoo.conf
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-conf">[<span style="color: #32cd32;">gentoo</span>]
+<span style="color: #daa520;">location</span> = /usr/portage
+<span style="color: #daa520;">sync-type</span> = git
+<span style="color: #daa520;">sync-uri</span> = git://anongit.gentoo.org/repo/gentoo.git
+<span style="color: #daa520;">auto-sync</span> = yes
+</pre>
+</div>
+
+
+<p>
+同步树倒是快。。。
+</p>
+
+
+<p>
+eix：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #daa520;">CACHE_METHOD</span>=<span style="color: #d78700;">"/usr/portage parse|ebuild*"</span> eix-update
+</pre>
+</div>
+
+<p>
+or
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #daa520;">CACHE_METHOD</span>=<span style="color: #d78700;">"/usr/portage/ parse|ebuild*"</span>  &gt;&gt;   /etc/eixrc/eixrc
+</pre>
+</div>
+
+
+<p>
+略慢。。。</p>
