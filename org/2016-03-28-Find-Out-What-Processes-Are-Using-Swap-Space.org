@@ -1,8 +1,8 @@
 #+TITLE: Find Out What Processes Are Using Swap Space
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: (nil)
-#+CATEGORY: linux
+#+KEYWORDS: linux process
+#+CATEGORY: Linux
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate
@@ -232,7 +232,7 @@ Reposted from: http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/
                     ; <span style="color: #000000; font-weight: bold;">
                       done</span>
                     <span style="color: #000000; font-weight: bold;">
-                      |</span>
+                      | </span> |
                     <span style="color: #c20cb9; font-weight: bold;">
                       sort</span>
                     <span style="color: #660033;">
@@ -244,7 +244,7 @@ Reposted from: http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/
                     <span style="color: #660033;">
                       -r</span>
                     <span style="color: #000000; font-weight: bold;">
-                      |</span>
+                      | </span> |
                     <span style="color: #c20cb9; font-weight: bold;">
                       less</span>
                   </pre>
