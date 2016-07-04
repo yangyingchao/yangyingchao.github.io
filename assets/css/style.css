@@ -436,27 +436,27 @@
   }
 
   pre.src-emacs-lisp:before {
-    content: 'Emacs Lisp';
+    content: 'emacs lisp';
   }
 
   pre.src-R:before     {
-    content: 'R';
+    content: 'r';
   }
 
   pre.src-perl:before  {
-    content: 'Perl';
+    content: 'perl';
   }
 
   pre.src-java:before  {
-    content: 'Java';
+    content: 'java';
   }
 
   pre.src-sql:before   {
-    content: 'SQL';
+    content: 'sql';
   }
 
   pre.src-conf:before   {
-    content: 'CONF';
+    content: 'conf';
   }
 
   .code-highlighted {
