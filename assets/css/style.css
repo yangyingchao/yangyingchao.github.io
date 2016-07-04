@@ -459,6 +459,14 @@
     content: 'conf';
   }
 
+  pre.src-c:before   {
+    content: 'c';
+  }
+
+  pre.src-c++:before   {
+    content: 'c++';
+  }
+
   .code-highlighted {
     background-color: #ffff00;
   }
