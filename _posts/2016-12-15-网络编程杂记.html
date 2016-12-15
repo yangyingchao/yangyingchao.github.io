@@ -1,0 +1,151 @@
+---
+layout : post
+title : 杂记
+categories : Develop
+tags : linux
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">pipe 缓冲区有多大</a></li>
+<li><a href="#sec-2">Socket SO_ERROR vs errno</a>
+<ul>
+<li><a href="#sec-2-1">errno</a></li>
+<li><a href="#sec-2-2">SO_ERROR</a></li>
+<li><a href="#sec-2-3">用哪个</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">pipe 缓冲区有多大</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+网络编程中，有时候会用 <code>pipe</code> 来唤醒 <code>epoll/poll/select</code> ，但 <code>pipe</code> 缓冲区有多大？超了会怎么样？
+</p>
+
+
+<p>
+缓冲区大小与内核版本有关：
+</p>
+
+<ul class="org-ul">
+<li>&lt; <code>2.6.11</code> : 与 <code>PAGE_SIZE</code> 相同
+</li>
+<li>&gt;= <code>2.6.11</code> : 65536 （64K） 字节
+</li>
+<li>&gt;= <code>2.6.35</code> ：仍然为 64KB ，但可以通过 <i>fcntl</i> 来查询和设置。
+</li>
+</ul>
+
+<p>
+如果一直写，没有读，写超后， write 要么阻塞，要么失败，与 <code>O_NONBLOCK</code> 的设置有关。
+</p>
+
+
+<p>
+详见： <code>man 7 pipe</code> :
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">Pipe capacity
+  A pipe has a limited capacity.   If the pipe is full, then a
+  write(2)  will  block  or  fail, depending  on  whether  the
+  O_NONBLOCK   flag    is   set   (see    below).    Different
+  implementations have different limits for the pipe capacity.
+  Applications should  not rely  on a particular  capacity: an
+  application  should be  designed so  that a  reading process
+  consumes data as soon as it  is available, so that a writing
+  process does not remain blocked.
+
+  In Linux versions before 2.6.11,  the capacity of a pipe was
+  the same as the system page size (e.g., 4096 bytes on i386).
+  Since Linux 2.6.11, the pipe capacity is 65536 bytes.  Since
+  Linux 2.6.35, the default pipe  capacity is 65536 bytes, but
+  the  capacity can  be  queried and  set  using the  fcntl(2)
+  F_GETPIPE_SZ and F_SETPIPE_SZ  operations.  See fcntl(2) for
+  more information.
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Socket SO_ERROR vs errno</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">errno</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<code>errno</code> 看起来像是一个全局变量，实则不然：
+</p>
+
+<p>
+<code>man 3 errno</code> 显示：
+</p>
+
+
+<div class="org-src-container">
+
+<pre class="src src-text">errno is  defined by the ISO  C standard to be  a modifiable
+lvalue of  type int,  and must  not be  explicitly declared;
+errno may be a macro.   errno is thread-local; setting it in
+one thread does not affect its value in any other thread.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">SO_ERROR</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<code>getsockopt()</code> 提供了另外一种方式来获取 errno: <code>SO_ERROR</code> ， <code>man 7 socket</code> 显示：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">Socket options
+  The  socket  options  listed  below  can  be  set  by  using
+  setsockopt(2) and  read with  getsockopt(2) with  the socket
+  level set  to SOL_SOCKET for all  sockets.  Unless otherwise
+  noted, optval is a pointer to an int.
+
+  SO_ERROR
+       Get and  clear the  pending socket error.   This socket
+       option is read-only.  Expects an integer.
+</pre>
+</div>
+
+<p>
+sample:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">errno2</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">sfd</span>)
+{
+  <span style="color: #32cd32;">int</span> <span style="color: #daa520;">error</span> = 0;
+  <span style="color: #32cd32;">socklen_t</span> <span style="color: #daa520;">errlen</span> = <span style="color: #ff4040;">sizeof</span>(error);
+  <span style="color: #ff4040;">if</span> (sfd != -1 &amp;&amp; getsockopt(sfd, SOL_SOCKET, SO_ERROR, (<span style="color: #32cd32;">void</span>*)&amp;error, &amp;errlen) == 0) {
+    ;
+  }
+  <span style="color: #ff4040;">return</span> error;
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">用哪个</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+答案是：都行。。。。</p>
+</div>
+</div>
+</div>

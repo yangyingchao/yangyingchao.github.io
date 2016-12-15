@@ -1,0 +1,101 @@
+#+TITLE: 杂记
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:3 num:nil toc:t \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: linux
+#+CATEGORY: Develop
+#+DESCRIPTION: (nil)
+
+* pipe 缓冲区有多大
+
+网络编程中，有时候会用 =pipe= 来唤醒 =epoll/poll/select= ，但 =pipe= 缓冲区有
+多大？超了会怎么样？
+
+
+缓冲区大小与内核版本有关：
+
+- < =2.6.11= : 与 =PAGE_SIZE= 相同
+- >= =2.6.11= : 65536 （64K） 字节
+- >= =2.6.35= ：仍然为 64KB ，但可以通过 /fcntl/ 来查询和设置。
+
+如果一直写，没有读，写超后， write 要么阻塞，要么失败，与 =O_NONBLOCK= 的设置
+有关。
+
+
+详见： =man 7 pipe= :
+#+BEGIN_SRC text -r
+   Pipe capacity
+     A pipe has a limited capacity.   If the pipe is full, then a
+     write(2)  will  block  or  fail, depending  on  whether  the
+     O_NONBLOCK   flag    is   set   (see    below).    Different
+     implementations have different limits for the pipe capacity.
+     Applications should  not rely  on a particular  capacity: an
+     application  should be  designed so  that a  reading process
+     consumes data as soon as it  is available, so that a writing
+     process does not remain blocked.
+
+     In Linux versions before 2.6.11,  the capacity of a pipe was
+     the same as the system page size (e.g., 4096 bytes on i386).
+     Since Linux 2.6.11, the pipe capacity is 65536 bytes.  Since
+     Linux 2.6.35, the default pipe  capacity is 65536 bytes, but
+     the  capacity can  be  queried and  set  using the  fcntl(2)
+     F_GETPIPE_SZ and F_SETPIPE_SZ  operations.  See fcntl(2) for
+     more information.
+#+END_SRC
+
+
+* Socket SO_ERROR vs errno
+
+** errno
+=errno= 看起来像是一个全局变量，实则不然：
+
+=man 3 errno= 显示：
+
+
+#+BEGIN_SRC text -r
+     errno is  defined by the ISO  C standard to be  a modifiable
+     lvalue of  type int,  and must  not be  explicitly declared;
+     errno may be a macro.   errno is thread-local; setting it in
+     one thread does not affect its value in any other thread.
+
+#+END_SRC
+
+** SO_ERROR
+=getsockopt()= 提供了另外一种方式来获取 errno: =SO_ERROR= ， =man 7 socket= 显示：
+
+#+BEGIN_SRC text -r
+   Socket options
+     The  socket  options  listed  below  can  be  set  by  using
+     setsockopt(2) and  read with  getsockopt(2) with  the socket
+     level set  to SOL_SOCKET for all  sockets.  Unless otherwise
+     noted, optval is a pointer to an int.
+
+     SO_ERROR
+          Get and  clear the  pending socket error.   This socket
+          option is read-only.  Expects an integer.
+
+
+#+END_SRC
+
+sample:
+
+#+BEGIN_SRC c -r
+  int errno2(int sfd)
+  {
+    int error = 0;
+    socklen_t errlen = sizeof(error);
+    if (sfd != -1 && getsockopt(sfd, SOL_SOCKET, SO_ERROR, (void*)&error, &errlen) == 0) {
+      ;
+    }
+    return error;
+  }
+#+END_SRC
+
+** 用哪个
+
+答案是：都行。。。。
