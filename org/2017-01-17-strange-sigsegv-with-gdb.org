@@ -1,0 +1,25 @@
+#+TITLE: strange sigsegv with gdb
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:3 num:nil toc:t \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: jni
+#+CATEGORY: Develop
+#+DESCRIPTION: (nil)
+
+is this true?
+
+according to: http://stackoverflow.com/questions/13132669/strange-sigsegv-while-calling-java-code-from-c-through-jni
+
+#+BEGIN_QUOTE
+This was indeed what technomage had suggested in the comments. The gdb crash was a
+red herring because of jvm throwing SIGSEGV which was meant to be handled by jvm.
+
+Once I tell gdb "handle SIGSEGV nostop", it works just fine and I was able to
+debug my larger program.
+
+#+END_QUOTE

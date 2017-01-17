@@ -1,0 +1,25 @@
+---
+layout : post
+title : strange sigsegv with gdb
+categories : Develop
+tags : jni
+---
+<p>
+is this true?
+</p>
+
+<p>
+according to: <a href="http://stackoverflow.com/questions/13132669/strange-sigsegv-while-calling-java-code-from-c-through-jni">http://stackoverflow.com/questions/13132669/strange-sigsegv-while-calling-java-code-from-c-through-jni</a>
+</p>
+
+<blockquote>
+<p>
+This was indeed what technomage had suggested in the comments. The gdb crash was a
+red herring because of jvm throwing SIGSEGV which was meant to be handled by jvm.
+</p>
+
+<p>
+Once I tell gdb "handle SIGSEGV nostop", it works just fine and I was able to
+debug my larger program.
+</p>
+</blockquote>

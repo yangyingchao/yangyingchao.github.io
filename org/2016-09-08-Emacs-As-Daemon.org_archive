@@ -1,0 +1,643 @@
+
+Archived entries from file /Users/yyc/Work/yangyingchao.github.io/org/2016-09-08-Emacs-As-Daemon.org
+
+
+* Simple setup
+:PROPERTIES:
+:ARCHIVE_TIME: 2016-09-08 Thu 07:48
+:ARCHIVE_FILE: ~/Work/yangyingchao.github.io/org/2016-09-08-Emacs-As-Daemon.org
+:ARCHIVE_CATEGORY: (nil)
+:END:
+
+Put
+
+export ALTERNATE_EDITOR=""
+export EDITOR=emacsclient
+in your .bashrc, or
+
+setenv ALTERNATE_EDITOR ""
+setenv EDITOR emacsclient
+in your .cshrc depending on your default shell. After that, using emacsclient (or emacsclient -t) will automatically start an emacs in daemon mode and connect to it if one is not found running, and sane programs will know to run emacsclient to start an editor.
+
+Debian/Ubuntu
+
+Depending on your requirements, there are a couple ways to work with emacs --daemon and emacsclient.
+
+Basic setup
+Add emacs --daemon to auto-start on boot. This can be done the easy way (via “Settings > Session and Startup > Application Autostart”) or by writing your own .desktop file and placing it in ~/.config/autostart.
+
+Then make the following changes to your .bashrc (assuming you’re using bash):
+
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
+export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
+For convenience (and because I’m used to them) I also added the following aliases:
+
+alias emax="emacsclient -t"                      # used to be "emacs -nw"
+alias semac="sudo emacsclient -t"                # used to be "sudo emacs -nw"
+alias emacsc="emacsclient -c -a emacs"           # new - opens the GUI with alternate non-daemon
+Comprehensive init script
+Here a little init script for GNU Debian/Ubuntu (please help to improve!) Save in /etc/init.d/emacs
+
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          emacs
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Description:       This file should be placed in /etc/init.d.
+### END INIT INFO
+
+#change this
+USERNAME=YourUserName
+eval USERHOME=~$USERNAME
+DESC="Run the emacs daemon."
+NAME=emacs
+#change this
+DAEMON=/opt/emacs23/bin/$NAME
+DAEMON_ARGS="--daemon"
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+#change this
+EMACSCLIENT=/opt/emacs23/bin/emacsclient
+EVALEXIT="(progn (kill-emacs))"
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+# Load the VERBOSE setting and other rcS variables
+[ -f /etc/default/rcS ] && . /etc/default/rcS
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
+. /lib/lsb/init-functions
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+	start-stop-daemon -c $USERNAME -d $USERHOME --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null \
+		|| return 1
+	start-stop-daemon -c $USERNAME -d $USERHOME --start --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+		$DAEMON_ARGS \
+		|| return 2
+	# Add code here, if necessary, that waits for the process to be ready
+	# to handle requests from services started subsequently which depend
+	# on this one.  As a last resort, sleep for some time.
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+        $EMACSCLIENT --eval "$EVALEXIT"
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+	start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
+	RETVAL="$?"
+	[ "$RETVAL" = 2 ] && return 2
+	# Wait for children to finish too if this is a daemon that forks
+	# and if the daemon is only ever run from this initscript.
+	# If the above conditions are not satisfied then add some other code
+	# that waits for the process to drop all resources that could be
+	# needed by services started subsequently.  A last resort is to
+	# sleep for some time.
+	start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
+	[ "$?" = 2 ] && return 2
+	# Many daemons don't delete their pidfiles when they exit.
+	rm -f $PIDFILE
+	return "$RETVAL"
+}
+
+#
+# Function that sends a SIGHUP to the daemon/service
+#
+do_reload() {
+	#
+	# If the daemon can reload its configuration without
+	# restarting (for example, when it is sent a SIGHUP),
+	# then implement that here.
+	#
+	start-stop-daemon --stop --signal 1 --quiet --pidfile $PIDFILE --name $NAME
+	return 0
+}
+
+case "$1" in
+  start)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+	do_start
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	do_stop
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  #reload|force-reload)
+	#
+	# If do_reload() is not implemented then leave this commented out
+	# and leave 'force-reload' as an alias for 'restart'.
+	#
+	#log_daemon_msg "Reloading $DESC" "$NAME"
+	#do_reload
+	#log_end_msg $?
+	#;;
+  restart|force-reload)
+	#
+	# If the "reload" option is implemented then remove the
+	# 'force-reload' alias
+	#
+	log_daemon_msg "Restarting $DESC" "$NAME"
+	do_stop
+	case "$?" in
+	  0|1)
+		do_start
+		case "$?" in
+			0) log_end_msg 0 ;;
+			1) log_end_msg 1 ;; # Old process is still running
+			*) log_end_msg 1 ;; # Failed to start
+		esac
+		;;
+	  *)
+	  	# Failed to stop
+		log_end_msg 1
+		;;
+	esac
+	;;
+  *)
+	#echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+	echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
+	exit 3
+	;;
+esac
+
+:
+I use also this start script placed in /usr/bin/emacs
+
+#!/bin/bash
+USERID=`id -u`
+if [ ! -e /tmp/emacs$USERID/server ]
+then
+	echo "Starting server."
+	/etc/init.d/emacs start
+        while [ ! -e "/tmp/emacs$USERID/server" ] ; do sleep 1 ; done
+fi
+
+emacsclient -c "$@"
+bug : unfortunately this does not work on Debian Lenny using sudo. I get:
+
+start-stop-daemon: Unable to chdir() to /home/root/ (No such file or directory)
+Fixed : replaced /home/$USERNAME/ with ~$USERNAME (root’s home directory is /root not in /home)
+
+Since start-stop-daemon needs root should they be sudo calls? Otherwise surely on root can run emacs in this way!
+
+This init script requires you to change the USERNAME variable - not ideal :/
+How do you think deal with the choose of a user? One server per user? I think its a bad idea. The server is not useful for all users.
+How about starting a server for every user in group ‘emacs’ or ‘emacs-daemon’?
+You should rather change the variables in /etc/default/emacs, this is how other init scripts work. You could extend the script to start daemons for several users, e.g. by looking for a .start-emacs-daemon file in their home directories. But then, the init script wouldn’t make much sense on a system with multiple users, anyway: such a computer should never get powered off, so the init script will not run, anyway. A better solution would be to start the daemon lazily: just create a wrapper around emacsclient, starting the daemon if it isn’t already running. – AnselmHelbig
+
+several bugs
+
+no user command on my debian machine, better replace USERID=`user -u $USER` with USERID=`id -u` and remove the previous line.
+start-stop-daemon is in /sbin which is not in default $PATH, better add PATH=/usr/sbin:/usr/bin:/sbin:/bin below the line . /lib/lsb/init-functions
+still got start-stop-daemon: Unable to chdir() to ~username (No such file or directory) emacsclient “$@” return $?
+After fixing all these, I still can’t stop the daemon, sudo /etc/init.d/emacs stop gives
+
+        /usr/bin/emacsclient: can't find socket; have you started the server?
+        To start the server in Emacs, type "M-x server-start".
+        /usr/bin/emacsclient: No socket or alternate editor.  Please use:
+
+             --socket-name
+             --server-file      (or environment variable EMACS_SERVER_FILE)
+             --alternate-editor (or environment variable ALTERNATE_EDITOR)
+Fixed: I was able to use sudo /etc/init.d/emacs stop to stop the daemon with the above init script after replacing
+
+$EMACSCLIENT --eval "$EVALEXIT"
+in the do_stop() function with
+
+su -c "$EMACSCLIENT --eval \"$EVALEXIT\"" $USERNAME
+The problem was that root didn’t have an emacs server running. It worked fine when running /etc/init.d/emacs stop as $USERNAME, but it would have failed during shutdown. --JasonBlevins
+
+Several more bugs
+
+I needed to alter all uses of “~” in my .emacs (and related) files to the absolute path to my home directory.
+(user-login-name) returns “root”. I have a working hack, but it’s probably not very advisable: I’ve changed the DAEMON and DAEMON_ARGS variables to run emacs using su allowing me to specify the -l switch to su:
+DAEMON=/bin/su
+DAEMON_ARGS="${USERNAME} -l -c emacs -- -daemon -u ${USERNAME}"
+And start-stop-daemon should be executed without the -c $USERNAME switch.
+
+--RichardLewis
+
+Gentoo
+
+Gentoo includes support for running Emacs as a daemon in the app-emacs/emacs-daemon package.
+
+emerge app-emacs/emacs-daemon
+Every user who wants to connect to an Emacs server must have an own instance of the daemonized Emacs. The init script automatically determines the user by its name, so you create a symbolic link (do not copy the script, or you will miss eventual updates!) in your /etc/init.d directory:
+
+ln -s emacs /etc/init.d/emacs.username
+This may be added to the boot sequence (and will run under the user’s privileges)
+
+rc-update add emacs.username default
+Further customizations can be done through the /etc/conf.d/emacs file, which is extensively commented. You may also create individual /etc/conf.d/emacs.username files for “multiplexed” user configuration.
+
+Emacs as Daemon on OS X using Launchd
+
+If you’re running Emacs 23, you can run Emacs As Daemon via OS X’s launchd. The easiest solution is to use a tool like Lingon to create the plist file or can create one manually like this:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+     <plist version="1.0">
+      <dict>
+        <key>Label</key>
+        <string>gnu.emacs.daemon</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>/Applications/Emacs.app/Contents/MacOS/Emacs</string>
+          <string>--daemon</string>
+        </array>
+       <key>RunAtLoad</key>
+       <true/>
+       <key>ServiceDescription</key>
+       <string>Gnu Emacs Daemon</string>
+       <key>UserName</key>
+       <string>[YOUR USERNAME HERE]</string>
+      </dict>
+    </plist>
+This can then be installed in /Library/LaunchAgents and loaded via:
+
+    sudo launchctl load -w /Library/LaunchAgents/gnu.emacs.daemon.plist
+For further instructions see [1]
+
+Link dead? This site http://launchd.info/ seems to suggest we don’t need sudo above. Not sure, please delete my remark if you can edit above.
+Systemd user service on startup
+
+It’s simple enough to run the emacs daemon with systemd.
+
+$ cat ~/.config/systemd/user/emacs.service
+[Unit]
+Description=Emacs: the extensible, self-documenting text editor
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=always
+
+[Install]
+WantedBy=default.target
+Make sure the SSH_AUTH_SOCK is the correct one by checking the output of the following:
+
+$ echo $SSH_AUTH_SOCK
+/run/user/1000/keyring/ssh
+When you see %t in the emacs.service file, it means the value of XDG_RUNTIME_DIR (which equals to /run/user/1000 on my computer).
+
+Enable the unit for your user
+
+systemctl enable --user emacs
+systemctl start --user emacs
+I get weird some weird gui-related errors with the above script. Using Spacemacs modeline, the non-unicode decorative characters get distorted. I also get a message that it cannot find my Source Code Pro font.
+
+This apparently stops working with systemd 219, see https://emacs.stackexchange.com/questions/9390/emacsclient-cant-open-display-0
+
+Stopping the Emacs Daemon
+
+The simplest way to stop the emacs daemon from within emacs is to use the kill-emacs or save-buffers-kill-emacs commands.
+
+From outside of emacs this can be achieved using emacsclient:
+
+    emacsclient -e '(kill-emacs)'
+This will shutdown the daemon immediately with out prompting or saving files.
+
+If you would like emacs to prompt if there are unsaved buffers or existing clients/frames, you can add the following functions to your .emacs file then use the command:
+
+    emacsclient -e '(client-save-kill-emacs)'
+The display on which the the new frame should be opened can optionally be specified.
+
+Note: If a prompt is required this function will always open an frame as an x window.
+
+(defun client-save-kill-emacs(&optional display)
+  " This is a function that can bu used to shutdown save buffers and
+shutdown the emacs daemon. It should be called using
+emacsclient -e '(client-save-kill-emacs)'.  This function will
+check to see if there are any modified buffers or active clients
+or frame.  If so an x window will be opened and the user will
+be prompted."
+
+  (let (new-frame modified-buffers active-clients-or-frames)
+
+    ; Check if there are modified buffers or active clients or frames.
+    (setq modified-buffers (modified-buffers-exist))
+    (setq active-clients-or-frames ( or (> (length server-clients) 1)
+					(> (length (frame-list)) 1)
+				       ))
+
+    ; Create a new frame if prompts are needed.
+    (when (or modified-buffers active-clients-or-frames)
+      (when (not (eq window-system 'x))
+	(message "Initializing x windows system.")
+	(x-initialize-window-system))
+      (when (not display) (setq display (getenv "DISPLAY")))
+      (message "Opening frame on display: %s" display)
+      (select-frame (make-frame-on-display display '((window-system . x)))))
+
+    ; Save the current frame.
+    (setq new-frame (selected-frame))
+
+
+    ; When displaying the number of clients and frames:
+    ; subtract 1 from the clients for this client.
+    ; subtract 2 from the frames this frame (that we just created) and the default frame.
+    (when ( or (not active-clients-or-frames)
+	       (yes-or-no-p (format "There are currently %d clients and %d frames. Exit anyway?" (- (length server-clients) 1) (- (length (frame-list)) 2))))
+
+      ; If the user quits during the save dialog then don't exit emacs.
+      ; Still close the terminal though.
+      (let((inhibit-quit t))
+             ; Save buffers
+	(with-local-quit
+	  (save-some-buffers))
+
+	(if quit-flag
+	  (setq quit-flag nil)
+          ; Kill all remaining clients
+	  (progn
+	    (dolist (client server-clients)
+	      (server-delete-client client))
+		 ; Exit emacs
+	    (kill-emacs)))
+	))
+
+    ; If we made a frame then kill it.
+    (when (or modified-buffers active-clients-or-frames) (delete-frame new-frame))
+    )
+  )
+
+
+(defun modified-buffers-exist()
+  "This function will check to see if there are any buffers
+that have been modified.  It will return true if there are
+and nil otherwise. Buffers that have buffer-offer-save set to
+nil are ignored."
+  (let (modified-found)
+    (dolist (buffer (buffer-list))
+      (when (and (buffer-live-p buffer)
+		 (buffer-modified-p buffer)
+		 (not (buffer-base-buffer buffer))
+		 (or
+		  (buffer-file-name buffer)
+		  (progn
+		    (set-buffer buffer)
+		    (and buffer-offer-save (> (buffer-size) 0))))
+		 )
+	(setq modified-found t)
+	)
+      )
+    modified-found
+    )
+  )
+
+Using GNOME startup and session manager
+
+When the emacs daemon is started as a GNOME startup application (by adding “emacs --daemon” as one of the startup applications), you can use the following code in your init file to make emacs register as a client with the GNOME session manager, and shutdown gracefully when the session ends.
+
+;;; save & shutdown when we get an "end of session" signal on dbus
+(require 'dbus)
+
+(defun my-register-signals (client-path)
+  "Register for the 'QueryEndSession' and 'EndSession' signals from
+Gnome SessionManager.
+
+When we receive 'QueryEndSession', we just respond with
+'EndSessionResponse(true, \"\")'.  When we receive 'EndSession', we
+append this EndSessionResponse to kill-emacs-hook, and then call
+kill-emacs.  This way, we can shut down the Emacs daemon cleanly
+before we send our 'ok' to the SessionManager."
+  (setq my-gnome-client-path client-path)
+  (let ( (end-session-response (lambda (&optional arg)
+                                 (dbus-call-method-asynchronously
+                                  :session "org.gnome.SessionManager" my-gnome-client-path
+                                  "org.gnome.SessionManager.ClientPrivate" "EndSessionResponse" nil
+                                  t "") ) ) )
+         (dbus-register-signal
+          :session "org.gnome.SessionManager" my-gnome-client-path
+          "org.gnome.SessionManager.ClientPrivate" "QueryEndSession"
+          end-session-response )
+         (dbus-register-signal
+          :session "org.gnome.SessionManager" my-gnome-client-path
+          "org.gnome.SessionManager.ClientPrivate" "EndSession"
+          `(lambda (arg)
+             (add-hook 'kill-emacs-hook ,end-session-response t)
+             (kill-emacs) ) ) ) )
+
+;; DESKTOP_AUTOSTART_ID is set by the Gnome desktop manager when emacs
+;; is autostarted.  We can use it to register as a client with gnome
+;; SessionManager.
+(dbus-call-method-asynchronously
+ :session "org.gnome.SessionManager"
+ "/org/gnome/SessionManager"
+ "org.gnome.SessionManager" "RegisterClient" 'my-register-signals
+ "Emacs server" (getenv "DESKTOP_AUTOSTART_ID"))
+Alternate shutdown method (e.g. via gnome-session-manager)
+
+see the discussion at http://stackoverflow.com/questions/1167484/how-to-gracefully-shutdown-emacs-daemon/2270603
+
+Shutdown emacs server
+
+This function will ask if you want to save any modified buffers, quit your session, and shutdown the associated emacs server instance.
+
+Add the below code to your .emacs file. Call it w/ M-x server-shutdown
+
+;; define function to shutdown emacs server instance
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+  )
+Color coding (multiple) emacs server instances
+
+You can start different emacs server instances w/ different color schemes (so you instantly know which one you’re using).
+
+This works to set the background color:
+
+emacs --daemon=todo --background-color='#93DB80'
+emacs --daemon=edit --background-color=yellow
+But if you try setting the cursor color – it fails miserably.
+
+I use a different color for the fringe on each instance, set using Custom.
+
+Another, more flexible option:
+
+starting emacs server (daemon)
+Example scripts for starting different instances of emacs server:
+
+#!/bin/bash
+
+export ESRVNAME=todo
+emacs --daemon=$ESRVNAME
+or
+
+#!/bin/bash
+
+export ESRVNAME=edit
+emacs --daemon=$ESRVNAME
+ps -ef | grep -i 'emacs --daemon'
+Also see http://www.gnu.org/s/libtool/manual/emacs/Emacs-Server.html#Emacs-Server
+
+set color choices in .emacs
+Set your color choices in your .emacs file:
+
+;; set colors for my emacs server instances
+(defvar esrvname (getenv "ESRVNAME")) ;; is there a var that provides the server-name?
+(ignore-errors ;; this prevents error when environment variable is not set
+  (when (string-match "todo" esrvname)
+    (setq default-frame-alist
+          (append default-frame-alist
+                  '((background-color . "#93DB80")
+                    (cursor-color . "yellow")
+                    )))
+    ;; or set a color-theme, e.g., (color-theme-classic)
+    )
+  (when (string-match "edit" esrvname)
+    (setq default-frame-alist
+          (append default-frame-alist
+                  '((background-color . "yellow")
+                    ;; (foreground-color . "black")
+                    (cursor-color . "blue")
+                    )))
+    )
+  )
+starting emacsclient
+An example script for starting emacsclient (for different instances of emacs server):
+
+#!/bin/bash
+
+emacsclient -s edit -c $@
+This allows you to pass any parameters to emacsclient, e.g., filenames, or even the ‘-t’ (or ‘-nw’) option (it will override the ‘-c’)
+
+Another example:
+
+#!/bin/bash
+
+umask 0007 # you can set a different umask than your default for emcas session
+cd ~/docs/todo/
+emacsclient -s todo -c ~/docs/todo/work.org &
+Also see: http://www.gnu.org/s/libtool/manual/emacs/emacsclient-Options.html#emacsclient-Options
+
+See also EmacsClient
+
+problem and workaround for emacs daemon spinning w/ "back to top level" message
+Problem: During the first dozen invocations, “emacs --daemon” started up and cleanly loaded my init files. But, after making some init file changes (including but possibly not limited to removing my prior font customizations from .emacs-custom.el, in order to go back to the default font), the subsequent invocations hung at the “Starting Emacs daemon” line. Then, when typing “enter” at the terminal or when connecting via emacsclient, emacs continually spools out the message: “back to top level”. Inspection revealed the emacs daemon was chewing up 100% of one of the cpu’s.
+
+yum info emacs Arch : x86_64 Epoch : 1 Version : 23.3 Release : 8.fc16
+
+Workaround: Start emacs with “emacs --daemon -q”. The first time you connect via emacsclient, open your .emacs file and run ‘eval-buffer’.
+
+Running multiple Emacs daemons under different users
+
+I run many Emacs instances on a single box, as application servers. Some of them run Elnode, some run ShoesOff, etc… I normally separate these by using different operating system users to run them. Otherwise it is too easy for them to trample on each other.
+
+Setting up a complete fresh daemon
+I always:
+
+make a new user
+make a specific .emacs.d directory for the new emacs instance
+for example .emacs.elpad.d
+you need this because customs cannot be saved to .emacs.d if you start with -Q
+make a boot script to start (and connect as a client) to it
+I usually copy it from another service, say TeamChat
+the boot script sets the daemon socket specifically
+start the emacs service
+Problems connecting
+Sometimes you get problems connecting to these multiple servers. This is normally to do with terminal permissions, especially if you just sudo su from one user to another, you get this: Could not open file - here’s an example:
+
+elpad@somebox:~$ emacs-local/bin/emacsclient -s /tmp/emacs1007/elpad  elpad-elpa/
+Waiting for Emacs...
+*ERROR*: Could not open file: /dev/pts/9
+This is down to ownership of the tty. To fix this I just ssh to the user from the local box, that always fixes it:
+
+ssh elpad@localhost
+elpad@somebox:~$ emacs-local/bin/emacsclient -s /tmp/emacs1007/elpad  elpad-elpa/
+## starts emacs...
+FUBAR: Impossible to connect
+
+There is an unfortunate possibility when using the emacs server where the server can be stopped and then all visible frames closed (e.g. server-force-delete + ssh disconnect). As far as I can tell, in this condition it becomes impossible to attach to your running emacs instance. This is a real bummer. As a workaround, you can set up a signal handler to restart the server. You can put the following into your emacs startup elisp:
+
+;; define function to restart the server
+(defun signal-restart-server ()
+  (interactive)
+  (message "Caught event %S" last-input-event)
+  (server-mode)
+  )
+
+;; add the binding to the special-event-map
+(define-key special-event-map [sigusr1] 'signal-restart-server)
+Once that code has been loaded, sending a USR1 to the emacs process will restart the server. You can now reconnect. Joy.
+
+doh@bummer ~/ $ emacsclient -nc
+emacsclient: can't find socket; have you started the server?
+To start the server in Emacs, type "M-x server-start".
+emacsclient: No socket or alternate editor.  Please use:
+
+	--socket-name
+	--server-file      (or environment variable EMACS_SERVER_FILE)
+	--alternate-editor (or environment variable ALTERNATE_EDITOR)
+
+doh@bummer ~/ $ ps auxw | grep emacs
+doh     5373  0.0  0.2 483844 28872 ?        Ssl  18:44   0:00 emacs --daemon
+
+doh@bummer ~/ $ kill -USR1 5373
+  ## Note: there is no feedback from the command line kill
+
+doh@bummer ~/ $ emacsclient -nc
+  ## Note: Joy!
+
+NOTE: One other possible way to get the server restarted would be to connect to the process with gdb and then call some function to execute lisp code to restart the server. If anyone knows how to do that I would be very interested in learning how it is done.
+
+添加翻译
+讨论 编辑本页 参阅其他版本 管理
+最后编辑于 2016-07-27 22:56 UTC 由 mylostone (比较差异)
+CC-GNU GPL
+This work is licensed to you under version 2 of the GNU General Public License. Alternatively, you may choose to receive this work under any other license that grants the right to use, copy, modify, and/or distribute the work, as long as that license imposes the restriction that derivative works have to grant the same rights and impose the same restriction. For example, you may choose to receive this work under the GNU Free Documentation License, the CreativeCommons ShareAlike License, the XEmacs manual license, or similar licenses.
+Please note our Privacy Statement.
+
+* Running emacs like a Daemon
+:PROPERTIES:
+:ARCHIVE_TIME: 2016-09-08 Thu 07:48
+:ARCHIVE_FILE: ~/Work/yangyingchao.github.io/org/2016-09-08-Emacs-As-Daemon.org
+:ARCHIVE_CATEGORY: (nil)
+:END:
+
+This a new feature that is included in emacs-23.1.
+
+Start the emacs daemon with
+
+#+BEGIN_SRC console -r
+emacs --daemon
+#+END_SRC
+
+or,
+
+#+BEGIN_SRC console -r
+sudo emacs --daemon
+#+END_SRC

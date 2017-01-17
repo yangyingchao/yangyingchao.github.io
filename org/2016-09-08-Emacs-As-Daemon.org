@@ -1,0 +1,369 @@
+#+TITLE: Emacs As Daemon
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+
+* Running emacs like a Daemon
+
+This a new feature that is included in emacs-23.1.
+
+Start the emacs daemon with
+
+#+BEGIN_SRC sh -r
+emacs --daemon
+#+END_SRC
+
+or,
+
+#+BEGIN_SRC sh -r
+sudo emacs --daemon
+#+END_SRC
+
+
+* Simple setup
+
+Put
+
+#+BEGIN_SRC sh -r
+export ALTERNATE_EDITOR=""
+export EDITOR=emacsclient
+#+END_SRC
+
+in your .bashrc, or
+
+#+BEGIN_SRC sh -r
+setenv ALTERNATE_EDITOR ""
+setenv EDITOR emacsclient
+#+END_SRC
+
+in your .cshrc depending on your default shell. After that, using emacsclient (or
+emacsclient -t) will automatically start an emacs in daemon mode and connect to it
+if one is not found running, and sane programs will know to run emacsclient to
+start an editor.
+
+* Debian/Ubuntu
+
+Depending on your requirements, there are a couple ways to work with
+=emacs --daemon= and =emacsclient=.
+
+** Basic setup
+Add =emacs --daemon= to auto-start on boot. This can be done the easy way (via
+“Settings > Session and Startup > Application Autostart”) or by writing your own
+=.desktop= file and placing it in =~/.config/autostart=.
+
+Then make the following changes to your .bashrc (assuming you’re using bash):
+
+#+BEGIN_SRC sh -r
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
+export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
+#+END_SRC
+
+For convenience (and because I’m used to them) I also added the following
+aliases:
+
+#+BEGIN_SRC sh -r
+alias emax="emacsclient -t"                      # used to be "emacs -nw"
+alias semac="sudo emacsclient -t"                # used to be "sudo emacs -nw"
+alias emacsc="emacsclient -c -a emacs"           # new - opens the GUI with alternate non-daemon
+#+END_SRC
+
+** Comprehensive init script
+Here a little init script for GNU Debian/Ubuntu (please help to improve!) Save in
+/etc/init.d/emacs
+
+#+BEGIN_SRC sh -r
+  #! /bin/sh
+  ### BEGIN INIT INFO
+  # Provides:          emacs
+  # Default-Start:     2 3 4 5
+  # Default-Stop:      S 0 1 6
+  # Description:       This file should be placed in /etc/init.d.
+  ### END INIT INFO
+
+  #change this
+  USERNAME=YourUserName
+  eval USERHOME=~$USERNAME
+  DESC="Run the emacs daemon."
+  NAME=emacs
+  #change this
+  DAEMON=/opt/emacs23/bin/$NAME
+  DAEMON_ARGS="--daemon"
+  PIDFILE=/var/run/$NAME.pid
+  SCRIPTNAME=/etc/init.d/$NAME
+  #change this
+  EMACSCLIENT=/opt/emacs23/bin/emacsclient
+  EVALEXIT="(progn (kill-emacs))"
+
+  # Exit if the package is not installed
+  [ -x "$DAEMON" ] || exit 0
+
+  # Read configuration variable file if it is present
+  [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+  # Load the VERBOSE setting and other rcS variables
+  [ -f /etc/default/rcS ] && . /etc/default/rcS
+
+  # Define LSB log_* functions.
+  # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
+  . /lib/lsb/init-functions
+
+  #
+  # Function that starts the daemon/service
+  #
+  do_start()
+  {
+      # Return
+      #   0 if daemon has been started
+      #   1 if daemon was already running
+      #   2 if daemon could not be started
+      start-stop-daemon -c $USERNAME -d $USERHOME --start --quiet --pidfile $PIDFILE --exec $DAEMON --test > /dev/null \
+          || return 1
+      start-stop-daemon -c $USERNAME -d $USERHOME --start --quiet --pidfile $PIDFILE --exec $DAEMON -- \
+          $DAEMON_ARGS \
+          || return 2
+      # Add code here, if necessary, that waits for the process to be ready
+      # to handle requests from services started subsequently which depend
+      # on this one.  As a last resort, sleep for some time.
+  }
+
+  #
+  # Function that stops the daemon/service
+  #
+  do_stop()
+  {
+          $EMACSCLIENT --eval "$EVALEXIT"
+      # Return
+      #   0 if daemon has been stopped
+      #   1 if daemon was already stopped
+      #   2 if daemon could not be stopped
+      #   other if a failure occurred
+      start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
+      RETVAL="$?"
+      [ "$RETVAL" = 2 ] && return 2
+      # Wait for children to finish too if this is a daemon that forks
+      # and if the daemon is only ever run from this initscript.
+      # If the above conditions are not satisfied then add some other code
+      # that waits for the process to drop all resources that could be
+      # needed by services started subsequently.  A last resort is to
+      # sleep for some time.
+      start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
+      [ "$?" = 2 ] && return 2
+      # Many daemons don't delete their pidfiles when they exit.
+      rm -f $PIDFILE
+      return "$RETVAL"
+  }
+
+  #
+  # Function that sends a SIGHUP to the daemon/service
+  #
+  do_reload() {
+      #
+      # If the daemon can reload its configuration without
+      # restarting (for example, when it is sent a SIGHUP),
+      # then implement that here.
+      #
+      start-stop-daemon --stop --signal 1 --quiet --pidfile $PIDFILE --name $NAME
+      return 0
+  }
+
+  case "$1" in
+    start)
+      [ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+      do_start
+      case "$?" in
+          0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+          2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+      esac
+      ;;
+    stop)
+      [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+      do_stop
+      case "$?" in
+          0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+          2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+      esac
+      ;;
+    #reload|force-reload)
+      #
+      # If do_reload() is not implemented then leave this commented out
+      # and leave 'force-reload' as an alias for 'restart'.
+      #
+      #log_daemon_msg "Reloading $DESC" "$NAME"
+      #do_reload
+      #log_end_msg $?
+      #;;
+    restart|force-reload)
+      #
+      # If the "reload" option is implemented then remove the
+      # 'force-reload' alias
+      #
+      log_daemon_msg "Restarting $DESC" "$NAME"
+      do_stop
+      case "$?" in
+        0|1)
+          do_start
+          case "$?" in
+              0) log_end_msg 0 ;;
+              1) log_end_msg 1 ;; # Old process is still running
+              ,*) log_end_msg 1 ;; # Failed to start
+          esac
+          ;;
+        ,*)
+          # Failed to stop
+          log_end_msg 1
+          ;;
+      esac
+      ;;
+    ,*)
+      #echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" >&2
+      echo "Usage: $SCRIPTNAME {start|stop|restart|force-reload}" >&2
+      exit 3
+      ;;
+  esac
+
+  :
+#+END_SRC
+
+I use also this start script placed in /usr/bin/emacs
+
+#+BEGIN_SRC sh -r
+#!/bin/bash
+USERID=`id -u`
+if [ ! -e /tmp/emacs$USERID/server ]
+then
+	echo "Starting server."
+	/etc/init.d/emacs start
+        while [ ! -e "/tmp/emacs$USERID/server" ] ; do sleep 1 ; done
+fi
+
+emacsclient -c "$@"
+#+END_SRC
+
+bug : unfortunately this does not work on Debian Lenny using sudo. I get:
+
+#+BEGIN_SRC console -r
+start-stop-daemon: Unable to chdir() to /home/root/ (No such file or directory)
+#+END_SRC
+
+*Fixed* : replaced =home/$USERNAME= with =~$USERNAME= (root’s home directory is
+/root not in /home)
+
+Since start-stop-daemon needs root should they be sudo calls? Otherwise surely on
+root can run emacs in this way!
+
+- This init script requires you to change the USERNAME variable - not ideal :/
+- How do you think deal with the choose of a user? One server per user? I think its a bad idea. The server is not useful for all users.
+- How about starting a server for every user in group ‘emacs’ or ‘emacs-daemon’?
+
+You should rather change the variables in /etc/default/emacs, this is how other init scripts work. You could extend the script to start daemons for several users, e.g. by looking for a .start-emacs-daemon file in their home directories. But then, the init script wouldn’t make much sense on a system with multiple users, anyway: such a computer should never get powered off, so the init script will not run, anyway. A better solution would be to start the daemon lazily: just create a wrapper around emacsclient, starting the daemon if it isn’t already running. – AnselmHelbig
+
+* Gentoo
+
+Gentoo includes support for running Emacs as a daemon in the
+=app-emacs/emacs-daemon= package.
+
+#+BEGIN_SRC sh -r
+emerge app-emacs/emacs-daemon
+#+END_SRC
+
+Every user who wants to connect to an Emacs server must have an own instance of
+the daemonized Emacs. The init script automatically determines the user by its
+name, so you create a symbolic link (do not copy the script, or you will miss
+eventual updates!) in your /etc/init.d directory:
+
+#+BEGIN_SRC sh -r
+ln -s emacs /etc/init.d/emacs.username
+#+END_SRC
+
+This may be added to the boot sequence (and will run under the user’s privileges)
+
+#+BEGIN_SRC sh -r
+rc-update add emacs.username default
+#+END_SRC
+
+Further customizations can be done through the /etc/conf.d/emacs file, which is
+extensively commented. You may also create individual /etc/conf.d/emacs.username
+files for “multiplexed” user configuration.
+
+* Emacs as Daemon on OS X using Launchd
+
+If you’re running Emacs 23, you can run Emacs As Daemon via OS X’s launchd. The
+easiest solution is to use a tool like Lingon to create the plist file or can
+create one manually like this:
+
+#+BEGIN_SRC nxml -r
+  <?xml version="1.0" encoding="utf-8"?>
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+      "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+   <plist version="1.0">
+    <dict>
+      <key>Label</key>
+      <string>gnu.emacs.daemon</string>
+      <key>ProgramArguments</key>
+      <array>
+        <string>/Applications/Emacs.app/Contents/MacOS/Emacs</string>
+        <string>--daemon</string>
+      </array>
+     <key>RunAtLoad</key>
+     <true/>
+     <key>ServiceDescription</key>
+     <string>Gnu Emacs Daemon</string>
+     <key>UserName</key>
+     <string>[YOUR USERNAME HERE]</string>
+    </dict>
+  </plist>
+#+END_SRC
+
+This can then be installed in =/Library/LaunchAgents= and loaded via:
+
+#+BEGIN_SRC sh -r
+  sudo launchctl load -w /Library/LaunchAgents/gnu.emacs.daemon.plist
+#+END_SRC
+
+* Systemd user service on startup
+
+It’s simple enough to run the emacs daemon with systemd.
+
+#+BEGIN_SRC console -r
+$ cat ~/.config/systemd/user/emacs.service
+[Unit]
+Description=Emacs: the extensible, self-documenting text editor
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=always
+
+[Install]
+WantedBy=default.target
+#+END_SRC
+
+Make sure the =SSH_AUTH_SOCK= is the correct one by checking the output of the following:
+
+#+BEGIN_SRC console -r
+$ echo $SSH_AUTH_SOCK
+/run/user/1000/keyring/ssh
+#+END_SRC
+
+When you see %t in the emacs.service file, it means the value of =XDG_RUNTIME_DIR=
+(which equals to =/run/user/1000= on my computer).
+
+Enable the unit for your user
+
+#+BEGIN_SRC sh -r
+systemctl enable --user emacs
+systemctl start --user emacs
+#+END_SRC
+
