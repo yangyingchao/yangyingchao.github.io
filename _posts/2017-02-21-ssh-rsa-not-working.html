@@ -1,0 +1,40 @@
+---
+layout : post
+title : ssh rsa not working
+categories : Utils
+tags : ssh
+---
+<p>
+Make sure the permissions on the ~/.ssh directory and its contents are
+proper. When I first set up my ssh key auth, I didn't have the ~/.ssh folder
+properly set up, and it yelled at me.
+</p>
+
+<p>
+Your home directory ~, your ~/.ssh directory and the ~/.ssh/authorized_keys file on
+the remote machine must be writable only by you: rwx&#x2014;&#x2014; and rwxr-xr-x are fine,
+but rwxrwx&#x2014; is no good¹, even if you are the only user in your group (if you
+prefer numeric modes: 700 or 755, not 775).
+</p>
+
+<p>
+If ~/.ssh or authorized_keys is a symbolic link, the canonical path (with symbolic
+links expanded) is checked.
+</p>
+
+<p>
+Your ~/.ssh/authorized_keys file (on the remote machine) must be readable (at least
+400), but you'll need it to be also writable (600) if you will add any more keys
+to it.
+</p>
+
+<p>
+Your private key file (on the local machine) must be readable and writable only by
+you: rw-&#x2014;&#x2014;, i.e. 600.
+</p>
+
+<p>
+Also, if SELinux is set to enforcing, you may need to run restorecon -R -v ~/.ssh
+(see e.g. Ubuntu bug 965663 and Debian bug report #658675; this is patched in
+CentOS 6).
+</p>
