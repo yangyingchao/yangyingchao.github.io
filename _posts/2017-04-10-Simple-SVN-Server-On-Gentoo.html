@@ -1,0 +1,107 @@
+---
+layout : post
+title : Simple SVN Server On Gentoo
+categories : Utils
+tags : svn
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">安装</a></li>
+<li><a href="#sec-2">配置</a></li>
+<li><a href="#sec-3">启动服务</a>
+<ul>
+<li><a href="#sec-3-1">openrc</a></li>
+<li><a href="#sec-3-2">systemd</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Check out files &amp; play</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">安装</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+
+<pre class="src src-console">emerge -av subversion
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">配置</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-console">emerge --config dev-vcs/subversion
+</pre>
+</div>
+
+<p>
+之后进入 /var/svn/repos/conf 目录，编辑文件 <code>svnserver.conf</code> :
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-conf">[<span style="color: #32cd32;">general</span>]
+<span style="color: #daa520;">anon-access</span> = none   <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">&#65288;&#21311;&#21517;&#29992;&#25143;&#19981;&#21487;&#36827;&#65289;</span>
+<span style="color: #daa520;">auth-access</span> = write  <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">&#65288;&#35748;&#35777;&#29992;&#25143;&#21487;&#20197;&#35835;&#20889;&#65289;</span>
+<span style="color: #daa520;">password-db</span> = passwd <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">&#65288;&#29992;&#25143;&#20449;&#24687;&#25351;&#23450;&#22312;&#24403;&#21069;&#30446;&#24405;&#30340;passwd&#25991;&#20214;&#65289;</span>
+</pre>
+</div>
+
+
+<p>
+然后到当前目录下编辑一下passwd文件，形如：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-conf">[<span style="color: #32cd32;">users</span>]
+<span style="color: #daa520;">yyc</span> = 000000
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">启动服务</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">openrc</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+如果使用 openrc，可以直接执行： /etc/init.d/svnserve start
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">systemd</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+subversion 没有提供 systemd 的 unit，需要自己写一个。如果像我一样只是临时测试用，可以直接用命令行启动 svnserve：
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-console"><span style="color: #32cd32;">t-station ~ #</span> svnserve -d -r /var/svn/ --pid-file /var/run/svnd.pid
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Check out files &amp; play</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+
+<pre class="src src-console">svn co svn://localhost/repos --username yyc
+</pre>
+</div>
+</div>
+</div>

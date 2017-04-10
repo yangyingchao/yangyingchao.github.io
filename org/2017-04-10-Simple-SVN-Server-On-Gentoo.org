@@ -1,0 +1,56 @@
+#+TITLE: Simple SVN Server On Gentoo
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:3 num:nil toc:t \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: svn
+#+CATEGORY: Utils
+#+DESCRIPTION: (nil)
+
+* 安装
+
+#+BEGIN_SRC console -r
+emerge -av subversion
+#+END_SRC
+
+* 配置
+#+BEGIN_SRC console -r
+emerge --config dev-vcs/subversion
+#+END_SRC
+
+之后进入 /var/svn/repos/conf 目录，编辑文件 =svnserver.conf= :
+
+#+BEGIN_SRC conf -r
+  [general]
+  anon-access = none   #（匿名用户不可进）
+  auth-access = write  #（认证用户可以读写）
+  password-db = passwd #（用户信息指定在当前目录的passwd文件）
+#+END_SRC
+
+
+然后到当前目录下编辑一下passwd文件，形如：
+#+BEGIN_SRC conf -r
+  [users]
+  yyc = 000000
+#+END_SRC
+
+* 启动服务
+** openrc
+如果使用 openrc，可以直接执行： /etc/init.d/svnserve start
+
+** systemd
+subversion 没有提供 systemd 的 unit，需要自己写一个。如果像我一样只是临时测试
+用，可以直接用命令行启动 svnserve：
+
+#+BEGIN_SRC console -r
+t-station ~ # svnserve -d -r /var/svn/ --pid-file /var/run/svnd.pid
+#+END_SRC
+
+* Check out files & play
+#+BEGIN_SRC console -r
+svn co svn://localhost/repos --username yyc
+#+END_SRC
