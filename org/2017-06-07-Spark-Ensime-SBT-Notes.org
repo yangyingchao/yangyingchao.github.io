@@ -1,0 +1,55 @@
+#+TITLE: Spark Ensime SBT Notes
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:3 num:nil toc:t \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: spark sbt
+#+CATEGORY: Spark
+#+DESCRIPTION: (nil)
+
+简单记录一下折腾 Spark, Ensime, sbt 过程中遇到的问题。
+
+* sbt run 报错： Uncaught exception in thread SparkListenerBus
+
+** 表现
+
+#+BEGIN_SRC text -r
+15/02/06 15:56:49 ERROR Utils: Uncaught exception in thread SparkListenerBus
+java.lang.InterruptedException
+    at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireSharedInterruptibly(AbstractQueuedSynchronizer.java:996)
+    at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireSharedInterruptibly(AbstractQueuedSynchronizer.java:1303)
+    at java.util.concurrent.Semaphore.acquire(Semaphore.java:317)
+    at org.apache.spark.scheduler.LiveListenerBus$$anon$1$$anonfun$run$1.apply$mcV$sp(LiveListenerBus.scala:48)
+    at org.apache.spark.scheduler.LiveListenerBus$$anon$1$$anonfun$run$1.apply(LiveListenerBus.scala:47)
+    at org.apache.spark.scheduler.LiveListenerBus$$anon$1$$anonfun$run$1.apply(LiveListenerBus.scala:47)
+    at org.apache.spark.util.Utils$.logUncaughtExceptions(Utils.scala:1460)
+    at org.apache.spark.scheduler.LiveListenerBus$$anon$1.run(LiveListenerBus.scala:46)
+15/02/06 15:56:49 ERROR ContextCleaner: Error in cleaning thread
+java.lang.InterruptedException
+    at java.lang.Object.wait(Native Method)
+    at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:135)
+    at org.apache.spark.ContextCleaner$$anonfun$org$apache$spark$ContextCleaner$$keepCleaning$1.apply$mcV$sp(ContextCleaner.scala:136)
+    at org.apache.spark.ContextCleaner$$anonfun$org$apache$spark$ContextCleaner$$keepCleaning$1.apply(ContextCleaner.scala:134)
+    at org.apache.spark.ContextCleaner$$anonfun$org$apache$spark$ContextCleaner$$keepCleaning$1.apply(ContextCleaner.scala:134)
+    at org.apache.spark.util.Utils$.logUncaughtExceptions(Utils.scala:1460)
+    at org.apache.spark.ContextCleaner.org$apache$spark$ContextCleaner$$keepCleaning(ContextCleaner.scala:133)
+    at org.apache.spark.ContextCleaner$$anon$3.run(ContextCleaner.scala:65)
+
+#+END_SRC
+
+** 原因
+SparkSession、SparkContext 没有关闭
+
+** 解决方法
+
+下面两者均可：
+
+- 添加 =sc.stop()= 或者 =spark.stop()=
+- build.sbt 里面添加：
+  #+BEGIN_SRC scala -r
+    fork := true
+  #+END_SRC
