@@ -2,7 +2,7 @@
 {
   html {
 	margin: 0;
-	font-family: Helvetica, Verdana, Arial, sans-serif;
+    font-family: "Lato", "Helvetica Neue",Verdana, Arial,  sans-serif;
 	background-color: white;
 	background-image: url(http://yangyingchao.github.io/assets/img/thumbnail.png);
 	background-attachment: fixed;
@@ -20,20 +20,13 @@
 	margin-top: 0;
   }
 
-  /* * { */
-  /*   padding: 0; */
-  /*   margin: 0; */
-  /*   outline: none; */
-  /* } */
-
   body #content {
 	padding-top: 0px;
 	max-width: 80%;
 	min-width: 700px;
 	margin-left: 20px;
-	background-color: white;
-	padding: 2em;
-	/* box-shadow: 3px 3px 5px #888; */
+    padding: 2em;
+    color: #555;
   }
 
   body .title {
