@@ -1,0 +1,39 @@
+---
+layout : post
+title : how to wait for debugger
+categories : Util
+tags : gdb
+---
+<p>
+从 cquery 代码里面看到的。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;signal.h&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;stdlib.h&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;unistd.h&gt;</span>
+<span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;stdio.h&gt;</span>
+
+<span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">TraceMe</span>() {
+    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">If the environment variable is defined, wait for a debugger.</span>
+    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">In gdb, you need to invoke `signal SIGCONT` if you want cquery to continue</span>
+    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">after detaching.</span>
+    <span style="color: #ff4040;">if</span> (getenv(<span style="color: #d78700;">"TEST_TRACEME"</span>))
+        raise(SIGTSTP);
+}
+
+
+<span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">main</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">argc</span>, <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">argv</span>[])
+{
+
+    TraceMe(); <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">stops after started, and continue after gdb attached...</span>
+
+    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">a</span> = 0;
+    <span style="color: #ff4040;">while</span> (<span style="color: #7fffd4; font-weight: bold;">true</span>) {
+        fprintf(stderr, <span style="color: #d78700;">"kkkkk: %d\n"</span>, a++);
+        sleep(1);
+    }
+}
+
+</pre>
+</div>

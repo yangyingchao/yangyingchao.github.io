@@ -1,0 +1,58 @@
+#+TITLE: how to wait for debugger
+#+AUTHOR: Yang, Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:7 num:nil toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: gdb
+#+CATEGORY: Util
+#+DESCRIPTION: (nil)
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage{setspace}
+#+LATEX_HEADER: \singlespacing
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage{indentfirst}
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \usepackage{fontspec}
+#+LATEX_HEADER: \setsansfont[BoldFont=SimHei]{KaiTi}
+#+LATEX_HEADER: \setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+#+LATEX_HEADER: \setCJKmonofont{SimSun}
+#+LATEX_HEADER: \setCJKmonofont{Microsoft YaHei}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+
+#+LATEX: \doublespacing
+
+从 cquery 代码里面看到的。
+
+#+BEGIN_SRC c++ -r
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+
+void TraceMe() {
+    // If the environment variable is defined, wait for a debugger.
+    // In gdb, you need to invoke `signal SIGCONT` if you want cquery to continue
+    // after detaching.
+    if (getenv("TEST_TRACEME"))
+        raise(SIGTSTP);
+}
+
+
+int main(int argc, char *argv[])
+{
+
+    TraceMe(); // stops after started, and continue after gdb attached...
+
+    int a = 0;
+    while (true) {
+        fprintf(stderr, "kkkkk: %d\n", a++);
+        sleep(1);
+    }
+}
+
+#+END_SRC
