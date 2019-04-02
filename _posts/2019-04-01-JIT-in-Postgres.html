@@ -8,30 +8,31 @@ tags : jit
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3522a60">1. 简单总结</a></li>
-<li><a href="#org8b529f7">2. Callflow</a></li>
-<li><a href="#orgadf5899">3. LLVM Jit Context</a>
+<li><a href="#org31ed8a8">1. 简单总结</a></li>
+<li><a href="#org0b8f814">2. Overview</a></li>
+<li><a href="#orgef2a00b">3. Callflow</a></li>
+<li><a href="#org855ea0e">4. LLVM Jit Context</a>
 <ul>
-<li><a href="#orgc70004c">3.1. llvmjit types</a></li>
+<li><a href="#org17c89af">4.1. llvmjit types</a></li>
 </ul>
 </li>
-<li><a href="#orga06bc32">4. Do Create Function</a></li>
-<li><a href="#orgfdbe144">5. Inline</a>
+<li><a href="#org9005aa4">5. Do Create Function</a></li>
+<li><a href="#org728d26f">6. Inline</a>
 <ul>
-<li><a href="#org620c282">5.1. llvm_build_inline_plan</a></li>
-<li><a href="#org383b66e">5.2. llvm_execute_inline_plan</a></li>
-<li><a href="#org0fae545">5.3. 疑问</a></li>
+<li><a href="#org4d5f71b">6.1. llvm_build_inline_plan</a></li>
+<li><a href="#orgeade774">6.2. llvm_execute_inline_plan</a></li>
+<li><a href="#org81d139b">6.3. 疑问</a></li>
 </ul>
 </li>
-<li><a href="#orgb9ea791">6. Optimize</a></li>
-<li><a href="#org6f6a5e1">7. LLVM 知识点</a>
+<li><a href="#orgff83468">7. Optimize</a></li>
+<li><a href="#orgdc8a401">8. LLVM 知识点</a>
 <ul>
-<li><a href="#org17adc45">7.1. Target Triple</a></li>
-<li><a href="#orgfa89333">7.2. Data Layout</a></li>
-<li><a href="#orgad03c9a">7.3. <code>br</code> Instruction</a></li>
-<li><a href="#org6c1dad5">7.4. Function Attributes</a></li>
-<li><a href="#org160816e">7.5. Module Structure</a></li>
-<li><a href="#org810c155">7.6. Passes</a></li>
+<li><a href="#orgcd0fe59">8.1. Target Triple</a></li>
+<li><a href="#org560be5d">8.2. Data Layout</a></li>
+<li><a href="#org2ff349c">8.3. <code>br</code> Instruction</a></li>
+<li><a href="#org01dad97">8.4. Function Attributes</a></li>
+<li><a href="#org933728d">8.5. Module Structure</a></li>
+<li><a href="#org70ae489">8.6. Passes</a></li>
 </ul>
 </li>
 </ul>
@@ -39,8 +40,8 @@ tags : jit
 </div>
 
 
-<div id="outline-container-org3522a60" class="outline-2">
-<h2 id="org3522a60"><span class="section-number-2">1</span> 简单总结</h2>
+<div id="outline-container-org31ed8a8" class="outline-2">
+<h2 id="org31ed8a8"><span class="section-number-2">1</span> 简单总结</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>backend 目录中所有文件都通过 <code>clang -emit-llvm</code> 编译输出 LLVM 形态的中间文件，用于后期 JIT 调用。</li>
@@ -54,36 +55,48 @@ tags : jit
 </div>
 </div>
 
-<div id="outline-container-org8b529f7" class="outline-2">
-<h2 id="org8b529f7"><span class="section-number-2">2</span> Callflow</h2>
+<div id="outline-container-org0b8f814" class="outline-2">
+<h2 id="org0b8f814"><span class="section-number-2">2</span> Overview</h2>
 <div class="outline-text-2" id="text-2">
 
-<div id="orgabe3a61" class="figure">
-<p><img src="../../../assets/img/jit-callflow-gen.png" alt="jit-callflow-gen.png" />
+<div class="figure">
+<p><img src="../../../assets/img/pg-jit-overview.png" alt="pg-jit-overview.png" />
 </p>
-<p><span class="figure-number">Figure 1: </span>JIT call flow</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgadf5899" class="outline-2">
-<h2 id="orgadf5899"><span class="section-number-2">3</span> LLVM Jit Context</h2>
+
+<div id="outline-container-orgef2a00b" class="outline-2">
+<h2 id="orgef2a00b"><span class="section-number-2">3</span> Callflow</h2>
 <div class="outline-text-2" id="text-3">
+
+<div id="org5dfb8c0" class="figure">
+<p><img src="../../../assets/img/jit-callflow-gen.png" alt="jit-callflow-gen.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>JIT call flow</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org855ea0e" class="outline-2">
+<h2 id="org855ea0e"><span class="section-number-2">4</span> LLVM Jit Context</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 <code>llvm_session_initialize()</code>
 </p>
 
 
-<div id="orgb966807" class="figure">
+<div id="org41e7d69" class="figure">
 <p><img src="../../../assets/img/llvm_session_init-gen.png" alt="llvm_session_init-gen.png" />
 </p>
-<p><span class="figure-number">Figure 2: </span>llvm session init</p>
+<p><span class="figure-number">Figure 3: </span>llvm session init</p>
 </div>
 </div>
 
-<div id="outline-container-orgc70004c" class="outline-3">
-<h3 id="orgc70004c"><span class="section-number-3">3.1</span> llvmjit types</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org17c89af" class="outline-3">
+<h3 id="org17c89af"><span class="section-number-3">4.1</span> llvmjit types</h3>
+<div class="outline-text-3" id="text-4-1">
 <blockquote>
 <p>
 To be able to generate code that can perform tasks done by "interpreted"
@@ -101,9 +114,9 @@ compile time, and loaded when LLVM is initialized in a backend.
 </blockquote>
 </div>
 
-<div id="outline-container-org96f5c84" class="outline-4">
-<h4 id="org96f5c84"><span class="section-number-4">3.1.1</span> <code>llvmjit_types.bc</code></h4>
-<div class="outline-text-4" id="text-3-1-1">
+<div id="outline-container-orgc31dc9f" class="outline-4">
+<h4 id="orgc31dc9f"><span class="section-number-4">4.1.1</span> <code>llvmjit_types.bc</code></h4>
+<div class="outline-text-4" id="text-4-1-1">
 <p>
 Makefile:
 </p>
@@ -146,9 +159,9 @@ In compile stage, it becomes:
 </div>
 
 
-<div id="outline-container-orga06bc32" class="outline-2">
-<h2 id="orga06bc32"><span class="section-number-2">4</span> Do Create Function</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org9005aa4" class="outline-2">
+<h2 id="org9005aa4"><span class="section-number-2">5</span> Do Create Function</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 核心思想是将 <code>ExprState</code> 中的 Steps 编译生成一个新函数，其签名和作用与下面的函数相同：
 </p>
@@ -165,10 +178,10 @@ In compile stage, it becomes:
 </p>
 
 
-<div id="org3045492" class="figure">
+<div id="orge36c7ff" class="figure">
 <p><img src="../../../assets/img/exprstate-gen.png" alt="exprstate-gen.png" />
 </p>
-<p><span class="figure-number">Figure 3: </span>ExprState</p>
+<p><span class="figure-number">Figure 4: </span>ExprState</p>
 </div>
 
 <p>
@@ -176,41 +189,41 @@ In compile stage, it becomes:
 </p>
 
 
-<div id="orge5c2255" class="figure">
+<div id="orgdf432b0" class="figure">
 <p><img src="../../../assets/img/do-create-function-gen.png" alt="do-create-function-gen.png" />
 </p>
-<p><span class="figure-number">Figure 4: </span>Do Create Function</p>
+<p><span class="figure-number">Figure 5: </span>Do Create Function</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgfdbe144" class="outline-2">
-<h2 id="orgfdbe144"><span class="section-number-2">5</span> Inline</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-org728d26f" class="outline-2">
+<h2 id="org728d26f"><span class="section-number-2">6</span> Inline</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 减少函数调用开销。
 </p>
 
 
-<div id="org7db4c27" class="figure">
+<div id="orgf54105b" class="figure">
 <p><img src="../../../assets/img/inline-gen.png" alt="inline-gen.png" />
 </p>
-<p><span class="figure-number">Figure 5: </span>Inline</p>
+<p><span class="figure-number">Figure 6: </span>Inline</p>
 </div>
 </div>
 
-<div id="outline-container-org620c282" class="outline-3">
-<h3 id="org620c282"><span class="section-number-3">5.1</span> llvm_build_inline_plan</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-org4d5f71b" class="outline-3">
+<h3 id="org4d5f71b"><span class="section-number-3">6.1</span> llvm_build_inline_plan</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
 收集表达式中用到的函数，检查这些函数是否可以用来内联，如果是的话则将其定义和依赖放进 <code>globalsToInline</code> 中。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org383b66e" class="outline-3">
-<h3 id="org383b66e"><span class="section-number-3">5.2</span> llvm_execute_inline_plan</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-orgeade774" class="outline-3">
+<h3 id="orgeade774"><span class="section-number-3">6.2</span> llvm_execute_inline_plan</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 Perform the actual inlining of external functions (and their dependencies) into mod.
 </p>
@@ -221,9 +234,9 @@ Perform the actual inlining of external functions (and their dependencies) into 
 </div>
 </div>
 
-<div id="outline-container-org0fae545" class="outline-3">
-<h3 id="org0fae545"><span class="section-number-3">5.3</span> 疑问</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org81d139b" class="outline-3">
+<h3 id="org81d139b"><span class="section-number-3">6.3</span> 疑问</h3>
+<div class="outline-text-3" id="text-6-3">
 <p>
 为什么还需有手动做这个事情呢？不是应该在优化阶段自动进行吗？
 </p>
@@ -231,29 +244,29 @@ Perform the actual inlining of external functions (and their dependencies) into 
 </div>
 </div>
 
-<div id="outline-container-orgb9ea791" class="outline-2">
-<h2 id="orgb9ea791"><span class="section-number-2">6</span> Optimize</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orgff83468" class="outline-2">
+<h2 id="orgff83468"><span class="section-number-2">7</span> Optimize</h2>
+<div class="outline-text-2" id="text-7">
 <p>
 Optimize code in module using the flags set in context.
 </p>
 
 
-<div id="org13bfeca" class="figure">
+<div id="orgf2ecd0d" class="figure">
 <p><img src="../../../assets/img/llvm-optimization-gen.png" alt="llvm-optimization-gen.png" />
 </p>
-<p><span class="figure-number">Figure 6: </span>Optimization</p>
+<p><span class="figure-number">Figure 7: </span>Optimization</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6f6a5e1" class="outline-2">
-<h2 id="org6f6a5e1"><span class="section-number-2">7</span> LLVM 知识点</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-orgdc8a401" class="outline-2">
+<h2 id="orgdc8a401"><span class="section-number-2">8</span> LLVM 知识点</h2>
+<div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org17adc45" class="outline-3">
-<h3 id="org17adc45"><span class="section-number-3">7.1</span> Target Triple</h3>
-<div class="outline-text-3" id="text-7-1">
+<div id="outline-container-orgcd0fe59" class="outline-3">
+<h3 id="orgcd0fe59"><span class="section-number-3">8.1</span> Target Triple</h3>
+<div class="outline-text-3" id="text-8-1">
 <p>
 A module may specify a <code>target triple string</code> that describes the target host. The syntax for the
 target triple is simply:
@@ -283,9 +296,9 @@ option.
 </div>
 </div>
 
-<div id="outline-container-orgfa89333" class="outline-3">
-<h3 id="orgfa89333"><span class="section-number-3">7.2</span> Data Layout</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-org560be5d" class="outline-3">
+<h3 id="org560be5d"><span class="section-number-3">8.2</span> Data Layout</h3>
+<div class="outline-text-3" id="text-8-2">
 <p>
 A module may specify a target specific data layout string that specifies how data is to be laid
 out in memory. The syntax for the data layout is simply:
@@ -305,17 +318,17 @@ the letter to define some aspect of the data layout.
 </div>
 </div>
 
-<div id="outline-container-orgad03c9a" class="outline-3">
-<h3 id="orgad03c9a"><span class="section-number-3">7.3</span> <code>br</code> Instruction</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-org2ff349c" class="outline-3">
+<h3 id="org2ff349c"><span class="section-number-3">8.3</span> <code>br</code> Instruction</h3>
+<div class="outline-text-3" id="text-8-3">
 <p>
 编译过程中用到了 <code>LLVMBuildBr(b, opblocks[0]);</code> ：该函数用于增加 <code>br</code> 指令。
 </p>
 </div>
 
-<div id="outline-container-org2b346a0" class="outline-4">
-<h4 id="org2b346a0"><span class="section-number-4">7.3.1</span> Syntax:</h4>
-<div class="outline-text-4" id="text-7-3-1">
+<div id="outline-container-org8b5ad74" class="outline-4">
+<h4 id="org8b5ad74"><span class="section-number-4">8.3.1</span> Syntax:</h4>
+<div class="outline-text-4" id="text-8-3-1">
 <div class="org-src-container">
 <pre class="src src-asm"><span style="color: #1e90ff; font-weight: bold;">br</span> <span style="color: #ff4040;">i1</span> &lt;cond&gt;, label &lt;iftrue&gt;, label &lt;iffalse&gt;
 <span style="color: #1e90ff; font-weight: bold;">br</span> <span style="color: #ff4040;">label</span> &lt;dest&gt;          <span style="color: #cd5c5c; font-style: italic;">; </span><span style="color: #cd5c5c; font-style: italic;">Unconditional branch</span>
@@ -324,9 +337,9 @@ the letter to define some aspect of the data layout.
 </div>
 </div>
 
-<div id="outline-container-org3e8ddd5" class="outline-4">
-<h4 id="org3e8ddd5"><span class="section-number-4">7.3.2</span> Overview:</h4>
-<div class="outline-text-4" id="text-7-3-2">
+<div id="outline-container-org102b391" class="outline-4">
+<h4 id="org102b391"><span class="section-number-4">8.3.2</span> Overview:</h4>
+<div class="outline-text-4" id="text-8-3-2">
 <p>
 The <code>br</code> instruction is used to cause control flow to transfer to a different basic block in the
 current function. There are two forms of this instruction, corresponding to a conditional branch
@@ -336,9 +349,9 @@ and an unconditional branch.
 </div>
 
 
-<div id="outline-container-orgf05f00c" class="outline-4">
-<h4 id="orgf05f00c"><span class="section-number-4">7.3.3</span> Arguments:</h4>
-<div class="outline-text-4" id="text-7-3-3">
+<div id="outline-container-org546f1af" class="outline-4">
+<h4 id="org546f1af"><span class="section-number-4">8.3.3</span> Arguments:</h4>
+<div class="outline-text-4" id="text-8-3-3">
 <ul class="org-ul">
 <li>The conditional branch form of the <code>br</code> instruction takes a single <code>i1</code> value and two <code>label</code> values.</li>
 <li>The unconditional form of the <code>br</code> instruction takes a single <code>label</code> value as a target.</li>
@@ -347,9 +360,9 @@ and an unconditional branch.
 </div>
 
 
-<div id="outline-container-orgb3451dc" class="outline-4">
-<h4 id="orgb3451dc"><span class="section-number-4">7.3.4</span> Semantics:</h4>
-<div class="outline-text-4" id="text-7-3-4">
+<div id="outline-container-orgc890279" class="outline-4">
+<h4 id="orgc890279"><span class="section-number-4">8.3.4</span> Semantics:</h4>
+<div class="outline-text-4" id="text-8-3-4">
 <p>
 Upon execution of a conditional ‘br’ instruction, the ‘i1’ argument is evaluated. If the value
 is true, control flows to the ‘iftrue’ label argument. If “cond” is false, control flows to
@@ -359,9 +372,9 @@ the ‘iffalse’ label argument.
 </div>
 
 
-<div id="outline-container-orgb39c62f" class="outline-4">
-<h4 id="orgb39c62f"><span class="section-number-4">7.3.5</span> Example:</h4>
-<div class="outline-text-4" id="text-7-3-5">
+<div id="outline-container-orgd87ec07" class="outline-4">
+<h4 id="orgd87ec07"><span class="section-number-4">8.3.5</span> Example:</h4>
+<div class="outline-text-4" id="text-8-3-5">
 <div class="org-src-container">
 <pre class="src src-llvm"><span style="color: #daa520;">Test:</span>
   <span style="color: #daa520;">%cond</span> = <span style="color: #ff4040;">icmp</span> eq <span style="color: #32cd32;">i32</span> <span style="color: #daa520;">%a</span>, <span style="color: #daa520;">%b</span>
@@ -378,9 +391,9 @@ the ‘iffalse’ label argument.
 </div>
 
 
-<div id="outline-container-org6c1dad5" class="outline-3">
-<h3 id="org6c1dad5"><span class="section-number-3">7.4</span> Function Attributes</h3>
-<div class="outline-text-3" id="text-7-4">
+<div id="outline-container-org01dad97" class="outline-3">
+<h3 id="org01dad97"><span class="section-number-3">8.4</span> Function Attributes</h3>
+<div class="outline-text-3" id="text-8-4">
 <p>
 Function attributes are set to communicate additional information about a function. Function
 attributes are considered to be part of the function, not of the function type, so functions with
@@ -405,9 +418,9 @@ needed, they are space separated. For example:
 </div>
 </div>
 
-<div id="outline-container-org160816e" class="outline-3">
-<h3 id="org160816e"><span class="section-number-3">7.5</span> Module Structure</h3>
-<div class="outline-text-3" id="text-7-5">
+<div id="outline-container-org933728d" class="outline-3">
+<h3 id="org933728d"><span class="section-number-3">8.5</span> Module Structure</h3>
+<div class="outline-text-3" id="text-8-5">
 <p>
 LLVM programs are composed of Module’s, each of which is a translation unit
 of the input programs. Each module consists of functions, global variables,
@@ -453,9 +466,9 @@ In general, a module is made up of a list of global values (where both functions
 </div>
 </div>
 
-<div id="outline-container-org810c155" class="outline-3">
-<h3 id="org810c155"><span class="section-number-3">7.6</span> Passes</h3>
-<div class="outline-text-3" id="text-7-6">
+<div id="outline-container-org70ae489" class="outline-3">
+<h3 id="org70ae489"><span class="section-number-3">8.6</span> Passes</h3>
+<div class="outline-text-3" id="text-8-6">
 <p>
 This document serves as a high level summary of the optimization features that LLVM
 provides. Optimizations are implemented as Passes that traverse some portion of a program to
@@ -470,10 +483,10 @@ description later in the document.
 </p>
 
 
-<div id="org2e3d79e" class="figure">
+<div id="orgab41654" class="figure">
 <p><img src="../../../assets/img/llvm-pass-managers-gen.png" alt="llvm-pass-managers-gen.png" />
 </p>
-<p><span class="figure-number">Figure 7: </span>Pass Manager</p>
+<p><span class="figure-number">Figure 8: </span>Pass Manager</p>
 </div>
 </div>
 </div>

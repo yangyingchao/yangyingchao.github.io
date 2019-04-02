@@ -21,6 +21,11 @@
   - 内联
   - LLVM 中的各种 pass
 
+*  Overview
+
+[[./images/pg-jit-overview.png]]
+
+
 * Callflow
 #+BEGIN_SRC plantuml :file images/jit-callflow-gen.png
   |execExpr.c|
