@@ -1,0 +1,109 @@
+#+TITLE: Hash Table in PostgresSQL
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: pg
+#+CATEGORY: Database
+#+DESCRIPTION: (nil)
+* Data Structures
+
+#+BEGIN_SRC plantuml :file images/pg-hash-table-gen.png
+  class HASHCTL {
+      + long num_partitions
+      + long ssize
+      + long dsize
+      + long max_dsize
+      + long ffactor
+      + Size keysize
+      + Size entrysize
+      + HashValueFunc hash
+      + HashCompareFunc match
+      + HashCopyFunc keycopy
+      + HashAllocFunc alloc
+      + MemoryContext hcxt
+      + HASHHDR* hctl
+  }
+
+  HASHCTL -> HTAB:"create"
+
+  class HTAB {
+      + HASHHDR* hctl
+      + HASHSEGMENT* dir
+      + HashValueFunc hash
+      + HashCompareFunc match
+      + HashCopyFunc keycopy
+      + HashAllocFunc alloc
+      + MemoryContext hcxt
+      + char* tabname
+      + bool isshared
+      + bool isfixed
+      + bool frozen
+      + Size keysize
+      + long ssize
+      + int sshift
+  }
+
+  class HASHHDR {
+      + FreeListData[] freeList
+      + long dsize
+      + long nsegs
+      + uint32 max_bucket
+      + uint32 high_mask
+      + uint32 low_mask
+      + Size keysize
+      + Size entrysize
+      + long num_partitions
+      + long ffactor
+      + long max_dsize
+      + long ssize
+      + int sshift
+      + int nelem_alloc
+  }
+
+  HTAB *-- HASHHDR
+#+END_SRC
+#+CAPTION: Hash Table Data Structures
+#+NAME: fig:Hash_Table_Data_Structures
+#+RESULTS:
+[[file:images/pg-hash-table-gen.png]]
+
+** hash_create()
+
+* Shared-Memory Hash Table
+
+=ShmemInitHash()=
+
+#+BEGIN_SRC ditaa :file images/shared-memory-hash-table-gen.png  :cmdline -r -s 1.5
+                     +--------------------+-----------+
+           +-------->|       HASHHDR      |           |
+           |         +--------------------+   Shared  |
+           |         |     HASH BUCKETS   |   Memory  |
+           |         |     HASH BUCKETS   |    cRED   |
+           |         +--------------------+-----------+
+           |
+           |
+           |
+           |
+           +--------------------+--------------------+
+           |                    |                    |
+           |                    |                    |
+           |                    |                    |
+           |                    |                    |
+           |                    |                    |
+      +----+------+     +-------+------+       +-----+-----+
+      |   HTAB1   |     |     HTAB2    |       |   HTAB3   |
+      +-----------+     +--------------+       +-----------+
+#+END_SRC
+#+CAPTION: Shared-Memory Hash Table
+#+NAME: fig:Shared_Memory_Hash_Table
+#+RESULTS:
+[[file:images/shared-memory-hash-table-gen.png]]
+
+** Partition of Shared Hash Table
+ Partition designed for shared hash table only. Reduce lock conflict.

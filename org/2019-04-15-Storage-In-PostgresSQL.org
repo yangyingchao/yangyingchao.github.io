@@ -1,0 +1,34 @@
+#+TITLE: Storage In PostgresSQL
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+
+* Storage Manager
+
+In the original Berkeley Postgres system, there were several storage managers,
+of which only the "magnetic disk" manager remains.  (At Berkeley there were
+also managers for the Sony WORM optical disk jukebox and persistent main
+memory, but these were never supported in any externally released Postgres,
+nor in any version of PostgreSQL.)  The "magnetic disk" manager is itself
+seriously misnamed, because actually it supports any kind of device for
+which the operating system provides standard filesystem operations; which
+these days is pretty much everything of interest.  However, we retain the
+notion of a storage manager switch in case anyone ever wants to reintroduce
+other kinds of storage managers.  Removing the switch layer would save
+nothing noticeable anyway, since storage-access operations are surely far
+more expensive than one extra layer of C function calls.
+
+** smgr
+
+** md
+
+magnetic disk.

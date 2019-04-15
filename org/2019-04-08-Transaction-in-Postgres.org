@@ -1,0 +1,286 @@
+#+TITLE: Transaction in Postgres
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+
+* The Transaction System
+
+
+PostgreSQL's transaction system is a three-layer system.  The bottom layer
+implements low-level transactions and subtransactions, on top of which rests
+the mainloop's control code, which in turn implements user-visible
+transactions and savepoints.
+
+#+BEGIN_SRC ditaa :file images/xact-layers-gen.png  :cmdline -r -s 1.5
+      +--------------------------------+-------------+
+      |   BeginTransactionBlock        |             |
+      |   EndTransactionBlock          |             |
+      |   UserAbortTransactionBlock    |    UPPER    |
+      |   DefineSavepoint              |    LAYER    |
+      |   RollbackToSavepoint          |             |
+      |   ReleaseSavepoint             |             |
+      +--------------------------------+-------------+
+      |   StartTransactionCommand      |    MIDDLE   |
+      |   CommitTransactionCommand     |    LAYER    |
+      |   AbortCurrentTransaction      |             |
+      +--------------------------------+-------------+
+      |   StartTransaction             |             |
+      |   CommitTransaction            |             |
+      |   AbortTransaction             |     LOW     |
+      |   CleanupTransaction           |    LEVEL    |
+      |   StartSubTransaction          |             |
+      |   CommitSubTransaction         |             |
+      |   AbortSubTransaction          |             |
+      |   CleanupSubTransaction        |             |
+      +--------------------------------+-------------+
+#+END_SRC
+#+CAPTION: Transaction Layers
+#+NAME: fig:Transaction_Layers
+#+RESULTS:
+[[file:images/xact-layers-gen.png]]
+
+
+
+* Data Structures
+
+#+BEGIN_SRC plantuml :file images/xact-ds-gen.png
+
+  class TransactionStateData {
+      + TransactionId transactionId
+      + SubTransactionId subTransactionId
+      + char* name
+      + int savepointLevel
+      + TransState state
+      + TBlockState blockState
+      + int nestingLevel
+      + int gucNestLevel
+      + MemoryContext curTransactionContext
+      + ResourceOwner curTransactionOwner
+      + TransactionId* childXids
+      + int nChildXids
+      + int maxChildXids
+      + Oid prevUser
+      + int prevSecContext
+      + bool prevXactReadOnly
+      + bool startedInRecovery
+      + bool didLogXid
+      + int parallelModeLevel
+      + TransactionStateData* parent
+  }
+
+  TransactionStateData <-- SubTransaction
+  TransactionStateData <-- SubTransaction2
+#+END_SRC
+#+CAPTION: Data Structures related to Transaction
+#+NAME: fig:Data_Structures_related_to_Transaction
+#+RESULTS:
+[[file:images/xact-ds-gen.png]]
+
+* Work flow
+
+For example, consider the following sequence of user commands:
+
+#+BEGIN_SRC sql -r
+  1)		BEGIN
+  2)		SELECT * FROM foo
+  3)		INSERT INTO foo VALUES (...)
+  4)		COMMIT
+#+END_SRC
+
+** BEGIN
+
+#+BEGIN_SRC plantuml :file images/begin-xcat-flow-gen.png
+  |postgres.c|
+  start
+  :PostgresMain();
+
+  :ReadCommand();
+  #00ffff:BEGIN - exec_simple_query();
+  :start_xact_command();
+  |xact.c|
+  #d2691e:StartTransactionCommand();
+
+  #d2691e:StartTransaction();
+  #d2691e:BeginImplicitTransactionBlock();
+
+  |postgres.c|
+
+  :PortalRun();
+
+  |pquery.c|
+  :PortalRunMulti();
+  :PortalRunUtility();
+  :ProcessUtility();
+  |xact.c|
+  #d2691e:BeginTransactionBlock();
+
+  |pquery.c|
+  :others;
+
+  |postgres.c|
+  :finish_xact_command();
+  |xact.c|
+  #d2691e:CommitTransactionCommand();
+  |postgres.c|
+
+  #00ffff:END - exec_simple_query();
+
+  stop
+#+END_SRC
+#+CAPTION: BEGIN
+#+NAME: fig:BEGIN
+#+RESULTS:
+[[file:images/begin-xcat-flow-gen.png]]
+
+
+*** TODO StartTransactionCommand(void)
+[[file:~/Work/postgres/src/backend/access/transam/xact.c::StartTransactionCommand(void)]]
+
+
+
+#+BEGIN_SRC plantuml :file images/StartTransactionCommand-gen.png
+  |StartTransactionCommand|
+
+  start
+  :;
+  note right
+      1. CurrentTransactionState =
+         &TopTransactionStateData;
+      2. blockState(high-level state)
+         should be TBLOCK_DEFAULT
+  end note
+
+  :StartTransaction();
+  |StartTransaction|
+  :;
+  note right
+      state (low-level state)
+      should be TBLOCK_DEFAULT
+  end note
+
+  :update state: TRANS_START;
+  :update other vars;
+  note right
+      1. member fields of TopTransactionContext;
+      2. MemoryContext, ResouceOwner;
+      3. VirtualTransactionId
+  end note
+
+  :Lock vxid;
+  :init other subsystems for new traction;
+  :update state: TRANS_INPROGRESS;
+
+
+  |StartTransactionCommand|
+
+
+  :update blockState\nTBLOCK_STARTED;
+  stop
+#+END_SRC
+#+CAPTION: StartTransactionCommand
+#+NAME: fig:StartTransactionCommand
+#+RESULTS:
+[[file:images/StartTransactionCommand-gen.png]]
+
+
+** TODO  BeginTransactionBlock(void)
+  [[file:~/Work/postgres/src/backend/access/transam/xact.c::BeginTransactionBlock(void)]]
+
+  #+BEGIN_SRC plantuml :file images/BeginTransactionBlock-gen.png
+
+    |BeginTransactionBlock|
+    start
+    :;
+    note right
+    blockState (high-level state) is
+        TBLOCK_STARTED
+    end note
+    :update blockState\nTBLOCK_BEGIN;
+    note right
+        TBLOCK_STARTED: /* running single-query transaction */
+        TBLOCK_BEGIN:   /* starting transaction block */
+    end note
+    stop
+  #+END_SRC
+  #+CAPTION: BeginTransactionBlock
+  #+NAME: fig:BeginTransactionBlock
+  #+RESULTS:
+  [[file:images/BeginTransactionBlock-gen.png]]
+
+*** TODO  CommitTransactionCommand(void)
+[[file:~/Work/postgres/src/backend/access/transam/xact.c::CommitTransactionCommand(void)]]
+
+#+BEGIN_SRC plantuml :file images/CommitTransactionCommand-gen.png
+
+  |CommitTransactionCommand|
+  start
+  :;
+  note right
+      blockState (high-level state) is
+      TBLOCK_BEGIN
+  end note
+
+
+  :update blockState:\nTBLOCK_INPROGRESS;
+  note right
+      TBLOCK_INPROGRESS,			/* live transaction */
+  end note
+  stop
+#+END_SRC
+#+CAPTION: CommitTransactionCommand
+#+NAME: fig:CommitTransactionCommand
+#+RESULTS:
+[[file:images/CommitTransactionCommand-gen.png]]
+
+TODO: State machine of block State.
+
+
+** SELECT
+
+#+BEGIN_SRC plantuml :file images/select-xcat-flow-gen.png
+  |postgres.c|
+
+  start
+  #00ffff:BEGIN - exec_simple_query();
+  :start_xact_command();
+  |xact.c|
+  #d2691e:StartTransactionCommand();
+
+  #d2691e:StartTransaction();
+  #d2691e:BeginImplicitTransactionBlock();
+
+  |postgres.c|
+
+  :PortalRun();
+
+  |pquery.c|
+  :PortalRunMulti();
+  :PortalRunUtility();
+  :ProcessUtility();
+  |xact.c|
+  #d2691e:BeginTransactionBlock();
+
+  |pquery.c|
+  :others;
+
+  |postgres.c|
+  :finish_xact_command();
+  |xact.c|
+  #d2691e:CommitTransactionCommand();
+  |postgres.c|
+
+  #00ffff:END - exec_simple_query();
+#+END_SRC
+#+CAPTION: SELECT
+#+NAME: fig:SELECT
+#+RESULTS:
+[[file:images/select-xcat-flow-gen.png]]

@@ -1,0 +1,173 @@
+#+TITLE: xlog in postgres
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yangyingchao@gmail.com
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+* Overview
+* Init
+
+
+* Insert Flow
+
+** General Flow
+
+#+BEGIN_SRC plantuml :file images/xlog-insert-general-flow-gen.png
+  |CALLER|
+  :XLogBeginInsert();
+
+  |BEGIN|
+
+  start
+
+  #00ffff:BEGIN - XLogBeginInsert();
+  if (XLogInsert Allowed) then (YES)
+  if (Already Started) then (NO)
+  :update flag;
+  else (YES)
+  end
+  endif
+  else(NO)
+  end
+  endif
+  #00ffff:END - XLogBeginInsert();
+
+  |CALLER|
+  :XLogRegister();
+
+  |XLogRegister|
+  #a52a2a:BEGIN - XLogRegister();
+  if (LIMIT reached) then (NO)
+  :add to global rdatas;
+  note right
+  rdatas was prepared
+  in PrepareTransaction()
+  end note
+  else (YES)
+  end
+  endif
+
+  #a52a2a:END - XLogRegister();
+  |CALLER|
+  :XLogInsert();
+  |XLogInsert|
+  #556b2f:BEGIN - XLogInsert();
+  repeat
+  :get REDO Record Pointer\nGetFullPageWriteInfo();
+  :assemble WAL Record\nXLogRecordAssemble();
+  :Insert an XLOG record\nXLogInsertRecord();
+  repeat while (ValidXLogRecPtr\n    returned)
+  #556b2f:END - XLogInsert();
+
+
+  |CALLER|
+  stop
+#+END_SRC
+#+CAPTION: xlog insert general flow
+#+NAME: fig:xlog_insert_general_flow
+#+RESULTS:
+[[file:images/xlog-insert-general-flow-gen.png]]
+
+
+** XLogRecordAssemble
+
+
+** Insert
+
+
+用到的地方很多，以 =heap_insert= 为例。
+
+#+BEGIN_SRC plantuml :file images/xlog-insert-flow-gen.png
+  |heamam|
+  #00ffff:BEGIN - heap_insert();
+
+  if (WAL is\nneeded?) then (YES)
+  :ACTIVITY;
+  else (NO)
+  endif
+
+  #00ffff:END - heap_insert();
+#+END_SRC
+#+RESULTS:
+[[file:images/xlog-insert-flow-gen.png]]
+
+
+** Data Structures
+
+#+BEGIN_SRC plantuml :file images/xl-ds-gen.png
+  class XLogRecData {
+      + XLogRecData* next
+      + char* data
+      + uint32 len
+  }
+
+
+  class xl_heap_header {
+      + uint16 t_infomask2
+      + uint16 t_infomask
+      + uint8 t_hoff
+  }
+
+
+  class xl_heap_insert {
+      + OffsetNumber offnum
+      + uint8 flags
+  }
+
+  class xl_heap_new_cid {
+      + TransactionId top_xid
+      + CommandId cmin
+      + CommandId cmax
+      + CommandId combocid
+      + RelFileNode target_node
+      + ItemPointerData target_tid
+  }
+  class registered_buffer {
+      + bool in_use
+      + uint8 flags
+      + RelFileNode rnode
+      + ForkNumber forkno
+      + BlockNumber block
+      + Page page
+      + uint32 rdata_len
+      + XLogRecData* rdata_head
+      + XLogRecData* rdata_tail
+      + XLogRecData[] bkp_rdatas
+      + char[] compressed_page
+  }
+
+  class PageHeaderData {
+      + PageXLogRecPtr pd_lsn
+      + uint16 pd_checksum
+      + uint16 pd_flags
+      + LocationIndex pd_lower
+      + LocationIndex pd_upper
+      + LocationIndex pd_special
+      + uint16 pd_pagesize_version
+      + TransactionId pd_prune_xid
+      + ItemIdData[] pd_linp
+  }
+  class XLogRecordBlockHeader {
+      + uint8 id
+      + uint8 fork_flags
+      + uint16 data_length
+  }
+
+  class XLogRecordBlockImageHeader {
+      + uint16 length
+      + uint16 hole_offset
+      + uint8 bimg_info
+  }
+#+END_SRC
+#+CAPTION: xlog data structures
+#+NAME: fig:xlog_data_structures
+#+RESULTS:
+[[file:images/xl-ds-gen.png]]
+
