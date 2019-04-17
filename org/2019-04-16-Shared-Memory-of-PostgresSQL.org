@@ -1,0 +1,16 @@
+#+TITLE: Shared Memory of PostgresSQL
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+OPTIONS: toc:2
+#+STARTUP:    align nodlcheck oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE:   en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+
+* TODO   ShmemInitStruct(const char *name, Size size, bool *foundPtr)
+  [[file:~/Work/postgres-xl/src/backend/storage/ipc/shmem.c::ShmemInitStruct(const%20char%20*name,%20Size%20size,%20bool%20*foundPtr)]]

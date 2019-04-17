@@ -11,8 +11,67 @@
 #+KEYWORDS: (nil)
 #+CATEGORY: (nil)
 #+DESCRIPTION: (nil)
+#+HTML_HEAD: <style type="text/css"> html {   margin: 0;   font: .9em/1.6em "Droid Serif", "Lucida Grande", "Lucida Sans Unicode", "DejaVu Sans", Verdana, sans-serif;   background-attachment: fixed;   background-position: right bottom;   background-repeat: no-repeat;   background-color: white; } body {   font-size: 12pt;   line-height: 18pt;   color: black;   margin-top: 0; } body #content {   padding-top: 0px;   max-width: 80%;   min-width: 700px;   margin-left: 20px;   background-color: white;   padding: 2em;   /* box-shadow: 3px 3px 5px #888; */ } body .title {   margin-left: 0px;   font-size: 22pt; } #org-div-home-and-up{   position: fixed;   right: 0;   top: 4em; } #license {   /* padding: .3em; */   /* border: 1px solid gray; */   background-color: #eeeeee; } h1 {   /*       font-family:Sans;       font-weight:bold; */   font-size:2.1em;   padding:0 0 30px 0;   margin-top: 10px;   margin-bottom: 10px;   margin-right: 7%;   /*    color: #6C5D4F; */   color: grey; } h2 {   font-family:sans-serif;   font-size:1.45em;   line-height:16px;   padding:10px 0 10px 0;   color: black;   border-bottom: 1px solid #ddd; } .outline-text-2 {   margin-left: 0.1em } h3 {   font-family:sans-serif;   font-size:1.3em;   /* color: grey; */   margin-left: 0.6em; } /* #A34D32;*/ .outline-text-3 {   margin-left: 0.9em; } h4 {   font-family:sans-serif;   font-size:1.2em;   margin-left: 1.2em;   color: #A5573E; } .outline-text-4 {   margin-left: 1.45em; } h5 {   font-family:sans-serif;   font-size:1.1em;   margin: 0.4em;   margin-left: 1.8em; } .outline-text-5 {   margin-left: 2.1em; } h6 {   font-family:sans-serif;   font-size:1.0em;   font-weight: normal;   margin: 0.4em;   margin-left: 2.4em; } .outline-text-5 {   margin-left: 2.65em; } a {text-decoration: none; font-weight: 400;} a:visited {text-decoration: none; font-weight: 400;} a:hover {text-decoration: underline;} .todo {   color: #CA0000; } .done {   color: #006666; } .timestamp-kwd {   color: #444; } .tag { } li {   margin: .4em; } table {   border: none; } td {   border: none; } th {   border: none; } code {   font-size: 100%;   color: black;   border: 1px solid #DEDEDE;   padding: 0px 0.2em; } img {   border: none;   max-width: 85%; } .share img {   opacity: .4;   -moz-opacity: .4;   filter: alpha(opacity=40); } .share img:hover {   opacity: 1;   -moz-opacity: 1;   filter: alpha(opacity=100); } pre {   font-family: Droid Sans Mono, Monaco, Consolas, "Lucida Console", monospace;   font-size: 85%;   overflow: auto;   line-height: 1.3;   font-weight: 100;   background-color:#2e3436;   box-shadow: 5px 5px 5px #888;   border: none;   color: white; } code {   font-size: 100%;   color: #d14;   background-color: #f7f7f9;   border: 1px solid #e1e1e8;   white-space: nowrap; } pre.src {   position: relative;   overflow: visible;   color:#fefffe; } pre.src:hover:before {   display: inline; } pre.a {   color: inherit;   background-color: inherit;   font: inherit;   text-decoration: inherit; } pre.a:hover {   text-decoration: underline; } .org-info-box {   clear:both;   margin-left:auto;   margin-right:auto;   padding:0.7em;   /* border:1px solid #CCC; */   /* border-radius:10px; */   /* -moz-border-radius:10px; */ } .org-info-box img {   float:left;   margin:0em 0.5em 0em 0em; } .org-info-box p {   margin:0em;   padding:0em; } .builtin {   /* font-lock-builtin-face */   color: #f4a460; } .comment {   /* font-lock-comment-face */   color: #737373; } .comment-delimiter {   /* font-lock-comment-delimiter-face */   color: #666666; } .constant {   /* font-lock-constant-face */   color: #db7093; } .doc {   /* font-lock-doc-face */   color: #b3b3b3; } .function-name {   /* font-lock-function-name-face */   color: #5f9ea0; } .headline {   /* headline-face */   color: #ffffff;   background-color: #000000;   font-weight: bold; } .keyword {   /* font-lock-keyword-face */   color: #4682b4; } .negation-char { } .regexp-grouping-backslash { } .regexp-grouping-construct { } .string {   /* font-lock-string-face */   color: #ccc79a; } .todo-comment {   /* todo-comment-face */   color: #ffffff;   background-color: #000000;   font-weight: bold; } .variable-name {   /* font-lock-variable-name-face */   color: #ff6a6a; } .warning {   /* font-lock-warning-face */   color: #ffffff;   background-color: #cd5c5c;   font-weight: bold; } pre.a {   color: inherit;   background-color: inherit;   font: inherit;   text-decoration: inherit; } pre.a:hover {   text-decoration: underline; } /* Styles for org-info.js */ .org-info-js_info-navigation {   border-style: none; } #org-info-js_console-label {   font-size: 10px;   font-weight: bold;   white-space: nowrap; } .org-info-js_search-highlight {   background-color: #ffff00;   color: #000000;   font-weight: bold; } #org-info-js-window {   border-bottom:1px solid black;   padding-bottom:10px;   margin-bottom:10px; } .org-info-search-highlight {   background-color:#adefef; /* same color as emacs default */   color:#000000;   font-weight:bold; } .org-bbdb-company {   /* bbdb-company */   font-style: italic; } .org-bbdb-field-name { } .org-bbdb-field-value { } .org-bbdb-name {   /* bbdb-name */   text-decoration: underline; } .org-bold {   /* bold */   font-weight: bold; } .org-bold-italic {   /* bold-italic */   font-weight: bold;   font-style: italic; } .org-border {   /* border */   background-color: #000000; } .org-buffer-menu-buffer {   /* buffer-menu-buffer */   font-weight: bold; } .org-builtin {   /* font-lock-builtin-face */   color: #da70d6; } .org-button {   /* button */   text-decoration: underline; } .org-c-nonbreakable-space {   /* c-nonbreakable-space-face */   background-color: #ff0000;   font-weight: bold; } .org-calendar-today {   /* calendar-today */   text-decoration: underline; } .org-comment {   /* font-lock-comment-face */   color: #b22222; } .org-comment-delimiter {   /* font-lock-comment-delimiter-face */   color: #b22222; } .org-constant {   /* font-lock-constant-face */   color: #5f9ea0; } .org-cursor {   /* cursor */   background-color: #000000; } .org-default {   /* default */   color: #000000;   background-color: #ffffff; } .org-diary {   /* diary */   color: #ff0000; } .org-doc {   /* font-lock-doc-face */   color: #bc8f8f; } .org-escape-glyph {   /* escape-glyph */   color: #a52a2a; } .org-file-name-shadow {   /* file-name-shadow */   color: #7f7f7f; } .org-fixed-pitch { } .org-fringe {   /* fringe */   background-color: #f2f2f2; } .org-function-name {   /* font-lock-function-name-face */   color: #0000ff; } .org-header-line {   /* header-line */   color: #333333;   background-color: #e5e5e5; } .org-help-argument-name {   /* help-argument-name */   font-style: italic; } .org-highlight {   /* highlight */   background-color: #b4eeb4; } .org-holiday {   /* holiday */   background-color: #ffc0cb; } .org-info-header-node {   /* info-header-node */   color: #a52a2a;   font-weight: bold;   font-style: italic; } .org-info-header-xref {   /* info-header-xref */   color: #0000ff;   text-decoration: underline; } .org-info-menu-header {   /* info-menu-header */   font-weight: bold; } .org-info-menu-star {   /* info-menu-star */   color: #ff0000; } .org-info-node {   /* info-node */   color: #a52a2a;   font-weight: bold;   font-style: italic; } .org-info-title-1 {   /* info-title-1 */   font-size: 172%;   font-weight: bold; } .org-info-title-2 {   /* info-title-2 */   font-size: 144%;   font-weight: bold; } .org-info-title-3 {   /* info-title-3 */   font-size: 120%;   font-weight: bold; } .org-info-title-4 {   /* info-title-4 */   font-weight: bold; } .org-info-xref {   /* info-xref */   color: #0000ff;   text-decoration: underline; } .org-isearch {   /* isearch */   color: #b0e2ff;   background-color: #cd00cd; } .org-italic {   /* italic */   font-style: italic; } .org-keyword {   /* font-lock-keyword-face */   color: #a020f0; } .org-lazy-highlight {   /* lazy-highlight */   background-color: #afeeee; } .org-link {   /* link */   color: #0000ff;   text-decoration: underline; } .org-link-visited {   /* link-visited */   color: #8b008b;   text-decoration: underline; } .org-match {   /* match */   background-color: #ffff00; } .org-menu { } .org-message-cited-text {   /* message-cited-text */   color: #ff0000; } .org-message-header-cc {   /* message-header-cc */   color: #191970; } .org-message-header-name {   /* message-header-name */   color: #6495ed; } .org-message-header-newsgroups {   /* message-header-newsgroups */   color: #00008b;   font-weight: bold;   font-style: italic; } .org-message-header-other {   /* message-header-other */   color: #4682b4; } .org-message-header-subject {   /* message-header-subject */   color: #000080;   font-weight: bold; } .org-message-header-to {   /* message-header-to */   color: #191970;   font-weight: bold; } .org-message-header-xheader {   /* message-header-xheader */   color: #0000ff; } .org-message-mml {   /* message-mml */   color: #228b22; } .org-message-separator {   /* message-separator */   color: #a52a2a; } .org-minibuffer-prompt {   /* minibuffer-prompt */   color: #0000cd; } .org-mm-uu-extract {   /* mm-uu-extract */   color: #006400;   background-color: #ffffe0; } .org-mode-line {   /* mode-line */   color: #000000;   background-color: #bfbfbf; } .org-mode-line-buffer-id {   /* mode-line-buffer-id */   font-weight: bold; } .org-mode-line-highlight { } .org-mode-line-inactive {   /* mode-line-inactive */   color: #333333;   background-color: #e5e5e5; } .org-mouse {   /* mouse */   background-color: #000000; } .org-negation-char { } .org-next-error {   /* next-error */   background-color: #eedc82; } .org-nobreak-space {   /* nobreak-space */   color: #a52a2a;   text-decoration: underline; } .org-org-agenda-date {   /* org-agenda-date */   color: #0000ff; } .org-org-agenda-date-weekend {   /* org-agenda-date-weekend */   color: #0000ff;   font-weight: bold; } .org-org-agenda-restriction-lock {   /* org-agenda-restriction-lock */   background-color: #ffff00; } .org-org-agenda-structure {   /* org-agenda-structure */   color: #0000ff; } .org-org-archived {   /* org-archived */   color: #7f7f7f; } .org-org-code {   /* org-code */   color: #7f7f7f; } .org-org-column {   /* org-column */   background-color: #e5e5e5; } .org-org-column-title {   /* org-column-title */   background-color: #e5e5e5;   font-weight: bold;   text-decoration: underline; } .org-org-date {   /* org-date */   color: #a020f0;   text-decoration: underline; } .org-org-done {   /* org-done */   color: #228b22;   font-weight: bold; } .org-org-drawer {   /* org-drawer */   color: #0000ff; } .org-org-ellipsis {   /* org-ellipsis */   color: #b8860b;   text-decoration: underline; } .org-org-formula {   /* org-formula */   color: #b22222; } .org-org-headline-done {   /* org-headline-done */   color: #bc8f8f; } .org-org-hide {   /* org-hide */   color: #e5e5e5; } .org-org-latex-and-export-specials {   /* org-latex-and-export-specials */   color: #8b4513; } .org-org-level-1 {   /* org-level-1 */   color: #0000ff; } .org-org-level-2 {   /* org-level-2 */   color: #b8860b; } .org-org-level-3 {   /* org-level-3 */   color: #a020f0; } .org-org-level-4 {   /* org-level-4 */   color: #b22222; } .org-org-level-5 {   /* org-level-5 */   color: #228b22; } .org-org-level-6 {   /* org-level-6 */   color: #5f9ea0; } .org-org-level-7 {   /* org-level-7 */   color: #da70d6; } .org-org-level-8 {   /* org-level-8 */   color: #bc8f8f; } .org-org-link {   /* org-link */   color: #a020f0;   text-decoration: underline; } .org-org-property-value { } .org-org-scheduled-previously {   /* org-scheduled-previously */   color: #b22222; } .org-org-scheduled-today {   /* org-scheduled-today */   color: #006400; } .org-org-sexp-date {   /* org-sexp-date */   color: #a020f0; } .org-org-special-keyword {   /* org-special-keyword */   color: #bc8f8f; } .org-org-table {   /* org-table */   color: #0000ff; } .org-org-tag {   /* org-tag */   font-weight: bold; } .org-org-target {   /* org-target */   text-decoration: underline; } .org-org-time-grid {   /* org-time-grid */   color: #b8860b; } .org-org-todo {   /* org-todo */   color: #ff0000; } .org-org-upcoming-deadline {   /* org-upcoming-deadline */   color: #b22222; } .org-org-verbatim {   /* org-verbatim */   color: #7f7f7f;   text-decoration: underline; } .org-org-warning {   /* org-warning */   color: #ff0000;   font-weight: bold; } .org-outline-1 {   /* outline-1 */   color: #0000ff; } .org-outline-2 {   /* outline-2 */   color: #b8860b; } .org-outline-3 {   /* outline-3 */   color: #a020f0; } .org-outline-4 {   /* outline-4 */   color: #b22222; } .org-outline-5 {   /* outline-5 */   color: #228b22; } .org-outline-6 {   /* outline-6 */   color: #5f9ea0; } .org-outline-7 {   /* outline-7 */   color: #da70d6; } .org-outline-8 {   /* outline-8 */   color: #bc8f8f; } .outline-text-1, .outline-text-2, .outline-text-3, .outline-text-4, .outline-text-5, .outline-text-6 {   /* Add more spacing between section. Padding, so that folding with org-info.js works as expected. */ } .org-preprocessor {   /* font-lock-preprocessor-face */   color: #da70d6; } .org-query-replace {   /* query-replace */   color: #b0e2ff;   background-color: #cd00cd; } .org-regexp-grouping-backslash {   /* font-lock-regexp-grouping-backslash */   font-weight: bold; } .org-regexp-grouping-construct {   /* font-lock-regexp-grouping-construct */   font-weight: bold; } .org-region {   /* region */   background-color: #eedc82; } .org-rmail-highlight { } .org-scroll-bar {   /* scroll-bar */   background-color: #bfbfbf; } .org-secondary-selection {   /* secondary-selection */   background-color: #ffff00; } .org-shadow {   /* shadow */   color: #7f7f7f; } .org-show-paren-match {   /* show-paren-match */   background-color: #40e0d0; } .org-show-paren-mismatch {   /* show-paren-mismatch */   color: #ffffff;   background-color: #a020f0; } .org-string {   /* font-lock-string-face */   color: #bc8f8f; } .org-texinfo-heading {   /* texinfo-heading */   color: #0000ff; } .org-tool-bar {   /* tool-bar */   color: #000000;   background-color: #bfbfbf; } .org-tooltip {   /* tooltip */   color: #000000;   background-color: #ffffe0; } .org-trailing-whitespace {   /* trailing-whitespace */   background-color: #ff0000; } .org-type {   /* font-lock-type-face */   color: #228b22; } .org-underline {   /* underline */   text-decoration: underline; } .org-variable-name {   /* font-lock-variable-name-face */   color: #b8860b; } .org-variable-pitch { } .org-vertical-border { } .org-warning {   /* font-lock-warning-face */   color: #ff0000;   font-weight: bold; } .rss_box {} .rss_title, rss_title a {} .rss_items {} .rss_item a:link, .rss_item a:visited, .rss_item a:active {} .rss_item a:hover {} .rss_date {} label.org-src-name {   font-size: 80%;   font-style: italic; } #show_source {margin: 0; padding: 0;} #postamble {   font-size: 75%;   min-width: 700px;   max-width: 80%;   margin-left: 20px;   margin-top: 10px;   padding: .2em;   border: 1px solid gray;   background-color: #ffffff;   z-index: -1000; } .footpara:nth-child(2) { display: inline;  font-size: 10pt;} .footpara { display: block; } .footdef  { margin-bottom: 1em; } </style>
 
-* Storage Manager
+
+* Storage Initialization
+
+** In postmaster (master)
+
+#+BEGIN_SRC plantuml :file images/storage-init-postmaster-gen.png
+
+  |postmaster|
+  start
+  :PostmasterMain();
+  :reset_shared();
+  |ipci|
+
+  :CreateSharedMemoryAndSemaphores();
+  |storage/buffer|
+  :InitBufferPool();
+  |ipci|
+
+  |postmaster|
+
+  stop
+#+END_SRC
+#+CAPTION: Storage Init under Postmaster
+#+NAME: fig:Storage_Init_under_Postmaster
+#+RESULTS:
+[[file:images/storage-init-postmaster-gen.png]]
+
+** In postgres main (backend)
+
+#+BEGIN_SRC plantuml :file images/storage-init-postmain-gen.png
+
+
+  |postgres.c|
+  start
+  :PostgresMain();
+  |postinit.c|
+  :BaseInit();
+  |storage/file|
+  :InitFileAccess();
+  |postinit.c|
+  :;
+  |storage/smgr|
+  :smgrinit();
+  |postinit.c|
+  :;
+  |storage/buffer|
+  :InitBufferPoolAccess();
+  |postinit.c|
+
+  |postgres.c|
+
+  stop
+#+END_SRC
+#+CAPTION: caption
+#+NAME: fig:caption
+#+RESULTS:
+[[file:images/storage-init-postmain-gen.png]]
+
+* Storage Manager (storage/smgr)
 
 In the original Berkeley Postgres system, there were several storage managers,
 of which only the "magnetic disk" manager remains.  (At Berkeley there were
@@ -29,6 +88,566 @@ more expensive than one extra layer of C function calls.
 
 ** smgr
 
+#+BEGIN_SRC plantuml :file images/f_smgr-gen.png :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class f_smgr {
+  + void smgr_init()
+  + void smgr_shutdown()
+  + void smgr_close()
+  + void smgr_create()
+  + bool smgr_exists()
+  + void smgr_unlink()
+  + void smgr_extend()
+  + void smgr_prefetch()
+  + void smgr_read()
+  + void smgr_write()
+  + void smgr_writeback()
+  + BlockNumber smgr_nblocks()
+  + void smgr_truncate()
+  + void smgr_immedsync()
+  + void smgr_pre_ckpt()
+  + void smgr_sync()
+  + void smgr_post_ckpt()
+  }
+
+  class SMgrRelation {
+      + RelFileNodeBackend smgr_rnode
+      + SMgrRelationData* smgr_owner
+      + BlockNumber smgr_targblock
+      + BlockNumber smgr_fsm_nblocks
+      + BlockNumber smgr_vm_nblocks
+      + int smgr_which
+      + int[] md_num_open_segs
+      + _MdfdVec* md_seg_fds
+      + SMgrRelationData* next_unowned_reln
+  }
+
+  class RelFileNodeBackend {
+      + RelFileNode node
+      + BackendId backend
+  }
+
+  note right
+      表的物理位置 + 是否为后端专用临时表
+  end note
+
+  class RelFileNode {
+      + Oid spcNode
+      + Oid dbNode
+      + Oid relNode
+  }
+
+  note right
+      用于定位表的物理位置
+  end note
+
+  SMgrRelation *-- RelFileNodeBackend
+  RelFileNodeBackend *-- RelFileNode
+#+END_SRC
+
+#+RESULTS:
+[[file:images/f_smgr-gen.png]]
+
+** smgr_open()
+
+#+BEGIN_SRC plantuml :file images/smgr-open-gen.png
+
+  start
+
+  if (SMgrRelationHash\nis NULL) then (YES)
+  :create hash table: SMgrRelationHash;
+  else (NO)
+  endif
+
+  :look up/insert given RelFileNode(rnode);
+  if (found?) then (NO)
+  :initialize reln;
+  :initialize each fork to 0\nreln->md_nuym_open_segs;
+  else (YES)
+  endif
+
+
+  stop
+#+END_SRC
+#+CAPTION: smgr_open
+#+NAME: fig:smgr_open
+#+RESULTS:
+[[file:images/smgr-open-gen.png]]
+
+
+=open= 的最后，将返回的  relation 的各个 fork 中的 seg 都初始化为 0 。
+
 ** md
 
 magnetic disk.
+
+* (storage/file)
+
+Virtual file descriptor
+
+#+BEGIN_SRC plantuml :file images/vfd-pg-gen.png
+
+  class vfd {
+      + int fd
+      + unsigned short fdstate
+      + ResourceOwner resowner
+      + File nextFree
+      + File lruMoreRecently
+      + File lruLessRecently
+      + off_t seekPos
+      + off_t fileSize
+      + char* fileName
+      + int fileFlags
+      + int fileMode
+  }
+#+END_SRC
+#+CAPTION: VFD
+#+NAME: fig:VFD
+#+RESULTS:
+[[file:images/vfd-pg-gen.png]]
+
+* BufferManager (storage/buffer)
+
+** Data Structures
+#+BEGIN_SRC plantuml :file images/bf-ds-gen.png
+
+  class BufferDesc {
+      + BufferTag tag
+      + int buf_id
+      + pg_atomic_uint32 state
+      + int wait_backend_pid
+      + int freeNext
+      + LWLock content_lock
+  }
+
+
+
+  class LWLockMinimallyPadded {
+      + LWLock lock
+      + char[] pad
+  }
+
+  class LWLock {
+      + uint16 tranche
+      + pg_atomic_uint32 state
+      + proclist_head waiters
+  }
+
+  LWLockMinimallyPadded *-- LWLock
+
+  class BufferDescPadded {
+      + BufferDesc bufferdesc
+      + char[] pad
+  }
+
+  BufferDescPadded *-- BufferDesc
+
+  class CkptSortItem {
+      + Oid tsId
+      + Oid relNode
+      + ForkNumber forkNum
+      + BlockNumber blockNum
+      + int buf_id
+  }
+
+  class BufferTag {
+      + RelFileNode rnode
+      + ForkNumber forkNum
+      + BlockNumber blockNum
+  }
+
+  note right
+      Tag of buffer, used to look up buffer
+      in hash table
+  end note
+
+  BufferDesc *-- BufferTag
+  class RelFileNode {
+      + Oid spcNode
+      + Oid dbNode
+      + Oid relNode
+  }
+
+  BufferTag *-- RelFileNode
+
+#+END_SRC
+#+CAPTION: Buffer Pool Data Structures
+#+NAME: fig:Buffer_Pool_Data_Structures
+#+RESULTS:
+[[file:images/bf-ds-gen.png]]
+
+=BufferDesc->state= 比较好玩，该 field 是一个 =uint32=  ， 但实际使用时候，被分成了三段：
+
+- 18 bits refcount
+- 4 bits usage count
+- 10 bits of flags
+
+三段共同组成一个 32bit 的数字，且可以用 CAS 直接操作。 =buf_internal= 中还提供了几个辅助函数用于获
+取 =refcount=  和 =useage count= 字段：
+
+#+BEGIN_SRC c -r
+#define BUF_REFCOUNT_ONE 1
+#define BUF_REFCOUNT_MASK ((1U << 18) - 1)
+#define BUF_USAGECOUNT_MASK 0x003C0000U
+#define BUF_USAGECOUNT_ONE (1U << 18)
+#define BUF_USAGECOUNT_SHIFT 18
+#define BUF_FLAG_MASK 0xFFC00000U
+
+/* Get refcount and usagecount from buffer state */
+#define BUF_STATE_GET_REFCOUNT(state) ((state) & BUF_REFCOUNT_MASK)
+#define BUF_STATE_GET_USAGECOUNT(state) (((state) & BUF_USAGECOUNT_MASK) >> BUF_USAGECOUNT_SHIFT)
+#+END_SRC
+
+
+
+*** TODO Refcount vs Usage count????
+
+** InitBufferPool(void)
+
+[[file:~/Work/postgres/src/backend/storage/buffer/buf_init.c::InitBufferPool(void)]]
+
+Allocate & initiate above structures (in shared memory).
+
+** Buffer Pool Initialization
+
+This is called once during shared-memory initialization (either in the
+postmaster, or in a standalone backend).
+
+** Buffer Read
+
+eg flow:
+
+#+BEGIN_SRC plantuml :file images/buffer-read-call-flow-gen.png
+
+  |heapam|
+  start
+  :heap_getnext();
+  :heapgettup();
+  :heapgetpage();
+  |bufmgr|
+  :ReadBufferExtended();
+  |heapam|
+
+  stop
+#+END_SRC
+#+CAPTION: Buffer Read call flow
+#+NAME: fig:Buffer_Read_call_flow
+#+RESULTS:
+[[file:images/buffer-read-call-flow-gen.png]]
+
+
+
+
+***  ReadBufferExtended(Relation reln, ForkNumber forkNum, BlockNumber blockNum,
+                   ReadBufferMode mode, BufferAccessStrategy strategy)
+
+  [[file:~/Work/postgres/src/backend/storage/buffer/bufmgr.c::ReadBufferExtended(Relation%20reln,%20ForkNumber%20forkNum,%20BlockNumber%20blockNum,%20ReadBufferMode%20mode,%20BufferAccessStrategy%20strategy)]]
+
+**** Read Buffer Mode
+
+#+BEGIN_SRC c -r
+  /* Possible modes for ReadBufferExtended() */
+  typedef enum
+  {
+      RBM_NORMAL,					/* Normal read */
+      RBM_ZERO_AND_LOCK,			/* Don't read from disk, caller will
+                                   ,* initialize. Also locks the page. */
+      RBM_ZERO_AND_CLEANUP_LOCK,	/* Like RBM_ZERO_AND_LOCK, but locks the page
+                                   ,* in "cleanup" mode */
+      RBM_ZERO_ON_ERROR,			/* Read, but return an all-zeros page on error */
+      RBM_NORMAL_NO_LOG			/* Don't log page as invalid during WAL
+                                   ,* replay; otherwise same as RBM_NORMAL */
+  } ReadBufferMode;
+#+END_SRC
+
+***** =RBM_NORMAL=
+In =RBM_NORMAL= mode, the page is read from disk, and the page header is
+validated.  An error is thrown if the page header is not valid.  (But
+note that an all-zero page is considered "valid"; see PageIsVerified().)
+
+正常模式下，从磁盘读取 page ，并对 page header 进行校验，如果 page header 不合法则抛出错误。注：全
+为 0 的页视为合法页。
+
+***** =RBM_ZERO_ON_ERROR=
+=RBM_ZERO_ON_ERROR= is like the normal mode, but if the page header is not
+valid, the page is zeroed instead of throwing an error. This is intended
+for non-critical data, where the caller is prepared to repair errors.
+
+与 =normal= 模式类似，但不校验页头，当发生错误时，不抛出异常，而是返回零页。
+
+***** =RBM_ZERO_AND_LOCK mode=
+
+In =RBM_ZERO_AND_LOCK= mode, if the page isn't in buffer cache already, it's
+filled with zeros instead of reading it from disk.  Useful when the caller
+is going to fill the page from scratch, since this saves I/O and avoids
+unnecessary failure if the page-on-disk has corrupt page headers.
+The page is returned locked to ensure that the caller has a chance to
+initialize the page before it's made visible to others.
+
+当页不在 buffer cache 中时，不从磁盘中读取，而是返回零页，并锁定该页。
+
+
+Caution: do not use this mode to read a page that is beyond the relation's
+current physical EOF; that is likely to cause problems in md.c when
+the page is modified and written out. P_NEW is OK, though.
+
+***** =RBM_ZERO_AND_CLEANUP_LOCK=
+=RBM_ZERO_AND_CLEANUP_LOCK= is the same as =RBM_ZERO_AND_LOCK=, but acquires
+a cleanup-strength lock on the page.
+
+***** =RBM_NORMAL_NO_LOG=
+=RBM_NORMAL_NO_LOG= mode is treated the same as =RBM_NORMAL= here.
+
+
+**** ReadBufferExtended Flow
+
+#+BEGIN_SRC plantuml :file images/readbuffer-extented-gen.png
+
+  |bufmgr|
+  start
+  #00ffff:BEGIN - ReadBufferExtended();
+  :RelationOpenSmgr();
+  |smgr|
+  if (relation->rd_smgr\n     is NULL?) then (YES)
+  :open Relation (smgr_open);
+  :update relation->rd_smgr;
+  else (NO)
+  endif
+
+  |bufmgr|
+  :ReadBuffer_common();
+
+  |bufmgr: ReadBuffer_common|
+
+  #8a2be2:BEGIN - ReadBuffer_common();
+  :make sure has room for buffer to be pinned;
+  :calculate number of blocks in relation;
+
+  :BufferAlloc();
+  note right
+  look up  BufferDesc,
+  end note
+
+  if (found) then (true)
+  :;
+  note right
+  if it was already in the buffer
+  pool, we're done.
+
+  Assume isExtend is false;
+  end note
+
+  else (false)
+  :;
+  note right
+  we have allocated a buffer for the page
+  but its contents are not yet valid.
+  IO_IN_PROGRESS is set for it, if
+  it's a shared buffer.;
+  end note
+
+  if (isExtend) then (YES)
+  :clear page (memset);
+  :add new block to file (smgrextend());
+  elseif (mode is\n RBM_ZERO_AND_LOCK or\nRBM_ZERO_AND_CLEANUP_LOCK) then (YES)
+  :clear buffer via memset;
+  else (NO)
+  :read buffer from disk;
+  :verify page;
+  :error checking;
+  endif
+
+  :wake waiters (other backends) of this buffer;
+  :update statistics;
+
+  endif
+  #8a2be2:END - ReadBuffer_common();
+
+  |bufmgr: ReadBuffer_common|
+
+
+
+
+  |bufmgr|
+
+
+
+
+  #00ffff:END - ReadBufferExtended();
+  stop
+#+END_SRC
+#+CAPTION: ReadBufferExtended flow
+#+NAME: fig:ReadBufferExtended_flow
+#+RESULTS:
+[[file:images/readbuffer-extented-gen.png]]
+
+***** BufferAlloc
+
+  BufferAlloc -- subroutine for ReadBuffer.  Handles lookup of a shared
+  buffer.  If no buffer exists already, selects a replacement
+  victim and evicts the old page, but does NOT read in new page.
+
+  The returned buffer is pinned and is already marked as holding the
+  desired page.
+
+  #+BEGIN_SRC plantuml :file images/pg-buffer-alloc-gen.png
+    |BufferAlloc|
+
+    start
+
+    :initiate TAG;
+    :calculate hash for TAG;
+    :accquire partition lock;
+    :search buffer id from hash table;
+    if (found) then (YES)
+    :get buffer based id;
+    :valid = PinBuffer();
+    :release lock;
+    :*found_ptr = true;
+
+    if (valid) then (False)
+    :StartbufferIO();
+
+    if (ret) then (true)
+    :*found_ptr = false;
+    else (false)
+    endif
+
+    else (True)
+    endif
+    :return buf;
+    stop
+
+    else (NO)
+    :reserver a RefCountEntry;
+    :get a Buffer;
+    :record oldFlags;
+    :PinBuffer;
+
+    if (oldFlag & BM_DIRTY) then (YES)
+    :FlushBuffer();
+    else(NO)
+    endif
+
+
+    if (oldFlag & BM_TAG_VALID) then (YES)
+    :ACTIVITY;
+    else (VALUE2)
+    :ACTIVITY;
+    endif
+
+
+    :BufTableInsert();
+    :update buf_state;
+
+    endif
+
+
+
+    stop
+  #+END_SRC
+  #+CAPTION: BufferAlloc
+  #+NAME: fig:BufferAlloc
+  #+RESULTS:
+  [[file:images/pg-buffer-alloc-gen.png]]
+
+****** StartBufferIO
+
+#+BEGIN_SRC plantuml :file images/pg-start-bufferio-gen.png
+  start
+  while(IO_IN_PROGRESS) is (TRUE)
+  :WaitIO();
+  endwhile(FALSE)
+  if (buf is VALID) then (NO)
+  :setup IO_IN_PROGRESS;
+  :return true;
+  stop
+  else (YES)
+  :return false;
+  end
+  endif
+#+END_SRC
+#+CAPTION: Start buffer io
+#+NAME: fig:Start_buffer_io
+#+RESULTS:
+[[file:images/pg-start-bufferio-gen.png]]
+
+
+****** PinBuffer
+
+=PinBuffer= -- make buffer unavailable for replacement.
+
+
+This should be applied only to shared buffers, never local ones.
+
+
+Since buffers are pinned/unpinned very frequently, pin buffers without
+taking the buffer header lock; instead update the state variable in loop of
+CAS operations. Hopefully it's just a single CAS.
+
+
+#+BEGIN_SRC plantuml :file images/pin-buffer-gen.png
+  start
+  :find ref for buffer;
+  if (ref is NULL) then (YES)
+  :Reserve a ref entry;
+  :init reserved ref entry;
+  :load buffer status;
+
+  repeat
+
+  if (buf is\nLocked) then (YES)
+  :wait until unlocked;
+
+  else (NO)
+  endif
+
+  :increase refcount to new_state;
+  :update useage count if necessary: to new_state;
+
+
+  :CAS(old_state, new_state);
+  :ret = buf_state & BM_VALID;
+
+  repeat while (CAS fails)
+
+
+
+  else (NO)
+  :ret = true;
+  endif
+
+  :increase ref->refcount;
+
+  :return ret;
+  stop
+#+END_SRC
+#+CAPTION: Pin Buffer
+#+NAME: fig:Pin_Buffer
+#+RESULTS:
+[[file:images/pin-buffer-gen.png]]
+
+- *strategy:*
+
+**** Fork????
+
+* Page (storage/page)
+#+BEGIN_SRC plantuml :file images/page-ds-pg-gen.png
+
+  class PageHeaderData {
+      + PageXLogRecPtr pd_lsn
+      + uint16 pd_checksum
+      + uint16 pd_flags
+      + LocationIndex pd_lower
+      + LocationIndex pd_upper
+      + LocationIndex pd_special
+      + uint16 pd_pagesize_version
+      + TransactionId pd_prune_xid
+      + ItemIdData[] pd_linp
+  }
+
+#+END_SRC
+#+CAPTION: Page related data structure
+#+NAME: fig:Page_related_data_structure
+#+RESULTS:
+[[file:images/page-ds-pg-gen.png]]
