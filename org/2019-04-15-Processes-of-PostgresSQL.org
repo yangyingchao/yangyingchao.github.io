@@ -1,16 +1,432 @@
 #+TITLE: Processes of PostgresSQL
 #+AUTHOR: Yang,Ying-chao
 #+EMAIL:  yingchao.yang@icloud.com
-#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
-#+OPTIONS: toc:2
-#+STARTUP:    align nodlcheck oddeven lognotestate
+#+OPTIONS:    ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:    align nodlcheck oddeven lognotestate latexpreview
 #+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+LANGUAGE:   en
 #+EXCLUDE_TAGS: noexport
-#+KEYWORDS: (nil)
-#+CATEGORY: (nil)
+#+KEYWORDS: pg process
+#+CATEGORY: Database
 #+DESCRIPTION: (nil)
+* Overview
 
-* TODO  on_proc_exit(pg_on_exit_callback function, Datum arg)
+** postmaster、postgres & utility
+
+- postmaster: 主进程，启动后监听指定端口，客户端连接后，fork 出 postgres 用于
+  服务客户端。
+- postgres：postmaster fork 出来、复杂处理客户端请求的进程。
+- utility： *TODO*
+
+postmaster 活动：
+
+#+BEGIN_SRC plantuml :file images/postmaster-simple-flow-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  |postmaster|
+  start
+
+  :IsUnderPostmaster = false;
+  repeat
+  :accept();
+  :fork();
+
+  if (isChild) then (NO)
+  :wait next connecton;
+  else (YES)
+  |postgres|
+  :InitPostmasterChild();
+  note right
+      set  IsUnderPostmaster=true;
+  end note
+
+  :InitProcessGlobals();
+  :BackendInitialize();
+  :BackendRun();
+  note right
+      turn to PostgresMain.
+  end note
+  end
+  |postmaster|
+  endif
+
+  repeat while (!stop?)
+
+
+  stop
+#+END_SRC
+#+CAPTION: Postmaster Simple Flow
+#+NAME: fig:Postmaster_Simple_Flow
+#+RESULTS:
+[[file:images/postmaster-simple-flow-gen.png]]
+
+
+** Init flow for postmaster
+
+=src/backend/storage/ipc=
+
+inter-process communication.
+
+
+Always started and initialized by postmaster...
+
+#+BEGIN_SRC plantuml :file images/ipci-init-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  |postmaster|
+  start
+  :PostmasterMain();
+  :reset_shared();
+  :CreateSharedMemoryAndSemaphores();
+  |ipci|
+
+  :init of shared memory, locks, xlog...;
+
+  if (is PostMaster) then (YES)
+  #a52a2a:InitProcGlobal();
+  else (NO)
+  endif
+
+  #00ffff:CreateSharedProcArray();
+
+  :others....;
+
+  #9acd32:ProcSignalShmemInit();
+  :...;
+
+  |postmaster|
+
+  stop
+#+END_SRC
+#+CAPTION: IPC Initialization
+#+NAME: fig:IPC_Initialization
+#+RESULTS:
+[[file:images/ipci-init-gen.png]]
+
+For init of shared memory: [[file:2019-04-16-Shared-Memory-of-PostgresSQL.org]]
+
+* Global Process Table
+
+#+BEGIN_SRC plantuml :file images/global-process-table-pg-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class PROC_HDR {
+      + PGPROC* allProcs
+      + PGXACT* allPgXact
+      + uint32 allProcCount
+      + PGPROC* freeProcs
+      + PGPROC* autovacFreeProcs
+      + PGPROC* bgworkerFreeProcs
+      + PGPROC* walsenderFreeProcs
+      + pg_atomic_uint32 procArrayGroupFirst
+      + pg_atomic_uint32 clogGroupFirst
+      + Latch* walwriterLatch
+      + Latch* checkpointerLatch
+      + int spins_per_delay
+      + PGPROC* startupProc
+      + int startupProcPid
+      + int startupBufferPinWaitBufId
+  }
+
+  note right
+      ONE ProcGlobal struct
+      for the whole database cluster
+  end note
+
+
+  class PGPROC {
+      + SHM_QUEUE links
+      + PGPROC* procgloballist
+      + PGSemaphore sem
+      + int waitStatus
+      + Latch procLatch
+      + LocalTransactionId lxid
+      + int pid
+      + int pgprocno
+      + BackendId backendId
+      + Oid databaseId
+      + Oid roleId
+      + Oid tempNamespaceId
+      + bool isBackgroundWorker
+      + bool recoveryConflictPending
+      + bool lwWaiting
+      + uint8 lwWaitMode
+      + proclist_node lwWaitLink
+      + proclist_node cvWaitLink
+      + LOCK* waitLock
+      + PROCLOCK* waitProcLock
+      + LOCKMODE waitLockMode
+      + LOCKMASK heldLocks
+      + XLogRecPtr waitLSN
+      + int syncRepState
+      + SHM_QUEUE syncRepLinks
+      + SHM_QUEUE[] myProcLocks
+      + XidCache subxids
+      + bool procArrayGroupMember
+      + pg_atomic_uint32 procArrayGroupNext
+      + TransactionId procArrayGroupMemberXid
+      + uint32 wait_event_info
+      + bool clogGroupMember
+      + pg_atomic_uint32 clogGroupNext
+      + TransactionId clogGroupMemberXid
+      + XidStatus clogGroupMemberXidStatus
+      + int clogGroupMemberPage
+      + XLogRecPtr clogGroupMemberLsn
+      + LWLock backendLock
+      + uint64 fpLockBits
+      + Oid[] fpRelId
+      + bool fpVXIDLock
+      + LocalTransactionId fpLocalTransactionId
+      + PGPROC* lockGroupLeader
+      + dlist_head lockGroupMembers
+      + dlist_node lockGroupLink
+  }
+
+  note right
+      ,* Each backend has a PGPROC struct in shared memory.  There is also a list of
+         currently-unused PGPROC structs that will be reallocated to new backends.
+
+      ,* links: list link for any list the PGPROC is in.  When waiting for a lock,
+        the PGPROC is linked into that lock's waitProcs queue.  A recycled PGPROC
+        is linked into ProcGlobal's freeProcs list.
+  end note
+  PROC_HDR *-- PGPROC
+
+  class PGXACT {
+      + TransactionId xid
+      + TransactionId xmin
+      + uint8 vacuumFlags
+      + bool overflowed
+      + bool delayChkpt
+      + uint8 nxids
+  }
+
+  PROC_HDR *-- PGXACT
+#+END_SRC
+#+CAPTION: global process table
+#+NAME: fig:global_process_table
+#+RESULTS:
+[[file:images/global-process-table-pg-gen.png]]
+
+** InitProcGlobal
+
+Initialize the global process table during postmaster or standalone
+backend startup.
+
+#+BEGIN_SRC plantuml :file images/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  start
+  :allocate space for ProGlobal\nfrom shared memory;
+  :init variables of ProGlobal;
+
+  :allocate init init ProcGlobal->allProcs;
+  :allocate & init ProcGlobal->allPgXact;
+
+  :loop to init every proc;
+
+  :update global pointers:\n  - AuxiliaryProcs\n  - PreparedXactProcs;
+  :Init ProcStructLock;
+
+  stop
+#+END_SRC
+#+CAPTION: InitProcGlobal
+#+NAME: fig:InitProcGlobal
+#+RESULTS:
+[[file:images/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+
+After Init:
+
+#+BEGIN_SRC text -r
+  MaxBackends <--  MaxConnections + autovacuum_max_workers + 1 + max_worker_processes + max_wal_senders
+       112    <--        90       +                3       + 1 +          8           +       10
+  TotalProcs  <--  MaxBackends + NUM_AUXILIARY_PROCS
+       117    <--      113     +      4
+#+END_SRC
+
+
+#+BEGIN_SRC ditaa :file images/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png
+    +------------------------------------------------------------------------------------------------+
+    |                        PROCS  (up to TotalProcs)                                               |
+    +-----+----------------+-------------------------------+--------------------+--------------------+
+    | TYP | Client         | Autovacuum                    | BG Workers         | WAL Sender         |
+    +-----+----------------+-------------------------------+--------------------+--------------------+
+    | PTR | freeProcs      | autovacFreeProcs              | bgworkerFreeProcs  | walsenderFreeProcs |
+    +-----+----------------+-------------------------------+--------------------+--------------------+
+    | NUM | MaxConnections | autovacuum_max_workers plus 1 | max_worker_process | max_wal_senders    |
+    +-----+----------------+-------------------------------+--------------------+--------------------+
+#+END_SRC
+#+CAPTION: Global Proc Table After Init
+#+NAME: fig:Global_Proc_Table_After_Init
+#+RESULTS:
+[[file:images/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+
+
+* Proc Array
+
+ This module maintains arrays of the PGPROC and PGXACT structures for all
+ active backends.  Although there are several uses for this, the principal
+ one is as a means of determining the set of currently running transactions.
+
+ proc array 的主要作用：
+
+ - 查看当前正在进行的事务
+ - 记录每个进程，以便响应 KILL （Ctrl+C）
+
+ =static ProcArrayStruct *procArray=
+
+ #+BEGIN_SRC plantuml :file images/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+   class ProcArrayStruct {
+   + int numProcs
+   + int maxProcs
+   + int maxKnownAssignedXids
+   + int numKnownAssignedXids
+   + int tailKnownAssignedXids
+   + int headKnownAssignedXids
+   + slock_t known_assigned_xids_lck
+   + TransactionId lastOverflowedXid
+   + TransactionId replication_slot_xmin
+   + TransactionId replication_slot_catalog_xmin
+   + int[] pgprocnos
+   }
+
+ #+END_SRC
+ #+CAPTION: Process Array
+ #+NAME: fig:Proc_Array
+ #+RESULTS:
+ [[file:images/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+
+** Init
+
+- CreateSharedProcArray(void)
+
+  called from: [[Init flow for postmaster]]
+
+  [[file:~/Work/postgres/src/backend/storage/ipc/procarray.c::CreateSharedProcArray(void)]]
+
+
+
+** Add/remove proc to/from array
+
+*** call flow
+
+called from PostgresMain (from main to PostgresMain, refer to: [[fig:Postmaster_Simple_Flow]] )
+
+[[fig:Postmaster_Simple_Flow][PostgresMain]]  $-->$ [[InitProcessPhase2()][InitProcessPhase2()]] $-->$  [[ProcArrayAdd Flow][ProcArrayAdd()]]
+
+
+*** ProcArrayAdd Flow
+
+#+BEGIN_SRC plantuml :file images/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  start
+  :lock ProcArrayLock;
+
+  if (no space left) then (YES)
+  end
+  endif
+
+  :find avaiable slot;
+  :fill this slot;
+
+  :unlock ProcArrayLock;
+  stop
+#+END_SRC
+#+CAPTION: ProcArraryAdd flow
+#+NAME: fig:ProcArraryAdd_flow
+#+RESULTS:
+[[file:images/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+
+*** ProcArrayRemove
+called automatically =on_shmem_exit(RemoveProcFromArray, 0)= .
+
+
+* Process Init of backends (PostgresMain)
+
+*** InitProcess();
+
+[[file:~/Work/postgres/src/backend/tcop/postgres.c::InitProcess();]]
+
+Initialize a per-process data structure for this backend.
+
+主要是设置下面几个全局变量：
+
+- MyProc
+- MyPgXact
+- MyLatch
+
+
+#+BEGIN_SRC plantuml :file images/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  start
+  :sanity check;
+  :Decide which list should\nsupply our PGPROC;
+  :lock;
+  :assign MyProc from above list;
+  :release lock;
+
+  if (MyProc) then (NULL)
+  :report error;
+  end
+  endif
+
+  :update freelist;
+  :assign MyPgXact;
+
+  :initialize all fields of MyProc;
+  :own latch;
+  :update MyLatch;
+
+  stop
+#+END_SRC
+#+CAPTION: Init Process
+#+NAME: fig:Init_Process
+#+RESULTS:
+[[file:images/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+
+
+
+*** InitProcessPhase2()
+
+Second part of process initialization, simply call =ProcArrayAdd()= and set
+hook to run during [[Process Exit][shemem_exit]].
+
+* Process Exit
+
+Calls all the callbacks registered for it, and then calls =exit= .
+
+call flow:
+
+
+[[fig:Postmaster_Simple_Flow][PostgresMain]]  $-->$ =Loop for Commands= $-->$ [[fig:proc_exit_flow][proc_exit]]
+
+
+#+BEGIN_SRC plantuml :file images/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  |proc_exit|
+  start
+  :proc_exit_prepare();
+  |proc_exit_prepare|
+  :update global flags;
+
+  :call callbacks for shm_exit;
+  :call callbacks for proc_exit;
+
+  |proc_exit|
+  :eixt();
+  stop
+#+END_SRC
+#+CAPTION: proc_exit flow
+#+NAME: fig:proc_exit_flow
+#+RESULTS:
+[[file:images/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+
+on_proc_exit(pg_on_exit_callback function, Datum arg)
+
+
   [[file:~/Work/postgres-xl/src/backend/storage/ipc/ipc.c::on_proc_exit(pg_on_exit_callback%20function,%20Datum%20arg)]]
+
+
+
+

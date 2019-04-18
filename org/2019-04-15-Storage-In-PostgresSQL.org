@@ -632,6 +632,8 @@ CAS operations. Hopefully it's just a single CAS.
 **** Fork????
 
 * Page (storage/page)
+
+
 #+BEGIN_SRC plantuml :file images/page-ds-pg-gen.png
 
   class PageHeaderData {
@@ -651,3 +653,7 @@ CAS operations. Hopefully it's just a single CAS.
 #+NAME: fig:Page_related_data_structure
 #+RESULTS:
 [[file:images/page-ds-pg-gen.png]]
+
+* Storage IPC
+
+Refer to: [[file:2019-04-15-Processes-of-PostgresSQL.org]]

@@ -1,0 +1,319 @@
+---
+layout : post
+title : Processes of PostgresSQL
+categories : Database
+tags : pg process
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8b351cf">1. Overview</a>
+<ul>
+<li><a href="#orge91ee9b">1.1. postmaster、postgres &amp; utility</a></li>
+<li><a href="#org7b7ffa9">1.2. Init flow for postmaster</a></li>
+</ul>
+</li>
+<li><a href="#org5b98dba">2. Global Process Table</a>
+<ul>
+<li><a href="#org47c94c7">2.1. InitProcGlobal</a></li>
+</ul>
+</li>
+<li><a href="#org691a133">3. Proc Array</a>
+<ul>
+<li><a href="#org6967ed5">3.1. Init</a></li>
+<li><a href="#orgbdbbb9e">3.2. Add/remove proc to/from array</a></li>
+</ul>
+</li>
+<li><a href="#orgb885cd1">4. Process Init of backends (PostgresMain)</a></li>
+<li><a href="#org10488e9">5. Process Exit</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8b351cf" class="outline-2">
+<h2 id="org8b351cf"><span class="section-number-2">1</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orge91ee9b" class="outline-3">
+<h3 id="orge91ee9b"><span class="section-number-3">1.1</span> postmaster、postgres &amp; utility</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>postmaster: 主进程，启动后监听指定端口，客户端连接后，fork 出 postgres 用于服务客户端。</li>
+<li>postgres：postmaster fork 出来、复杂处理客户端请求的进程。</li>
+<li>utility： <b>TODO</b></li>
+</ul>
+
+<p>
+postmaster 活动：
+</p>
+
+
+<div id="orga9ee79c" class="figure">
+<p><img src="../../../assets/img/postmaster-simple-flow-gen.png" alt="postmaster-simple-flow-gen.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Postmaster Simple Flow</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7b7ffa9" class="outline-3">
+<h3 id="org7b7ffa9"><span class="section-number-3">1.2</span> Init flow for postmaster</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+<code>src/backend/storage/ipc</code>
+</p>
+
+<p>
+inter-process communication.
+</p>
+
+
+<p>
+Always started and initialized by postmaster&#x2026;
+</p>
+
+
+<div id="orgc1e558c" class="figure">
+<p><img src="../../../assets/img/ipci-init-gen.png" alt="ipci-init-gen.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>IPC Initialization</p>
+</div>
+
+<p>
+For init of shared memory: <a href="2019-04-16-Shared-Memory-of-PostgresSQL.html">2019-04-16-Shared-Memory-of-PostgresSQL.html</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b98dba" class="outline-2">
+<h2 id="org5b98dba"><span class="section-number-2">2</span> Global Process Table</h2>
+<div class="outline-text-2" id="text-2">
+
+<div id="orge7e3c4b" class="figure">
+<p><img src="../../../assets/img/global-process-table-pg-gen.png" alt="global-process-table-pg-gen.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>global process table</p>
+</div>
+</div>
+
+<div id="outline-container-org47c94c7" class="outline-3">
+<h3 id="org47c94c7"><span class="section-number-3">2.1</span> InitProcGlobal</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Initialize the global process table during postmaster or standalone
+backend startup.
+</p>
+
+
+<div id="org4dc366b" class="figure">
+<p><img src="../../../assets/img/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>InitProcGlobal</p>
+</div>
+
+
+<p>
+After Init:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">MaxBackends &lt;--  MaxConnections + autovacuum_max_workers + 1 + max_worker_processes + max_wal_senders
+     112    &lt;--        90       +                3       + 1 +          8           +       10
+TotalProcs  &lt;--  MaxBackends + NUM_AUXILIARY_PROCS
+     117    &lt;--      113     +      4
+</pre>
+</div>
+
+
+
+<div id="org4f2730e" class="figure">
+<p><img src="../../../assets/img/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Global Proc Table After Init</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org691a133" class="outline-2">
+<h2 id="org691a133"><span class="section-number-2">3</span> Proc Array</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This module maintains arrays of the PGPROC and PGXACT structures for all
+active backends.  Although there are several uses for this, the principal
+one is as a means of determining the set of currently running transactions.
+</p>
+
+<p>
+proc array 的主要作用：
+</p>
+
+<ul class="org-ul">
+<li>查看当前正在进行的事务</li>
+<li>记录每个进程，以便响应 KILL （Ctrl+C）</li>
+</ul>
+
+<p>
+<code>static ProcArrayStruct *procArray</code>
+</p>
+
+
+<div id="orgce567a2" class="figure">
+<p><img src="../../../assets/img/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Process Array</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6967ed5" class="outline-3">
+<h3 id="org6967ed5"><span class="section-number-3">3.1</span> Init</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><p>
+CreateSharedProcArray(void)
+</p>
+
+<p>
+called from: <a href="#org7b7ffa9">1.2</a>
+</p>
+
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/ipc/procarray.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/storage/ipc/procarray.c#MissingReference</a>
+</p></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgbdbbb9e" class="outline-3">
+<h3 id="orgbdbbb9e"><span class="section-number-3">3.2</span> Add/remove proc to/from array</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org07164cb" class="outline-4">
+<h4 id="org07164cb"><span class="section-number-4">3.2.1</span> call flow</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+called from PostgresMain (from main to PostgresMain, refer to: <a href="#orga9ee79c">1</a> )
+</p>
+
+<p>
+<a href="#orga9ee79c">PostgresMain</a>  <img src="../../../assets/img/2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <a href="#org4e026e2">InitProcessPhase2()</a> <img src="../../../assets/img/2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" />  <a href="#orgb43ce01">ProcArrayAdd()</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgb43ce01" class="outline-4">
+<h4 id="orgb43ce01"><span class="section-number-4">3.2.2</span> ProcArrayAdd Flow</h4>
+<div class="outline-text-4" id="text-3-2-2">
+
+<div id="org4bd820e" class="figure">
+<p><img src="../../../assets/img/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>ProcArraryAdd flow</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org3d02a54" class="outline-4">
+<h4 id="org3d02a54"><span class="section-number-4">3.2.3</span> ProcArrayRemove</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<p>
+called automatically <code>on_shmem_exit(RemoveProcFromArray, 0)</code> .
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb885cd1" class="outline-2">
+<h2 id="orgb885cd1"><span class="section-number-2">4</span> Process Init of backends (PostgresMain)</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org4d8ecf4" class="outline-4">
+<h4 id="org4d8ecf4"><span class="section-number-4">4.0.1</span> InitProcess();</h4>
+<div class="outline-text-4" id="text-4-0-1">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/tcop/postgres.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/tcop/postgres.c#MissingReference</a>
+</p>
+
+<p>
+Initialize a per-process data structure for this backend.
+</p>
+
+<p>
+主要是设置下面几个全局变量：
+</p>
+
+<ul class="org-ul">
+<li>MyProc</li>
+<li>MyPgXact</li>
+<li>MyLatch</li>
+</ul>
+
+
+
+<div id="org7425408" class="figure">
+<p><img src="../../../assets/img/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>Init Process</p>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org4e026e2" class="outline-4">
+<h4 id="org4e026e2"><span class="section-number-4">4.0.2</span> InitProcessPhase2()</h4>
+<div class="outline-text-4" id="text-4-0-2">
+<p>
+Second part of process initialization, simply call <code>ProcArrayAdd()</code> and set
+hook to run during <a href="#org10488e9">shemem_exit</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10488e9" class="outline-2">
+<h2 id="org10488e9"><span class="section-number-2">5</span> Process Exit</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Calls all the callbacks registered for it, and then calls <code>exit</code> .
+</p>
+
+<p>
+call flow:
+</p>
+
+
+<p>
+<a href="#orga9ee79c">PostgresMain</a>  <img src="../../../assets/img/2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>Loop for Commands</code> <img src="../../../assets/img/2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-15-Processes-of-PostgresSQL_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <a href="#org7013803">proc_exit</a>
+</p>
+
+
+
+<div id="org7013803" class="figure">
+<p><img src="../../../assets/img/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" alt="prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>proc_exit flow</p>
+</div>
+
+<p>
+on_proc_exit(pg_on_exit_callback function, Datum arg)
+</p>
+
+
+<p>
+<a href="file:///Volumes/yyc/Work/postgres-xl/src/backend/storage/ipc/ipc.c#MissingReference">file:///Volumes/yyc/Work/postgres-xl/src/backend/storage/ipc/ipc.c#MissingReference</a>
+</p>
+</div>
+</div>
