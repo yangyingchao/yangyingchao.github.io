@@ -1,0 +1,552 @@
+#+TITLE: Global Transaction Manager (GTM)
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: pg
+#+CATEGORY: Postgres
+#+DESCRIPTION: (nil)
+
+* TODO
+
+  Global Transaction Manager (GTM)
+  --------------------------------
+
+  [[file:~/Work/postgres-xl/src/gtm/README::Global%20Transaction%20Manager%20(GTM)%20--------------------------------]]
+
+* Transaction Manager
+
+  #+BEGIN_SRC dot :file images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+    digraph Name {
+
+    node [fontsize=12 fontname=Courier style=filled shape=record];
+    edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+    rankdir=LR;
+    //XXX: Place to put subgraphs
+
+    subgraph cluster_TransactionManager {
+        color = invis;
+        style=filled;
+        rank=same;
+        label = "Transaction Manager";
+        edge[color="brown"  style=dashed];
+        node [fontsize=12 fontname=Courier style=filled shape=ellipse];
+
+        node_GTM_Transactions [shape=record label="*GTM_Transactions*|\
+    <f1>gt_txn_count|\
+    <f2>gt_gtm_state|\
+    <f3>gt_XidGenLock|\
+    <f4>gt_nextXid|\
+    <f5>gt_backedUpXid|\
+    <f6>gt_oldestXid|\
+    <f7>gt_xidVacLimit|\
+    <f8>gt_xidWarnLimit|\
+    <f9>gt_xidStopLimit|\
+    <f10>gt_xidWrapLimit|\
+    <f11>gt_latestCompletedXid|\
+    <f12>gt_recent_global_xmin|\
+    <f13>gt_lastslot|\
+    <f14>gt_transactions_array|\
+    <f15>gt_open_transactions|\
+    <f16>gt_TransArrayLock\
+    "];
+
+
+    node_GTM_TransactionInfos [shape=record label="{GTM\nTransactionInfo|\
+    {<f1>INFO1|INFO2|...|INFOn}}"];
+
+
+
+
+    node_GTM_TransactionInfo [shape=record label="GTM_TransactionInfo|\
+    <f1>gti_handle|\
+    <f2>gti_client_id|\
+    <f3>gti_global_session_id|\
+    <f4>gti_in_use|\
+    <f5>gti_gxid|\
+    <f6>gti_state|\
+    <f7>gti_xmin|\
+    <f8>gti_isolevel|\
+    <f9>gti_readonly|\
+    <f10>gti_proxy_client_id|\
+    <f11>nodestring|\
+    <f12>gti_gid|\
+    <f13>gti_current_snapshot|\
+    <f14>gti_snapshot_set|\
+    <f15>gti_lock|\
+    <f16>gti_vacuum|\
+    <f17>gti_created_seqs|\
+    <f18>gti_dropped_seqs|\
+    <f19>gti_altered_seqs\
+    "];
+
+
+
+    node_GTM_Transactions:f14 -> node_GTM_TransactionInfos [arrowtail=odiamond arrowhead=none style=solid dir=back];
+    node_GTM_TransactionInfos:f1-> node_GTM_TransactionInfo [arrowhead=vee arrowtail=vee style=solid dir=forward];
+
+
+    node_GTM_SnapshotData [shape=record label="GTM_SnapshotData|\
+    <f1>sn_xmin|\
+    <f2>sn_xmax|\
+    <f3>sn_xcnt|\
+    <f4>sn_xip\
+    "];
+
+    node_GTM_TransactionInfo:f13 -> node_GTM_SnapshotData [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+    }
+
+
+
+    }
+  #+END_SRC
+  #+CAPTION: GTM Data Structures
+  #+NAME: fig:GTM_Data_Structures
+  #+RESULTS:
+  [[file:images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* Seq Manager
+
+
+#+BEGIN_SRC dot :file images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  digraph Name {
+  node [fontsize=12 fontname=Courier style=filled shape=record];
+  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+  // rankdir=LR;
+  //XXX: Place to put subgraphs
+
+  node_gtm_seq_info[label="{GTMSequences|{Bucket1|<f1>Bucket2|...|BucketN}}"];
+
+
+  node_GTM_SeqInfoHashBucket [shape=record label="{GTM_SeqInfoHashBucket|\
+  <f1>shb_list|\
+  <f2>shb_lock\
+  }"];
+
+  node_gtm_seq_info:f1 -> node_GTM_SeqInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+
+
+  }
+#+END_SRC
+#+CAPTION: SegManager
+#+NAME: fig:SegManager
+#+RESULTS:
+[[file:images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* XCNode
+
+#+BEGIN_SRC dot :file images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  digraph Name {
+  node [fontsize=12 fontname=Courier style=filled shape=record];
+  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+  // rankdir=LR;
+  //XXX: Place to put subgraphs
+    node_xcnodes[label="{GTM_PGXCNodes|{Node1|<f1>Node2|...|NodeN}}"];
+
+    node_GTM_PGXCNodeInfoHashBucket [shape=record label="{GTM_PGXCNodeInfoHashBucket|\
+    <f1>nhb_list\
+    }"];
+
+    node_xcnodes:f1 -> node_GTM_PGXCNodeInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  }
+#+END_SRC
+#+CAPTION: XCNode
+#+NAME: fig:XCNode
+#+RESULTS:
+[[file:images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* Recovery Standby Mode
+
+
+
+* GTM_ThreadMain(GTM_ConnectionInfo *conninfo,
+
+#+BEGIN_SRC dot :file images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  digraph Name {
+  node [fontsize=12 fontname=Courier style=filled shape=record];
+  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+  // rankdir=LR;
+  //XXX: Place to put subgraphs
+  node_Port [shape=record label="{Port|\
+  <f1>sock|\
+  <f2>laddr|\
+  <f3>raddr|\
+  <f4>remote_host|\
+  <f5>remote_port|\
+  <f6>last_call|\
+  <f7>last_errno|\
+  <f8>conn_id|\
+  <f9>remote_type|\
+  <f10>node_name|\
+  <f11>is_postmaster|\
+  <f12>PQ_BUFFER_SIZE|\
+  <f13>PqSendBuffer|\
+  <f14>PqSendPointer|\
+  <f15>PqRecvBuffer|\
+  <f16>PqRecvPointer|\
+  <f17>PqRecvLength|\
+  <f18>default_keepalives_idle|\
+  <f19>default_keepalives_interval|\
+  <f20>default_keepalives_count|\
+  <f21>keepalives_idle|\
+  <f22>keepalives_interval|\
+  <f23>keepalives_count|\
+  <f24>connErr_WaitOpt|\
+  <f25>connErr_WaitInterval|\
+  <f26>connErr_WaitCount\
+  }"];
+
+  node_GTM_ConnectionInfo [shape=record label="{GTM_ConnectionInfo|\
+  <f1>con_port|\
+  <f2>con_thrinfo|\
+  <f3>con_authenticated|\
+  <f4>standby\
+  }"];
+
+  node_GTM_ThreadInfo [shape=record label="{GTM_ThreadInfo|\
+  <f1>thr_status|\
+  <f2>thr_conn|\
+  <f3>thr_client_id|\
+  <f4>thr_lock|\
+  <f5>thr_cached_txninfo|\
+  <f6>thr_snapshot|\
+  <f7>thr_xip\
+  }"];
+
+  node_GTM_ConnectionInfo -> node_Port [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  node_GTM_ConnectionInfo -> node_GTM_ThreadInfo [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  node_gtm_conn [shape=record label="{gtm_conn|\
+  <f1>pghost|\
+  <f2>pghostaddr|\
+  <f3>pgport|\
+  <f4>connect_timeout|\
+  <f5>gc_node_name|\
+  <f6>remote_type|\
+  <f7>is_postmaster|\
+  <f8>my_id|\
+  <f9>Pfdebug|\
+  <f10>status|\
+  <f11>sock|\
+  <f12>laddr|\
+  <f13>raddr|\
+  <f14>last_call|\
+  <f15>last_errno|\
+  <f16>addrlist|\
+  <f17>addr_cur|\
+  <f18>addrlist_family|\
+  <f19>inBuffer|\
+  <f20>inBufSize|\
+  <f21>inStart|\
+  <f22>inCursor|\
+  <f23>inEnd|\
+  <f24>outBuffer|\
+  <f25>outBufSize|\
+  <f26>outCount|\
+  <f27>outMsgStart|\
+  <f28>outMsgEnd|\
+  <f29>errorMessage|\
+  <f30>workBuffer|\
+  <f31>result\
+  }"];
+
+  node_GTM_ConnectionInfo -> node_gtm_conn [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  }
+#+END_SRC
+#+CAPTION: GTM Thread Info
+#+NAME: fig:GTM_Thread_Info
+#+RESULTS:
+[[file:images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+
+#+BEGIN_SRC plantuml :file images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  start
+
+
+  :read first Message\n(   comamnd 'A');
+  :send response\n( command 'R');
+
+  repeat
+  :get next command;
+
+
+  if (command) then ('C')
+  :ProcessCommand();
+  elseif (command) then ('F')
+  :pq_flush();
+
+  elseif (command) then ('X'/EOF)
+  stop
+
+  else ()
+  :report error;
+  end
+
+  endif
+
+
+
+  repeat while (TRUE)
+
+  stop
+#+END_SRC
+#+CAPTION: GTM Thread Main
+#+NAME: fig:Thread_main
+#+RESULTS:
+[[file:images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* Commands
+
+
+** =A=
+
+Send by client, sign of connect/attach.
+
+*** client
+
+Send by client when a client connects to server, followed by a =StartupPacket= :
+#+BEGIN_SRC plantuml :file images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class GTM_StartupPacket {
+  + char[SP_NODE_NAME] sp_node_name
+  + GTM_PGXCNodeType sp_remotetype
+  + bool sp_ispostmaster
+  + uint32 sp_client_id
+  }
+
+#+END_SRC
+#+CAPTION: Startup Packet
+#+NAME: fig:Startup_Packet
+#+RESULTS:
+[[file:images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+
+*** server
+- Update thread info based on StartupPacket.
+- Response with packet 'R' + client_id
+
+** =R=
+
+*Response*
+
+ Send by server as =Rresonse= of =A= , followed by client_id.
+
+
+** =X=
+Send by client.
+
+End, Remove all transaction info.
+
+** =EOF=
+Send by client.
+
+Connection Termination.
+
+** =F=
+Flush all outgoing data on the wire.
+
+
+** =C=
+Send by client.
+
+Command.
+
+
+** =S=
+
+** =E=
+
+error occurred.
+
+* Assignment of XID
+
+There should be other entrances...
+
+
+
+** Data Node:
+
+*** BeginTranGTM()
+
+#+BEGIN_SRC plantuml :file images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  |xact.c|
+  :GetTopTransactionId();
+  :AssignTransactionId();
+  :GetNewTransactionId()
+  :calls BeginTranGTM();
+  |gtm.c|
+  :BeginTranGTM();
+  :initGTM if necessary\nCreateConnection to GTM;
+  :calls begin_transaction();
+
+  |gtm_client.c|
+  :begin_transaction();
+  :send Message;
+
+  note right
+      MsgStart = 'C'
+      MsgType = MSG_TXN_BEGIN_GETGXID,
+          (Start a new transaction and get GXID)
+      isoLevel = GTM_ISOLATION_RC (read committed)
+      readOnly = False
+  end note
+
+  :wait and get result;
+  :return res->gr_resdata.grd_gxid_tp.gxid;
+
+  |gtm.c|
+  :return xid;
+
+  |xact.c|
+  :return xid;
+#+END_SRC
+#+CAPTION: XID Assignment
+#+NAME: fig:XID_Assignment
+#+RESULTS:
+[[file:images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+*** GTM_Result:
+
+#+BEGIN_SRC plantuml :file images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class GTM_Result {
+      + GTM_ResultType gr_type
+      + int gr_msglen
+      + int gr_status
+      + GTM_ProxyMsgHeader gr_proxyhdr
+      + GTM_ResultData gr_resdata
+      + int gr_xip_size
+      + GTM_SnapshotData gr_snapshot
+      + char* gr_proxy_data
+      + int gr_proxy_datalen
+  }
+
+  enum GTM_ResultType {
+      TXN_BEGIN_RESULT
+      TXN_BEGIN_GETGXID_RESULT
+      TXN_BEGIN_GETGXID_MULTI_RESULT
+      TXN_PREPARE_RESULT
+      TXN_START_PREPARED_RESULT
+      TXN_COMMIT_PREPARED_RESULT
+      TXN_COMMIT_RESULT
+      TXN_COMMIT_MULTI_RESULT
+      TXN_ROLLBACK_RESULT
+      TXN_ROLLBACK_MULTI_RESULT
+      TXN_GET_GID_DATA_RESULT
+      TXN_GET_GXID_RESULT
+      SNAPSHOT_GET_RESULT
+      SNAPSHOT_GET_MULTI_RESULT
+      SNAPSHOT_GXID_GET_RESULT
+      SEQUENCE_INIT_RESULT
+      SEQUENCE_GET_CURRENT_RESULT
+      SEQUENCE_GET_NEXT_RESULT
+      BARRIER_RESULT
+      RESULT_TYPE_COUNT
+  }
+
+  GTM_Result *-- GTM_ResultType
+
+  class GTM_ResultData {
+      + GTM_TransactionHandle grd_txnhandle
+      +  grd_gxid_tp
+      + GlobalTransactionId grd_gxid
+      +  grd_eof_txn
+      + GlobalTransactionId grd_next_gxid
+      +  grd_txn
+      + GTM_SequenceKeyData grd_seqkey
+      +  grd_seq
+      +  grd_seq_list
+      +  grd_txn_get_multi
+      +  grd_txn_rc_multi
+      +  grd_txn_snap_multi
+      +  grd_txn_get_gid_data
+      +  grd_txn_gid_list
+      +  grd_node
+      +  grd_node_list
+      +  grd_report_xmin
+  }
+
+  GTM_Result *-- GTM_ResultData
+
+  class grd_gxid_tp {
+      + GlobalTransactionId gxid
+      + GTM_Timestamp timestamp;
+  }
+
+  class grd_next_gxid {
+      + GlobalTransactionId gxid
+      + int status;
+  }
+
+  GTM_ResultData *-- grd_gxid_tp
+  GTM_ResultData *-- grd_next_gxid
+#+END_SRC
+#+CAPTION: GTM Result
+#+NAME: fig:GTM_Result
+#+RESULTS:
+[[file:images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+
+** GTM Side: =ProcessBeginTransactionGetGXIDCommand=
+
+=ProcessCommand()= $-->$ =ProcessTransactionCommand()=  $-->$ =ProcessBeginTransactionGetGXIDCommand()=
+
+
+#+BEGIN_SRC plantuml :file images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  |ProcessBeginTransactionGetGXIDCommand|
+  start
+
+  :parse parametes from message;
+  :start a new Transaction;
+
+  |GTM_BeginTransaction()|
+  #00ffff:BEGIN - GTM_BeginTransaction();
+
+  :accquire global lock\n&GTMTransactions.gt_TransArrayLock;
+  :get session_info;
+  :find transaction handle;
+  :Convert transaction handle to transaction infos;
+
+  #00ffff:END - GTM_BeginTransaction();
+
+  |ProcessBeginTransactionGetGXIDCommand|
+
+  :get Transaction ID from Info;
+
+  |GTM_GetGlobalTransactionId|
+  #006400:BEGIN - GTM_GetGlobalTransactionId();
+
+  :accquire global lock\n&GTMTransactions.gt_XidGenLock;
+  :Handle to Info;
+  :xid <- GTMTransactions.gt_nextXid;
+  :update GTMTransactions.gt_nextXid;
+  :return xid;
+  #006400:END - GTM_GetGlobalTransactionId();
+  |ProcessBeginTransactionGetGXIDCommand|
+  :generate response;
+
+  note right
+      Command: 'S'
+      RstType: TXN_BEGIN_GETGXID_RESULT
+  end note
+  :send response to client.;
+  stop
+#+END_SRC
+#+CAPTION: ProcessBeginTransactionGetGXIDCommand
+#+NAME: fig:Processbegintransactiongetgxidcommand
+#+RESULTS:
+[[file:images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+
+
+* 2PC

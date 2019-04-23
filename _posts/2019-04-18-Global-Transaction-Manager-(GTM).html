@@ -1,0 +1,295 @@
+---
+layout : post
+title : Global Transaction Manager (GTM)
+categories : Postgres
+tags : pg
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd6d6663">1. <span class="todo TODO">TODO</span> </a></li>
+<li><a href="#orgdc23dd1">2. Transaction Manager</a></li>
+<li><a href="#orga1cd9dc">3. Seq Manager</a></li>
+<li><a href="#orgdb49f00">4. XCNode</a></li>
+<li><a href="#orgbae2ff0">5. Recovery Standby Mode</a></li>
+<li><a href="#org31da1f1">6. GTM_ThreadMain(GTM_ConnectionInfo *conninfo,</a></li>
+<li><a href="#org9c194a5">7. Commands</a>
+<ul>
+<li><a href="#org79eb41b">7.1. <code>A</code></a></li>
+<li><a href="#orge690ac0">7.2. <code>R</code></a></li>
+<li><a href="#org8e6bc4b">7.3. <code>X</code></a></li>
+<li><a href="#org0fff394">7.4. <code>EOF</code></a></li>
+<li><a href="#org7f6878a">7.5. <code>F</code></a></li>
+<li><a href="#org4343449">7.6. <code>C</code></a></li>
+<li><a href="#orge7be7fe">7.7. <code>S</code></a></li>
+<li><a href="#org78a9f56">7.8. <code>E</code></a></li>
+</ul>
+</li>
+<li><a href="#org390803e">8. Assignment of XID</a>
+<ul>
+<li><a href="#org2b9b525">8.1. Data Node:</a></li>
+<li><a href="#orge917641">8.2. GTM Side: <code>ProcessBeginTransactionGetGXIDCommand</code></a></li>
+</ul>
+</li>
+<li><a href="#org06cd00f">9. 2PC</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd6d6663" class="outline-2">
+<h2 id="orgd6d6663"><span class="section-number-2">1</span> <span class="todo TODO">TODO</span> </h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Global Transaction Manager (GTM)
+</p>
+<hr />
+
+<p>
+<a href="file:///Volumes/yyc/Work/postgres-xl/src/gtm/README#MissingReference">file:///Volumes/yyc/Work/postgres-xl/src/gtm/README#MissingReference</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdc23dd1" class="outline-2">
+<h2 id="orgdc23dd1"><span class="section-number-2">2</span> Transaction Manager</h2>
+<div class="outline-text-2" id="text-2">
+
+<div id="org8f670ca" class="figure">
+<p><img src="../../../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>GTM Data Structures</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga1cd9dc" class="outline-2">
+<h2 id="orga1cd9dc"><span class="section-number-2">3</span> Seq Manager</h2>
+<div class="outline-text-2" id="text-3">
+
+<div id="org06fb10a" class="figure">
+<p><img src="../../../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" alt="seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>SegManager</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb49f00" class="outline-2">
+<h2 id="orgdb49f00"><span class="section-number-2">4</span> XCNode</h2>
+<div class="outline-text-2" id="text-4">
+
+<div id="org9210a5c" class="figure">
+<p><img src="../../../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png" alt="xc-node-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>XCNode</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbae2ff0" class="outline-2">
+<h2 id="orgbae2ff0"><span class="section-number-2">5</span> Recovery Standby Mode</h2>
+</div>
+
+
+
+<div id="outline-container-org31da1f1" class="outline-2">
+<h2 id="org31da1f1"><span class="section-number-2">6</span> GTM_ThreadMain(GTM_ConnectionInfo *conninfo,</h2>
+<div class="outline-text-2" id="text-6">
+
+<div id="org563e359" class="figure">
+<p><img src="../../../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>GTM Thread Info</p>
+</div>
+
+
+
+<div id="org4b33ac2" class="figure">
+<p><img src="../../../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>GTM Thread Main</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c194a5" class="outline-2">
+<h2 id="org9c194a5"><span class="section-number-2">7</span> Commands</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org79eb41b" class="outline-3">
+<h3 id="org79eb41b"><span class="section-number-3">7.1</span> <code>A</code></h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Send by client, sign of connect/attach.
+</p>
+</div>
+
+<div id="outline-container-org86fe48d" class="outline-4">
+<h4 id="org86fe48d"><span class="section-number-4">7.1.1</span> client</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<p>
+Send by client when a client connects to server, followed by a <code>StartupPacket</code> :
+</p>
+
+<div id="orgc3a3ee9" class="figure">
+<p><img src="../../../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Startup Packet</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2233eff" class="outline-4">
+<h4 id="org2233eff"><span class="section-number-4">7.1.2</span> server</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<ul class="org-ul">
+<li>Update thread info based on StartupPacket.</li>
+<li>Response with packet 'R' + client_id</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge690ac0" class="outline-3">
+<h3 id="orge690ac0"><span class="section-number-3">7.2</span> <code>R</code></h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+<b>Response</b>
+</p>
+
+<p>
+Send by server as <code>Rresonse</code> of <code>A</code> , followed by client_id.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8e6bc4b" class="outline-3">
+<h3 id="org8e6bc4b"><span class="section-number-3">7.3</span> <code>X</code></h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Send by client.
+</p>
+
+<p>
+End, Remove all transaction info.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0fff394" class="outline-3">
+<h3 id="org0fff394"><span class="section-number-3">7.4</span> <code>EOF</code></h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+Send by client.
+</p>
+
+<p>
+Connection Termination.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7f6878a" class="outline-3">
+<h3 id="org7f6878a"><span class="section-number-3">7.5</span> <code>F</code></h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+Flush all outgoing data on the wire.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4343449" class="outline-3">
+<h3 id="org4343449"><span class="section-number-3">7.6</span> <code>C</code></h3>
+<div class="outline-text-3" id="text-7-6">
+<p>
+Send by client.
+</p>
+
+<p>
+Command.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orge7be7fe" class="outline-3">
+<h3 id="orge7be7fe"><span class="section-number-3">7.7</span> <code>S</code></h3>
+</div>
+
+<div id="outline-container-org78a9f56" class="outline-3">
+<h3 id="org78a9f56"><span class="section-number-3">7.8</span> <code>E</code></h3>
+<div class="outline-text-3" id="text-7-8">
+<p>
+error occurred.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org390803e" class="outline-2">
+<h2 id="org390803e"><span class="section-number-2">8</span> Assignment of XID</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+There should be other entrances&#x2026;
+</p>
+</div>
+
+
+
+<div id="outline-container-org2b9b525" class="outline-3">
+<h3 id="org2b9b525"><span class="section-number-3">8.1</span> Data Node:</h3>
+<div class="outline-text-3" id="text-8-1">
+</div>
+<div id="outline-container-orgec64dff" class="outline-4">
+<h4 id="orgec64dff"><span class="section-number-4">8.1.1</span> BeginTranGTM()</h4>
+<div class="outline-text-4" id="text-8-1-1">
+
+<div id="orgdccbe59" class="figure">
+<p><img src="../../../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>XID Assignment</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3691cc5" class="outline-4">
+<h4 id="org3691cc5"><span class="section-number-4">8.1.2</span> GTM_Result:</h4>
+<div class="outline-text-4" id="text-8-1-2">
+
+<div id="orgc164b52" class="figure">
+<p><img src="../../../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>GTM Result</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge917641" class="outline-3">
+<h3 id="orge917641"><span class="section-number-3">8.2</span> GTM Side: <code>ProcessBeginTransactionGetGXIDCommand</code></h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+<code>ProcessCommand()</code> <img src="../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessTransactionCommand()</code>  <img src="../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessBeginTransactionGetGXIDCommand()</code>
+</p>
+
+
+
+<div id="orgf3c9d71" class="figure">
+<p><img src="../../../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" alt="process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>ProcessBeginTransactionGetGXIDCommand</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org06cd00f" class="outline-2">
+<h2 id="org06cd00f"><span class="section-number-2">9</span> 2PC</h2>
+</div>
