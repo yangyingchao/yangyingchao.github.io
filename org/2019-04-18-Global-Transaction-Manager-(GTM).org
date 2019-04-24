@@ -11,14 +11,161 @@
 #+CATEGORY: Postgres
 #+DESCRIPTION: (nil)
 
-* TODO
+* Intro
+** What is Postgres XL
 
-  Global Transaction Manager (GTM)
-  --------------------------------
+Postgres-XL is an open source project to provide both write-scalability
+and massively parallel processing transparently to PostgreSQL.  It is a
+collection of tightly coupled database components which can be installed
+on more than one system or virtual machine.
 
-  [[file:~/Work/postgres-xl/src/gtm/README::Global%20Transaction%20Manager%20(GTM)%20--------------------------------]]
+Write-scalable means Postgres-XL can be configured with as many database
+servers as you want and handle many more writes (updating SQL statements)
+than a single standalone database server could otherwise do. You can have
+more than one database server that provides a single database view.  Any
+database update from any database server is immediately visible to any
+other transactions running on different servers.  Transparent means you do
+not necessarily need to worry about how your data is stored in more than
+one database servers internally.
 
-* Transaction Manager
+You can configure Postgres-XL to run on more than one machine. It stores
+your data in a distributed way, that is, partitioned or replicated
+depending on what is chosen for each table.
+
+
+When you issue queries, Postgres-XL determines where the target data is
+stored and dispatches corresponding plans to the servers containing the
+target data.
+
+
+
+In typical web systems, you can have as many web servers or application
+servers to handle your transactions. However, you cannot do this for a
+database server in general because all the changing data have to be visible
+to all the transactions. Unlike other database cluster solutions,
+Postgres-XL provides this capability. You can install as many database
+servers as you like. Each database server provides uniform data view to
+your applications.  Any database update from any server is immediately
+visible to applications connecting the database from other servers. This is
+one of the most important features of Postgres-XL.
+
+
+The other significant feature of Postgres-XL is *MPP parallelism*.  You can
+use Postgres-XL to handle workloads for Business Intelligence, Data
+Warehousing, or Big Data. In Postgres-XL, a plan is generated once on a
+coordinator, and sent down to the individual data nodes. This is then
+executed, with the data nodes communicating directly with one another,
+where each understands from where it is expected to receive any tuples that
+it needs to ship, and where it needs to send to others.
+
+
+** Postgres-XL's Goal
+
+The ultimate goal of Postgres-XL is to provide database scalability with
+ACID consistency across all types of database workloads.  That is,
+Postgres-XL should provide the following features:
+
+- Postgres-XL should provide multiple servers to accept transactions and statements from
+  applications, which are known as "Coordinator"  processes.
+
+- Any Coordinator should provide a consistent database view to
+  applications. Any updates from any Coordinator must be visible in real
+  time as if such updates are done in single PostgreSQL server.
+
+- Postgres-XL should allow Datanodes to communicate directly with one
+  another execute queries in an efficient and parallel manner.
+
+- Tables should be able to be stored in the database designated as
+  replicated or distributed (known as fragments or partitions).  Replication and distribution
+  should be transparent to applications; that is, such replicated and distributed tables are seen
+  as single tables and the location or number of copies of each record/tuple is managed by
+  Postgres-XL and is not visible to applications.
+
+- Postgres-XL provides compatible PostgreSQL API to applications.
+
+- Postgres-XL
+  should provide single and unified view of underlying PostgreSQL database servers so that SQL
+  statements do not depend on how the tables are actually stored.
+
+
+** Postgres-XL Key Components
+
+Postgres-XL is composed of three major components: the GTM (Global
+Transaction Manager), the Coordinator and the Datanode. Their features are
+given in the following sections.
+
+*** GTM (Global Transaction Manager)
+
+The GTM is a key component of Postgres-XL to provide consistent transaction management and tuple
+visibility control.
+
+As described later in this manual, PostgreSQL's transaction management is based upon MVCC
+(Multi-Version Concurrency Control) technology.  Postgres-XL extracts this technology into
+separate component such as the =GTM= so that any Postgres-XL component's transaction management is
+based upon single global status.
+
+*** Coordinator
+
+The Coordinator is an interface to the database for applications. It acts like a conventional
+PostgreSQL backend process, however the Coordinator *DOES NOT STORE ANY ACTUAL DATA* . The actual
+data is stored by the Datanodes as described below.
+
+The Coordinator receives SQL statements, gets Global Transaction Id and Global Snapshots as
+needed, determines which Datanodes are involved and asks them to execute (a part of) statement.
+When issuing statement to Datanodes, it is associated with GXID and Global Snapshot so that
+Multi-version Concurrency Control (MVCC) properties extend cluster-wide.
+
+*** Datanode
+
+The Datanode actually stores user data. Tables may be distributed among Datanodes, or replicated
+to all the Datanodes.  The Datanode does not have a global view of the whole database, it just
+takes care of locally stored data. Incoming statements are examined by the Coordinator as
+described next, and subplans are made. These are then transferred to each Datanode involved
+together with a GXID and Global Snapshot as needed. The datanode may receive request from various
+Coordinators in separate sessions.  However, because each transaction is identified uniquely and
+associated with a consistent (global) snapshot, each Datanode can properly execute in its
+transaction and snapshot context.
+
+
+* GTM
+
+GTM stands for Global Transaction Manager.  It provides [[Transaction Manager][global transaction IDs]] and snapshots for
+each transaction in the Postgres-XL database cluster.  It also provide several global values such
+as [[Seq Manager][sequences]] and global timestamps.
+
+To improve scalability itself, each server hardware or virtual machine may have [[GTM-Proxy][GTM Proxy]].
+GTM-Proxy groups commands and response from/to GTM to reduce number of interaction and the amount
+of data which GTM reads and writes.
+
+In Postgres-XL, the following features of transaction management and visibility checking extracted
+out from the nodes and pulled into the GTM.
+
+
+- [[Assignment of XID][Assigning XID globally to transactions (GXID, Global Transaction ID)]] \\
+  This can be done globally to identify each Transactions in the system.
+
+- Providing snapshots \\
+  GTM collects all the transaction's status (running, committed, aborted etc.)  to provide
+  snapshots globally (*global snapshot*). Please note that each global snapshot includes
+  =GXID= initiated by other Coordinators or Datanodes. This is needed because some older
+  transaction may visit new server after a while. In this case, if =GXID= of such a transaction is
+  not included in the snapshot, this transaction may be regarded as "old enough" and uncommitted
+  rows may be read. If =GXID= of such transaction is included in the snapshot from the beginning,
+  such inconsistency does not take place.
+
+
+To do this, Postgres-XL introduced a dedicated component called GTM (Global Transaction
+Manager). GTM runs on one of the servers and provides unique and ordered transaction id to each
+transaction running on Postgres-XL servers. Because this is a globally unique ID, we call this
+=GXID= (Global Transaction Id).
+
+
+GTM receives =GXID= request from transactions and provide =GXID=. It also keeps track of all the
+transactions when it started and finished to generate snapshots used to control each tuple
+visibility. Because snapshots here is also a global property, it is called *Global Snapshot*.
+
+
+** Transaction Manager
 
   #+BEGIN_SRC dot :file images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
     digraph Name {
@@ -110,63 +257,8 @@
   #+RESULTS:
   [[file:images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
 
-* Seq Manager
 
-
-#+BEGIN_SRC dot :file images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
-  digraph Name {
-  node [fontsize=12 fontname=Courier style=filled shape=record];
-  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
-  // rankdir=LR;
-  //XXX: Place to put subgraphs
-
-  node_gtm_seq_info[label="{GTMSequences|{Bucket1|<f1>Bucket2|...|BucketN}}"];
-
-
-  node_GTM_SeqInfoHashBucket [shape=record label="{GTM_SeqInfoHashBucket|\
-  <f1>shb_list|\
-  <f2>shb_lock\
-  }"];
-
-  node_gtm_seq_info:f1 -> node_GTM_SeqInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
-
-
-
-  }
-#+END_SRC
-#+CAPTION: SegManager
-#+NAME: fig:SegManager
-#+RESULTS:
-[[file:images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
-
-* XCNode
-
-#+BEGIN_SRC dot :file images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
-  digraph Name {
-  node [fontsize=12 fontname=Courier style=filled shape=record];
-  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
-  // rankdir=LR;
-  //XXX: Place to put subgraphs
-    node_xcnodes[label="{GTM_PGXCNodes|{Node1|<f1>Node2|...|NodeN}}"];
-
-    node_GTM_PGXCNodeInfoHashBucket [shape=record label="{GTM_PGXCNodeInfoHashBucket|\
-    <f1>nhb_list\
-    }"];
-
-    node_xcnodes:f1 -> node_GTM_PGXCNodeInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
-
-  }
-#+END_SRC
-#+CAPTION: XCNode
-#+NAME: fig:XCNode
-#+RESULTS:
-[[file:images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
-
-* Recovery Standby Mode
-
-
-
-* GTM_ThreadMain(GTM_ConnectionInfo *conninfo,
+** GTM_ThreadMain
 
 #+BEGIN_SRC dot :file images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
@@ -304,78 +396,18 @@
 #+RESULTS:
 [[file:images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
 
-* Commands
 
-
-** =A=
-
-Send by client, sign of connect/attach.
-
-*** client
-
-Send by client when a client connects to server, followed by a =StartupPacket= :
-#+BEGIN_SRC plantuml :file images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
-
-  class GTM_StartupPacket {
-  + char[SP_NODE_NAME] sp_node_name
-  + GTM_PGXCNodeType sp_remotetype
-  + bool sp_ispostmaster
-  + uint32 sp_client_id
-  }
-
-#+END_SRC
-#+CAPTION: Startup Packet
-#+NAME: fig:Startup_Packet
-#+RESULTS:
-[[file:images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
-
-
-*** server
-- Update thread info based on StartupPacket.
-- Response with packet 'R' + client_id
-
-** =R=
-
-*Response*
-
- Send by server as =Rresonse= of =A= , followed by client_id.
-
-
-** =X=
-Send by client.
-
-End, Remove all transaction info.
-
-** =EOF=
-Send by client.
-
-Connection Termination.
-
-** =F=
-Flush all outgoing data on the wire.
-
-
-** =C=
-Send by client.
-
-Command.
-
-
-** =S=
-
-** =E=
-
-error occurred.
-
-* Assignment of XID
+** Assignment of XID
 
 There should be other entrances...
 
+Each transaction reports when it starts and ends, as well as when it issues
+=PREPARE= command in two-phase commit protocol.
 
 
-** Data Node:
+*** Coordinator:
 
-*** BeginTranGTM()
+**** BeginTranGTM()
 
 #+BEGIN_SRC plantuml :file images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
@@ -415,7 +447,7 @@ There should be other entrances...
 #+RESULTS:
 [[file:images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
 
-*** GTM_Result:
+**** GTM_Result:
 
 #+BEGIN_SRC plantuml :file images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
@@ -497,7 +529,7 @@ There should be other entrances...
 [[file:images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
-** GTM Side: =ProcessBeginTransactionGetGXIDCommand=
+*** GTM: =ProcessBeginTransactionGetGXIDCommand=
 
 =ProcessCommand()= $-->$ =ProcessTransactionCommand()=  $-->$ =ProcessBeginTransactionGetGXIDCommand()=
 
@@ -549,4 +581,237 @@ There should be other entrances...
 
 
 
+* GTM-Proxy
+
+# Because GTM can be regarded as "serializing" all the transaction processing, people may think that
+# GTM can be a performance bottleneck.
+
+# In fact, GTM can limit the whole scalability. GTM should not be used in very slow network
+# environment such as wide area network. GTM architecture is intended to be used with Gigabit local
+# network.  It is encouraged to install Postgres-XL with a local Gigabit network with minimum
+# latency, that is, use as few switches involved in the connection among GTM, Coordinator and
+# Datanodes.  In addition, consider putting all components on their own subnet if you have multiple
+# network ports in the systems.
+
+GTM-Proxy groups commands and response from/to GTM to reduce number of interaction and the amount
+of data which GTM reads and writes.
+
+Each transaction is issuing requests to GTM frequently.  We can collect them into single block of
+requests in each Coordinator to reduce the amount of interaction by using a *GTM-Proxy*.
+
+In this configuration, each Coordinator and Datanode backend does not connect to GTM
+directly. Instead, we have GTM Proxy between GTM and Coordinator backend to group multiple
+requests and responses. GTM Proxy, like GTM explained in the previous sections, accepts
+connections from the Coordinator backend. However, it does not create new thread. The following
+paragraphs explains how GTM Proxy is initialized and how it handles requests from Coordinator
+backends.
+
+Map Connection to Thread: Round-Robin (RR).
+
+** Proxy Server Loop
+
+#+BEGIN_SRC plantuml :file images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  |proxy_main|
+
+  start
+
+  repeat
+  :accep connection();
+  :create connection;
+  :add connection;
+
+  |proxy_thread|
+
+  #00ffff:BEGIN - GTMProxy_ThreadAddConnection();
+
+  :calculate thrinfo to use (RR fansion)\nwith lock &GTMProxyThreads->gt_lock;
+  :lock thrinfo->thr_all_conns;
+  :sanity check;
+  :add to thrinfo->thr_all_conns;
+  :Notify threads;
+  :unlock thrinfo->thr_all_conns;
+
+
+  #00ffff:END - GTMProxy_ThreadAddConnection();
+
+  |proxy_main|
+  :;
+
+  repeat while (!stop?)
+
+
+  stop
+#+END_SRC
+#+CAPTION: Proxy Server Loop
+#+NAME: fig:Proxy_Server_Loop
+#+RESULTS:
+[[file:images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+** GTMProxy_ThreadMain
+
+
+* Coordinator
+
+Coordinator is an entry point for Postgres-XL from applications.  You can configure more than one
+Coordinators in the same Postgres-XL.  With the help of GTM, they provide transparent concurrency
+and integrity of transactions globally.  Applications can choose any Coordinator to connect to.
+Any Coordinator provides the same view of the database.
+
+Coordinator handles SQL statements from applications and determines which Datanode should be
+involved and generates local SQL statements for each Datanode.
+
+In the most simplest case, if a single Datanode is involved, the Coordinator simply proxies
+incoming statements to the Datanode.  In more complicated cases, for example, if the target
+Datanode cannot be determined, then the Coordinator generates local statements for each Datanode,
+collects the result to materialize at the Coordinator for further handling.  In this case, the
+Coordinator will try to optimize the plan by:
+
+- Pushdown =WHERE= clause to Datanodes,
+- Pushdown *joins* to Datanodes,
+- Pushdown *projection* (column list in =SELECT= clause),
+- Pushdown =ORDER BY= clause, as well as other clauses.
+
+
+If a transaction is involved by more than one Datanodes and/or
+Coordinators, the Coordinator will handle the transaction with
+two-phase commit protocol internally.
+
+
+* Datanodes
+
+Datanode stores user data.  As described in and , more than one Datanodes can be configured.  Each
+table can be replicated or distributed among Datanodes.  A table is distributed, you can choose a
+column as the distribute key, whose value is used to determine which Datanode each row should be
+stored.
+
+While Coordinators handle cluster-wide SQL statements, Datanodes take care of just local issues.
+In this sense, Datanodes are essentially PostgreSQL servers except that transaction management
+information is obtained from GTM, as well as other global value.
+
+
+* Seq Manager
+
+
+#+BEGIN_SRC dot :file images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  digraph Name {
+  node [fontsize=12 fontname=Courier style=filled shape=record];
+  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+  // rankdir=LR;
+  //XXX: Place to put subgraphs
+
+  node_gtm_seq_info[label="{GTMSequences|{Bucket1|<f1>Bucket2|...|BucketN}}"];
+
+
+  node_GTM_SeqInfoHashBucket [shape=record label="{GTM_SeqInfoHashBucket|\
+  <f1>shb_list|\
+  <f2>shb_lock\
+  }"];
+
+  node_gtm_seq_info:f1 -> node_GTM_SeqInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+
+
+  }
+#+END_SRC
+#+CAPTION: SegManager
+#+NAME: fig:SegManager
+#+RESULTS:
+[[file:images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* XCNode
+
+#+BEGIN_SRC dot :file images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  digraph Name {
+  node [fontsize=12 fontname=Courier style=filled shape=record];
+  edge[color="#666666" style=dashed arrowhead=open tailclip=true];
+  // rankdir=LR;
+  //XXX: Place to put subgraphs
+    node_xcnodes[label="{GTM_PGXCNodes|{Node1|<f1>Node2|...|NodeN}}"];
+
+    node_GTM_PGXCNodeInfoHashBucket [shape=record label="{GTM_PGXCNodeInfoHashBucket|\
+    <f1>nhb_list\
+    }"];
+
+    node_xcnodes:f1 -> node_GTM_PGXCNodeInfoHashBucket [arrowtail=diamond arrowhead=none style=solid dir=back];
+
+  }
+#+END_SRC
+#+CAPTION: XCNode
+#+NAME: fig:XCNode
+#+RESULTS:
+[[file:images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+* Recovery Standby Mode
+
+
+
+* Commands
+
+
+** =A=
+
+Send by client, sign of connect/attach.
+
+*** client
+
+Send by client when a client connects to server, followed by a =StartupPacket= :
+#+BEGIN_SRC plantuml :file images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class GTM_StartupPacket {
+  + char[SP_NODE_NAME] sp_node_name
+  + GTM_PGXCNodeType sp_remotetype
+  + bool sp_ispostmaster
+  + uint32 sp_client_id
+  }
+
+#+END_SRC
+#+CAPTION: Startup Packet
+#+NAME: fig:Startup_Packet
+#+RESULTS:
+[[file:images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
+
+
+*** server
+- Update thread info based on StartupPacket.
+- Response with packet 'R' + client_id
+
+** =R=
+
+*Response*
+
+ Send by server as =Rresonse= of =A= , followed by client_id.
+
+
+** =X=
+Send by client.
+
+End, Remove all transaction info.
+
+** =EOF=
+Send by client.
+
+Connection Termination.
+
+** =F=
+Flush all outgoing data on the wire.
+
+
+** =C=
+Send by client.
+
+Command.
+
+
+** =S=
+
+** =E=
+
+error occurred.
+
 * 2PC
+* Snapshot Management
+
+Each transaction requests snapshots according to the transaction isolation level as done in
+PostgreSQL. If the transaction isolation level is "*read committed*", then transaction will
+request a snapshot for each statement. If it is "*serializable*" transaction will request a
+snapshot at the beginning of transaction and reuse it thought the transaction.
