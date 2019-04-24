@@ -8,6 +8,8 @@ name : TBlog
 email : yangyingchao@gmail.com
 github : yangyingchao
 
-paginate: 20
+# plugins:
+#   - jekyll-paginate
+# paginate: 20
 highlighter: rouge
 truncate: true
