@@ -96,3 +96,65 @@ pre {
 .blog-post-subheader{
   font-size: 0.9em;
 }
+
+
+
+
+/* TOC */
+
+#table-of-contents {
+  font-size: 11pt;
+  /* position: fixed; */
+  /* right: 0em; */
+  /* top: 0em; */
+  /* background: white; */
+  /* -webkit-box-shadow: 0 0 1em #777777; */
+  /* -moz-box-shadow: 0 0 1em #777777; */
+  /* -webkit-border-bottom-left-radius: 5px; */
+  /* -moz-border-radius-bottomleft: 5px; */
+  /* text-align: right; */
+  display: block;
+
+  /* ensure doesn't flow off the screen when expanded */
+  max-height: 80%;
+  /* overflow: auto; */
+  /* z-index: 200; */
+  margin-bottom:18px;
+}
+
+#table-of-contents a {
+  text-decoration: none;
+}
+
+#table-of-contents h2 {
+  font-size: 13pt;
+  border: 0;
+  font-weight: normal;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.85em;
+  padding-bottom: 1.1em;
+}
+
+#table-of-contents ul {
+  margin-left: 14pt;
+  margin-bottom: 10pt;
+  padding: 0
+}
+
+#table-of-contents li {
+  padding: 0;
+  margin: 1px;
+  list-style: none;
+}
+
+#table-of-contents ul>:first-child {
+  color: blue;
+}
+
+#table-of-contents #text-table-of-contents {
+  padding: 0.5em;
+  display: block;
+  text-align: left;
+  margin-top: -1.5em;
+}
