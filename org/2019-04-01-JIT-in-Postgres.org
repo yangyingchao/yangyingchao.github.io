@@ -23,11 +23,11 @@
 
 *  Overview
 
-[[./images/pg-jit-overview.png]]
+[[../assets/img/pg-jit-overview.png]]
 
 
 * Callflow
-#+BEGIN_SRC plantuml :file images/jit-callflow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/jit-callflow-gen.png
   |execExpr.c|
   :jit_compile_expr(state);
   |jit.c|
@@ -53,12 +53,12 @@
 #+CAPTION: JIT call flow
 #+NAME: fig:JIT_call_flow
 #+RESULTS:
-[[file:images/jit-callflow-gen.png]]
+[[file:../assets/img/jit-callflow-gen.png]]
 
 * LLVM Jit Context
 =llvm_session_initialize()=
 
-#+BEGIN_SRC plantuml :file images/llvm_session_init-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm_session_init-gen.png
   |llvm_session_initialize|
 
   #a52a2a:BEGIN - llvm_session_initialize();
@@ -83,7 +83,7 @@
 #+CAPTION: llvm session init
 #+NAME: fig:llvm_session_init
 #+RESULTS:
-[[file:images/llvm_session_init-gen.png]]
+[[file:../assets/img/llvm_session_init-gen.png]]
 
 ** llvmjit types
 
@@ -146,7 +146,7 @@ Makefile:
 
 =ExprState= 类图：
 
-#+BEGIN_SRC plantuml :file images/exprstate-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/exprstate-gen.png
 
   class ExprState {
       + Node tag
@@ -171,11 +171,11 @@ Makefile:
 #+CAPTION: ExprState
 #+NAME: fig:ExprState
 #+RESULTS:
-[[file:images/exprstate-gen.png]]
+[[file:../assets/img/exprstate-gen.png]]
 
 步骤如下：
 
-#+BEGIN_SRC plantuml :file images/do-create-function-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/do-create-function-gen.png
   |do_compile|
   :prepare function;
   |prepare|
@@ -248,13 +248,13 @@ Makefile:
 #+CAPTION: Do Create Function
 #+NAME: fig:Do_Create_Function
 #+RESULTS:
-[[file:images/do-create-function-gen.png]]
+[[file:../assets/img/do-create-function-gen.png]]
 
 * Inline
 
 减少函数调用开销。
 
-#+BEGIN_SRC plantuml :file images/inline-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/inline-gen.png
   |llvm_inline|
 
   start
@@ -314,7 +314,7 @@ Makefile:
 #+CAPTION: Inline
 #+NAME: fig:Inline
 #+RESULTS:
-[[file:images/inline-gen.png]]
+[[file:../assets/img/inline-gen.png]]
 
 ** llvm_build_inline_plan
 
@@ -334,7 +334,7 @@ Perform the actual inlining of external functions (and their dependencies) into 
 
 Optimize code in module using the flags set in context.
 
-#+BEGIN_SRC plantuml :file images/llvm-optimization-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm-optimization-gen.png
   |llvm_optimize_module|
 
   start
@@ -423,7 +423,7 @@ Optimize code in module using the flags set in context.
 #+CAPTION: Optimization
 #+NAME: fig:Optimization
 #+RESULTS:
-[[file:images/llvm-optimization-gen.png]]
+[[file:../assets/img/llvm-optimization-gen.png]]
 
 * LLVM 知识点
 ** Target Triple
@@ -576,7 +576,7 @@ bitcode or write a module to bitcode are neither analysis nor transform passes. 
 contents above provides a quick summary of each pass and links to the more complete pass
 description later in the document.
 
-#+BEGIN_SRC plantuml :file images/llvm-pass-managers-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm-pass-managers-gen.png
 
 
   class PassManagerBase {
@@ -727,5 +727,5 @@ description later in the document.
 #+CAPTION: Pass Manager
 #+NAME: fig:Pass_Manager
 #+RESULTS:
-[[file:images/llvm-pass-managers-gen.png]]
+[[file:../assets/img/llvm-pass-managers-gen.png]]
 

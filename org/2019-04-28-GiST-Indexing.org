@@ -1,0 +1,109 @@
+#+TITLE: GiST Indexing
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: (nil)
+#+DESCRIPTION: (nil)
+
+Based on https://github.com/postgres/postgres/tree/master/src/backend/access/gist and
+http://gist.cs.berkeley.edu .
+
+*  GiST: A Generalized Search Tree for Secondary Storage
+
+** Introduction
+
+In the beginning there was the B-tree. All database search trees since the B-tree have been
+variations on its theme. Recognizing this, we have developed a new kind of index called a
+Generalized Search Tree (GiST), which provides the functionality of all these trees in a single
+package. The GiST is an extensible data structure, which allows users to develop indices over any
+kind of data, supporting any lookup over that data. This package unifies a number of popular
+search trees in one data structure (the long list of potentials includes R-trees, B+-trees,
+hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-trees, and many, many others),
+eliminating the need to build multiple search trees for handling diverse applications. In addition
+to unifying all these structures, the GiST has one key feature that previous trees lacked: both
+data and query extensibility.
+
+*通用搜索树:* 的两个特点：
+ - 可在一个包中提供多种树所能提供的功能，可让用户对任何数据建立索引，进行查询: \\
+   R-trees, B+-trees, hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-trees ...
+ - 扩展性：与自定义函数结合，提供其他纬度的搜索、查询。
+
+
+** The Keys to the GiST
+
+ 和 B tree 相比：
+ - 共同点：
+   + 都是平衡树
+   + 都包含 =<Key, Pointer>= 对
+
+ - 不同点： Key 不同
+   + B tree 中 Key 通常为 INT
+   + GiST 中 Key 为用户用户定义的类的一个成员变量， represents some property that is true of all
+     data items reachable from the pointer associated with the key.
+
+** The 4 Methods
+
+To make a GiST work, you just have to figure out what to represent in the
+keys, and then write 4 methods for the key class that help the tree do insertion, deletion, and search.
+
+Here are the 4 methods required of the key class to make a GiST work:
+
+*** Consistent
+
+This method lets the tree search correctly. Given a key p on a tree page, and user query q, the
+Consistent method should return NO if it is certain that both p and q cannot be true for a given
+data item. Otherwise it should return MAYBE.
+
+
+该函数用于进行搜索。
+
+- 函数输入为：
+  - =p= -- key of page
+  - =q= -- user query
+
+- 输出 =/func(p, q)/= 为：
+  - =NO= ： 确定不包含
+  - =MAYBE:= 其他条件
+
+*** Union
+
+This method consolidates information in the tree. Given a set S of entries,
+this method returns a new key p which is true for all the data items below
+S. A simple way to implement Union is to return a predicate equivalent to the
+disjunction of the keys in S, i.e. "p1 or p2 or p3 or...".
+
+该函数用于联合树中的信息（节点）。
+
+- 输入:  =S= -- 多个记录的集合
+- 输出： 一个 key， 该 key 下集合内所有 item 都满足条件。
+
+
+*** Penalty
+
+Given a choice of inserting a new data item in a subtree rooted by entry
+=<p,tr>= , return a number representing how bad it would be to do that. Items will
+get inserted down the path of least Penalty in the tree.
+
+惩罚函数，或者称估值函数。
+
+- 输入： =<p, tr>= 为一个子树
+- 输出：一个数值，用于表示将新数据插入该子树是否合适。
+
+GiST 会把新数据插入到惩罚最小的子树中。
+
+*** PickSplit
+
+As in a B-tree, pages in a GiST occasionally need to be split upon insertion
+of a new data item. This routine is responsible for deciding which items go to
+the new page, and which ones stay on the old page.
+
+发生分裂时，使用此函数来决定：哪些数据放到新页中，哪些数据保留在原页中。
+
+
+[[../assets/data/gist.ps.pdf][PDF]]

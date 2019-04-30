@@ -73,7 +73,7 @@ Activate evaluation of =ditaa= source code blocks by adding =ditaa= to
 * Examples of Use
 The obligatory Hello World! example in =ditaa=:
 #+BEGIN_EXAMPLE
-#+BEGIN_SRC ditaa :file images/hello-world.png
+#+BEGIN_SRC ditaa :file ../assets/img/hello-world.png
 +--------------+
 |              |
 | Hello World! |

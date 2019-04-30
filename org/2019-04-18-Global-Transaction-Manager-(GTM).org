@@ -167,7 +167,7 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 
 ** Transaction Manager
 
-  #+BEGIN_SRC dot :file images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  #+BEGIN_SRC dot :file ../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
     digraph Name {
 
     node [fontsize=12 fontname=Courier style=filled shape=record];
@@ -255,12 +255,12 @@ visibility. Because snapshots here is also a global property, it is called *Glob
   #+CAPTION: GTM Data Structures
   #+NAME: fig:GTM_Data_Structures
   #+RESULTS:
-  [[file:images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
+  [[file:../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 ** GTM_ThreadMain
 
-#+BEGIN_SRC dot :file images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -357,10 +357,10 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 #+CAPTION: GTM Thread Info
 #+NAME: fig:GTM_Thread_Info
 #+RESULTS:
-[[file:images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
-#+BEGIN_SRC plantuml :file images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   start
 
 
@@ -394,7 +394,7 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 #+CAPTION: GTM Thread Main
 #+NAME: fig:Thread_main
 #+RESULTS:
-[[file:images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 ** Assignment of XID
@@ -409,7 +409,7 @@ Each transaction reports when it starts and ends, as well as when it issues
 
 **** BeginTranGTM()
 
-#+BEGIN_SRC plantuml :file images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   |xact.c|
   :GetTopTransactionId();
@@ -445,11 +445,11 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: XID Assignment
 #+NAME: fig:XID_Assignment
 #+RESULTS:
-[[file:images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 **** GTM_Result:
 
-#+BEGIN_SRC plantuml :file images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class GTM_Result {
       + GTM_ResultType gr_type
@@ -526,7 +526,7 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: GTM Result
 #+NAME: fig:GTM_Result
 #+RESULTS:
-[[file:images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 *** GTM: =ProcessBeginTransactionGetGXIDCommand=
@@ -534,7 +534,7 @@ Each transaction reports when it starts and ends, as well as when it issues
 =ProcessCommand()= $-->$ =ProcessTransactionCommand()=  $-->$ =ProcessBeginTransactionGetGXIDCommand()=
 
 
-#+BEGIN_SRC plantuml :file images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |ProcessBeginTransactionGetGXIDCommand|
   start
 
@@ -577,7 +577,7 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: ProcessBeginTransactionGetGXIDCommand
 #+NAME: fig:Processbegintransactiongetgxidcommand
 #+RESULTS:
-[[file:images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 
@@ -610,7 +610,7 @@ Map Connection to Thread: Round-Robin (RR).
 
 ** Proxy Server Loop
 
-#+BEGIN_SRC plantuml :file images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |proxy_main|
 
   start
@@ -645,7 +645,7 @@ Map Connection to Thread: Round-Robin (RR).
 #+CAPTION: Proxy Server Loop
 #+NAME: fig:Proxy_Server_Loop
 #+RESULTS:
-[[file:images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 ** GTMProxy_ThreadMain
 
@@ -692,7 +692,7 @@ information is obtained from GTM, as well as other global value.
 * Seq Manager
 
 
-#+BEGIN_SRC dot :file images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -716,11 +716,11 @@ information is obtained from GTM, as well as other global value.
 #+CAPTION: SegManager
 #+NAME: fig:SegManager
 #+RESULTS:
-[[file:images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 * XCNode
 
-#+BEGIN_SRC dot :file images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -739,7 +739,7 @@ information is obtained from GTM, as well as other global value.
 #+CAPTION: XCNode
 #+NAME: fig:XCNode
 #+RESULTS:
-[[file:images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 * Recovery Standby Mode
 
@@ -755,7 +755,7 @@ Send by client, sign of connect/attach.
 *** client
 
 Send by client when a client connects to server, followed by a =StartupPacket= :
-#+BEGIN_SRC plantuml :file images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class GTM_StartupPacket {
   + char[SP_NODE_NAME] sp_node_name
@@ -768,7 +768,7 @@ Send by client when a client connects to server, followed by a =StartupPacket= :
 #+CAPTION: Startup Packet
 #+NAME: fig:Startup_Packet
 #+RESULTS:
-[[file:images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 *** server

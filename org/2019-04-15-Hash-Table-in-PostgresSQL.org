@@ -13,7 +13,7 @@
 #+DESCRIPTION: (nil)
 * Data Structures
 
-#+BEGIN_SRC plantuml :file images/pg-hash-table-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/pg-hash-table-gen.png
   class HASHCTL {
       + long num_partitions
       + long ssize
@@ -71,7 +71,7 @@
 #+CAPTION: Hash Table Data Structures
 #+NAME: fig:Hash_Table_Data_Structures
 #+RESULTS:
-[[file:images/pg-hash-table-gen.png]]
+[[file:../assets/img/pg-hash-table-gen.png]]
 
 ** hash_create()
 
@@ -79,7 +79,7 @@
 
 =ShmemInitHash()=
 
-#+BEGIN_SRC ditaa :file images/shared-memory-hash-table-gen.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/shared-memory-hash-table-gen.png  :cmdline -r -s 1.5
                      +--------------------+-----------+
            +-------->|       HASHHDR      |           |
            |         +--------------------+   Shared  |
@@ -103,7 +103,7 @@
 #+CAPTION: Shared-Memory Hash Table
 #+NAME: fig:Shared_Memory_Hash_Table
 #+RESULTS:
-[[file:images/shared-memory-hash-table-gen.png]]
+[[file:../assets/img/shared-memory-hash-table-gen.png]]
 
 ** Partition of Shared Hash Table
  Partition designed for shared hash table only. Reduce lock conflict.
