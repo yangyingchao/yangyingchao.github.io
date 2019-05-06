@@ -1,0 +1,777 @@
+---
+layout : post
+title : GiST: A Generalized Search Tree for Secondary Storage
+categories : Algorithm
+tags : algorithm gist
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org43e5bee">1. Introduction</a></li>
+<li><a href="#orgf13a6d5">2. The Generalized Search Tree</a>
+<ul>
+<li><a href="#org10f7588">2.1. Structure</a></li>
+<li><a href="#orgd841a51">2.2. Properties</a></li>
+</ul>
+</li>
+<li><a href="#orgc01e21e">3. The Keys to the GiST</a></li>
+<li><a href="#org987113e">4. Key Methods</a></li>
+<li><a href="#org3ac611f">5. Tree Methods</a>
+<ul>
+<li><a href="#org7127ad0">5.1. Search</a></li>
+<li><a href="#org05c7350">5.2. Insert</a></li>
+<li><a href="#org7477556">5.3. Delete</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Based on <a href="https://github.com/postgres/postgres/tree/master/src/backend/access/gist">https://github.com/postgres/postgres/tree/master/src/backend/access/gist</a> and
+<a href="http://gist.cs.berkeley.edu">http://gist.cs.berkeley.edu</a> .
+</p>
+
+<div id="outline-container-org43e5bee" class="outline-2">
+<h2 id="org43e5bee"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+传统数据库使用 B+ 树，B+ Tree 可以有效降低 IO，足以应对处理字符和数字。但现在数据库中存储的数据类型越来越多，为更好支持这些类型，当前（back to
+1995&#x2026;） 有两个主流研究方向：
+</p>
+
+<ul class="org-ul">
+<li>特需化的搜索树 （Specialized Search Trees） <br />
+人们为了解决特定问题e 人开发了很多不同的树，如：为解决空间搜索 (spatial
+search) 而开发 + R-Trees。缺点是，每增加一种新的类型，都要添加新的算法和数据结构，开发和维护代价都比较高。</li>
+
+<li>搜索树支持可扩展数据类型：<br />
+该方法可以让现有的树支持更多中数据类型，但无法增加其支持的查询的种类，例如：
+<ul class="org-ul">
+<li><code>B+-Tree</code> ： 只要数据支持线性排序，就可以使用 B+ 树来检索数据，这增加了数据的可拓展性，但对查询而言， <b>只有</b> 包含等值条件和范围条件的查询才有利。</li>
+
+<li><code>R Tree</code> ：类似，只有包含等值、重叠以及  containment 的查询才有利。</li>
+</ul></li>
+</ul>
+
+
+<p>
+In the beginning there was the B-tree. All database search trees since the B-tree have been
+variations on its theme. Recognizing this, we have developed a new kind of index called a
+Generalized Search Tree (GiST), which provides the functionality of all these trees in a single
+package. The GiST is an extensible data structure, which allows users to develop indices over any
+kind of data, supporting any lookup over that data. This package unifies a number of popular
+search trees in one data structure (the long list of potentials includes R-trees, B+-trees,
+hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-trees, and many, many others),
+eliminating the need to build multiple search trees for handling diverse applications. In addition
+to unifying all these structures, the GiST has one key feature that previous trees lacked: both
+data and query extensibility.
+</p>
+
+<p>
+通用搜索树:* 在数据类型和支持的查询方法上都提供了良好的扩展性，其两个特点：
+</p>
+<ul class="org-ul">
+<li>可在一个包中提供多种树所能提供的功能，可让用户对任何数据建立索引，进行查询: <br />
+R-trees, B+-trees, hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-trees &#x2026;</li>
+<li>扩展性：与自定义函数结合，提供其他纬度的搜索、查询。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf13a6d5" class="outline-2">
+<h2 id="orgf13a6d5"><span class="section-number-2">2</span> The Generalized Search Tree</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+定义其数据结构、不变性 (invariant properties) ，扩展方法和内置算法。
+</p>
+</div>
+
+
+<div id="outline-container-org10f7588" class="outline-3">
+<h3 id="org10f7588"><span class="section-number-3">2.1</span> Structure</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+A GiST is a balanced tree of variable fanout between kM and M
+</p>
+
+<ul class="org-ul">
+<li>平衡树</li>
+<li>root 节点扇出 (每个节点中的指针数量) 为 <code>2～M</code> 。</li>
+<li>其他节点的扇出在 <code>kM</code> 和 <code>M</code> 之间可变 ： <br />
+<code>k</code> 为常量，称为 minimum fill factor of the tree：   <img src="../../../assets/img/2019-04-28-GiST-Indexing_e68ec63adbe3c72c84be82f5449ba01bb9a91e40.png" alt="2019-04-28-GiST-Indexing_e68ec63adbe3c72c84be82f5449ba01bb9a91e40.png" />，  <b>BUT：</b> M 是个什么。。。</li>
+<li>leaf node 中包含 <code>(p, ptr)</code> 对：
+<ul class="org-ul">
+<li>p: predicate, use as key<br />
+predicate 中可以有多个变量，只要单条 tuple 可以初始化这些变量即可。</li>
+
+<li>ptr: identifier of some tuple in database</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd841a51" class="outline-3">
+<h3 id="orgd841a51"><span class="section-number-3">2.2</span> Properties</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+GiST 有下列属性：
+</p>
+
+<ol class="org-ol">
+<li>除根节点外，每个节点中中包含 <code>[kM ~ M]</code> 条记录 (index entry)。</li>
+
+<li>For each index entry <code>(p,  ptr)</code> in a leaf node, p is true when instantiated with the values from
+the indicated tuple (i.e. p holds for the tuple.)</li>
+
+<li>For each index entry <code>(p, ptr)</code> in a non-leaf node, p is true when instantiated with the values
+of any tuple reachable from ptr.</li>
+
+<li>The root has at least two children unless it is a leaf.</li>
+
+<li>All leaves appear on the same level.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc01e21e" class="outline-2">
+<h2 id="orgc01e21e"><span class="section-number-2">3</span> The Keys to the GiST</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+和 B tree 相比：
+</p>
+<ul class="org-ul">
+<li>共同点：
+<ul class="org-ul">
+<li>都是平衡树</li>
+<li>都包含 <code>&lt;Key, Pointer&gt;</code> 对</li>
+</ul></li>
+
+<li>不同点： Key 不同
+<ul class="org-ul">
+<li>B tree 中 Key 通常为 INT</li>
+<li>GiST 中 Key 为用户用户定义的类的一个成员变量， represents some property that is true of all
+data items reachable from the pointer associated with the key.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org987113e" class="outline-2">
+<h2 id="org987113e"><span class="section-number-2">4</span> Key Methods</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+理论上来说， GiST 的 key 可以为任意谓词。但实际上， key 来源于用户实现的 class，这些 class 提供了
+GiST 所需要的特定的若干方法 （method）。 key structures 有若干例子：
+</p>
+
+<ul class="org-ul">
+<li>Range of integers for data from <img src="../../../assets/img/2019-04-28-GiST-Indexing_8f2aa704e0fd4828f2d294628052534a0d429bb3.png" alt="2019-04-28-GiST-Indexing_8f2aa704e0fd4828f2d294628052534a0d429bb3.png" /> (as in <b>B+-tree</b> )</li>
+<li>Bounding box for region <img src="../../../assets/img/2019-04-28-GiST-Indexing_30e674eca1919fc20156d022e6a5f5da421d9629.png" alt="2019-04-28-GiST-Indexing_30e674eca1919fc20156d022e6a5f5da421d9629.png" /> (as in <b>R-Trees</b> )</li>
+<li>Bounding sets for set-valued data, data from <img src="../../../assets/img/2019-04-28-GiST-Indexing_9ba157d9a481f72145357a9582a8cdb7a516c9c7.png" alt="2019-04-28-GiST-Indexing_9ba157d9a481f72145357a9582a8cdb7a516c9c7.png" />  (as in <b>RD-trees</b> )</li>
+</ul>
+
+<p>
+To make a GiST work, you just have to figure out what to represent in the
+keys, and then write 4 methods for the key class that help the tree do insertion, deletion, and search.
+</p>
+
+<p>
+Here are the 4 methods required of the key class to make a GiST work:
+</p>
+
+<ul class="org-ul">
+<li><p>
+Consistent
+</p>
+
+<p>
+This method lets the tree search correctly. Given a key p on a tree page, and user query q, the
+Consistent method should return NO if it is certain that both p and q cannot be true for a given
+data item. Otherwise it should return MAYBE.
+</p>
+
+<p>
+该函数用于进行搜索。
+</p>
+
+<ul class="org-ul">
+<li>函数输入为：
+<ul class="org-ul">
+<li><code>p</code> &#x2013; key of page</li>
+<li><code>q</code> &#x2013; user query</li>
+</ul></li>
+
+<li>输出 <code>func(p, q)/</code> 为：
+<ul class="org-ul">
+<li><code>NO</code> ： 确定不包含</li>
+</ul></li>
+<li><code>MAYBE:</code> 其他条件</li>
+</ul></li>
+
+<li><p>
+Union
+</p>
+
+<p>
+This method consolidates information in the tree. Given a set S of entries,
+this method returns a new key p which is true for all the data items below
+S. A simple way to implement Union is to return a predicate equivalent to the
+disjunction of the keys in S, i.e. "p1 or p2 or p3 or&#x2026;".
+</p>
+
+<p>
+该函数用于联合树中的信息（节点）。
+</p>
+
+<ul class="org-ul">
+<li>输入:  <code>S</code> &#x2013; 多个记录的集合</li>
+<li>输出： 一个 key， 该 key 下集合内所有 item 都满足条件。</li>
+</ul></li>
+</ul>
+
+
+<ul class="org-ul">
+<li><p>
+Penalty
+</p>
+
+<p>
+Given a choice of inserting a new data item in a subtree rooted by entry
+<code>&lt;p,tr&gt;</code> , return a number representing how bad it would be to do that. Items will
+get inserted down the path of least Penalty in the tree.
+</p>
+
+<p>
+惩罚函数，或者称估值函数。
+</p>
+
+<ul class="org-ul">
+<li>输入： <code>&lt;p, tr&gt;</code> 为一个子树</li>
+<li>输出：一个数值，用于表示将新数据插入该子树是否合适。</li>
+</ul>
+
+<p>
+GiST 会把新数据插入到惩罚最小的子树中。
+</p></li>
+
+<li><p>
+PickSplit
+</p>
+
+<p>
+As in a B-tree, pages in a GiST occasionally need to be split upon insertion
+of a new data item. This routine is responsible for deciding which items go to
+the new page, and which ones stay on the old page.
+</p>
+
+<p>
+发生分裂时，使用此函数来决定：哪些数据放到新页中，哪些数据保留在原页中。
+</p></li>
+</ul>
+
+<p>
+论文中还有另外两个函数：
+</p>
+
+<ul class="org-ul">
+<li><p>
+Compress
+</p>
+
+<p>
+给定 entry  <img src="../../../assets/img/2019-04-28-GiST-Indexing_0cac8e78f531aa4bf4c4572ed14194d34ed25f6c.png" alt="2019-04-28-GiST-Indexing_0cac8e78f531aa4bf4c4572ed14194d34ed25f6c.png" /> , 返回 entry <img src="../../../assets/img/2019-04-28-GiST-Indexing_5397308a9d5d4f8ffdd2d3cce67482eac092f0a6.png" alt="2019-04-28-GiST-Indexing_5397308a9d5d4f8ffdd2d3cce67482eac092f0a6.png" /> , 其中， <img src="../../../assets/img/2019-04-28-GiST-Indexing_3a63c89be79dcc184e5bc475de58f9d32fb52f31.png" alt="2019-04-28-GiST-Indexing_3a63c89be79dcc184e5bc475de58f9d32fb52f31.png" />  表示压缩后的 <img src="../../../assets/img/2019-04-28-GiST-Indexing_9869dc1c67b7d5e1726f2c013efa51cbf6a119ed.png" alt="2019-04-28-GiST-Indexing_9869dc1c67b7d5e1726f2c013efa51cbf6a119ed.png" /> .
+</p></li>
+
+<li><p>
+Decompress
+</p>
+
+<p>
+用于解压， 给定 <img src="../../../assets/img/2019-04-28-GiST-Indexing_5397308a9d5d4f8ffdd2d3cce67482eac092f0a6.png" alt="2019-04-28-GiST-Indexing_5397308a9d5d4f8ffdd2d3cce67482eac092f0a6.png" /> ， 其中，  <img src="../../../assets/img/2019-04-28-GiST-Indexing_e97a78fc58927a0c89738a68acc6faca1c3a1a40.png" alt="2019-04-28-GiST-Indexing_e97a78fc58927a0c89738a68acc6faca1c3a1a40.png" /> ， 返回记录 <img src="../../../assets/img/2019-04-28-GiST-Indexing_86e1071f188f0de66cbacd91e5b63d1a0cf48f88.png" alt="2019-04-28-GiST-Indexing_86e1071f188f0de66cbacd91e5b63d1a0cf48f88.png" /> ， 确保 <img src="../../../assets/img/2019-04-28-GiST-Indexing_d6dd778acea69551958891bc9bf0f50f9e95b4cf.png" alt="2019-04-28-GiST-Indexing_d6dd778acea69551958891bc9bf0f50f9e95b4cf.png" />
+</p></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org3ac611f" class="outline-2">
+<h2 id="org3ac611f"><span class="section-number-2">5</span> Tree Methods</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+前面介绍的 Key Methods 必须由用户提供，而 Tree Methods 则由 GiST 提供，Tree Methods 将会调用 Key
+Methods 。
+</p>
+</div>
+
+<div id="outline-container-org7127ad0" class="outline-3">
+<h3 id="org7127ad0"><span class="section-number-3">5.1</span> Search</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-org8640242" class="outline-4">
+<h4 id="org8640242"><span class="section-number-4">5.1.1</span> Generic Search</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+遍历尽可能多的树，以寻找符合条件的数据，该方法可用来对任意数据进行搜索，但效率不够高。
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">Search</span>(R, q):
+     <span style="color: #87ceeb;">"""</span>
+<span style="color: #87ceeb;">     Search for all tuples in R that satisfy q.</span>
+<span style="color: #87ceeb;">     Arguments:</span>
+<span style="color: #87ceeb;">     - `R`: root of GiST Tree</span>
+<span style="color: #87ceeb;">     - `q`: query.</span>
+<span style="color: #87ceeb;">     """</span>
+     <span style="color: #daa520;">ret</span> = []
+
+     <span style="color: #ff4040;">if</span> R.isLeaf():
+         <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If this is leaf node</span>
+         <span style="color: #ff4040;">for</span> E <span style="color: #ff4040;">in</span> R.entries():
+             <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">if Consistent returns true, fetch E.ptr and store it.</span>
+             <span style="color: #ff4040;">if</span> Consistent(E, q):
+                 ret.append(E.ptr)
+     <span style="color: #ff4040;">else</span>:
+         <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">if this non-leaf node</span>
+         <span style="color: #ff4040;">for</span> E <span style="color: #ff4040;">in</span> R.entries():
+             <span style="color: #ff4040;">if</span> Consistent(E, q):
+                 <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">if Consistent returns true, invoke Search on sub-node.</span>
+                 <span style="color: #daa520;">tmp</span> = Search(E.ptr, q)
+                 <span style="color: #ff4040;">if</span> tmp:
+                     ret.extend(tmp)
+
+     <span style="color: #ff4040;">return</span> ret
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0bc27b1" class="outline-4">
+<h4 id="org0bc27b1"><span class="section-number-4">5.1.2</span> Search in Linearly Ordered Domains</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+如果目标数据满足线性排列，并且常用的查询为等值查询或者范围查询，则用
+<code>FindMin</code> 和 <code>Next</code> 方法更加高效。要想使用这种方法，需满足几个先决条件：
+</p>
+
+<ul class="org-ul">
+<li><p>
+flag <code>IsOrdered</code> 为 <code>True</code>
+</p>
+
+<p>
+该标记在树创建时静态指定，默认为 <code>False</code>
+</p></li>
+
+<li><p>
+需提供函数 <img src="../../../assets/img/2019-04-28-GiST-Indexing_dd6749fd4856960f0770e88f42b6152269fa09bd.png" alt="2019-04-28-GiST-Indexing_dd6749fd4856960f0770e88f42b6152269fa09bd.png" />
+</p>
+
+<p>
+给定两个记录 <img src="../../../assets/img/2019-04-28-GiST-Indexing_e6f01290d422947604711c2a4db6a5e287366669.png" alt="2019-04-28-GiST-Indexing_e6f01290d422947604711c2a4db6a5e287366669.png" /> , <img src="../../../assets/img/2019-04-28-GiST-Indexing_98dace1caaa417d4202a61f152287ab9ffc4910c.png" alt="2019-04-28-GiST-Indexing_98dace1caaa417d4202a61f152287ab9ffc4910c.png" /> ，比较函数
+<code>Compare</code> 应该返回：
+</p>
+
+<ul class="org-ul">
+<li><code>&lt; 0</code> : 如 <img src="../../../assets/img/2019-04-28-GiST-Indexing_e2cd8cad09d21757c31ce01bc911273681d49811.png" alt="2019-04-28-GiST-Indexing_e2cd8cad09d21757c31ce01bc911273681d49811.png" /> 应该排在 <img src="../../../assets/img/2019-04-28-GiST-Indexing_3d4b6b4f4f83edb75aad15b340c21a8c29d48b46.png" alt="2019-04-28-GiST-Indexing_3d4b6b4f4f83edb75aad15b340c21a8c29d48b46.png" /> 之前</li>
+<li><code>&gt; 0</code> : 如 <img src="../../../assets/img/2019-04-28-GiST-Indexing_e2cd8cad09d21757c31ce01bc911273681d49811.png" alt="2019-04-28-GiST-Indexing_e2cd8cad09d21757c31ce01bc911273681d49811.png" /> 应该排在 <img src="../../../assets/img/2019-04-28-GiST-Indexing_3d4b6b4f4f83edb75aad15b340c21a8c29d48b46.png" alt="2019-04-28-GiST-Indexing_3d4b6b4f4f83edb75aad15b340c21a8c29d48b46.png" /> 之后</li>
+<li><code>= 0</code> : 其他情况</li>
+</ul>
+
+<p>
+此函数在插入数据时候被使用。
+</p></li>
+</ul>
+
+
+<ul class="org-ul">
+<li><p>
+<code>PickPplit</code> 必须保证：
+</p>
+
+<p>
+对 <img src="../../../assets/img/2019-04-28-GiST-Indexing_fef42593537e3150d4b087880c31d582eadc8775.png" alt="2019-04-28-GiST-Indexing_fef42593537e3150d4b087880c31d582eadc8775.png" /> 上的任何记录 <img src="../../../assets/img/2019-04-28-GiST-Indexing_6c4d3c2c0ae53343cbedd5d7ded2ee62e1f4d180.png" alt="2019-04-28-GiST-Indexing_6c4d3c2c0ae53343cbedd5d7ded2ee62e1f4d180.png" /> 以及 <img src="../../../assets/img/2019-04-28-GiST-Indexing_309796da63c89a9e45ad21a34b6014de7e1c0627.png" alt="2019-04-28-GiST-Indexing_309796da63c89a9e45ad21a34b6014de7e1c0627.png" /> ，<img src="../../../assets/img/2019-04-28-GiST-Indexing_8ed8229dba01dce18c4b0a9916ea951736264e98.png" alt="2019-04-28-GiST-Indexing_8ed8229dba01dce18c4b0a9916ea951736264e98.png" /> 始终成立。
+</p></li>
+
+<li><p>
+函数 （啥函数。。。？？） 必须保重 key 不重叠
+</p>
+
+<p>
+对于某个 node 上的任何记录 <img src="../../../assets/img/2019-04-28-GiST-Indexing_87443ea9fde7a44e66222dc7586a03483c1164e9.png" alt="2019-04-28-GiST-Indexing_87443ea9fde7a44e66222dc7586a03483c1164e9.png" /> ，必须满足  <img src="../../../assets/img/2019-04-28-GiST-Indexing_3896bd0e8c3daf4dd076e6a8819c6fe6908e356c.png" alt="2019-04-28-GiST-Indexing_3896bd0e8c3daf4dd076e6a8819c6fe6908e356c.png" />
+</p></li>
+</ul>
+
+<p>
+有了上述约束后，等值查询和范围查询可以使用 <code>FindMin/Next</code>  来进行，其他查询仍可使用 <code>Search(E,q)</code>
+来完成。
+</p>
+
+<p>
+<code>FindMin/Next</code> 相比 <code>Search</code> 之所以效率更高，是因为它在 <code>root-to-leaf</code> 的遍历过程所中，仅需访问非叶子节点。
+</p>
+</div>
+
+
+<div id="outline-container-org0a0e17e" class="outline-5">
+<h5 id="org0a0e17e"><span class="section-number-5">5.1.2.1</span> FindMin</h5>
+<div class="outline-text-5" id="text-5-1-2-1">
+<p>
+沿着左侧分支遍历所有满足 <img src="../../../assets/img/2019-04-28-GiST-Indexing_f218809055f1985f6203a2097ae851f6bc2d4ed4.png" alt="2019-04-28-GiST-Indexing_f218809055f1985f6203a2097ae851f6bc2d4ed4.png" /> 的节点，直到找到符合 <img src="../../../assets/img/2019-04-28-GiST-Indexing_6a74929c59c8f841b9ddfbc1c32bbf13165f1c53.png" alt="2019-04-28-GiST-Indexing_6a74929c59c8f841b9ddfbc1c32bbf13165f1c53.png" />  的叶子节点为止，返回该叶子节点的 key 。
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">FindMin</span>(R, q):
+    <span style="color: #87ceeb;">"""Find left most node (min)</span>
+
+<span style="color: #87ceeb;">     returns minimum tuple in linear order that satisfies query.</span>
+
+<span style="color: #87ceeb;">        Arguments:</span>
+<span style="color: #87ceeb;">        - `R`: root of tree</span>
+<span style="color: #87ceeb;">        - `q`: user specified query.</span>
+<span style="color: #87ceeb;">        """</span>
+
+    <span style="color: #ff4040;">if</span> R.isLeaf():
+        <span style="color: #ff4040;">for</span> E <span style="color: #ff4040;">in</span> R.entries(): <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">R.entries() should be ordered.</span>
+            <span style="color: #ff4040;">if</span> Consistent(E, q):
+                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">return if entry is good.</span>
+                <span style="color: #ff4040;">return</span> E.ptr
+
+            <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">return None if nothing fits.</span>
+        <span style="color: #ff4040;">return</span> <span style="color: #7fffd4; font-weight: bold;">None</span>
+
+    <span style="color: #ff4040;">else</span>:
+        <span style="color: #ff4040;">for</span> E <span style="color: #ff4040;">in</span> R.entries():
+            <span style="color: #ff4040;">if</span> Consistent(E, q):
+                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">found proper subnode, invoke FindMin on it.</span>
+                <span style="color: #ff4040;">return</span> FindMin(E.ptr, q)
+
+            <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">return None if nothing fits.</span>
+        <span style="color: #ff4040;">return</span> <span style="color: #7fffd4; font-weight: bold;">None</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc31099" class="outline-5">
+<h5 id="orgfc31099"><span class="section-number-5">5.1.2.2</span> Next</h5>
+<div class="outline-text-5" id="text-5-1-2-2">
+<p>
+<code>FindMin</code> 返回 <code>E</code>  之后 ， <code>Next()</code> 返回下一个符合条件的元素，或者无符合条件的元素时，返回 <code>None</code> 。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">Next</span>(R, q, E):
+    <span style="color: #87ceeb;">"""Get next entry in linear order that satisfies q.</span>
+
+<span style="color: #87ceeb;">    + &#22914;&#26524;&#21516;&#32423;&#30340;&#19979;&#19968;&#20010;&#33410;&#28857;&#31526;&#21512; =q= &#65292;&#21017;&#36820;&#22238;&#19979;&#19968;&#20010;&#33410;&#28857;</span>
+<span style="color: #87ceeb;">    + &#21542;&#21017;&#65292;&#36820;&#22238; =None=</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: root of GiST tree.</span>
+<span style="color: #87ceeb;">    - `q`: user specified query.</span>
+<span style="color: #87ceeb;">    - `E`: current entry.</span>
+<span style="color: #87ceeb;">    """</span>
+    <span style="color: #ff4040;">if</span> E.isRightMost():
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">next on neighboring node</span>
+        <span style="color: #daa520;">P</span> = E.parent().right()
+        <span style="color: #ff4040;">if</span> Consistent(P, q):
+            <span style="color: #ff4040;">return</span> P
+        <span style="color: #ff4040;">return</span> <span style="color: #7fffd4; font-weight: bold;">None</span>
+    <span style="color: #ff4040;">else</span>:
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">next on node.</span>
+        <span style="color: #daa520;">N</span> = E.right()
+        <span style="color: #ff4040;">if</span> Consistent(E, q):
+            <span style="color: #ff4040;">return</span> N
+        <span style="color: #ff4040;">else</span>:
+            <span style="color: #ff4040;">return</span> <span style="color: #7fffd4; font-weight: bold;">None</span>
+
+    <span style="color: #ff4040;">pass</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org05c7350" class="outline-3">
+<h3 id="org05c7350"><span class="section-number-3">5.2</span> Insert</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+<code>Insert</code> 用于保证， 在插入新的数据之后， GiST 仍然是个平衡树。插入的过程和 <code>R-Tree</code> 的插入过程很相似，而 <code>R-Tree</code> 的插入过程，则是 <code>B+-Tree</code> 的泛化、简化版本。插入需要指定在哪一级 （level） 上插入，
+Level 从 Leaf 开始递增， leaf 的 level 为 0 。
+</p>
+</div>
+
+<div id="outline-container-org22ec89e" class="outline-4">
+<h4 id="org22ec89e"><span class="section-number-4">5.2.1</span> Insert</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+找到 E 应该插入的位置，插入之，如果有需要，进行分裂。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">insert</span>(R, E, l):
+    <span style="color: #87ceeb;">"""Insert E into R, at level l.</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: root of GiST tree</span>
+<span style="color: #87ceeb;">    - `E`: entry to be inserted</span>
+<span style="color: #87ceeb;">    - `l`: level to insert at.</span>
+<span style="color: #87ceeb;">    """</span>
+
+    <span style="color: #cd5c5c; font-style: italic;">#  </span><span style="color: #cd5c5c; font-style: italic;">Find where E should go...</span>
+    <span style="color: #daa520;">L</span> = ChooseSubTree(R, E, l)
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If there is room for E on L, install E on L.</span>
+    <span style="color: #ff4040;">if</span> L.hasSpace(E):
+        L.install(E)
+    <span style="color: #ff4040;">else</span>:
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">otherwise, split the tree...</span>
+        Split(R, L, E)
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">finally, adjust keys...</span>
+    Adjustkeys(R, L)
+
+    <span style="color: #ff4040;">return</span> R
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ca5cb9" class="outline-4">
+<h4 id="org9ca5cb9"><span class="section-number-4">5.2.2</span> ChooseSubtree</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<p>
+该函数用于在 GiST 中寻找最好的插入位置。
+</p>
+
+<p>
+递归遍历树，找到最小的 <code>Penalty()</code> 值
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">import</span> sys
+
+<span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">ChooseSubtree</span>(R, E, l):
+    <span style="color: #87ceeb;">"""Find best suited node to hold entry.</span>
+
+<span style="color: #87ceeb;">    Returns node at level =l= best suited to hold entry with characteristics</span>
+<span style="color: #87ceeb;">    predicate E.p</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: subtree</span>
+<span style="color: #87ceeb;">    - `E`: entry</span>
+<span style="color: #87ceeb;">    - `l`: desired level</span>
+<span style="color: #87ceeb;">    """</span>
+    <span style="color: #ff4040;">if</span> R.level() == l:
+        <span style="color: #ff4040;">return</span> R
+
+    <span style="color: #daa520;">p</span> = sys.maxsize
+    <span style="color: #daa520;">r</span> = <span style="color: #7fffd4; font-weight: bold;">None</span>
+    <span style="color: #ff4040;">for</span> F <span style="color: #ff4040;">in</span> R.entries():
+        <span style="color: #daa520;">tmp</span> = Penalty(F, E)
+        <span style="color: #ff4040;">if</span> tmp  &lt; p:
+            <span style="color: #daa520;">p</span> = tmp
+            <span style="color: #daa520;">r</span> = F
+
+    <span style="color: #ff4040;">return</span> ChooseSubtree(r, E, l)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org83e2600" class="outline-4">
+<h4 id="org83e2600"><span class="section-number-4">5.2.3</span> Split</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<p>
+<code>=Split</code> 函数通过用户自定义函数 <code>PickSplit</code> 来决定如何拆分 node 中的元素，一旦元素拆分到两个组后，
+<code>Split</code> 会生成新的节点，并将新节点插入到 GiST 中。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">Split</span>(R, N, E):
+    <span style="color: #87ceeb;">""" Split keys of N along with E into two groups according to PickSplit.</span>
+<span style="color: #87ceeb;">    Put one group onto a new node, and Insert the new node into parent of N.</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: GiST</span>
+<span style="color: #87ceeb;">    - `N`: node to split</span>
+<span style="color: #87ceeb;">    - `E`: entry, E=(p, ptr)</span>
+<span style="color: #87ceeb;">    """</span>
+
+    <span style="color: #daa520;">P</span> = N.parent()
+    <span style="color: #daa520;">N2</span> = PickSplit(N, E)
+
+    <span style="color: #daa520;">q</span> = Union(N2.entries())
+    <span style="color: #daa520;">E2</span> = Entry(q, N2) <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">construct new entry.</span>
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If has room, install new entry.</span>
+    <span style="color: #ff4040;">if</span> P.hasSpace(E2):
+        P.install(E2)
+    <span style="color: #ff4040;">else</span>:
+        Split(R, P, E2)
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Update entry F which points to N, so F.p is the Union of all entries on N.</span>
+    <span style="color: #daa520;">F</span> = N.getKey(N)
+    <span style="color: #daa520;">F.p</span> = Union(N.entries())
+
+
+    <span style="color: #ff4040;">pass</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org465f16e" class="outline-4">
+<h4 id="org465f16e"><span class="section-number-4">5.2.4</span> AdjustKeys</h4>
+<div class="outline-text-4" id="text-5-2-4">
+<p>
+该函数用户确保 keys 对节点下的记录有效。从节点 N 开始，向上遍历父节点，逐个确保 Key 有效。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">AdjustKeys</span>(R, N):
+    <span style="color: #87ceeb;">"""Make sure Key is valid.</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`:</span>
+<span style="color: #87ceeb;">    - `N`:</span>
+<span style="color: #87ceeb;">    """</span>
+    <span style="color: #ff4040;">if</span> N.isRoot() <span style="color: #ff4040;">or</span> N.isAccurate():
+        <span style="color: #ff4040;">return</span>
+
+    <span style="color: #daa520;">E</span> = N.getKey()
+    <span style="color: #daa520;">E.p</span> = Union(N.entries)
+
+    AdjustKeys(R, N.parent())
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7477556" class="outline-3">
+<h3 id="org7477556"><span class="section-number-3">5.3</span> Delete</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+删除时候必须维持树的平衡，并维护 Keys.
+</p>
+</div>
+
+<div id="outline-container-org8570642" class="outline-4">
+<h4 id="org8570642"><span class="section-number-4">5.3.1</span> Delete</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">Delete</span>(R, E):
+    <span style="color: #87ceeb;">"""Remove E from its leaf node.</span>
+
+<span style="color: #87ceeb;">    If this causes underflow, adjust tree accordingly.</span>
+
+<span style="color: #87ceeb;">    Update predicates in ancestors to keep them as specific as possible.</span>
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: GiST</span>
+<span style="color: #87ceeb;">    - `E`: leaf entry, E = (p, ptr)</span>
+<span style="color: #87ceeb;">    """</span>
+
+     <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Find node containing entry.</span>
+    <span style="color: #daa520;">L</span> = Search(R, E.p)
+    <span style="color: #ff4040;">if</span> L <span style="color: #ff4040;">is</span> <span style="color: #7fffd4; font-weight: bold;">None</span>:
+        <span style="color: #ff4040;">return</span>
+
+    L.remove(E)
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">propagate changes</span>
+    CondenseTree(R, L)
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">if R has only one child after adjust, make its child the new root.</span>
+    <span style="color: #ff4040;">if</span> <span style="color: #32cd32;">len</span>(R.child()) == 1:
+        <span style="color: #daa520;">R</span> = R.child()[0]
+
+    <span style="color: #ff4040;">return</span> R
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf56400d" class="outline-4">
+<h4 id="orgf56400d"><span class="section-number-4">5.3.2</span> CondenseTree</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<p>
+此函数保证 Tree 的属性满足 GiST 的要求 <a href="#org10f7588">2.1</a>。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">CondenseTree</span>(R, L):
+    <span style="color: #87ceeb;">"""Condense the tree.</span>
+
+<span style="color: #87ceeb;">    &#22914;&#26524; =L= &#20013;&#30340;&#20803;&#32032;&#20010;&#25968;&#19981;&#36275; $kM$ &#65292;&#21017;&#65306;&#24223;&#24323;&#33410;&#28857; L&#65292; &#24182;&#23558;&#20854;&#21253;&#21547;&#30340;&#35760;&#24405;&#37325;&#26032;&#25554;&#20837;&#21040; R &#20013;&#12290;</span>
+<span style="color: #87ceeb;">    &#25110;&#32773;&#65292;&#20174;&#20854;&#20182;&#33410;&#28857;&#20013;&#31227;&#21160;&#36275;&#22815;&#30340;&#35760;&#24405;&#21040; L &#20013;&#12290;</span>
+
+<span style="color: #87ceeb;">    &#38543;&#21518;&#65292;&#22914;&#26524;&#38656;&#35201;&#65292;&#23558;&#27492;&#21464;&#21270;&#21521;&#19978;&#21453;&#39304;&#32473;&#19978;&#23618;&#33410;&#28857;&#65292;&#30452;&#21040;&#26681;&#33410;&#28857;&#20026;&#27490;&#12290;</span>
+
+
+<span style="color: #87ceeb;">    Arguments:</span>
+<span style="color: #87ceeb;">    - `R`: GiST.</span>
+<span style="color: #87ceeb;">    - `L`: leaf node in R.</span>
+<span style="color: #87ceeb;">    """</span>
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT1: Initialize</span>
+    <span style="color: #daa520;">N</span> = L
+    <span style="color: #daa520;">Q</span> = [] <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">set of eliminated nodes</span>
+
+    <span style="color: #ff4040;">while</span> <span style="color: #7fffd4; font-weight: bold;">True</span>:
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT2</span>
+        <span style="color: #ff4040;">if</span> N.isRoot():
+            <span style="color: #ff4040;">break</span> <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">goto CT6</span>
+
+        <span style="color: #daa520;">P</span> = N.parent()
+        <span style="color: #daa520;">E_n</span> = P.findEntryByValue(N) <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">E_n: entry in P that points to N</span>
+
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT3</span>
+        <span style="color: #ff4040;">if</span> N.count() &lt; kM:
+            <span style="color: #ff4040;">if</span> <span style="color: #ff4040;">not</span> R.isOrdered():
+                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Not ordered, simple add all entries into Q, and adjust keys..</span>
+                Q.extend(N.entries())
+                Delete(P, E_n)
+                AdjustKeys(R, P)
+                <span style="color: #ff4040;">pass</span>
+            <span style="color: #ff4040;">else</span>:
+                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Ordered, borrow entries...</span>
+                <span style="color: #daa520;">N_2</span> = N.neighbor()
+
+                <span style="color: #ff4040;">if</span> N.count() + N_2.count() &gt;= 2*kM:
+                    Split(R, N_2, E_n)
+                <span style="color: #ff4040;">else</span>:
+                    N_2.insert(E_n)
+
+                AdjustKeys(R, N_2)
+                AdjustKeys(R, P)
+
+        <span style="color: #ff4040;">if</span> <span style="color: #ff4040;">not</span> E_n.isDeleted():
+            <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT4</span>
+            AdjustKeys(R, N)
+        <span style="color: #ff4040;">else</span>:
+            <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT5, propagate deletes.. N=P, goto CT2</span>
+            <span style="color: #daa520;">N</span> = P
+            <span style="color: #ff4040;">continue</span>
+
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">CT6: re-insert orpaned entries...</span>
+    <span style="color: #ff4040;">if</span> Q:
+        <span style="color: #daa520;">l</span> = Level(E)
+        <span style="color: #ff4040;">for</span> E <span style="color: #ff4040;">in</span> Q:
+            Insert(R, E, l)
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
