@@ -2,14 +2,13 @@
 layout : post
 title : Integrate Conky With Gnome
 categories : Utility
-tags :  conky  gnome
+tags : Conky Gnome
 ---
 <p>
 Conky is not working well with Gnome? Try adding following lines to your <code>~/.conkyrc</code>:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-conf"><span class="linenr">1: </span>own_window yes
 <span class="linenr">2: </span>own_window_type conky
 <span class="linenr">3: </span>own_window_transparent yes
@@ -26,7 +25,6 @@ Here is my configuration:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-conf"><span class="linenr"> 1: </span>own_window yes
 <span class="linenr"> 2: </span>own_window_type conky
 <span class="linenr"> 3: </span>own_window_transparent yes
@@ -34,21 +32,21 @@ Here is my configuration:
 <span class="linenr"> 5: </span>
 <span class="linenr"> 6: </span>own_window_argb_visual yes
 <span class="linenr"> 7: </span>own_window_argb_value 255
-<span class="linenr"> 8: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">font</span>
+<span class="linenr"> 8: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">font</span>
 <span class="linenr"> 9: </span>use_xft yes
 <span class="linenr">10: </span><span style="color: #daa520;">xftfont WenQuanYi Micro Hei Mono:size</span>=11
 <span class="linenr">11: </span>
-<span class="linenr">12: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Update interval in seconds</span>
+<span class="linenr">12: </span><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Update interval in seconds</span>
 <span class="linenr">13: </span>update_interval 2
 <span class="linenr">14: </span>
 <span class="linenr">15: </span>
-<span class="linenr">16: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Minimum size of text area</span>
+<span class="linenr">16: </span><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Minimum size of text area</span>
 <span class="linenr">17: </span>minimum_size 280 5
 <span class="linenr">18: </span>
 <span class="linenr">19: </span>maximum_width 240
 <span class="linenr">20: </span>
 <span class="linenr">21: </span>
-<span class="linenr">22: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Default colors and also border colors</span>
+<span class="linenr">22: </span><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Default colors and also border colors</span>
 <span class="linenr">23: </span>default_color 4d4d4d
 <span class="linenr">24: </span>default_shade_color white
 <span class="linenr">25: </span>default_outline_color black
@@ -58,67 +56,68 @@ Here is my configuration:
 <span class="linenr">29: </span>gap_y 80
 <span class="linenr">30: </span>alignment top_left
 <span class="linenr">31: </span>
-<span class="linenr">32: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">set to yes if you want all text to be in uppercase</span>
+<span class="linenr">32: </span><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">set to yes if you want all text to be in uppercase</span>
 <span class="linenr">33: </span>uppercase no
-<span class="linenr">34: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">avoid flicker</span>
+<span class="linenr">34: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">avoid flicker</span>
 <span class="linenr">35: </span>double_buffer yes
 <span class="linenr">36: </span>no_buffers yes
 <span class="linenr">37: </span>
-<span class="linenr">38: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">own window to run simultanious 2 or more conkys</span>
+<span class="linenr">38: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">own window to run simultanious 2 or more conkys</span>
 <span class="linenr">39: </span>own_window yes
 <span class="linenr">40: </span>own_window_type normal
 <span class="linenr">41: </span>own_window_hints undecorate,sticky,skip_taskbar,skip_pager
 <span class="linenr">42: </span>own_window_transparent yes
 <span class="linenr">43: </span>
 <span class="linenr">44: </span>
-<span class="linenr">45: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">shades</span>
+<span class="linenr">45: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">shades</span>
 <span class="linenr">46: </span>draw_shades no
-<span class="linenr">47: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">draw_graph_borders yes</span>
-<span class="linenr">48: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">draw_borders yes</span>
+<span class="linenr">47: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">draw_graph_borders yes</span>
+<span class="linenr">48: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">draw_borders yes</span>
 <span class="linenr">49: </span>
-<span class="linenr">50: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">borders</span>
+<span class="linenr">50: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">borders</span>
 <span class="linenr">51: </span>draw_borders no
 <span class="linenr">52: </span>
-<span class="linenr">53: </span><span style="color: #fa8072;"># </span><span style="color: #cd5c5c; font-style: italic;">Force UTF8? note that UTF8 support required XFT</span>
+<span class="linenr">53: </span><span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Force UTF8? note that UTF8 support required XFT</span>
 <span class="linenr">54: </span>override_utf8_locale yes
 <span class="linenr">55: </span>
-<span class="linenr">56: </span><span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">to prevent window from moving</span>
+<span class="linenr">56: </span><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">to prevent window from moving</span>
 <span class="linenr">57: </span>use_spacer no
 <span class="linenr">58: </span>
 <span class="linenr">59: </span>
 <span class="linenr">60: </span>TEXT
-<span class="linenr">61: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}System Info ${color}</span>
-<span class="linenr">62: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Kernel: $alignr${color dcff82}$kernel${color}${color}</span>
-<span class="linenr">63: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Time: $alignr${color dcff82}${time %D %H:%M}${color}${color}</span>
-<span class="linenr">64: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}UpTime: $alignr${color dcff82}${uptime %H:%M}${color}${color}</span>
-<span class="linenr">65: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}CPU I ${color dcff82}${cpu cpu1}%${color} ${color #c4a000}CPU II${color} ${color dcff82}${cpu cpu2}%${color}${color}</span>
-<span class="linenr">66: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Mem: ${color dcff82}${font}${mem} ($memperc%)${color}</span>
-<span class="linenr">67: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${membar 4,200}</span>
-<span class="linenr">68: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Processes: ${color dcff82}${font}${processes} ${color}</span>
-<span class="linenr">69: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Running: ${color dcff82}${font}${running_processes} ${color}</span>
+<span class="linenr">61: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}System Info ${color}</span>
+<span class="linenr">62: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Kernel: $alignr${color dcff82}$kernel${color}${color}</span>
+<span class="linenr">63: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Time: $alignr${color dcff82}${time %D %H:%M}${color}${color}</span>
+<span class="linenr">64: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}UpTime: $alignr${color dcff82}${uptime %H:%M}${color}${color}</span>
+<span class="linenr">65: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}CPU I ${color dcff82}${cpu cpu1}%${color} ${color #c4a000}CPU II${color} ${color dcff82}${cpu cpu2}%${color}${color}</span>
+<span class="linenr">66: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Mem: ${color dcff82}${font}${mem} ($memperc%)${color}</span>
+<span class="linenr">67: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${membar 4,200}</span>
+<span class="linenr">68: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Processes: ${color dcff82}${font}${processes} ${color}</span>
+<span class="linenr">69: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Running: ${color dcff82}${font}${running_processes} ${color}</span>
 <span class="linenr">70: </span>${color slate grey}TOP 3:$alignr        -PID-  CPU%   $color
-<span class="linenr">71: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">ef2929}${top name 1}$alignr${top pid 1}${top cpu 1}</span>
+<span class="linenr">71: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">ef2929}${top name 1}$alignr${top pid 1}${top cpu 1}</span>
 <span class="linenr">72: </span>${color lightgrey}${top name 2}$alignr${top pid 2}${top cpu 2}
 <span class="linenr">73: </span>${color lightgrey}${top name 3}$alignr${top pid 3}${top cpu 3}
 <span class="linenr">74: </span>
-<span class="linenr">75: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}Network Info ETH0${color}</span>
-<span class="linenr">76: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}IP Addr: ${color #dcff82}${addr eth0}${color}</span>
-<span class="linenr">77: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Down: ${color #dcff82}${downspeed eth0}${color}${color} #${color #dcff82}  ${totaldown eth0}${color}${color}</span>
+<span class="linenr">75: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}Network Info ETH0${color}</span>
+<span class="linenr">76: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}IP Addr: ${color #dcff82}${addr eth0}${color}</span>
+<span class="linenr">77: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Down: ${color #dcff82}${downspeed eth0}${color}${color} #${color #dcff82}  ${totaldown eth0}${color}${color}</span>
 <span class="linenr">78: </span>
-<span class="linenr">79: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Up:   ${color #dcff82}${upspeed eth0}${color}${color #dcff82} #${totalup eth0}</span>
+<span class="linenr">79: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Up:   ${color #dcff82}${upspeed eth0}${color}${color #dcff82} #${totalup eth0}</span>
 <span class="linenr">80: </span>
-<span class="linenr">81: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}File System ${color}</span>
-<span class="linenr">82: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Disk IO: ${color #dcff82}${alignr 4}$diskio ${color} ${color}</span>
-<span class="linenr">83: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Root: ${color}${alignr}${color #dcff82}${fs_free /}${color} Free ${color}</span>
-<span class="linenr">84: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${fs_bar 4 /}</span>
-<span class="linenr">85: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}HOME: ${color}${alignr}${color #dcff82}${fs_free /home}${color} Free ${color}</span>
-<span class="linenr">86: </span>${color <span style="color: #fa8072;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${fs_bar 4 /home}${color}</span>
+<span class="linenr">81: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">a40000}File System ${color}</span>
+<span class="linenr">82: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Disk IO: ${color #dcff82}${alignr 4}$diskio ${color} ${color}</span>
+<span class="linenr">83: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}Root: ${color}${alignr}${color #dcff82}${fs_free /}${color} Free ${color}</span>
+<span class="linenr">84: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${fs_bar 4 /}</span>
+<span class="linenr">85: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">c4a000}HOME: ${color}${alignr}${color #dcff82}${fs_free /home}${color} Free ${color}</span>
+<span class="linenr">86: </span>${color <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">dcff82}${fs_bar 4 /home}${color}</span>
+<span class="linenr">87: </span>
 </pre>
 </div>
 
 
 <div class="figure">
-<p><img src="../../../assets/img/conky.jpeg" alt="conky.jpeg" />
+<p><img src="../../../../assets/img/conky.jpeg" alt="conky.jpeg" />
 </p>
-<p><span class="figure-number">Figure 1:</span> screenshot</p>
+<p><span class="figure-number">Figure 1: </span>screenshot</p>
 </div>

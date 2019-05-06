@@ -1,0 +1,119 @@
+---
+layout : post
+title : Bluetooth Programming
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga41f897">1. Overview</a></li>
+<li><a href="#org0ef0100">2. 选择通讯设备</a></li>
+<li><a href="#org7a59d8f">3. 选择传输协议</a>
+<ul>
+<li><a href="#orgc27635d">3.1. RFCOMM + TCP</a></li>
+<li><a href="#org4ebb4b5">3.2. L2CAP + UDP</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga41f897" class="outline-2">
+<h2 id="orga41f897"><span class="section-number-2">1</span> Overview</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+蓝牙编程与网络编程很大程度上可以类比，但在下面的这些步骤中有所区别：
+</p>
+
+<ol class="org-ol">
+<li>选择通讯设备</li>
+<li>选择如何与之交互</li>
+<li>发起对外链接</li>
+<li>发送数据</li>
+<li>接收数据。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0ef0100" class="outline-2">
+<h2 id="org0ef0100"><span class="section-number-2">2</span> 选择通讯设备</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+每个网卡都有一个全球唯一的 MAC 地址，与之类似，每个蓝牙设备都有一个全球唯一的，长度为
+ 48 bit 的蓝牙地址（或者称为设备地址）。该地址在蓝牙编程中，作为基础的寻址单元。
+</p>
+
+<p>
+一个蓝牙设备只有想办法得到另外一个设备的地址才能与之通讯，该地址在蓝牙通讯的从上到下的所有层都会用到。类似的，网络编程中， 网络上 的两个终端也必须知道对方的 MAC 地址才能通讯。但不同的是，网络通讯中， MAC 地址仅限于链路层，而链路层之上的各层则使用 IP 寻址。尽管如此，两者在原理上都是一样的：必须能够唯一的确定对端，才能与之正常通讯。
+</p>
+
+<p>
+蓝牙通讯和网络通讯中，客户端程序通常并不直接知道对方的地址。网络通讯中，用户通常通过
+DNS 来解析主机名来获取 MAC 地址。与之类似，蓝牙通讯中，我们一般给设备起个名字，然后客户端搜索附近的蓝牙设备，再将该名字转换称为设备地址。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a59d8f" class="outline-2">
+<h2 id="org7a59d8f"><span class="section-number-2">3</span> 选择传输协议</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+一旦客户端找到了对端的地址，客户端就可以选择传输协议了。与网络编程类似，蓝牙编程的传输层也有多种协议。
+</p>
+</div>
+
+
+<div id="outline-container-orgc27635d" class="outline-3">
+<h3 id="orgc27635d"><span class="section-number-3">3.1</span> RFCOMM + TCP</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+RFCCOMM 最早是用来模拟 RS232 串口的，尽管如此，除去若干与网络编程无关的特性后， RFCOMM
+和 TCP 很类似。所不同的是， TCP 支持多达 65536 个端口，而 RFCOMM 仅仅支持 30 个。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4ebb4b5" class="outline-3">
+<h3 id="org4ebb4b5"><span class="section-number-3">3.2</span> L2CAP + UDP</h3>
+<div class="outline-text-3" id="text-3-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Requirement</th>
+<th scope="col" class="org-left">Internet</th>
+<th scope="col" class="org-left">Bluetooth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Reliable, streams-based</td>
+<td class="org-left">TCP</td>
+<td class="org-left">RFCOMM</td>
+</tr>
+
+<tr>
+<td class="org-left">Reliable, datagram</td>
+<td class="org-left">TCP</td>
+<td class="org-left">RFCOMM or L2CAP with infinite retransmit</td>
+</tr>
+
+<tr>
+<td class="org-left">Best-effort, datagram</td>
+<td class="org-left">UDP</td>
+<td class="org-left">L2CAP (0-1279 retransmit)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>

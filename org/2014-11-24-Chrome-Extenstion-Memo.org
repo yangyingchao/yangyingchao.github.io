@@ -2,7 +2,7 @@
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
 #+OPTIONS: ^:nil toc:1
-#+KEYWORDS: extension, chrome
+#+KEYWORDS: extension chrome
 #+CATEGORY: Web
 #+DESCRIPTION: Chrome Extension Overview 笔记，省得忘。。
 #+OPTIONS:    H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

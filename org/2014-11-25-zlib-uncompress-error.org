@@ -1,7 +1,7 @@
 #+TITLE: zlib uncompress error
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: extension, chrome
+#+KEYWORDS: extension chrome
 #+CATEGORY: Web
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

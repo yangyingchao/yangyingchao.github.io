@@ -1,0 +1,152 @@
+---
+layout : post
+title : Transaction in Postgres
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2033047">1. The Transaction System</a></li>
+<li><a href="#org313db07">2. Data Structures</a></li>
+<li><a href="#org363fab9">3. Work flow</a>
+<ul>
+<li><a href="#org51c81d9">3.1. BEGIN</a></li>
+<li><a href="#org415db64">3.2. <span class="todo TODO">TODO</span> BeginTransactionBlock(void)</a></li>
+<li><a href="#orgcd1e4ad">3.3. SELECT</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2033047" class="outline-2">
+<h2 id="org2033047"><span class="section-number-2">1</span> The Transaction System</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+PostgreSQL's transaction system is a three-layer system.  The bottom layer
+implements low-level transactions and subtransactions, on top of which rests
+the mainloop's control code, which in turn implements user-visible
+transactions and savepoints.
+</p>
+
+
+<div id="org29de17a" class="figure">
+<p><img src="../../../../assets/img/xact-layers-gen.png" alt="xact-layers-gen.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Transaction Layers</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org313db07" class="outline-2">
+<h2 id="org313db07"><span class="section-number-2">2</span> Data Structures</h2>
+<div class="outline-text-2" id="text-2">
+
+<div id="org65b050b" class="figure">
+<p><img src="../../../../assets/img/xact-ds-gen.png" alt="xact-ds-gen.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Data Structures related to Transaction</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org363fab9" class="outline-2">
+<h2 id="org363fab9"><span class="section-number-2">3</span> Work flow</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+For example, consider the following sequence of user commands:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">1)      <span style="color: #ff4040;">BEGIN</span>
+2)      <span style="color: #ff4040;">SELECT</span> * <span style="color: #32cd32;">FROM</span> foo
+3)      <span style="color: #ff4040;">INSERT</span> <span style="color: #ff4040;">INTO</span> foo <span style="color: #ff4040;">VALUES</span> (...)
+4)      <span style="color: #ff4040;">COMMIT</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org51c81d9" class="outline-3">
+<h3 id="org51c81d9"><span class="section-number-3">3.1</span> BEGIN</h3>
+<div class="outline-text-3" id="text-3-1">
+
+<div id="org187beaa" class="figure">
+<p><img src="../../../../assets/img/begin-xcat-flow-gen.png" alt="begin-xcat-flow-gen.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>BEGIN</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8dfc726" class="outline-4">
+<h4 id="org8dfc726"><span class="section-number-4">3.1.1</span> <span class="todo TODO">TODO</span> StartTransactionCommand(void)</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference</a>
+</p>
+
+
+
+
+<div id="org783f4f7" class="figure">
+<p><img src="../../../../assets/img/StartTransactionCommand-gen.png" alt="StartTransactionCommand-gen.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>StartTransactionCommand</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org415db64" class="outline-3">
+<h3 id="org415db64"><span class="section-number-3">3.2</span> <span class="todo TODO">TODO</span> BeginTransactionBlock(void)</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference</a>
+</p>
+
+
+<div id="org0a73648" class="figure">
+<p><img src="../../../../assets/img/BeginTransactionBlock-gen.png" alt="BeginTransactionBlock-gen.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>BeginTransactionBlock</p>
+</div>
+</div>
+
+<div id="outline-container-org98f7f79" class="outline-4">
+<h4 id="org98f7f79"><span class="section-number-4">3.2.1</span> <span class="todo TODO">TODO</span> CommitTransactionCommand(void)</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/access/transam/xact.c#MissingReference</a>
+</p>
+
+
+<div id="orgfd0cba5" class="figure">
+<p><img src="../../../../assets/img/CommitTransactionCommand-gen.png" alt="CommitTransactionCommand-gen.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>CommitTransactionCommand</p>
+</div>
+
+<p>
+TODO: State machine of block State.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgcd1e4ad" class="outline-3">
+<h3 id="orgcd1e4ad"><span class="section-number-3">3.3</span> SELECT</h3>
+<div class="outline-text-3" id="text-3-3">
+
+<div id="org93f43f4" class="figure">
+<p><img src="../../../../assets/img/select-xcat-flow-gen.png" alt="select-xcat-flow-gen.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>SELECT</p>
+</div>
+</div>
+</div>
+</div>

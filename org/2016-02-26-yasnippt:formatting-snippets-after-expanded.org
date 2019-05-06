@@ -1,8 +1,8 @@
 #+TITLE: yasnippt:formatting snippets after expanded
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: yasnippet,formatting
-#+CATEGORY: emacs
+#+KEYWORDS: yasnippet formatting
+#+CATEGORY: Emacs
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate

@@ -12,7 +12,7 @@ properly set up, and it yelled at me.
 
 <p>
 Your home directory ~, your ~/.ssh directory and the ~/.ssh/authorized_keys file on
-the remote machine must be writable only by you: rwx&#x2014;&#x2014; and rwxr-xr-x are fine,
+the remote machine must be writable only by you: rwx-&#x2013;&#x2014; and rwxr-xr-x are fine,
 but rwxrwx&#x2014; is no good¹, even if you are the only user in your group (if you
 prefer numeric modes: 700 or 755, not 775).
 </p>
@@ -30,7 +30,7 @@ to it.
 
 <p>
 Your private key file (on the local machine) must be readable and writable only by
-you: rw-&#x2014;&#x2014;, i.e. 600.
+you: rw--&#x2013;&#x2014;, i.e. 600.
 </p>
 
 <p>

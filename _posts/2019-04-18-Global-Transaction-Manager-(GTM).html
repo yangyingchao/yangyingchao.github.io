@@ -8,55 +8,55 @@ tags : pg
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org728bd64">1. Intro</a>
+<li><a href="#org34740c3">1. Intro</a>
 <ul>
-<li><a href="#org4f12c94">1.1. What is Postgres XL</a></li>
-<li><a href="#orgfc44d13">1.2. Postgres-XL's Goal</a></li>
-<li><a href="#org84861e5">1.3. Postgres-XL Key Components</a></li>
+<li><a href="#org2f87072">1.1. What is Postgres XL</a></li>
+<li><a href="#org952a18b">1.2. Postgres-XL's Goal</a></li>
+<li><a href="#orga943515">1.3. Postgres-XL Key Components</a></li>
 </ul>
 </li>
-<li><a href="#org2131c80">2. GTM</a>
+<li><a href="#orgb026a15">2. GTM</a>
 <ul>
-<li><a href="#org4d1b346">2.1. Transaction Manager</a></li>
-<li><a href="#org3770ba4">2.2. GTM_ThreadMain</a></li>
-<li><a href="#org50b7d49">2.3. Assignment of XID</a></li>
+<li><a href="#orgc8708a7">2.1. Transaction Manager</a></li>
+<li><a href="#org547297a">2.2. GTM_ThreadMain</a></li>
+<li><a href="#orga3c46f7">2.3. Assignment of XID</a></li>
 </ul>
 </li>
-<li><a href="#orga66ce0e">3. GTM-Proxy</a>
+<li><a href="#org6c96831">3. GTM-Proxy</a>
 <ul>
-<li><a href="#org55fd87a">3.1. Proxy Server Loop</a></li>
-<li><a href="#org085d5bd">3.2. GTMProxy_ThreadMain</a></li>
+<li><a href="#org4d1910a">3.1. Proxy Server Loop</a></li>
+<li><a href="#orgdfc5285">3.2. GTMProxy_ThreadMain</a></li>
 </ul>
 </li>
-<li><a href="#org7b3ed1a">4. Coordinator</a></li>
-<li><a href="#org902f21e">5. Datanodes</a></li>
-<li><a href="#org0924f1e">6. Seq Manager</a></li>
-<li><a href="#orgdca9292">7. XCNode</a></li>
-<li><a href="#org70ff081">8. Recovery Standby Mode</a></li>
-<li><a href="#org07a4ff3">9. Commands</a>
+<li><a href="#org4ab0b92">4. Coordinator</a></li>
+<li><a href="#org202e448">5. Datanodes</a></li>
+<li><a href="#orgb3e0922">6. Seq Manager</a></li>
+<li><a href="#orgef29188">7. XCNode</a></li>
+<li><a href="#org21ed020">8. Recovery Standby Mode</a></li>
+<li><a href="#org46cef9f">9. Commands</a>
 <ul>
-<li><a href="#org87af587">9.1. <code>A</code></a></li>
-<li><a href="#org29080a7">9.2. <code>R</code></a></li>
-<li><a href="#org70d51dc">9.3. <code>X</code></a></li>
-<li><a href="#org5764494">9.4. <code>EOF</code></a></li>
-<li><a href="#org7656ebb">9.5. <code>F</code></a></li>
-<li><a href="#org1e9b1d8">9.6. <code>C</code></a></li>
-<li><a href="#org0455870">9.7. <code>S</code></a></li>
-<li><a href="#org5e358dd">9.8. <code>E</code></a></li>
+<li><a href="#org564dacc">9.1. <code>A</code></a></li>
+<li><a href="#org52e5657">9.2. <code>R</code></a></li>
+<li><a href="#org8e06f13">9.3. <code>X</code></a></li>
+<li><a href="#org53feeef">9.4. <code>EOF</code></a></li>
+<li><a href="#orga3575ad">9.5. <code>F</code></a></li>
+<li><a href="#orge65798b">9.6. <code>C</code></a></li>
+<li><a href="#org2d78a0a">9.7. <code>S</code></a></li>
+<li><a href="#orga8433d4">9.8. <code>E</code></a></li>
 </ul>
 </li>
-<li><a href="#orgd058738">10. 2PC</a></li>
-<li><a href="#org93cae9f">11. Snapshot Management</a></li>
+<li><a href="#orge5df664">10. 2PC</a></li>
+<li><a href="#org5d855de">11. Snapshot Management</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org728bd64" class="outline-2">
-<h2 id="org728bd64"><span class="section-number-2">1</span> Intro</h2>
+<div id="outline-container-org34740c3" class="outline-2">
+<h2 id="org34740c3"><span class="section-number-2">1</span> Intro</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org4f12c94" class="outline-3">
-<h3 id="org4f12c94"><span class="section-number-3">1.1</span> What is Postgres XL</h3>
+<div id="outline-container-org2f87072" class="outline-3">
+<h3 id="org2f87072"><span class="section-number-3">1.1</span> What is Postgres XL</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 Postgres-XL is an open source project to provide both write-scalability
@@ -117,8 +117,8 @@ it needs to ship, and where it needs to send to others.
 </div>
 
 
-<div id="outline-container-orgfc44d13" class="outline-3">
-<h3 id="orgfc44d13"><span class="section-number-3">1.2</span> Postgres-XL's Goal</h3>
+<div id="outline-container-org952a18b" class="outline-3">
+<h3 id="org952a18b"><span class="section-number-3">1.2</span> Postgres-XL's Goal</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 The ultimate goal of Postgres-XL is to provide database scalability with
@@ -153,8 +153,8 @@ statements do not depend on how the tables are actually stored.</li>
 </div>
 
 
-<div id="outline-container-org84861e5" class="outline-3">
-<h3 id="org84861e5"><span class="section-number-3">1.3</span> Postgres-XL Key Components</h3>
+<div id="outline-container-orga943515" class="outline-3">
+<h3 id="orga943515"><span class="section-number-3">1.3</span> Postgres-XL Key Components</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 Postgres-XL is composed of three major components: the GTM (Global
@@ -163,8 +163,8 @@ given in the following sections.
 </p>
 </div>
 
-<div id="outline-container-org746c639" class="outline-4">
-<h4 id="org746c639"><span class="section-number-4">1.3.1</span> GTM (Global Transaction Manager)</h4>
+<div id="outline-container-orgdeb453b" class="outline-4">
+<h4 id="orgdeb453b"><span class="section-number-4">1.3.1</span> GTM (Global Transaction Manager)</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 The GTM is a key component of Postgres-XL to provide consistent transaction management and tuple
@@ -180,8 +180,8 @@ based upon single global status.
 </div>
 </div>
 
-<div id="outline-container-org91a4ab6" class="outline-4">
-<h4 id="org91a4ab6"><span class="section-number-4">1.3.2</span> Coordinator</h4>
+<div id="outline-container-orgc4afa8a" class="outline-4">
+<h4 id="orgc4afa8a"><span class="section-number-4">1.3.2</span> Coordinator</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 The Coordinator is an interface to the database for applications. It acts like a conventional
@@ -198,8 +198,8 @@ Multi-version Concurrency Control (MVCC) properties extend cluster-wide.
 </div>
 </div>
 
-<div id="outline-container-orgec880db" class="outline-4">
-<h4 id="orgec880db"><span class="section-number-4">1.3.3</span> Datanode</h4>
+<div id="outline-container-org32e6f9d" class="outline-4">
+<h4 id="org32e6f9d"><span class="section-number-4">1.3.3</span> Datanode</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <p>
 The Datanode actually stores user data. Tables may be distributed among Datanodes, or replicated
@@ -217,17 +217,17 @@ transaction and snapshot context.
 </div>
 
 
-<div id="outline-container-org2131c80" class="outline-2">
-<h2 id="org2131c80"><span class="section-number-2">2</span> GTM</h2>
+<div id="outline-container-orgb026a15" class="outline-2">
+<h2 id="orgb026a15"><span class="section-number-2">2</span> GTM</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-GTM stands for Global Transaction Manager.  It provides <a href="#org4d1b346">global transaction IDs</a> and snapshots for
+GTM stands for Global Transaction Manager.  It provides <a href="#orgc8708a7">global transaction IDs</a> and snapshots for
 each transaction in the Postgres-XL database cluster.  It also provide several global values such
-as <a href="#org0924f1e">sequences</a> and global timestamps.
+as <a href="#orgb3e0922">sequences</a> and global timestamps.
 </p>
 
 <p>
-To improve scalability itself, each server hardware or virtual machine may have <a href="#orga66ce0e">GTM Proxy</a>.
+To improve scalability itself, each server hardware or virtual machine may have <a href="#org6c96831">GTM Proxy</a>.
 GTM-Proxy groups commands and response from/to GTM to reduce number of interaction and the amount
 of data which GTM reads and writes.
 </p>
@@ -239,7 +239,7 @@ out from the nodes and pulled into the GTM.
 
 
 <ul class="org-ul">
-<li><a href="#org50b7d49">Assigning XID globally to transactions (GXID, Global Transaction ID)</a> <br />
+<li><a href="#orga3c46f7">Assigning XID globally to transactions (GXID, Global Transaction ID)</a> <br />
 This can be done globally to identify each Transactions in the system.</li>
 
 <li>Providing snapshots <br />
@@ -269,12 +269,12 @@ visibility. Because snapshots here is also a global property, it is called <b>Gl
 </div>
 
 
-<div id="outline-container-org4d1b346" class="outline-3">
-<h3 id="org4d1b346"><span class="section-number-3">2.1</span> Transaction Manager</h3>
+<div id="outline-container-orgc8708a7" class="outline-3">
+<h3 id="orgc8708a7"><span class="section-number-3">2.1</span> Transaction Manager</h3>
 <div class="outline-text-3" id="text-2-1">
 
-<div id="org913701c" class="figure">
-<p><img src="../../../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org9d864e6" class="figure">
+<p><img src="../../../../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>GTM Data Structures</p>
 </div>
@@ -282,20 +282,20 @@ visibility. Because snapshots here is also a global property, it is called <b>Gl
 </div>
 
 
-<div id="outline-container-org3770ba4" class="outline-3">
-<h3 id="org3770ba4"><span class="section-number-3">2.2</span> GTM_ThreadMain</h3>
+<div id="outline-container-org547297a" class="outline-3">
+<h3 id="org547297a"><span class="section-number-3">2.2</span> GTM_ThreadMain</h3>
 <div class="outline-text-3" id="text-2-2">
 
-<div id="orgbf3fb1c" class="figure">
-<p><img src="../../../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org972f865" class="figure">
+<p><img src="../../../../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>GTM Thread Info</p>
 </div>
 
 
 
-<div id="org5452f74" class="figure">
-<p><img src="../../../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org81f908b" class="figure">
+<p><img src="../../../../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>GTM Thread Main</p>
 </div>
@@ -303,8 +303,8 @@ visibility. Because snapshots here is also a global property, it is called <b>Gl
 </div>
 
 
-<div id="outline-container-org50b7d49" class="outline-3">
-<h3 id="org50b7d49"><span class="section-number-3">2.3</span> Assignment of XID</h3>
+<div id="outline-container-orga3c46f7" class="outline-3">
+<h3 id="orga3c46f7"><span class="section-number-3">2.3</span> Assignment of XID</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 There should be other entrances&#x2026;
@@ -317,28 +317,28 @@ Each transaction reports when it starts and ends, as well as when it issues
 </div>
 
 
-<div id="outline-container-orga6c0b4c" class="outline-4">
-<h4 id="orga6c0b4c"><span class="section-number-4">2.3.1</span> Coordinator:</h4>
+<div id="outline-container-org2e4e4d8" class="outline-4">
+<h4 id="org2e4e4d8"><span class="section-number-4">2.3.1</span> Coordinator:</h4>
 <div class="outline-text-4" id="text-2-3-1">
 </div>
-<div id="outline-container-orgc7a5129" class="outline-5">
-<h5 id="orgc7a5129"><span class="section-number-5">2.3.1.1</span> BeginTranGTM()</h5>
+<div id="outline-container-orgb405386" class="outline-5">
+<h5 id="orgb405386"><span class="section-number-5">2.3.1.1</span> BeginTranGTM()</h5>
 <div class="outline-text-5" id="text-2-3-1-1">
 
-<div id="org0091312" class="figure">
-<p><img src="../../../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org989b9ad" class="figure">
+<p><img src="../../../../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>XID Assignment</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3477fc4" class="outline-5">
-<h5 id="org3477fc4"><span class="section-number-5">2.3.1.2</span> GTM_Result:</h5>
+<div id="outline-container-org531fcd3" class="outline-5">
+<h5 id="org531fcd3"><span class="section-number-5">2.3.1.2</span> GTM_Result:</h5>
 <div class="outline-text-5" id="text-2-3-1-2">
 
-<div id="org5969760" class="figure">
-<p><img src="../../../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org8d32fc0" class="figure">
+<p><img src="../../../../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm_result-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>GTM Result</p>
 </div>
@@ -347,17 +347,17 @@ Each transaction reports when it starts and ends, as well as when it issues
 </div>
 
 
-<div id="outline-container-orgc7295e3" class="outline-4">
-<h4 id="orgc7295e3"><span class="section-number-4">2.3.2</span> GTM: <code>ProcessBeginTransactionGetGXIDCommand</code></h4>
+<div id="outline-container-orgf2e7562" class="outline-4">
+<h4 id="orgf2e7562"><span class="section-number-4">2.3.2</span> GTM: <code>ProcessBeginTransactionGetGXIDCommand</code></h4>
 <div class="outline-text-4" id="text-2-3-2">
 <p>
-<code>ProcessCommand()</code> <img src="../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessTransactionCommand()</code>  <img src="../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessBeginTransactionGetGXIDCommand()</code>
+<code>ProcessCommand()</code> <img src="../../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessTransactionCommand()</code>  <img src="../../../../assets/img/2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" alt="2019-04-18-Global-Transaction-Manager-(GTM)_15e79e36eeb61624e35f47993e6731c19cfb85a7.png" /> <code>ProcessBeginTransactionGetGXIDCommand()</code>
 </p>
 
 
 
-<div id="org296dc7f" class="figure">
-<p><img src="../../../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" alt="process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="orgd2bd254" class="figure">
+<p><img src="../../../../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" alt="process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>ProcessBeginTransactionGetGXIDCommand</p>
 </div>
@@ -368,8 +368,8 @@ Each transaction reports when it starts and ends, as well as when it issues
 
 
 
-<div id="outline-container-orga66ce0e" class="outline-2">
-<h2 id="orga66ce0e"><span class="section-number-2">3</span> GTM-Proxy</h2>
+<div id="outline-container-org6c96831" class="outline-2">
+<h2 id="org6c96831"><span class="section-number-2">3</span> GTM-Proxy</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 GTM-Proxy groups commands and response from/to GTM to reduce number of interaction and the amount
@@ -395,26 +395,26 @@ Map Connection to Thread: Round-Robin (RR).
 </p>
 </div>
 
-<div id="outline-container-org55fd87a" class="outline-3">
-<h3 id="org55fd87a"><span class="section-number-3">3.1</span> Proxy Server Loop</h3>
+<div id="outline-container-org4d1910a" class="outline-3">
+<h3 id="org4d1910a"><span class="section-number-3">3.1</span> Proxy Server Loop</h3>
 <div class="outline-text-3" id="text-3-1">
 
-<div id="org23bc2eb" class="figure">
-<p><img src="../../../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png" alt="proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org8233dd3" class="figure">
+<p><img src="../../../../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png" alt="proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Proxy Server Loop</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org085d5bd" class="outline-3">
-<h3 id="org085d5bd"><span class="section-number-3">3.2</span> GTMProxy_ThreadMain</h3>
+<div id="outline-container-orgdfc5285" class="outline-3">
+<h3 id="orgdfc5285"><span class="section-number-3">3.2</span> GTMProxy_ThreadMain</h3>
 </div>
 </div>
 
 
-<div id="outline-container-org7b3ed1a" class="outline-2">
-<h2 id="org7b3ed1a"><span class="section-number-2">4</span> Coordinator</h2>
+<div id="outline-container-org4ab0b92" class="outline-2">
+<h2 id="org4ab0b92"><span class="section-number-2">4</span> Coordinator</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Coordinator is an entry point for Postgres-XL from applications.  You can configure more than one
@@ -453,8 +453,8 @@ two-phase commit protocol internally.
 </div>
 
 
-<div id="outline-container-org902f21e" class="outline-2">
-<h2 id="org902f21e"><span class="section-number-2">5</span> Datanodes</h2>
+<div id="outline-container-org202e448" class="outline-2">
+<h2 id="org202e448"><span class="section-number-2">5</span> Datanodes</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Datanode stores user data.  As described in and , more than one Datanodes can be configured.  Each
@@ -472,57 +472,57 @@ information is obtained from GTM, as well as other global value.
 </div>
 
 
-<div id="outline-container-org0924f1e" class="outline-2">
-<h2 id="org0924f1e"><span class="section-number-2">6</span> Seq Manager</h2>
+<div id="outline-container-orgb3e0922" class="outline-2">
+<h2 id="orgb3e0922"><span class="section-number-2">6</span> Seq Manager</h2>
 <div class="outline-text-2" id="text-6">
 
-<div id="orgbaed033" class="figure">
-<p><img src="../../../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" alt="seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org9d591a6" class="figure">
+<p><img src="../../../../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" alt="seq-manager-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>SegManager</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgdca9292" class="outline-2">
-<h2 id="orgdca9292"><span class="section-number-2">7</span> XCNode</h2>
+<div id="outline-container-orgef29188" class="outline-2">
+<h2 id="orgef29188"><span class="section-number-2">7</span> XCNode</h2>
 <div class="outline-text-2" id="text-7">
 
-<div id="orgf9d9db1" class="figure">
-<p><img src="../../../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png" alt="xc-node-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="orga0e44c5" class="figure">
+<p><img src="../../../../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png" alt="xc-node-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>XCNode</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org70ff081" class="outline-2">
-<h2 id="org70ff081"><span class="section-number-2">8</span> Recovery Standby Mode</h2>
+<div id="outline-container-org21ed020" class="outline-2">
+<h2 id="org21ed020"><span class="section-number-2">8</span> Recovery Standby Mode</h2>
 </div>
 
 
 
-<div id="outline-container-org07a4ff3" class="outline-2">
-<h2 id="org07a4ff3"><span class="section-number-2">9</span> Commands</h2>
+<div id="outline-container-org46cef9f" class="outline-2">
+<h2 id="org46cef9f"><span class="section-number-2">9</span> Commands</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-org87af587" class="outline-3">
-<h3 id="org87af587"><span class="section-number-3">9.1</span> <code>A</code></h3>
+<div id="outline-container-org564dacc" class="outline-3">
+<h3 id="org564dacc"><span class="section-number-3">9.1</span> <code>A</code></h3>
 <div class="outline-text-3" id="text-9-1">
 <p>
 Send by client, sign of connect/attach.
 </p>
 </div>
 
-<div id="outline-container-org2207a56" class="outline-4">
-<h4 id="org2207a56"><span class="section-number-4">9.1.1</span> client</h4>
+<div id="outline-container-org076abb3" class="outline-4">
+<h4 id="org076abb3"><span class="section-number-4">9.1.1</span> client</h4>
 <div class="outline-text-4" id="text-9-1-1">
 <p>
 Send by client when a client connects to server, followed by a <code>StartupPacket</code> :
 </p>
 
-<div id="org5548ac0" class="figure">
-<p><img src="../../../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" />
+<div id="org0208cf5" class="figure">
+<p><img src="../../../../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" alt="gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Startup Packet</p>
 </div>
@@ -530,8 +530,8 @@ Send by client when a client connects to server, followed by a <code>StartupPack
 </div>
 
 
-<div id="outline-container-org516557b" class="outline-4">
-<h4 id="org516557b"><span class="section-number-4">9.1.2</span> server</h4>
+<div id="outline-container-org3ee957f" class="outline-4">
+<h4 id="org3ee957f"><span class="section-number-4">9.1.2</span> server</h4>
 <div class="outline-text-4" id="text-9-1-2">
 <ul class="org-ul">
 <li>Update thread info based on StartupPacket.</li>
@@ -541,8 +541,8 @@ Send by client when a client connects to server, followed by a <code>StartupPack
 </div>
 </div>
 
-<div id="outline-container-org29080a7" class="outline-3">
-<h3 id="org29080a7"><span class="section-number-3">9.2</span> <code>R</code></h3>
+<div id="outline-container-org52e5657" class="outline-3">
+<h3 id="org52e5657"><span class="section-number-3">9.2</span> <code>R</code></h3>
 <div class="outline-text-3" id="text-9-2">
 <p>
 <b>Response</b>
@@ -555,8 +555,8 @@ Send by server as <code>Rresonse</code> of <code>A</code> , followed by client_i
 </div>
 
 
-<div id="outline-container-org70d51dc" class="outline-3">
-<h3 id="org70d51dc"><span class="section-number-3">9.3</span> <code>X</code></h3>
+<div id="outline-container-org8e06f13" class="outline-3">
+<h3 id="org8e06f13"><span class="section-number-3">9.3</span> <code>X</code></h3>
 <div class="outline-text-3" id="text-9-3">
 <p>
 Send by client.
@@ -568,8 +568,8 @@ End, Remove all transaction info.
 </div>
 </div>
 
-<div id="outline-container-org5764494" class="outline-3">
-<h3 id="org5764494"><span class="section-number-3">9.4</span> <code>EOF</code></h3>
+<div id="outline-container-org53feeef" class="outline-3">
+<h3 id="org53feeef"><span class="section-number-3">9.4</span> <code>EOF</code></h3>
 <div class="outline-text-3" id="text-9-4">
 <p>
 Send by client.
@@ -581,8 +581,8 @@ Connection Termination.
 </div>
 </div>
 
-<div id="outline-container-org7656ebb" class="outline-3">
-<h3 id="org7656ebb"><span class="section-number-3">9.5</span> <code>F</code></h3>
+<div id="outline-container-orga3575ad" class="outline-3">
+<h3 id="orga3575ad"><span class="section-number-3">9.5</span> <code>F</code></h3>
 <div class="outline-text-3" id="text-9-5">
 <p>
 Flush all outgoing data on the wire.
@@ -591,8 +591,8 @@ Flush all outgoing data on the wire.
 </div>
 
 
-<div id="outline-container-org1e9b1d8" class="outline-3">
-<h3 id="org1e9b1d8"><span class="section-number-3">9.6</span> <code>C</code></h3>
+<div id="outline-container-orge65798b" class="outline-3">
+<h3 id="orge65798b"><span class="section-number-3">9.6</span> <code>C</code></h3>
 <div class="outline-text-3" id="text-9-6">
 <p>
 Send by client.
@@ -605,12 +605,12 @@ Command.
 </div>
 
 
-<div id="outline-container-org0455870" class="outline-3">
-<h3 id="org0455870"><span class="section-number-3">9.7</span> <code>S</code></h3>
+<div id="outline-container-org2d78a0a" class="outline-3">
+<h3 id="org2d78a0a"><span class="section-number-3">9.7</span> <code>S</code></h3>
 </div>
 
-<div id="outline-container-org5e358dd" class="outline-3">
-<h3 id="org5e358dd"><span class="section-number-3">9.8</span> <code>E</code></h3>
+<div id="outline-container-orga8433d4" class="outline-3">
+<h3 id="orga8433d4"><span class="section-number-3">9.8</span> <code>E</code></h3>
 <div class="outline-text-3" id="text-9-8">
 <p>
 error occurred.
@@ -619,11 +619,11 @@ error occurred.
 </div>
 </div>
 
-<div id="outline-container-orgd058738" class="outline-2">
-<h2 id="orgd058738"><span class="section-number-2">10</span> 2PC</h2>
+<div id="outline-container-orge5df664" class="outline-2">
+<h2 id="orge5df664"><span class="section-number-2">10</span> 2PC</h2>
 </div>
-<div id="outline-container-org93cae9f" class="outline-2">
-<h2 id="org93cae9f"><span class="section-number-2">11</span> Snapshot Management</h2>
+<div id="outline-container-org5d855de" class="outline-2">
+<h2 id="org5d855de"><span class="section-number-2">11</span> Snapshot Management</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 Each transaction requests snapshots according to the transaction isolation level as done in

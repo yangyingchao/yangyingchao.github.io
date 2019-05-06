@@ -1,7 +1,7 @@
 #+TITLE: Memory Allocator of Sqlite
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: Memory, Allocator, Sqlite
+#+KEYWORDS: Memory Allocator Sqlite
 #+CATEGORY: Database
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

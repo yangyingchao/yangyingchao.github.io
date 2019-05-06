@@ -2,7 +2,7 @@
 layout : post
 title : Switching To ELPA
 categories : Emacs
-tags :  emacs  elpa
+tags : Emacs ELPA
 ---
 <p>
 I used to use <code>submodule</code> of <code>git</code> to pull emacs modules, and today, I decided to switch to
@@ -14,14 +14,13 @@ It is really easy and convenient to use elpa, adding following lines into <code>
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-emacs-lisp"><span class="linenr"> 1: </span>(<span style="color: #ff4040;">defvar</span> <span style="color: #daa520;">yc/packages</span>
 <span class="linenr"> 2: </span>  (list 'ac-helm 'edit-server 'flycheck 'magit 'yasnippet 'js3-mode 'autopair 'cmake-mode)
 <span class="linenr"> 3: </span>  <span style="color: #87ceeb;">"List of needed packages."</span>)
 <span class="linenr"> 4: </span>
 <span class="linenr"> 5: </span>(<span style="color: #ff4040;">defun</span> <span style="color: #1e90ff; font-weight: bold;">yc/install-packages</span> ()
 <span class="linenr"> 6: </span>  <span style="color: #87ceeb;">"Install all packages."</span>
-<span class="linenr"> 7: </span>  (interactive)
+<span class="linenr"> 7: </span>  (<span style="color: #ff4040;">interactive</span>)
 <span class="linenr"> 8: </span>  (package-refresh-contents)
 <span class="linenr"> 9: </span>  (mapc
 <span class="linenr">10: </span>   (<span style="color: #ff4040;">lambda</span> (p)
@@ -33,15 +32,15 @@ It is really easy and convenient to use elpa, adding following lines into <code>
 <span class="linenr">16: </span>
 <span class="linenr">17: </span>(<span style="color: #ff4040;">defun</span> <span style="color: #1e90ff; font-weight: bold;">yc/all-packages-available-p</span> ()
 <span class="linenr">18: </span>  <span style="color: #87ceeb;">"Check if all modules are available or not."</span>
-<span class="linenr">19: </span>  (interactive)
+<span class="linenr">19: </span>  (<span style="color: #ff4040;">interactive</span>)
 <span class="linenr">20: </span>  (<span style="color: #ff4040;">let</span> ((r t))
 <span class="linenr">21: </span>    (<span style="color: #ff4040;">dolist</span> (p yc/packages)
-<span class="linenr">22: </span>      (setq r (and r (package-installed-p p))))
+<span class="linenr">22: </span>      (<span style="color: #ff4040;">setq</span> r (<span style="color: #ff4040;">and</span> r (package-installed-p p))))
 <span class="linenr">23: </span>    r))
 <span class="linenr">24: </span>
-<span class="linenr">25: </span>(<span style="color: #ff4040;">unless</span> (yc/all-packages-available-p)
+<span class="linenr">25: </span>(<span style="color: #ff4040;">unless</span> (<span style="color: #ff4040;">yc/all-packages-available-p</span>)
 <span class="linenr">26: </span>  (message <span style="color: #d78700;">"Trying to install missing modules..."</span>)
-<span class="linenr">27: </span>  (yc/install-packages))
+<span class="linenr">27: </span>  (<span style="color: #ff4040;">yc/install-packages</span>))
 </pre>
 </div>
 

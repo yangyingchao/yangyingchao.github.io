@@ -7,47 +7,54 @@ categories : Utility
 Reposted from: <a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html">http://xmodulo.com/convert-video-animated-gif-image-linux.html</a>
 </p>
 
-    <div class="heatmapthemead-header-entry-meta entry-meta"><span class="heatmapthemead-post-details">Last updated on <a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html" title="10:00 am" rel="bookmark"><time class="entry-date" datetime="2013-11-22T10:00:11+00:00">November 22, 2013</time></a><span class="byline"> Authored by <span class="author vcard"><a class="url fn n" href="http://xmodulo.com/author/nanni" title="View all posts by Dan Nanni" rel="author">Dan Nanni</a></span></span></span>                   <span class="comments-link"><a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html#comments" title="Comment on How to convert video to animated gif image on Linux">5 Comments</a></span>
-                                </div><!-- .heatmapthemead-entry-meta -->
-            <div class="entry-content">
-<!--Ad Injection mfunc mode ad include code--><!--mfunc include_once('/home/kimchido/public_html/wp-content/plugins/ad-injection/adshow.php') --><!--/mfunc-->
-<p>Once thought of as outdated art forms, animated GIF images have now come back. If you haven't noticed, quite a few online sharing and social networking sites are now supporting animated GIF images, for example, on <a href="http://staff.tumblr.com/post/15623140287/1mb-gifs" target="_blank">Tumblr</a>, <a href="http://www.flickr.com/photos/markus-weldon-imagebank/4439159924/sizes/o/in/photostream/" target="_blank">Flickr</a>, <a href="https://plus.google.com/communities/110524851358723545415" target="_blank">Google+</a>, and <a href="http://mashable.com/2013/08/29/gifs-return-to-facebook/" target="_blank">partly on Facebook</a>.  Due to their ease of consumption and sharing, GIF-ed animations are now part of mainstream Internet culture.</p>
-<p>So some of you may wonder how you can create such animated GIF images. There are various online or offline tools dedicated to create animated GIF images.  Another option is to create an animated GIF image off of an existing video clip. In this tutorial, I will describe <strong>how to convert a video file to an animated GIF image on <a href="http://xmodulo.com/recommend/linuxguide" style="" target="_blank" rel="nofollow" >Linux</a></strong>.</p>
-<p>As a more useful example, let me demonstrate how to <strong>convert a YouTube video to an animated GIF image</strong>.</p>
-<h3>Step 1: Download a YouTube Video</h3>
-<p>First, download a YouTube video that you would like to convert.  You can use <a href="http://xmodulo.com/2013/03/how-to-save-youtube-videos-on-linux.html" target="_blank"><tt>youtube-dl</tt></a> tool to save a YouTube video as an MP4 file.  Suppose you saved your favorite YouTube video as "funny.mp4".</p>
-<h3>Step 2: Extract Video Frames from a Video</h3>
-<p>Next, <a href="http://xmodulo.com/2013/06/how-to-install-ffmpeg-on-linux.html" target="_blank">install FFmpeg</a> on your Linux system, which I will use to extract video frames from the video.</p>
-<p>The following command will extract individual video frames, and save them as GIF images.  Make sure to use the output file format ("out%04d.gif") as is.  That way, individual frames will be named and saved properly.</p>
-<code>
-ffmpeg -t &lt;duration&gt; -ss &lt;starting position in hh:mm:ss format&gt; -i &lt;input_video&gt; out%04d.gif
-</code>
-<p>For example, if you want to extract the video frames of input video, for 5 seconds, starting at 10 seconds from the beginning, run the following command.</p>
-<div class="console">
+<div class="HTML">
+<p>
+  &lt;header class="entry-header"&gt;
+  &lt;/header&gt; &lt;!&#x2013; heatmapthemead-entry-header &#x2013;&gt;
+	&lt;div class="heatmapthemead-header-entry-meta entry-meta"&gt;&lt;span class="heatmapthemead-post-details"&gt;Last updated on &lt;a href="<a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html">http://xmodulo.com/convert-video-animated-gif-image-linux.html</a>" title="10:00 am" rel="bookmark"&gt;&lt;time class="entry-date" datetime="2013-11-22T10:00:11+00:00"&gt;November 22, 2013&lt;/time&gt;&lt;/a&gt;&lt;span class="byline"&gt; Authored by &lt;span class="author vcard"&gt;&lt;a class="url fn n" href="<a href="http://xmodulo.com/author/nanni">http://xmodulo.com/author/nanni</a>" title="View all posts by Dan Nanni" rel="author"&gt;Dan Nanni&lt;/a&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;					&lt;span class="comments-link"&gt;&lt;a href="<a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html#comments">http://xmodulo.com/convert-video-animated-gif-image-linux.html#comments</a>" title="Comment on How to convert video to animated gif image on Linux"&gt;5 Comments&lt;/a&gt;&lt;/span&gt;
+								&lt;/div&gt;&lt;!&#x2013; .heatmapthemead-entry-meta &#x2013;&gt;
+			&lt;div class="entry-content"&gt;
+&lt;!&#x2013;Ad Injection mfunc mode ad include code&#x2013;&gt;&lt;!&#x2013;mfunc include_once('<i>home/kimchido/public_html/wp-content/plugins/ad-injection/adshow.php') &#x2013;&gt;&lt;!&#x2013;/mfunc&#x2013;&gt;
+&lt;p&gt;Once thought of as outdated art forms, animated GIF images have now come back. If you haven't noticed, quite a few online sharing and social networking sites are now supporting animated GIF images, for example, on &lt;a href="<a href="http://staff.tumblr.com/post/15623140287/1mb-gifs">http://staff.tumblr.com/post/15623140287/1mb-gifs</a>" target="_blank"&gt;Tumblr&lt;/a&gt;, &lt;a href="<a href="http://www.flickr.com/photos/markus-weldon-imagebank/4439159924/sizes/o/in/photostream">http://www.flickr.com/photos/markus-weldon-imagebank/4439159924/sizes/o/in/photostream</a></i>" target="_blank"&gt;Flickr&lt;/a&gt;, &lt;a href="<a href="https://plus.google.com/communities/110524851358723545415">https://plus.google.com/communities/110524851358723545415</a>" target="_blank"&gt;Google+&lt;/a&gt;, and &lt;a href="<a href="http://mashable.com/2013/08/29/gifs-return-to-facebook/">http://mashable.com/2013/08/29/gifs-return-to-facebook/</a>" target="_blank"&gt;partly on Facebook&lt;/a&gt;.  Due to their ease of consumption and sharing, GIF-ed animations are now part of mainstream Internet culture.&lt;/p&gt;
+&lt;p&gt;So some of you may wonder how you can create such animated GIF images. There are various online or offline tools dedicated to create animated GIF images.  Another option is to create an animated GIF image off of an existing video clip. In this tutorial, I will describe &lt;strong&gt;how to convert a video file to an animated GIF image on &lt;a href="<a href="http://xmodulo.com/recommend/linuxguide">http://xmodulo.com/recommend/linuxguide</a>" style="" target="_blank" rel="nofollow" &gt;Linux&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;As a more useful example, let me demonstrate how to &lt;strong&gt;convert a YouTube video to an animated GIF image&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3&gt;Step 1: Download a YouTube Video&lt;/h3&gt;
+&lt;p&gt;First, download a YouTube video that you would like to convert.  You can use &lt;a href="<a href="http://xmodulo.com/2013/03/how-to-save-youtube-videos-on-linux.html">http://xmodulo.com/2013/03/how-to-save-youtube-videos-on-linux.html</a>" target="_blank"&gt;&lt;tt&gt;youtube-dl&lt;/tt&gt;&lt;/a&gt; tool to save a YouTube video as an MP4 file.  Suppose you saved your favorite YouTube video as "funny.mp4".&lt;/p&gt;
+&lt;h3&gt;Step 2: Extract Video Frames from a Video&lt;/h3&gt;
+&lt;p&gt;Next, &lt;a href="<a href="http://xmodulo.com/2013/06/how-to-install-ffmpeg-on-linux.html">http://xmodulo.com/2013/06/how-to-install-ffmpeg-on-linux.html</a>" target="_blank"&gt;install FFmpeg&lt;/a&gt; on your Linux system, which I will use to extract video frames from the video.&lt;/p&gt;
+&lt;p&gt;The following command will extract individual video frames, and save them as GIF images.  Make sure to use the output file format ("out%04d.gif") as is.  That way, individual frames will be named and saved properly.&lt;/p&gt;
+&lt;code&gt;
+ffmpeg -t &amp;lt;duration&amp;gt; -ss &amp;lt;starting position in hh:mm:ss format&amp;gt; -i &amp;lt;input_video&amp;gt; out%04d.gif
+&lt;/code&gt;
+&lt;p&gt;For example, if you want to extract the video frames of input video, for 5 seconds, starting at 10 seconds from the beginning, run the following command.&lt;/p&gt;
+&lt;div class="console"&gt;
 $ ffmpeg -t 5 -ss 00:00:10 -i funny.mp4 out%04d.gif
-</div>
-</p>
-<p>After FFmpeg is completed, you will see a list of GIF files created, which are named as "out[\d+].gif".</p>
-<h3>Step 3: Merge Video Frames into an Animated GIF</h3>
-<p>The next step is to merge individual GIF files into one animated GIF image.  For that, you can use ImageMagick.</p>
-<p>First, <a href="http://ask.xmodulo.com/install-imagemagick-linux.html" target="_blank">install ImageMagick</a> on your Linux system if you haven't done so.</p>
-<p>Then, run the following command to merge created GIF images into a single animated GIF file.</p>
-<code>
-convert -delay &lt;ticks&gt;x&lt;ticks-per-second&gt; -loop 0 out*gif &lt;output-gif-file&gt;
-</code>
-<p>In the command, "-delay" is an option that controls the animation speed. This option indicates that [ticks/ticks-per-second] seconds must elapse before the display of the next frame.  The "-loop 0" option indicates infinite loops of animation.  If you want, you can specify "-loop N", in which case the animation will repeat itself N times.</p>
-<p>For example, to create an animated GIF image with 20 frames-per-second and infinite loop, use the following command.</p>
-<div class="console">
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;After FFmpeg is completed, you will see a list of GIF files created, which are named as "out[\d+].gif".&lt;/p&gt;
+&lt;h3&gt;Step 3: Merge Video Frames into an Animated GIF&lt;/h3&gt;
+&lt;p&gt;The next step is to merge individual GIF files into one animated GIF image.  For that, you can use ImageMagick.&lt;/p&gt;
+&lt;p&gt;First, &lt;a href="<a href="http://ask.xmodulo.com/install-imagemagick-linux.html">http://ask.xmodulo.com/install-imagemagick-linux.html</a>" target="_blank"&gt;install ImageMagick&lt;/a&gt; on your Linux system if you haven't done so.&lt;/p&gt;
+&lt;p&gt;Then, run the following command to merge created GIF images into a single animated GIF file.&lt;/p&gt;
+&lt;code&gt;
+convert -delay &amp;lt;ticks&amp;gt;x&amp;lt;ticks-per-second&amp;gt; -loop 0 out*gif &amp;lt;output-gif-file&amp;gt;
+&lt;/code&gt;
+&lt;p&gt;In the command, "-delay" is an option that controls the animation speed. This option indicates that [ticks/ticks-per-second] seconds must elapse before the display of the next frame.  The "-loop 0" option indicates infinite loops of animation.  If you want, you can specify "-loop N", in which case the animation will repeat itself N times.&lt;/p&gt;
+&lt;p&gt;For example, to create an animated GIF image with 20 frames-per-second and infinite loop, use the following command.&lt;/p&gt;
+&lt;div class="console"&gt;
 $ convert -delay 1x20 -loop 0 out*.gif animation.gif
-</div>
-</p>
-<h3>Step 4 (Optional): Reduce the Size of an Animated GIF</h3>
-<p>The last (optional) step is to reduce the size of the created GIF file, by using ImageMagick's GIF optimizer.</p>
-<p>Use the following command to reduce the GIF size.</p>
-<div class="console">
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;h3&gt;Step 4 (Optional): Reduce the Size of an Animated GIF&lt;/h3&gt;
+&lt;p&gt;The last (optional) step is to reduce the size of the created GIF file, by using ImageMagick's GIF optimizer.&lt;/p&gt;
+&lt;p&gt;Use the following command to reduce the GIF size.&lt;/p&gt;
+&lt;div class="console"&gt;
 $ convert -layers Optimize animation.gif animation_small.gif
-</div>
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;Now you are ready to share the GIF image on your social networks. The following shows a sample GIF image that I created from a cute YouTube video.&lt;/p&gt;
+&lt;p&gt;Enjoy. :-)&lt;/p&gt;
+&lt;p&gt;&lt;a target=_blank rel="nofollow" href="<a href="http://www.flickr.com/photos/xmodulo/10988763123/">http://www.flickr.com/photos/xmodulo/10988763123/</a>"&gt;&lt;img src="<img src="http://farm8.staticflickr.com/7372/10988763123_4e89a18085_o.gif" alt="10988763123_4e89a18085_o.gif" />"&gt;&lt;/a&gt;&lt;/p&gt;
 </p>
-<p>Now you are ready to share the GIF image on your social networks. The following shows a sample GIF image that I created from a cute YouTube video.</p>
-<p>Enjoy. :-)</p>
-<p><a target=_blank rel="nofollow" href="http://www.flickr.com/photos/xmodulo/10988763123/"><img src="http://farm8.staticflickr.com/7372/10988763123_4e89a18085_o.gif"></a></p>
+
+</div>

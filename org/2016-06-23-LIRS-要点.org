@@ -1,7 +1,7 @@
 #+TITLE: LIRS 要点
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: algorithm,lirs,cache
+#+KEYWORDS: algorithm lirs cache
 #+CATEGORY: Algorithm
 #+DESCRIPTION: (nil)
 #+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

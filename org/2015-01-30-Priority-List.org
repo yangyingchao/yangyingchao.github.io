@@ -1,8 +1,8 @@
 #+TITLE: Priority List
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: Kernel, Linux, List
-#+CATEGORY: kernel
+#+KEYWORDS: Kernel Linux List
+#+CATEGORY: Kernel
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate

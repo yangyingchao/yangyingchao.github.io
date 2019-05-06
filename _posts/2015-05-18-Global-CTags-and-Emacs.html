@@ -1,6 +1,6 @@
 ---
 layout : post
-title : Global&#32;CTags&#32;and&#32;Emacs
+title : Global CTags and Emacs
 categories : Emacs
 tags : global ctags emacs
 ---
@@ -8,14 +8,14 @@ tags : global ctags emacs
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Global</a>
+<li><a href="#org656a09d">1. Global</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Gnu Global &amp; C++</a></li>
-<li><a href="#sec-1-2">1.2. Global, Ctags &amp; pygments</a></li>
-<li><a href="#sec-1-3">1.3. Global 配置文件</a></li>
+<li><a href="#org334a426">1.1. Gnu Global &amp; C++</a></li>
+<li><a href="#orga38d0d7">1.2. Global, Ctags &amp; pygments</a></li>
+<li><a href="#orgb93f1c2">1.3. Global 配置文件</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Global &amp; Emacs</a></li>
+<li><a href="#org7f5cf8e">2. Global &amp; Emacs</a></li>
 </ul>
 </div>
 </div>
@@ -24,18 +24,18 @@ tags : global ctags emacs
 </p>
 
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Global</h2>
+<div id="outline-container-org656a09d" class="outline-2">
+<h2 id="org656a09d"><span class="section-number-2">1</span> Global</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Gnu Global &amp; C++</h3>
+</div>
+<div id="outline-container-org334a426" class="outline-3">
+<h3 id="org334a426"><span class="section-number-3">1.1</span> Gnu Global &amp; C++</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 之前在工作中发现 global 貌似不能正确的解析 C++ 的命名空间 (namespace) 。比如：
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040;">namespace</span> <span style="color: #7fffd4; font-weight: bold;">Test</span>
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">TestObject</span>
@@ -49,6 +49,7 @@ tags : global ctags emacs
 <span class="linenr">11: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">m_value</span>;
 <span class="linenr">12: </span>};
 <span class="linenr">13: </span>}
+<span class="linenr">14: </span>
 </pre>
 </div>
 
@@ -58,7 +59,6 @@ tags : global ctags emacs
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-text">extracting tags of test.cpp
 File './test.cpp' is handled as follows:
    suffix:   |.cpp|
@@ -70,21 +70,21 @@ File './test.cpp' is handled as follows:
 
 
 <p>
-折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：<i>Global 配置文件</i>。
+折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：<a href="#orgb93f1c2">Global 配置文件</a>。
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Global, Ctags &amp; pygments</h3>
+<div id="outline-container-orga38d0d7" class="outline-3">
+<h3 id="orga38d0d7"><span class="section-number-3">1.2</span> Global, Ctags &amp; pygments</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 global 本身支持多种语言的 TAG 的交叉查找，包括 c/c++, java, elisp, php 等等，此外还可以通过插件来支持其他的语言。
 </p>
 </div>
 
-<div id="outline-container-sec-1-2-1" class="outline-4">
-<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> ctags</h4>
+<div id="outline-container-orga4fb884" class="outline-4">
+<h4 id="orga4fb884"><span class="section-number-4">1.2.1</span> ctags</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 Global 可以通过 ctags 来解析其他的语言，安装方法参考：<a href="https://github.com/leoliu/ggtags">https://github.com/leoliu/ggtags</a>
@@ -110,8 +110,8 @@ The executable ctags is unfortunately named because emacs also includes a comman
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-2" class="outline-4">
-<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Pygments</h4>
+<div id="outline-container-org7431eca" class="outline-4">
+<h4 id="org7431eca"><span class="section-number-4">1.2.2</span> Pygments</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 新版 (6.4) 的 Global 内置了 pygments，用于从 python 文件中提取标签。
@@ -162,8 +162,8 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2-3" class="outline-4">
-<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> My gentoo overlay</h4>
+<div id="outline-container-org2f9e92e" class="outline-4">
+<h4 id="org2f9e92e"><span class="section-number-4">1.2.3</span> My gentoo overlay</h4>
 <div class="outline-text-4" id="text-1-2-3">
 <p>
 <a href="https://github.com/yangyingchao/gentoo-overlay-tubo/blob/master/dev-util/global/global-6.4.ebuild">这里</a> 有一个 global 的 ebuild，已经添加了 ctags 和 pygments 的支持，Gentoo 和 Prefix 的用可以拿它来安装 global.
@@ -172,8 +172,8 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Global 配置文件</h3>
+<div id="outline-container-orgb93f1c2" class="outline-3">
+<h3 id="orgb93f1c2"><span class="section-number-3">1.3</span> Global 配置文件</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 前面提到的 C++ 解析和 Ctags, pygments 都需要相应的配置文件。可惜的是，global 的配置文件文档不全，磕磕绊绊折腾了比较长的时间才弄好一份:
@@ -183,20 +183,17 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Global &amp; Emacs</h2>
+<div id="outline-container-org7f5cf8e" class="outline-2">
+<h2 id="org7f5cf8e"><span class="section-number-2">2</span> Global &amp; Emacs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 关于 global 和 Emacs 的整合，网络上已经有很多的教程和插件了，比如：
 </p>
 
 <ul class="org-ul">
-<li><a href="https://github.com/leoliu/ggtags">https://github.com/leoliu/ggtags</a>
-</li>
-<li><a href="https://github.com/syohex/emacs-helm-gtags">https://github.com/syohex/emacs-helm-gtags</a>
-</li>
-<li><a href="http://emacswiki.org/emacs/GnuGlobal">http://emacswiki.org/emacs/GnuGlobal</a>
-</li>
+<li><a href="https://github.com/leoliu/ggtags">https://github.com/leoliu/ggtags</a></li>
+<li><a href="https://github.com/syohex/emacs-helm-gtags">https://github.com/syohex/emacs-helm-gtags</a></li>
+<li><a href="http://emacswiki.org/emacs/GnuGlobal">http://emacswiki.org/emacs/GnuGlobal</a></li>
 </ul>
 
 <p>
@@ -209,12 +206,9 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </p>
 
 <ul class="org-ul">
-<li>增加了通过 helm 来实现 Tag/file 的过滤
-</li>
-<li><code>xgtags-select-mode</code> 下可以触发 <code>helm-xgtags--activate</code> 。
-</li>
-<li><code>xgtags-parse-file</code> 下高亮并 preselect 当前函数。
-</li>
+<li>增加了通过 helm 来实现 Tag/file 的过滤</li>
+<li><code>xgtags-select-mode</code> 下可以触发 <code>helm-xgtags--activate</code> 。</li>
+<li><code>xgtags-parse-file</code> 下高亮并 preselect 当前函数。</li>
 </ul>
 
 <p>
@@ -222,12 +216,9 @@ Make sure the value of &lt;PREFIX&gt; agree with step 1.
 </p>
 
 <ul class="org-ul">
-<li>有更好的高亮显示
-</li>
-<li>可以通过 <code>xgtags-select-next-tag</code> / <code>xgtags-select-prev-tag</code> 直接选择之前或之后的tag
-</li>
-<li><code>xgtags-parse-file</code> 下高亮并 preselect 当前函数。
-</li>
+<li>有更好的高亮显示</li>
+<li>可以通过 <code>xgtags-select-next-tag</code> / <code>xgtags-select-prev-tag</code> 直接选择之前或之后的tag</li>
+<li><code>xgtags-parse-file</code> 下高亮并 preselect 当前函数。</li>
 </ul>
 
 <p>

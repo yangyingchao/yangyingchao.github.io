@@ -1,8 +1,8 @@
 #+TITLE: Log Gdb Output To File
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: gdb,debug
-#+CATEGORY: development
+#+KEYWORDS: gdb debug
+#+CATEGORY: Development
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate

@@ -8,21 +8,21 @@ tags : linux
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">pipe 缓冲区有多大</a></li>
-<li><a href="#sec-2">Socket SO_ERROR vs errno</a>
+<li><a href="#org4e08d41">pipe 缓冲区有多大</a></li>
+<li><a href="#orgd47946f">Socket SO_ERROR vs errno</a>
 <ul>
-<li><a href="#sec-2-1">errno</a></li>
-<li><a href="#sec-2-2">SO_ERROR</a></li>
-<li><a href="#sec-2-3">用哪个</a></li>
+<li><a href="#orgb1d5ba2">errno</a></li>
+<li><a href="#org42cd956">SO_ERROR</a></li>
+<li><a href="#orgcc727d7">用哪个</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">pipe 缓冲区有多大</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org4e08d41" class="outline-2">
+<h2 id="org4e08d41">pipe 缓冲区有多大</h2>
+<div class="outline-text-2" id="text-org4e08d41">
 <p>
 网络编程中，有时候会用 <code>pipe</code> 来唤醒 <code>epoll/poll/select</code> ，但 <code>pipe</code> 缓冲区有多大？超了会怎么样？
 </p>
@@ -33,12 +33,9 @@ tags : linux
 </p>
 
 <ul class="org-ul">
-<li>&lt; <code>2.6.11</code> : 与 <code>PAGE_SIZE</code> 相同
-</li>
-<li>&gt;= <code>2.6.11</code> : 65536 （64K） 字节
-</li>
-<li>&gt;= <code>2.6.35</code> ：仍然为 64KB ，但可以通过 <i>fcntl</i> 来查询和设置。
-</li>
+<li>&lt; <code>2.6.11</code> : 与 <code>PAGE_SIZE</code> 相同</li>
+<li>&gt;= <code>2.6.11</code> : 65536 （64K） 字节</li>
+<li>&gt;= <code>2.6.35</code> ：仍然为 64KB ，但可以通过 <i>fcntl</i> 来查询和设置。</li>
 </ul>
 
 <p>
@@ -50,7 +47,6 @@ tags : linux
 详见： <code>man 7 pipe</code> :
 </p>
 <div class="org-src-container">
-
 <pre class="src src-text">Pipe capacity
   A pipe has a limited capacity.   If the pipe is full, then a
   write(2)  will  block  or  fail, depending  on  whether  the
@@ -74,12 +70,13 @@ tags : linux
 </div>
 
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Socket SO_ERROR vs errno</h2>
-<div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">errno</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orgd47946f" class="outline-2">
+<h2 id="orgd47946f">Socket SO_ERROR vs errno</h2>
+<div class="outline-text-2" id="text-orgd47946f">
+</div>
+<div id="outline-container-orgb1d5ba2" class="outline-3">
+<h3 id="orgb1d5ba2">errno</h3>
+<div class="outline-text-3" id="text-orgb1d5ba2">
 <p>
 <code>errno</code> 看起来像是一个全局变量，实则不然：
 </p>
@@ -90,25 +87,24 @@ tags : linux
 
 
 <div class="org-src-container">
-
 <pre class="src src-text">errno is  defined by the ISO  C standard to be  a modifiable
 lvalue of  type int,  and must  not be  explicitly declared;
 errno may be a macro.   errno is thread-local; setting it in
 one thread does not affect its value in any other thread.
+
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">SO_ERROR</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org42cd956" class="outline-3">
+<h3 id="org42cd956">SO_ERROR</h3>
+<div class="outline-text-3" id="text-org42cd956">
 <p>
 <code>getsockopt()</code> 提供了另外一种方式来获取 errno: <code>SO_ERROR</code> ， <code>man 7 socket</code> 显示：
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-text">Socket options
   The  socket  options  listed  below  can  be  set  by  using
   setsockopt(2) and  read with  getsockopt(2) with  the socket
@@ -118,6 +114,8 @@ one thread does not affect its value in any other thread.
   SO_ERROR
        Get and  clear the  pending socket error.   This socket
        option is read-only.  Expects an integer.
+
+
 </pre>
 </div>
 
@@ -126,7 +124,6 @@ sample:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">errno2</span>(<span style="color: #32cd32;">int</span> <span style="color: #daa520;">sfd</span>)
 {
   <span style="color: #32cd32;">int</span> <span style="color: #daa520;">error</span> = 0;
@@ -141,9 +138,9 @@ sample:
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3">用哪个</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-orgcc727d7" class="outline-3">
+<h3 id="orgcc727d7">用哪个</h3>
+<div class="outline-text-3" id="text-orgcc727d7">
 <p>
 答案是：都行。。。。</p>
 </div>

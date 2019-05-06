@@ -4,17 +4,22 @@ title : Linux:How To Identify Server ECC Memory Modules
 categories : Linux
 tags : memory ecc
 ---
-<span class="drop_cap">H</span>ow do I identify Linux server ECC memory modules from a shell prompt?<br> <span id="more-1005"></span><br> You need to count the chips on the module. If memory module has 9 chips per sides, it is ECC memory (EDAC protected memory). It may or may not be registered. If the memory module has 8 chips per side, it is not ECC memory modules.</p><p>You can get this information by visiting your BIOS setup menu. Another option is to use <a href="http://www.cyberciti.biz/tips/querying-dumping-bios-from-linux-command-prompt.html">dmidecode command to dump bios memory information</a> from a shell prompt:<br> <code># dmidecode --type 16</code></p><pre># dmidecode 2.11
+<div class="HTML">
+<p>
+&lt;span class="drop_cap"&gt;H&lt;/span&gt;ow do I identify Linux server ECC memory modules from a shell prompt?&lt;br&gt; &lt;span id="more-1005"&gt;&lt;/span&gt;&lt;br&gt; You need to count the chips on the module. If memory module has 9 chips per sides, it is ECC memory (EDAC protected memory). It may or may not be registered. If the memory module has 8 chips per side, it is not ECC memory modules.&lt;/p&gt;&lt;p&gt;You can get this information by visiting your BIOS setup menu. Another option is to use &lt;a href="<a href="http://www.cyberciti.biz/tips/querying-dumping-bios-from-linux-command-prompt.html">http://www.cyberciti.biz/tips/querying-dumping-bios-from-linux-command-prompt.html</a>"&gt;dmidecode command to dump bios memory information&lt;/a&gt; from a shell prompt:&lt;br&gt; &lt;code&gt;# dmidecode &#x2013;type 16&lt;/code&gt;&lt;/p&gt;&lt;pre&gt;# dmidecode 2.11
 SMBIOS 2.5 present.
 Handle 0x0016, DMI type 16, 15 bytes
 Physical Memory Array
     Location: System Board Or Motherboard
     Use: System Memory
-    Error Correction Type: <span style="color: rgb(255, 0, 0);">Single-bit ECC</span>
+    Error Correction Type: &lt;span style="color: rgb(255, 0, 0);"&gt;Single-bit ECC&lt;/span&gt;
     Maximum Capacity: 64 GB
     Error Information Handle: Not Provided
     Number Of Devices: 8
-</pre><p>To see memory speed and other information, enter:<br> <code># dmidecode --type memory</code></p>
+&lt;/pre&gt;&lt;p&gt;To see memory speed and other information, enter:&lt;br&gt; &lt;code&gt;# dmidecode &#x2013;type memory&lt;/code&gt;&lt;/p&gt;
+</p>
+
+</div>
 
 
 <p>

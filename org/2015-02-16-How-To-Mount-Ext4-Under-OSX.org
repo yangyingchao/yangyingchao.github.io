@@ -1,7 +1,7 @@
 #+TITLE: How To Mount Ext4 Under OSX
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: Ext4, Mac
+#+KEYWORDS: Ext4 Mac
 #+CATEGORY: Utility
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

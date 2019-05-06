@@ -1,7 +1,7 @@
 #+TITLE: Merge Sort Of Lists
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: Kernel, Sort, List
+#+KEYWORDS: Kernel Sort List
 #+CATEGORY: Kernel
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

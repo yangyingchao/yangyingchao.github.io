@@ -1,27 +1,34 @@
 ---
 layout : post
-title : Log&#32;Gdb&#32;Output&#32;To&#32;File
-categories : development
+title : Log Gdb Output To File
+categories : Development
 tags : gdb debug
 ---
 <p>
 Repost from: <a href="https://www.fayewilliams.com/2015/04/28/log-gdb-output-to-a-file/">https://www.fayewilliams.com/2015/04/28/log-gdb-output-to-a-file/</a>
 </p>
 
-<div class="entry-content">
+<div class="HTML">
+<p>
+&lt;div class="entry-content"&gt;
+</p>
 
-    <p>Sometimes, especially when you&#8217;re dealing with a long stack trace, or a multi-threaded stack trace, trying to view the debug output from GDB in a terminal window can be a little awkward.</p>
-    <p>Did you know that you can log specific output (or even the entire session) from within GDB to a text file?</p>
-    <p>All you have to do is type:</p>
-    <pre>set logging on</pre>
-    <p>at the GDB prompt.</p>
-    <p>GDB saves all output from this point in a text file called gdb.txt that resides in the directory in which you are running GDB (usually the same directory as your executable).</p>
-    <p>When you&#8217;re done you can type:</p>
-    <pre>set logging off</pre>
-    <p>And GDB will stop recording output.</p>
-    <p>Note that you can turn logging on and off several times and GDB will concatenate output to the gdb.txt file, so you don&#8217;t have to worry about overwriting what you&#8217;ve already got there.</p>
-    <p>If you want to record multiple files in a session you can change the filename with:</p>
-    <pre>set logging file myfile.txt</pre>
-    <p>Here&#8217;s a little screenshot:</p>
-    <p><img class="alignnone wp-image-2816 size-full" src="https://www.fayewilliams.com/wp-content/uploads/2015/04/gdb-file-logging.gif" alt="gdb-file-logging" width="575" height="251" /></p>
+<p>
+    &lt;p&gt;Sometimes, especially when you&amp;#8217;re dealing with a long stack trace, or a multi-threaded stack trace, trying to view the debug output from GDB in a terminal window can be a little awkward.&lt;/p&gt;
+    &lt;p&gt;Did you know that you can log specific output (or even the entire session) from within GDB to a text file?&lt;/p&gt;
+    &lt;p&gt;All you have to do is type:&lt;/p&gt;
+    &lt;pre&gt;set logging on&lt;/pre&gt;
+    &lt;p&gt;at the GDB prompt.&lt;/p&gt;
+    &lt;p&gt;GDB saves all output from this point in a text file called gdb.txt that resides in the directory in which you are running GDB (usually the same directory as your executable).&lt;/p&gt;
+    &lt;p&gt;When you&amp;#8217;re done you can type:&lt;/p&gt;
+    &lt;pre&gt;set logging off&lt;/pre&gt;
+    &lt;p&gt;And GDB will stop recording output.&lt;/p&gt;
+    &lt;p&gt;Note that you can turn logging on and off several times and GDB will concatenate output to the gdb.txt file, so you don&amp;#8217;t have to worry about overwriting what you&amp;#8217;ve already got there.&lt;/p&gt;
+    &lt;p&gt;If you want to record multiple files in a session you can change the filename with:&lt;/p&gt;
+    &lt;pre&gt;set logging file myfile.txt&lt;/pre&gt;
+    &lt;p&gt;Here&amp;#8217;s a little screenshot:&lt;/p&gt;
+    &lt;p&gt;&lt;img class="alignnone wp-image-2816 size-full" src="<img src="https://www.fayewilliams.com/wp-content/uploads/2015/04/gdb-file-logging.gif" alt="gdb-file-logging.gif" />" alt="gdb-file-logging" width="575" height="251" /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</p>
+
 </div>

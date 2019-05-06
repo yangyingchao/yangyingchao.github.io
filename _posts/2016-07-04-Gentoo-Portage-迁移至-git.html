@@ -13,12 +13,12 @@ tags : gentoo portage git
 </p>
 
 <div class="org-src-container">
-
-<pre class="src src-sh">emerge --update sys-apps/portage
+<pre class="src src-sh"><span style="color: #32cd32;">emerge</span> --update sys-apps/portage
 
 <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">mkdir /etc/portage/repos.conf</span>
 <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">touch /etc/portage/repos.conf/gentoo.conf</span>
 <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">mv /usr/portage /usr/portage.bak</span>
+
 </pre>
 </div>
 
@@ -28,12 +28,12 @@ tags : gentoo portage git
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-conf">[<span style="color: #32cd32;">gentoo</span>]
 <span style="color: #daa520;">location</span> = /usr/portage
 <span style="color: #daa520;">sync-type</span> = git
 <span style="color: #daa520;">sync-uri</span> = git://anongit.gentoo.org/repo/gentoo.git
 <span style="color: #daa520;">auto-sync</span> = yes
+
 </pre>
 </div>
 
@@ -48,7 +48,6 @@ eix：
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-sh"><span style="color: #daa520;">CACHE_METHOD</span>=<span style="color: #d78700;">"/usr/portage parse|ebuild*"</span> eix-update
 </pre>
 </div>
@@ -57,7 +56,6 @@ eix：
 or
 </p>
 <div class="org-src-container">
-
 <pre class="src src-sh"><span style="color: #daa520;">CACHE_METHOD</span>=<span style="color: #d78700;">"/usr/portage/ parse|ebuild*"</span>  &gt;&gt;   /etc/eixrc/eixrc
 </pre>
 </div>

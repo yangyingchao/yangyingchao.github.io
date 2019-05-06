@@ -1,0 +1,477 @@
+---
+layout : post
+title : Emacs As Daemon
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org98896bf">Running emacs like a Daemon</a></li>
+<li><a href="#org4efd0f5">Simple setup</a></li>
+<li><a href="#org6ff5a88">Debian/Ubuntu</a>
+<ul>
+<li><a href="#orga2401cb">Basic setup</a></li>
+<li><a href="#org0c7d5e5">Comprehensive init script</a></li>
+</ul>
+</li>
+<li><a href="#org08ef549">Gentoo</a></li>
+<li><a href="#orgff9c991">Emacs as Daemon on OS X using Launchd</a></li>
+<li><a href="#orgc0dab54">Systemd user service on startup</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org98896bf" class="outline-2">
+<h2 id="org98896bf">Running emacs like a Daemon</h2>
+<div class="outline-text-2" id="text-org98896bf">
+<p>
+This a new feature that is included in emacs-23.1.
+</p>
+
+<p>
+Start the emacs daemon with
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">emacs --daemon
+</pre>
+</div>
+
+<p>
+or,
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo emacs --daemon
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4efd0f5" class="outline-2">
+<h2 id="org4efd0f5">Simple setup</h2>
+<div class="outline-text-2" id="text-org4efd0f5">
+<p>
+Put
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #32cd32;">export</span> <span style="color: #daa520;">ALTERNATE_EDITOR</span>=<span style="color: #d78700;">""</span>
+<span style="color: #32cd32;">export</span> <span style="color: #daa520;">EDITOR</span>=emacsclient
+</pre>
+</div>
+
+<p>
+in your .bashrc, or
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">setenv ALTERNATE_EDITOR <span style="color: #d78700;">""</span>
+setenv EDITOR emacsclient
+</pre>
+</div>
+
+<p>
+in your .cshrc depending on your default shell. After that, using emacsclient (or
+emacsclient -t) will automatically start an emacs in daemon mode and connect to it
+if one is not found running, and sane programs will know to run emacsclient to
+start an editor.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ff5a88" class="outline-2">
+<h2 id="org6ff5a88">Debian/Ubuntu</h2>
+<div class="outline-text-2" id="text-org6ff5a88">
+<p>
+Depending on your requirements, there are a couple ways to work with
+<code>emacs --daemon</code> and <code>emacsclient</code>.
+</p>
+</div>
+
+<div id="outline-container-orga2401cb" class="outline-3">
+<h3 id="orga2401cb">Basic setup</h3>
+<div class="outline-text-3" id="text-orga2401cb">
+<p>
+Add <code>emacs --daemon</code> to auto-start on boot. This can be done the easy way (via
+“Settings &gt; Session and Startup &gt; Application Autostart”) or by writing your own
+<code>.desktop</code> file and placing it in <code>~/.config/autostart</code>.
+</p>
+
+<p>
+Then make the following changes to your .bashrc (assuming you’re using bash):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #32cd32;">export</span> <span style="color: #daa520;">ALTERNATE_EDITOR</span>=<span style="color: #d78700;">""</span>
+<span style="color: #32cd32;">export</span> <span style="color: #daa520;">EDITOR</span>=<span style="color: #d78700;">"emacsclient -t"</span>                  <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">$EDITOR should open in terminal</span>
+<span style="color: #32cd32;">export</span> <span style="color: #daa520;">VISUAL</span>=<span style="color: #d78700;">"emacsclient -c -a emacs"</span>         <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">$VISUAL opens in GUI with non-daemon as alternate</span>
+</pre>
+</div>
+
+<p>
+For convenience (and because I’m used to them) I also added the following
+aliases:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #32cd32;">alias</span> <span style="color: #daa520;">emax</span>=<span style="color: #d78700;">"emacsclient -t"</span>                      <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">used to be "emacs -nw"</span>
+<span style="color: #32cd32;">alias</span> <span style="color: #daa520;">semac</span>=<span style="color: #d78700;">"sudo emacsclient -t"</span>                <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">used to be "sudo emacs -nw"</span>
+<span style="color: #32cd32;">alias</span> <span style="color: #daa520;">emacsc</span>=<span style="color: #d78700;">"emacsclient -c -a emacs"</span>           <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">new - opens the GUI with alternate non-daemon</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c7d5e5" class="outline-3">
+<h3 id="org0c7d5e5">Comprehensive init script</h3>
+<div class="outline-text-3" id="text-org0c7d5e5">
+<p>
+Here a little init script for GNU Debian/Ubuntu (please help to improve!) Save in
+/etc/init.d/emacs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">! /bin/</span><span style="color: #ff4040;">sh</span>
+<span style="color: #cd5c5c; font-style: italic;">### </span><span style="color: #cd5c5c; font-style: italic;">BEGIN INIT INFO</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Provides:          emacs</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Default-Start:     2 3 4 5</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Default-Stop:      S 0 1 6</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Description:       This file should be placed in /etc/init.d.</span>
+<span style="color: #cd5c5c; font-style: italic;">### </span><span style="color: #cd5c5c; font-style: italic;">END INIT INFO</span>
+
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">change this</span>
+<span style="color: #daa520;">USERNAME</span>=YourUserName
+<span style="color: #32cd32;">eval</span> <span style="color: #daa520;">USERHOME</span>=~$<span style="color: #daa520;">USERNAME</span>
+<span style="color: #daa520;">DESC</span>=<span style="color: #d78700;">"Run the emacs daemon."</span>
+<span style="color: #daa520;">NAME</span>=emacs
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">change this</span>
+<span style="color: #daa520;">DAEMON</span>=/opt/emacs23/bin/$<span style="color: #daa520;">NAME</span>
+<span style="color: #daa520;">DAEMON_ARGS</span>=<span style="color: #d78700;">"--daemon"</span>
+<span style="color: #daa520;">PIDFILE</span>=/var/run/$<span style="color: #daa520;">NAME</span>.pid
+<span style="color: #daa520;">SCRIPTNAME</span>=/etc/init.d/$<span style="color: #daa520;">NAME</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">change this</span>
+<span style="color: #daa520;">EMACSCLIENT</span>=/opt/emacs23/bin/emacsclient
+<span style="color: #daa520;">EVALEXIT</span>=<span style="color: #d78700;">"(progn (kill-emacs))"</span>
+
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Exit if the package is not installed</span>
+[ -x <span style="color: #d78700;">"$DAEMON"</span> ] || <span style="color: #ff4040;">exit</span> 0
+
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Read configuration variable file if it is present</span>
+[ -r /etc/default/$<span style="color: #daa520;">NAME</span> ] &amp;&amp; <span style="color: #32cd32;">.</span> /etc/default/$<span style="color: #daa520;">NAME</span>
+
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Load the VERBOSE setting and other rcS variables</span>
+[ -f /etc/default/rcS ] &amp;&amp; <span style="color: #32cd32;">.</span> /etc/default/rcS
+
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Define LSB log_* functions.</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Depend on lsb-base (&gt;= 3.0-6) to ensure that this file is present.</span>
+<span style="color: #32cd32;">.</span> /lib/lsb/init-functions
+
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Function that starts the daemon/service</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #1e90ff; font-weight: bold;">do_start</span>()
+{
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Return</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">0 if daemon has been started</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">1 if daemon was already running</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">2 if daemon could not be started</span>
+    start-stop-daemon -c $<span style="color: #daa520;">USERNAME</span> -d $<span style="color: #daa520;">USERHOME</span> --start --quiet --pidfile $<span style="color: #daa520;">PIDFILE</span> --exec $<span style="color: #daa520;">DAEMON</span> --test &gt; /dev/null <span style="color: #d78700;">\</span>
+        || <span style="color: #ff4040;">return</span> 1
+    start-stop-daemon -c $<span style="color: #daa520;">USERNAME</span> -d $<span style="color: #daa520;">USERHOME</span> --start --quiet --pidfile $<span style="color: #daa520;">PIDFILE</span> --exec $<span style="color: #daa520;">DAEMON</span> -- <span style="color: #d78700;">\</span>
+        $<span style="color: #daa520;">DAEMON_ARGS</span> <span style="color: #d78700;">\</span>
+        || <span style="color: #ff4040;">return</span> 2
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Add code here, if necessary, that waits for the process to be ready</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">to handle requests from services started subsequently which depend</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">on this one.  As a last resort, sleep for some time.</span>
+}
+
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Function that stops the daemon/service</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #1e90ff; font-weight: bold;">do_stop</span>()
+{
+        $<span style="color: #daa520;">EMACSCLIENT</span> --eval <span style="color: #d78700;">"$EVALEXIT"</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Return</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">0 if daemon has been stopped</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">1 if daemon was already stopped</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">2 if daemon could not be stopped</span>
+    <span style="color: #cd5c5c; font-style: italic;">#   </span><span style="color: #cd5c5c; font-style: italic;">other if a failure occurred</span>
+    start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $<span style="color: #daa520;">PIDFILE</span> --name $<span style="color: #daa520;">NAME</span>
+    <span style="color: #daa520;">RETVAL</span>=<span style="color: #d78700;">"$?"</span>
+    [ <span style="color: #d78700;">"$RETVAL"</span> = 2 ] &amp;&amp; <span style="color: #ff4040;">return</span> 2
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Wait for children to finish too if this is a daemon that forks</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">and if the daemon is only ever run from this initscript.</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If the above conditions are not satisfied then add some other code</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">that waits for the process to drop all resources that could be</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">needed by services started subsequently.  A last resort is to</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">sleep for some time.</span>
+    start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $<span style="color: #daa520;">DAEMON</span>
+    [ <span style="color: #d78700;">"$?"</span> = 2 ] &amp;&amp; <span style="color: #ff4040;">return</span> 2
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Many daemons don't delete their pidfiles when they exit.</span>
+    rm -f $<span style="color: #daa520;">PIDFILE</span>
+    <span style="color: #ff4040;">return</span> <span style="color: #d78700;">"$RETVAL"</span>
+}
+
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Function that sends a SIGHUP to the daemon/service</span>
+<span style="color: #cd5c5c; font-style: italic;">#</span>
+<span style="color: #1e90ff; font-weight: bold;">do_reload</span>() {
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If the daemon can reload its configuration without</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">restarting (for example, when it is sent a SIGHUP),</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">then implement that here.</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    start-stop-daemon --stop --signal 1 --quiet --pidfile $<span style="color: #daa520;">PIDFILE</span> --name $<span style="color: #daa520;">NAME</span>
+    <span style="color: #ff4040;">return</span> 0
+}
+
+<span style="color: #ff4040;">case</span> <span style="color: #d78700;">"$1"</span><span style="color: #ff4040;"> in</span>
+  start)
+    [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_daemon_msg <span style="color: #d78700;">"Starting $DESC"</span> <span style="color: #d78700;">"$NAME"</span>
+    do_start
+    <span style="color: #ff4040;">case</span> <span style="color: #d78700;">"$?"</span><span style="color: #ff4040;"> in</span>
+        0|1) [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_end_msg 0 ;;
+        2) [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_end_msg 1 ;;
+    <span style="color: #ff4040;">esac</span>
+    ;;
+  stop)
+    [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_daemon_msg <span style="color: #d78700;">"Stopping $DESC"</span> <span style="color: #d78700;">"$NAME"</span>
+    do_stop
+    <span style="color: #ff4040;">case</span> <span style="color: #d78700;">"$?"</span><span style="color: #ff4040;"> in</span>
+        0|1) [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_end_msg 0 ;;
+        2) [ <span style="color: #d78700;">"$VERBOSE"</span> != no ] &amp;&amp; log_end_msg 1 ;;
+    <span style="color: #ff4040;">esac</span>
+    ;;
+  <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">reload|force-reload)</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If do_reload() is not implemented then leave this commented out</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">and leave 'force-reload' as an alias for 'restart'.</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">log_daemon_msg "Reloading $DESC" "$NAME"</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">do_reload</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">log_end_msg $?</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">;;</span>
+  restart|force-reload)
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">If the "reload" option is implemented then remove the</span>
+    <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">'force-reload' alias</span>
+    <span style="color: #cd5c5c; font-style: italic;">#</span>
+    log_daemon_msg <span style="color: #d78700;">"Restarting $DESC"</span> <span style="color: #d78700;">"$NAME"</span>
+    do_stop
+    <span style="color: #ff4040;">case</span> <span style="color: #d78700;">"$?"</span><span style="color: #ff4040;"> in</span>
+      0|1)
+        do_start
+        <span style="color: #ff4040;">case</span> <span style="color: #d78700;">"$?"</span><span style="color: #ff4040;"> in</span>
+            0) log_end_msg 0 ;;
+            1) log_end_msg 1 ;; <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Old process is still running</span>
+            *) log_end_msg 1 ;; <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Failed to start</span>
+        <span style="color: #ff4040;">esac</span>
+        ;;
+      *)
+        <span style="color: #cd5c5c; font-style: italic;"># </span><span style="color: #cd5c5c; font-style: italic;">Failed to stop</span>
+        log_end_msg 1
+        ;;
+    <span style="color: #ff4040;">esac</span>
+    ;;
+  *)
+    <span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">echo "Usage: $SCRIPTNAME {start|stop|restart|reload|force-reload}" &gt;&amp;2</span>
+    <span style="color: #32cd32;">echo</span> <span style="color: #d78700;">"Usage: $SCRIPTNAME {start|stop|restart|force-reload}"</span> &gt;&amp;2
+    <span style="color: #ff4040;">exit</span> 3
+    ;;
+<span style="color: #ff4040;">esac</span>
+
+:
+</pre>
+</div>
+
+<p>
+I use also this start script placed in /usr/bin/emacs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #cd5c5c; font-style: italic;">#</span><span style="color: #cd5c5c; font-style: italic;">!/bin/</span><span style="color: #ff4040;">bash</span>
+<span style="color: #daa520;">USERID</span>=<span style="color: #fa8072;">`id -u`</span>
+<span style="color: #ff4040;">if</span> [ ! -e /tmp/emacs$<span style="color: #daa520;">USERID</span>/server ]
+<span style="color: #ff4040;">then</span>
+    <span style="color: #32cd32;">echo</span> <span style="color: #d78700;">"Starting server."</span>
+    /etc/init.d/emacs start
+        <span style="color: #ff4040;">while</span> [ ! -e <span style="color: #d78700;">"/tmp/emacs$USERID/server"</span> ] ; <span style="color: #ff4040;">do</span> sleep 1 ; <span style="color: #ff4040;">done</span>
+<span style="color: #ff4040;">fi</span>
+
+emacsclient -c <span style="color: #d78700;">"$@"</span>
+</pre>
+</div>
+
+<p>
+bug : unfortunately this does not work on Debian Lenny using sudo. I get:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-console">start-stop-daemon: Unable to chdir() to /home/root/ (No such file or directory)
+</pre>
+</div>
+
+<p>
+<b>Fixed</b> : replaced <code>home/$USERNAME</code> with <code>~$USERNAME</code> (root’s home directory is
+/root not in /home)
+</p>
+
+<p>
+Since start-stop-daemon needs root should they be sudo calls? Otherwise surely on
+root can run emacs in this way!
+</p>
+
+<ul class="org-ul">
+<li>This init script requires you to change the USERNAME variable - not ideal :/</li>
+<li>How do you think deal with the choose of a user? One server per user? I think its a bad idea. The server is not useful for all users.</li>
+<li>How about starting a server for every user in group ‘emacs’ or ‘emacs-daemon’?</li>
+</ul>
+
+<p>
+You should rather change the variables in /etc/default/emacs, this is how other init scripts work. You could extend the script to start daemons for several users, e.g. by looking for a .start-emacs-daemon file in their home directories. But then, the init script wouldn’t make much sense on a system with multiple users, anyway: such a computer should never get powered off, so the init script will not run, anyway. A better solution would be to start the daemon lazily: just create a wrapper around emacsclient, starting the daemon if it isn’t already running. – AnselmHelbig
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org08ef549" class="outline-2">
+<h2 id="org08ef549">Gentoo</h2>
+<div class="outline-text-2" id="text-org08ef549">
+<p>
+Gentoo includes support for running Emacs as a daemon in the
+<code>app-emacs/emacs-daemon</code> package.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #32cd32;">emerge</span> app-emacs/emacs-daemon
+</pre>
+</div>
+
+<p>
+Every user who wants to connect to an Emacs server must have an own instance of
+the daemonized Emacs. The init script automatically determines the user by its
+name, so you create a symbolic link (do not copy the script, or you will miss
+eventual updates!) in your /etc/init.d directory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">ln -s emacs /etc/init.d/emacs.username
+</pre>
+</div>
+
+<p>
+This may be added to the boot sequence (and will run under the user’s privileges)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">rc-update add emacs.username default
+</pre>
+</div>
+
+<p>
+Further customizations can be done through the /etc/conf.d/emacs file, which is
+extensively commented. You may also create individual /etc/conf.d/emacs.username
+files for “multiplexed” user configuration.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff9c991" class="outline-2">
+<h2 id="orgff9c991">Emacs as Daemon on OS X using Launchd</h2>
+<div class="outline-text-2" id="text-orgff9c991">
+<p>
+If you’re running Emacs 23, you can run Emacs As Daemon via OS X’s launchd. The
+easiest solution is to use a tool like Lingon to create the plist file or can
+create one manually like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nxml"><span style="color: #d78700;">&lt;?</span><span style="color: #ff4040;">xml</span><span style="color: #d78700;"> </span><span style="color: #87ceeb;">version="1.0" encoding="utf-8"</span><span style="color: #d78700;">?&gt;</span>
+<span style="color: #d78700;">&lt;?</span><span style="color: #ff4040;">xml</span><span style="color: #d78700;"> </span><span style="color: #87ceeb;">version="1.0" encoding="utf-8"</span><span style="color: #d78700;">?&gt;</span>
+<span style="color: #d78700;">&lt;?</span><span style="color: #ff4040;">xml</span><span style="color: #d78700;"> </span><span style="color: #87ceeb;">version="1.0" encoding="UTF-8"</span><span style="color: #d78700;">?&gt;</span>
+<span style="color: #d78700;">&lt;!</span><span style="color: #d78700;">DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"</span>
+<span style="color: #d78700;">    "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+ &lt;<span style="color: #1e90ff; font-weight: bold;">plist</span> <span style="color: #daa520;">version</span>=<span style="color: #d78700;">"1.0"</span>&gt;
+  &lt;<span style="color: #1e90ff; font-weight: bold;">dict</span>&gt;
+    &lt;<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;Label&lt;/<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;
+    &lt;<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;gnu.emacs.daemon&lt;/<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;
+    &lt;<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;ProgramArguments&lt;/<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;
+    &lt;<span style="color: #1e90ff; font-weight: bold;">array</span>&gt;
+      &lt;<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;/Applications/Emacs.app/Contents/MacOS/Emacs&lt;/<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;
+      &lt;<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;--daemon&lt;/<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;
+    &lt;/<span style="color: #1e90ff; font-weight: bold;">array</span>&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;RunAtLoad&lt;/<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">true</span>/&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;ServiceDescription&lt;/<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;Gnu Emacs Daemon&lt;/<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;UserName&lt;/<span style="color: #1e90ff; font-weight: bold;">key</span>&gt;
+   &lt;<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;[YOUR USERNAME HERE]&lt;/<span style="color: #1e90ff; font-weight: bold;">string</span>&gt;
+  &lt;/<span style="color: #1e90ff; font-weight: bold;">dict</span>&gt;
+&lt;/<span style="color: #1e90ff; font-weight: bold;">plist</span>&gt;
+</pre>
+</div>
+
+<p>
+This can then be installed in <code>/Library/LaunchAgents</code> and loaded via:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo launchctl load -w /Library/LaunchAgents/gnu.emacs.daemon.plist
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc0dab54" class="outline-2">
+<h2 id="orgc0dab54">Systemd user service on startup</h2>
+<div class="outline-text-2" id="text-orgc0dab54">
+<p>
+It’s simple enough to run the emacs daemon with systemd.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-console">$ cat ~/.config/systemd/user/emacs.service
+[Unit]
+Description=Emacs: the extensible, self-documenting text editor
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval <span style="color: #d78700;">"(kill-emacs)"</span>
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=always
+
+[Install]
+WantedBy=default.target
+</pre>
+</div>
+
+<p>
+Make sure the <code>SSH_AUTH_SOCK</code> is the correct one by checking the output of the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-console">$ echo $SSH_AUTH_SOCK
+/run/user/1000/keyring/ssh
+</pre>
+</div>
+
+<p>
+When you see %t in the emacs.service file, it means the value of <code>XDG_RUNTIME_DIR</code>
+(which equals to <code>/run/user/1000</code> on my computer).
+</p>
+
+<p>
+Enable the unit for your user
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">systemctl enable --user emacs
+systemctl start --user emacs
+</pre>
+</div>
+</div>
+</div>

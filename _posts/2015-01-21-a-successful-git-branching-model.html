@@ -16,7 +16,7 @@ to be very successful. I’ve been meaning to write about it for a while now, bu
 I’ve never really found the time to do so thoroughly, until now. I won’t talk
 about any of the projects’ details, merely about the branching strategy and
 release management.&lt;/p&gt;
-&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/git-model@2x.png" width="575" /&gt;&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../../assets/img/git-model@2x.png" width="575" /&gt;&lt;/p&gt;
 &lt;p&gt;It focuses around &lt;a href="<a href="http://git-scm.com">http://git-scm.com</a>"&gt;Git&lt;/a&gt; as the tool for the versioning of
 all of our source code.&lt;/p&gt;
 &lt;h2 id="why-git"&gt;Why git? &lt;a href="#why-git" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
@@ -49,7 +49,7 @@ is that with a central “truth” repo. Note that this repo is only &lt;em&gt;c
 to be the central one (since Git is a DVCS, there is no such thing as a central
 repo at a technical level). We will refer to this repo as &lt;code&gt;origin&lt;/code&gt;, since this
 name is familiar to all Git users.&lt;/p&gt;
-&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/centr-decentr@2x.png" width="487" /&gt;&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../../assets/img/centr-decentr@2x.png" width="487" /&gt;&lt;/p&gt;
 &lt;p&gt;Each developer pulls and pushes to origin. But besides the centralized
 push-pull relationships, each developer may also pull changes from other peers
 to form sub teams. For example, this might be useful to work together with two
@@ -59,7 +59,7 @@ Alice and David, and Clair and David.&lt;/p&gt;
 &lt;p&gt;Technically, this means nothing more than that Alice has defined a Git remote,
 named &lt;code&gt;bob&lt;/code&gt;, pointing to Bob’s repository, and vice versa.&lt;/p&gt;
 &lt;h2 id="the-main-branches"&gt;The main branches &lt;a href="#the-main-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/main-branches@2x.png" width="267" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../../assets/img/main-branches@2x.png" width="267" /&gt;&lt;/p&gt;
 &lt;p&gt;At the core, the development model is greatly inspired by existing models out
 there. The central repo holds two main branches with an infinite lifetime:&lt;/p&gt;
 &lt;ul&gt;
@@ -103,7 +103,7 @@ their merge targets. We will walk through them in a minute.&lt;/p&gt;
 branch types are categorized by how we &lt;em&gt;use&lt;/em&gt; them. They are of course plain old
 Git branches.&lt;/p&gt;
 &lt;h3 id="feature-branches"&gt;Feature branches &lt;a href="#feature-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/fb@2x.png" width="133" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../../assets/img/fb@2x.png" width="133" /&gt;&lt;/p&gt;
 &lt;dl&gt;
 &lt;dt&gt;May branch off from:&lt;/dt&gt;
 &lt;dd&gt;&lt;code&gt;develop&lt;/code&gt;  &lt;/dd&gt;
@@ -149,7 +149,7 @@ to the upcoming release:&lt;/p&gt;
 if the merge could be performed with a fast-forward. This avoids losing
 information about the historical existence of a feature branch and groups
 together all commits that together added the feature. Compare:&lt;/p&gt;
-&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/merge-without-ff@2x.png" width="478" /&gt;&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../../assets/img/merge-without-ff@2x.png" width="478" /&gt;&lt;/p&gt;
 &lt;p&gt;In the latter case, it is impossible to see from the Git history which of the
 commit objects together have implemented a feature—you would have to manually
 read all the log messages. Reverting a whole feature (i.e. a group of commits),
@@ -262,7 +262,7 @@ need it anymore:&lt;/p&gt;
 
 <p>
 &lt;h3 id="hotfix-branches"&gt;Hotfix branches &lt;a href="#hotfix-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/hotfix-branches@2x.png" width="316" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../../assets/img/hotfix-branches@2x.png" width="316" /&gt;&lt;/p&gt;
 &lt;dl&gt;
 &lt;dt&gt;May branch off from:&lt;/dt&gt;
 &lt;dd&gt;&lt;code&gt;master&lt;/code&gt;&lt;/dd&gt;
@@ -361,7 +361,7 @@ branching and releasing processes.&lt;/p&gt;
 on the wall for quick reference at any time.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; And for anyone who requested it: here’s the
 &lt;a href="<a href="http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip">http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip</a>"&gt;gitflow-model.src.key&lt;/a&gt; of the main diagram image (Apple Keynote).&lt;/p&gt;
-&lt;p class="centered"&gt;&lt;a href="<a href="http://nvie.com/files/Git-branching-model.pdf">http://nvie.com/files/Git-branching-model.pdf</a>"&gt;&lt;img alt="" src="../../../assets/img/pdf@2x.png" width="128" /&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;p class="centered"&gt;&lt;a href="<a href="http://nvie.com/files/Git-branching-model.pdf">http://nvie.com/files/Git-branching-model.pdf</a>"&gt;&lt;img alt="" src="../../../../assets/img/pdf@2x.png" width="128" /&gt;&lt;/a&gt;&lt;br /&gt;
 &lt;a href="/files/Git-branching-model.pdf"&gt;Git-branching-model.pdf&lt;/a&gt;&lt;/p&gt;
   &lt;/div&gt;
 </p>

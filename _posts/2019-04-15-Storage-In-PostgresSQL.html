@@ -1,0 +1,447 @@
+---
+layout : post
+title : Storage In PostgresSQL
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3efb132">1. Storage Initialization</a>
+<ul>
+<li><a href="#org63decc2">1.1. In postmaster (master)</a></li>
+<li><a href="#org9ff8885">1.2. In postgres main (backend)</a></li>
+</ul>
+</li>
+<li><a href="#org8393280">2. Storage Manager (storage/smgr)</a>
+<ul>
+<li><a href="#org9a3e1c0">2.1. smgr</a></li>
+<li><a href="#org680479a">2.2. smgr_open()</a></li>
+<li><a href="#org15ca6ad">2.3. md</a></li>
+</ul>
+</li>
+<li><a href="#orgacd4ec9">3. (storage/file)</a></li>
+<li><a href="#org11b8b49">4. BufferManager (storage/buffer)</a>
+<ul>
+<li><a href="#org959df6b">4.1. Data Structures</a></li>
+<li><a href="#org747bf9d">4.2. InitBufferPool(void)</a></li>
+<li><a href="#orgd11ab5c">4.3. Buffer Pool Initialization</a></li>
+<li><a href="#orgf2fab4b">4.4. Buffer Read</a></li>
+</ul>
+</li>
+<li><a href="#orgbf8886b">5. Page (storage/page)</a></li>
+<li><a href="#org4541e12">6. Storage IPC</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org3efb132" class="outline-2">
+<h2 id="org3efb132"><span class="section-number-2">1</span> Storage Initialization</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org63decc2" class="outline-3">
+<h3 id="org63decc2"><span class="section-number-3">1.1</span> In postmaster (master)</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<div id="org047af70" class="figure">
+<p><img src="../../../../assets/img/storage-init-postmaster-gen.png" alt="storage-init-postmaster-gen.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Storage Init under Postmaster</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ff8885" class="outline-3">
+<h3 id="org9ff8885"><span class="section-number-3">1.2</span> In postgres main (backend)</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<div id="org65f6d6e" class="figure">
+<p><img src="../../../../assets/img/storage-init-postmain-gen.png" alt="storage-init-postmain-gen.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>caption</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8393280" class="outline-2">
+<h2 id="org8393280"><span class="section-number-2">2</span> Storage Manager (storage/smgr)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+In the original Berkeley Postgres system, there were several storage managers,
+of which only the "magnetic disk" manager remains.  (At Berkeley there were
+also managers for the Sony WORM optical disk jukebox and persistent main
+memory, but these were never supported in any externally released Postgres,
+nor in any version of PostgreSQL.)  The "magnetic disk" manager is itself
+seriously misnamed, because actually it supports any kind of device for
+which the operating system provides standard filesystem operations; which
+these days is pretty much everything of interest.  However, we retain the
+notion of a storage manager switch in case anyone ever wants to reintroduce
+other kinds of storage managers.  Removing the switch layer would save
+nothing noticeable anyway, since storage-access operations are surely far
+more expensive than one extra layer of C function calls.
+</p>
+</div>
+
+<div id="outline-container-org9a3e1c0" class="outline-3">
+<h3 id="org9a3e1c0"><span class="section-number-3">2.1</span> smgr</h3>
+<div class="outline-text-3" id="text-2-1">
+
+<div class="figure">
+<p><img src="../../../../assets/img/f_smgr-gen.png" alt="f_smgr-gen.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org680479a" class="outline-3">
+<h3 id="org680479a"><span class="section-number-3">2.2</span> smgr_open()</h3>
+<div class="outline-text-3" id="text-2-2">
+
+<div id="orga3a92bb" class="figure">
+<p><img src="../../../../assets/img/smgr-open-gen.png" alt="smgr-open-gen.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>smgr_open</p>
+</div>
+
+
+<p>
+<code>open</code> 的最后，将返回的  relation 的各个 fork 中的 seg 都初始化为 0 。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org15ca6ad" class="outline-3">
+<h3 id="org15ca6ad"><span class="section-number-3">2.3</span> md</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+magnetic disk.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgacd4ec9" class="outline-2">
+<h2 id="orgacd4ec9"><span class="section-number-2">3</span> (storage/file)</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Virtual file descriptor
+</p>
+
+
+<div id="org7c16b71" class="figure">
+<p><img src="../../../../assets/img/vfd-pg-gen.png" alt="vfd-pg-gen.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>VFD</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org11b8b49" class="outline-2">
+<h2 id="org11b8b49"><span class="section-number-2">4</span> BufferManager (storage/buffer)</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org959df6b" class="outline-3">
+<h3 id="org959df6b"><span class="section-number-3">4.1</span> Data Structures</h3>
+<div class="outline-text-3" id="text-4-1">
+
+<div id="orgf7d34ab" class="figure">
+<p><img src="../../../../assets/img/bf-ds-gen.png" alt="bf-ds-gen.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Buffer Pool Data Structures</p>
+</div>
+
+<p>
+<code>BufferDesc-&gt;state</code> 比较好玩，该 field 是一个 <code>uint32</code>  ， 但实际使用时候，被分成了三段：
+</p>
+
+<ul class="org-ul">
+<li>18 bits refcount</li>
+<li>4 bits usage count</li>
+<li>10 bits of flags</li>
+</ul>
+
+<p>
+三段共同组成一个 32bit 的数字，且可以用 CAS 直接操作。 <code>buf_internal</code> 中还提供了几个辅助函数用于获取 <code>refcount</code>  和 <code>useage count</code> 字段：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_REFCOUNT_ONE</span> 1
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_REFCOUNT_MASK</span> ((1U &lt;&lt; 18) - 1)
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_USAGECOUNT_MASK</span> 0x003C0000U
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_USAGECOUNT_ONE</span> (1U &lt;&lt; 18)
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_USAGECOUNT_SHIFT</span> 18
+<span style="color: #32cd32;">#define</span> <span style="color: #daa520;">BUF_FLAG_MASK</span> 0xFFC00000U
+
+<span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Get refcount and usagecount from buffer state </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">BUF_STATE_GET_REFCOUNT</span>(<span style="color: #daa520;">state</span>) ((state) &amp; BUF_REFCOUNT_MASK)
+<span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">BUF_STATE_GET_USAGECOUNT</span>(<span style="color: #daa520;">state</span>) (((state) &amp; BUF_USAGECOUNT_MASK) &gt;&gt; BUF_USAGECOUNT_SHIFT)
+</pre>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7c600c9" class="outline-4">
+<h4 id="org7c600c9"><span class="section-number-4">4.1.1</span> <span class="todo TODO">TODO</span> Refcount vs Usage count????</h4>
+</div>
+</div>
+
+<div id="outline-container-org747bf9d" class="outline-3">
+<h3 id="org747bf9d"><span class="section-number-3">4.2</span> InitBufferPool(void)</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#MissingReference</a>
+</p>
+
+<p>
+Allocate &amp; initiate above structures (in shared memory).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd11ab5c" class="outline-3">
+<h3 id="orgd11ab5c"><span class="section-number-3">4.3</span> Buffer Pool Initialization</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+This is called once during shared-memory initialization (either in the
+postmaster, or in a standalone backend).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf2fab4b" class="outline-3">
+<h3 id="orgf2fab4b"><span class="section-number-3">4.4</span> Buffer Read</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+eg flow:
+</p>
+
+
+<div id="org911c4b7" class="figure">
+<p><img src="../../../../assets/img/buffer-read-call-flow-gen.png" alt="buffer-read-call-flow-gen.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>Buffer Read call flow</p>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org7f19ff1" class="outline-4">
+<h4 id="org7f19ff1"><span class="section-number-4">4.4.1</span> ReadBufferExtended(Relation reln, ForkNumber forkNum, BlockNumber blockNum,</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+ReadBufferMode mode, BufferAccessStrategy strategy)
+</p>
+
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#MissingReference</a>
+</p>
+</div>
+
+<div id="outline-container-org0a5dd3c" class="outline-5">
+<h5 id="org0a5dd3c"><span class="section-number-5">4.4.1.1</span> Read Buffer Mode</h5>
+<div class="outline-text-5" id="text-4-4-1-1">
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Possible modes for ReadBufferExtended() </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span style="color: #ff4040;">typedef</span> <span style="color: #ff4040;">enum</span>
+{
+    <span style="color: #daa520;">RBM_NORMAL</span>,                 <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Normal read </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+    <span style="color: #32cd32;">RBM_ZERO_AND_LOCK</span>,          <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Don't read from disk, caller will</span>
+<span style="color: #cd5c5c; font-style: italic;">                                 * initialize. Also locks the page. </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+    <span style="color: #32cd32;">RBM_ZERO_AND_CLEANUP_LOCK</span>,  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Like RBM_ZERO_AND_LOCK, but locks the page</span>
+<span style="color: #cd5c5c; font-style: italic;">                                 * in "cleanup" mode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+    <span style="color: #32cd32;">RBM_ZERO_ON_ERROR</span>,          <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Read, but return an all-zeros page on error </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+    <span style="color: #daa520;">RBM_NORMAL_NO_LOG</span>           <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Don't log page as invalid during WAL</span>
+<span style="color: #cd5c5c; font-style: italic;">                                 * replay; otherwise same as RBM_NORMAL </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+} <span style="color: #32cd32;">ReadBufferMode</span>;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org489c269" class="outline-6">
+<h6 id="org489c269"><span class="section-number-6">4.4.1.1.1</span> <code>RBM_NORMAL</code></h6>
+<div class="outline-text-6" id="text-4-4-1-1-1">
+<p>
+In <code>RBM_NORMAL</code> mode, the page is read from disk, and the page header is
+validated.  An error is thrown if the page header is not valid.  (But
+note that an all-zero page is considered "valid"; see PageIsVerified().)
+</p>
+
+<p>
+正常模式下，从磁盘读取 page ，并对 page header 进行校验，如果 page header 不合法则抛出错误。注：全为 0 的页视为合法页。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5541039" class="outline-6">
+<h6 id="org5541039"><span class="section-number-6">4.4.1.1.2</span> <code>RBM_ZERO_ON_ERROR</code></h6>
+<div class="outline-text-6" id="text-4-4-1-1-2">
+<p>
+<code>RBM_ZERO_ON_ERROR</code> is like the normal mode, but if the page header is not
+valid, the page is zeroed instead of throwing an error. This is intended
+for non-critical data, where the caller is prepared to repair errors.
+</p>
+
+<p>
+与 <code>normal</code> 模式类似，但不校验页头，当发生错误时，不抛出异常，而是返回零页。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb751ce" class="outline-6">
+<h6 id="orgcb751ce"><span class="section-number-6">4.4.1.1.3</span> <code>RBM_ZERO_AND_LOCK mode</code></h6>
+<div class="outline-text-6" id="text-4-4-1-1-3">
+<p>
+In <code>RBM_ZERO_AND_LOCK</code> mode, if the page isn't in buffer cache already, it's
+filled with zeros instead of reading it from disk.  Useful when the caller
+is going to fill the page from scratch, since this saves I/O and avoids
+unnecessary failure if the page-on-disk has corrupt page headers.
+The page is returned locked to ensure that the caller has a chance to
+initialize the page before it's made visible to others.
+</p>
+
+<p>
+当页不在 buffer cache 中时，不从磁盘中读取，而是返回零页，并锁定该页。
+</p>
+
+
+<p>
+Caution: do not use this mode to read a page that is beyond the relation's
+current physical EOF; that is likely to cause problems in md.c when
+the page is modified and written out. P_NEW is OK, though.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0f32661" class="outline-6">
+<h6 id="org0f32661"><span class="section-number-6">4.4.1.1.4</span> <code>RBM_ZERO_AND_CLEANUP_LOCK</code></h6>
+<div class="outline-text-6" id="text-4-4-1-1-4">
+<p>
+<code>RBM_ZERO_AND_CLEANUP_LOCK</code> is the same as <code>RBM_ZERO_AND_LOCK</code>, but acquires
+a cleanup-strength lock on the page.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org16032b9" class="outline-6">
+<h6 id="org16032b9"><span class="section-number-6">4.4.1.1.5</span> <code>RBM_NORMAL_NO_LOG</code></h6>
+<div class="outline-text-6" id="text-4-4-1-1-5">
+<p>
+<code>RBM_NORMAL_NO_LOG</code> mode is treated the same as <code>RBM_NORMAL</code> here.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4cbe826" class="outline-5">
+<h5 id="org4cbe826"><span class="section-number-5">4.4.1.2</span> ReadBufferExtended Flow</h5>
+<div class="outline-text-5" id="text-4-4-1-2">
+
+<div id="orgbb14bec" class="figure">
+<p><img src="../../../../assets/img/readbuffer-extented-gen.png" alt="readbuffer-extented-gen.png" />
+</p>
+<p><span class="figure-number">Figure 8: </span>ReadBufferExtended flow</p>
+</div>
+</div>
+
+<div id="outline-container-orgbdc140b" class="outline-6">
+<h6 id="orgbdc140b"><span class="section-number-6">4.4.1.2.1</span> BufferAlloc</h6>
+<div class="outline-text-6" id="text-4-4-1-2-1">
+<p>
+BufferAlloc &#x2013; subroutine for ReadBuffer.  Handles lookup of a shared
+buffer.  If no buffer exists already, selects a replacement
+victim and evicts the old page, but does NOT read in new page.
+</p>
+
+<p>
+The returned buffer is pinned and is already marked as holding the
+desired page.
+</p>
+
+
+<div id="org1dc4eda" class="figure">
+<p><img src="../../../../assets/img/pg-buffer-alloc-gen.png" alt="pg-buffer-alloc-gen.png" />
+</p>
+<p><span class="figure-number">Figure 9: </span>BufferAlloc</p>
+</div>
+</div>
+
+<div id="outline-container-orgd05063d" class="outline-7">
+<h7 id="orgd05063d"><span class="section-number-7">4.4.1.2.1.1</span> StartBufferIO</h7>
+<div class="outline-text-7" id="text-4-4-1-2-1-1">
+
+<div id="org9ea95a9" class="figure">
+<p><img src="../../../../assets/img/pg-start-bufferio-gen.png" alt="pg-start-bufferio-gen.png" />
+</p>
+<p><span class="figure-number">Figure 10: </span>Start buffer io</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org76217ab" class="outline-7">
+<h7 id="org76217ab"><span class="section-number-7">4.4.1.2.1.2</span> PinBuffer</h7>
+<div class="outline-text-7" id="text-4-4-1-2-1-2">
+<p>
+<code>PinBuffer</code> &#x2013; make buffer unavailable for replacement.
+</p>
+
+
+<p>
+This should be applied only to shared buffers, never local ones.
+</p>
+
+
+<p>
+Since buffers are pinned/unpinned very frequently, pin buffers without
+taking the buffer header lock; instead update the state variable in loop of
+CAS operations. Hopefully it's just a single CAS.
+</p>
+
+
+
+<div id="org52ff788" class="figure">
+<p><img src="../../../../assets/img/pin-buffer-gen.png" alt="pin-buffer-gen.png" />
+</p>
+<p><span class="figure-number">Figure 11: </span>Pin Buffer</p>
+</div>
+
+<ul class="org-ul">
+<li><b>strategy:</b></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8807504" class="outline-5">
+<h5 id="org8807504"><span class="section-number-5">4.4.1.3</span> Fork????</h5>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf8886b" class="outline-2">
+<h2 id="orgbf8886b"><span class="section-number-2">5</span> Page (storage/page)</h2>
+<div class="outline-text-2" id="text-5">
+
+<div id="org7a892a0" class="figure">
+<p><img src="../../../../assets/img/page-ds-pg-gen.png" alt="page-ds-pg-gen.png" />
+</p>
+<p><span class="figure-number">Figure 12: </span>Page related data structure</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4541e12" class="outline-2">
+<h2 id="org4541e12"><span class="section-number-2">6</span> Storage IPC</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Refer to: <a href="2019-04-15-Processes-of-PostgresSQL.html">2019-04-15-Processes-of-PostgresSQL.html</a>
+</p>
+</div>
+</div>

@@ -2,21 +2,21 @@
 layout : post
 title : JNI FindClass Error in Native Thread
 categories : Android
-tags :  android  jni  findclass
+tags : Android JNI FindClass
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Q:</a></li>
-<li><a href="#sec-2">2. A:</a></li>
+<li><a href="#org19780d8">1. Q:</a></li>
+<li><a href="#org452dad8">2. A:</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Q:</h2>
+<div id="outline-container-org19780d8" class="outline-2">
+<h2 id="org19780d8"><span class="section-number-2">1</span> Q:</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 If we try to find java class in native thread, it probably results with an error: Can't find
@@ -25,86 +25,107 @@ class.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> A:</h2>
+<div id="outline-container-org452dad8" class="outline-2">
+<h2 id="org452dad8"><span class="section-number-2">2</span> A:</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <a href="http://developer.android.com/training/articles/perf-jni.html">Here</a> is the explanation:
 </p>
 
+<div class="HTML">
+<p>
 
-<a name="faq_FindClass" id="faq_FindClass"></a>
-<h2>FAQ: Why didn't <code>FindClass</code> find my class?</h2>
+</p>
 
-<p>(Most of this advice applies equally well to failures to find methods
-with <code>GetMethodID</code> or <code>GetStaticMethodID</code>, or fields
-with <code>GetFieldID</code> or <code>GetStaticFieldID</code>.)</p>
+<p>
+&lt;a name="faq_FindClass" id="faq_FindClass"&gt;&lt;/a&gt;
+&lt;h2&gt;FAQ: Why didn't &lt;code&gt;FindClass&lt;/code&gt; find my class?&lt;/h2&gt;
+</p>
 
-<p>Make sure that the class name string has the correct format.  JNI class
+<p>
+&lt;p&gt;(Most of this advice applies equally well to failures to find methods
+with &lt;code&gt;GetMethodID&lt;/code&gt; or &lt;code&gt;GetStaticMethodID&lt;/code&gt;, or fields
+with &lt;code&gt;GetFieldID&lt;/code&gt; or &lt;code&gt;GetStaticFieldID&lt;/code&gt;.)&lt;/p&gt;
+</p>
+
+<p>
+&lt;p&gt;Make sure that the class name string has the correct format.  JNI class
 names start with the package name and are separated with slashes,
-such as <code>java/lang/String</code>.  If you're looking up an array class,
+such as &lt;code&gt;java/lang/String&lt;/code&gt;.  If you're looking up an array class,
 you need to start with the appropriate number of square brackets and
 must also wrap the class with 'L' and ';', so a one-dimensional array of
-<code>String</code> would be <code>[Ljava/lang/String;</code>.
+&lt;code&gt;String&lt;/code&gt; would be &lt;code&gt;[Ljava/lang/String;&lt;/code&gt;.
 If you're looking up an inner class, use '$' rather than '.'. In general,
-using <code>javap</code> on the .class file is a good way to find out the
-internal name of your class.</p>
+using &lt;code&gt;javap&lt;/code&gt; on the .class file is a good way to find out the
+internal name of your class.&lt;/p&gt;
+</p>
 
-<p>If you're using ProGuard, make sure that
-<a href="/tools/help/proguard.html#configuring">ProGuard didn't
-strip out your class</a>. This can happen if your class/method/field is only
+<p>
+&lt;p&gt;If you're using ProGuard, make sure that
+&lt;a href="/tools/help/proguard.html#configuring"&gt;ProGuard didn't
+strip out your class&lt;/a&gt;. This can happen if your class/method/field is only
 used from JNI.
+</p>
 
-<p>If the class name looks right, you could be running into a class loader
-issue.  <code>FindClass</code> wants to start the class search in the
+<p>
+&lt;p&gt;If the class name looks right, you could be running into a class loader
+issue.  &lt;code&gt;FindClass&lt;/code&gt; wants to start the class search in the
 class loader associated with your code.  It examines the call stack,
 which will look something like:
-<pre>    Foo.myfunc(Native Method)
-    Foo.main(Foo.java:10)</pre>
+&lt;pre&gt;    Foo.myfunc(Native Method)
+    Foo.main(Foo.java:10)&lt;/pre&gt;
+</p>
 
-<p>The topmost method is <code>Foo.myfunc</code>.  <code>FindClass</code>
-finds the <code>ClassLoader</code> object associated with the <code>Foo</code>
-class and uses that.</p>
+<p>
+&lt;p&gt;The topmost method is &lt;code&gt;Foo.myfunc&lt;/code&gt;.  &lt;code&gt;FindClass&lt;/code&gt;
+finds the &lt;code&gt;ClassLoader&lt;/code&gt; object associated with the &lt;code&gt;Foo&lt;/code&gt;
+class and uses that.&lt;/p&gt;
+</p>
 
-<p>This usually does what you want.  You can get into trouble if you
-create a thread yourself (perhaps by calling <code>pthread_create</code>
-and then attaching it with <code>AttachCurrentThread</code>). Now there
+<p>
+&lt;p&gt;This usually does what you want.  You can get into trouble if you
+create a thread yourself (perhaps by calling &lt;code&gt;pthread_create&lt;/code&gt;
+and then attaching it with &lt;code&gt;AttachCurrentThread&lt;/code&gt;). Now there
 are no stack frames from your application.
-If you call <code>FindClass</code> from this thread, the
+If you call &lt;code&gt;FindClass&lt;/code&gt; from this thread, the
 JavaVM will start in the "system" class loader instead of the one associated
-with your application, so attempts to find app-specific classes will fail.</p>
+with your application, so attempts to find app-specific classes will fail.&lt;/p&gt;
+</p>
 
-<p>There are a few ways to work around this:</p>
-<ul>
-    <li>Do your <code>FindClass</code> lookups once, in
-    <code>JNI_OnLoad</code>, and cache the class references for later
-    use.  Any <code>FindClass</code> calls made as part of executing
-    <code>JNI_OnLoad</code> will use the class loader associated with
-    the function that called <code>System.loadLibrary</code> (this is a
+<p>
+&lt;p&gt;There are a few ways to work around this:&lt;/p&gt;
+&lt;ul&gt;
+    &lt;li&gt;Do your &lt;code&gt;FindClass&lt;/code&gt; lookups once, in
+    &lt;code&gt;JNI_OnLoad&lt;/code&gt;, and cache the class references for later
+    use.  Any &lt;code&gt;FindClass&lt;/code&gt; calls made as part of executing
+    &lt;code&gt;JNI_OnLoad&lt;/code&gt; will use the class loader associated with
+    the function that called &lt;code&gt;System.loadLibrary&lt;/code&gt; (this is a
     special rule, provided to make library initialization more convenient).
-    If your app code is loading the library, <code>FindClass</code>
+    If your app code is loading the library, &lt;code&gt;FindClass&lt;/code&gt;
     will use the correct class loader.
-    <li>Pass an instance of the class into the functions that need
+    &lt;li&gt;Pass an instance of the class into the functions that need
     it, by declaring your native method to take a Class argument and
-    then passing <code>Foo.class</code> in.
-    <li>Cache a reference to the <code>ClassLoader</code> object somewhere
-    handy, and issue <code>loadClass</code> calls directly.  This requires
+    then passing &lt;code&gt;Foo.class&lt;/code&gt; in.
+    &lt;li&gt;Cache a reference to the &lt;code&gt;ClassLoader&lt;/code&gt; object somewhere
+    handy, and issue &lt;code&gt;loadClass&lt;/code&gt; calls directly.  This requires
     some effort.
-</ul>
+&lt;/ul&gt;
+</p>
+
+</div>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Solution 1: cache <code>jclass</code>:</h3>
+<div id="outline-container-org2f1557e" class="outline-3">
+<h3 id="org2f1557e"><span class="section-number-3">2.1</span> Solution 1: cache <code>jclass</code>:</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Here is what I did in <code>JNI_OnLoad()</code> to cache <code>jclass</code>:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">"android/log.h"</span>
 <span class="linenr"> 2: </span>
-<span class="linenr"> 3: </span><span style="color: #32cd32;">#undef</span> <span style="color: #32cd32;">PDEBUG</span>
+<span class="linenr"> 3: </span><span style="color: #32cd32;">#undef</span> PDEBUG
 <span class="linenr"> 4: </span><span style="color: #32cd32;">#define</span> <span style="color: #1e90ff; font-weight: bold;">PDEBUG</span>(<span style="color: #daa520;">fmt</span>, ...)                                                \
 <span class="linenr"> 5: </span>    <span style="color: #ff4040;">do</span> {                                                                \
 <span class="linenr"> 6: </span>        __android_log_print(ANDROID_LOG_ERROR,                          \
@@ -124,7 +145,7 @@ Here is what I did in <code>JNI_OnLoad()</code> to cache <code>jclass</code>:
 <span class="linenr">20: </span>
 <span class="linenr">21: </span>JNIEXPORT jint <span style="color: #32cd32;">JNICALL</span> <span style="color: #1e90ff; font-weight: bold;">JNI_OnLoad</span>(<span style="color: #32cd32;">JavaVM</span>* <span style="color: #daa520;">vm</span>, <span style="color: #32cd32;">void</span>* <span style="color: #daa520;">reserved</span>)
 <span class="linenr">22: </span>{
-<span class="linenr">23: </span>    cEnv     = ZALLOC1(nativeClientEnv);
+<span class="linenr">23: </span>    cEnv     = <span style="color: #32cd32;">ZALLOC1</span>(nativeClientEnv);
 <span class="linenr">24: </span>    cEnv-&gt;vm = vm;
 <span class="linenr">25: </span>
 <span class="linenr">26: </span>    <span style="color: #32cd32;">JNIEnv</span>* <span style="color: #daa520;">env</span> = <span style="color: #7fffd4; font-weight: bold;">NULL</span>;
@@ -149,7 +170,6 @@ Then in another thread, I used the <code>jclass</code> find in <code>JNI_OnLoad(
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">callback</span>(<span style="color: #32cd32;">client_status</span> <span style="color: #daa520;">status</span>, <span style="color: #32cd32;">rxp_header</span>* <span style="color: #daa520;">rxp</span>, <span style="color: #32cd32;">void</span>* <span style="color: #daa520;">priv</span>)
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>    <span style="color: #ff4040;">if</span> (status == THREAD_CREATED) {
@@ -201,25 +221,24 @@ You can get source code at <a href="https://github.com/yangyingchao/remotedx/blo
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Solution 2: cache <i>class loader</i> :</h3>
+<div id="outline-container-org3bfd203" class="outline-3">
+<h3 id="org3bfd203"><span class="section-number-3">2.2</span> Solution 2: cache <i>class loader</i> :</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 There is another solution in <a href="http://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni">StackOverflow</a>, which caches <i>class loader</i> :
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">jmethodID</span> <span style="color: #daa520;">gFindClassMethod</span>;
 <span class="linenr"> 2: </span>
 <span class="linenr"> 3: </span>JNIEXPORT jint <span style="color: #32cd32;">JNICALL</span> <span style="color: #1e90ff; font-weight: bold;">JNI_OnLoad</span>(<span style="color: #32cd32;">JavaVM</span> *<span style="color: #daa520;">pjvm</span>, <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">reserved</span>) {
-<span class="linenr"> 4: </span>    gJvm = pjvm;  <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">cache the JavaVM pointer</span>
-<span class="linenr"> 5: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #32cd32;">env</span> = getEnv();
-<span class="linenr"> 6: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">replace with one of your classes in the line below</span>
-<span class="linenr"> 7: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #32cd32;">randomClass</span> = env-&gt;FindClass(<span style="color: #d78700;">"com/example/RandomClass"</span>);
+<span class="linenr"> 4: </span>    gJvm = pjvm;  <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">cache the JavaVM pointer</span>
+<span class="linenr"> 5: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #daa520;">env</span> = getEnv();
+<span class="linenr"> 6: </span>    <span style="color: #cd5c5c; font-style: italic;">//</span><span style="color: #cd5c5c; font-style: italic;">replace with one of your classes in the line below</span>
+<span class="linenr"> 7: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #daa520;">randomClass</span> = env-&gt;FindClass(<span style="color: #d78700;">"com/example/RandomClass"</span>);
 <span class="linenr"> 8: </span>    <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">classClass</span> = env-&gt;GetObjectClass(randomClass);
-<span class="linenr"> 9: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #32cd32;">classLoaderClass</span> = env-&gt;FindClass(<span style="color: #d78700;">"java/lang/ClassLoader"</span>);
-<span class="linenr">10: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #32cd32;">getClassLoaderMethod</span> = env-&gt;GetMethodID(classClass, <span style="color: #d78700;">"getClassLoader"</span>,
+<span class="linenr"> 9: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #daa520;">classLoaderClass</span> = env-&gt;FindClass(<span style="color: #d78700;">"java/lang/ClassLoader"</span>);
+<span class="linenr">10: </span>    <span style="color: #ff4040;">auto</span> <span style="color: #daa520;">getClassLoaderMethod</span> = env-&gt;GetMethodID(classClass, <span style="color: #d78700;">"getClassLoader"</span>,
 <span class="linenr">11: </span>                                             <span style="color: #d78700;">"()Ljava/lang/ClassLoader;"</span>);
 <span class="linenr">12: </span>    gClassLoader = env-&gt;CallObjectMethod(randomClass, getClassLoaderMethod);
 <span class="linenr">13: </span>    gFindClassMethod = env-&gt;GetMethodID(classLoaderClass, <span style="color: #d78700;">"findClass"</span>,
@@ -229,7 +248,7 @@ There is another solution in <a href="http://stackoverflow.com/questions/1326334
 <span class="linenr">17: </span>}
 <span class="linenr">18: </span>
 <span class="linenr">19: </span><span style="color: #32cd32;">jclass</span> <span style="color: #1e90ff; font-weight: bold;">findClass</span>(<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span>* <span style="color: #daa520;">name</span>) {
-<span class="linenr">20: </span>    <span style="color: #ff4040;">return</span> <span style="color: #ff4040;">static_cast</span>&lt;jclass&gt;(getEnv()-&gt;CallObjectMethod(gClassLoader, gFindClassMethod, getEnv()-&gt;NewStringUTF(name)))<span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">;</span>
+<span class="linenr">20: </span>    <span style="color: #ff4040;">return</span> <span style="color: #ff4040;">static_cast</span>&lt;<span style="color: #32cd32;">jclass</span>&gt;(getEnv()-&gt;CallObjectMethod(gClassLoader, gFindClassMethod, getEnv()-&gt;NewStringUTF(name)))<span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">;</span>
 <span class="linenr">21: </span>}
 <span class="linenr">22: </span>
 <span class="linenr">23: </span><span style="color: #32cd32;">JNIEnv</span>* <span style="color: #1e90ff; font-weight: bold;">getEnv</span>() {
@@ -238,7 +257,7 @@ There is another solution in <a href="http://stackoverflow.com/questions/1326334
 <span class="linenr">26: </span>    <span style="color: #ff4040;">if</span>(status &lt; 0) {
 <span class="linenr">27: </span>        status = gJvm-&gt;AttachCurrentThread(&amp;env, <span style="color: #7fffd4; font-weight: bold;">NULL</span>);
 <span class="linenr">28: </span>        <span style="color: #ff4040;">if</span>(status &lt; 0) {
-<span class="linenr">29: </span>            <span style="color: #ff4040;">return</span> nullptr;
+<span class="linenr">29: </span>            <span style="color: #ff4040;">return</span> <span style="color: #7fffd4; font-weight: bold;">nullptr</span>;
 <span class="linenr">30: </span>        }
 <span class="linenr">31: </span>    }
 <span class="linenr">32: </span>    <span style="color: #ff4040;">return</span> env;

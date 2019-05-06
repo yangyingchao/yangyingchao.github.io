@@ -1,57 +1,48 @@
 ---
 layout : post
-title : Emacs&#32;Lisp&#32;Tip&#58;&#32;Function&#32;Variable&#32;and&#32;Symbol
+title : Emacs Lisp Tip -- Function Variable and Symbol
 categories : Emacs
-tags : emacs  lisp
+tags : emacs lisp
 ---
 <ul class="org-ul">
-<li>How to check whether a function is defined? <code>*fboundp*</code>
-</li>
+<li>How to check whether a function is defined? <code>*fboundp*</code></li>
 </ul>
 
 <div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">fboundp</span> 'functioname)
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">fboundp</span> <span style="color: #7fffd4; font-weight: bold;">'functioname</span>)
 </pre>
 </div>
 
 <ul class="org-ul">
-<li>How to check whether a variable is defined? <code>*boundp</code>
-</li>
+<li>How to check whether a variable is defined? <code>*boundp</code></li>
 </ul>
 <div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">boundp</span> <span style="color: #7fffd4; font-weight: bold;">'varame</span>)
 
-<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">boundp</span> 'varame)
 </pre>
 </div>
 
 <ul class="org-ul">
-<li>How to Stringify a symbol, for example: 'aa &#x2013;&gt; "aa" ? <code>*symbolame*</code>
-</li>
+<li>How to Stringify a symbol, for example: 'aa &#x2013;&gt; "aa" ? <code>*symbolame*</code></li>
 </ul>
 
 <div class="org-src-container">
-
 <pre class="src src-emacs-lisp">(symbolame 'aa)
 </pre>
 </div>
 
 <ul class="org-ul">
-<li>How to make a named variable ? <code>*intern*</code>
-</li>
+<li>How to make a named variable ? <code>*intern*</code></li>
 </ul>
 <div class="org-src-container">
-
 <pre class="src src-emacs-lisp">(intern <span style="color: #d78700;">"aa"</span>)
 </pre>
 </div>
 
 <ul class="org-ul">
-<li>How to check whether a feature is loaded? <code>*featurep*</code>
-</li>
+<li>How to check whether a feature is loaded? <code>*featurep*</code></li>
 </ul>
 <div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">featurep</span> '<span style="color: #7fffd4; font-weight: bold;">magit</span>)
+<pre class="src src-emacs-lisp">(<span style="color: #ff4040;">featurep</span> <span style="color: #7fffd4; font-weight: bold;">'magit</span>)
 </pre>
 </div>

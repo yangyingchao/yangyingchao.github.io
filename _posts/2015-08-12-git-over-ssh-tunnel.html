@@ -8,46 +8,58 @@ tags : git ssh
 Reposted from: <a href="http://randyfay.com/content/git-over-ssh-tunnel-through-firewall-or-vpn">http://randyfay.com/content/git-over-ssh-tunnel-through-firewall-or-vpn</a>.
 </p>
 
-<h1 class="page-title">Git over an ssh tunnel (like through a firewall or VPN)</h1>
-<div class="region region-content">
-  <div id="block-system-main" class="block-system">
+<div class="HTML">
+<p>
+&lt;h1 class="page-title"&gt;Git over an ssh tunnel (like through a firewall or VPN)&lt;/h1&gt;
+&lt;div class="region region-content"&gt;
+  &lt;div id="block-system-main" class="block-system"&gt;
+</p>
 
 
-    <div class="content">
-      <div id="node-83" class="node node-blog node-promoted clearfix">
+<p>
+&lt;div class="content"&gt;
+  &lt;div id="node-83" class="node node-blog node-promoted clearfix"&gt;
+</p>
 
-        <div class="node-header">
+<p>
+&lt;div class="node-header"&gt;
+</p>
 
-          <div class="meta">
-            <span class="submitted">Submitted by <span class="username">rfay</span> on Mon, 2010-10-11 18:41</span>
-          </div>
-        </div> <!-- /.node-header -->
+<p>
+  &lt;div class="meta"&gt;
+    &lt;span class="submitted"&gt;Submitted by &lt;span class="username"&gt;rfay&lt;/span&gt; on Mon, 2010-10-11 18:41&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt; &lt;!&#x2013; /.node-header &#x2013;&gt;
+</p>
 
-        <div class="content clearfix" >
-          <div class="field field-name-taxonomy-vocabulary-1 field-type-taxonomy-term-reference field-label-hidden"><div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p>It's a treasured geek secret that ssh can tunnel TCP connections like ssh all over the internet.  What does that mean? It means that you can access machines and ports from your local machine that you never thought you could, including git repositories that are behind firewalls or inside VPNs.</p>
-                <p>There are two steps to this. First, we have to set up an ssh tunnel. We have 3 machines we're interacting with here:</p>
-                <ul><li>The local machine where we want to be able to do a git clone or git pull or whatever. I'll call it localhost.</li>
-                  <li>The internet or VPN host that has access to your git repository. Let's call it proxy.example.com.</li>
-                  <li>The host that has the git repository on it. We'll call it git.example.com, and we'll assume that access to git is via ssh on port 22, which is very common for git repos with commit access.</li>
-                </ul><p><b>Step 1:</b> Set up a tunnel (in one window). <code>ssh -L3333:git.example.com:22 you@proxy.example.com</code></p>
-                <p>This ssh's you into proxy.example.com, but in the process sets up a TCP tunnel between your localhost port 3333 <b>through</b> the proxy internet host and <b>to</b> port 22 on git.example.com. (You can use any convenient port; 3333 is just an example.)</p>
-                <p>Note that we have to have permission to do this on the proxy.example.com server; the default is for it to be on, but it might not be. The relevant permission is PermitTunnel and it must be allowed (or omitted) in /etc/ssh/sshd_config (debian). But now we'll test to see whether it's working or not:</p>
-                <p><code>telnet localhost 3333</code></p>
-                <p>If you get an answer like <code>SSH-2.0-OpenSSH_5.1p1 Debian-5</code> you are in business.<br />
-                  If "telnet" is not found, then install it with <code>apt-get install telnet</code> or <code>yum install telnet</code> or whatever for your distro.</p>
-                <p><b>Step 2:</b> Use git with an ssh URL to connect through the tunnel to your behind-the-VPN git repo:<br /><code>git clone ssh://git@localhost:3333/example.git</code></p>
-                <p>"git@" is the user you use to connect to the git repo; it might be something else, of course. And your project might be in a subdirectory, etc. So it might be <code>git clone ssh://rfay@localhost:3333/project/someproject.git</code>.</p>
-                <p>You should have a repo cloned.</p>
-                <p>Remember that you have to have the tunnel up in the future to do a pull or fetch or similar operation. You may want to look into the excellent autossh package that automatically establishes ssh connections and keeps them up.</p>
-                <p>There are <a href="http://www.google.com/search?client=ubuntu&amp;channel=fs&amp;q=ssh+tunnel&amp;ie=utf-8&amp;oe=utf-8">lots of resources on ssh tunneling</a> including <a href="http://www.revsys.com/writings/quicktips/ssh-tunnel.html">this simple one</a>. You can also use <code>ssh -R</code> to put a port on the machine you ssh into that will access your own local machine.</p>
-                <p>Shhhhh.. Don't tell anybody!</p>
-        </div></div></div>  </div>
+<p>
+&lt;div class="content clearfix" &gt;
+  &lt;div class="field field-name-taxonomy-vocabulary-1 field-type-taxonomy-term-reference field-label-hidden"&gt;&lt;div class="field field-name-body field-type-text-with-summary field-label-hidden"&gt;&lt;div class="field-items"&gt;&lt;div class="field-item even"&gt;&lt;p&gt;It's a treasured geek secret that ssh can tunnel TCP connections like ssh all over the internet.  What does that mean? It means that you can access machines and ports from your local machine that you never thought you could, including git repositories that are behind firewalls or inside VPNs.&lt;/p&gt;
+        &lt;p&gt;There are two steps to this. First, we have to set up an ssh tunnel. We have 3 machines we're interacting with here:&lt;/p&gt;
+        &lt;ul&gt;&lt;li&gt;The local machine where we want to be able to do a git clone or git pull or whatever. I'll call it localhost.&lt;/li&gt;
+          &lt;li&gt;The internet or VPN host that has access to your git repository. Let's call it proxy.example.com.&lt;/li&gt;
+          &lt;li&gt;The host that has the git repository on it. We'll call it git.example.com, and we'll assume that access to git is via ssh on port 22, which is very common for git repos with commit access.&lt;/li&gt;
+        &lt;/ul&gt;&lt;p&gt;&lt;b&gt;Step 1:&lt;/b&gt; Set up a tunnel (in one window). &lt;code&gt;ssh -L3333:git.example.com:22 you@proxy.example.com&lt;/code&gt;&lt;/p&gt;
+        &lt;p&gt;This ssh's you into proxy.example.com, but in the process sets up a TCP tunnel between your localhost port 3333 &lt;b&gt;through&lt;/b&gt; the proxy internet host and &lt;b&gt;to&lt;/b&gt; port 22 on git.example.com. (You can use any convenient port; 3333 is just an example.)&lt;/p&gt;
+        &lt;p&gt;Note that we have to have permission to do this on the proxy.example.com server; the default is for it to be on, but it might not be. The relevant permission is PermitTunnel and it must be allowed (or omitted) in /etc/ssh/sshd_config (debian). But now we'll test to see whether it's working or not:&lt;/p&gt;
+        &lt;p&gt;&lt;code&gt;telnet localhost 3333&lt;/code&gt;&lt;/p&gt;
+        &lt;p&gt;If you get an answer like &lt;code&gt;SSH-2.0-OpenSSH_5.1p1 Debian-5&lt;/code&gt; you are in business.&lt;br /&gt;
+          If "telnet" is not found, then install it with &lt;code&gt;apt-get install telnet&lt;/code&gt; or &lt;code&gt;yum install telnet&lt;/code&gt; or whatever for your distro.&lt;/p&gt;
+        &lt;p&gt;&lt;b&gt;Step 2:&lt;/b&gt; Use git with an ssh URL to connect through the tunnel to your behind-the-VPN git repo:&lt;br /&gt;&lt;code&gt;git clone ssh://git@localhost:3333/example.git&lt;/code&gt;&lt;/p&gt;
+        &lt;p&gt;"git@" is the user you use to connect to the git repo; it might be something else, of course. And your project might be in a subdirectory, etc. So it might be &lt;code&gt;git clone ssh://rfay@localhost:3333/project/someproject.git&lt;/code&gt;.&lt;/p&gt;
+        &lt;p&gt;You should have a repo cloned.&lt;/p&gt;
+        &lt;p&gt;Remember that you have to have the tunnel up in the future to do a pull or fetch or similar operation. You may want to look into the excellent autossh package that automatically establishes ssh connections and keeps them up.&lt;/p&gt;
+        &lt;p&gt;There are &lt;a href="<a href="http://www.google.com/search?client=ubuntu&amp;amp;channel=fs&amp;amp;q=ssh+tunnel&amp;amp;ie=utf-8&amp;amp;oe=utf-8">http://www.google.com/search?client=ubuntu&amp;amp;channel=fs&amp;amp;q=ssh+tunnel&amp;amp;ie=utf-8&amp;amp;oe=utf-8</a>"&gt;lots of resources on ssh tunneling&lt;/a&gt; including &lt;a href="<a href="http://www.revsys.com/writings/quicktips/ssh-tunnel.html">http://www.revsys.com/writings/quicktips/ssh-tunnel.html</a>"&gt;this simple one&lt;/a&gt;. You can also use &lt;code&gt;ssh -R&lt;/code&gt; to put a port on the machine you ssh into that will access your own local machine.&lt;/p&gt;
+        &lt;p&gt;Shhhhh.. Don't tell anybody!&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;  &lt;/div&gt;
+</p>
+
+</div>
 
 <p>
 开始时候执行转发的 ssh 如果想放在后台，可以这样做：
 </p>
 <div class="org-src-container">
-
 <pre class="src src-sh"><span class="linenr">1: </span>ssh -f -N -L3333:git.example.com:22 you@proxy.example.com
 </pre>
 </div>

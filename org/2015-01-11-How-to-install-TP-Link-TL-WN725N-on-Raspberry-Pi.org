@@ -1,8 +1,8 @@
 #+TITLE: How to install TP Link TL WN725N on Raspberry Pi
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: RaspberryPi, WN725N, WIFI
-#+CATEGORY: RaspberryPi
+#+KEYWORDS: RaspberryPi WN725N WIFI
+#+CATEGORY: Raspberrypi
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate

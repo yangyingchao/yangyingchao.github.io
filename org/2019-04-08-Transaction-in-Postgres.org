@@ -9,7 +9,7 @@
 #+LANGUAGE:   en
 #+EXCLUDE_TAGS: noexport
 #+KEYWORDS: (nil)
-#+CATEGORY: (nil)
+#+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
 * The Transaction System

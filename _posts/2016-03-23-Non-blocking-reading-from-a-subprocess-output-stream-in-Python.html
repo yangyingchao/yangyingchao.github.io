@@ -1,206 +1,234 @@
 ---
 layout : post
 title : Non blocking reading from a subprocess output stream in Python
-categories : Python
-tags : python
+categories : 未分类
 ---
 <p>
 repost from: <a href="http://eyalarubas.com/python-subproc-nonblock.html">http://eyalarubas.com/python-subproc-nonblock.html</a>
 </p>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <h1>Non blocking reading from a subprocess output stream in Python</h1>
-                <div>
+<div class="HTML">
+<p>
+    &lt;div class="container"&gt;
+        &lt;div class="row"&gt;
+            &lt;div class="col-sm-2"&gt;&lt;/div&gt;
+            &lt;div class="col-sm-8"&gt;
+                &lt;h1&gt;Non blocking reading from a subprocess output stream in Python&lt;/h1&gt;
+                &lt;div&gt;
                     Wednesday, 11 December 2013
-                </div>
-                <div>
+                &lt;/div&gt;
+                &lt;div&gt;
                     Eyal Arubas
-                </div>
-                <hr>
-                <div class="post-content">
-                    <p>In one of my projects I had to run an interactive shell application as a
-subprocess. I would send commands through the process&#39; <code>stdin</code> pipe and read
-the results through its <code>stdout</code> pipe. As this subprocess is an interactive
-shell, it never terminates. This means that the subprocess&#39; <code>stdout</code> pipe
+                &lt;/div&gt;
+                &lt;hr&gt;
+                &lt;div class="post-content"&gt;
+                    &lt;p&gt;In one of my projects I had to run an interactive shell application as a
+subprocess. I would send commands through the process&amp;#39; &lt;code&gt;stdin&lt;/code&gt; pipe and read
+the results through its &lt;code&gt;stdout&lt;/code&gt; pipe. As this subprocess is an interactive
+shell, it never terminates. This means that the subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt; pipe
 stays open, even if no new data is streamed through; which causes various
-problems with Python&#39;s stream reading functions (namely the <code>readline</code>
+problems with Python&amp;#39;s stream reading functions (namely the &lt;code&gt;readline&lt;/code&gt;
 function). Specifically, trying to read from such a stream causes the reading
-functions to hang until new data is present.</p>
-<p>When dealing with a subprocess such an interactive shell, it&#39;s natural that
-the stream stays open but no data arrives.</p>
-<p>In my project, I wanted to interact with the subprocess by issuing commands
-through its <code>stdin</code>, reading the result through its <code>stdout</code>, do some other
+functions to hang until new data is present.&lt;/p&gt;
+&lt;p&gt;When dealing with a subprocess such an interactive shell, it&amp;#39;s natural that
+the stream stays open but no data arrives.&lt;/p&gt;
+&lt;p&gt;In my project, I wanted to interact with the subprocess by issuing commands
+through its &lt;code&gt;stdin&lt;/code&gt;, reading the result through its &lt;code&gt;stdout&lt;/code&gt;, do some other
 things in my script, and repeat this process. But every time I read from the
-subprocess&#39; <code>stdout</code>, my script would hang.</p>
-<p>To demonstrate, we could simulate the problem using the following code:</p>
-<p><code>shell.py</code>:</p>
-<pre><code class="lang-python"><span class="hljs-keyword">import</span> sys
-<span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
-    s = raw_input(<span class="hljs-string">"Enter command: "</span>)
-    <span class="hljs-keyword">print</span> <span class="hljs-string">"You entered: {}"</span>.format(s)
+subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt;, my script would hang.&lt;/p&gt;
+&lt;p&gt;To demonstrate, we could simulate the problem using the following code:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;shell.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-keyword"&gt;import&lt;/span&gt; sys
+&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;:
+    s = raw_input(&lt;span class="hljs-string"&gt;"Enter command: "&lt;/span&gt;)
+    &lt;span class="hljs-keyword"&gt;print&lt;/span&gt; &lt;span class="hljs-string"&gt;"You entered: {}"&lt;/span&gt;.format(s)
     sys.stdout.flush()
-</code></pre>
-<p><code>client.py</code>:</p>
-<pre><code class="lang-python"><span class="hljs-built_in">from</span> subprocess import Popen, PIPE
-<span class="hljs-built_in">from</span> <span class="hljs-built_in">time</span> import sleep
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;client.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; subprocess import Popen, PIPE
+&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; &lt;span class="hljs-built_in"&gt;time&lt;/span&gt; import sleep
+</p>
 
-<span class="hljs-comment"># run the shell as a subprocess:</span>
-p = Popen([<span class="hljs-string">'python'</span>, <span class="hljs-string">'shell.py'</span>],
-        <span class="hljs-keyword">stdin</span> = PIPE, <span class="hljs-keyword">stdout</span> = PIPE, <span class="hljs-keyword">stderr</span> = PIPE, <span class="hljs-built_in">shell</span> = False)
-<span class="hljs-comment"># issue command:</span>
-p.<span class="hljs-keyword">stdin</span>.<span class="hljs-built_in">write</span>(<span class="hljs-string">'command\n'</span>)
-<span class="hljs-comment"># let the shell output the result:</span>
-sleep(<span class="hljs-number">0.1</span>)
-<span class="hljs-comment"># get the output</span>
-<span class="hljs-keyword">while</span> True:
-    output = p.<span class="hljs-keyword">stdout</span>.<span class="hljs-built_in">read</span>() <span class="hljs-comment"># &lt;-- Hangs here!</span>
-    <span class="hljs-keyword">if</span> <span class="hljs-operator">not</span> output:
-        print <span class="hljs-string">'[No more data]'</span>
+<p>
+&lt;span class="hljs-comment"&gt;# run the shell as a subprocess:&lt;/span&gt;
+p = Popen([&lt;span class="hljs-string"&gt;'python'&lt;/span&gt;, &lt;span class="hljs-string"&gt;'shell.py'&lt;/span&gt;],
+        &lt;span class="hljs-keyword"&gt;stdin&lt;/span&gt; = PIPE, &lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt; = PIPE, &lt;span class="hljs-keyword"&gt;stderr&lt;/span&gt; = PIPE, &lt;span class="hljs-built_in"&gt;shell&lt;/span&gt; = False)
+&lt;span class="hljs-comment"&gt;# issue command:&lt;/span&gt;
+p.&lt;span class="hljs-keyword"&gt;stdin&lt;/span&gt;.&lt;span class="hljs-built_in"&gt;write&lt;/span&gt;(&lt;span class="hljs-string"&gt;'command\n'&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# let the shell output the result:&lt;/span&gt;
+sleep(&lt;span class="hljs-number"&gt;0.1&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# get the output&lt;/span&gt;
+&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; True:
+    output = p.&lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt;.&lt;span class="hljs-built_in"&gt;read&lt;/span&gt;() &lt;span class="hljs-comment"&gt;# &amp;lt;&#x2013; Hangs here!&lt;/span&gt;
+    &lt;span class="hljs-keyword"&gt;if&lt;/span&gt; &lt;span class="hljs-operator"&gt;not&lt;/span&gt; output:
+        print &lt;span class="hljs-string"&gt;'[No more data]'&lt;/span&gt;
         break
     print output
-</code></pre>
-<p><code>shell.py</code> is a dummy shell which receives input and echoes it to <code>stdout</code>.
-It does it in an infinite loop, always waiting for new input, and never ends.</p>
-<p><code>client.py</code> demonstrates how we would usually try to read a subprocess&#39; input.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;shell.py&lt;/code&gt; is a dummy shell which receives input and echoes it to &lt;code&gt;stdout&lt;/code&gt;.
+It does it in an infinite loop, always waiting for new input, and never ends.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;client.py&lt;/code&gt; demonstrates how we would usually try to read a subprocess&amp;#39; input.
 In this case the subprocess is our dummy shell. Running this example shows
-that indeed the <code>read</code> function in line 13 hangs, as no new data is received
-from the (still open) <code>p.stdout</code> stream.</p>
-<p>The origin of this problem is in the way these reading mechanisms are
-implemented in Python (See the <a href="http://bugs.python.org/issue1175">discussion on this issue</a> from Python&#39;s
-issue tracker). In Python 2.7.6, the implementation relies on C&#39;s stdio
+that indeed the &lt;code&gt;read&lt;/code&gt; function in line 13 hangs, as no new data is received
+from the (still open) &lt;code&gt;p.stdout&lt;/code&gt; stream.&lt;/p&gt;
+&lt;p&gt;The origin of this problem is in the way these reading mechanisms are
+implemented in Python (See the &lt;a href="<a href="http://bugs.python.org/issue1175">http://bugs.python.org/issue1175</a>"&gt;discussion on this issue&lt;/a&gt; from Python&amp;#39;s
+issue tracker). In Python 2.7.6, the implementation relies on C&amp;#39;s stdio
 library. Specifically, the read function. The following quote from the
-<a href="http://pubs.opengroup.org/onlinepubs/009604499/basedefs/unistd.h.html">library&#39;s documentation</a> makes things clear:</p>
-<blockquote>
-<p>If some process has the pipe open for writing and O_NONBLOCK is clear,
+&lt;a href="<a href="http://pubs.opengroup.org/onlinepubs/009604499/basedefs/unistd.h.html">http://pubs.opengroup.org/onlinepubs/009604499/basedefs/unistd.h.html</a>"&gt;library&amp;#39;s documentation&lt;/a&gt; makes things clear:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If some process has the pipe open for writing and O_NONBLOCK is clear,
 read() shall block the calling thread until some data is written or the pipe
-is closed by all processes that had the pipe open for writing.</p>
-</blockquote>
-<p>So now we understand that unless the <code>O_NONBLOCK</code> flag is set, then <code>read</code>
-will block until new data arrives.</p>
-<p>And indeed, by taking a look at Python&#39;s source code, we can see that in the
-<code>IO</code> module implementation the <code>O_NONBLOCK flag</code> is never set (see the
-<a href="http://hg.python.org/cpython/file/3a1db0d2747e/Modules/_io/fileio.c#l176">fileio_init function</a>, and follow setting of flags in the flag variable
-throughout the function).</p>
-<p>So how do we solve this?</p>
-<p>If we were programming in C, we would simply set the <code>O_NONBLOCK</code> flag of our
-file descriptor using the <a href="http://pubs.opengroup.org/onlinepubs/009696799/basedefs/fcntl.h.html">fcntl.h</a> library. Indeed, Python provides us
-with an interface to this library&#39;s mechanisms through the <a href="http://docs.python.org/2/library/fcntl.html">fcntl module</a>.
-So one solution would be to manually set the <code>O_NONBLOCK</code> flag of our file
-descriptor and then use the os&#39;s file reading mechanisms through the
-<a href="http://docs.python.org/2/library/os.html#file-descriptor-operations">os module</a>.</p>
-<p>Such a solution will look something like this:</p>
-<p><code>client_O_NONBLOCK.py</code>:</p>
-<pre><code class="lang-python"><span class="hljs-built_in">from</span> subprocess import Popen, PIPE
-<span class="hljs-built_in">from</span> <span class="hljs-built_in">time</span> import sleep
-<span class="hljs-built_in">from</span> fcntl import fcntl, F_GETFL, F_SETFL
-<span class="hljs-built_in">from</span> os import O_NONBLOCK, <span class="hljs-built_in">read</span>
+is closed by all processes that had the pipe open for writing.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So now we understand that unless the &lt;code&gt;O_NONBLOCK&lt;/code&gt; flag is set, then &lt;code&gt;read&lt;/code&gt;
+will block until new data arrives.&lt;/p&gt;
+&lt;p&gt;And indeed, by taking a look at Python&amp;#39;s source code, we can see that in the
+&lt;code&gt;IO&lt;/code&gt; module implementation the &lt;code&gt;O_NONBLOCK flag&lt;/code&gt; is never set (see the
+&lt;a href="<a href="http://hg.python.org/cpython/file/3a1db0d2747e/Modules/_io/fileio.c#l176">http://hg.python.org/cpython/file/3a1db0d2747e/Modules/_io/fileio.c#l176</a>"&gt;fileio_init function&lt;/a&gt;, and follow setting of flags in the flag variable
+throughout the function).&lt;/p&gt;
+&lt;p&gt;So how do we solve this?&lt;/p&gt;
+&lt;p&gt;If we were programming in C, we would simply set the &lt;code&gt;O_NONBLOCK&lt;/code&gt; flag of our
+file descriptor using the &lt;a href="<a href="http://pubs.opengroup.org/onlinepubs/009696799/basedefs/fcntl.h.html">http://pubs.opengroup.org/onlinepubs/009696799/basedefs/fcntl.h.html</a>"&gt;fcntl.h&lt;/a&gt; library. Indeed, Python provides us
+with an interface to this library&amp;#39;s mechanisms through the &lt;a href="<a href="http://docs.python.org/2/library/fcntl.html">http://docs.python.org/2/library/fcntl.html</a>"&gt;fcntl module&lt;/a&gt;.
+So one solution would be to manually set the &lt;code&gt;O_NONBLOCK&lt;/code&gt; flag of our file
+descriptor and then use the os&amp;#39;s file reading mechanisms through the
+&lt;a href="<a href="http://docs.python.org/2/library/os.html#file-descriptor-operations">http://docs.python.org/2/library/os.html#file-descriptor-operations</a>"&gt;os module&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Such a solution will look something like this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;client_O_NONBLOCK.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; subprocess import Popen, PIPE
+&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; &lt;span class="hljs-built_in"&gt;time&lt;/span&gt; import sleep
+&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; fcntl import fcntl, F_GETFL, F_SETFL
+&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; os import O_NONBLOCK, &lt;span class="hljs-built_in"&gt;read&lt;/span&gt;
+</p>
 
-<span class="hljs-comment"># run the shell as a subprocess:</span>
-p = Popen([<span class="hljs-string">'python'</span>, <span class="hljs-string">'shell.py'</span>],
-        <span class="hljs-keyword">stdin</span> = PIPE, <span class="hljs-keyword">stdout</span> = PIPE, <span class="hljs-keyword">stderr</span> = PIPE, <span class="hljs-built_in">shell</span> = False)
-<span class="hljs-comment"># set the O_NONBLOCK flag of p.stdout file descriptor:</span>
-flags = fcntl(p.<span class="hljs-keyword">stdout</span>, F_GETFL) <span class="hljs-comment"># get current p.stdout flags</span>
-fcntl(p.<span class="hljs-keyword">stdout</span>, F_SETFL, flags | O_NONBLOCK)
-<span class="hljs-comment"># issue command:</span>
-p.<span class="hljs-keyword">stdin</span>.<span class="hljs-built_in">write</span>(<span class="hljs-string">'command\n'</span>)
-<span class="hljs-comment"># let the shell output the result:</span>
-sleep(<span class="hljs-number">0.1</span>)
-<span class="hljs-comment"># get the output</span>
-<span class="hljs-keyword">while</span> True:
-    <span class="hljs-keyword">try</span>:
-        print <span class="hljs-built_in">read</span>(p.<span class="hljs-keyword">stdout</span>.fileno(), <span class="hljs-number">1024</span>),
+<p>
+&lt;span class="hljs-comment"&gt;# run the shell as a subprocess:&lt;/span&gt;
+p = Popen([&lt;span class="hljs-string"&gt;'python'&lt;/span&gt;, &lt;span class="hljs-string"&gt;'shell.py'&lt;/span&gt;],
+        &lt;span class="hljs-keyword"&gt;stdin&lt;/span&gt; = PIPE, &lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt; = PIPE, &lt;span class="hljs-keyword"&gt;stderr&lt;/span&gt; = PIPE, &lt;span class="hljs-built_in"&gt;shell&lt;/span&gt; = False)
+&lt;span class="hljs-comment"&gt;# set the O_NONBLOCK flag of p.stdout file descriptor:&lt;/span&gt;
+flags = fcntl(p.&lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt;, F_GETFL) &lt;span class="hljs-comment"&gt;# get current p.stdout flags&lt;/span&gt;
+fcntl(p.&lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt;, F_SETFL, flags | O_NONBLOCK)
+&lt;span class="hljs-comment"&gt;# issue command:&lt;/span&gt;
+p.&lt;span class="hljs-keyword"&gt;stdin&lt;/span&gt;.&lt;span class="hljs-built_in"&gt;write&lt;/span&gt;(&lt;span class="hljs-string"&gt;'command\n'&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# let the shell output the result:&lt;/span&gt;
+sleep(&lt;span class="hljs-number"&gt;0.1&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# get the output&lt;/span&gt;
+&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; True:
+    &lt;span class="hljs-keyword"&gt;try&lt;/span&gt;:
+        print &lt;span class="hljs-built_in"&gt;read&lt;/span&gt;(p.&lt;span class="hljs-keyword"&gt;stdout&lt;/span&gt;.fileno(), &lt;span class="hljs-number"&gt;1024&lt;/span&gt;),
     except OSError:
-        <span class="hljs-comment"># the os throws an exception if there is no data</span>
-        print <span class="hljs-string">'[No more data]'</span>
+        &lt;span class="hljs-comment"&gt;# the os throws an exception if there is no data&lt;/span&gt;
+        print &lt;span class="hljs-string"&gt;'[No more data]'&lt;/span&gt;
         break
-</code></pre>
-<p>And it works!</p>
-<p>But, changing flags of file descriptors isn&#39;t everyones cup of tea.<br>Instead, we can employ another nice solution which uses threads. Instead of
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And it works!&lt;/p&gt;
+&lt;p&gt;But, changing flags of file descriptors isn&amp;#39;t everyones cup of tea.&lt;br&gt;Instead, we can employ another nice solution which uses threads. Instead of
 changing the behaviour of the reading functions, we let them block and wait
 for new data as much as they want. But they do it on another thread. On that
 thread, the reading functions will read data once it becomes available in the
 stream, and block the rest of the time. But in order to reach the read data
 from the main thread, we need some kind of proxy. We could, for example, use
 a list, a queue, a file on disk, etc. An elegant solution which uses a queue
-is presented <a href="http://stackoverflow.com/a/4896288/1365324">here</a>. I present here a slightly modified version.</p>
-<p>First, we wrap the stream we want to read from with a class. This class opens
+is presented &lt;a href="<a href="http://stackoverflow.com/a/4896288/1365324">http://stackoverflow.com/a/4896288/1365324</a>"&gt;here&lt;/a&gt;. I present here a slightly modified version.&lt;/p&gt;
+&lt;p&gt;First, we wrap the stream we want to read from with a class. This class opens
 a separate thread which reads from the stream whenever data becomes available
 and stores the data in a queue (A queue in Python is threads-safe). This class
-also exposes a <code>readline</code> function, which pulls from the queue the data.</p>
-<p><code>nbstreamreader.py</code>:</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> threading <span class="hljs-keyword">import</span> Thread
-<span class="hljs-keyword">from</span> Queue <span class="hljs-keyword">import</span> Queue, Empty
+also exposes a &lt;code&gt;readline&lt;/code&gt; function, which pulls from the queue the data.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nbstreamreader.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; threading &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; Thread
+&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; Queue &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; Queue, Empty
+</p>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NonBlockingStreamReader</span>:</span>
+<p>
+&lt;span class="hljs-class"&gt;&lt;span class="hljs-keyword"&gt;class&lt;/span&gt; &lt;span class="hljs-title"&gt;NonBlockingStreamReader&lt;/span&gt;:&lt;/span&gt;
+</p>
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, stream)</span>:</span>
-        <span class="hljs-string">'''
-        stream: the stream to read from.
-                Usually a process' stdout or stderr.
-        '''</span>
+<p>
+&lt;span class="hljs-function"&gt;&lt;span class="hljs-keyword"&gt;def&lt;/span&gt; &lt;span class="hljs-title"&gt;__init__&lt;/span&gt;&lt;span class="hljs-params"&gt;(self, stream)&lt;/span&gt;:&lt;/span&gt;
+    &lt;span class="hljs-string"&gt;'''
+    stream: the stream to read from.
+            Usually a process' stdout or stderr.
+    '''&lt;/span&gt;
+</p>
 
-        self._s = stream
-        self._q = Queue()
+<p>
+self._s = stream
+self._q = Queue()
+</p>
 
-        <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_populateQueue</span><span class="hljs-params">(stream, queue)</span>:</span>
-            <span class="hljs-string">'''
-            Collect lines from 'stream' and put them in 'quque'.
-            '''</span>
+<p>
+&lt;span class="hljs-function"&gt;&lt;span class="hljs-keyword"&gt;def&lt;/span&gt; &lt;span class="hljs-title"&gt;_populateQueue&lt;/span&gt;&lt;span class="hljs-params"&gt;(stream, queue)&lt;/span&gt;:&lt;/span&gt;
+    &lt;span class="hljs-string"&gt;'''
+    Collect lines from 'stream' and put them in 'quque'.
+    '''&lt;/span&gt;
+</p>
 
-            <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
-                line = stream.readline()
-                <span class="hljs-keyword">if</span> line:
-                    queue.put(line)
-                <span class="hljs-keyword">else</span>:
-                    <span class="hljs-keyword">raise</span> UnexpectedEndOfStream
+<p>
+&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;:
+    line = stream.readline()
+    &lt;span class="hljs-keyword"&gt;if&lt;/span&gt; line:
+        queue.put(line)
+    &lt;span class="hljs-keyword"&gt;else&lt;/span&gt;:
+        &lt;span class="hljs-keyword"&gt;raise&lt;/span&gt; UnexpectedEndOfStream
+</p>
 
-        self._t = Thread(target = _populateQueue,
-                args = (self._s, self._q))
-        self._t.daemon = <span class="hljs-keyword">True</span>
-        self._t.start() <span class="hljs-comment">#start collecting lines from the stream</span>
+<p>
+self._t = Thread(target = _populateQueue,
+        args = (self._s, self._q))
+self._t.daemon = &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;
+self._t.start() &lt;span class="hljs-comment"&gt;#start collecting lines from the stream&lt;/span&gt;
+</p>
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">readline</span><span class="hljs-params">(self, timeout = None)</span>:</span>
-        <span class="hljs-keyword">try</span>:
-            <span class="hljs-keyword">return</span> self._q.get(block = timeout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>,
-                    timeout = timeout)
-        <span class="hljs-keyword">except</span> Empty:
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">None</span>
+<p>
+&lt;span class="hljs-function"&gt;&lt;span class="hljs-keyword"&gt;def&lt;/span&gt; &lt;span class="hljs-title"&gt;readline&lt;/span&gt;&lt;span class="hljs-params"&gt;(self, timeout = None)&lt;/span&gt;:&lt;/span&gt;
+    &lt;span class="hljs-keyword"&gt;try&lt;/span&gt;:
+        &lt;span class="hljs-keyword"&gt;return&lt;/span&gt; self._q.get(block = timeout &lt;span class="hljs-keyword"&gt;is&lt;/span&gt; &lt;span class="hljs-keyword"&gt;not&lt;/span&gt; &lt;span class="hljs-keyword"&gt;None&lt;/span&gt;,
+                timeout = timeout)
+    &lt;span class="hljs-keyword"&gt;except&lt;/span&gt; Empty:
+        &lt;span class="hljs-keyword"&gt;return&lt;/span&gt; &lt;span class="hljs-keyword"&gt;None&lt;/span&gt;
+</p>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UnexpectedEndOfStream</span><span class="hljs-params">(Exception)</span>:</span> <span class="hljs-keyword">pass</span>
-</code></pre>
-<p>Now our original attempt for the client remains almost the same, and much more
-intuitive than using the <code>fcntl</code> module.</p>
-<p><code>client_thread.py</code>:</p>
-<pre><code class="lang-python"><span class="hljs-keyword">from</span> subprocess <span class="hljs-keyword">import</span> Popen, PIPE
-<span class="hljs-keyword">from</span> time <span class="hljs-keyword">import</span> sleep
-<span class="hljs-keyword">from</span> nbstreamreader <span class="hljs-keyword">import</span> NonBlockingStreamReader <span class="hljs-keyword">as</span> NBSR
+<p>
+&lt;span class="hljs-class"&gt;&lt;span class="hljs-keyword"&gt;class&lt;/span&gt; &lt;span class="hljs-title"&gt;UnexpectedEndOfStream&lt;/span&gt;&lt;span class="hljs-params"&gt;(Exception)&lt;/span&gt;:&lt;/span&gt; &lt;span class="hljs-keyword"&gt;pass&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now our original attempt for the client remains almost the same, and much more
+intuitive than using the &lt;code&gt;fcntl&lt;/code&gt; module.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;client_thread.py&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; subprocess &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; Popen, PIPE
+&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; time &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; sleep
+&lt;span class="hljs-keyword"&gt;from&lt;/span&gt; nbstreamreader &lt;span class="hljs-keyword"&gt;import&lt;/span&gt; NonBlockingStreamReader &lt;span class="hljs-keyword"&gt;as&lt;/span&gt; NBSR
+</p>
 
-<span class="hljs-comment"># run the shell as a subprocess:</span>
-p = Popen([<span class="hljs-string">'python'</span>, <span class="hljs-string">'shell.py'</span>],
-        stdin = PIPE, stdout = PIPE, stderr = PIPE, shell = <span class="hljs-keyword">False</span>)
-<span class="hljs-comment"># wrap p.stdout with a NonBlockingStreamReader object:</span>
+<p>
+&lt;span class="hljs-comment"&gt;# run the shell as a subprocess:&lt;/span&gt;
+p = Popen([&lt;span class="hljs-string"&gt;'python'&lt;/span&gt;, &lt;span class="hljs-string"&gt;'shell.py'&lt;/span&gt;],
+        stdin = PIPE, stdout = PIPE, stderr = PIPE, shell = &lt;span class="hljs-keyword"&gt;False&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# wrap p.stdout with a NonBlockingStreamReader object:&lt;/span&gt;
 nbsr = NBSR(p.stdout)
-<span class="hljs-comment"># issue command:</span>
-p.stdin.write(<span class="hljs-string">'command\n'</span>)
-<span class="hljs-comment"># get the output</span>
-<span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
-    output = nbsr.readline(<span class="hljs-number">0.1</span>)
-    <span class="hljs-comment"># 0.1 secs to let the shell output the result</span>
-    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> output:
-        <span class="hljs-keyword">print</span> <span class="hljs-string">'[No more data]'</span>
-        <span class="hljs-keyword">break</span>
-    <span class="hljs-keyword">print</span> output
-</code></pre>
-<p><strong>Note</strong>: All code from this post can be obtained in <a href="https://gist.github.com/EyalAr/7915597">this gist</a>.</p>
+&lt;span class="hljs-comment"&gt;# issue command:&lt;/span&gt;
+p.stdin.write(&lt;span class="hljs-string"&gt;'command\n'&lt;/span&gt;)
+&lt;span class="hljs-comment"&gt;# get the output&lt;/span&gt;
+&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;:
+    output = nbsr.readline(&lt;span class="hljs-number"&gt;0.1&lt;/span&gt;)
+    &lt;span class="hljs-comment"&gt;# 0.1 secs to let the shell output the result&lt;/span&gt;
+    &lt;span class="hljs-keyword"&gt;if&lt;/span&gt; &lt;span class="hljs-keyword"&gt;not&lt;/span&gt; output:
+        &lt;span class="hljs-keyword"&gt;print&lt;/span&gt; &lt;span class="hljs-string"&gt;'[No more data]'&lt;/span&gt;
+        &lt;span class="hljs-keyword"&gt;break&lt;/span&gt;
+    &lt;span class="hljs-keyword"&gt;print&lt;/span&gt; output
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: All code from this post can be obtained in &lt;a href="<a href="https://gist.github.com/EyalAr/7915597">https://gist.github.com/EyalAr/7915597</a>"&gt;this gist&lt;/a&gt;.&lt;/p&gt;
+</p>
 
-                </div>
-                <footer class="footer">
-                    Generated from <a href="https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown">Markdown source</a> using <a href="https://github.com/EyalAr/Contrive">Contrive</a>.
-                </div>
-            </div>
-            <div class="col-sm-2"></div>
-        </div>
-    </div>
+<p>
+            &lt;/div&gt;
+            &lt;footer class="footer"&gt;
+                Generated from &lt;a href="<a href="https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown">https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown</a>"&gt;Markdown source&lt;/a&gt; using &lt;a href="<a href="https://github.com/EyalAr/Contrive">https://github.com/EyalAr/Contrive</a>"&gt;Contrive&lt;/a&gt;.
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="col-sm-2"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</p>
+
+</div>

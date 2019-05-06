@@ -2,15 +2,15 @@
 layout : post
 title : SWIG 杂记
 categories : Development
-tags :  swig  jni  typemap
+tags : SWIG JNI typemap
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Example1 Return <code>byte[]</code> instead of <code>std::string</code></a></li>
-<li><a href="#sec-2">2. Example2: 转引用为bytearrary：</a></li>
-<li><a href="#sec-3">3. Example3: Director</a></li>
+<li><a href="#org04788e9">1. Example1 Return <code>byte[]</code> instead of <code>std::string</code></a></li>
+<li><a href="#org72bdb29">2. Example2: 转引用为bytearrary：</a></li>
+<li><a href="#orgaa35dfc">3. Example3: Director</a></li>
 </ul>
 </div>
 </div>
@@ -19,14 +19,14 @@ tags :  swig  jni  typemap
 </p>
 
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> <a href="../assets/sources/swig/example1.7z">Example1</a> Return <code>byte[]</code> instead of <code>std::string</code></h2>
+<div id="outline-container-org04788e9" class="outline-2">
+<h2 id="org04788e9"><span class="section-number-2">1</span> <a href="../assets/sources/swig/example1.7z">Example1</a> Return <code>byte[]</code> instead of <code>std::string</code></h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> C++ Header:</h3>
+</div>
+<div id="outline-container-orgb26180c" class="outline-3">
+<h3 id="orgb26180c"><span class="section-number-3">1.1</span> C++ Header:</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">#if</span><span style="color: #32cd32;">n</span><span style="color: #32cd32;">def</span> _EXAMPLE1_H_
 <span class="linenr"> 2: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">_EXAMPLE1_H_</span>
 <span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
@@ -37,18 +37,17 @@ tags :  swig  jni  typemap
 <span class="linenr"> 8: </span>    <span style="color: #ff4040;">virtual</span> ~<span style="color: #1e90ff; font-weight: bold;">Example1</span>();
 <span class="linenr"> 9: </span>    <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #1e90ff; font-weight: bold;">GetString</span>();
 <span class="linenr">10: </span>};
-<span class="linenr">11: </span><span style="color: #32cd32;">#endif</span> <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">_EXAMPLE1_H_ */</span>
+<span class="linenr">11: </span><span style="color: #32cd32;">#endif</span> <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">_EXAMPLE1_H_ */</span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 修改的 <b>SWIG</b> 接口文件：</h3>
+<div id="outline-container-orgae88f77" class="outline-3">
+<h3 id="orgae88f77"><span class="section-number-3">1.2</span> 修改的 <b>SWIG</b> 接口文件：</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
-
-<pre class="src src-swig"><span class="linenr"> 1: </span><span style="color: #ff4040;">%module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
+<pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
 <span class="linenr"> 2: </span>%{
 <span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">"example1.h"</span>
 <span class="linenr"> 4: </span>%}
@@ -70,19 +69,20 @@ tags :  swig  jni  typemap
 <span class="linenr">20: </span>}
 <span class="linenr">21: </span>
 <span class="linenr">22: </span><span style="color: #ff4040;">%include</span> <span style="color: #d78700;">"example1.h"</span>
+<span class="linenr">23: </span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 生成的文件</h3>
+<div id="outline-container-orgcb82c70" class="outline-3">
+<h3 id="orgcb82c70"><span class="section-number-3">1.3</span> 生成的文件</h3>
 <div class="outline-text-3" id="text-1-3">
-</div><div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Java:</h4>
+</div>
+<div id="outline-container-orge27771b" class="outline-4">
+<h4 id="orge27771b"><span class="section-number-4">1.3.1</span> Java:</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <div class="org-src-container">
-
 <pre class="src src-java"><span class="linenr">1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example1</span> {
 <span class="linenr">2: </span>  <span style="color: #ff4040;">public</span> <span style="color: #1e90ff; font-weight: bold;">Example1</span>() {
 <span class="linenr">3: </span>    <span style="color: #ff4040;">this</span>(exampl1JNI.new_Example1(), <span style="color: #7fffd4; font-weight: bold;">true</span>);
@@ -97,11 +97,10 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Java JNI:</h4>
+<div id="outline-container-org76e84af" class="outline-4">
+<h4 id="org76e84af"><span class="section-number-4">1.3.2</span> Java JNI:</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <div class="org-src-container">
-
 <pre class="src src-java"><span class="linenr">1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl1JNI</span> {
 <span class="linenr">2: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">long</span> <span style="color: #1e90ff; font-weight: bold;">new_Example1</span>();
 <span class="linenr">3: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">delete_Example1</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>);
@@ -112,12 +111,11 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-1-3-3" class="outline-4">
-<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> JNI Code CPP:</h4>
+<div id="outline-container-org1827942" class="outline-4">
+<h4 id="org1827942"><span class="section-number-4">1.3.3</span> JNI Code CPP:</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <div class="org-src-container">
-
-<pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT jbyteArray <span style="color: #32cd32;">JNICALL</span> <span style="color: #1e90ff; font-weight: bold;">Java_exampl1JNI_Example1_1GetString</span>(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">) {</span>
+<pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT jbyteArray <span style="color: #32cd32;">JNICALL</span> <span style="color: #1e90ff; font-weight: bold;">Java_exampl1JNI_Example1_1GetString</span>(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">) {</span>
 <span class="linenr"> 2: </span>    <span style="color: #32cd32;">jbyteArray</span> <span style="color: #daa520;">jresult</span> = 0 ;
 <span class="linenr"> 3: </span>    <span style="color: #32cd32;">Example1</span> *<span style="color: #daa520;">arg1</span> = (<span style="color: #32cd32;">Example1</span> *) 0 ;
 <span class="linenr"> 4: </span>    <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #daa520;">result</span>;
@@ -145,44 +143,44 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> <a href="../assets/sources/swig/example2.7z">Example2: </a>转引用为bytearrary：</h2>
+<div id="outline-container-org72bdb29" class="outline-2">
+<h2 id="org72bdb29"><span class="section-number-2">2</span> <a href="../assets/sources/swig/example2.7z">Example2: </a>转引用为bytearrary：</h2>
 <div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> C++</h3>
+</div>
+<div id="outline-container-orgd96b0e5" class="outline-3">
+<h3 id="orgd96b0e5"><span class="section-number-3">2.1</span> C++</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-
-<pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32;">#if</span><span style="color: #32cd32;">n</span><span style="color: #32cd32;">def</span> _EXAMPLE1_H_
-<span class="linenr">2: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">_EXAMPLE1_H_</span>
-<span class="linenr">3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
-<span class="linenr">4: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example1</span>
-<span class="linenr">5: </span>{
-<span class="linenr">6: </span><span style="color: #ff4040;">public</span>:
-<span class="linenr">7: </span>    <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">GetString</span>(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span><span style="color: #daa520;">out</span>);
-<span class="linenr">8: </span>};
-<span class="linenr">9: </span><span style="color: #32cd32;">#endif</span> <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">_EXAMPLE1_H_ */</span>
+<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">#if</span><span style="color: #32cd32;">n</span><span style="color: #32cd32;">def</span> _EXAMPLE1_H_
+<span class="linenr"> 2: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">_EXAMPLE1_H_</span>
+<span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
+<span class="linenr"> 4: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example1</span>
+<span class="linenr"> 5: </span>{
+<span class="linenr"> 6: </span><span style="color: #ff4040;">public</span>:
+<span class="linenr"> 7: </span>    <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">GetString</span>(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span><span style="color: #daa520;">out</span>);
+<span class="linenr"> 8: </span>};
+<span class="linenr"> 9: </span><span style="color: #32cd32;">#endif</span> <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">_EXAMPLE1_H_ */</span>
+<span class="linenr">10: </span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2"><span class="section-number-3">2.2</span> SWIG Interface</h3>
+<div id="outline-container-orgc044d18" class="outline-3">
+<h3 id="orgc044d18"><span class="section-number-3">2.2</span> SWIG Interface</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-
-<pre class="src src-swig"><span class="linenr"> 1: </span><span style="color: #ff4040;">%module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
+<pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
 <span class="linenr"> 2: </span>%{
 <span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">"example2.h"</span>
 <span class="linenr"> 4: </span>%}
 <span class="linenr"> 5: </span>
 <span class="linenr"> 6: </span>%<span style="color: #32cd32;">include</span> &lt;std_string.i&gt;
 <span class="linenr"> 7: </span>
-<span class="linenr"> 8: </span><span style="color: #ff4040;">%typemap</span>(jstype) <span style="color: #7fffd4; font-weight: bold;">std</span>::string&amp; out <span style="color: #d78700;">"byte[]"</span>;
-<span class="linenr"> 9: </span><span style="color: #ff4040;">%typemap</span>(jtype) <span style="color: #7fffd4; font-weight: bold;">std</span>::string&amp; out <span style="color: #d78700;">"byte[]"</span>;
-<span class="linenr">10: </span><span style="color: #ff4040;">%typemap</span>(jni) <span style="color: #7fffd4; font-weight: bold;">std</span>::string&amp; out <span style="color: #d78700;">"jbyteArray"</span>;
-<span class="linenr">11: </span><span style="color: #ff4040;">%typemap</span>(argout) <span style="color: #7fffd4; font-weight: bold;">std</span>::string&amp; out
+<span class="linenr"> 8: </span><span style="color: #ff4040;">%typemap</span>(jstype) <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #daa520;">out</span> <span style="color: #d78700;">"byte[]"</span>;
+<span class="linenr"> 9: </span><span style="color: #ff4040;">%typemap</span>(jtype) <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #daa520;">out</span> <span style="color: #d78700;">"byte[]"</span>;
+<span class="linenr">10: </span><span style="color: #ff4040;">%typemap</span>(jni) <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #daa520;">out</span> <span style="color: #d78700;">"jbyteArray"</span>;
+<span class="linenr">11: </span><span style="color: #ff4040;">%typemap</span>(argout) <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #daa520;">out</span>
 <span class="linenr">12: </span>{
 <span class="linenr">13: </span>    <span style="color: #ff4040;">if</span> ($1.empty())
 <span class="linenr">14: </span>    {
@@ -199,14 +197,14 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-2-3" class="outline-3">
-<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Generated Codes:</h3>
+<div id="outline-container-orge4d8bfe" class="outline-3">
+<h3 id="orge4d8bfe"><span class="section-number-3">2.3</span> Generated Codes:</h3>
 <div class="outline-text-3" id="text-2-3">
-</div><div id="outline-container-sec-2-3-1" class="outline-4">
-<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Java Layer</h4>
+</div>
+<div id="outline-container-org970a08d" class="outline-4">
+<h4 id="org970a08d"><span class="section-number-4">2.3.1</span> Java Layer</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <div class="org-src-container">
-
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example2</span> {
 <span class="linenr"> 2: </span>  <span style="color: #ff4040;">private</span> <span style="color: #32cd32;">long</span> <span style="color: #daa520;">swigCPtr</span>;
 <span class="linenr"> 3: </span>  <span style="color: #ff4040;">protected</span> <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">swigCMemOwn</span>;
@@ -243,33 +241,33 @@ tags :  swig  jni  typemap
 <span class="linenr">34: </span>  }
 <span class="linenr">35: </span>
 <span class="linenr">36: </span>}
+<span class="linenr">37: </span>
 </pre>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-sec-2-3-2" class="outline-4">
-<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> Java JNI</h4>
+<div id="outline-container-orgaf409ba" class="outline-4">
+<h4 id="orgaf409ba"><span class="section-number-4">2.3.2</span> Java JNI</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <div class="org-src-container">
-
-<pre class="src src-java"><span class="linenr">1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl2JNI</span> {
-<span class="linenr">2: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example2_GetString</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">Example2</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">jarg2</span>);
-<span class="linenr">3: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">long</span> <span style="color: #1e90ff; font-weight: bold;">new_Example2</span>();
-<span class="linenr">4: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">delete_Example2</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>);
-<span class="linenr">5: </span>}
+<pre class="src src-java"><span class="linenr">1: </span>
+<span class="linenr">2: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl2JNI</span> {
+<span class="linenr">3: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example2_GetString</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">Example2</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">jarg2</span>);
+<span class="linenr">4: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">long</span> <span style="color: #1e90ff; font-weight: bold;">new_Example2</span>();
+<span class="linenr">5: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">delete_Example2</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>);
+<span class="linenr">6: </span>}
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-3-3" class="outline-4">
-<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> C++ JNI:</h4>
+<div id="outline-container-org6543332" class="outline-4">
+<h4 id="org6543332"><span class="section-number-4">2.3.3</span> C++ JNI:</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <div class="org-src-container">
-
-<pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl2JNI_Example2_1GetString(JNIEnv *jenv, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">jbyteArray</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;"> jarg2) {</span>
+<pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl2JNI_Example2_1GetString(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">jbyteArray</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;"> jarg2) {</span>
 <span class="linenr"> 2: </span>    <span style="color: #32cd32;">Example2</span> *<span style="color: #daa520;">arg1</span> = (<span style="color: #32cd32;">Example2</span> *) 0 ;
 <span class="linenr"> 3: </span>    <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> *<span style="color: #daa520;">arg2</span> = 0 ;
 <span class="linenr"> 4: </span>
@@ -293,6 +291,7 @@ tags :  swig  jni  typemap
 <span class="linenr">22: </span>        jenv-&gt;SetByteArrayRegion(jresult, 0, (&amp;arg2)-&gt;size(), (<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">jbyte</span>*)(&amp;arg2)-&gt;c_str());
 <span class="linenr">23: </span>    }
 <span class="linenr">24: </span>}
+<span class="linenr">25: </span>
 </pre>
 </div>
 </div>
@@ -300,32 +299,31 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> <a href="../assets/sources/swig/example3.7z">Example3: </a>Director</h2>
+<div id="outline-container-orgaa35dfc" class="outline-2">
+<h2 id="orgaa35dfc"><span class="section-number-2">3</span> <a href="../assets/sources/swig/example3.7z">Example3: </a>Director</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> C++</h3>
+</div>
+<div id="outline-container-org39894cd" class="outline-3">
+<h3 id="org39894cd"><span class="section-number-3">3.1</span> C++</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
 <span class="linenr">2: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example3</span>
 <span class="linenr">3: </span>{
 <span class="linenr">4: </span><span style="color: #ff4040;">public</span>:
 <span class="linenr">5: </span>    <span style="color: #ff4040;">virtual</span> ~<span style="color: #1e90ff; font-weight: bold;">Example3</span>() {}
-<span class="linenr">6: </span>    <span style="color: #ff4040;">virtual</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Updated</span>(<span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">o</span>, <span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span> <span style="color: #daa520;">n</span>) = 0;
+<span class="linenr">6: </span>    <span style="color: #ff4040;">virtual</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Updated</span>(<span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span> <span style="color: #daa520;">o</span>, <span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span> <span style="color: #daa520;">n</span>) = 0;
 <span class="linenr">7: </span>};
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> SWIG Interface</h3>
+<div id="outline-container-org2c2a58b" class="outline-3">
+<h3 id="org2c2a58b"><span class="section-number-3">3.2</span> SWIG Interface</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
-
-<pre class="src src-swig"><span class="linenr"> 1: </span><span style="color: #ff4040;">%module</span> (directors=<span style="color: #d78700;">"1"</span>) exampl3
+<pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> (directors=<span style="color: #d78700;">"1"</span>) exampl3
 <span class="linenr"> 2: </span>%{
 <span class="linenr"> 3: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">"example3.h"</span>
 <span class="linenr"> 4: </span>%}
@@ -352,9 +350,9 @@ tags :  swig  jni  typemap
 <span class="linenr">25: </span>    JCALL4(SetByteArrayRegion, jenv, $result, 0, $1.size(), (<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">jbyte</span>*)$1.c_str());
 <span class="linenr">26: </span>}
 <span class="linenr">27: </span>
-<span class="linenr">28: </span><span style="color: #ff4040;">%typemap</span>(in) <span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">we can add variable names to narrow down pattern matching.</span>
+<span class="linenr">28: </span><span style="color: #ff4040;">%typemap</span>(in) <span style="color: #ff4040;">const</span> <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span>&amp; <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">we can add variable names to narrow down pattern matching.</span>
 <span class="linenr">29: </span>{
-<span class="linenr">30: </span>    <span style="color: #32cd32;">jbyte</span>* <span style="color: #daa520;">dataPtr</span> = (<span style="color: #32cd32;">jbyte</span>*)<span style="color: #32cd32;">JCALL</span>(env-&gt;GetByteArrayElements($input, 0));
+<span class="linenr">30: </span>    jbyte* dataPtr = (<span style="color: #32cd32;">jbyte</span>*)JCALL(env-&gt;GetByteArrayElements($input, 0));
 <span class="linenr">31: </span>    <span style="color: #32cd32;">jsize</span>  <span style="color: #daa520;">dataSize</span> = JCALL11(env-&gt;GetArrayLength($input));
 <span class="linenr">32: </span>    <span style="color: #ff4040;">if</span> (olddata &amp;&amp; dataSize)
 <span class="linenr">33: </span>    {
@@ -368,14 +366,14 @@ tags :  swig  jni  typemap
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Generated Codes:</h3>
+<div id="outline-container-orge063a2c" class="outline-3">
+<h3 id="orge063a2c"><span class="section-number-3">3.3</span> Generated Codes:</h3>
 <div class="outline-text-3" id="text-3-3">
-</div><div id="outline-container-sec-3-3-1" class="outline-4">
-<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Java</h4>
+</div>
+<div id="outline-container-orgdf01a75" class="outline-4">
+<h4 id="orgdf01a75"><span class="section-number-4">3.3.1</span> Java</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <div class="org-src-container">
-
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example3</span> {
 <span class="linenr"> 2: </span>  <span style="color: #ff4040;">private</span> <span style="color: #32cd32;">long</span> <span style="color: #daa520;">swigCPtr</span>;
 <span class="linenr"> 3: </span>  <span style="color: #ff4040;">protected</span> <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">swigCMemOwn</span>;
@@ -424,20 +422,20 @@ tags :  swig  jni  typemap
 <span class="linenr">46: </span>  }
 <span class="linenr">47: </span>
 <span class="linenr">48: </span>}
+<span class="linenr">49: </span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-3-2" class="outline-4">
-<h4 id="sec-3-3-2"><span class="section-number-4">3.3.2</span> Java JNI</h4>
+<div id="outline-container-org91dd239" class="outline-4">
+<h4 id="org91dd239"><span class="section-number-4">3.3.2</span> Java JNI</h4>
 <div class="outline-text-4" id="text-3-3-2">
 <div class="org-src-container">
-
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl3JNI</span> {
 <span class="linenr"> 2: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example3_Updated</span>(<span style="color: #32cd32;">long</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">Example3</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">jarg2</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">jarg3</span>);
 <span class="linenr"> 3: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">long</span> <span style="color: #1e90ff; font-weight: bold;">new_Example3</span>();
-<span class="linenr"> 4: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example3_director_connect</span>(<span style="color: #32cd32;">Example3</span> <span style="color: #daa520;">obj</span>, <span style="color: #32cd32;">long</span> <span style="color: #daa520;">cptr</span>, <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">mem_own</span>, <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">weak_global</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">);</span>
+<span class="linenr"> 4: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example3_director_connect</span>(<span style="color: #32cd32;">Example3</span> <span style="color: #daa520;">obj</span>, <span style="color: #32cd32;">long</span> <span style="color: #daa520;">cptr</span>, <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">mem_own</span>, <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">weak_global</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">);</span>
 <span class="linenr"> 5: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">final</span> <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">native</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">Example3_change_ownership</span>(<span style="color: #32cd32;">Example3</span> <span style="color: #daa520;">obj</span>, <span style="color: #32cd32;">long</span> <span style="color: #daa520;">cptr</span>, <span style="color: #32cd32;">boolean</span> <span style="color: #daa520;">take_or_release</span>);
 <span class="linenr"> 6: </span>
 <span class="linenr"> 7: </span>  <span style="color: #ff4040;">public</span> <span style="color: #ff4040;">static</span> <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">SwigDirector_Example3_Updated</span>(<span style="color: #32cd32;">Example3</span> <span style="color: #daa520;">self</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">o</span>, <span style="color: #32cd32;">byte</span>[] <span style="color: #daa520;">n</span>) {
@@ -449,17 +447,17 @@ tags :  swig  jni  typemap
 <span class="linenr">13: </span>    swig_module_init();
 <span class="linenr">14: </span>  }
 <span class="linenr">15: </span>}
+<span class="linenr">16: </span>
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-3-3" class="outline-4">
-<h4 id="sec-3-3-3"><span class="section-number-4">3.3.3</span> C++ Wrapper</h4>
+<div id="outline-container-org93ecb9c" class="outline-4">
+<h4 id="org93ecb9c"><span class="section-number-4">3.3.3</span> C++ Wrapper</h4>
 <div class="outline-text-4" id="text-3-3-3">
 <div class="org-src-container">
-
-<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">void</span> <span style="color: #7fffd4; font-weight: bold;">SwigDirector_Example3</span>::<span style="color: #1e90ff; font-weight: bold;">Updated</span>(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span><span style="color: #daa520;">o</span>, <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #0000ff; background-color: #ff0000; font-weight: bold;">&amp;</span><span style="color: #daa520;">n</span>) {
+<pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">void</span> <span style="color: #7fffd4; font-weight: bold;">SwigDirector_Example3</span>::<span style="color: #1e90ff; font-weight: bold;">Updated</span>(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span><span style="color: #daa520;">o</span>, <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span><span style="color: #daa520;">n</span>) {
 <span class="linenr"> 2: </span>    <span style="color: #32cd32;">JNIEnvWrapper</span> <span style="color: #daa520;">swigjnienv</span>(<span style="color: #ff4040;">this</span>) ;
 <span class="linenr"> 3: </span>    <span style="color: #32cd32;">JNIEnv</span> * <span style="color: #daa520;">jenv</span> = swigjnienv.getJNIEnv() ;
 <span class="linenr"> 4: </span>    <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">swigjobj</span> = (jobject) <span style="color: #7fffd4; font-weight: bold;">NULL</span> ;
@@ -467,7 +465,7 @@ tags :  swig  jni  typemap
 <span class="linenr"> 6: </span>    <span style="color: #32cd32;">jbyteArray</span> <span style="color: #daa520;">jn</span> = 0 ;
 <span class="linenr"> 7: </span>
 <span class="linenr"> 8: </span>    <span style="color: #ff4040;">if</span> (!swig_override[0]) {
-<span class="linenr"> 9: </span>        SWIG_JavaThrowException(JNIEnvWrapper(<span style="color: #ff4040;">this</span>).getJNIEnv(), SWIG_JavaDirectorPureVirtual, <span style="color: #d78700;">"Attempted to invoke pure</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;"> virtual method Example3::Updated.");</span>
+<span class="linenr"> 9: </span>        SWIG_JavaThrowException(JNIEnvWrapper(<span style="color: #ff4040;">this</span>).getJNIEnv(), SWIG_JavaDirectorPureVirtual, <span style="color: #d78700;">"Attempted to invoke pure</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;"> virtual method Example3::Updated.");</span>
 <span class="linenr">10: </span>        <span style="color: #ff4040;">return</span>;
 <span class="linenr">11: </span>    }
 <span class="linenr">12: </span>    swigjobj = swig_get_self(jenv);
@@ -499,11 +497,11 @@ tags :  swig  jni  typemap
 <span class="linenr">38: </span>}
 <span class="linenr">39: </span>
 <span class="linenr">40: </span>
-<span class="linenr">41: </span><span style="color: #32cd32;">#ifdef</span> __cplusplus
+<span class="linenr">41: </span><span style="color: #32cd32;">#ifdef</span> <span style="color: #32cd32;">__cplusplus</span>
 <span class="linenr">42: </span><span style="color: #ff4040;">extern</span> <span style="color: #d78700;">"C"</span> {
 <span class="linenr">43: </span><span style="color: #32cd32;">#endif</span>
 <span class="linenr">44: </span>
-<span class="linenr">45: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl3JNI_Example3_1Updated(JNIEnv *jenv, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">jbyteArray</span><span style="color: #0000ff; background-color: #ff0000; font-weight: bold;"> jarg2, jbyteArray jarg3) {</span>
+<span class="linenr">45: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl3JNI_Example3_1Updated(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">jbyteArray</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;"> jarg2, jbyteArray jarg3) {</span>
 <span class="linenr">46: </span>    <span style="color: #32cd32;">Example3</span> *<span style="color: #daa520;">arg1</span> = (<span style="color: #32cd32;">Example3</span> *) 0 ;
 <span class="linenr">47: </span>    <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> *<span style="color: #daa520;">arg2</span> = 0 ;
 <span class="linenr">48: </span>    <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> *<span style="color: #daa520;">arg3</span> = 0 ;
@@ -514,24 +512,24 @@ tags :  swig  jni  typemap
 <span class="linenr">53: </span>    arg1 = *(<span style="color: #32cd32;">Example3</span> **)&amp;jarg1;
 <span class="linenr">54: </span>    {
 <span class="linenr">55: </span>        <span style="color: #32cd32;">jbyte</span>* <span style="color: #daa520;">dataPtr</span> = (<span style="color: #32cd32;">jbyte</span>*)<span style="color: #32cd32;">JCALL</span>(env-&gt;GetByteArrayElements(jarg2, 0));
-<span class="linenr">56: </span>        <span style="color: #32cd32;">jsize</span>  <span style="color: #daa520;">dataSize</span> = JCALL11(env-&gt;GetArrayLength(jarg2));
+<span class="linenr">56: </span>        <span style="color: #32cd32;">jsize</span>  <span style="color: #daa520;">dataSize</span> = <span style="color: #32cd32;">JCALL11</span>(env-&gt;GetArrayLength(jarg2));
 <span class="linenr">57: </span>        <span style="color: #ff4040;">if</span> (olddata &amp;&amp; dataSize)
 <span class="linenr">58: </span>        {
-<span class="linenr">59: </span>            arg2 = <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #daa520;">string</span>(dataPtr, dataSize);
+<span class="linenr">59: </span>            arg2 = <span style="color: #7fffd4; font-weight: bold;">std</span>::string(dataPtr, dataSize);
 <span class="linenr">60: </span>        }
 <span class="linenr">61: </span>    }
 <span class="linenr">62: </span>    {
 <span class="linenr">63: </span>        <span style="color: #32cd32;">jbyte</span>* <span style="color: #daa520;">dataPtr</span> = (<span style="color: #32cd32;">jbyte</span>*)<span style="color: #32cd32;">JCALL</span>(env-&gt;GetByteArrayElements(jarg3, 0));
-<span class="linenr">64: </span>        <span style="color: #32cd32;">jsize</span>  <span style="color: #daa520;">dataSize</span> = JCALL11(env-&gt;GetArrayLength(jarg3));
+<span class="linenr">64: </span>        <span style="color: #32cd32;">jsize</span>  <span style="color: #daa520;">dataSize</span> = <span style="color: #32cd32;">JCALL11</span>(env-&gt;GetArrayLength(jarg3));
 <span class="linenr">65: </span>        <span style="color: #ff4040;">if</span> (olddata &amp;&amp; dataSize)
 <span class="linenr">66: </span>        {
-<span class="linenr">67: </span>            arg3 = <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #daa520;">string</span>(dataPtr, dataSize);
+<span class="linenr">67: </span>            arg3 = <span style="color: #7fffd4; font-weight: bold;">std</span>::string(dataPtr, dataSize);
 <span class="linenr">68: </span>        }
 <span class="linenr">69: </span>    }
-<span class="linenr">70: </span>    (arg1)-&gt;Updated((<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> &amp;)*arg2,(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> &amp;)*arg3);
+<span class="linenr">70: </span>    (arg1)-&gt;Updated((<span style="color: #7fffd4; font-weight: bold;">std</span>::string <span style="color: #ff4040;">const</span> &amp;)*arg2,(<span style="color: #7fffd4; font-weight: bold;">std</span>::string <span style="color: #ff4040;">const</span> &amp;)*arg3);
 <span class="linenr">71: </span>}
 <span class="linenr">72: </span>
-<span class="linenr">73: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl3JNI_swig_1module_1init(JNIEnv *jenv, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>) {
+<span class="linenr">73: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl3JNI_swig_1module_1init(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>) {
 <span class="linenr">74: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">i</span>;
 <span class="linenr">75: </span>
 <span class="linenr">76: </span>    <span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> {
@@ -551,9 +549,11 @@ tags :  swig  jni  typemap
 <span class="linenr">90: </span>}
 <span class="linenr">91: </span>
 <span class="linenr">92: </span>
-<span class="linenr">93: </span><span style="color: #32cd32;">#ifdef</span> __cplusplus
+<span class="linenr">93: </span><span style="color: #32cd32;">#ifdef</span> <span style="color: #32cd32;">__cplusplus</span>
 <span class="linenr">94: </span>}
 <span class="linenr">95: </span><span style="color: #32cd32;">#endif</span>
+<span class="linenr">96: </span>
+<span class="linenr">97: </span>
 </pre>
 </div>
 </div>

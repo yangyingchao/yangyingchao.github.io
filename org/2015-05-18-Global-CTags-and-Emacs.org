@@ -1,7 +1,7 @@
 #+TITLE: Global CTags and Emacs
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: global,ctags,emacs
+#+KEYWORDS: global ctags emacs
 #+CATEGORY: Emacs
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

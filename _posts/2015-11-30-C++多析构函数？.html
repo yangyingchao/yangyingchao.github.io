@@ -8,9 +8,9 @@ tags : c++
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. G++ 生成的 ABI 遵循 </a></li>
-<li><a href="#sec-2">2. G++ 生成多个析构函数，其意义如下</a></li>
-<li><a href="#sec-3">3. D0~D3 的调用顺序</a></li>
+<li><a href="#org1532535">1. G++ 生成的 ABI 遵循 http://mentorembedded.github.io/cxx-abi/abi.html</a></li>
+<li><a href="#org9ede578">2. G++ 生成多个析构函数，其意义如下</a></li>
+<li><a href="#orge02d36b">3. D0~D3 的调用顺序</a></li>
 </ul>
 </div>
 </div>
@@ -19,7 +19,6 @@ tags : c++
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-text">...
 A::~A()
 A::~A()
@@ -29,7 +28,7 @@ A::~A()
 
 <p>
 觉得很奇怪，后来自己试了一个简单的例子，发现只要 析构函数为 virtual 就会生成多个析构函数。duckduckgo 了一下，找到了原因，参考：
-<a href="http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1"><a href="http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1">http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1</a></a>
+<a href="http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1">http://stackoverflow.com/questions/6921295/dual-emission-of-constructor-symbols?lq=1</a>
 和
 <a href="http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors">http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors</a>
 </p>
@@ -38,67 +37,98 @@ A::~A()
 摘录一下：
 </p>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> G++ 生成的 ABI 遵循 <a href="http://mentorembedded.github.io/cxx-abi/abi.html">http://mentorembedded.github.io/cxx-abi/abi.html</a></h2>
+<div id="outline-container-org1532535" class="outline-2">
+<h2 id="org1532535"><span class="section-number-2">1</span> G++ 生成的 ABI 遵循 <a href="http://mentorembedded.github.io/cxx-abi/abi.html">http://mentorembedded.github.io/cxx-abi/abi.html</a></h2>
 <div class="outline-text-2" id="text-1">
-   <div class="post-text" itemprop="text">
-<p>We'll start by declaring that <a href="http://gcc.gnu.org/onlinedocs/gcc/Compatibility.html">GCC follows</a> <a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html">the Itanium C++ ABI</a>.</p>
+<div class="HTML">
+<p>
+   &lt;div class="post-text" itemprop="text"&gt;
+&lt;p&gt;We'll start by declaring that &lt;a href="<a href="http://gcc.gnu.org/onlinedocs/gcc/Compatibility.html">http://gcc.gnu.org/onlinedocs/gcc/Compatibility.html</a>"&gt;GCC follows&lt;/a&gt; &lt;a href="<a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html">http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html</a>"&gt;the Itanium C++ ABI&lt;/a&gt;.&lt;/p&gt;
+</p>
 
-<hr>
+<p>
+&lt;hr&gt;
+</p>
 
-<p>According to the ABI, the mangled name for your <code>Thing::foo()</code> is easily parsed:</p>
+<p>
+&lt;p&gt;According to the ABI, the mangled name for your &lt;code&gt;Thing::foo()&lt;/code&gt; is easily parsed:&lt;/p&gt;
+</p>
 
-<pre class="default prettyprint prettyprinted"><code><span class="pln">_Z     </span><span class="pun">|</span><span class="pln"> N      </span><span class="pun">|</span><span class="pln"> </span><span class="lit">5Thing</span><span class="pln">  </span><span class="pun">|</span><span class="pln"> </span><span class="lit">3foo</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> E          </span><span class="pun">|</span><span class="pln"> v
-prefix </span><span class="pun">|</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> </span><span class="str">`Thing`</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="str">`foo`</span><span class="pun">|</span><span class="pln"> </span><span class="kwd">end</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> parameters</span><span class="pun">:</span><span class="pln"> </span><span class="str">`void`</span></code></pre>
+<p>
+&lt;pre class="default prettyprint prettyprinted"&gt;&lt;code&gt;&lt;span class="pln"&gt;_Z     &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; N      &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="lit"&gt;5Thing&lt;/span&gt;&lt;span class="pln"&gt;  &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="lit"&gt;3foo&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; E          &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; v
+prefix &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; nested &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="str"&gt;`Thing`&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="str"&gt;`foo`&lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="kwd"&gt;end&lt;/span&gt;&lt;span class="pln"&gt; nested &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; parameters&lt;/span&gt;&lt;span class="pun"&gt;:&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="str"&gt;`void`&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</p>
 
-<p>You can read the constructor names similarly, as below. Notice how the constructor "name" isn't given, but instead a <code>C</code> clause:</p>
+<p>
+&lt;p&gt;You can read the constructor names similarly, as below. Notice how the constructor "name" isn't given, but instead a &lt;code&gt;C&lt;/code&gt; clause:&lt;/p&gt;
+</p>
 
-<pre class="default prettyprint prettyprinted"><code><span class="pln">_Z     </span><span class="pun">|</span><span class="pln"> N      </span><span class="pun">|</span><span class="pln"> </span><span class="lit">5Thing</span><span class="pln">  </span><span class="pun">|</span><span class="pln"> C1          </span><span class="pun">|</span><span class="pln"> E          </span><span class="pun">|</span><span class="pln"> i
-prefix </span><span class="pun">|</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> </span><span class="str">`Thing`</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="typ">Constructor</span><span class="pln"> </span><span class="pun">|</span><span class="pln"> </span><span class="kwd">end</span><span class="pln"> nested </span><span class="pun">|</span><span class="pln"> parameters</span><span class="pun">:</span><span class="pln"> </span><span class="str">`int`</span></code></pre>
+<p>
+&lt;pre class="default prettyprint prettyprinted"&gt;&lt;code&gt;&lt;span class="pln"&gt;_Z     &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; N      &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="lit"&gt;5Thing&lt;/span&gt;&lt;span class="pln"&gt;  &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; C1          &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; E          &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; i
+prefix &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; nested &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="str"&gt;`Thing`&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="typ"&gt;Constructor&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="kwd"&gt;end&lt;/span&gt;&lt;span class="pln"&gt; nested &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&gt; parameters&lt;/span&gt;&lt;span class="pun"&gt;:&lt;/span&gt;&lt;span class="pln"&gt; &lt;/span&gt;&lt;span class="str"&gt;`int`&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</p>
 
-<hr>
+<p>
+&lt;hr&gt;
+</p>
 
-<p>But what's this <code>C1</code>? Your duplicate has <code>C2</code>. What does this <em>mean</em>?</p>
+<p>
+&lt;p&gt;But what's this &lt;code&gt;C1&lt;/code&gt;? Your duplicate has &lt;code&gt;C2&lt;/code&gt;. What does this &lt;em&gt;mean&lt;/em&gt;?&lt;/p&gt;
+</p>
 
-<p>Well, <a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html#mangling">this is quite simple too</a>:</p>
+<p>
+&lt;p&gt;Well, &lt;a href="<a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html#mangling">http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html#mangling</a>"&gt;this is quite simple too&lt;/a&gt;:&lt;/p&gt;
+</p>
 
-<pre class="default prettyprint prettyprinted"><code><span class="pln">  </span><span class="tag">&lt;ctor-dtor-name&gt;</span><span class="pln"> ::= C1   # complete object constructor
+<p>
+&lt;pre class="default prettyprint prettyprinted"&gt;&lt;code&gt;&lt;span class="pln"&gt;  &lt;/span&gt;&lt;span class="tag"&gt;&amp;lt;ctor-dtor-name&amp;gt;&lt;/span&gt;&lt;span class="pln"&gt; ::= C1   # complete object constructor
                    ::= C2   # base object constructor
                    ::= C3   # complete object allocating constructor
                    ::= D0   # deleting destructor
                    ::= D1   # complete object destructor
-                   ::= D2   # base object destructor</span></code></pre>
+                   ::= D2   # base object destructor&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</p>
 
-<hr>
-    </div>
+<p>
+&lt;hr&gt;
+    &lt;/div&gt;
+</p>
+
 </div>
 </div>
+</div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> G++ 生成多个析构函数，其意义如下</h2>
+<div id="outline-container-org9ede578" class="outline-2">
+<h2 id="org9ede578"><span class="section-number-2">2</span> G++ 生成多个析构函数，其意义如下</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 （参考：
     <a href="http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors/6614369#6614369">http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors/6614369#6614369</a>)
 </p>
 
-      <ul>
-<li>D2 is the "base object destructor". It destroys the object itself, as well as data members and non-virtual base classes.</li>
-<li>D1 is the "complete object destructor". It additionally destroys virtual base classes.</li>
-<li>D0 is the "deleting object destructor". It does everything the complete object destructor does, plus it calls <code>operator delete</code> to actually free the memory.</li>
-</ul>
+<div class="HTML">
+<p>
+      &lt;ul&gt;
+&lt;li&gt;D2 is the "base object destructor". It destroys the object itself, as well as data members and non-virtual base classes.&lt;/li&gt;
+&lt;li&gt;D1 is the "complete object destructor". It additionally destroys virtual base classes.&lt;/li&gt;
+&lt;li&gt;D0 is the "deleting object destructor". It does everything the complete object destructor does, plus it calls &lt;code&gt;operator delete&lt;/code&gt; to actually free the memory.&lt;/li&gt;
+&lt;/ul&gt;
+</p>
+
+</div>
 </div>
 </div>
 
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> D0~D3 的调用顺序</h2>
+<div id="outline-container-orge02d36b" class="outline-2">
+<h2 id="orge02d36b"><span class="section-number-2">3</span> D0~D3 的调用顺序</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
-<li>示例 1:
+<li><p>
+示例 1:
+</p>
 
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr">1: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">A</span>
 <span class="linenr">2: </span>{
 <span class="linenr">3: </span><span style="color: #ff4040;">public</span>:
@@ -112,16 +142,16 @@ prefix </span><span class="pun">|</span><span class="pln"> nested </span><span c
 </div>
 <p>
 顺序： <code>DA0 -&gt; DA1 -&gt; DA0</code>
-</p>
-</li>
+</p></li>
 </ol>
 
 
 <ol class="org-ol">
-<li>示例 2:
+<li><p>
+示例 2:
+</p>
 
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #ff4040;">class</span> <span style="color: #32cd32;">A</span>
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span><span style="color: #ff4040;">public</span>:
@@ -143,8 +173,7 @@ prefix </span><span class="pun">|</span><span class="pln"> nested </span><span c
 
 <p>
 顺序： <code>DB0 -&gt; DB1 -&gt; DA1 -&gt; DB1 -&gt; Db0</code>
-</p>
-</li>
+</p></li>
 </ol>
 </div>
 </div>

@@ -2,16 +2,16 @@
 layout : post
 title : EXT2 笔记
 categories : Kernel
-tags :  ext2  filesystem
+tags : EXT2 FileSystem
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Specification</a></li>
-<li><a href="#sec-2">2. Module Initialization</a></li>
-<li><a href="#sec-3">3. Mount</a></li>
-<li><a href="#sec-4">4. Open</a></li>
+<li><a href="#org594f016">1. Specification</a></li>
+<li><a href="#orgd0adbd3">2. Module Initialization</a></li>
+<li><a href="#org1ef89fc">3. Mount</a></li>
+<li><a href="#org4e9a6ee">4. Open</a></li>
 </ul>
 </div>
 </div>
@@ -19,12 +19,11 @@ tags :  ext2  filesystem
 记录一下 Ext2 文件系统相关的一些知识。
 </p>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Specification</h2>
+<div id="outline-container-org594f016" class="outline-2">
+<h2 id="org594f016"><span class="section-number-2">1</span> Specification</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>Blocks
-</li>
+<li>Blocks</li>
 </ul>
 
 <p>
@@ -33,35 +32,34 @@ tags :  ext2  filesystem
 </p>
 
 <ul class="org-ul">
-<li>Block Groups
+<li><p>
+Block Groups
+</p>
 
 <ul class="org-ul">
 <li>Blocks are clustered into block groups in order to reduce fragmentation
-and minimise the amount of head seeking when reading a large amount of consecutive data.
-</li>
+and minimise the amount of head seeking when reading a large amount of consecutive data.</li>
 <li>Information about each block group is kept in a
-descriptor table stored in the block(s) immediately after the superblock.
-</li>
+descriptor table stored in the block(s) immediately after the superblock.</li>
 <li>Two blocks near the start of each group are reserved for the block usage
 bitmap and the inode usage bitmap which show which blocks and inodes
-are in use.
-</li>
+are in use.</li>
 <li>The block(s) following the bitmaps in each block group are designated
 as the inode table for that block group and the remainder are the data
-blocks
-</li>
+blocks</li>
 <li>The block allocation algorithm attempts to allocate data blocks
-in the same block group as the inode which contains them.
-</li>
+in the same block group as the inode which contains them.</li>
 </ul>
 
-<div class="figure">
-<p><img src="../../../assets/img/block1.png" alt="block1.png" />
-</p>
-</div>
-</li>
 
-<li>Superblock
+<div class="figure">
+<p><img src="../../../../assets/img/block1.png" alt="block1.png" />
+</p>
+</div></li>
+
+<li><p>
+Superblock
+</p>
 
 <p>
 超块中保存了文件系统的所有配置信息。超块信息保存在设备起始点的1024字节偏移处，该信息在文件系统挂载时被内核读取。此外，超块信息还有若干备份，用户可以选择将其保存在所有的 BlockGroup 中，或者选择将其保存在 0，1，以及 2 的 3，5，7次冥的超块中。
@@ -71,51 +69,43 @@ in the same block group as the inode which contains them.
 超块中保存的数据包括：
 </p>
 <ul class="org-ul">
-<li>文件系统中 iNode 与 block 的数量以及使用情况
-</li>
-<li>每个 block group 中的 inode 和 block 数量
-</li>
-<li>文件系统上一次被挂载和修改的时间
-</li>
-<li>文件系统的创建时间和文件系统的版本信息。
-</li>
+<li>文件系统中 iNode 与 block 的数量以及使用情况</li>
+<li>每个 block group 中的 inode 和 block 数量</li>
+<li>文件系统上一次被挂载和修改的时间</li>
+<li>文件系统的创建时间和文件系统的版本信息。</li>
 </ul>
+
 <p>
 超块中的所有信息均以小端格式写入磁盘。
-</p>
-</li>
+</p></li>
 
 <li>Inodes (Index Nodes)
 索引节点是 Ext2 文件系统中的一个基础概念，文件系统的每个对象都通过一个 inode 来表示。
-inode 中通过指针指向包含对象内容的 blocks，以及相关的除名字之外的所有元数据 (metadata) 。
-</li>
+inode 中通过指针指向包含对象内容的 blocks，以及相关的除名字之外的所有元数据 (metadata) 。</li>
 
-<li>Directories
+<li><p>
+Directories
+</p>
 
 <p>
 目录同文件一样，也是包含有 inode 的文件系统对象。不同之处在于，目录其实是一个特殊格式的文件，它里面包含了若干属于该目录的文件名字和与之对应的 inode number。
-</p>
-</li>
+</p></li>
 
 <li>Special files
 
 <ul class="org-ul">
-<li>Symbolic Links: 如果符号链接小于 60 字节，则其数据会占用若干应该指向 block 的指针，从而将数据存储到 inode 里面，避免了浪费额外的 block。
-</li>
+<li>Symbolic Links: 如果符号链接小于 60 字节，则其数据会占用若干应该指向 block 的指针，从而将数据存储到 inode 里面，避免了浪费额外的 block。</li>
 
-<li>字符设备与块设备都直接将数据存到 inode 中，没有额外的 block，与小型的符号链接一样。
-</li>
-</ul>
-</li>
+<li>字符设备与块设备都直接将数据存到 inode 中，没有额外的 block，与小型的符号链接一样。</li>
+</ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Module Initialization</h2>
+<div id="outline-container-orgd0adbd3" class="outline-2">
+<h2 id="orgd0adbd3"><span class="section-number-2">2</span> Module Initialization</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">__init</span> init_ext2_fs(<span style="color: #32cd32;">void</span>)
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">err</span> = init_ext2_xattr();
@@ -143,12 +133,11 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 
 
 <div class="figure">
-<p><img src="../../../assets/img/fs_type.png" alt="fs_type.png" />
+<p><img src="../../../../assets/img/fs_type.png" alt="fs_type.png" />
 </p>
 </div>
 
 <div class="org-src-container">
-
 <pre class="src src-c++"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> <span style="color: #daa520;">ext2_fs_type</span> = {
 <span class="linenr">2: </span>    .owner      = THIS_MODULE,
 <span class="linenr">3: </span>    .name       = <span style="color: #d78700;">"ext2"</span>,
@@ -165,14 +154,14 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Mount</h2>
+<div id="outline-container-org1ef89fc" class="outline-2">
+<h2 id="org1ef89fc"><span class="section-number-2">3</span> Mount</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 从系统调用到注册的函数指针</h3>
+</div>
+<div id="outline-container-org0a197dd" class="outline-3">
+<h3 id="org0a197dd"><span class="section-number-3">3.1</span> 从系统调用到注册的函数指针</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
-
 <pre class="src src-Man"><span class="linenr"> 1: </span>MOUNT(2)                               Linux Programmer's Manual                              MOUNT(2)
 <span class="linenr"> 2: </span>
 <span class="linenr"> 3: </span>NAME
@@ -190,26 +179,27 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 <span class="linenr">15: </span>       be a directory name or a dummy) to the directory specified by target.
 <span class="linenr">16: </span>
 <span class="linenr">17: </span>       Appropriate privilege (Linux: the CAP_SYS_ADMIN capability) is required to mount filesystems.
+<span class="linenr">18: </span>
 </pre>
 </div>
 
 <div class="org-src-container">
-
-<pre class="src src-c"><span class="linenr">1: </span><span style="color: #1e90ff; font-weight: bold;">SYSCALL_DEFINE5</span>(<span style="color: #32cd32;">mount</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dev_name</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dir_name</span>,
-<span class="linenr">2: </span>                <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">type</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">flags</span>, <span style="color: #32cd32;">void</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">data</span>)
-<span class="linenr">3: </span>{
-<span class="linenr">4: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
-<span class="linenr">5: </span>    ret = do_mount(kernel_dev, kernel_dir-&gt;name, kernel_type, flags,
-<span class="linenr">6: </span>                   (<span style="color: #32cd32;">void</span> *) data_page);
-<span class="linenr">7: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">....</span>
-<span class="linenr">8: </span>    <span style="color: #ff4040;">return</span> ret;
-<span class="linenr">9: </span>}
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">SYSCALL_DEFINE5</span>(<span style="color: #32cd32;">mount</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dev_name</span>, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">dir_name</span>,
+<span class="linenr"> 2: </span>                <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">type</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">flags</span>, <span style="color: #32cd32;">void</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">data</span>)
+<span class="linenr"> 3: </span>{
+<span class="linenr"> 4: </span>    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr"> 5: </span>    ret = do_mount(kernel_dev, kernel_dir-&gt;name, kernel_type, flags,
+<span class="linenr"> 6: </span>                   (<span style="color: #32cd32;">void</span> *) data_page);
+<span class="linenr"> 7: </span>    <span style="color: #cd5c5c; font-style: italic;">//</span><span style="color: #cd5c5c; font-style: italic;">....</span>
+<span class="linenr"> 8: </span>    <span style="color: #ff4040;">return</span> ret;
+<span class="linenr"> 9: </span>}
+<span class="linenr">10: </span>
 </pre>
 </div>
 
 
 <div class="figure">
-<p><img src="../../../assets/img/mount_flow.png" alt="mount_flow.png" />
+<p><img src="../../../../assets/img/mount_flow.png" alt="mount_flow.png" />
 </p>
 </div>
 
@@ -221,17 +211,16 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 
 
 <div class="figure">
-<p><img src="../../../assets/img/vfs_mount.png" alt="vfs_mount.png" />
+<p><img src="../../../../assets/img/vfs_mount.png" alt="vfs_mount.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 挂载 ext2 文件系统</h3>
+<div id="outline-container-org94d3344" class="outline-3">
+<h3 id="org94d3344"><span class="section-number-3">3.2</span> 挂载 ext2 文件系统</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *<span style="color: #1e90ff; font-weight: bold;">ext2_mount</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> *<span style="color: #daa520;">fs_type</span>,
 <span class="linenr">2: </span>                                 <span style="color: #32cd32;">int</span> <span style="color: #daa520;">flags</span>, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">dev_name</span>, <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">data</span>)
 <span class="linenr">3: </span>{
@@ -246,21 +235,20 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 </div>
 </div>
 
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3"><span class="section-number-3">3.3</span> mount_bdev</h3>
+<div id="outline-container-orgae07869" class="outline-3">
+<h3 id="orgae07869"><span class="section-number-3">3.3</span> mount_bdev</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 <code>mount_bdev</code> 是文件系统提供的 Utility， 该函数首先使用 <code>blkdev_get_by_path</code> 来根据磁盘（分区）路径获取对应的块设备，并增加块设备的引用计数。随后尝试 创建新的 <code>super_block</code> 对象，并设置一些相关信息， <code>super_block</code> 定义如下：
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_block</span> {
-<span class="linenr"> 2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_list</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Keep this first </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 3: </span>    <span style="color: #32cd32;">dev_t</span>           <span style="color: #daa520;">s_dev</span>;      <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">search index; _not_ kdev_t </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_list</span>;     <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Keep this first </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 3: </span>    <span style="color: #32cd32;">dev_t</span>           <span style="color: #daa520;">s_dev</span>;      <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">search index; _not_ kdev_t </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr"> 4: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">char</span>       <span style="color: #daa520;">s_blocksize_bits</span>;
 <span class="linenr"> 5: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>       <span style="color: #daa520;">s_blocksize</span>;
-<span class="linenr"> 6: </span>    <span style="color: #32cd32;">loff_t</span>          <span style="color: #daa520;">s_maxbytes</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Max file size </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 6: </span>    <span style="color: #32cd32;">loff_t</span>          <span style="color: #daa520;">s_maxbytes</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Max file size </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr"> 7: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> *<span style="color: #daa520;">s_type</span>;
 <span class="linenr"> 8: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_operations</span>   *<span style="color: #daa520;">s_op</span>;
 <span class="linenr"> 9: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dquot_operations</span>   *<span style="color: #daa520;">dq_op</span>;
@@ -277,67 +265,67 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 <span class="linenr">20: </span><span style="color: #32cd32;">#endif</span>
 <span class="linenr">21: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">xattr_handler</span> **<span style="color: #daa520;">s_xattr</span>;
 <span class="linenr">22: </span>
-<span class="linenr">23: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_inodes</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">all inodes </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">24: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">hlist_bl_head</span>    <span style="color: #daa520;">s_anon</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">anonymous dentries for (nfs) exporting </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">25: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_mounts</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">list of mounts; _not_ for fs use </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">23: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_inodes</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">all inodes </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">24: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">hlist_bl_head</span>    <span style="color: #daa520;">s_anon</span>;     <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">anonymous dentries for (nfs) exporting </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">25: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_head</span>    <span style="color: #daa520;">s_mounts</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">list of mounts; _not_ for fs use </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">26: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">block_device</span> *<span style="color: #daa520;">s_bdev</span>;
 <span class="linenr">27: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">backing_dev_info</span> *<span style="color: #daa520;">s_bdi</span>;
 <span class="linenr">28: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">mtd_info</span>     *<span style="color: #daa520;">s_mtd</span>;
 <span class="linenr">29: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">hlist_node</span>   <span style="color: #daa520;">s_instances</span>;
-<span class="linenr">30: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">quota_info</span>   <span style="color: #daa520;">s_dquot</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Diskquota specific options </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">30: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">quota_info</span>   <span style="color: #daa520;">s_dquot</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Diskquota specific options </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">31: </span>
 <span class="linenr">32: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">sb_writers</span>   <span style="color: #daa520;">s_writers</span>;
 <span class="linenr">33: </span>
-<span class="linenr">34: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">s_id</span>[32];              <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Informational name </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">35: </span>    <span style="color: #32cd32;">u8</span> <span style="color: #daa520;">s_uuid</span>[16];              <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">UUID </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">34: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">s_id</span>[32];              <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Informational name </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">35: </span>    <span style="color: #32cd32;">u8</span> <span style="color: #daa520;">s_uuid</span>[16];              <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">UUID </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">36: </span>
-<span class="linenr">37: </span>    <span style="color: #32cd32;">void</span>            *<span style="color: #daa520;">s_fs_info</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Filesystem private info </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">37: </span>    <span style="color: #32cd32;">void</span>            *<span style="color: #daa520;">s_fs_info</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Filesystem private info </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">38: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>        <span style="color: #daa520;">s_max_links</span>;
 <span class="linenr">39: </span>    <span style="color: #32cd32;">fmode_t</span>         <span style="color: #daa520;">s_mode</span>;
 <span class="linenr">40: </span>
-<span class="linenr">41: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Granularity of c/m/atime in ns.</span>
-<span class="linenr">42: </span><span style="color: #cd5c5c; font-style: italic;">       Cannot be worse than a second </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">41: </span>    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Granularity of c/m/atime in ns.</span>
+<span class="linenr">42: </span><span style="color: #cd5c5c; font-style: italic;">       Cannot be worse than a second </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">43: </span>    <span style="color: #32cd32;">u32</span>        <span style="color: #daa520;">s_time_gran</span>;
 <span class="linenr">44: </span>
-<span class="linenr">45: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">45: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">46: </span><span style="color: #cd5c5c; font-style: italic;">     * The next field is for VFS *only*. No filesystems have any business</span>
 <span class="linenr">47: </span><span style="color: #cd5c5c; font-style: italic;">     * even looking at it. You had been warned.</span>
-<span class="linenr">48: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">49: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">mutex</span> <span style="color: #daa520;">s_vfs_rename_mutex</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Kludge </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">48: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">49: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">mutex</span> <span style="color: #daa520;">s_vfs_rename_mutex</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Kludge </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">50: </span>
-<span class="linenr">51: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">51: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">52: </span><span style="color: #cd5c5c; font-style: italic;">     * Filesystem subtype.  If non-empty the filesystem type field</span>
 <span class="linenr">53: </span><span style="color: #cd5c5c; font-style: italic;">     * in /proc/mounts will be "type.subtype"</span>
-<span class="linenr">54: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">54: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">55: </span>    <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">s_subtype</span>;
 <span class="linenr">56: </span>
-<span class="linenr">57: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">57: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">58: </span><span style="color: #cd5c5c; font-style: italic;">     * Saved mount options for lazy filesystems using</span>
 <span class="linenr">59: </span><span style="color: #cd5c5c; font-style: italic;">     * generic_show_options()</span>
-<span class="linenr">60: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">60: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">61: </span>    <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__rcu</span> *s_options;
-<span class="linenr">62: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry_operations</span> *<span style="color: #daa520;">s_d_op</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">default d_op for dentries </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">62: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry_operations</span> *<span style="color: #daa520;">s_d_op</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">default d_op for dentries </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">63: </span>
-<span class="linenr">64: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">64: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">65: </span><span style="color: #cd5c5c; font-style: italic;">     * Saved pool identifier for cleancache (-1 means none)</span>
-<span class="linenr">66: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">66: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">67: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">cleancache_poolid</span>;
 <span class="linenr">68: </span>
-<span class="linenr">69: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">shrinker</span> <span style="color: #daa520;">s_shrink</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">per-sb shrinker handle </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">69: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">shrinker</span> <span style="color: #daa520;">s_shrink</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">per-sb shrinker handle </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">70: </span>
-<span class="linenr">71: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Number of inodes with nlink == 0 but still referenced </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">71: </span>    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Number of inodes with nlink == 0 but still referenced </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">72: </span>    <span style="color: #32cd32;">atomic_long_t</span> <span style="color: #daa520;">s_remove_count</span>;
 <span class="linenr">73: </span>
-<span class="linenr">74: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Being remounted read-only </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">74: </span>    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Being remounted read-only </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">75: </span>    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">s_readonly_remount</span>;
 <span class="linenr">76: </span>
-<span class="linenr">77: </span>    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">AIO completions deferred from interrupt context </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">77: </span>    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">AIO completions deferred from interrupt context </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">78: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">workqueue_struct</span> *<span style="color: #daa520;">s_dio_done_wq</span>;
 <span class="linenr">79: </span>
-<span class="linenr">80: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">80: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">81: </span><span style="color: #cd5c5c; font-style: italic;">     * Keep the lru lists last in the structure so they always sit on their</span>
 <span class="linenr">82: </span><span style="color: #cd5c5c; font-style: italic;">     * own individual cachelines.</span>
-<span class="linenr">83: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">83: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">84: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_lru</span>     <span style="color: #32cd32;">s_dentry_lru</span> <span style="color: #daa520;">____cacheline_aligned_in_smp</span>;
 <span class="linenr">85: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">list_lru</span>     <span style="color: #32cd32;">s_inode_lru</span> <span style="color: #daa520;">____cacheline_aligned_in_smp</span>;
 <span class="linenr">86: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">rcu_head</span>     <span style="color: #daa520;">rcu</span>;
@@ -351,11 +339,12 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 </div>
 </div>
 
-<div id="outline-container-sec-3-4" class="outline-3">
-<h3 id="sec-3-4"><span class="section-number-3">3.4</span> ext2_fill_super</h3>
+<div id="outline-container-org9272f99" class="outline-3">
+<h3 id="org9272f99"><span class="section-number-3">3.4</span> ext2_fill_super</h3>
 <div class="outline-text-3" id="text-3-4">
-</div><div id="outline-container-sec-3-4-1" class="outline-4">
-<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> super_block, ext2_sb_info 与 ext2_super_block</h4>
+</div>
+<div id="outline-container-org4ba6a2b" class="outline-4">
+<h4 id="org4ba6a2b"><span class="section-number-4">3.4.1</span> super_block, ext2_sb_info 与 ext2_super_block</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <p>
 <code>ext2_fill_super</code> 初始化了一些数据结构后，从指定的块设备中读取指定大小的数据，这些数据其实是
@@ -363,7 +352,6 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr">1: </span>sb-&gt;s_magic = le16_to_cpu(es-&gt;s_magic);
 </pre>
 </div>
@@ -375,7 +363,7 @@ inode 中通过指针指向包含对象内容的 blocks，以及相关的除名�
 
 
 <div class="figure">
-<p><img src="../../../assets/img/ext2_sb.png" alt="ext2_sb.png" />
+<p><img src="../../../../assets/img/ext2_sb.png" alt="ext2_sb.png" />
 </p>
 </div>
 
@@ -385,7 +373,6 @@ super_block，这些函数将会被 VFS 使用。
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_operations</span> <span style="color: #daa520;">ext2_sops</span> = {
 <span class="linenr"> 2: </span>    .alloc_inode    = ext2_alloc_inode,
 <span class="linenr"> 3: </span>    .destroy_inode  = ext2_destroy_inode,
@@ -412,14 +399,14 @@ super_block，这些函数将会被 VFS 使用。
 <span class="linenr">24: </span>
 <span class="linenr">25: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">ext2_fill_super</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_block</span> *<span style="color: #daa520;">sb</span>, <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">data</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">silent</span>)
 <span class="linenr">26: </span>{
-<span class="linenr">27: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
-<span class="linenr">28: </span>    <span style="color: #fa8072;">/*</span>
+<span class="linenr">27: </span>    <span style="color: #cd5c5c; font-style: italic;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr">28: </span>    <span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr">29: </span><span style="color: #cd5c5c; font-style: italic;">     * set up enough so that it can read an inode</span>
-<span class="linenr">30: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">30: </span><span style="color: #cd5c5c; font-style: italic;">     </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">31: </span>    sb-&gt;s_op = &amp;ext2_sops;
 <span class="linenr">32: </span>    sb-&gt;s_export_op = &amp;ext2_export_ops;
 <span class="linenr">33: </span>    sb-&gt;s_xattr = ext2_xattr_handlers;
-<span class="linenr">34: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr">34: </span>    <span style="color: #cd5c5c; font-style: italic;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
 <span class="linenr">35: </span>}
 </pre>
 </div>
@@ -431,24 +418,23 @@ super_block，这些函数将会被 VFS 使用。
 </div>
 </div>
 
-<div id="outline-container-sec-3-4-2" class="outline-4">
-<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> root inode</h4>
+<div id="outline-container-org190974a" class="outline-4">
+<h4 id="org190974a"><span class="section-number-4">3.4.2</span> root inode</h4>
 <div class="outline-text-4" id="text-3-4-2">
 <p>
 EXT2 文件系统预先定义了几个特殊的 inode number：
 </p>
 
 <div class="org-src-container">
-
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #fa8072;">/*</span>
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr"> 2: </span><span style="color: #cd5c5c; font-style: italic;"> * Special inode numbers</span>
-<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;"> </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 4: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_BAD_INO</span>         1  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Bad blocks inode </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 5: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_ROOT_INO</span>        2  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Root inode </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 6: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_BOOT_LOADER_INO</span>     5  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Boot loader inode </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 7: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_UNDEL_DIR_INO</span>   6  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Undelete directory inode </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;"> </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 4: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_BAD_INO</span>         1  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Bad blocks inode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 5: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_ROOT_INO</span>        2  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Root inode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 6: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_BOOT_LOADER_INO</span>     5  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Boot loader inode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 7: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_UNDEL_DIR_INO</span>   6  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Undelete directory inode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr"> 8: </span>
-<span class="linenr"> 9: </span><span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">First non-reserved inode for old ext2 filesystems </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 9: </span><span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">First non-reserved inode for old ext2 filesystems </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">10: </span><span style="color: #32cd32;">#define</span> <span style="color: #daa520;">EXT2_GOOD_OLD_FIRST_INO</span> 11
 </pre>
 </div>
@@ -468,22 +454,21 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 </p>
 
 <div class="org-src-container">
-
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #fa8072;">/*</span>
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #cd5c5c; font-style: italic;">/*</span>
 <span class="linenr"> 2: </span><span style="color: #cd5c5c; font-style: italic;"> * Structure of an inode on the disk</span>
-<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;"> </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 3: </span><span style="color: #cd5c5c; font-style: italic;"> </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr"> 4: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">ext2_inode</span> {
-<span class="linenr"> 5: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_mode</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">File mode </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 6: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_uid</span>;      <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Low 16 bits of Owner Uid </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 7: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_size</span>;     <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Size in bytes </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 8: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_atime</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Access time </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 9: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_ctime</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Creation time </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">10: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_mtime</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Modification time </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">11: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_dtime</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Deletion Time </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">12: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_gid</span>;      <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Low 16 bits of Group Id </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">13: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_links_count</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Links count </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">14: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_blocks</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Blocks count </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">15: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_flags</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">File flags </span><span style="color: #fa8072;">*/</span>
+<span class="linenr"> 5: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_mode</span>;     <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">File mode </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 6: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_uid</span>;      <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Low 16 bits of Owner Uid </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 7: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_size</span>;     <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Size in bytes </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 8: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_atime</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Access time </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 9: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_ctime</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Creation time </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">10: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_mtime</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Modification time </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">11: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_dtime</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Deletion Time </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">12: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_gid</span>;      <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Low 16 bits of Group Id </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">13: </span>    <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">i_links_count</span>;  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Links count </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">14: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_blocks</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Blocks count </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">15: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_flags</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">File flags </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">16: </span>    <span style="color: #ff4040;">union</span> {
 <span class="linenr">17: </span>        <span style="color: #ff4040;">struct</span> {
 <span class="linenr">18: </span>            <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">l_i_reserved1</span>;
@@ -494,36 +479,36 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 <span class="linenr">23: </span>        <span style="color: #ff4040;">struct</span> {
 <span class="linenr">24: </span>            <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">m_i_reserved1</span>;
 <span class="linenr">25: </span>        } <span style="color: #daa520;">masix1</span>;
-<span class="linenr">26: </span>    } <span style="color: #daa520;">osd1</span>;             <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">OS dependent 1 </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">27: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_block</span>[EXT2_N_BLOCKS];<span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Pointers to blocks </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">28: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_generation</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">File version (for NFS) </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">29: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_file_acl</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">File ACL </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">30: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_dir_acl</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Directory ACL </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">31: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_faddr</span>;    <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment address </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">26: </span>    } <span style="color: #daa520;">osd1</span>;             <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">OS dependent 1 </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">27: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_block</span>[EXT2_N_BLOCKS];<span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Pointers to blocks </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">28: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_generation</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">File version (for NFS) </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">29: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_file_acl</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">File ACL </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">30: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_dir_acl</span>;  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Directory ACL </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">31: </span>    <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">i_faddr</span>;    <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment address </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">32: </span>    <span style="color: #ff4040;">union</span> {
 <span class="linenr">33: </span>        <span style="color: #ff4040;">struct</span> {
-<span class="linenr">34: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">l_i_frag</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">35: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">l_i_fsize</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">34: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">l_i_frag</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">35: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">l_i_fsize</span>;  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">36: </span>            <span style="color: #32cd32;">__u16</span>   <span style="color: #daa520;">i_pad1</span>;
-<span class="linenr">37: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">l_i_uid_high</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">these 2 fields    </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">38: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">l_i_gid_high</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">were reserved2[0] </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">37: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">l_i_uid_high</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">these 2 fields    </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">38: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">l_i_gid_high</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">were reserved2[0] </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">39: </span>            <span style="color: #32cd32;">__u32</span>   <span style="color: #daa520;">l_i_reserved2</span>;
 <span class="linenr">40: </span>        } <span style="color: #daa520;">linux2</span>;
 <span class="linenr">41: </span>        <span style="color: #ff4040;">struct</span> {
-<span class="linenr">42: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">h_i_frag</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">43: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">h_i_fsize</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">42: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">h_i_frag</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">43: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">h_i_fsize</span>;  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">44: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">h_i_mode_high</span>;
 <span class="linenr">45: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">h_i_uid_high</span>;
 <span class="linenr">46: </span>            <span style="color: #32cd32;">__le16</span>  <span style="color: #daa520;">h_i_gid_high</span>;
 <span class="linenr">47: </span>            <span style="color: #32cd32;">__le32</span>  <span style="color: #daa520;">h_i_author</span>;
 <span class="linenr">48: </span>        } <span style="color: #daa520;">hurd2</span>;
 <span class="linenr">49: </span>        <span style="color: #ff4040;">struct</span> {
-<span class="linenr">50: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">m_i_frag</span>;   <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #fa8072;">*/</span>
-<span class="linenr">51: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">m_i_fsize</span>;  <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">50: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">m_i_frag</span>;   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment number </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr">51: </span>            <span style="color: #32cd32;">__u8</span>    <span style="color: #daa520;">m_i_fsize</span>;  <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Fragment size </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">52: </span>            <span style="color: #32cd32;">__u16</span>   <span style="color: #daa520;">m_pad1</span>;
 <span class="linenr">53: </span>            <span style="color: #32cd32;">__u32</span>   <span style="color: #daa520;">m_i_reserved2</span>[2];
 <span class="linenr">54: </span>        } <span style="color: #daa520;">masix2</span>;
-<span class="linenr">55: </span>    } <span style="color: #daa520;">osd2</span>;             <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">OS dependent 2 </span><span style="color: #fa8072;">*/</span>
+<span class="linenr">55: </span>    } <span style="color: #daa520;">osd2</span>;             <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">OS dependent 2 </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
 <span class="linenr">56: </span>};
 </pre>
 </div>
@@ -534,7 +519,7 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 
 
 <div class="figure">
-<p><img src="../../../assets/img/ext2_inode.png" alt="ext2_inode.png" />
+<p><img src="../../../../assets/img/ext2_inode.png" alt="ext2_inode.png" />
 </p>
 </div>
 
@@ -543,78 +528,77 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-c"><span class="linenr">  1: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode_operations</span> {
-<span class="linenr">  2: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> * (*<span style="color: #1e90ff; font-weight: bold;">lookup</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>);
-<span class="linenr">  3: </span>    <span style="color: #32cd32;">void</span> * (*<span style="color: #1e90ff; font-weight: bold;">follow_link</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">nameidata</span> *);
-<span class="linenr">  4: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">permission</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #32cd32;">int</span>);
-<span class="linenr">  5: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">posix_acl</span> * (*<span style="color: #1e90ff; font-weight: bold;">get_acl</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #32cd32;">int</span>);
+<span class="linenr">  2: </span>    <span style="color: #ff4040;">struct</span> dentry * (*lookup) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>);
+<span class="linenr">  3: </span>    <span style="color: #32cd32;">void</span> * (*follow_link) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">nameidata</span> *);
+<span class="linenr">  4: </span>    <span style="color: #32cd32;">int</span> (*permission) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #32cd32;">int</span>);
+<span class="linenr">  5: </span>    <span style="color: #ff4040;">struct</span> posix_acl * (*get_acl)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #32cd32;">int</span>);
 <span class="linenr">  6: </span>
-<span class="linenr">  7: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">readlink</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *,<span style="color: #32cd32;">int</span>);
-<span class="linenr">  8: </span>    <span style="color: #32cd32;">void</span> (*<span style="color: #1e90ff; font-weight: bold;">put_link</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">nameidata</span> *, <span style="color: #32cd32;">void</span> *);
+<span class="linenr">  7: </span>    <span style="color: #32cd32;">int</span> (*readlink) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *,<span style="color: #32cd32;">int</span>);
+<span class="linenr">  8: </span>    <span style="color: #32cd32;">void</span> (*put_link) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">nameidata</span> *, <span style="color: #32cd32;">void</span> *);
 <span class="linenr">  9: </span>
-<span class="linenr"> 10: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">create</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">umode_t</span>, <span style="color: #32cd32;">bool</span>);
-<span class="linenr"> 11: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">link</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
-<span class="linenr"> 12: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">unlink</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
-<span class="linenr"> 13: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">symlink</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *);
-<span class="linenr"> 14: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">mkdir</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #32cd32;">umode_t</span>);
-<span class="linenr"> 15: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">rmdir</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
-<span class="linenr"> 16: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">mknod</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #32cd32;">umode_t</span>,<span style="color: #32cd32;">dev_t</span>);
-<span class="linenr"> 17: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">rename</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,
+<span class="linenr"> 10: </span>    <span style="color: #32cd32;">int</span> (*create) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">umode_t</span>, <span style="color: #32cd32;">bool</span>);
+<span class="linenr"> 11: </span>    <span style="color: #32cd32;">int</span> (*link) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
+<span class="linenr"> 12: </span>    <span style="color: #32cd32;">int</span> (*unlink) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
+<span class="linenr"> 13: </span>    <span style="color: #32cd32;">int</span> (*symlink) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *);
+<span class="linenr"> 14: </span>    <span style="color: #32cd32;">int</span> (*mkdir) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #32cd32;">umode_t</span>);
+<span class="linenr"> 15: </span>    <span style="color: #32cd32;">int</span> (*rmdir) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
+<span class="linenr"> 16: </span>    <span style="color: #32cd32;">int</span> (*mknod) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *,<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,<span style="color: #32cd32;">umode_t</span>,<span style="color: #32cd32;">dev_t</span>);
+<span class="linenr"> 17: </span>    <span style="color: #32cd32;">int</span> (*rename) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,
 <span class="linenr"> 18: </span>                   <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *);
-<span class="linenr"> 19: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">setattr</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">iattr</span> *);
-<span class="linenr"> 20: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">getattr</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">vfsmount</span> *<span style="color: #daa520;">mnt</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kstat</span> *);
-<span class="linenr"> 21: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">setxattr</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *,<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">void</span> *,<span style="color: #32cd32;">size_t</span>,<span style="color: #32cd32;">int</span>);
+<span class="linenr"> 19: </span>    <span style="color: #32cd32;">int</span> (*setattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">iattr</span> *);
+<span class="linenr"> 20: </span>    <span style="color: #32cd32;">int</span> (*getattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">vfsmount</span> *<span style="color: #daa520;">mnt</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kstat</span> *);
+<span class="linenr"> 21: </span>    <span style="color: #32cd32;">int</span> (*setxattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *,<span style="color: #ff4040;">const</span> <span style="color: #32cd32;">void</span> *,<span style="color: #32cd32;">size_t</span>,<span style="color: #32cd32;">int</span>);
 <span class="linenr"> 22: </span>    ssize_t (*getxattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *, <span style="color: #32cd32;">void</span> *, <span style="color: #32cd32;">size_t</span>);
 <span class="linenr"> 23: </span>    ssize_t (*listxattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">char</span> *, <span style="color: #32cd32;">size_t</span>);
-<span class="linenr"> 24: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">removexattr</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *);
-<span class="linenr"> 25: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">fiemap</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">fiemap_extent_info</span> *, <span style="color: #32cd32;">u64</span> <span style="color: #daa520;">start</span>,
+<span class="linenr"> 24: </span>    <span style="color: #32cd32;">int</span> (*removexattr) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> *);
+<span class="linenr"> 25: </span>    <span style="color: #32cd32;">int</span> (*fiemap)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">fiemap_extent_info</span> *, <span style="color: #32cd32;">u64</span> <span style="color: #daa520;">start</span>,
 <span class="linenr"> 26: </span>                  <span style="color: #32cd32;">u64</span> <span style="color: #daa520;">len</span>);
-<span class="linenr"> 27: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">update_time</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">timespec</span> *, <span style="color: #32cd32;">int</span>);
-<span class="linenr"> 28: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">atomic_open</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,
+<span class="linenr"> 27: </span>    <span style="color: #32cd32;">int</span> (*update_time)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">timespec</span> *, <span style="color: #32cd32;">int</span>);
+<span class="linenr"> 28: </span>    <span style="color: #32cd32;">int</span> (*atomic_open)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *,
 <span class="linenr"> 29: </span>                       <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #daa520;">open_flag</span>,
 <span class="linenr"> 30: </span>                       <span style="color: #32cd32;">umode_t</span> <span style="color: #daa520;">create_mode</span>, <span style="color: #32cd32;">int</span> *<span style="color: #daa520;">opened</span>);
-<span class="linenr"> 31: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">tmpfile</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">umode_t</span>);
-<span class="linenr"> 32: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">set_acl</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">posix_acl</span> *, <span style="color: #32cd32;">int</span>);
+<span class="linenr"> 31: </span>    <span style="color: #32cd32;">int</span> (*tmpfile) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *, <span style="color: #32cd32;">umode_t</span>);
+<span class="linenr"> 32: </span>    <span style="color: #32cd32;">int</span> (*set_acl)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">posix_acl</span> *, <span style="color: #32cd32;">int</span>);
 <span class="linenr"> 33: </span>};
 <span class="linenr"> 34: </span>
 <span class="linenr"> 35: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_operations</span> {
 <span class="linenr"> 36: </span>    <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">module</span> *<span style="color: #daa520;">owner</span>;
-<span class="linenr"> 37: </span>    loff_t (*<span style="color: #1e90ff; font-weight: bold;">llseek</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">int</span>);
+<span class="linenr"> 37: </span>    loff_t (*llseek) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">int</span>);
 <span class="linenr"> 38: </span>    ssize_t (*read) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">size_t</span>, <span style="color: #32cd32;">loff_t</span> *);
 <span class="linenr"> 39: </span>    ssize_t (*write) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">const</span> <span style="color: #32cd32;">char</span> <span style="color: #daa520;">__user</span> *, <span style="color: #32cd32;">size_t</span>, <span style="color: #32cd32;">loff_t</span> *);
 <span class="linenr"> 40: </span>    ssize_t (*aio_read) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kiocb</span> *, <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">iovec</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">loff_t</span>);
 <span class="linenr"> 41: </span>    ssize_t (*aio_write) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kiocb</span> *, <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">iovec</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">loff_t</span>);
-<span class="linenr"> 42: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">iterate</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dir_context</span> *);
-<span class="linenr"> 43: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">poll</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">poll_table_struct</span> *);
-<span class="linenr"> 44: </span>    <span style="color: #32cd32;">long</span> (*<span style="color: #1e90ff; font-weight: bold;">unlocked_ioctl</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
-<span class="linenr"> 45: </span>    <span style="color: #32cd32;">long</span> (*<span style="color: #1e90ff; font-weight: bold;">compat_ioctl</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
-<span class="linenr"> 46: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">mmap</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">vm_area_struct</span> *);
-<span class="linenr"> 47: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">open</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *);
-<span class="linenr"> 48: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">flush</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">fl_owner_t</span> <span style="color: #daa520;">id</span>);
-<span class="linenr"> 49: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">release</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *);
-<span class="linenr"> 50: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">fsync</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">datasync</span>);
-<span class="linenr"> 51: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">aio_fsync</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kiocb</span> *, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">datasync</span>);
-<span class="linenr"> 52: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">fasync</span>) (<span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>);
-<span class="linenr"> 53: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">lock</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> *);
+<span class="linenr"> 42: </span>    <span style="color: #32cd32;">int</span> (*iterate) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dir_context</span> *);
+<span class="linenr"> 43: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span> (*poll) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">poll_table_struct</span> *);
+<span class="linenr"> 44: </span>    <span style="color: #32cd32;">long</span> (*unlocked_ioctl) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
+<span class="linenr"> 45: </span>    <span style="color: #32cd32;">long</span> (*compat_ioctl) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
+<span class="linenr"> 46: </span>    <span style="color: #32cd32;">int</span> (*mmap) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">vm_area_struct</span> *);
+<span class="linenr"> 47: </span>    <span style="color: #32cd32;">int</span> (*open) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *);
+<span class="linenr"> 48: </span>    <span style="color: #32cd32;">int</span> (*flush) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">fl_owner_t</span> <span style="color: #daa520;">id</span>);
+<span class="linenr"> 49: </span>    <span style="color: #32cd32;">int</span> (*release) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *);
+<span class="linenr"> 50: </span>    <span style="color: #32cd32;">int</span> (*fsync) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">loff_t</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">datasync</span>);
+<span class="linenr"> 51: </span>    <span style="color: #32cd32;">int</span> (*aio_fsync) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">kiocb</span> *, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">datasync</span>);
+<span class="linenr"> 52: </span>    <span style="color: #32cd32;">int</span> (*fasync) (<span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>);
+<span class="linenr"> 53: </span>    <span style="color: #32cd32;">int</span> (*lock) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> *);
 <span class="linenr"> 54: </span>    ssize_t (*sendpage) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">page</span> *, <span style="color: #32cd32;">int</span>, <span style="color: #32cd32;">size_t</span>, <span style="color: #32cd32;">loff_t</span> *, <span style="color: #32cd32;">int</span>);
-<span class="linenr"> 55: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span> (*<span style="color: #1e90ff; font-weight: bold;">get_unmapped_area</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
-<span class="linenr"> 56: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">check_flags</span>)(<span style="color: #32cd32;">int</span>);
-<span class="linenr"> 57: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">flock</span>) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> *);
+<span class="linenr"> 55: </span>    <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span> (*get_unmapped_area)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span>);
+<span class="linenr"> 56: </span>    <span style="color: #32cd32;">int</span> (*check_flags)(<span style="color: #32cd32;">int</span>);
+<span class="linenr"> 57: </span>    <span style="color: #32cd32;">int</span> (*flock) (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">int</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> *);
 <span class="linenr"> 58: </span>    ssize_t (*splice_write)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">pipe_inode_info</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span> *, <span style="color: #32cd32;">size_t</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>);
 <span class="linenr"> 59: </span>    ssize_t (*splice_read)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">loff_t</span> *, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">pipe_inode_info</span> *, <span style="color: #32cd32;">size_t</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">int</span>);
-<span class="linenr"> 60: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">setlease</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">long</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> **);
-<span class="linenr"> 61: </span>    <span style="color: #32cd32;">long</span> (*<span style="color: #1e90ff; font-weight: bold;">fallocate</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *<span style="color: #daa520;">file</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">mode</span>, <span style="color: #32cd32;">loff_t</span> <span style="color: #daa520;">offset</span>,
+<span class="linenr"> 60: </span>    <span style="color: #32cd32;">int</span> (*setlease)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *, <span style="color: #32cd32;">long</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_lock</span> **);
+<span class="linenr"> 61: </span>    <span style="color: #32cd32;">long</span> (*fallocate)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *<span style="color: #daa520;">file</span>, <span style="color: #32cd32;">int</span> <span style="color: #daa520;">mode</span>, <span style="color: #32cd32;">loff_t</span> <span style="color: #daa520;">offset</span>,
 <span class="linenr"> 62: </span>                      <span style="color: #32cd32;">loff_t</span> <span style="color: #daa520;">len</span>);
-<span class="linenr"> 63: </span>    <span style="color: #32cd32;">int</span> (*<span style="color: #1e90ff; font-weight: bold;">show_fdinfo</span>)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">seq_file</span> *<span style="color: #daa520;">m</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *<span style="color: #daa520;">f</span>);
+<span class="linenr"> 63: </span>    <span style="color: #32cd32;">int</span> (*show_fdinfo)(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">seq_file</span> *<span style="color: #daa520;">m</span>, <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file</span> *<span style="color: #daa520;">f</span>);
 <span class="linenr"> 64: </span>};
 <span class="linenr"> 65: </span>
 <span class="linenr"> 66: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> {
-<span class="linenr"> 67: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr"> 67: </span>    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
 <span class="linenr"> 68: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode_operations</span>   *<span style="color: #daa520;">i_op</span>;
-<span class="linenr"> 69: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
-<span class="linenr"> 70: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_operations</span>    *<span style="color: #daa520;">i_fop</span>; <span style="color: #fa8072;">/* </span><span style="color: #cd5c5c; font-style: italic;">former -&gt;i_op-&gt;default_file_ops </span><span style="color: #fa8072;">*/</span>
-<span class="linenr"> 71: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr"> 69: </span>    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr"> 70: </span>    <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_operations</span>    *<span style="color: #daa520;">i_fop</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">former -&gt;i_op-&gt;default_file_ops </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
+<span class="linenr"> 71: </span>    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
 <span class="linenr"> 72: </span>};
 <span class="linenr"> 73: </span>
 <span class="linenr"> 74: </span><span style="color: #ff4040;">extern</span> <span style="color: #ff4040;">const</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode_operations</span> <span style="color: #daa520;">ext2_file_inode_operations</span>;
@@ -624,7 +608,7 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 <span class="linenr"> 78: </span><span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">inode</span> *<span style="color: #1e90ff; font-weight: bold;">ext2_iget</span> (<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">super_block</span> *<span style="color: #daa520;">sb</span>, <span style="color: #32cd32;">unsigned</span> <span style="color: #32cd32;">long</span> <span style="color: #daa520;">ino</span>)
 <span class="linenr"> 79: </span>{
 <span class="linenr"> 80: </span>
-<span class="linenr"> 81: </span>    <span style="color: #fa8072;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr"> 81: </span>    <span style="color: #cd5c5c; font-style: italic;">// </span><span style="color: #cd5c5c; font-style: italic;">...</span>
 <span class="linenr"> 82: </span>    <span style="color: #ff4040;">if</span> (<span style="color: #32cd32;">S_ISREG</span>(inode-&gt;i_mode)) {
 <span class="linenr"> 83: </span>        inode-&gt;i_op = &amp;ext2_file_inode_operations;
 <span class="linenr"> 84: </span>        <span style="color: #ff4040;">if</span> (ext2_use_xip(inode-&gt;i_sb)) {
@@ -645,7 +629,7 @@ inode 有另外一种表现: <code>ext_inode</code> ， 或者叫 raw-inode:
 <span class="linenr"> 99: </span>        <span style="color: #ff4040;">else</span>
 <span class="linenr">100: </span>            inode-&gt;i_mapping-&gt;a_ops = &amp;ext2_aops;
 <span class="linenr">101: </span>    }
-<span class="linenr">102: </span>    <span style="color: #fa8072;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
+<span class="linenr">102: </span>    <span style="color: #cd5c5c; font-style: italic;">//</span><span style="color: #cd5c5c; font-style: italic;">...</span>
 <span class="linenr">103: </span>}
 </pre>
 </div>
@@ -659,26 +643,27 @@ root inode 读取完成之后，为 root inode 建立 dentry，并将 super_bloc
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Open</h2>
+<div id="outline-container-org4e9a6ee" class="outline-2">
+<h2 id="org4e9a6ee"><span class="section-number-2">4</span> Open</h2>
 <div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Open Flow</h3>
+</div>
+<div id="outline-container-org0ef7963" class="outline-3">
+<h3 id="org0ef7963"><span class="section-number-3">4.1</span> Open Flow</h3>
 <div class="outline-text-3" id="text-4-1">
 
 <div class="figure">
-<p><img src="../../../assets/img/ext2_open_flow.png" alt="ext2_open_flow.png" />
+<p><img src="../../../../assets/img/ext2_open_flow.png" alt="ext2_open_flow.png" />
 </p>
 </div>
 
 <p>
 <code>inode-&gt;i_op-&gt;create</code> 是一个函数指针，对 ext2 文件系统来讲，指向
-<code>ext2_dir_inode_operations.create</code>  <a href="#coderef-set_dir_inode_ops"class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-set_dir_inode_ops');" onmouseout="CodeHighlightOff(this, 'coderef-set_dir_inode_ops');">95</a>.
+<code>ext2_dir_inode_operations.create</code>  <a href="#coderef-set_dir_inode_ops" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-set_dir_inode_ops');" onmouseout="CodeHighlightOff(this, 'coderef-set_dir_inode_ops');">95</a>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> ext2_create (namei.c(ext2))</h3>
+<div id="outline-container-org2a2e9c0" class="outline-3">
+<h3 id="org2a2e9c0"><span class="section-number-3">4.2</span> ext2_create (namei.c(ext2))</h3>
 </div>
 </div>

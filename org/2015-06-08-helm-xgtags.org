@@ -1,7 +1,7 @@
 #+TITLE: helm xgtags
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: emacs, xgtags, helm
+#+KEYWORDS: emacs xgtags helm
 #+CATEGORY: Emacs
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

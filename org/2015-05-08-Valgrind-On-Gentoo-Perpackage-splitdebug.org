@@ -1,8 +1,8 @@
 #+TITLE: Valgrind On Gentoo: Perpackage splitdebug
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: gentoo, valgrind
-#+CATEGORY: utility
+#+KEYWORDS: gentoo valgrind
+#+CATEGORY: Utility
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:2 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
 #+STARTUP:    align nodlcheck oddeven lognotestate

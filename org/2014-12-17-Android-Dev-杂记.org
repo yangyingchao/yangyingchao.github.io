@@ -1,7 +1,7 @@
 #+TITLE: Android Dev 杂记
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: android, color, alpha, xml
+#+KEYWORDS: android color alpha xml
 #+CATEGORY: Android
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

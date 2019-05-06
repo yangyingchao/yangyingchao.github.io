@@ -2,14 +2,13 @@
 layout : post
 title : Compile Emacs-24 In OS X 10.9
 categories : Emacs
-tags : emacs  osx
+tags : emacs osx
 ---
 <p>
 Simply a tip: if you failed to compile Emacs under OS X 10.9, and it is caused by <code>tputs</code>:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-text"><span class="linenr">1: </span>The required function `tputs' was not found in any library.
 <span class="linenr">2: </span>The following libraries were tried (in order):
 <span class="linenr">3: </span>  libtinfo, libncurses, libterminfo, libtermcap, libcurses
@@ -29,7 +28,6 @@ If you use gentoo prefix, you can try following patch:
 </p>
 
 <div class="org-src-container">
-
 <pre class="src src-text"><span class="linenr"> 1: </span>*** 167,173 ****
 <span class="linenr"> 2: </span>        fi
 <span class="linenr"> 3: </span>    elif use aqua; then
@@ -46,5 +44,7 @@ If you use gentoo prefix, you can try following patch:
 <span class="linenr">14: </span>        myconf+=" --without-x"
 <span class="linenr">15: </span>    else
 <span class="linenr">16: </span>        myconf+=" --without-x --without-ns"
+<span class="linenr">17: </span>
+<span class="linenr">18: </span>
 </pre>
 </div>

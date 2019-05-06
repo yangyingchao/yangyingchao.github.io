@@ -8,7 +8,7 @@
 #+LANGUAGE:   en
 #+EXCLUDE_TAGS: noexport
 #+KEYWORDS: (nil)
-#+CATEGORY: (nil)
+#+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
 * Running emacs like a Daemon

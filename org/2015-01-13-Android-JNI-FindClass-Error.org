@@ -1,7 +1,7 @@
 #+TITLE: JNI FindClass Error in Native Thread
 #+AUTHOR: Yang, Ying-chao
 #+EMAIL:  yangyingchao[at]gmail[dot]com
-#+KEYWORDS: Android, JNI, FindClass
+#+KEYWORDS: Android JNI FindClass
 #+CATEGORY: Android
 #+DESCRIPTION: (nil)
 #+OPTIONS:  ^:nil toc:1 H:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc

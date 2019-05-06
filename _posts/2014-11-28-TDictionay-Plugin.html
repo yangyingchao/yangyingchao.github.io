@@ -2,40 +2,37 @@
 layout : post
 title : TDictionay Plugin
 categories : Web
-tags :  extension  chrome
+tags : extension chrome
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 简介</a></li>
-<li><a href="#sec-2">2. 安装</a></li>
-<li><a href="#sec-3">3. 截图</a></li>
-<li><a href="#sec-4">4. 记录一下开发 TDictionary 过程中的若干小问题</a></li>
+<li><a href="#org57ecbac">1. 简介</a></li>
+<li><a href="#org1f7cf39">2. 安装</a></li>
+<li><a href="#org0f27f35">3. 截图</a></li>
+<li><a href="#orgae6ed97">4. 记录一下开发 TDictionary 过程中的若干小问题</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 简介</h2>
+<div id="outline-container-org57ecbac" class="outline-2">
+<h2 id="org57ecbac"><span class="section-number-2">1</span> 简介</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 业余时间做的一个 <a href="https://github.com/yangyingchao/TDictionary/tree/master/chrome-extension">chrome extension</a>, 已完成的特性包括：
 </p>
 
 <ul class="org-ul">
-<li>右键取词
-</li>
-<li>基本翻译 （源自 <a href="http://www.youdao.com/">有道</a>）。
-</li>
-<li>TTS 语音
-</li>
+<li>右键取词</li>
+<li>基本翻译 （源自 <a href="http://www.youdao.com/">有道</a>）。</li>
+<li>TTS 语音</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> 安装</h2>
+<div id="outline-container-org1f7cf39" class="outline-2">
+<h2 id="org1f7cf39"><span class="section-number-2">2</span> 安装</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 下载后需手动安装。
@@ -43,38 +40,38 @@ tags :  extension  chrome
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> 截图</h2>
+<div id="outline-container-org0f27f35" class="outline-2">
+<h2 id="org0f27f35"><span class="section-number-2">3</span> 截图</h2>
 <div class="outline-text-2" id="text-3">
 
 <div class="figure">
-<p><img src="../../../assets/img/tdict.png" alt="tdict.png" />
+<p><img src="../../../../assets/img/tdict.png" alt="tdict.png" />
 </p>
-<p><span class="figure-number">Figure 1:</span> Screenshot</p>
+<p><span class="figure-number">Figure 1: </span>Screenshot</p>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> 记录一下开发 TDictionary 过程中的若干小问题</h2>
+<div id="outline-container-orgae6ed97" class="outline-2">
+<h2 id="orgae6ed97"><span class="section-number-2">4</span> 记录一下开发 TDictionary 过程中的若干小问题</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
-<li>Placing a background image after <code>h2</code>
+<li><p>
+Placing a background image after <code>h2</code>
+</p>
 
 <div class="org-src-container">
-
 <pre class="src src-css"><span class="linenr">1: </span><span style="color: #b0c4de;">#tdict-bubble-main h2 </span>{
 <span class="linenr">2: </span>    <span style="color: #20b2aa;">font-size</span>: 1.5em;
-<span class="linenr">3: </span>    <span style="color: #20b2aa;">background-image</span>: url(your_url);
+<span class="linenr">3: </span>    <span style="color: #20b2aa;">background-image</span>: url<span style="color: #fefffe; background-color: #2d3435;">(</span><span style="color: #d78700;">your_url</span><span style="color: #fefffe; background-color: #2d3435;">)</span>;
 <span class="linenr">4: </span>    <span style="color: #20b2aa;">background-repeat</span>: no-repeat;
 <span class="linenr">5: </span>    <span style="color: #20b2aa;">padding</span>: .4em 30px .4em 0;
 <span class="linenr">6: </span>    <span style="color: #20b2aa;">background-position</span>: right;
 <span class="linenr">7: </span>    <span style="color: #20b2aa;">display</span>: inline;
 <span class="linenr">8: </span>}
 </pre>
-</div>
-</li>
+</div></li>
 </ul>
 </div>
 </div>

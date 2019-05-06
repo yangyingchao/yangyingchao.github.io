@@ -2,16 +2,16 @@
 layout : post
 title : Oracle的并行计算
 categories : Database,Parallel
-tags : database
+tags : Database
 ---
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. 理论和概念</a></li>
-<li><a href="#sec-2">2. Oracle 的并行执行</a>
+<li><a href="#org5643347">1. 理论和概念</a></li>
+<li><a href="#org687fc2e">2. Oracle 的并行执行</a>
 <ul>
-<li><a href="#sec-2-1">2.1. SQL 语句的并行处理</a></li>
+<li><a href="#org8c72c06">2.1. SQL 语句的并行处理</a></li>
 </ul>
 </li>
 </ul>
@@ -22,29 +22,31 @@ tags : database
 </p>
 
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> 理论和概念</h2>
+<div id="outline-container-org5643347" class="outline-2">
+<h2 id="org5643347"><span class="section-number-2">1</span> 理论和概念</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li><b>并行度 (Degree of parallelism, DOP):</b>  并行计算中所使用的独立进程数。
-</li>
+<li><b>并行度 (Degree of parallelism, DOP):</b>  并行计算中所使用的独立进程数。</li>
 
-<li>DOP 的评估<br  />
-  DOP 的值显然不是越大越好。启用并行后，任务划分，节点间的协作，数据同步等等都是消耗。如果待处理的数据量本身很小，则没有必要去起并行操作。数据库里面，由数据库引擎根据各种运算的成本自动对
-DOP 进行评估。
-</li>
+<li>DOP 的评估<br />
+DOP 的值显然不是越大越好。启用并行后，任务划分，节点间的协作，数据同步等等都是消耗。如果待处理的数据量本身很小，则没有必要去起并行操作。数据库里面，由数据库引擎根据各种运算的成本自动对
+DOP 进行评估。</li>
 
-<li>数据划分<br  />
-  决定好了 DOP 之后，就需要对数据进行划分，并分配给各个进程。数据的划分基本上根据架构分为两大类。
+<li><p>
+数据划分<br />
+决定好了 DOP 之后，就需要对数据进行划分，并分配给各个进程。数据的划分基本上根据架构分为两大类。
+</p>
 
 
 <div class="figure">
-<p><img src="../../../assets/img/shared_nothing_everything.tiff" alt="shared_nothing_everything.tiff" />
+<p><img src="../../../../assets/img/shared_nothing_everything.tiff" alt="shared_nothing_everything.tiff" />
 </p>
 </div>
 
 <ul class="org-ul">
-<li>Shared Nothing 架构 <br  />
+<li><p>
+Shared Nothing 架构 <br />
+</p>
 
 <p>
 一般应用于海量并行处理 (Massively Parallel Processing, MPP) 中，数据通过一定
@@ -53,23 +55,22 @@ Hash 算法分布到集群中的不同节点上，节点间不共享任何数据
 
 <p>
 该架构下，节点只能访问自己的数据，数据划分的算法在 MPP 初始化时就已经决定：数据处理单元的数量即是最小的 DOP。
-</p>
-</li>
+</p></li>
 
-<li>Shared Everything 架构
+<li><p>
+Shared Everything 架构
+</p>
 
 <p>
 Oracle 采用的是 shared nothing 架构，该架构无需预先定义数据切分。所有数据对于所有的处理单元都可见，DOP 也因此与实际的数据存储解耦。
-</p>
-</li>
-</ul>
-</li>
+</p></li>
+</ul></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Oracle 的并行执行</h2>
+<div id="outline-container-org687fc2e" class="outline-2">
+<h2 id="org687fc2e"><span class="section-number-2">2</span> Oracle 的并行执行</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Oracle 可以在无需人为干预的情况进行复杂任务的并行化执行，例如：数据加载，查询，DML，
@@ -77,68 +78,62 @@ DDL 等。
 </p>
 </div>
 
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> SQL 语句的并行处理</h3>
+<div id="outline-container-org8c72c06" class="outline-3">
+<h3 id="org8c72c06"><span class="section-number-3">2.1</span> SQL 语句的并行处理</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Oracle 的 SQL 并行执行建立于几个基本概念之上。
 </p>
 </div>
 
-<div id="outline-container-sec-2-1-1" class="outline-4">
-<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Query Coordinator (QC) and Parallel Execution (PX) servers</h4>
+<div id="outline-container-org5b8f3e2" class="outline-4">
+<h4 id="org5b8f3e2"><span class="section-number-4">2.1.1</span> Query Coordinator (QC) and Parallel Execution (PX) servers</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <ul class="org-ul">
-<li><b>QC</b> 查询协调器<br  />
-  指发起查询语句的那个会话，负责向 <b>PX Server</b> 分布任务，并执行少量的不能并行的任务。
-</li>
+<li><b>QC</b> 查询协调器<br />
+指发起查询语句的那个会话，负责向 <b>PX Server</b> 分布任务，并执行少量的不能并行的任务。</li>
 
-<li><b>PX server</b> 并行执行服务器<br  />
-  真正执行并行运算的节点。由于 Oracle 采用了 shared_nothing 架构， PX server 实际上是从一个 PX Server Pool 里面选取的，在该会话过程当中只服务于本会话。
-</li>
+<li><b>PX server</b> 并行执行服务器<br />
+真正执行并行运算的节点。由于 Oracle 采用了 shared_nothing 架构， PX server 实际上是从一个 PX Server Pool 里面选取的，在该会话过程当中只服务于本会话。</li>
 </ul>
 
 <p>
 两者之间以及他们和用户之间的关系如下图：
 </p>
 
-<div id="fig:qc_px" class="figure">
-<p><img src="../../../assets/img/qc_px.png" alt="qc_px.png" />
+<div id="org783d6f6" class="figure">
+<p><img src="../../../../assets/img/qc_px.png" alt="qc_px.png" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2-1-2" class="outline-4">
-<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> 生产者消费者模型</h4>
+<div id="outline-container-orgf31c335" class="outline-4">
+<h4 id="orgf31c335"><span class="section-number-4">2.1.2</span> 生产者消费者模型</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 <b>PX Servers</b> 可以进一步分为两类：
 </p>
 <ul class="org-ul">
-<li>生产者 (Producer) 用来生成数据
-</li>
-<li>消费者 (Consumer) 用来消费数据
-</li>
+<li>生产者 (Producer) 用来生成数据</li>
+<li>消费者 (Consumer) 用来消费数据</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-2-1-3" class="outline-4">
-<h4 id="sec-2-1-3"><span class="section-number-4">2.1.3</span> 颗粒</h4>
+<div id="outline-container-org6cbdd27" class="outline-4">
+<h4 id="org6cbdd27"><span class="section-number-4">2.1.3</span> 颗粒</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 颗粒 (granule) 是指访问数据是的最小的工作单元。
 </p>
 
 <ul class="org-ul">
-<li>块基颗粒 <br  />
-  Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的粒度
-</li>
+<li>块基颗粒 <br />
+Oracle 的最小工作单元是块，故又称为“块基颗粒”(block-based granules) 。块基颗粒是最细的粒度</li>
 
-<li>片基颗粒 <br  />
-  块基颗粒对应还有一种颗粒名为 “片基颗粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。
-</li>
+<li>片基颗粒 <br />
+块基颗粒对应还有一种颗粒名为 “片基颗粒”(Partition-based granules) ：一个 PX Server 负责处理单一分片上的所有数据。</li>
 </ul>
 
 
