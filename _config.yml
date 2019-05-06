@@ -10,8 +10,8 @@ github : yangyingchao
 plugins:
   - jekyll-paginate
 
-paginate: 5
-paginate_path: "page:num"
+# paginate: 5
+# paginate_path: "page:num"
 
 highlighter: rouge
 truncate: true
