@@ -1,15 +1,18 @@
 future: true
-permalink: /:title/
 url: http://yangyingchao.github.io
 
 title : TBlog
-author :
+# author :
 name : TBlog
 email : yangyingchao@gmail.com
 github : yangyingchao
 
-# plugins:
-#   - jekyll-paginate
-# paginate: 20
+plugins:
+  - jekyll-paginate
+
+paginate: 5
+paginate_path: "page:num"
+
 highlighter: rouge
 truncate: true
+

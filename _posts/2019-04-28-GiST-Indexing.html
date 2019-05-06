@@ -1,6 +1,6 @@
 ---
 layout : post
-title : GiST: A Generalized Search Tree for Secondary Storage
+title : GiST -- A Generalized Search Tree for Secondary Storage
 categories : Algorithm
 tags : algorithm gist
 ---
@@ -8,20 +8,20 @@ tags : algorithm gist
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org43e5bee">1. Introduction</a></li>
-<li><a href="#orgf13a6d5">2. The Generalized Search Tree</a>
+<li><a href="#org30da3a8">1. Introduction</a></li>
+<li><a href="#orgdef3415">2. The Generalized Search Tree</a>
 <ul>
-<li><a href="#org10f7588">2.1. Structure</a></li>
-<li><a href="#orgd841a51">2.2. Properties</a></li>
+<li><a href="#org6e4f274">2.1. Structure</a></li>
+<li><a href="#orgad05849">2.2. Properties</a></li>
 </ul>
 </li>
-<li><a href="#orgc01e21e">3. The Keys to the GiST</a></li>
-<li><a href="#org987113e">4. Key Methods</a></li>
-<li><a href="#org3ac611f">5. Tree Methods</a>
+<li><a href="#org0cb3664">3. The Keys to the GiST</a></li>
+<li><a href="#org13882cb">4. Key Methods</a></li>
+<li><a href="#orgf79614a">5. Tree Methods</a>
 <ul>
-<li><a href="#org7127ad0">5.1. Search</a></li>
-<li><a href="#org05c7350">5.2. Insert</a></li>
-<li><a href="#org7477556">5.3. Delete</a></li>
+<li><a href="#org552172f">5.1. Search</a></li>
+<li><a href="#org60dc442">5.2. Insert</a></li>
+<li><a href="#orgac4f1a2">5.3. Delete</a></li>
 </ul>
 </li>
 </ul>
@@ -32,8 +32,8 @@ Based on <a href="https://github.com/postgres/postgres/tree/master/src/backend/a
 <a href="http://gist.cs.berkeley.edu">http://gist.cs.berkeley.edu</a> .
 </p>
 
-<div id="outline-container-org43e5bee" class="outline-2">
-<h2 id="org43e5bee"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org30da3a8" class="outline-2">
+<h2 id="org30da3a8"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 传统数据库使用 B+ 树，B+ Tree 可以有效降低 IO，足以应对处理字符和数字。但现在数据库中存储的数据类型越来越多，为更好支持这些类型，当前（back to
@@ -79,8 +79,8 @@ R-trees, B+-trees, hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-tr
 </div>
 </div>
 
-<div id="outline-container-orgf13a6d5" class="outline-2">
-<h2 id="orgf13a6d5"><span class="section-number-2">2</span> The Generalized Search Tree</h2>
+<div id="outline-container-orgdef3415" class="outline-2">
+<h2 id="orgdef3415"><span class="section-number-2">2</span> The Generalized Search Tree</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 定义其数据结构、不变性 (invariant properties) ，扩展方法和内置算法。
@@ -88,8 +88,8 @@ R-trees, B+-trees, hB-trees, TV-trees, Ch-Trees, partial sum trees, ranked B+-tr
 </div>
 
 
-<div id="outline-container-org10f7588" class="outline-3">
-<h3 id="org10f7588"><span class="section-number-3">2.1</span> Structure</h3>
+<div id="outline-container-org6e4f274" class="outline-3">
+<h3 id="org6e4f274"><span class="section-number-3">2.1</span> Structure</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 A GiST is a balanced tree of variable fanout between kM and M
@@ -112,8 +112,8 @@ predicate 中可以有多个变量，只要单条 tuple 可以初始化这些变
 </div>
 
 
-<div id="outline-container-orgd841a51" class="outline-3">
-<h3 id="orgd841a51"><span class="section-number-3">2.2</span> Properties</h3>
+<div id="outline-container-orgad05849" class="outline-3">
+<h3 id="orgad05849"><span class="section-number-3">2.2</span> Properties</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 GiST 有下列属性：
@@ -136,8 +136,8 @@ of any tuple reachable from ptr.</li>
 </div>
 </div>
 
-<div id="outline-container-orgc01e21e" class="outline-2">
-<h2 id="orgc01e21e"><span class="section-number-2">3</span> The Keys to the GiST</h2>
+<div id="outline-container-org0cb3664" class="outline-2">
+<h2 id="org0cb3664"><span class="section-number-2">3</span> The Keys to the GiST</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 和 B tree 相比：
@@ -159,8 +159,8 @@ data items reachable from the pointer associated with the key.</li>
 </div>
 </div>
 
-<div id="outline-container-org987113e" class="outline-2">
-<h2 id="org987113e"><span class="section-number-2">4</span> Key Methods</h2>
+<div id="outline-container-org13882cb" class="outline-2">
+<h2 id="org13882cb"><span class="section-number-2">4</span> Key Methods</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 理论上来说， GiST 的 key 可以为任意谓词。但实际上， key 来源于用户实现的 class，这些 class 提供了
@@ -297,8 +297,8 @@ Decompress
 </div>
 
 
-<div id="outline-container-org3ac611f" class="outline-2">
-<h2 id="org3ac611f"><span class="section-number-2">5</span> Tree Methods</h2>
+<div id="outline-container-orgf79614a" class="outline-2">
+<h2 id="orgf79614a"><span class="section-number-2">5</span> Tree Methods</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 前面介绍的 Key Methods 必须由用户提供，而 Tree Methods 则由 GiST 提供，Tree Methods 将会调用 Key
@@ -306,12 +306,12 @@ Methods 。
 </p>
 </div>
 
-<div id="outline-container-org7127ad0" class="outline-3">
-<h3 id="org7127ad0"><span class="section-number-3">5.1</span> Search</h3>
+<div id="outline-container-org552172f" class="outline-3">
+<h3 id="org552172f"><span class="section-number-3">5.1</span> Search</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-org8640242" class="outline-4">
-<h4 id="org8640242"><span class="section-number-4">5.1.1</span> Generic Search</h4>
+<div id="outline-container-org6cf45e8" class="outline-4">
+<h4 id="org6cf45e8"><span class="section-number-4">5.1.1</span> Generic Search</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 遍历尽可能多的树，以寻找符合条件的数据，该方法可用来对任意数据进行搜索，但效率不够高。
@@ -347,8 +347,8 @@ Methods 。
 </div>
 </div>
 
-<div id="outline-container-org0bc27b1" class="outline-4">
-<h4 id="org0bc27b1"><span class="section-number-4">5.1.2</span> Search in Linearly Ordered Domains</h4>
+<div id="outline-container-org1cbf1fb" class="outline-4">
+<h4 id="org1cbf1fb"><span class="section-number-4">5.1.2</span> Search in Linearly Ordered Domains</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 如果目标数据满足线性排列，并且常用的查询为等值查询或者范围查询，则用
@@ -414,8 +414,8 @@ flag <code>IsOrdered</code> 为 <code>True</code>
 </div>
 
 
-<div id="outline-container-org0a0e17e" class="outline-5">
-<h5 id="org0a0e17e"><span class="section-number-5">5.1.2.1</span> FindMin</h5>
+<div id="outline-container-org44f4a9a" class="outline-5">
+<h5 id="org44f4a9a"><span class="section-number-5">5.1.2.1</span> FindMin</h5>
 <div class="outline-text-5" id="text-5-1-2-1">
 <p>
 沿着左侧分支遍历所有满足 <img src="../../../assets/img/2019-04-28-GiST-Indexing_f218809055f1985f6203a2097ae851f6bc2d4ed4.png" alt="2019-04-28-GiST-Indexing_f218809055f1985f6203a2097ae851f6bc2d4ed4.png" /> 的节点，直到找到符合 <img src="../../../assets/img/2019-04-28-GiST-Indexing_6a74929c59c8f841b9ddfbc1c32bbf13165f1c53.png" alt="2019-04-28-GiST-Indexing_6a74929c59c8f841b9ddfbc1c32bbf13165f1c53.png" />  的叶子节点为止，返回该叶子节点的 key 。
@@ -455,8 +455,8 @@ flag <code>IsOrdered</code> 为 <code>True</code>
 </div>
 </div>
 
-<div id="outline-container-orgfc31099" class="outline-5">
-<h5 id="orgfc31099"><span class="section-number-5">5.1.2.2</span> Next</h5>
+<div id="outline-container-orgb876419" class="outline-5">
+<h5 id="orgb876419"><span class="section-number-5">5.1.2.2</span> Next</h5>
 <div class="outline-text-5" id="text-5-1-2-2">
 <p>
 <code>FindMin</code> 返回 <code>E</code>  之后 ， <code>Next()</code> 返回下一个符合条件的元素，或者无符合条件的元素时，返回 <code>None</code> 。
@@ -496,8 +496,8 @@ flag <code>IsOrdered</code> 为 <code>True</code>
 </div>
 </div>
 
-<div id="outline-container-org05c7350" class="outline-3">
-<h3 id="org05c7350"><span class="section-number-3">5.2</span> Insert</h3>
+<div id="outline-container-org60dc442" class="outline-3">
+<h3 id="org60dc442"><span class="section-number-3">5.2</span> Insert</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 <code>Insert</code> 用于保证， 在插入新的数据之后， GiST 仍然是个平衡树。插入的过程和 <code>R-Tree</code> 的插入过程很相似，而 <code>R-Tree</code> 的插入过程，则是 <code>B+-Tree</code> 的泛化、简化版本。插入需要指定在哪一级 （level） 上插入，
@@ -505,8 +505,8 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </p>
 </div>
 
-<div id="outline-container-org22ec89e" class="outline-4">
-<h4 id="org22ec89e"><span class="section-number-4">5.2.1</span> Insert</h4>
+<div id="outline-container-org230f673" class="outline-4">
+<h4 id="org230f673"><span class="section-number-4">5.2.1</span> Insert</h4>
 <div class="outline-text-4" id="text-5-2-1">
 <p>
 找到 E 应该插入的位置，插入之，如果有需要，进行分裂。
@@ -541,8 +541,8 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </div>
 </div>
 
-<div id="outline-container-org9ca5cb9" class="outline-4">
-<h4 id="org9ca5cb9"><span class="section-number-4">5.2.2</span> ChooseSubtree</h4>
+<div id="outline-container-org61ba2a2" class="outline-4">
+<h4 id="org61ba2a2"><span class="section-number-4">5.2.2</span> ChooseSubtree</h4>
 <div class="outline-text-4" id="text-5-2-2">
 <p>
 该函数用于在 GiST 中寻找最好的插入位置。
@@ -584,8 +584,8 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </div>
 
 
-<div id="outline-container-org83e2600" class="outline-4">
-<h4 id="org83e2600"><span class="section-number-4">5.2.3</span> Split</h4>
+<div id="outline-container-org8144170" class="outline-4">
+<h4 id="org8144170"><span class="section-number-4">5.2.3</span> Split</h4>
 <div class="outline-text-4" id="text-5-2-3">
 <p>
 <code>=Split</code> 函数通过用户自定义函数 <code>PickSplit</code> 来决定如何拆分 node 中的元素，一旦元素拆分到两个组后，
@@ -627,8 +627,8 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </div>
 
 
-<div id="outline-container-org465f16e" class="outline-4">
-<h4 id="org465f16e"><span class="section-number-4">5.2.4</span> AdjustKeys</h4>
+<div id="outline-container-org5193f8c" class="outline-4">
+<h4 id="org5193f8c"><span class="section-number-4">5.2.4</span> AdjustKeys</h4>
 <div class="outline-text-4" id="text-5-2-4">
 <p>
 该函数用户确保 keys 对节点下的记录有效。从节点 N 开始，向上遍历父节点，逐个确保 Key 有效。
@@ -656,16 +656,16 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </div>
 
 
-<div id="outline-container-org7477556" class="outline-3">
-<h3 id="org7477556"><span class="section-number-3">5.3</span> Delete</h3>
+<div id="outline-container-orgac4f1a2" class="outline-3">
+<h3 id="orgac4f1a2"><span class="section-number-3">5.3</span> Delete</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 删除时候必须维持树的平衡，并维护 Keys.
 </p>
 </div>
 
-<div id="outline-container-org8570642" class="outline-4">
-<h4 id="org8570642"><span class="section-number-4">5.3.1</span> Delete</h4>
+<div id="outline-container-orgcd52e6c" class="outline-4">
+<h4 id="orgcd52e6c"><span class="section-number-4">5.3.1</span> Delete</h4>
 <div class="outline-text-4" id="text-5-3-1">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #ff4040;">def</span> <span style="color: #1e90ff; font-weight: bold;">Delete</span>(R, E):
@@ -701,11 +701,11 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 </div>
 </div>
 
-<div id="outline-container-orgf56400d" class="outline-4">
-<h4 id="orgf56400d"><span class="section-number-4">5.3.2</span> CondenseTree</h4>
+<div id="outline-container-org6e278a5" class="outline-4">
+<h4 id="org6e278a5"><span class="section-number-4">5.3.2</span> CondenseTree</h4>
 <div class="outline-text-4" id="text-5-3-2">
 <p>
-此函数保证 Tree 的属性满足 GiST 的要求 <a href="#org10f7588">2.1</a>。
+此函数保证 Tree 的属性满足 GiST 的要求 <a href="#org6e4f274">2.1</a>。
 </p>
 
 <div class="org-src-container">

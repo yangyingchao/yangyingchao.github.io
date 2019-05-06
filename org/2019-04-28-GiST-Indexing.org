@@ -1,4 +1,4 @@
-#+TITLE: GiST: A Generalized Search Tree for Secondary Storage
+#+TITLE: GiST -- A Generalized Search Tree for Secondary Storage
 #+AUTHOR: Yang,Ying-chao
 #+EMAIL:  yingchao.yang@icloud.com
 #+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t  tex:t d:(HIDE) tags:not-in-toc tex:imagemagick

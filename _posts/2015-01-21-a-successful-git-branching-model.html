@@ -8,335 +8,362 @@ tags : git branch
 Reposted from: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a>
 </p>
 
-    <p>In this post I present the development model that I’ve introduced for all of my
+<div class="HTML">
+<p>
+    &lt;p&gt;In this post I present the development model that I’ve introduced for all of my
 projects (both at work and private) about a year ago, and which has turned out
 to be very successful. I’ve been meaning to write about it for a while now, but
 I’ve never really found the time to do so thoroughly, until now. I won’t talk
 about any of the projects’ details, merely about the branching strategy and
-release management.</p>
-<p class="centered"><img alt="" src="../../../assets/img/git-model@2x.png" width="575" /></p>
-<p>It focuses around <a href="http://git-scm.com">Git</a> as the tool for the versioning of
-all of our source code.</p>
-<h2 id="why-git">Why git? <a href="#why-git" rel="bookmark" class="permalink"></a></h2>
-<p>For a thorough discussion on the pros and cons of Git compared to centralized
-source code control systems, <a href="http://whygitisbetterthanx.com/">see</a> the
-<a href="http://git.or.cz/gitwiki/GitSvnComparsion">web</a>. There are plenty of flame
+release management.&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/git-model@2x.png" width="575" /&gt;&lt;/p&gt;
+&lt;p&gt;It focuses around &lt;a href="<a href="http://git-scm.com">http://git-scm.com</a>"&gt;Git&lt;/a&gt; as the tool for the versioning of
+all of our source code.&lt;/p&gt;
+&lt;h2 id="why-git"&gt;Why git? &lt;a href="#why-git" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;For a thorough discussion on the pros and cons of Git compared to centralized
+source code control systems, &lt;a href="<a href="http://whygitisbetterthanx.com/">http://whygitisbetterthanx.com/</a>"&gt;see&lt;/a&gt; the
+&lt;a href="<a href="http://git.or.cz/gitwiki/GitSvnComparsion">http://git.or.cz/gitwiki/GitSvnComparsion</a>"&gt;web&lt;/a&gt;. There are plenty of flame
 wars going on there. As a developer, I prefer Git above all other tools around
 today. Git really changed the way developers think of merging and branching.
 From the classic CVS/Subversion world I came from, merging/branching has always
 been considered a bit scary (“beware of merge conflicts, they bite you!”) and
-something you only do every once in a while.</p>
-<p>But with Git, these actions are extremely cheap and simple, and they are
-considered one of the core parts of your <em>daily</em> workflow, really. For example,
-in CVS/Subversion <a href="http://svnbook.red-bean.com">books</a>, branching and merging
+something you only do every once in a while.&lt;/p&gt;
+&lt;p&gt;But with Git, these actions are extremely cheap and simple, and they are
+considered one of the core parts of your &lt;em&gt;daily&lt;/em&gt; workflow, really. For example,
+in CVS/Subversion &lt;a href="<a href="http://svnbook.red-bean.com">http://svnbook.red-bean.com</a>"&gt;books&lt;/a&gt;, branching and merging
 is first discussed in the later chapters (for advanced users), while in
-<a href="http://book.git-scm.com">every</a>
-<a href="http://pragprog.com/titles/tsgit/pragmatic-version-control-using-git">Git</a>
-<a href="http://github.com/progit/progit">book</a>, it’s already covered in chapter
-3 (basics).</p>
-<p>As a consequence of its simplicity and repetitive nature, branching and merging
+&lt;a href="<a href="http://book.git-scm.com">http://book.git-scm.com</a>"&gt;every&lt;/a&gt;
+&lt;a href="<a href="http://pragprog.com/titles/tsgit/pragmatic-version-control-using-git">http://pragprog.com/titles/tsgit/pragmatic-version-control-using-git</a>"&gt;Git&lt;/a&gt;
+&lt;a href="<a href="http://github.com/progit/progit">http://github.com/progit/progit</a>"&gt;book&lt;/a&gt;, it’s already covered in chapter
+3 (basics).&lt;/p&gt;
+&lt;p&gt;As a consequence of its simplicity and repetitive nature, branching and merging
 are no longer something to be afraid of. Version control tools are supposed to
-assist in branching/merging more than anything else.</p>
-<p>Enough about the tools, let’s head onto the development model. The model that
+assist in branching/merging more than anything else.&lt;/p&gt;
+&lt;p&gt;Enough about the tools, let’s head onto the development model. The model that
 I’m going to present here is essentially no more than a set of procedures that
 every team member has to follow in order to come to a managed software
-development process.</p>
-<h2 id="decentralized-but-centralized">Decentralized but centralized <a href="#decentralized-but-centralized" rel="bookmark" class="permalink"></a></h2>
-<p>The repository setup that we use and that works well with this branching model,
-is that with a central “truth” repo. Note that this repo is only <em>considered</em>
+development process.&lt;/p&gt;
+&lt;h2 id="decentralized-but-centralized"&gt;Decentralized but centralized &lt;a href="#decentralized-but-centralized" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The repository setup that we use and that works well with this branching model,
+is that with a central “truth” repo. Note that this repo is only &lt;em&gt;considered&lt;/em&gt;
 to be the central one (since Git is a DVCS, there is no such thing as a central
-repo at a technical level). We will refer to this repo as <code>origin</code>, since this
-name is familiar to all Git users.</p>
-<p class="centered"><img alt="" src="../../../assets/img/centr-decentr@2x.png" width="487" /></p>
-<p>Each developer pulls and pushes to origin. But besides the centralized
+repo at a technical level). We will refer to this repo as &lt;code&gt;origin&lt;/code&gt;, since this
+name is familiar to all Git users.&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/centr-decentr@2x.png" width="487" /&gt;&lt;/p&gt;
+&lt;p&gt;Each developer pulls and pushes to origin. But besides the centralized
 push-pull relationships, each developer may also pull changes from other peers
 to form sub teams. For example, this might be useful to work together with two
 or more developers on a big new feature, before pushing the work in progress to
-<code>origin</code> prematurely. In the figure above, there are subteams of Alice and Bob,
-Alice and David, and Clair and David.</p>
-<p>Technically, this means nothing more than that Alice has defined a Git remote,
-named <code>bob</code>, pointing to Bob’s repository, and vice versa.</p>
-<h2 id="the-main-branches">The main branches <a href="#the-main-branches" rel="bookmark" class="permalink"></a></h2>
-<p><img alt="" class="right" src="../../../assets/img/main-branches@2x.png" width="267" /></p>
-<p>At the core, the development model is greatly inspired by existing models out
-there. The central repo holds two main branches with an infinite lifetime:</p>
-<ul>
-<li><code>master</code></li>
-<li><code>develop</code></li>
-</ul>
-<p>The <code>master</code> branch at <code>origin</code> should be familiar to every Git user. Parallel
-to the <code>master</code> branch, another branch exists called <code>develop</code>.</p>
-<p>We consider <code>origin/master</code> to be the main branch where the source code of
-<code>HEAD</code> always reflects a <em>production-ready</em> state.</p>
-<p>We consider <code>origin/develop</code> to be the main branch where the source code of
-<code>HEAD</code> always reflects a state with the latest delivered development changes
+&lt;code&gt;origin&lt;/code&gt; prematurely. In the figure above, there are subteams of Alice and Bob,
+Alice and David, and Clair and David.&lt;/p&gt;
+&lt;p&gt;Technically, this means nothing more than that Alice has defined a Git remote,
+named &lt;code&gt;bob&lt;/code&gt;, pointing to Bob’s repository, and vice versa.&lt;/p&gt;
+&lt;h2 id="the-main-branches"&gt;The main branches &lt;a href="#the-main-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/main-branches@2x.png" width="267" /&gt;&lt;/p&gt;
+&lt;p&gt;At the core, the development model is greatly inspired by existing models out
+there. The central repo holds two main branches with an infinite lifetime:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;develop&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code&gt;master&lt;/code&gt; branch at &lt;code&gt;origin&lt;/code&gt; should be familiar to every Git user. Parallel
+to the &lt;code&gt;master&lt;/code&gt; branch, another branch exists called &lt;code&gt;develop&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We consider &lt;code&gt;origin/master&lt;/code&gt; to be the main branch where the source code of
+&lt;code&gt;HEAD&lt;/code&gt; always reflects a &lt;em&gt;production-ready&lt;/em&gt; state.&lt;/p&gt;
+&lt;p&gt;We consider &lt;code&gt;origin/develop&lt;/code&gt; to be the main branch where the source code of
+&lt;code&gt;HEAD&lt;/code&gt; always reflects a state with the latest delivered development changes
 for the next release. Some would call this the “integration branch”.  This is
-where any automatic nightly builds are built from.</p>
-<p>When the source code in the <code>develop</code> branch reaches a stable point and is
-ready to be released, all of the changes should be merged back into <code>master</code>
+where any automatic nightly builds are built from.&lt;/p&gt;
+&lt;p&gt;When the source code in the &lt;code&gt;develop&lt;/code&gt; branch reaches a stable point and is
+ready to be released, all of the changes should be merged back into &lt;code&gt;master&lt;/code&gt;
 somehow and then tagged with a release number. How this is done in detail will
-be discussed further on.</p>
-<p>Therefore, each time when changes are merged back into <code>master</code>, this is a new
-production release <em>by definition</em>. We tend to be very strict at this, so that
+be discussed further on.&lt;/p&gt;
+&lt;p&gt;Therefore, each time when changes are merged back into &lt;code&gt;master&lt;/code&gt;, this is a new
+production release &lt;em&gt;by definition&lt;/em&gt;. We tend to be very strict at this, so that
 theoretically, we could use a Git hook script to automatically build and
 roll-out our software to our production servers everytime there was a commit on
-<code>master</code>.</p>
-<h2 id="supporting-branches">Supporting branches <a href="#supporting-branches" rel="bookmark" class="permalink"></a></h2>
-<p>Next to the main branches <code>master</code> and <code>develop</code>, our development model uses
+&lt;code&gt;master&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="supporting-branches"&gt;Supporting branches &lt;a href="#supporting-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Next to the main branches &lt;code&gt;master&lt;/code&gt; and &lt;code&gt;develop&lt;/code&gt;, our development model uses
 a variety of supporting branches to aid parallel development between team
 members, ease tracking of features, prepare for production releases and to
 assist in quickly fixing live production problems. Unlike the main branches,
 these branches always have a limited life time, since they will be removed
-eventually.</p>
-<p>The different types of branches we may use are:</p>
-<ul>
-<li>Feature branches</li>
-<li>Release branches</li>
-<li>Hotfix branches</li>
-</ul>
-<p>Each of these branches have a specific purpose and are bound to strict rules as
+eventually.&lt;/p&gt;
+&lt;p&gt;The different types of branches we may use are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Feature branches&lt;/li&gt;
+&lt;li&gt;Release branches&lt;/li&gt;
+&lt;li&gt;Hotfix branches&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each of these branches have a specific purpose and are bound to strict rules as
 to which branches may be their originating branch and which branches must be
-their merge targets. We will walk through them in a minute.</p>
-<p>By no means are these branches “special” from a technical perspective.  The
-branch types are categorized by how we <em>use</em> them. They are of course plain old
-Git branches.</p>
-<h3 id="feature-branches">Feature branches <a href="#feature-branches" rel="bookmark" class="permalink"></a></h3>
-<p><img alt="" class="right" src="../../../assets/img/fb@2x.png" width="133" /></p>
-<dl>
-<dt>May branch off from:</dt>
-<dd><code>develop</code>  </dd>
-<dt>Must merge back into:</dt>
-<dd><code>develop</code>  </dd>
-<dt>Branch naming convention:</dt>
-<dd>anything except <code>master</code>, <code>develop</code>, <code>release-*</code>, or <code>hotfix-*</code></dd>
-</dl>
-<p>Feature branches (or sometimes called topic branches) are used to develop new
+their merge targets. We will walk through them in a minute.&lt;/p&gt;
+&lt;p&gt;By no means are these branches “special” from a technical perspective.  The
+branch types are categorized by how we &lt;em&gt;use&lt;/em&gt; them. They are of course plain old
+Git branches.&lt;/p&gt;
+&lt;h3 id="feature-branches"&gt;Feature branches &lt;a href="#feature-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/fb@2x.png" width="133" /&gt;&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;May branch off from:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;develop&lt;/code&gt;  &lt;/dd&gt;
+&lt;dt&gt;Must merge back into:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;develop&lt;/code&gt;  &lt;/dd&gt;
+&lt;dt&gt;Branch naming convention:&lt;/dt&gt;
+&lt;dd&gt;anything except &lt;code&gt;master&lt;/code&gt;, &lt;code&gt;develop&lt;/code&gt;, &lt;code&gt;release-*&lt;/code&gt;, or &lt;code&gt;hotfix-*&lt;/code&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Feature branches (or sometimes called topic branches) are used to develop new
 features for the upcoming or a distant future release. When starting
 development of a feature, the target release in which this feature will be
 incorporated may well be unknown at that point. The essence of a feature branch
 is that it exists as long as the feature is in development, but will eventually
-be merged back into <code>develop</code> (to definitely add the new feature to the
-upcoming release) or discarded (in case of a disappointing experiment).</p>
-<p>Feature branches typically exist in developer repos only, not in <code>origin</code>.</p>
-<h4 id="creating-a-feature-branch">Creating a feature branch <a href="#creating-a-feature-branch" rel="bookmark" class="permalink"></a></h4>
-<p>When starting work on a new feature, branch off from the <code>develop</code> branch.</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout -b myfeature develop
-<span class="go">Switched to a new branch &quot;myfeature&quot;</span>
-</pre></div>
+be merged back into &lt;code&gt;develop&lt;/code&gt; (to definitely add the new feature to the
+upcoming release) or discarded (in case of a disappointing experiment).&lt;/p&gt;
+&lt;p&gt;Feature branches typically exist in developer repos only, not in &lt;code&gt;origin&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id="creating-a-feature-branch"&gt;Creating a feature branch &lt;a href="#creating-a-feature-branch" rel="bookmark"&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;When starting work on a new feature, branch off from the &lt;code&gt;develop&lt;/code&gt; branch.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout -b myfeature develop
+&lt;span class="go"&gt;Switched to a new branch &amp;quot;myfeature&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<h4 id="incorporating-a-finished-feature-on-develop">Incorporating a finished feature on develop <a href="#incorporating-a-finished-feature-on-develop" rel="bookmark" class="permalink"></a></h4>
-<p>Finished features may be merged into the <code>develop</code> branch definitely add them
-to the upcoming release:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout develop
-<span class="go">Switched to branch &#39;develop&#39;</span>
-<span class="gp">$</span> git merge --no-ff myfeature
-<span class="go">Updating ea1b82a..05e9557</span>
-<span class="go">(Summary of changes)</span>
-<span class="gp">$</span> git branch -d myfeature
-<span class="go">Deleted branch myfeature (was 05e9557).</span>
-<span class="gp">$</span> git push origin develop
-</pre></div>
+<p>
+&lt;h4 id="incorporating-a-finished-feature-on-develop"&gt;Incorporating a finished feature on develop &lt;a href="#incorporating-a-finished-feature-on-develop" rel="bookmark"&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Finished features may be merged into the &lt;code&gt;develop&lt;/code&gt; branch definitely add them
+to the upcoming release:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout develop
+&lt;span class="go"&gt;Switched to branch &amp;#39;develop&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git merge &#x2013;no-ff myfeature
+&lt;span class="go"&gt;Updating ea1b82a..05e9557&lt;/span&gt;
+&lt;span class="go"&gt;(Summary of changes)&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git branch -d myfeature
+&lt;span class="go"&gt;Deleted branch myfeature (was 05e9557).&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git push origin develop
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>The <code>--no-ff</code> flag causes the merge to always create a new commit object, even
+<p>
+&lt;p&gt;The &lt;code&gt;&#x2013;no-ff&lt;/code&gt; flag causes the merge to always create a new commit object, even
 if the merge could be performed with a fast-forward. This avoids losing
 information about the historical existence of a feature branch and groups
-together all commits that together added the feature. Compare:</p>
-<p class="centered"><img alt="" src="../../../assets/img/merge-without-ff@2x.png" width="478" /></p>
-<p>In the latter case, it is impossible to see from the Git history which of the
+together all commits that together added the feature. Compare:&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;img alt="" src="../../../assets/img/merge-without-ff@2x.png" width="478" /&gt;&lt;/p&gt;
+&lt;p&gt;In the latter case, it is impossible to see from the Git history which of the
 commit objects together have implemented a feature—you would have to manually
 read all the log messages. Reverting a whole feature (i.e. a group of commits),
 is a true headache in the latter situation, whereas it is easily done if the
-<code>--no-ff</code> flag was used.</p>
-<p>Yes, it will create a few more (empty) commit objects, but the gain is much
-bigger that that cost.</p>
-<p>Unfortunately, I have not found a way to make <code>--no-ff</code> the default behaviour
-of <code>git merge</code> yet, but it really should be.</p>
-<h3 id="release-branches">Release branches <a href="#release-branches" rel="bookmark" class="permalink"></a></h3>
-<dl>
-<dt>May branch off from:</dt>
-<dd><code>develop</code></dd>
-<dt>Must merge back into:</dt>
-<dd><code>develop</code> and <code>master</code></dd>
-<dt>Branch naming convention:</dt>
-<dd><code>release-*</code></dd>
-</dl>
-<p>Release branches support preparation of a new production release. They allow
+&lt;code&gt;&#x2013;no-ff&lt;/code&gt; flag was used.&lt;/p&gt;
+&lt;p&gt;Yes, it will create a few more (empty) commit objects, but the gain is much
+bigger that that cost.&lt;/p&gt;
+&lt;p&gt;Unfortunately, I have not found a way to make &lt;code&gt;&#x2013;no-ff&lt;/code&gt; the default behaviour
+of &lt;code&gt;git merge&lt;/code&gt; yet, but it really should be.&lt;/p&gt;
+&lt;h3 id="release-branches"&gt;Release branches &lt;a href="#release-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;dl&gt;
+&lt;dt&gt;May branch off from:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;develop&lt;/code&gt;&lt;/dd&gt;
+&lt;dt&gt;Must merge back into:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;develop&lt;/code&gt; and &lt;code&gt;master&lt;/code&gt;&lt;/dd&gt;
+&lt;dt&gt;Branch naming convention:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;release-*&lt;/code&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Release branches support preparation of a new production release. They allow
 for last-minute dotting of i’s and crossing t’s. Furthermore, they allow for
 minor bug fixes and preparing meta-data for a release (version number, build
-dates, etc.). By doing all of this work on a release branch, the <code>develop</code>
-branch is cleared to receive features for the next big release.</p>
-<p>The key moment to branch off a new release branch from <code>develop</code> is when
+dates, etc.). By doing all of this work on a release branch, the &lt;code&gt;develop&lt;/code&gt;
+branch is cleared to receive features for the next big release.&lt;/p&gt;
+&lt;p&gt;The key moment to branch off a new release branch from &lt;code&gt;develop&lt;/code&gt; is when
 develop (almost) reflects the desired state of the new release. At least all
 features that are targeted for the release-to-be-built must be merged in to
-<code>develop</code> at this point in time. All features targeted at future releases may
-not—they must wait until after the release branch is branched off.</p>
-<p>It is exactly at the start of a release branch that the upcoming release gets
-assigned a version number—not any earlier. Up until that moment, the <code>develop</code>
+&lt;code&gt;develop&lt;/code&gt; at this point in time. All features targeted at future releases may
+not—they must wait until after the release branch is branched off.&lt;/p&gt;
+&lt;p&gt;It is exactly at the start of a release branch that the upcoming release gets
+assigned a version number—not any earlier. Up until that moment, the &lt;code&gt;develop&lt;/code&gt;
 branch reflected changes for the “next release”, but it is unclear whether that
 “next release” will eventually become 0.3 or 1.0, until the release branch is
 started. That decision is made on the start of the release branch and is
-carried out by the project’s rules on version number bumping.</p>
-<h4 id="creating-a-release-branch">Creating a release branch <a href="#creating-a-release-branch" rel="bookmark" class="permalink"></a></h4>
-<p>Release branches are created from the <code>develop</code> branch. For example, say
+carried out by the project’s rules on version number bumping.&lt;/p&gt;
+&lt;h4 id="creating-a-release-branch"&gt;Creating a release branch &lt;a href="#creating-a-release-branch" rel="bookmark"&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Release branches are created from the &lt;code&gt;develop&lt;/code&gt; branch. For example, say
 version 1.1.5 is the current production release and we have a big release
-coming up. The state of <code>develop</code> is ready for the “next release” and we have
+coming up. The state of &lt;code&gt;develop&lt;/code&gt; is ready for the “next release” and we have
 decided that this will become version 1.2 (rather than 1.1.6 or 2.0). So we
 branch off and give the release branch a name reflecting the new version
-number:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout -b release-1.2 develop
-<span class="go">Switched to a new branch &quot;release-1.2&quot;</span>
-<span class="gp">$</span> ./bump-version.sh 1.2
-<span class="go">Files modified successfully, version bumped to 1.2.</span>
-<span class="gp">$</span> git commit -a -m <span class="s2">&quot;Bumped version number to 1.2&quot;</span>
-<span class="go">[release-1.2 74d9424] Bumped version number to 1.2</span>
-<span class="go">1 files changed, 1 insertions(+), 1 deletions(-)</span>
-</pre></div>
+number:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout -b release-1.2 develop
+&lt;span class="go"&gt;Switched to a new branch &amp;quot;release-1.2&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; ./bump-version.sh 1.2
+&lt;span class="go"&gt;Files modified successfully, version bumped to 1.2.&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git commit -a -m &lt;span class="s2"&gt;&amp;quot;Bumped version number to 1.2&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;[release-1.2 74d9424] Bumped version number to 1.2&lt;/span&gt;
+&lt;span class="go"&gt;1 files changed, 1 insertions(+), 1 deletions(-)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>After creating a new branch and switching to it, we bump the version number.
-Here, <code>bump-version.sh</code> is a fictional shell script that changes some files in
+<p>
+&lt;p&gt;After creating a new branch and switching to it, we bump the version number.
+Here, &lt;code&gt;bump-version.sh&lt;/code&gt; is a fictional shell script that changes some files in
 the working copy to reflect the new version. (This can of course be a manual
-change—the point being that <em>some</em> files change.) Then, the bumped version
-number is committed.</p>
-<p>This new branch may exist there for a while, until the release may be rolled
+change—the point being that &lt;em&gt;some&lt;/em&gt; files change.) Then, the bumped version
+number is committed.&lt;/p&gt;
+&lt;p&gt;This new branch may exist there for a while, until the release may be rolled
 out definitely. During that time, bug fixes may be applied in this branch
-(rather than on the <code>develop</code> branch). Adding large new features here is
-strictly prohibited. They must be merged into <code>develop</code>, and therefore, wait
-for the next big release.</p>
-<h4 id="finishing-a-release-branch">Finishing a release branch <a href="#finishing-a-release-branch" rel="bookmark" class="permalink"></a></h4>
-<p>When the state of the release branch is ready to become a real release, some
+(rather than on the &lt;code&gt;develop&lt;/code&gt; branch). Adding large new features here is
+strictly prohibited. They must be merged into &lt;code&gt;develop&lt;/code&gt;, and therefore, wait
+for the next big release.&lt;/p&gt;
+&lt;h4 id="finishing-a-release-branch"&gt;Finishing a release branch &lt;a href="#finishing-a-release-branch" rel="bookmark"&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;When the state of the release branch is ready to become a real release, some
 actions need to be carried out. First, the release branch is merged into
-<code>master</code> (since every commit on <code>master</code> is a new release <em>by definition</em>,
-remember). Next, that commit on <code>master</code> must be tagged for easy future
+&lt;code&gt;master&lt;/code&gt; (since every commit on &lt;code&gt;master&lt;/code&gt; is a new release &lt;em&gt;by definition&lt;/em&gt;,
+remember). Next, that commit on &lt;code&gt;master&lt;/code&gt; must be tagged for easy future
 reference to this historical version. Finally, the changes made on the release
-branch need to be merged back into <code>develop</code>, so that future releases also
-contain these bug fixes.</p>
-<p>The first two steps in Git:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout master
-<span class="go">Switched to branch &#39;master&#39;</span>
-<span class="gp">$</span> git merge --no-ff release-1.2
-<span class="go">Merge made by recursive.</span>
-<span class="go">(Summary of changes)</span>
-<span class="gp">$</span> git tag -a 1.2
-</pre></div>
+branch need to be merged back into &lt;code&gt;develop&lt;/code&gt;, so that future releases also
+contain these bug fixes.&lt;/p&gt;
+&lt;p&gt;The first two steps in Git:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout master
+&lt;span class="go"&gt;Switched to branch &amp;#39;master&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git merge &#x2013;no-ff release-1.2
+&lt;span class="go"&gt;Merge made by recursive.&lt;/span&gt;
+&lt;span class="go"&gt;(Summary of changes)&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git tag -a 1.2
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>The release is now done, and tagged for future reference.  </p>
-<blockquote>
-<p><strong>Edit:</strong> You might as well want to use the <code>-s</code> or <code>-u &lt;key&gt;</code> flags to sign
-your tag cryptographically.</p>
-</blockquote>
-<p>To keep the changes made in the release branch, we need to merge those back
-into <code>develop</code>, though. In Git:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout develop
-<span class="go">Switched to branch &#39;develop&#39;</span>
-<span class="gp">$</span> git merge --no-ff release-1.2
-<span class="go">Merge made by recursive.</span>
-<span class="go">(Summary of changes)</span>
-</pre></div>
+<p>
+&lt;p&gt;The release is now done, and tagged for future reference.  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Edit:&lt;/strong&gt; You might as well want to use the &lt;code&gt;-s&lt;/code&gt; or &lt;code&gt;-u &amp;lt;key&amp;gt;&lt;/code&gt; flags to sign
+your tag cryptographically.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;To keep the changes made in the release branch, we need to merge those back
+into &lt;code&gt;develop&lt;/code&gt;, though. In Git:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout develop
+&lt;span class="go"&gt;Switched to branch &amp;#39;develop&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git merge &#x2013;no-ff release-1.2
+&lt;span class="go"&gt;Merge made by recursive.&lt;/span&gt;
+&lt;span class="go"&gt;(Summary of changes)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>This step may well lead to a merge conflict (probably even, since we have
-changed the version number). If so, fix it and commit.</p>
-<p>Now we are really done and the release branch may be removed, since we don’t
-need it anymore:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git branch -d release-1.2
-<span class="go">Deleted branch release-1.2 (was ff452fe).</span>
-</pre></div>
+<p>
+&lt;p&gt;This step may well lead to a merge conflict (probably even, since we have
+changed the version number). If so, fix it and commit.&lt;/p&gt;
+&lt;p&gt;Now we are really done and the release branch may be removed, since we don’t
+need it anymore:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git branch -d release-1.2
+&lt;span class="go"&gt;Deleted branch release-1.2 (was ff452fe).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<h3 id="hotfix-branches">Hotfix branches <a href="#hotfix-branches" rel="bookmark" class="permalink"></a></h3>
-<p><img alt="" class="right" src="../../../assets/img/hotfix-branches@2x.png" width="316" /></p>
-<dl>
-<dt>May branch off from:</dt>
-<dd><code>master</code></dd>
-<dt>Must merge back into:</dt>
-<dd><code>develop</code> and <code>master</code></dd>
-<dt>Branch naming convention:</dt>
-<dd><code>hotfix-*</code></dd>
-</dl>
-<p>Hotfix branches are very much like release branches in that they are also meant
+<p>
+&lt;h3 id="hotfix-branches"&gt;Hotfix branches &lt;a href="#hotfix-branches" rel="bookmark"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="" class="right" src="../../../assets/img/hotfix-branches@2x.png" width="316" /&gt;&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;May branch off from:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;master&lt;/code&gt;&lt;/dd&gt;
+&lt;dt&gt;Must merge back into:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;develop&lt;/code&gt; and &lt;code&gt;master&lt;/code&gt;&lt;/dd&gt;
+&lt;dt&gt;Branch naming convention:&lt;/dt&gt;
+&lt;dd&gt;&lt;code&gt;hotfix-*&lt;/code&gt;&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;Hotfix branches are very much like release branches in that they are also meant
 to prepare for a new production release, albeit unplanned. They arise from the
 necessity to act immediately upon an undesired state of a live production
 version. When a critical bug in a production version must be resolved
 immediately, a hotfix branch may be branched off from the corresponding tag on
-the master branch that marks the production version.</p>
-<p>The essence is that work of team members (on the <code>develop</code> branch) can
-continue, while another person is preparing a quick production fix.</p>
-<h4 id="creating-the-hotfix-branch">Creating the hotfix branch <a href="#creating-the-hotfix-branch" rel="bookmark" class="permalink"></a></h4>
-<p>Hotfix branches are created from the <code>master</code> branch. For example, say version
+the master branch that marks the production version.&lt;/p&gt;
+&lt;p&gt;The essence is that work of team members (on the &lt;code&gt;develop&lt;/code&gt; branch) can
+continue, while another person is preparing a quick production fix.&lt;/p&gt;
+&lt;h4 id="creating-the-hotfix-branch"&gt;Creating the hotfix branch &lt;a href="#creating-the-hotfix-branch" rel="bookmark"&gt;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Hotfix branches are created from the &lt;code&gt;master&lt;/code&gt; branch. For example, say version
 1.2 is the current production release running live and causing troubles due to
-a severe bug. But changes on <code>develop</code> are yet unstable. We may then branch off
-a hotfix branch and start fixing the problem:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout -b hotfix-1.2.1 master
-<span class="go">Switched to a new branch &quot;hotfix-1.2.1&quot;</span>
-<span class="gp">$</span> ./bump-version.sh 1.2.1
-<span class="go">Files modified successfully, version bumped to 1.2.1.</span>
-<span class="gp">$</span> git commit -a -m <span class="s2">&quot;Bumped version number to 1.2.1&quot;</span>
-<span class="go">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</span>
-<span class="go">1 files changed, 1 insertions(+), 1 deletions(-)</span>
-</pre></div>
+a severe bug. But changes on &lt;code&gt;develop&lt;/code&gt; are yet unstable. We may then branch off
+a hotfix branch and start fixing the problem:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout -b hotfix-1.2.1 master
+&lt;span class="go"&gt;Switched to a new branch &amp;quot;hotfix-1.2.1&amp;quot;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; ./bump-version.sh 1.2.1
+&lt;span class="go"&gt;Files modified successfully, version bumped to 1.2.1.&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git commit -a -m &lt;span class="s2"&gt;&amp;quot;Bumped version number to 1.2.1&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1&lt;/span&gt;
+&lt;span class="go"&gt;1 files changed, 1 insertions(+), 1 deletions(-)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>Don’t forget to bump the version number after branching off!</p>
-<p>Then, fix the bug and commit the fix in one or more separate commits.</p>
-<div class="codehilite"><pre><span class="gp">$</span> git commit -m <span class="s2">&quot;Fixed severe production problem&quot;</span>
-<span class="go">[hotfix-1.2.1 abbe5d6] Fixed severe production problem</span>
-<span class="go">5 files changed, 32 insertions(+), 17 deletions(-)</span>
-</pre></div>
+<p>
+&lt;p&gt;Don’t forget to bump the version number after branching off!&lt;/p&gt;
+&lt;p&gt;Then, fix the bug and commit the fix in one or more separate commits.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git commit -m &lt;span class="s2"&gt;&amp;quot;Fixed severe production problem&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;[hotfix-1.2.1 abbe5d6] Fixed severe production problem&lt;/span&gt;
+&lt;span class="go"&gt;5 files changed, 32 insertions(+), 17 deletions(-)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p><strong>Finishing a hotfix branch</strong></p>
-<p>When finished, the bugfix needs to be merged back into <code>master</code>, but also needs
-to be merged back into <code>develop</code>, in order to safeguard that the bugfix is
+<p>
+&lt;p&gt;&lt;strong&gt;Finishing a hotfix branch&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When finished, the bugfix needs to be merged back into &lt;code&gt;master&lt;/code&gt;, but also needs
+to be merged back into &lt;code&gt;develop&lt;/code&gt;, in order to safeguard that the bugfix is
 included in the next release as well. This is completely similar to how release
-branches are finished.</p>
-<p>First, update <code>master</code> and tag the release.</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout master
-<span class="go">Switched to branch &#39;master&#39;</span>
-<span class="gp">$</span> git merge --no-ff hotfix-1.2.1
-<span class="go">Merge made by recursive.</span>
-<span class="go">(Summary of changes)</span>
-<span class="gp">$</span> git tag -a 1.2.1
-</pre></div>
+branches are finished.&lt;/p&gt;
+&lt;p&gt;First, update &lt;code&gt;master&lt;/code&gt; and tag the release.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout master
+&lt;span class="go"&gt;Switched to branch &amp;#39;master&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git merge &#x2013;no-ff hotfix-1.2.1
+&lt;span class="go"&gt;Merge made by recursive.&lt;/span&gt;
+&lt;span class="go"&gt;(Summary of changes)&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git tag -a 1.2.1
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p><strong>Edit:</strong> You might as well want to use the <code>-s</code> or <code>-u &lt;key&gt;</code> flags to sign
-your tag cryptographically.</p>
-<p>Next, include the bugfix in <code>develop</code>, too:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git checkout develop
-<span class="go">Switched to branch &#39;develop&#39;</span>
-<span class="gp">$</span> git merge --no-ff hotfix-1.2.1
-<span class="go">Merge made by recursive.</span>
-<span class="go">(Summary of changes)</span>
-</pre></div>
+<p>
+&lt;p&gt;&lt;strong&gt;Edit:&lt;/strong&gt; You might as well want to use the &lt;code&gt;-s&lt;/code&gt; or &lt;code&gt;-u &amp;lt;key&amp;gt;&lt;/code&gt; flags to sign
+your tag cryptographically.&lt;/p&gt;
+&lt;p&gt;Next, include the bugfix in &lt;code&gt;develop&lt;/code&gt;, too:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git checkout develop
+&lt;span class="go"&gt;Switched to branch &amp;#39;develop&amp;#39;&lt;/span&gt;
+&lt;span class="gp"&gt;$&lt;/span&gt; git merge &#x2013;no-ff hotfix-1.2.1
+&lt;span class="go"&gt;Merge made by recursive.&lt;/span&gt;
+&lt;span class="go"&gt;(Summary of changes)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<p>The one exception to the rule here is that, <strong>when a release branch currently
+<p>
+&lt;p&gt;The one exception to the rule here is that, &lt;strong&gt;when a release branch currently
 exists, the hotfix changes need to be merged into that release branch, instead
-of <code>develop</code></strong>. Back-merging the bugfix into the release branch will eventually
-result in the bugfix being merged into <code>develop</code> too, when the release branch
-is finished. (If work in <code>develop</code> immediately requires this bugfix and cannot
+of &lt;code&gt;develop&lt;/code&gt;&lt;/strong&gt;. Back-merging the bugfix into the release branch will eventually
+result in the bugfix being merged into &lt;code&gt;develop&lt;/code&gt; too, when the release branch
+is finished. (If work in &lt;code&gt;develop&lt;/code&gt; immediately requires this bugfix and cannot
 wait for the release branch to be finished, you may safely merge the bugfix
-into <code>develop</code> now already as well.)</p>
-<p>Finally, remove the temporary branch:</p>
-<div class="codehilite"><pre><span class="gp">$</span> git branch -d hotfix-1.2.1
-<span class="go">Deleted branch hotfix-1.2.1 (was abbe5d6).</span>
-</pre></div>
+into &lt;code&gt;develop&lt;/code&gt; now already as well.)&lt;/p&gt;
+&lt;p&gt;Finally, remove the temporary branch:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="gp"&gt;$&lt;/span&gt; git branch -d hotfix-1.2.1
+&lt;span class="go"&gt;Deleted branch hotfix-1.2.1 (was abbe5d6).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</p>
 
 
-<h2 id="summary">Summary <a href="#summary" rel="bookmark" class="permalink"></a></h2>
-<p>While there is nothing really shocking new to this branching model, the “big
+<p>
+&lt;h2 id="summary"&gt;Summary &lt;a href="#summary" rel="bookmark" &gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;While there is nothing really shocking new to this branching model, the “big
 picture” figure that this post began with has turned out to be tremendously
 useful in our projects. It forms an elegant mental model that is easy to
 comprehend and allows team members to develop a shared understanding of the
-branching and releasing processes.</p>
-<p>A high-quality PDF version of the figure is provided here. Go ahead and hang it
-on the wall for quick reference at any time.</p>
-<p><strong>Update:</strong> And for anyone who requested it: here’s the
-<a href="http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip">gitflow-model.src.key</a> of the main diagram image (Apple Keynote).</p>
-<p class="centered"><a href="http://nvie.com/files/Git-branching-model.pdf"><img alt="" src="../../../assets/img/pdf@2x.png" width="128" /></a><br />
-<a href="/files/Git-branching-model.pdf">Git-branching-model.pdf</a></p>
-  </div>
+branching and releasing processes.&lt;/p&gt;
+&lt;p&gt;A high-quality PDF version of the figure is provided here. Go ahead and hang it
+on the wall for quick reference at any time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; And for anyone who requested it: here’s the
+&lt;a href="<a href="http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip">http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip</a>"&gt;gitflow-model.src.key&lt;/a&gt; of the main diagram image (Apple Keynote).&lt;/p&gt;
+&lt;p class="centered"&gt;&lt;a href="<a href="http://nvie.com/files/Git-branching-model.pdf">http://nvie.com/files/Git-branching-model.pdf</a>"&gt;&lt;img alt="" src="../../../assets/img/pdf@2x.png" width="128" /&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;a href="/files/Git-branching-model.pdf"&gt;Git-branching-model.pdf&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+</p>
+
+</div>

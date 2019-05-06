@@ -19,7 +19,6 @@ Reposted from: [[http://xmodulo.com/convert-video-animated-gif-image-linux.html]
 
 #+BEGIN_HTML
   <header class="entry-header">
-			<h1 class="entry-title"><a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html" title="Permalink to How to convert video to animated gif image on Linux" rel="bookmark">How to convert video to animated gif image on Linux</a></h1>
   </header> <!-- heatmapthemead-entry-header -->
 	<div class="heatmapthemead-header-entry-meta entry-meta"><span class="heatmapthemead-post-details">Last updated on <a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html" title="10:00 am" rel="bookmark"><time class="entry-date" datetime="2013-11-22T10:00:11+00:00">November 22, 2013</time></a><span class="byline"> Authored by <span class="author vcard"><a class="url fn n" href="http://xmodulo.com/author/nanni" title="View all posts by Dan Nanni" rel="author">Dan Nanni</a></span></span></span>					<span class="comments-link"><a href="http://xmodulo.com/convert-video-animated-gif-image-linux.html#comments" title="Comment on How to convert video to animated gif image on Linux">5 Comments</a></span>
 								</div><!-- .heatmapthemead-entry-meta -->
