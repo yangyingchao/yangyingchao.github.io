@@ -1,0 +1,66 @@
+---
+layout : post
+title : Indexing in PG
+categories : 未分类
+tags : pg index
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org207aa03">1. Basic Structures</a></li>
+<li><a href="#org25965ce">2. Creating Index</a>
+<ul>
+<li><a href="#orgf70a8c7">2.1. ProcessUtilitySlow</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org207aa03" class="outline-2">
+<h2 id="org207aa03"><span class="section-number-2">1</span> Basic Structures</h2>
+<div class="outline-text-2" id="text-1">
+
+<div id="orgdbbeaab" class="figure">
+<p><img src="../../../../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" alt="gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Data Structures</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org25965ce" class="outline-2">
+<h2 id="org25965ce"><span class="section-number-2">2</span> Creating Index</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #ff4040;">CREATE</span> <span style="color: #ff4040;">UNIQUE</span> <span style="color: #ff4040;">INDEX</span> title_idx <span style="color: #ff4040;">ON</span> films (title);
+</pre>
+</div>
+
+<p>
+创建索引走 Utility 处理流程，从查询解析到处理 Utility 可参考 <a href="#orgdafc6dc">2</a> , 或者
+<a href="Process-Utility-in-PG.html">Process-Utility-in-PG.html</a>
+</p>
+
+
+<div id="orgdafc6dc" class="figure">
+<p><img src="../../../../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png" alt="flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Process Utility Call flow</p>
+</div>
+
+
+<p>
+类型 <code>T_IndexStmt</code> 在函数 <code>ProcessUtilitySlow()</code>  处理。
+</p>
+</div>
+<div id="outline-container-orgf70a8c7" class="outline-3">
+<h3 id="orgf70a8c7"><span class="section-number-3">2.1</span> ProcessUtilitySlow</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/tcop/utility.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/tcop/utility.c#MissingReference</a>
+</p>
+</div>
+</div>
+</div>

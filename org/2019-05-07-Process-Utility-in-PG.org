@@ -1,0 +1,48 @@
+#+TITLE: Process Utility in PG
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+#+BEGIN_SRC plantuml :file ../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  |postgres.c|
+  start
+  :PostgresMain();
+
+  :ReadCommand();
+  #00ffff:BEGIN - exec_simple_query();
+  :PortalRun();
+
+  |pquery.c|
+  :PortalRunMulti();
+  :PortalRunUtility();
+  :ProcessUtility();
+  if (Hook Installed) then (YES)
+  :Call Utility_Hook();
+  else (NO)
+  :standard_ProcessUtility();
+  if (Have Proper\nEvent Trigger) then (NO)
+  :Call function directly;
+  else (YES)
+  :ProcessUtilitySlow();
+  endif
+  endif
+
+
+  #00ffff:END - exec_simple_query();
+#+END_SRC
+
+
+#+CAPTION: Process Utility Call flow
+#+NAME: fig:Process_Utility_Call_flow
+#+RESULTS:
+[[file:../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png]]
+

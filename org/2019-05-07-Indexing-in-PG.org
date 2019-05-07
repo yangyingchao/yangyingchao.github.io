@@ -1,0 +1,58 @@
+#+TITLE: Indexing in PG
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: pg index
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+* Basic Structures
+
+
+#+BEGIN_SRC plantuml :file ../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class RelationData {
+      + RelFileNode rd_node
+      + ...
+      + MemoryContext rd_indexcxt
+      + IndexAmRoutine* rd_indam
+      + ...
+  }
+
+  RelationData *-- IndexAmRoutine
+
+
+  class IndexAmRoutine {
+      + NodeTag type
+      + variables..
+      + function ptrs...
+  }
+#+END_SRC
+#+CAPTION: Data Structures
+#+NAME: fig:Data_Structures
+#+RESULTS:
+[[file:../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+
+* Creating Index
+
+#+BEGIN_SRC sql -r
+  CREATE UNIQUE INDEX title_idx ON films (title);
+#+END_SRC
+
+创建索引走 Utility 处理流程，从查询解析到处理 Utility 可参考 [[fig:Process_Utility_Call_flow]] , 或者
+[[file:2019-05-07-Process-Utility-in-PG.org]]
+
+#+CAPTION: Process Utility Call flow
+#+NAME: fig:Process_Utility_Call_flow
+[[../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png]]
+
+
+类型 =T_IndexStmt= 在函数 =ProcessUtilitySlow()=  处理。
+**  ProcessUtilitySlow
+
+  [[file:~/Work/postgres/src/backend/tcop/utility.c::PreventInTransactionBlock(isTopLevel,%20"CREATE%20INDEX%20CONCURRENTLY");]]
