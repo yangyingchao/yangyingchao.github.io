@@ -158,3 +158,8 @@ pre {
   text-align: left;
   margin-top: -1.5em;
 }
+
+article {
+  display: block;
+  padding-bottom: 20px;
+}

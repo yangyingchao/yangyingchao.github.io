@@ -28,6 +28,15 @@ markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-paginate
+
+paginate: 20
+paginate_path: "page:num"
+
+highlighter: rouge
+truncate: true
+
+
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
