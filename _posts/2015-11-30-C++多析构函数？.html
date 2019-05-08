@@ -8,9 +8,9 @@ tags : c++
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1532535">1. G++ 生成的 ABI 遵循 http://mentorembedded.github.io/cxx-abi/abi.html</a></li>
-<li><a href="#org9ede578">2. G++ 生成多个析构函数，其意义如下</a></li>
-<li><a href="#orge02d36b">3. D0~D3 的调用顺序</a></li>
+<li><a href="#org37d6461">1. G++ 生成的 ABI 遵循 http://mentorembedded.github.io/cxx-abi/abi.html</a></li>
+<li><a href="#org5de6883">2. G++ 生成多个析构函数，其意义如下</a></li>
+<li><a href="#org7fc3e9e">3. D0~D3 的调用顺序</a></li>
 </ul>
 </div>
 </div>
@@ -37,8 +37,8 @@ A::~A()
 摘录一下：
 </p>
 
-<div id="outline-container-org1532535" class="outline-2">
-<h2 id="org1532535"><span class="section-number-2">1</span> G++ 生成的 ABI 遵循 <a href="http://mentorembedded.github.io/cxx-abi/abi.html">http://mentorembedded.github.io/cxx-abi/abi.html</a></h2>
+<div id="outline-container-org37d6461" class="outline-2">
+<h2 id="org37d6461"><span class="section-number-2">1</span> G++ 生成的 ABI 遵循 <a href="http://mentorembedded.github.io/cxx-abi/abi.html">http://mentorembedded.github.io/cxx-abi/abi.html</a></h2>
 <div class="outline-text-2" id="text-1">
 <div class="HTML">
 <p>
@@ -98,8 +98,8 @@ prefix &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&g
 </div>
 </div>
 
-<div id="outline-container-org9ede578" class="outline-2">
-<h2 id="org9ede578"><span class="section-number-2">2</span> G++ 生成多个析构函数，其意义如下</h2>
+<div id="outline-container-org5de6883" class="outline-2">
+<h2 id="org5de6883"><span class="section-number-2">2</span> G++ 生成多个析构函数，其意义如下</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 （参考：
@@ -120,8 +120,8 @@ prefix &lt;/span&gt;&lt;span class="pun"&gt;|&lt;/span&gt;&lt;span class="pln"&g
 </div>
 
 
-<div id="outline-container-orge02d36b" class="outline-2">
-<h2 id="orge02d36b"><span class="section-number-2">3</span> D0~D3 的调用顺序</h2>
+<div id="outline-container-org7fc3e9e" class="outline-2">
+<h2 id="org7fc3e9e"><span class="section-number-2">3</span> D0~D3 的调用顺序</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li><p>

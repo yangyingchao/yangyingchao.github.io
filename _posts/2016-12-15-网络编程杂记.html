@@ -8,21 +8,21 @@ tags : linux
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org4e08d41">pipe 缓冲区有多大</a></li>
-<li><a href="#orgd47946f">Socket SO_ERROR vs errno</a>
+<li><a href="#orgae29263">pipe 缓冲区有多大</a></li>
+<li><a href="#org781cb2c">Socket SO_ERROR vs errno</a>
 <ul>
-<li><a href="#orgb1d5ba2">errno</a></li>
-<li><a href="#org42cd956">SO_ERROR</a></li>
-<li><a href="#orgcc727d7">用哪个</a></li>
+<li><a href="#org6fba92c">errno</a></li>
+<li><a href="#org315d018">SO_ERROR</a></li>
+<li><a href="#org0bf43f5">用哪个</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org4e08d41" class="outline-2">
-<h2 id="org4e08d41">pipe 缓冲区有多大</h2>
-<div class="outline-text-2" id="text-org4e08d41">
+<div id="outline-container-orgae29263" class="outline-2">
+<h2 id="orgae29263">pipe 缓冲区有多大</h2>
+<div class="outline-text-2" id="text-orgae29263">
 <p>
 网络编程中，有时候会用 <code>pipe</code> 来唤醒 <code>epoll/poll/select</code> ，但 <code>pipe</code> 缓冲区有多大？超了会怎么样？
 </p>
@@ -70,13 +70,13 @@ tags : linux
 </div>
 
 
-<div id="outline-container-orgd47946f" class="outline-2">
-<h2 id="orgd47946f">Socket SO_ERROR vs errno</h2>
-<div class="outline-text-2" id="text-orgd47946f">
+<div id="outline-container-org781cb2c" class="outline-2">
+<h2 id="org781cb2c">Socket SO_ERROR vs errno</h2>
+<div class="outline-text-2" id="text-org781cb2c">
 </div>
-<div id="outline-container-orgb1d5ba2" class="outline-3">
-<h3 id="orgb1d5ba2">errno</h3>
-<div class="outline-text-3" id="text-orgb1d5ba2">
+<div id="outline-container-org6fba92c" class="outline-3">
+<h3 id="org6fba92c">errno</h3>
+<div class="outline-text-3" id="text-org6fba92c">
 <p>
 <code>errno</code> 看起来像是一个全局变量，实则不然：
 </p>
@@ -97,9 +97,9 @@ one thread does not affect its value in any other thread.
 </div>
 </div>
 
-<div id="outline-container-org42cd956" class="outline-3">
-<h3 id="org42cd956">SO_ERROR</h3>
-<div class="outline-text-3" id="text-org42cd956">
+<div id="outline-container-org315d018" class="outline-3">
+<h3 id="org315d018">SO_ERROR</h3>
+<div class="outline-text-3" id="text-org315d018">
 <p>
 <code>getsockopt()</code> 提供了另外一种方式来获取 errno: <code>SO_ERROR</code> ， <code>man 7 socket</code> 显示：
 </p>
@@ -138,9 +138,9 @@ sample:
 </div>
 </div>
 
-<div id="outline-container-orgcc727d7" class="outline-3">
-<h3 id="orgcc727d7">用哪个</h3>
-<div class="outline-text-3" id="text-orgcc727d7">
+<div id="outline-container-org0bf43f5" class="outline-3">
+<h3 id="org0bf43f5">用哪个</h3>
+<div class="outline-text-3" id="text-org0bf43f5">
 <p>
 答案是：都行。。。。</p>
 </div>

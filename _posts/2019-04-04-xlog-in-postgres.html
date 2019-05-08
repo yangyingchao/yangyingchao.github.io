@@ -7,36 +7,36 @@ categories : 未分类
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1333d1e">1. Overview</a></li>
-<li><a href="#org91e1ccc">2. Init</a></li>
-<li><a href="#orga2cc26a">3. Insert Flow</a>
+<li><a href="#orgd26b79c">1. Overview</a></li>
+<li><a href="#org38b424b">2. Init</a></li>
+<li><a href="#org8dbf60e">3. Insert Flow</a>
 <ul>
-<li><a href="#org926161a">3.1. General Flow</a></li>
-<li><a href="#org24cb8e0">3.2. XLogRecordAssemble</a></li>
-<li><a href="#orgf294224">3.3. Insert</a></li>
-<li><a href="#org1693bfc">3.4. Data Structures</a></li>
+<li><a href="#org2bc008d">3.1. General Flow</a></li>
+<li><a href="#orgeefa227">3.2. XLogRecordAssemble</a></li>
+<li><a href="#org7248bac">3.3. Insert</a></li>
+<li><a href="#orgb468f36">3.4. Data Structures</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1333d1e" class="outline-2">
-<h2 id="org1333d1e"><span class="section-number-2">1</span> Overview</h2>
+<div id="outline-container-orgd26b79c" class="outline-2">
+<h2 id="orgd26b79c"><span class="section-number-2">1</span> Overview</h2>
 </div>
-<div id="outline-container-org91e1ccc" class="outline-2">
-<h2 id="org91e1ccc"><span class="section-number-2">2</span> Init</h2>
+<div id="outline-container-org38b424b" class="outline-2">
+<h2 id="org38b424b"><span class="section-number-2">2</span> Init</h2>
 </div>
 
 
-<div id="outline-container-orga2cc26a" class="outline-2">
-<h2 id="orga2cc26a"><span class="section-number-2">3</span> Insert Flow</h2>
+<div id="outline-container-org8dbf60e" class="outline-2">
+<h2 id="org8dbf60e"><span class="section-number-2">3</span> Insert Flow</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org926161a" class="outline-3">
-<h3 id="org926161a"><span class="section-number-3">3.1</span> General Flow</h3>
+<div id="outline-container-org2bc008d" class="outline-3">
+<h3 id="org2bc008d"><span class="section-number-3">3.1</span> General Flow</h3>
 <div class="outline-text-3" id="text-3-1">
 
-<div id="org5280189" class="figure">
+<div id="orgd87b4ef" class="figure">
 <p><img src="../../../../assets/img/xlog-insert-general-flow-gen.png" alt="xlog-insert-general-flow-gen.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>xlog insert general flow</p>
@@ -45,13 +45,13 @@ categories : 未分类
 </div>
 
 
-<div id="outline-container-org24cb8e0" class="outline-3">
-<h3 id="org24cb8e0"><span class="section-number-3">3.2</span> XLogRecordAssemble</h3>
+<div id="outline-container-orgeefa227" class="outline-3">
+<h3 id="orgeefa227"><span class="section-number-3">3.2</span> XLogRecordAssemble</h3>
 </div>
 
 
-<div id="outline-container-orgf294224" class="outline-3">
-<h3 id="orgf294224"><span class="section-number-3">3.3</span> Insert</h3>
+<div id="outline-container-org7248bac" class="outline-3">
+<h3 id="org7248bac"><span class="section-number-3">3.3</span> Insert</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 用到的地方很多，以 <code>heap_insert</code> 为例。
@@ -66,11 +66,11 @@ categories : 未分类
 </div>
 
 
-<div id="outline-container-org1693bfc" class="outline-3">
-<h3 id="org1693bfc"><span class="section-number-3">3.4</span> Data Structures</h3>
+<div id="outline-container-orgb468f36" class="outline-3">
+<h3 id="orgb468f36"><span class="section-number-3">3.4</span> Data Structures</h3>
 <div class="outline-text-3" id="text-3-4">
 
-<div id="orgab701f6" class="figure">
+<div id="org3ce15ff" class="figure">
 <p><img src="../../../../assets/img/xl-ds-gen.png" alt="xl-ds-gen.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>xlog data structures</p>

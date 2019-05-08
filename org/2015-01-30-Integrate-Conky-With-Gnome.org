@@ -120,4 +120,4 @@ Here is my configuration:
 #+END_SRC
 
 #+CAPTION: screenshot
-[[../assets/img/conky.jpeg]]
+[[images/conky.jpeg]]

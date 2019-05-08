@@ -18,7 +18,7 @@
 
 ** In postmaster (master)
 
-#+BEGIN_SRC plantuml :file ../assets/img/storage-init-postmaster-gen.png
+#+BEGIN_SRC plantuml :file images/storage-init-postmaster-gen.png
 
   |postmaster|
   start
@@ -38,11 +38,11 @@
 #+CAPTION: Storage Init under Postmaster
 #+NAME: fig:Storage_Init_under_Postmaster
 #+RESULTS:
-[[file:../assets/img/storage-init-postmaster-gen.png]]
+[[file:images/storage-init-postmaster-gen.png]]
 
 ** In postgres main (backend)
 
-#+BEGIN_SRC plantuml :file ../assets/img/storage-init-postmain-gen.png
+#+BEGIN_SRC plantuml :file images/storage-init-postmain-gen.png
 
 
   |postgres.c|
@@ -69,7 +69,7 @@
 #+CAPTION: caption
 #+NAME: fig:caption
 #+RESULTS:
-[[file:../assets/img/storage-init-postmain-gen.png]]
+[[file:images/storage-init-postmain-gen.png]]
 
 * Storage Manager (storage/smgr)
 
@@ -88,7 +88,7 @@ more expensive than one extra layer of C function calls.
 
 ** smgr
 
-#+BEGIN_SRC plantuml :file ../assets/img/f_smgr-gen.png :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file images/f_smgr-gen.png :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class f_smgr {
   + void smgr_init()
@@ -146,11 +146,11 @@ more expensive than one extra layer of C function calls.
 #+END_SRC
 
 #+RESULTS:
-[[file:../assets/img/f_smgr-gen.png]]
+[[file:images/f_smgr-gen.png]]
 
 ** smgr_open()
 
-#+BEGIN_SRC plantuml :file ../assets/img/smgr-open-gen.png
+#+BEGIN_SRC plantuml :file images/smgr-open-gen.png
 
   start
 
@@ -172,7 +172,7 @@ more expensive than one extra layer of C function calls.
 #+CAPTION: smgr_open
 #+NAME: fig:smgr_open
 #+RESULTS:
-[[file:../assets/img/smgr-open-gen.png]]
+[[file:images/smgr-open-gen.png]]
 
 
 =open= 的最后，将返回的  relation 的各个 fork 中的 seg 都初始化为 0 。
@@ -185,7 +185,7 @@ magnetic disk.
 
 Virtual file descriptor
 
-#+BEGIN_SRC plantuml :file ../assets/img/vfd-pg-gen.png
+#+BEGIN_SRC plantuml :file images/vfd-pg-gen.png
 
   class vfd {
       + int fd
@@ -204,12 +204,12 @@ Virtual file descriptor
 #+CAPTION: VFD
 #+NAME: fig:VFD
 #+RESULTS:
-[[file:../assets/img/vfd-pg-gen.png]]
+[[file:images/vfd-pg-gen.png]]
 
 * BufferManager (storage/buffer)
 
 ** Data Structures
-#+BEGIN_SRC plantuml :file ../assets/img/bf-ds-gen.png
+#+BEGIN_SRC plantuml :file images/bf-ds-gen.png
 
   class BufferDesc {
       + BufferTag tag
@@ -274,7 +274,7 @@ Virtual file descriptor
 #+CAPTION: Buffer Pool Data Structures
 #+NAME: fig:Buffer_Pool_Data_Structures
 #+RESULTS:
-[[file:../assets/img/bf-ds-gen.png]]
+[[file:images/bf-ds-gen.png]]
 
 =BufferDesc->state= 比较好玩，该 field 是一个 =uint32=  ， 但实际使用时候，被分成了三段：
 
@@ -317,7 +317,7 @@ postmaster, or in a standalone backend).
 
 eg flow:
 
-#+BEGIN_SRC plantuml :file ../assets/img/buffer-read-call-flow-gen.png
+#+BEGIN_SRC plantuml :file images/buffer-read-call-flow-gen.png
 
   |heapam|
   start
@@ -333,7 +333,7 @@ eg flow:
 #+CAPTION: Buffer Read call flow
 #+NAME: fig:Buffer_Read_call_flow
 #+RESULTS:
-[[file:../assets/img/buffer-read-call-flow-gen.png]]
+[[file:images/buffer-read-call-flow-gen.png]]
 
 
 
@@ -401,7 +401,7 @@ a cleanup-strength lock on the page.
 
 **** ReadBufferExtended Flow
 
-#+BEGIN_SRC plantuml :file ../assets/img/readbuffer-extented-gen.png
+#+BEGIN_SRC plantuml :file images/readbuffer-extented-gen.png
 
   |bufmgr|
   start
@@ -479,7 +479,7 @@ a cleanup-strength lock on the page.
 #+CAPTION: ReadBufferExtended flow
 #+NAME: fig:ReadBufferExtended_flow
 #+RESULTS:
-[[file:../assets/img/readbuffer-extented-gen.png]]
+[[file:images/readbuffer-extented-gen.png]]
 
 ***** BufferAlloc
 
@@ -490,7 +490,7 @@ a cleanup-strength lock on the page.
   The returned buffer is pinned and is already marked as holding the
   desired page.
 
-  #+BEGIN_SRC plantuml :file ../assets/img/pg-buffer-alloc-gen.png
+  #+BEGIN_SRC plantuml :file images/pg-buffer-alloc-gen.png
     |BufferAlloc|
 
     start
@@ -549,11 +549,11 @@ a cleanup-strength lock on the page.
   #+CAPTION: BufferAlloc
   #+NAME: fig:BufferAlloc
   #+RESULTS:
-  [[file:../assets/img/pg-buffer-alloc-gen.png]]
+  [[file:images/pg-buffer-alloc-gen.png]]
 
 ****** StartBufferIO
 
-#+BEGIN_SRC plantuml :file ../assets/img/pg-start-bufferio-gen.png
+#+BEGIN_SRC plantuml :file images/pg-start-bufferio-gen.png
   start
   while(IO_IN_PROGRESS) is (TRUE)
   :WaitIO();
@@ -570,7 +570,7 @@ a cleanup-strength lock on the page.
 #+CAPTION: Start buffer io
 #+NAME: fig:Start_buffer_io
 #+RESULTS:
-[[file:../assets/img/pg-start-bufferio-gen.png]]
+[[file:images/pg-start-bufferio-gen.png]]
 
 
 ****** PinBuffer
@@ -586,7 +586,7 @@ taking the buffer header lock; instead update the state variable in loop of
 CAS operations. Hopefully it's just a single CAS.
 
 
-#+BEGIN_SRC plantuml :file ../assets/img/pin-buffer-gen.png
+#+BEGIN_SRC plantuml :file images/pin-buffer-gen.png
   start
   :find ref for buffer;
   if (ref is NULL) then (YES)
@@ -625,7 +625,7 @@ CAS operations. Hopefully it's just a single CAS.
 #+CAPTION: Pin Buffer
 #+NAME: fig:Pin_Buffer
 #+RESULTS:
-[[file:../assets/img/pin-buffer-gen.png]]
+[[file:images/pin-buffer-gen.png]]
 
 - *strategy:*
 
@@ -634,7 +634,7 @@ CAS operations. Hopefully it's just a single CAS.
 * Page (storage/page)
 
 
-#+BEGIN_SRC plantuml :file ../assets/img/page-ds-pg-gen.png
+#+BEGIN_SRC plantuml :file images/page-ds-pg-gen.png
 
   class PageHeaderData {
       + PageXLogRecPtr pd_lsn
@@ -652,7 +652,7 @@ CAS operations. Hopefully it's just a single CAS.
 #+CAPTION: Page related data structure
 #+NAME: fig:Page_related_data_structure
 #+RESULTS:
-[[file:../assets/img/page-ds-pg-gen.png]]
+[[file:images/page-ds-pg-gen.png]]
 
 * Storage IPC
 

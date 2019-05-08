@@ -8,15 +8,15 @@ tags : Android JNI FindClass
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org19780d8">1. Q:</a></li>
-<li><a href="#org452dad8">2. A:</a></li>
+<li><a href="#org8f83dae">1. Q:</a></li>
+<li><a href="#org6d91bd7">2. A:</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org19780d8" class="outline-2">
-<h2 id="org19780d8"><span class="section-number-2">1</span> Q:</h2>
+<div id="outline-container-org8f83dae" class="outline-2">
+<h2 id="org8f83dae"><span class="section-number-2">1</span> Q:</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 If we try to find java class in native thread, it probably results with an error: Can't find
@@ -25,8 +25,8 @@ class.
 </div>
 </div>
 
-<div id="outline-container-org452dad8" class="outline-2">
-<h2 id="org452dad8"><span class="section-number-2">2</span> A:</h2>
+<div id="outline-container-org6d91bd7" class="outline-2">
+<h2 id="org6d91bd7"><span class="section-number-2">2</span> A:</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <a href="http://developer.android.com/training/articles/perf-jni.html">Here</a> is the explanation:
@@ -115,8 +115,8 @@ with your application, so attempts to find app-specific classes will fail.&lt;/p
 </div>
 </div>
 
-<div id="outline-container-org2f1557e" class="outline-3">
-<h3 id="org2f1557e"><span class="section-number-3">2.1</span> Solution 1: cache <code>jclass</code>:</h3>
+<div id="outline-container-orga82cbe0" class="outline-3">
+<h3 id="orga82cbe0"><span class="section-number-3">2.1</span> Solution 1: cache <code>jclass</code>:</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Here is what I did in <code>JNI_OnLoad()</code> to cache <code>jclass</code>:
@@ -221,8 +221,8 @@ You can get source code at <a href="https://github.com/yangyingchao/remotedx/blo
 </div>
 </div>
 
-<div id="outline-container-org3bfd203" class="outline-3">
-<h3 id="org3bfd203"><span class="section-number-3">2.2</span> Solution 2: cache <i>class loader</i> :</h3>
+<div id="outline-container-orgab78116" class="outline-3">
+<h3 id="orgab78116"><span class="section-number-3">2.2</span> Solution 2: cache <i>class loader</i> :</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 There is another solution in <a href="http://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni">StackOverflow</a>, which caches <i>class loader</i> :

@@ -50,7 +50,7 @@ Reposted from: http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/
         </p>
         <div class="my_story">
           <a title="See all GNU/Linux related FAQ" href="//www.cyberciti.biz/faq/category/linux/">
-            <img src="//s0.cyberciti.org/images/category/old/linux-logo.png" alt="" border="0">
+            <img src="//s0.cyberciti.orgimages/category/old/linux-logo.png" alt="" border="0">
           </a>
         </div>
         <span class="drop_cap">

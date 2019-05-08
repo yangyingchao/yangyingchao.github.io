@@ -95,7 +95,7 @@ M-x: mwb-get-recent-posts
  * 简单测试下 ditaa
 
 
- #+BEGIN_SRC ditaa :file ../assets/img/test_ditaa.png
+ #+BEGIN_SRC ditaa :file images/test_ditaa.png
 
 
 

@@ -1,0 +1,91 @@
+---
+layout : post
+title : Catalog of PG
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd883086">1. Catalogs</a></li>
+<li><a href="#org24f4b01">2. When catalogs are generated</a>
+<ul>
+<li><a href="#org608520b">2.1. postgres.bki</a></li>
+<li><a href="#org333bfed">2.2. generation of postgres.bki</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd883086" class="outline-2">
+<h2 id="orgd883086"><span class="section-number-2">1</span> Catalogs</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-sql">test=<span style="color: #cd5c5c; font-style: italic;"># select oid, relname from pg_class where oid=2601;</span>
+oid  | relname
+<span style="color: #cd5c5c; font-style: italic;">------+---------</span>
+2601 | pg_am
+(1 <span style="color: #32cd32;">row</span>)
+
+test=<span style="color: #cd5c5c; font-style: italic;"># select * from pg_am;</span>
+oid  | amname |      amhandler       | amtype
+<span style="color: #cd5c5c; font-style: italic;">------+--------+----------------------+--------</span>
+2 | <span style="color: #ff4040;">heap</span>   | heap_tableam_handler | t
+403 | btree  | bthandler            | i
+405 | hash   | hashhandler          | i
+783 | gist   | gisthandler          | i
+2742 | gin    | ginhandler           | i
+4000 | spgist | spghandler           | i
+3580 | brin   | brinhandler          | i
+(7 <span style="color: #ff4040;">rows</span>)
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org24f4b01" class="outline-2">
+<h2 id="org24f4b01"><span class="section-number-2">2</span> When catalogs are generated</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org608520b" class="outline-3">
+<h3 id="org608520b"><span class="section-number-3">2.1</span> postgres.bki</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml">https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #ff4040;">create</span> pg_am 2601
+    (
+        oid = oid ,
+        amname = <span style="color: #ff4040;">name</span> ,
+        amhandler = regproc ,
+        amtype = <span style="color: #32cd32;">char</span>
+    )
+<span style="color: #ff4040;">open</span> pg_am
+<span style="color: #ff4040;">insert</span> ( 2 <span style="color: #ff4040;">heap</span> 3 t )
+<span style="color: #ff4040;">insert</span> ( 403 btree 330 i )
+<span style="color: #ff4040;">insert</span> ( 405 hash 331 i )
+<span style="color: #ff4040;">insert</span> ( 783 gist 332 i )
+<span style="color: #ff4040;">insert</span> ( 2742 gin 333 i )
+<span style="color: #ff4040;">insert</span> ( 4000 spgist 334 i )
+<span style="color: #ff4040;">insert</span> ( 3580 brin 335 i )
+<span style="color: #ff4040;">close</span> pg_am
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org333bfed" class="outline-3">
+<h3 id="org333bfed"><span class="section-number-3">2.2</span> generation of postgres.bki</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<code>postgres/src/backend/catalog/genbki.pl</code> , called when execute <code>make</code> in directory:
+<code>postgres/src/backend/catalog</code> .
+</p>
+</div>
+</div>
+</div>

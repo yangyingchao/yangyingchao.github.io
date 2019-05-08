@@ -1,0 +1,65 @@
+#+TITLE: Catalog of PG
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+
+* Catalogs
+
+#+BEGIN_SRC sql -r
+  test=# select oid, relname from pg_class where oid=2601;
+  oid  | relname
+  ------+---------
+  2601 | pg_am
+  (1 row)
+
+  test=# select * from pg_am;
+  oid  | amname |      amhandler       | amtype
+  ------+--------+----------------------+--------
+  2 | heap   | heap_tableam_handler | t
+  403 | btree  | bthandler            | i
+  405 | hash   | hashhandler          | i
+  783 | gist   | gisthandler          | i
+  2742 | gin    | ginhandler           | i
+  4000 | spgist | spghandler           | i
+  3580 | brin   | brinhandler          | i
+  (7 rows)
+
+#+END_SRC
+
+* When catalogs are generated
+
+** postgres.bki
+
+https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml
+
+#+BEGIN_SRC sql -r
+  create pg_am 2601
+      (
+          oid = oid ,
+          amname = name ,
+          amhandler = regproc ,
+          amtype = char
+      )
+  open pg_am
+  insert ( 2 heap 3 t )
+  insert ( 403 btree 330 i )
+  insert ( 405 hash 331 i )
+  insert ( 783 gist 332 i )
+  insert ( 2742 gin 333 i )
+  insert ( 4000 spgist 334 i )
+  insert ( 3580 brin 335 i )
+  close pg_am
+#+END_SRC
+
+** generation of postgres.bki
+=postgres/src/backend/catalog/genbki.pl= , called when execute =make= in directory:
+=postgres/src/backend/catalog= .

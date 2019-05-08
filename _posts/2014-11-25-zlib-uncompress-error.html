@@ -8,16 +8,16 @@ tags : extension chrome
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8c032b8">1. 问题描述</a></li>
-<li><a href="#org8227a59">2. 问题的解决</a></li>
-<li><a href="#org5003980">3. 问题原因</a></li>
-<li><a href="#org74e8cd2">4. 结论</a></li>
+<li><a href="#org8afcbfa">1. 问题描述</a></li>
+<li><a href="#org6788f0e">2. 问题的解决</a></li>
+<li><a href="#org9edb15b">3. 问题原因</a></li>
+<li><a href="#org2ca3496">4. 结论</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8c032b8" class="outline-2">
-<h2 id="org8c032b8"><span class="section-number-2">1</span> 问题描述</h2>
+<div id="outline-container-org8afcbfa" class="outline-2">
+<h2 id="org8afcbfa"><span class="section-number-2">1</span> 问题描述</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 有段代码，示例如下：
@@ -51,8 +51,8 @@ tags : extension chrome
 </div>
 </div>
 
-<div id="outline-container-org8227a59" class="outline-2">
-<h2 id="org8227a59"><span class="section-number-2">2</span> 问题的解决</h2>
+<div id="outline-container-org6788f0e" class="outline-2">
+<h2 id="org6788f0e"><span class="section-number-2">2</span> 问题的解决</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 查看64位的编译log，发现其中有提示：
@@ -84,8 +84,8 @@ Release 版有问题？
 </div>
 </div>
 
-<div id="outline-container-org5003980" class="outline-2">
-<h2 id="org5003980"><span class="section-number-2">3</span> 问题原因</h2>
+<div id="outline-container-org9edb15b" class="outline-2">
+<h2 id="org9edb15b"><span class="section-number-2">3</span> 问题原因</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 翻开 zlib 的源码看了一下，=uncompress= 开始有一段检查：
@@ -149,8 +149,8 @@ zlib 为什么加了这段转换和检查 ？ <br />
 </div>
 </div>
 
-<div id="outline-container-org74e8cd2" class="outline-2">
-<h2 id="org74e8cd2"><span class="section-number-2">4</span> 结论</h2>
+<div id="outline-container-org2ca3496" class="outline-2">
+<h2 id="org2ca3496"><span class="section-number-2">4</span> 结论</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <a href="http://www.kuqin.com/effectivec2e/ch12d.htm">重视编译器警告。。。</a></p>

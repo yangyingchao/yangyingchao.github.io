@@ -55,7 +55,7 @@ Reposted from: [[http://blogs.pdmlab.com/alexander.zeitler/articles/installing-a
                 keepBackup = <span class="literal">false</span>
             </code></pre>
             <p>Your next call of <code>git difftool</code> should look like this:
-              <img src="../../../assets/img/p4merge.png" alt="P4Merge diff"></p>
+              <img src="../../images/p4merge.png" alt="P4Merge diff"></p>
           </section>
         </article>
     </div>

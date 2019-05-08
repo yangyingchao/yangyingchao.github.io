@@ -8,18 +8,18 @@ tags : bison parser
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org15a6706">1. 简介</a></li>
-<li><a href="#orgd29c920">2. Tutorial Sections</a>
+<li><a href="#org02b2ce7">1. 简介</a></li>
+<li><a href="#org4693a83">2. Tutorial Sections</a>
 <ul>
-<li><a href="#org719dc08">2.1. Bison 基本概念</a></li>
+<li><a href="#org1fd0b24">2.1. Bison 基本概念</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org15a6706" class="outline-2">
-<h2 id="org15a6706"><span class="section-number-2">1</span> 简介</h2>
+<div id="outline-container-org02b2ce7" class="outline-2">
+<h2 id="org02b2ce7"><span class="section-number-2">1</span> 简介</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Bison 是一个生成解释器的生成器，用于将上下文无关的语法转换成为特定的解释表。 Bison 可以兼容 yacc。
@@ -33,20 +33,20 @@ Bison 是一个生成解释器的生成器，用于将上下文无关的语法�
 </div>
 </div>
 
-<div id="outline-container-orgd29c920" class="outline-2">
-<h2 id="orgd29c920"><span class="section-number-2">2</span> Tutorial Sections</h2>
+<div id="outline-container-org4693a83" class="outline-2">
+<h2 id="org4693a83"><span class="section-number-2">2</span> Tutorial Sections</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org719dc08" class="outline-3">
-<h3 id="org719dc08"><span class="section-number-3">2.1</span> Bison 基本概念</h3>
+<div id="outline-container-org1fd0b24" class="outline-3">
+<h3 id="org1fd0b24"><span class="section-number-3">2.1</span> Bison 基本概念</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-org3beb6e8" class="outline-4">
-<h4 id="org3beb6e8"><span class="section-number-4">2.1.1</span> Languages and Context-Free Grammars</h4>
+<div id="outline-container-org6ed4f0f" class="outline-4">
+<h4 id="org6ed4f0f"><span class="section-number-4">2.1.1</span> Languages and Context-Free Grammars</h4>
 <div class="outline-text-4" id="text-2-1-1">
 </div>
 <ol class="org-ol">
-<li><a id="orgee96b31"></a>Context-Free Grammer<br />
+<li><a id="orgc245c3e"></a>Context-Free Grammer<br />
 <div class="outline-text-5" id="text-2-1-1-1">
 <ul class="org-ul">
 <li><i>Context-Free Grammer</i> 是一系列的语法规则，最常见的表达形式为 <i>Backus-Naur Form</i> 即巴克斯范式(BNF)。</li>
@@ -58,7 +58,7 @@ Bison 是一个生成解释器的生成器，用于将上下文无关的语法�
 </li>
 
 
-<li><a id="org9fa625b"></a><b>Symbols</b>: 任意的词法单元及其组合被称为 符号。<br />
+<li><a id="org5410ebc"></a><b>Symbols</b>: 任意的词法单元及其组合被称为 符号。<br />
 <div class="outline-text-5" id="text-2-1-1-2">
 <ul class="org-ul">
 <li><b>NonTernimal Symbols</b> : 由更小的 symbol 根据语法规则组合而成。</li>
@@ -67,7 +67,7 @@ Bison 是一个生成解释器的生成器，用于将上下文无关的语法�
 </div>
 </li>
 
-<li><a id="org0137b77"></a><code>Start Symbol</code><br />
+<li><a id="orgc2b14c8"></a><code>Start Symbol</code><br />
 <div class="outline-text-5" id="text-2-1-1-3">
 <p>
 One nonterminal symbol must be distinguished as the special one which
@@ -86,12 +86,12 @@ whose symbol is the grammar's start symbol.
 </ol>
 </div>
 
-<div id="outline-container-org9bd4319" class="outline-4">
-<h4 id="org9bd4319"><span class="section-number-4">2.1.2</span> From Formal Rules to Bison Input</h4>
+<div id="outline-container-org9fbe55c" class="outline-4">
+<h4 id="org9fbe55c"><span class="section-number-4">2.1.2</span> From Formal Rules to Bison Input</h4>
 <div class="outline-text-4" id="text-2-1-2">
 </div>
 <ol class="org-ol">
-<li><a id="orgbb8837d"></a>Representation of symbols<br />
+<li><a id="orgc05c6fb"></a>Representation of symbols<br />
 <div class="outline-text-5" id="text-2-1-2-1">
 <ul class="org-ul">
 <li>Non-terminal Symbol
@@ -110,7 +110,7 @@ whose symbol is the grammar's start symbol.
 </div>
 </li>
 
-<li><a id="org63df674"></a>Example:<br />
+<li><a id="org9ffdd66"></a>Example:<br />
 <div class="outline-text-5" id="text-2-1-2-2">
 <div class="org-src-container">
 <pre class="src src-bison"><span class="linenr">1: </span><span style="color: #ff4040;">%token</span> RETURN;
@@ -122,8 +122,8 @@ whose symbol is the grammar's start symbol.
 </ol>
 </div>
 
-<div id="outline-container-org9539be0" class="outline-4">
-<h4 id="org9539be0"><span class="section-number-4">2.1.3</span> Semantic Values</h4>
+<div id="outline-container-orge63dd21" class="outline-4">
+<h4 id="orge63dd21"><span class="section-number-4">2.1.3</span> Semantic Values</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 Each token in a Bison grammar has both a token type and a "semantic value".
@@ -131,7 +131,7 @@ Each token in a Bison grammar has both a token type and a "semantic value".
 </div>
 
 <ol class="org-ol">
-<li><a id="orgb0ed844"></a>Token Type<br />
+<li><a id="orgc512422"></a>Token Type<br />
 <div class="outline-text-5" id="text-2-1-3-1">
 <ul class="org-ul">
 <li>The token type is a terminal symbol defined in the grammar, such as `INTEGER', `IDENTIFIER' or `',''.</li>
@@ -141,7 +141,7 @@ Each token in a Bison grammar has both a token type and a "semantic value".
 </div>
 </li>
 
-<li><a id="orgc928dbf"></a>Semantic Value<br />
+<li><a id="orgf291ebc"></a>Semantic Value<br />
 <div class="outline-text-5" id="text-2-1-3-2">
 <p>
 The semantic value has all the rest of the information about the
@@ -154,8 +154,8 @@ need to have any semantic value.)
 </ol>
 </div>
 
-<div id="outline-container-orgccabc67" class="outline-4">
-<h4 id="orgccabc67"><span class="section-number-4">2.1.4</span> Semantic Actions</h4>
+<div id="outline-container-org128e462" class="outline-4">
+<h4 id="org128e462"><span class="section-number-4">2.1.4</span> Semantic Actions</h4>
 <div class="outline-text-4" id="text-2-1-4">
 <p>
 In order to be useful, a program must do more than parse input; it must
@@ -182,12 +182,12 @@ from the values of the two subexpressions.
 </div>
 </div>
 
-<div id="outline-container-orgaddcfd0" class="outline-4">
-<h4 id="orgaddcfd0"><span class="section-number-4">2.1.5</span> Stages in Using Bison</h4>
+<div id="outline-container-org97dd6e7" class="outline-4">
+<h4 id="org97dd6e7"><span class="section-number-4">2.1.5</span> Stages in Using Bison</h4>
 <div class="outline-text-4" id="text-2-1-5">
 </div>
 <ol class="org-ol">
-<li><a id="org7afb923"></a>Grammar specification:<br />
+<li><a id="org0606c42"></a>Grammar specification:<br />
 <div class="outline-text-5" id="text-2-1-5-1">
 <ul class="org-ul">
 <li>Provide Grammar file.</li>
@@ -198,7 +198,7 @@ from the values of the two subexpressions.
 </div>
 </li>
 
-<li><a id="orga6baaf1"></a>Turn source code into executable app:<br />
+<li><a id="org5c2e162"></a>Turn source code into executable app:<br />
 <div class="outline-text-5" id="text-2-1-5-2">
 <ul class="org-ul">
 <li>Run Bison to produce parser.</li>
@@ -210,8 +210,8 @@ from the values of the two subexpressions.
 </ol>
 </div>
 
-<div id="outline-container-orga6d5b94" class="outline-4">
-<h4 id="orga6d5b94"><span class="section-number-4">2.1.6</span> The Overall Layout of a Bison Grammar</h4>
+<div id="outline-container-org60e8147" class="outline-4">
+<h4 id="org60e8147"><span class="section-number-4">2.1.6</span> The Overall Layout of a Bison Grammar</h4>
 <div class="outline-text-4" id="text-2-1-6">
 <p>
 Bison grammar file looks like:
@@ -237,7 +237,7 @@ EPILOGUE
 </div>
 
 <ol class="org-ol">
-<li><a id="org22aa1ed"></a><code>%%</code> 与 <code>%{</code> <code>%}</code><br />
+<li><a id="orge9897fc"></a><code>%%</code> 与 <code>%{</code> <code>%}</code><br />
 <div class="outline-text-5" id="text-2-1-6-1">
 <p>
 section 的分界，界定不同的 section.
@@ -245,7 +245,7 @@ section 的分界，界定不同的 section.
 </div>
 </li>
 
-<li><a id="orge6a42a1"></a>prologue 序言<br />
+<li><a id="org02c17d1"></a>prologue 序言<br />
 <div class="outline-text-5" id="text-2-1-6-2">
 <p>
 用于引入所需的头文件，定义错误处理函数，定义自己的宏等等。
@@ -253,7 +253,7 @@ section 的分界，界定不同的 section.
 </div>
 </li>
 
-<li><a id="org0ccc8e7"></a>Bison declarations<br />
+<li><a id="orga8fc7c4"></a>Bison declarations<br />
 <div class="outline-text-5" id="text-2-1-6-3">
 <p>
 declare the names of the terminal and
@@ -263,7 +263,7 @@ data types of semantic values of various symbols.
 </div>
 </li>
 
-<li><a id="org5d06b20"></a>grammar rules<br />
+<li><a id="orga4551cd"></a>grammar rules<br />
 <div class="outline-text-5" id="text-2-1-6-4">
 <p>
 define how to construct each nonterminal symbol from its parts.
@@ -271,7 +271,7 @@ define how to construct each nonterminal symbol from its parts.
 </div>
 </li>
 
-<li><a id="org1cae5dd"></a>epilogue<br />
+<li><a id="org9eab544"></a>epilogue<br />
 <div class="outline-text-5" id="text-2-1-6-5">
 <p>
 contain any code you want to use.  Often the

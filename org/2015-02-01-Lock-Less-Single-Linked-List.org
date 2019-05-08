@@ -31,7 +31,7 @@ struct llist_node {
 
 如图：
 
-#+BEGIN_SRC dot :file ../assets/img/llist.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/llist.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open  tailclip=false];

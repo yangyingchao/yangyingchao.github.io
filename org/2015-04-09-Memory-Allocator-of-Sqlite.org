@@ -145,7 +145,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
 每块内存的布局如下：
 
-#+BEGIN_SRC ditaa :file ../assets/img/mem2_allocation.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file images/mem2_allocation.png  :cmdline -r -s 1.5
   +-------+---------------------+--------------+-------------+-----------+
   | Title |  backtrace pointers |  MemBlockHdr |  allocation |  EndGuard |
   +-------+---------------------+--------------+-------------+-----------+
@@ -244,7 +244,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
   } mem;
   #+END_SRC
 
-  #+BEGIN_SRC dot :file ../assets/img/mem_2_mem.png :cmdline -Kdot -Tpng
+  #+BEGIN_SRC dot :file images/mem_2_mem.png :cmdline -Kdot -Tpng
     digraph Name {
         node [fontsize=12 fontname=Courier style=filled shape=record];
         edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -477,7 +477,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
  * =aiFreelist= \\
    List of free blocks
-   #+BEGIN_SRC dot :file ../assets/img/mem5_aiFreeList.png :cmdline -Kdot -Tpng
+   #+BEGIN_SRC dot :file images/mem5_aiFreeList.png :cmdline -Kdot -Tpng
      digraph Name {
          node [fontsize=12 fontname=Courier style=filled shape=record];
          edge[color="#666666" style=dashed arrowhead=open tailclip=true];

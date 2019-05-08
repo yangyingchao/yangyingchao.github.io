@@ -14,7 +14,7 @@
 * Basic Structures
 
 
-#+BEGIN_SRC plantuml :file ../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class RelationData {
       + RelFileNode rd_node
@@ -36,7 +36,7 @@
 #+CAPTION: Data Structures
 #+NAME: fig:Data_Structures
 #+RESULTS:
-[[file:../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+[[file:images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
 
 * Creating Index
 
@@ -44,15 +44,93 @@
   CREATE UNIQUE INDEX title_idx ON films (title);
 #+END_SRC
 
-创建索引走 Utility 处理流程，从查询解析到处理 Utility 可参考 [[fig:Process_Utility_Call_flow]] , 或者
-[[file:2019-05-07-Process-Utility-in-PG.org]]
+创建索引走 Utility 处理流程，从查询解析到处理 Utility 可参考 [[file:2019-05-07-Process-Utility-in-PG.org]]
 
-#+CAPTION: Process Utility Call flow
-#+NAME: fig:Process_Utility_Call_flow
-[[../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png]]
+类型 =T_IndexStmt= 在函数 =ProcessUtilitySlow()=  处理，处理时，先对参数和目标表进行检查，随后解析
+处理 IndexStmt 中用到的各个成员，触发 trigger ，并调用 =DefineIndex()= 来创建索引。
+
+** DefineIndex
+
+Note： [[file:2019-05-07-PG-Notes.org][简化流程]] 。
+
+#+BEGIN_SRC plantuml :file images/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  |indexcmd.c|
+
+  start
+  #00ffff:BEGIN - DefineIndex();
+
+  :sanity checks;
+  :prepare table space & index name;
+  :Find tuple by IndexType\n(Access Method Name);
+  :get oid of AccessMethod;
+  :get handler for AM;
+  :check constrains in stmt & in handler.
+  :process WHERE...;
+  :process AM-specific options;
+  :create IndexInfo;
+  :other checks...;
+  : call index_create();
+
+  |index.c|
+  #8a2be2:BEGIN - index_create();
+
+  #8a2be2:END - index_create();
+  |indexcmd.c|
 
 
-类型 =T_IndexStmt= 在函数 =ProcessUtilitySlow()=  处理。
-**  ProcessUtilitySlow
+  #00ffff:END - DefineIndex();
+  stop
+#+END_SRC
+#+CAPTION: DefineIndex
+#+NAME: fig:DefineIndex
+#+RESULTS:
+[[file:images/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png]]
 
-  [[file:~/Work/postgres/src/backend/tcop/utility.c::PreventInTransactionBlock(isTopLevel,%20"CREATE%20INDEX%20CONCURRENTLY");]]
+*** Sanity Check
+
+- 仅支持表，分区表和物化视图
+- 如果是分区表的话，不支持并发，以及 exclustion *(XXX: FIXME)*
+- 不能对临时表建立索引
+- 确保表对象没有被其他 session 使用
+- ACL 权限检查
+- Prepare table space
+- ...
+
+*** Catalog
+
+Created by [[file:2019-05-07-Catalog-of-PG.org][Catalog of PG]] .
+
+#+BEGIN_SRC sql -r
+  test=# select oid, relname from pg_class where oid=2601;
+  oid  | relname
+  ------+---------
+  2601 | pg_am
+  (1 row)
+
+  test=# select * from pg_am;
+  oid  | amname |      amhandler       | amtype
+  ------+--------+----------------------+--------
+  2 | heap   | heap_tableam_handler | t
+  403 | btree  | bthandler            | i
+  405 | hash   | hashhandler          | i
+  783 | gist   | gisthandler          | i
+  2742 | gin    | ginhandler           | i
+  4000 | spgist | spghandler           | i
+  3580 | brin   | brinhandler          | i
+  (7 rows)
+
+#+END_SRC
+
+***   index_create
+
+#+BEGIN_SRC plantuml :file images/index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  start
+
+  stop
+
+#+END_SRC
+#+CAPTION: Index Create
+#+NAME: fig:Index_Create
+#+RESULTS:
+[[file:images/index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png]]

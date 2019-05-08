@@ -7,24 +7,24 @@ categories : 未分类
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org98896bf">Running emacs like a Daemon</a></li>
-<li><a href="#org4efd0f5">Simple setup</a></li>
-<li><a href="#org6ff5a88">Debian/Ubuntu</a>
+<li><a href="#orgddedd7f">Running emacs like a Daemon</a></li>
+<li><a href="#org9ea0d75">Simple setup</a></li>
+<li><a href="#orgd30808c">Debian/Ubuntu</a>
 <ul>
-<li><a href="#orga2401cb">Basic setup</a></li>
-<li><a href="#org0c7d5e5">Comprehensive init script</a></li>
+<li><a href="#org8e5d651">Basic setup</a></li>
+<li><a href="#orgb38546e">Comprehensive init script</a></li>
 </ul>
 </li>
-<li><a href="#org08ef549">Gentoo</a></li>
-<li><a href="#orgff9c991">Emacs as Daemon on OS X using Launchd</a></li>
-<li><a href="#orgc0dab54">Systemd user service on startup</a></li>
+<li><a href="#org6ad44e3">Gentoo</a></li>
+<li><a href="#org6dc28a0">Emacs as Daemon on OS X using Launchd</a></li>
+<li><a href="#orgb47f728">Systemd user service on startup</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org98896bf" class="outline-2">
-<h2 id="org98896bf">Running emacs like a Daemon</h2>
-<div class="outline-text-2" id="text-org98896bf">
+<div id="outline-container-orgddedd7f" class="outline-2">
+<h2 id="orgddedd7f">Running emacs like a Daemon</h2>
+<div class="outline-text-2" id="text-orgddedd7f">
 <p>
 This a new feature that is included in emacs-23.1.
 </p>
@@ -50,9 +50,9 @@ or,
 </div>
 
 
-<div id="outline-container-org4efd0f5" class="outline-2">
-<h2 id="org4efd0f5">Simple setup</h2>
-<div class="outline-text-2" id="text-org4efd0f5">
+<div id="outline-container-org9ea0d75" class="outline-2">
+<h2 id="org9ea0d75">Simple setup</h2>
+<div class="outline-text-2" id="text-org9ea0d75">
 <p>
 Put
 </p>
@@ -82,18 +82,18 @@ start an editor.
 </div>
 </div>
 
-<div id="outline-container-org6ff5a88" class="outline-2">
-<h2 id="org6ff5a88">Debian/Ubuntu</h2>
-<div class="outline-text-2" id="text-org6ff5a88">
+<div id="outline-container-orgd30808c" class="outline-2">
+<h2 id="orgd30808c">Debian/Ubuntu</h2>
+<div class="outline-text-2" id="text-orgd30808c">
 <p>
 Depending on your requirements, there are a couple ways to work with
 <code>emacs --daemon</code> and <code>emacsclient</code>.
 </p>
 </div>
 
-<div id="outline-container-orga2401cb" class="outline-3">
-<h3 id="orga2401cb">Basic setup</h3>
-<div class="outline-text-3" id="text-orga2401cb">
+<div id="outline-container-org8e5d651" class="outline-3">
+<h3 id="org8e5d651">Basic setup</h3>
+<div class="outline-text-3" id="text-org8e5d651">
 <p>
 Add <code>emacs --daemon</code> to auto-start on boot. This can be done the easy way (via
 “Settings &gt; Session and Startup &gt; Application Autostart”) or by writing your own
@@ -125,9 +125,9 @@ aliases:
 </div>
 </div>
 
-<div id="outline-container-org0c7d5e5" class="outline-3">
-<h3 id="org0c7d5e5">Comprehensive init script</h3>
-<div class="outline-text-3" id="text-org0c7d5e5">
+<div id="outline-container-orgb38546e" class="outline-3">
+<h3 id="orgb38546e">Comprehensive init script</h3>
+<div class="outline-text-3" id="text-orgb38546e">
 <p>
 Here a little init script for GNU Debian/Ubuntu (please help to improve!) Save in
 /etc/init.d/emacs
@@ -337,9 +337,9 @@ You should rather change the variables in /etc/default/emacs, this is how other 
 </div>
 </div>
 
-<div id="outline-container-org08ef549" class="outline-2">
-<h2 id="org08ef549">Gentoo</h2>
-<div class="outline-text-2" id="text-org08ef549">
+<div id="outline-container-org6ad44e3" class="outline-2">
+<h2 id="org6ad44e3">Gentoo</h2>
+<div class="outline-text-2" id="text-org6ad44e3">
 <p>
 Gentoo includes support for running Emacs as a daemon in the
 <code>app-emacs/emacs-daemon</code> package.
@@ -379,9 +379,9 @@ files for “multiplexed” user configuration.
 </div>
 </div>
 
-<div id="outline-container-orgff9c991" class="outline-2">
-<h2 id="orgff9c991">Emacs as Daemon on OS X using Launchd</h2>
-<div class="outline-text-2" id="text-orgff9c991">
+<div id="outline-container-org6dc28a0" class="outline-2">
+<h2 id="org6dc28a0">Emacs as Daemon on OS X using Launchd</h2>
+<div class="outline-text-2" id="text-org6dc28a0">
 <p>
 If you’re running Emacs 23, you can run Emacs As Daemon via OS X’s launchd. The
 easiest solution is to use a tool like Lingon to create the plist file or can
@@ -425,9 +425,9 @@ This can then be installed in <code>/Library/LaunchAgents</code> and loaded via:
 </div>
 </div>
 
-<div id="outline-container-orgc0dab54" class="outline-2">
-<h2 id="orgc0dab54">Systemd user service on startup</h2>
-<div class="outline-text-2" id="text-orgc0dab54">
+<div id="outline-container-orgb47f728" class="outline-2">
+<h2 id="orgb47f728">Systemd user service on startup</h2>
+<div class="outline-text-2" id="text-orgb47f728">
 <p>
 It’s simple enough to run the emacs daemon with systemd.
 </p>

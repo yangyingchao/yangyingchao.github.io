@@ -20,7 +20,7 @@ implements low-level transactions and subtransactions, on top of which rests
 the mainloop's control code, which in turn implements user-visible
 transactions and savepoints.
 
-#+BEGIN_SRC ditaa :file ../assets/img/xact-layers-gen.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file images/xact-layers-gen.png  :cmdline -r -s 1.5
       +--------------------------------+-------------+
       |   BeginTransactionBlock        |             |
       |   EndTransactionBlock          |             |
@@ -46,13 +46,13 @@ transactions and savepoints.
 #+CAPTION: Transaction Layers
 #+NAME: fig:Transaction_Layers
 #+RESULTS:
-[[file:../assets/img/xact-layers-gen.png]]
+[[file:images/xact-layers-gen.png]]
 
 
 
 * Data Structures
 
-#+BEGIN_SRC plantuml :file ../assets/img/xact-ds-gen.png
+#+BEGIN_SRC plantuml :file images/xact-ds-gen.png
 
   class TransactionStateData {
       + TransactionId transactionId
@@ -83,7 +83,7 @@ transactions and savepoints.
 #+CAPTION: Data Structures related to Transaction
 #+NAME: fig:Data_Structures_related_to_Transaction
 #+RESULTS:
-[[file:../assets/img/xact-ds-gen.png]]
+[[file:images/xact-ds-gen.png]]
 
 * Work flow
 
@@ -98,7 +98,7 @@ For example, consider the following sequence of user commands:
 
 ** BEGIN
 
-#+BEGIN_SRC plantuml :file ../assets/img/begin-xcat-flow-gen.png
+#+BEGIN_SRC plantuml :file images/begin-xcat-flow-gen.png
   |postgres.c|
   start
   :PostgresMain();
@@ -139,7 +139,7 @@ For example, consider the following sequence of user commands:
 #+CAPTION: BEGIN
 #+NAME: fig:BEGIN
 #+RESULTS:
-[[file:../assets/img/begin-xcat-flow-gen.png]]
+[[file:images/begin-xcat-flow-gen.png]]
 
 
 *** TODO StartTransactionCommand(void)
@@ -147,7 +147,7 @@ For example, consider the following sequence of user commands:
 
 
 
-#+BEGIN_SRC plantuml :file ../assets/img/StartTransactionCommand-gen.png
+#+BEGIN_SRC plantuml :file images/StartTransactionCommand-gen.png
   |StartTransactionCommand|
 
   start
@@ -189,13 +189,13 @@ For example, consider the following sequence of user commands:
 #+CAPTION: StartTransactionCommand
 #+NAME: fig:StartTransactionCommand
 #+RESULTS:
-[[file:../assets/img/StartTransactionCommand-gen.png]]
+[[file:images/StartTransactionCommand-gen.png]]
 
 
 ** TODO  BeginTransactionBlock(void)
   [[file:~/Work/postgres/src/backend/access/transam/xact.c::BeginTransactionBlock(void)]]
 
-  #+BEGIN_SRC plantuml :file ../assets/img/BeginTransactionBlock-gen.png
+  #+BEGIN_SRC plantuml :file images/BeginTransactionBlock-gen.png
 
     |BeginTransactionBlock|
     start
@@ -214,12 +214,12 @@ For example, consider the following sequence of user commands:
   #+CAPTION: BeginTransactionBlock
   #+NAME: fig:BeginTransactionBlock
   #+RESULTS:
-  [[file:../assets/img/BeginTransactionBlock-gen.png]]
+  [[file:images/BeginTransactionBlock-gen.png]]
 
 *** TODO  CommitTransactionCommand(void)
 [[file:~/Work/postgres/src/backend/access/transam/xact.c::CommitTransactionCommand(void)]]
 
-#+BEGIN_SRC plantuml :file ../assets/img/CommitTransactionCommand-gen.png
+#+BEGIN_SRC plantuml :file images/CommitTransactionCommand-gen.png
 
   |CommitTransactionCommand|
   start
@@ -239,14 +239,14 @@ For example, consider the following sequence of user commands:
 #+CAPTION: CommitTransactionCommand
 #+NAME: fig:CommitTransactionCommand
 #+RESULTS:
-[[file:../assets/img/CommitTransactionCommand-gen.png]]
+[[file:images/CommitTransactionCommand-gen.png]]
 
 TODO: State machine of block State.
 
 
 ** SELECT
 
-#+BEGIN_SRC plantuml :file ../assets/img/select-xcat-flow-gen.png
+#+BEGIN_SRC plantuml :file images/select-xcat-flow-gen.png
   |postgres.c|
 
   start
@@ -283,4 +283,4 @@ TODO: State machine of block State.
 #+CAPTION: SELECT
 #+NAME: fig:SELECT
 #+RESULTS:
-[[file:../assets/img/select-xcat-flow-gen.png]]
+[[file:images/select-xcat-flow-gen.png]]

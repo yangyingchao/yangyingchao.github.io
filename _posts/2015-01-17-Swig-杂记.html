@@ -8,9 +8,9 @@ tags : SWIG JNI typemap
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org04788e9">1. Example1 Return <code>byte[]</code> instead of <code>std::string</code></a></li>
-<li><a href="#org72bdb29">2. Example2: 转引用为bytearrary：</a></li>
-<li><a href="#orgaa35dfc">3. Example3: Director</a></li>
+<li><a href="#orgcbe65c9">1. Example1 Return <code>byte[]</code> instead of <code>std::string</code></a></li>
+<li><a href="#orgb547225">2. Example2: 转引用为bytearrary：</a></li>
+<li><a href="#org41d1a29">3. Example3: Director</a></li>
 </ul>
 </div>
 </div>
@@ -19,12 +19,12 @@ tags : SWIG JNI typemap
 </p>
 
 
-<div id="outline-container-org04788e9" class="outline-2">
-<h2 id="org04788e9"><span class="section-number-2">1</span> <a href="../assets/sources/swig/example1.7z">Example1</a> Return <code>byte[]</code> instead of <code>std::string</code></h2>
+<div id="outline-container-orgcbe65c9" class="outline-2">
+<h2 id="orgcbe65c9"><span class="section-number-2">1</span> <a href="../assets/sources/swig/example1.7z">Example1</a> Return <code>byte[]</code> instead of <code>std::string</code></h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgb26180c" class="outline-3">
-<h3 id="orgb26180c"><span class="section-number-3">1.1</span> C++ Header:</h3>
+<div id="outline-container-org0f7d5eb" class="outline-3">
+<h3 id="org0f7d5eb"><span class="section-number-3">1.1</span> C++ Header:</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">#if</span><span style="color: #32cd32;">n</span><span style="color: #32cd32;">def</span> _EXAMPLE1_H_
@@ -43,8 +43,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orgae88f77" class="outline-3">
-<h3 id="orgae88f77"><span class="section-number-3">1.2</span> 修改的 <b>SWIG</b> 接口文件：</h3>
+<div id="outline-container-org058d7d2" class="outline-3">
+<h3 id="org058d7d2"><span class="section-number-3">1.2</span> 修改的 <b>SWIG</b> 接口文件：</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
 <pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
@@ -75,12 +75,12 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orgcb82c70" class="outline-3">
-<h3 id="orgcb82c70"><span class="section-number-3">1.3</span> 生成的文件</h3>
+<div id="outline-container-orge815118" class="outline-3">
+<h3 id="orge815118"><span class="section-number-3">1.3</span> 生成的文件</h3>
 <div class="outline-text-3" id="text-1-3">
 </div>
-<div id="outline-container-orge27771b" class="outline-4">
-<h4 id="orge27771b"><span class="section-number-4">1.3.1</span> Java:</h4>
+<div id="outline-container-orgb52b754" class="outline-4">
+<h4 id="orgb52b754"><span class="section-number-4">1.3.1</span> Java:</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr">1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example1</span> {
@@ -97,8 +97,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org76e84af" class="outline-4">
-<h4 id="org76e84af"><span class="section-number-4">1.3.2</span> Java JNI:</h4>
+<div id="outline-container-orgf015036" class="outline-4">
+<h4 id="orgf015036"><span class="section-number-4">1.3.2</span> Java JNI:</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr">1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl1JNI</span> {
@@ -111,8 +111,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org1827942" class="outline-4">
-<h4 id="org1827942"><span class="section-number-4">1.3.3</span> JNI Code CPP:</h4>
+<div id="outline-container-orgbaa338d" class="outline-4">
+<h4 id="orgbaa338d"><span class="section-number-4">1.3.3</span> JNI Code CPP:</h4>
 <div class="outline-text-4" id="text-1-3-3">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT jbyteArray <span style="color: #32cd32;">JNICALL</span> <span style="color: #1e90ff; font-weight: bold;">Java_exampl1JNI_Example1_1GetString</span>(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">) {</span>
@@ -143,12 +143,12 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org72bdb29" class="outline-2">
-<h2 id="org72bdb29"><span class="section-number-2">2</span> <a href="../assets/sources/swig/example2.7z">Example2: </a>转引用为bytearrary：</h2>
+<div id="outline-container-orgb547225" class="outline-2">
+<h2 id="orgb547225"><span class="section-number-2">2</span> <a href="../assets/sources/swig/example2.7z">Example2: </a>转引用为bytearrary：</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgd96b0e5" class="outline-3">
-<h3 id="orgd96b0e5"><span class="section-number-3">2.1</span> C++</h3>
+<div id="outline-container-orgce33e7f" class="outline-3">
+<h3 id="orgce33e7f"><span class="section-number-3">2.1</span> C++</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">#if</span><span style="color: #32cd32;">n</span><span style="color: #32cd32;">def</span> _EXAMPLE1_H_
@@ -166,8 +166,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orgc044d18" class="outline-3">
-<h3 id="orgc044d18"><span class="section-number-3">2.2</span> SWIG Interface</h3>
+<div id="outline-container-org9f16abe" class="outline-3">
+<h3 id="org9f16abe"><span class="section-number-3">2.2</span> SWIG Interface</h3>
 <div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
 <pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> <span style="color: #1e90ff; font-weight: bold;">exampl1</span>
@@ -197,12 +197,12 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orge4d8bfe" class="outline-3">
-<h3 id="orge4d8bfe"><span class="section-number-3">2.3</span> Generated Codes:</h3>
+<div id="outline-container-org0292472" class="outline-3">
+<h3 id="org0292472"><span class="section-number-3">2.3</span> Generated Codes:</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-org970a08d" class="outline-4">
-<h4 id="org970a08d"><span class="section-number-4">2.3.1</span> Java Layer</h4>
+<div id="outline-container-orgdbb20c4" class="outline-4">
+<h4 id="orgdbb20c4"><span class="section-number-4">2.3.1</span> Java Layer</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example2</span> {
@@ -248,8 +248,8 @@ tags : SWIG JNI typemap
 </div>
 
 
-<div id="outline-container-orgaf409ba" class="outline-4">
-<h4 id="orgaf409ba"><span class="section-number-4">2.3.2</span> Java JNI</h4>
+<div id="outline-container-org9632d41" class="outline-4">
+<h4 id="org9632d41"><span class="section-number-4">2.3.2</span> Java JNI</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr">1: </span>
@@ -263,8 +263,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org6543332" class="outline-4">
-<h4 id="org6543332"><span class="section-number-4">2.3.3</span> C++ JNI:</h4>
+<div id="outline-container-orgba8c1bb" class="outline-4">
+<h4 id="orgba8c1bb"><span class="section-number-4">2.3.3</span> C++ JNI:</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr"> 1: </span>SWIGEXPORT <span style="color: #32cd32;">void</span> <span style="color: #1e90ff; font-weight: bold;">JNICALL</span> Java_exampl2JNI_Example2_1GetString(<span style="color: #32cd32;">JNIEnv</span> *<span style="color: #daa520;">jenv</span>, <span style="color: #32cd32;">jclass</span> <span style="color: #daa520;">jcls</span>, <span style="color: #32cd32;">jlong</span> <span style="color: #daa520;">jarg1</span>, <span style="color: #32cd32;">jobject</span> <span style="color: #daa520;">jarg1_</span>, <span style="color: #32cd32;">jbyteArray</span><span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;"> jarg2) {</span>
@@ -299,12 +299,12 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orgaa35dfc" class="outline-2">
-<h2 id="orgaa35dfc"><span class="section-number-2">3</span> <a href="../assets/sources/swig/example3.7z">Example3: </a>Director</h2>
+<div id="outline-container-org41d1a29" class="outline-2">
+<h2 id="org41d1a29"><span class="section-number-2">3</span> <a href="../assets/sources/swig/example3.7z">Example3: </a>Director</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org39894cd" class="outline-3">
-<h3 id="org39894cd"><span class="section-number-3">3.1</span> C++</h3>
+<div id="outline-container-org0dbc5f8" class="outline-3">
+<h3 id="org0dbc5f8"><span class="section-number-3">3.1</span> C++</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr">1: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;string&gt;</span>
@@ -319,8 +319,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org2c2a58b" class="outline-3">
-<h3 id="org2c2a58b"><span class="section-number-3">3.2</span> SWIG Interface</h3>
+<div id="outline-container-org6e29749" class="outline-3">
+<h3 id="org6e29749"><span class="section-number-3">3.2</span> SWIG Interface</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-swig"><span class="linenr"> 1: </span>%<span style="color: #ff4040;">module</span> (directors=<span style="color: #d78700;">"1"</span>) exampl3
@@ -366,12 +366,12 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-orge063a2c" class="outline-3">
-<h3 id="orge063a2c"><span class="section-number-3">3.3</span> Generated Codes:</h3>
+<div id="outline-container-org0af09aa" class="outline-3">
+<h3 id="org0af09aa"><span class="section-number-3">3.3</span> Generated Codes:</h3>
 <div class="outline-text-3" id="text-3-3">
 </div>
-<div id="outline-container-orgdf01a75" class="outline-4">
-<h4 id="orgdf01a75"><span class="section-number-4">3.3.1</span> Java</h4>
+<div id="outline-container-orgaa083b4" class="outline-4">
+<h4 id="orgaa083b4"><span class="section-number-4">3.3.1</span> Java</h4>
 <div class="outline-text-4" id="text-3-3-1">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">Example3</span> {
@@ -428,8 +428,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org91dd239" class="outline-4">
-<h4 id="org91dd239"><span class="section-number-4">3.3.2</span> Java JNI</h4>
+<div id="outline-container-org18da69d" class="outline-4">
+<h4 id="org18da69d"><span class="section-number-4">3.3.2</span> Java JNI</h4>
 <div class="outline-text-4" id="text-3-3-2">
 <div class="org-src-container">
 <pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #ff4040;">public</span> <span style="color: #ff4040;">class</span> <span style="color: #32cd32;">exampl3JNI</span> {
@@ -453,8 +453,8 @@ tags : SWIG JNI typemap
 </div>
 </div>
 
-<div id="outline-container-org93ecb9c" class="outline-4">
-<h4 id="org93ecb9c"><span class="section-number-4">3.3.3</span> C++ Wrapper</h4>
+<div id="outline-container-org4a53b01" class="outline-4">
+<h4 id="org4a53b01"><span class="section-number-4">3.3.3</span> C++ Wrapper</h4>
 <div class="outline-text-4" id="text-3-3-3">
 <div class="org-src-container">
 <pre class="src src-c++"><span class="linenr"> 1: </span><span style="color: #32cd32;">void</span> <span style="color: #7fffd4; font-weight: bold;">SwigDirector_Example3</span>::<span style="color: #1e90ff; font-weight: bold;">Updated</span>(<span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span><span style="color: #daa520;">o</span>, <span style="color: #7fffd4; font-weight: bold;">std</span>::<span style="color: #32cd32;">string</span> <span style="color: #ff4040;">const</span> <span style="color: #ffffff; background-color: #af0000; font-weight: bold; text-decoration: underline;">&amp;</span><span style="color: #daa520;">n</span>) {

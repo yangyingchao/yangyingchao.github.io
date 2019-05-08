@@ -27,7 +27,7 @@
   决定好了 DOP 之后，就需要对数据进行划分，并分配给各个进程。数据的划分基本上根据架构分为两大
   类。
 
-    [[../assets/img/shared_nothing_everything.tiff]]
+    [[images/shared_nothing_everything.tiff]]
 
   + Shared Nothing 架构 \\
 
@@ -62,7 +62,7 @@ Oracle 的 SQL 并行执行建立于几个基本概念之上。
 
 两者之间以及他们和用户之间的关系如下图：
 #+LABEL: fig:qc_px
-[[../assets/img/qc_px.png]]
+[[images/qc_px.png]]
 
 *** 生产者消费者模型
 

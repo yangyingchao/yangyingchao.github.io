@@ -19,7 +19,7 @@
 
 ** General Flow
 
-#+BEGIN_SRC plantuml :file ../assets/img/xlog-insert-general-flow-gen.png
+#+BEGIN_SRC plantuml :file images/xlog-insert-general-flow-gen.png
   |CALLER|
   :XLogBeginInsert();
 
@@ -73,7 +73,7 @@
 #+CAPTION: xlog insert general flow
 #+NAME: fig:xlog_insert_general_flow
 #+RESULTS:
-[[file:../assets/img/xlog-insert-general-flow-gen.png]]
+[[file:images/xlog-insert-general-flow-gen.png]]
 
 
 ** XLogRecordAssemble
@@ -84,7 +84,7 @@
 
 用到的地方很多，以 =heap_insert= 为例。
 
-#+BEGIN_SRC plantuml :file ../assets/img/xlog-insert-flow-gen.png
+#+BEGIN_SRC plantuml :file images/xlog-insert-flow-gen.png
   |heamam|
   #00ffff:BEGIN - heap_insert();
 
@@ -96,12 +96,12 @@
   #00ffff:END - heap_insert();
 #+END_SRC
 #+RESULTS:
-[[file:../assets/img/xlog-insert-flow-gen.png]]
+[[file:images/xlog-insert-flow-gen.png]]
 
 
 ** Data Structures
 
-#+BEGIN_SRC plantuml :file ../assets/img/xl-ds-gen.png
+#+BEGIN_SRC plantuml :file images/xl-ds-gen.png
   class XLogRecData {
       + XLogRecData* next
       + char* data
@@ -169,5 +169,5 @@
 #+CAPTION: xlog data structures
 #+NAME: fig:xlog_data_structures
 #+RESULTS:
-[[file:../assets/img/xl-ds-gen.png]]
+[[file:images/xl-ds-gen.png]]
 

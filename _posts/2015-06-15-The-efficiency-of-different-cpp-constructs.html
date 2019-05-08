@@ -8,10 +8,10 @@ tags : constructs cpp
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0a3a86a">1. 存储类型</a>
+<li><a href="#orgd1f24f8">1. 存储类型</a>
 <ul>
-<li><a href="#org4823bc8">1.1. Stack:</a></li>
-<li><a href="#org26b48a6">1.2. Global or static storage</a></li>
+<li><a href="#org7514114">1.1. Stack:</a></li>
+<li><a href="#org827e1b1">1.2. Global or static storage</a></li>
 </ul>
 </li>
 </ul>
@@ -19,8 +19,8 @@ tags : constructs cpp
 </div>
 
 
-<div id="outline-container-org0a3a86a" class="outline-2">
-<h2 id="org0a3a86a"><span class="section-number-2">1</span> 存储类型</h2>
+<div id="outline-container-orgd1f24f8" class="outline-2">
+<h2 id="orgd1f24f8"><span class="section-number-2">1</span> 存储类型</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 C++ 中，变量和对象根据不同的声明，会被存放于内存的不同段里。这些存储方式，会对 Cache
@@ -28,12 +28,12 @@ C++ 中，变量和对象根据不同的声明，会被存放于内存的不同�
 </p>
 </div>
 
-<div id="outline-container-org4823bc8" class="outline-3">
-<h3 id="org4823bc8"><span class="section-number-3">1.1</span> Stack:</h3>
+<div id="outline-container-org7514114" class="outline-3">
+<h3 id="org7514114"><span class="section-number-3">1.1</span> Stack:</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-orgd54088e" class="outline-4">
-<h4 id="orgd54088e"><span class="section-number-4">1.1.1</span> Who</h4>
+<div id="outline-container-orgb0a4e37" class="outline-4">
+<h4 id="orgb0a4e37"><span class="section-number-4">1.1.1</span> Who</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 Variables and objects declared inside a function are stored on the stack, except for the cases described in the sections below.
@@ -41,8 +41,8 @@ Variables and objects declared inside a function are stored on the stack, except
 </div>
 </div>
 
-<div id="outline-container-org9c31b62" class="outline-4">
-<h4 id="org9c31b62"><span class="section-number-4">1.1.2</span> Explain:</h4>
+<div id="outline-container-org4a75781" class="outline-4">
+<h4 id="org4a75781"><span class="section-number-4">1.1.2</span> Explain:</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 The stack is the most efficient memory space to store data because the same range of
@@ -52,8 +52,8 @@ almost certain that this part of the memory is mirrored in the level-1 data cach
 </div>
 </div>
 
-<div id="outline-container-orgae4348c" class="outline-4">
-<h4 id="orgae4348c"><span class="section-number-4">1.1.3</span> Lesson</h4>
+<div id="outline-container-org15c2e48" class="outline-4">
+<h4 id="org15c2e48"><span class="section-number-4">1.1.3</span> Lesson</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 The lesson we can learn from this is that all variables and objects should preferably
@@ -63,12 +63,12 @@ be declared inside the function in which they are used.
 </div>
 </div>
 
-<div id="outline-container-org26b48a6" class="outline-3">
-<h3 id="org26b48a6"><span class="section-number-3">1.2</span> Global or static storage</h3>
+<div id="outline-container-org827e1b1" class="outline-3">
+<h3 id="org827e1b1"><span class="section-number-3">1.2</span> Global or static storage</h3>
 <div class="outline-text-3" id="text-1-2">
 </div>
-<div id="outline-container-orgd5394b6" class="outline-4">
-<h4 id="orgd5394b6"><span class="section-number-4">1.2.1</span> Who</h4>
+<div id="outline-container-org14395d0" class="outline-4">
+<h4 id="org14395d0"><span class="section-number-4">1.2.1</span> Who</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 Variables that are declared outside of any function are called global variables. They
@@ -80,8 +80,8 @@ statement jump tables, and virtual function tables.
 </div>
 </div>
 
-<div id="outline-container-org10be2d3" class="outline-4">
-<h4 id="org10be2d3"><span class="section-number-4">1.2.2</span> Explain</h4>
+<div id="outline-container-org2b3117f" class="outline-4">
+<h4 id="org2b3117f"><span class="section-number-4">1.2.2</span> Explain</h4>
 </div>
 </div>
 </div>

@@ -101,7 +101,7 @@ Google 一下，发现有现成的解决方案：Automator。
 
    之后将右侧的传递输入改成 “作为自变量”，最后将工程保存为 RunEmacs.App 即可：
 
-   [[../assets/img/automator-emacs.png]]
+   [[images/automator-emacs.png]]
 
 3. 将 RunEmacs.app 设置为默认程序即可。
 

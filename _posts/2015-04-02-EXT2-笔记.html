@@ -8,10 +8,10 @@ tags : EXT2 FileSystem
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org594f016">1. Specification</a></li>
-<li><a href="#orgd0adbd3">2. Module Initialization</a></li>
-<li><a href="#org1ef89fc">3. Mount</a></li>
-<li><a href="#org4e9a6ee">4. Open</a></li>
+<li><a href="#org9578296">1. Specification</a></li>
+<li><a href="#orgc5d0e58">2. Module Initialization</a></li>
+<li><a href="#orgc03e0ad">3. Mount</a></li>
+<li><a href="#orgb532f95">4. Open</a></li>
 </ul>
 </div>
 </div>
@@ -19,8 +19,8 @@ tags : EXT2 FileSystem
 记录一下 Ext2 文件系统相关的一些知识。
 </p>
 
-<div id="outline-container-org594f016" class="outline-2">
-<h2 id="org594f016"><span class="section-number-2">1</span> Specification</h2>
+<div id="outline-container-org9578296" class="outline-2">
+<h2 id="org9578296"><span class="section-number-2">1</span> Specification</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Blocks</li>
@@ -102,8 +102,8 @@ Directories
 </div>
 </div>
 
-<div id="outline-container-orgd0adbd3" class="outline-2">
-<h2 id="orgd0adbd3"><span class="section-number-2">2</span> Module Initialization</h2>
+<div id="outline-container-orgc5d0e58" class="outline-2">
+<h2 id="orgc5d0e58"><span class="section-number-2">2</span> Module Initialization</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #ff4040;">static</span> <span style="color: #32cd32;">int</span> <span style="color: #1e90ff; font-weight: bold;">__init</span> init_ext2_fs(<span style="color: #32cd32;">void</span>)
@@ -154,12 +154,12 @@ Directories
 </div>
 </div>
 
-<div id="outline-container-org1ef89fc" class="outline-2">
-<h2 id="org1ef89fc"><span class="section-number-2">3</span> Mount</h2>
+<div id="outline-container-orgc03e0ad" class="outline-2">
+<h2 id="orgc03e0ad"><span class="section-number-2">3</span> Mount</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org0a197dd" class="outline-3">
-<h3 id="org0a197dd"><span class="section-number-3">3.1</span> 从系统调用到注册的函数指针</h3>
+<div id="outline-container-org7c97641" class="outline-3">
+<h3 id="org7c97641"><span class="section-number-3">3.1</span> 从系统调用到注册的函数指针</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-Man"><span class="linenr"> 1: </span>MOUNT(2)                               Linux Programmer's Manual                              MOUNT(2)
@@ -217,8 +217,8 @@ Directories
 </div>
 </div>
 
-<div id="outline-container-org94d3344" class="outline-3">
-<h3 id="org94d3344"><span class="section-number-3">3.2</span> 挂载 ext2 文件系统</h3>
+<div id="outline-container-org717c3b1" class="outline-3">
+<h3 id="org717c3b1"><span class="section-number-3">3.2</span> 挂载 ext2 文件系统</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-c"><span class="linenr">1: </span><span style="color: #ff4040;">static</span> <span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">dentry</span> *<span style="color: #1e90ff; font-weight: bold;">ext2_mount</span>(<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">file_system_type</span> *<span style="color: #daa520;">fs_type</span>,
@@ -235,8 +235,8 @@ Directories
 </div>
 </div>
 
-<div id="outline-container-orgae07869" class="outline-3">
-<h3 id="orgae07869"><span class="section-number-3">3.3</span> mount_bdev</h3>
+<div id="outline-container-org152d8db" class="outline-3">
+<h3 id="org152d8db"><span class="section-number-3">3.3</span> mount_bdev</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 <code>mount_bdev</code> 是文件系统提供的 Utility， 该函数首先使用 <code>blkdev_get_by_path</code> 来根据磁盘（分区）路径获取对应的块设备，并增加块设备的引用计数。随后尝试 创建新的 <code>super_block</code> 对象，并设置一些相关信息， <code>super_block</code> 定义如下：
@@ -339,12 +339,12 @@ Directories
 </div>
 </div>
 
-<div id="outline-container-org9272f99" class="outline-3">
-<h3 id="org9272f99"><span class="section-number-3">3.4</span> ext2_fill_super</h3>
+<div id="outline-container-org6c51262" class="outline-3">
+<h3 id="org6c51262"><span class="section-number-3">3.4</span> ext2_fill_super</h3>
 <div class="outline-text-3" id="text-3-4">
 </div>
-<div id="outline-container-org4ba6a2b" class="outline-4">
-<h4 id="org4ba6a2b"><span class="section-number-4">3.4.1</span> super_block, ext2_sb_info 与 ext2_super_block</h4>
+<div id="outline-container-org38dcdd2" class="outline-4">
+<h4 id="org38dcdd2"><span class="section-number-4">3.4.1</span> super_block, ext2_sb_info 与 ext2_super_block</h4>
 <div class="outline-text-4" id="text-3-4-1">
 <p>
 <code>ext2_fill_super</code> 初始化了一些数据结构后，从指定的块设备中读取指定大小的数据，这些数据其实是
@@ -418,8 +418,8 @@ super_block，这些函数将会被 VFS 使用。
 </div>
 </div>
 
-<div id="outline-container-org190974a" class="outline-4">
-<h4 id="org190974a"><span class="section-number-4">3.4.2</span> root inode</h4>
+<div id="outline-container-org060ef61" class="outline-4">
+<h4 id="org060ef61"><span class="section-number-4">3.4.2</span> root inode</h4>
 <div class="outline-text-4" id="text-3-4-2">
 <p>
 EXT2 文件系统预先定义了几个特殊的 inode number：
@@ -643,12 +643,12 @@ root inode 读取完成之后，为 root inode 建立 dentry，并将 super_bloc
 </div>
 </div>
 
-<div id="outline-container-org4e9a6ee" class="outline-2">
-<h2 id="org4e9a6ee"><span class="section-number-2">4</span> Open</h2>
+<div id="outline-container-orgb532f95" class="outline-2">
+<h2 id="orgb532f95"><span class="section-number-2">4</span> Open</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org0ef7963" class="outline-3">
-<h3 id="org0ef7963"><span class="section-number-3">4.1</span> Open Flow</h3>
+<div id="outline-container-org5f5f987" class="outline-3">
+<h3 id="org5f5f987"><span class="section-number-3">4.1</span> Open Flow</h3>
 <div class="outline-text-3" id="text-4-1">
 
 <div class="figure">
@@ -663,7 +663,7 @@ root inode 读取完成之后，为 root inode 建立 dentry，并将 super_bloc
 </div>
 </div>
 
-<div id="outline-container-org2a2e9c0" class="outline-3">
-<h3 id="org2a2e9c0"><span class="section-number-3">4.2</span> ext2_create (namei.c(ext2))</h3>
+<div id="outline-container-org7a20ddb" class="outline-3">
+<h3 id="org7a20ddb"><span class="section-number-3">4.2</span> ext2_create (namei.c(ext2))</h3>
 </div>
 </div>

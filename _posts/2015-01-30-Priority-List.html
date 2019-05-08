@@ -8,15 +8,15 @@ tags : Kernel Linux List
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org7e4348f">1. 概念与实现</a></li>
-<li><a href="#orga596d2c">2. 图解几个状态</a></li>
-<li><a href="#orgadf8bcd">3. 测试代码</a></li>
+<li><a href="#org14cb564">1. 概念与实现</a></li>
+<li><a href="#org55671d6">2. 图解几个状态</a></li>
+<li><a href="#orge806525">3. 测试代码</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org7e4348f" class="outline-2">
-<h2 id="org7e4348f"><span class="section-number-2">1</span> 概念与实现</h2>
+<div id="outline-container-org14cb564" class="outline-2">
+<h2 id="org14cb564"><span class="section-number-2">1</span> 概念与实现</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序排列优先级的链表。
@@ -137,8 +137,8 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 </div>
 </div>
 
-<div id="outline-container-orga596d2c" class="outline-2">
-<h2 id="orga596d2c"><span class="section-number-2">2</span> 图解几个状态</h2>
+<div id="outline-container-org55671d6" class="outline-2">
+<h2 id="org55671d6"><span class="section-number-2">2</span> 图解几个状态</h2>
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li>未添加任何 node 的表头</li>
@@ -200,8 +200,8 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 </div>
 </div>
 
-<div id="outline-container-orgadf8bcd" class="outline-2">
-<h2 id="orgadf8bcd"><span class="section-number-2">3</span> 测试代码</h2>
+<div id="outline-container-orge806525" class="outline-2">
+<h2 id="orge806525"><span class="section-number-2">3</span> 测试代码</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #32cd32;">#include</span> <span style="color: #d78700;">&lt;linux/module.h&gt;</span>   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Needed by all modules </span><span style="color: #cd5c5c; font-style: italic;">*/</span>

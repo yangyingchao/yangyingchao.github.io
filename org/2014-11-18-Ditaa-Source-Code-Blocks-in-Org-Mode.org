@@ -21,7 +21,7 @@
   </p>
   <p>
   <a href="http://ditaa.sourceforge.net/">
-<img src="http://ditaa.sourceforge.net/images/logo.png"/>
+<img src="http://ditaa.sourceforge.netimages/logo.png"/>
   </a>
   </p>
   </div>
@@ -73,7 +73,7 @@ Activate evaluation of =ditaa= source code blocks by adding =ditaa= to
 * Examples of Use
 The obligatory Hello World! example in =ditaa=:
 #+BEGIN_EXAMPLE
-#+BEGIN_SRC ditaa :file ../assets/img/hello-world.png
+#+BEGIN_SRC ditaa :file images/hello-world.png
 +--------------+
 |              |
 | Hello World! |
@@ -83,7 +83,7 @@ The obligatory Hello World! example in =ditaa=:
 #+END_EXAMPLE
 
 #+header: :exports results
-#+BEGIN_SRC ditaa :file ../assets/img/hello-world.png
+#+BEGIN_SRC ditaa :file images/hello-world.png
 +--------------+
 |              |
 | Hello World! |
@@ -96,7 +96,7 @@ Now, round all corners by passing =ditaa= the =-r,--round-corners=
 command line switch.
 
 #+BEGIN_EXAMPLE
-#+BEGIN_SRC ditaa :file ../assets/img/hello-world-round.png :cmdline -r
+#+BEGIN_SRC ditaa :file images/hello-world-round.png :cmdline -r
 +--------------+
 |              |
 | Hello World! |
@@ -107,7 +107,7 @@ command line switch.
 
 #+header: :exports results
 
-#+BEGIN_SRC ditaa :file ../assets/img/hello-world-round.png :cmdline -r
+#+BEGIN_SRC ditaa :file images/hello-world-round.png :cmdline -r
 +--------------+
 |              |
 | Hello World! |

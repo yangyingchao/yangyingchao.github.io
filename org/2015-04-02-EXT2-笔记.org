@@ -39,7 +39,7 @@
    + The block allocation algorithm attempts to allocate data blocks
      in the same block group as the inode which contains them.
 
-   #+BEGIN_SRC ditaa :file ../assets/img/block1.png  :cmdline -r -s 1.5
+   #+BEGIN_SRC ditaa :file images/block1.png  :cmdline -r -s 1.5
 
    +-----------+-------------------+---------------+
    | SuperBlock| Block Group Infor |  Block Group1 |
@@ -120,7 +120,7 @@ out1:
 
 初始化 =xattr= 和 =inode= cache 之后，将 =ext2_fs_type= 注册到内核中。
 
-#+BEGIN_SRC dot :file ../assets/img/fs_type.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/fs_type.png :cmdline -Kdot -Tpng
 digraph Name {
     node [fontsize=12 fontname=Courier style=filled shape=record];
     edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -204,7 +204,7 @@ DESCRIPTION
 
 #+END_SRC
 
-#+BEGIN_SRC ditaa :file ../assets/img/mount_flow.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file images/mount_flow.png  :cmdline -r -s 1.5
   |
   |   +-------+
   |   | mount |
@@ -241,7 +241,7 @@ DESCRIPTION
 =vfs_kern_mount= 分配出新的 =mount= 对象，然后通过 =mount_fs()= 来调用之前注册的
 =ext2_fs_type= 中的函数指针。
 
-#+BEGIN_SRC dot :file ../assets/img/vfs_mount.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/vfs_mount.png :cmdline -Kdot -Tpng
     digraph Name {
         node [fontsize=12 fontname=Courier style=filled shape=record];
         edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -417,7 +417,7 @@ DESCRIPTION
 超块的内容在内存中作为 =node_ext2_sb_info= 来存储，而 =node_ext2_sb_info= 本身是
 =super_block= 的私有成员。
 
-#+BEGIN_SRC dot :file ../assets/img/ext2_sb.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/ext2_sb.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -728,7 +728,7 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
 
 =ext2_get_inode()= 用于读取 raw inode。三者之间的关系：
 
-#+BEGIN_SRC dot :file ../assets/img/ext2_inode.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/ext2_inode.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -953,7 +953,7 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
 
 ** Open Flow
 
-#+BEGIN_SRC ditaa :file ../assets/img/ext2_open_flow.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file images/ext2_open_flow.png  :cmdline -r -s 1.5
   |   +---------------+
   |   |Open SystemCall|
   |   +---------------+

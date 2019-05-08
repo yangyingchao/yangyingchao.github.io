@@ -7,44 +7,44 @@ categories : 未分类
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org3efb132">1. Storage Initialization</a>
+<li><a href="#org070be8a">1. Storage Initialization</a>
 <ul>
-<li><a href="#org63decc2">1.1. In postmaster (master)</a></li>
-<li><a href="#org9ff8885">1.2. In postgres main (backend)</a></li>
+<li><a href="#orgb65c86d">1.1. In postmaster (master)</a></li>
+<li><a href="#org34e1d54">1.2. In postgres main (backend)</a></li>
 </ul>
 </li>
-<li><a href="#org8393280">2. Storage Manager (storage/smgr)</a>
+<li><a href="#orgb9e6118">2. Storage Manager (storage/smgr)</a>
 <ul>
-<li><a href="#org9a3e1c0">2.1. smgr</a></li>
-<li><a href="#org680479a">2.2. smgr_open()</a></li>
-<li><a href="#org15ca6ad">2.3. md</a></li>
+<li><a href="#orgd34501a">2.1. smgr</a></li>
+<li><a href="#org6bd9bc5">2.2. smgr_open()</a></li>
+<li><a href="#orgf1dfc47">2.3. md</a></li>
 </ul>
 </li>
-<li><a href="#orgacd4ec9">3. (storage/file)</a></li>
-<li><a href="#org11b8b49">4. BufferManager (storage/buffer)</a>
+<li><a href="#org5762022">3. (storage/file)</a></li>
+<li><a href="#org987be9c">4. BufferManager (storage/buffer)</a>
 <ul>
-<li><a href="#org959df6b">4.1. Data Structures</a></li>
-<li><a href="#org747bf9d">4.2. InitBufferPool(void)</a></li>
-<li><a href="#orgd11ab5c">4.3. Buffer Pool Initialization</a></li>
-<li><a href="#orgf2fab4b">4.4. Buffer Read</a></li>
+<li><a href="#org9b64c13">4.1. Data Structures</a></li>
+<li><a href="#org3f70f41">4.2. InitBufferPool(void)</a></li>
+<li><a href="#orga5d7c3f">4.3. Buffer Pool Initialization</a></li>
+<li><a href="#org4220ead">4.4. Buffer Read</a></li>
 </ul>
 </li>
-<li><a href="#orgbf8886b">5. Page (storage/page)</a></li>
-<li><a href="#org4541e12">6. Storage IPC</a></li>
+<li><a href="#orgf524078">5. Page (storage/page)</a></li>
+<li><a href="#org7dc164d">6. Storage IPC</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org3efb132" class="outline-2">
-<h2 id="org3efb132"><span class="section-number-2">1</span> Storage Initialization</h2>
+<div id="outline-container-org070be8a" class="outline-2">
+<h2 id="org070be8a"><span class="section-number-2">1</span> Storage Initialization</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org63decc2" class="outline-3">
-<h3 id="org63decc2"><span class="section-number-3">1.1</span> In postmaster (master)</h3>
+<div id="outline-container-orgb65c86d" class="outline-3">
+<h3 id="orgb65c86d"><span class="section-number-3">1.1</span> In postmaster (master)</h3>
 <div class="outline-text-3" id="text-1-1">
 
-<div id="org047af70" class="figure">
+<div id="org510019d" class="figure">
 <p><img src="../../../../assets/img/storage-init-postmaster-gen.png" alt="storage-init-postmaster-gen.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Storage Init under Postmaster</p>
@@ -52,11 +52,11 @@ categories : 未分类
 </div>
 </div>
 
-<div id="outline-container-org9ff8885" class="outline-3">
-<h3 id="org9ff8885"><span class="section-number-3">1.2</span> In postgres main (backend)</h3>
+<div id="outline-container-org34e1d54" class="outline-3">
+<h3 id="org34e1d54"><span class="section-number-3">1.2</span> In postgres main (backend)</h3>
 <div class="outline-text-3" id="text-1-2">
 
-<div id="org65f6d6e" class="figure">
+<div id="org8617e5e" class="figure">
 <p><img src="../../../../assets/img/storage-init-postmain-gen.png" alt="storage-init-postmain-gen.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>caption</p>
@@ -65,8 +65,8 @@ categories : 未分类
 </div>
 </div>
 
-<div id="outline-container-org8393280" class="outline-2">
-<h2 id="org8393280"><span class="section-number-2">2</span> Storage Manager (storage/smgr)</h2>
+<div id="outline-container-orgb9e6118" class="outline-2">
+<h2 id="orgb9e6118"><span class="section-number-2">2</span> Storage Manager (storage/smgr)</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 In the original Berkeley Postgres system, there were several storage managers,
@@ -84,8 +84,8 @@ more expensive than one extra layer of C function calls.
 </p>
 </div>
 
-<div id="outline-container-org9a3e1c0" class="outline-3">
-<h3 id="org9a3e1c0"><span class="section-number-3">2.1</span> smgr</h3>
+<div id="outline-container-orgd34501a" class="outline-3">
+<h3 id="orgd34501a"><span class="section-number-3">2.1</span> smgr</h3>
 <div class="outline-text-3" id="text-2-1">
 
 <div class="figure">
@@ -95,11 +95,11 @@ more expensive than one extra layer of C function calls.
 </div>
 </div>
 
-<div id="outline-container-org680479a" class="outline-3">
-<h3 id="org680479a"><span class="section-number-3">2.2</span> smgr_open()</h3>
+<div id="outline-container-org6bd9bc5" class="outline-3">
+<h3 id="org6bd9bc5"><span class="section-number-3">2.2</span> smgr_open()</h3>
 <div class="outline-text-3" id="text-2-2">
 
-<div id="orga3a92bb" class="figure">
+<div id="orge4b7e0f" class="figure">
 <p><img src="../../../../assets/img/smgr-open-gen.png" alt="smgr-open-gen.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>smgr_open</p>
@@ -112,8 +112,8 @@ more expensive than one extra layer of C function calls.
 </div>
 </div>
 
-<div id="outline-container-org15ca6ad" class="outline-3">
-<h3 id="org15ca6ad"><span class="section-number-3">2.3</span> md</h3>
+<div id="outline-container-orgf1dfc47" class="outline-3">
+<h3 id="orgf1dfc47"><span class="section-number-3">2.3</span> md</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 magnetic disk.
@@ -122,15 +122,15 @@ magnetic disk.
 </div>
 </div>
 
-<div id="outline-container-orgacd4ec9" class="outline-2">
-<h2 id="orgacd4ec9"><span class="section-number-2">3</span> (storage/file)</h2>
+<div id="outline-container-org5762022" class="outline-2">
+<h2 id="org5762022"><span class="section-number-2">3</span> (storage/file)</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Virtual file descriptor
 </p>
 
 
-<div id="org7c16b71" class="figure">
+<div id="org487b3c2" class="figure">
 <p><img src="../../../../assets/img/vfd-pg-gen.png" alt="vfd-pg-gen.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>VFD</p>
@@ -138,15 +138,15 @@ Virtual file descriptor
 </div>
 </div>
 
-<div id="outline-container-org11b8b49" class="outline-2">
-<h2 id="org11b8b49"><span class="section-number-2">4</span> BufferManager (storage/buffer)</h2>
+<div id="outline-container-org987be9c" class="outline-2">
+<h2 id="org987be9c"><span class="section-number-2">4</span> BufferManager (storage/buffer)</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org959df6b" class="outline-3">
-<h3 id="org959df6b"><span class="section-number-3">4.1</span> Data Structures</h3>
+<div id="outline-container-org9b64c13" class="outline-3">
+<h3 id="org9b64c13"><span class="section-number-3">4.1</span> Data Structures</h3>
 <div class="outline-text-3" id="text-4-1">
 
-<div id="orgf7d34ab" class="figure">
+<div id="org5f6e230" class="figure">
 <p><img src="../../../../assets/img/bf-ds-gen.png" alt="bf-ds-gen.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>Buffer Pool Data Structures</p>
@@ -183,16 +183,16 @@ Virtual file descriptor
 
 
 
-<div id="outline-container-org7c600c9" class="outline-4">
-<h4 id="org7c600c9"><span class="section-number-4">4.1.1</span> <span class="todo TODO">TODO</span> Refcount vs Usage count????</h4>
+<div id="outline-container-orga399249" class="outline-4">
+<h4 id="orga399249"><span class="section-number-4">4.1.1</span> <span class="todo TODO">TODO</span> Refcount vs Usage count????</h4>
 </div>
 </div>
 
-<div id="outline-container-org747bf9d" class="outline-3">
-<h3 id="org747bf9d"><span class="section-number-3">4.2</span> InitBufferPool(void)</h3>
+<div id="outline-container-org3f70f41" class="outline-3">
+<h3 id="org3f70f41"><span class="section-number-3">4.2</span> InitBufferPool(void)</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
-<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#MissingReference</a>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#org064d9da">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/buf_init.c#org064d9da</a>
 </p>
 
 <p>
@@ -201,8 +201,8 @@ Allocate &amp; initiate above structures (in shared memory).
 </div>
 </div>
 
-<div id="outline-container-orgd11ab5c" class="outline-3">
-<h3 id="orgd11ab5c"><span class="section-number-3">4.3</span> Buffer Pool Initialization</h3>
+<div id="outline-container-orga5d7c3f" class="outline-3">
+<h3 id="orga5d7c3f"><span class="section-number-3">4.3</span> Buffer Pool Initialization</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 This is called once during shared-memory initialization (either in the
@@ -211,15 +211,15 @@ postmaster, or in a standalone backend).
 </div>
 </div>
 
-<div id="outline-container-orgf2fab4b" class="outline-3">
-<h3 id="orgf2fab4b"><span class="section-number-3">4.4</span> Buffer Read</h3>
+<div id="outline-container-org4220ead" class="outline-3">
+<h3 id="org4220ead"><span class="section-number-3">4.4</span> Buffer Read</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 eg flow:
 </p>
 
 
-<div id="org911c4b7" class="figure">
+<div id="org62de178" class="figure">
 <p><img src="../../../../assets/img/buffer-read-call-flow-gen.png" alt="buffer-read-call-flow-gen.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>Buffer Read call flow</p>
@@ -229,20 +229,20 @@ eg flow:
 
 
 
-<div id="outline-container-org7f19ff1" class="outline-4">
-<h4 id="org7f19ff1"><span class="section-number-4">4.4.1</span> ReadBufferExtended(Relation reln, ForkNumber forkNum, BlockNumber blockNum,</h4>
+<div id="outline-container-orgcc60c28" class="outline-4">
+<h4 id="orgcc60c28"><span class="section-number-4">4.4.1</span> ReadBufferExtended(Relation reln, ForkNumber forkNum, BlockNumber blockNum,</h4>
 <div class="outline-text-4" id="text-4-4-1">
 <p>
 ReadBufferMode mode, BufferAccessStrategy strategy)
 </p>
 
 <p>
-<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#MissingReference">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#MissingReference</a>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#orgc03fe3d">file:///Volumes/yyc/Work/postgres/src/backend/storage/buffer/bufmgr.c#orgc03fe3d</a>
 </p>
 </div>
 
-<div id="outline-container-org0a5dd3c" class="outline-5">
-<h5 id="org0a5dd3c"><span class="section-number-5">4.4.1.1</span> Read Buffer Mode</h5>
+<div id="outline-container-orgbc74a04" class="outline-5">
+<h5 id="orgbc74a04"><span class="section-number-5">4.4.1.1</span> Read Buffer Mode</h5>
 <div class="outline-text-5" id="text-4-4-1-1">
 <div class="org-src-container">
 <pre class="src src-c"><span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">Possible modes for ReadBufferExtended() </span><span style="color: #cd5c5c; font-style: italic;">*/</span>
@@ -261,8 +261,8 @@ ReadBufferMode mode, BufferAccessStrategy strategy)
 </div>
 </div>
 
-<div id="outline-container-org489c269" class="outline-6">
-<h6 id="org489c269"><span class="section-number-6">4.4.1.1.1</span> <code>RBM_NORMAL</code></h6>
+<div id="outline-container-org03ffbcd" class="outline-6">
+<h6 id="org03ffbcd"><span class="section-number-6">4.4.1.1.1</span> <code>RBM_NORMAL</code></h6>
 <div class="outline-text-6" id="text-4-4-1-1-1">
 <p>
 In <code>RBM_NORMAL</code> mode, the page is read from disk, and the page header is
@@ -276,8 +276,8 @@ note that an all-zero page is considered "valid"; see PageIsVerified().)
 </div>
 </div>
 
-<div id="outline-container-org5541039" class="outline-6">
-<h6 id="org5541039"><span class="section-number-6">4.4.1.1.2</span> <code>RBM_ZERO_ON_ERROR</code></h6>
+<div id="outline-container-orge065d45" class="outline-6">
+<h6 id="orge065d45"><span class="section-number-6">4.4.1.1.2</span> <code>RBM_ZERO_ON_ERROR</code></h6>
 <div class="outline-text-6" id="text-4-4-1-1-2">
 <p>
 <code>RBM_ZERO_ON_ERROR</code> is like the normal mode, but if the page header is not
@@ -291,8 +291,8 @@ for non-critical data, where the caller is prepared to repair errors.
 </div>
 </div>
 
-<div id="outline-container-orgcb751ce" class="outline-6">
-<h6 id="orgcb751ce"><span class="section-number-6">4.4.1.1.3</span> <code>RBM_ZERO_AND_LOCK mode</code></h6>
+<div id="outline-container-orgc6b9711" class="outline-6">
+<h6 id="orgc6b9711"><span class="section-number-6">4.4.1.1.3</span> <code>RBM_ZERO_AND_LOCK mode</code></h6>
 <div class="outline-text-6" id="text-4-4-1-1-3">
 <p>
 In <code>RBM_ZERO_AND_LOCK</code> mode, if the page isn't in buffer cache already, it's
@@ -316,8 +316,8 @@ the page is modified and written out. P_NEW is OK, though.
 </div>
 </div>
 
-<div id="outline-container-org0f32661" class="outline-6">
-<h6 id="org0f32661"><span class="section-number-6">4.4.1.1.4</span> <code>RBM_ZERO_AND_CLEANUP_LOCK</code></h6>
+<div id="outline-container-orgaee8364" class="outline-6">
+<h6 id="orgaee8364"><span class="section-number-6">4.4.1.1.4</span> <code>RBM_ZERO_AND_CLEANUP_LOCK</code></h6>
 <div class="outline-text-6" id="text-4-4-1-1-4">
 <p>
 <code>RBM_ZERO_AND_CLEANUP_LOCK</code> is the same as <code>RBM_ZERO_AND_LOCK</code>, but acquires
@@ -326,8 +326,8 @@ a cleanup-strength lock on the page.
 </div>
 </div>
 
-<div id="outline-container-org16032b9" class="outline-6">
-<h6 id="org16032b9"><span class="section-number-6">4.4.1.1.5</span> <code>RBM_NORMAL_NO_LOG</code></h6>
+<div id="outline-container-org30bf5f9" class="outline-6">
+<h6 id="org30bf5f9"><span class="section-number-6">4.4.1.1.5</span> <code>RBM_NORMAL_NO_LOG</code></h6>
 <div class="outline-text-6" id="text-4-4-1-1-5">
 <p>
 <code>RBM_NORMAL_NO_LOG</code> mode is treated the same as <code>RBM_NORMAL</code> here.
@@ -337,19 +337,19 @@ a cleanup-strength lock on the page.
 </div>
 
 
-<div id="outline-container-org4cbe826" class="outline-5">
-<h5 id="org4cbe826"><span class="section-number-5">4.4.1.2</span> ReadBufferExtended Flow</h5>
+<div id="outline-container-org9104764" class="outline-5">
+<h5 id="org9104764"><span class="section-number-5">4.4.1.2</span> ReadBufferExtended Flow</h5>
 <div class="outline-text-5" id="text-4-4-1-2">
 
-<div id="orgbb14bec" class="figure">
+<div id="org511a749" class="figure">
 <p><img src="../../../../assets/img/readbuffer-extented-gen.png" alt="readbuffer-extented-gen.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>ReadBufferExtended flow</p>
 </div>
 </div>
 
-<div id="outline-container-orgbdc140b" class="outline-6">
-<h6 id="orgbdc140b"><span class="section-number-6">4.4.1.2.1</span> BufferAlloc</h6>
+<div id="outline-container-org184c8f3" class="outline-6">
+<h6 id="org184c8f3"><span class="section-number-6">4.4.1.2.1</span> BufferAlloc</h6>
 <div class="outline-text-6" id="text-4-4-1-2-1">
 <p>
 BufferAlloc &#x2013; subroutine for ReadBuffer.  Handles lookup of a shared
@@ -363,18 +363,18 @@ desired page.
 </p>
 
 
-<div id="org1dc4eda" class="figure">
+<div id="org8c4ea01" class="figure">
 <p><img src="../../../../assets/img/pg-buffer-alloc-gen.png" alt="pg-buffer-alloc-gen.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>BufferAlloc</p>
 </div>
 </div>
 
-<div id="outline-container-orgd05063d" class="outline-7">
-<h7 id="orgd05063d"><span class="section-number-7">4.4.1.2.1.1</span> StartBufferIO</h7>
+<div id="outline-container-orgea0b242" class="outline-7">
+<h7 id="orgea0b242"><span class="section-number-7">4.4.1.2.1.1</span> StartBufferIO</h7>
 <div class="outline-text-7" id="text-4-4-1-2-1-1">
 
-<div id="org9ea95a9" class="figure">
+<div id="orgc3b9021" class="figure">
 <p><img src="../../../../assets/img/pg-start-bufferio-gen.png" alt="pg-start-bufferio-gen.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>Start buffer io</p>
@@ -383,8 +383,8 @@ desired page.
 </div>
 
 
-<div id="outline-container-org76217ab" class="outline-7">
-<h7 id="org76217ab"><span class="section-number-7">4.4.1.2.1.2</span> PinBuffer</h7>
+<div id="outline-container-org4b70f30" class="outline-7">
+<h7 id="org4b70f30"><span class="section-number-7">4.4.1.2.1.2</span> PinBuffer</h7>
 <div class="outline-text-7" id="text-4-4-1-2-1-2">
 <p>
 <code>PinBuffer</code> &#x2013; make buffer unavailable for replacement.
@@ -404,7 +404,7 @@ CAS operations. Hopefully it's just a single CAS.
 
 
 
-<div id="org52ff788" class="figure">
+<div id="org3f727e3" class="figure">
 <p><img src="../../../../assets/img/pin-buffer-gen.png" alt="pin-buffer-gen.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>Pin Buffer</p>
@@ -418,18 +418,18 @@ CAS operations. Hopefully it's just a single CAS.
 </div>
 </div>
 
-<div id="outline-container-org8807504" class="outline-5">
-<h5 id="org8807504"><span class="section-number-5">4.4.1.3</span> Fork????</h5>
+<div id="outline-container-org3534477" class="outline-5">
+<h5 id="org3534477"><span class="section-number-5">4.4.1.3</span> Fork????</h5>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbf8886b" class="outline-2">
-<h2 id="orgbf8886b"><span class="section-number-2">5</span> Page (storage/page)</h2>
+<div id="outline-container-orgf524078" class="outline-2">
+<h2 id="orgf524078"><span class="section-number-2">5</span> Page (storage/page)</h2>
 <div class="outline-text-2" id="text-5">
 
-<div id="org7a892a0" class="figure">
+<div id="orga7729d6" class="figure">
 <p><img src="../../../../assets/img/page-ds-pg-gen.png" alt="page-ds-pg-gen.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>Page related data structure</p>
@@ -437,11 +437,11 @@ CAS operations. Hopefully it's just a single CAS.
 </div>
 </div>
 
-<div id="outline-container-org4541e12" class="outline-2">
-<h2 id="org4541e12"><span class="section-number-2">6</span> Storage IPC</h2>
+<div id="outline-container-org7dc164d" class="outline-2">
+<h2 id="org7dc164d"><span class="section-number-2">6</span> Storage IPC</h2>
 <div class="outline-text-2" id="text-6">
 <p>
-Refer to: <a href="2019-04-15-Processes-of-PostgresSQL.html">2019-04-15-Processes-of-PostgresSQL.html</a>
+Refer to: <a href="Processes-of-PostgresSQL.html"> Processes-of-PostgresSQL.html </a>
 </p>
 </div>
 </div>

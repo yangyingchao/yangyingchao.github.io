@@ -29,7 +29,7 @@
 * 截图
 
 #+CAPTION: Screenshot
-[[../assets/img/tdict.png]]
+[[images/tdict.png]]
 
 
 * 记录一下开发 TDictionary 过程中的若干小问题

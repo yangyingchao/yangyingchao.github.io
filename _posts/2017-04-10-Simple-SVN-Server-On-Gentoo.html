@@ -8,22 +8,22 @@ tags : svn
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org9e2d712">安装</a></li>
-<li><a href="#org34b217b">配置</a></li>
-<li><a href="#org745f38d">启动服务</a>
+<li><a href="#org1424601">安装</a></li>
+<li><a href="#orge1fe76f">配置</a></li>
+<li><a href="#orga06b7bd">启动服务</a>
 <ul>
-<li><a href="#orgddaf700">openrc</a></li>
-<li><a href="#org1487fef">systemd</a></li>
+<li><a href="#orgbbbb4c5">openrc</a></li>
+<li><a href="#orgcb5fa37">systemd</a></li>
 </ul>
 </li>
-<li><a href="#org594c9e1">Check out files &amp; play</a></li>
+<li><a href="#orgca76010">Check out files &amp; play</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org9e2d712" class="outline-2">
-<h2 id="org9e2d712">安装</h2>
-<div class="outline-text-2" id="text-org9e2d712">
+<div id="outline-container-org1424601" class="outline-2">
+<h2 id="org1424601">安装</h2>
+<div class="outline-text-2" id="text-org1424601">
 <div class="org-src-container">
 <pre class="src src-console">emerge -av subversion
 </pre>
@@ -31,9 +31,9 @@ tags : svn
 </div>
 </div>
 
-<div id="outline-container-org34b217b" class="outline-2">
-<h2 id="org34b217b">配置</h2>
-<div class="outline-text-2" id="text-org34b217b">
+<div id="outline-container-orge1fe76f" class="outline-2">
+<h2 id="orge1fe76f">配置</h2>
+<div class="outline-text-2" id="text-orge1fe76f">
 <div class="org-src-container">
 <pre class="src src-console">emerge --config dev-vcs/subversion
 </pre>
@@ -63,22 +63,22 @@ tags : svn
 </div>
 </div>
 
-<div id="outline-container-org745f38d" class="outline-2">
-<h2 id="org745f38d">启动服务</h2>
-<div class="outline-text-2" id="text-org745f38d">
+<div id="outline-container-orga06b7bd" class="outline-2">
+<h2 id="orga06b7bd">启动服务</h2>
+<div class="outline-text-2" id="text-orga06b7bd">
 </div>
-<div id="outline-container-orgddaf700" class="outline-3">
-<h3 id="orgddaf700">openrc</h3>
-<div class="outline-text-3" id="text-orgddaf700">
+<div id="outline-container-orgbbbb4c5" class="outline-3">
+<h3 id="orgbbbb4c5">openrc</h3>
+<div class="outline-text-3" id="text-orgbbbb4c5">
 <p>
 如果使用 openrc，可以直接执行： /etc/init.d/svnserve start
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1487fef" class="outline-3">
-<h3 id="org1487fef">systemd</h3>
-<div class="outline-text-3" id="text-org1487fef">
+<div id="outline-container-orgcb5fa37" class="outline-3">
+<h3 id="orgcb5fa37">systemd</h3>
+<div class="outline-text-3" id="text-orgcb5fa37">
 <p>
 subversion 没有提供 systemd 的 unit，需要自己写一个。如果像我一样只是临时测试用，可以直接用命令行启动 svnserve：
 </p>
@@ -91,9 +91,9 @@ subversion 没有提供 systemd 的 unit，需要自己写一个。如果像我�
 </div>
 </div>
 
-<div id="outline-container-org594c9e1" class="outline-2">
-<h2 id="org594c9e1">Check out files &amp; play</h2>
-<div class="outline-text-2" id="text-org594c9e1">
+<div id="outline-container-orgca76010" class="outline-2">
+<h2 id="orgca76010">Check out files &amp; play</h2>
+<div class="outline-text-2" id="text-orgca76010">
 <div class="org-src-container">
 <pre class="src src-console">svn co svn://localhost/repos --username yyc
 </pre>

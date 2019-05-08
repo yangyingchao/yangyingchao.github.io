@@ -8,18 +8,18 @@ tags : git
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8f5d106">1. 使用rebase而非merge来拉取上游修改</a></li>
-<li><a href="#org488da9d">2. 在执行git rebase后解决合并冲突</a></li>
-<li><a href="#orgc836eba">3. 临时性保存修改</a></li>
-<li><a href="#orge474dcc">4. 克隆一个特定的远程分支</a></li>
-<li><a href="#org5353b4f">5. 将cherry-pick远程提交合并到自己的分支中</a></li>
-<li><a href="#orgad3d10f">6. 应用来自于不相关的本地仓库的补丁</a></li>
-<li><a href="#org97011d9">7. 忽略追踪文件中的变更</a></li>
-<li><a href="#orgb608c7a">8. 每隔X秒运行一次git pull</a></li>
-<li><a href="#orge6ce8bb">9. 将子目录分隔为新的仓库</a></li>
-<li><a href="#orgeb9e56d">10. 清理</a></li>
-<li><a href="#org8a6fe10">11. 将项目文件打成tar包，并且排除.git目录</a></li>
-<li><a href="#orgea0a6b3">12. 查找修改者</a></li>
+<li><a href="#org4f7a4f4">1. 使用rebase而非merge来拉取上游修改</a></li>
+<li><a href="#org777cf0f">2. 在执行git rebase后解决合并冲突</a></li>
+<li><a href="#orgb5f1fa8">3. 临时性保存修改</a></li>
+<li><a href="#orgb1aed8e">4. 克隆一个特定的远程分支</a></li>
+<li><a href="#orgfaea603">5. 将cherry-pick远程提交合并到自己的分支中</a></li>
+<li><a href="#org606d550">6. 应用来自于不相关的本地仓库的补丁</a></li>
+<li><a href="#org04999fe">7. 忽略追踪文件中的变更</a></li>
+<li><a href="#orgdc407c9">8. 每隔X秒运行一次git pull</a></li>
+<li><a href="#org327b406">9. 将子目录分隔为新的仓库</a></li>
+<li><a href="#org996828c">10. 清理</a></li>
+<li><a href="#org25d7f27">11. 将项目文件打成tar包，并且排除.git目录</a></li>
+<li><a href="#org6b51825">12. 查找修改者</a></li>
 </ul>
 </div>
 </div>
@@ -27,8 +27,8 @@ tags : git
 众所周知，Git目前已经是分布式版本控制领域的翘楚，围绕着Git形成了完整的生态圈。学习Git，首先当然是学习Git的基本工作流。相比于SVN等传统版本控制系统来说，Git是专为分布式版本控制而生的强大工具。使用Git时常用的命令有pull、commit、push等，貌似很简单。不过，有时你会遇到合并冲突的情况，Git这时会将冲突标记出来，需要你手工来解决。有时，你会不小心将代码提交到错误的分支上，并且又推送到了远程仓库。还有些时候，你需要切换到不同的分支，但Git却不让你这么做，因为还有未保存的修改。如果需要通过另一个分支的提交来为代码打补丁该怎么做呢？本文就将介绍12个Git高级命令，合理使用这些命令可以大大提升应用Git的效率。
 </p>
 
-<div id="outline-container-org8f5d106" class="outline-2">
-<h2 id="org8f5d106"><span class="section-number-2">1</span> 使用rebase而非merge来拉取上游修改</h2>
+<div id="outline-container-org4f7a4f4" class="outline-2">
+<h2 id="org4f7a4f4"><span class="section-number-2">1</span> 使用rebase而非merge来拉取上游修改</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 分支合并会被记录为一次合并提交，这种做法是很有意义的。比如说，可以通过这种方式来标识一个新特性被合并到了发布分支中。不过，当多个团队成员工作在一个项目中并使用常规的git pull来同步分支时，提交时间线就会被不必要的合并提交所污染。更好的做法则是使用git rebase将一个feature分支变基到master分支：
@@ -47,8 +47,8 @@ $ git rebase master
 </div>
 </div>
 
-<div id="outline-container-org488da9d" class="outline-2">
-<h2 id="org488da9d"><span class="section-number-2">2</span> 在执行git rebase后解决合并冲突</h2>
+<div id="outline-container-org777cf0f" class="outline-2">
+<h2 id="org777cf0f"><span class="section-number-2">2</span> 在执行git rebase后解决合并冲突</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 正如能力越大责任就越大一样。在执行git rebase时，你可能会遇到合并冲突的情况。合并冲突表示两个提交修改了同一个文件的同一行，Git不知道该应用哪一个修改。这会导致如下所示的错误消息：
@@ -64,8 +64,8 @@ Git会为你提供3个选择来修复导致冲突的提交（fa39187）：
 </div>
 </div>
 
-<div id="outline-container-orgc836eba" class="outline-2">
-<h2 id="orgc836eba"><span class="section-number-2">3</span> 临时性保存修改</h2>
+<div id="outline-container-orgb5f1fa8" class="outline-2">
+<h2 id="orgb5f1fa8"><span class="section-number-2">3</span> 临时性保存修改</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 在工作进行中时，有些东西常常会处于凌乱的状态。如果这时需要切换到不同的分支该怎么办呢？Git是不允许你这么做的，因为还有尚未保存的修改。坦率地说，你并不想将半成品提交上去，后面再来修改。这个问题的解决之道就是使用git stash命令。Stash会接收工作目录的当前状态（比如说，修改了的追踪文件与暂存区的修改等），并将其保存到未完成的修改栈中，这样后面随时可以再来修改。可以通过如下命令来暂存你的工作：
@@ -133,8 +133,8 @@ $ git stash save --keep-index    <span style="color: #cd5c5c; font-style: italic
 </div>
 
 
-<div id="outline-container-orge474dcc" class="outline-2">
-<h2 id="orge474dcc"><span class="section-number-2">4</span> 克隆一个特定的远程分支</h2>
+<div id="outline-container-orgb1aed8e" class="outline-2">
+<h2 id="orgb1aed8e"><span class="section-number-2">4</span> 克隆一个特定的远程分支</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 如果想要从远程仓库中克隆一个特定的分支该怎么做呢？通常你会使用git clone，不过这么做会将所有其他分支都一并克隆下来。一个便捷的方式是使用git remote add：
@@ -149,8 +149,8 @@ $ git checkout
 </div>
 </div>
 
-<div id="outline-container-org5353b4f" class="outline-2">
-<h2 id="org5353b4f"><span class="section-number-2">5</span> 将cherry-pick远程提交合并到自己的分支中</h2>
+<div id="outline-container-orgfaea603" class="outline-2">
+<h2 id="orgfaea603"><span class="section-number-2">5</span> 将cherry-pick远程提交合并到自己的分支中</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 更有甚者，如果只想将远程仓库的一个特定提交合并到自己的分支中该怎么做呢？可以使用git cherry-pick 来选择给定SHA值的提交，然后将其合并到当前分支中：
@@ -163,8 +163,8 @@ $ git checkout
 </div>
 </div>
 
-<div id="outline-container-orgad3d10f" class="outline-2">
-<h2 id="orgad3d10f"><span class="section-number-2">6</span> 应用来自于不相关的本地仓库的补丁</h2>
+<div id="outline-container-org606d550" class="outline-2">
+<h2 id="org606d550"><span class="section-number-2">6</span> 应用来自于不相关的本地仓库的补丁</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 如果需要将另一个不相关的本地仓库的提交补丁应用到当前仓库该怎么做呢？答案就是下面这条命令：
@@ -177,8 +177,8 @@ $ git checkout
 </div>
 </div>
 
-<div id="outline-container-org97011d9" class="outline-2">
-<h2 id="org97011d9"><span class="section-number-2">7</span> 忽略追踪文件中的变更</h2>
+<div id="outline-container-org04999fe" class="outline-2">
+<h2 id="org04999fe"><span class="section-number-2">7</span> 忽略追踪文件中的变更</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 如果你和你的同事操纵的是相同分支，那么很有可能需要频繁执行git merge或是git rebase。不过，这么做可能会重置一些与环境相关的配置文件，这样在每次合并后都需要修改。与之相反，你可以通过如下命令永久性地告诉Git不要管某个本地文件：
@@ -192,8 +192,8 @@ $ git checkout
 </div>
 
 
-<div id="outline-container-orgb608c7a" class="outline-2">
-<h2 id="orgb608c7a"><span class="section-number-2">8</span> 每隔X秒运行一次git pull</h2>
+<div id="outline-container-orgdc407c9" class="outline-2">
+<h2 id="orgdc407c9"><span class="section-number-2">8</span> 每隔X秒运行一次git pull</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 通常，合并冲突出现的原因在于你正在工作的本地仓库不再反映远程仓库的当前状态。这正是我们为什么每天早晨要首先执行一次git pull的缘故。此外，你还可以在后台通过脚本（或是使用GNU Screen）每隔X秒调用一次git pull：
@@ -207,8 +207,8 @@ $ for((<span style="color: #daa520;">i</span>=1;i&lt;=10000;<span style="color: 
 </div>
 </div>
 
-<div id="outline-container-orge6ce8bb" class="outline-2">
-<h2 id="orge6ce8bb"><span class="section-number-2">9</span> 将子目录分隔为新的仓库</h2>
+<div id="outline-container-org327b406" class="outline-2">
+<h2 id="org327b406"><span class="section-number-2">9</span> 将子目录分隔为新的仓库</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 有时，你可能需要将Git仓库中某个特定的目录转换为一个全新的仓库。这可以通过git filter-branch来实现：
@@ -229,8 +229,8 @@ Ref <span style="color: #d78700;">'refs/heads/master'</span> was rewritten
 </div>
 </div>
 
-<div id="outline-container-orgeb9e56d" class="outline-2">
-<h2 id="orgeb9e56d"><span class="section-number-2">10</span> 清理</h2>
+<div id="outline-container-org996828c" class="outline-2">
+<h2 id="org996828c"><span class="section-number-2">10</span> 清理</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 有时，Git会提示“untracked working tree files”会“overwritten by checkout”。造成这种情况的原因有很多。不过通常来说，我们可以使用如下命令来保持工作树的整洁，从而防止这种情况的发生：
@@ -246,8 +246,8 @@ $ git clean -nfd   <span style="color: #cd5c5c; font-style: italic;"># </span><s
 </div>
 
 
-<div id="outline-container-org8a6fe10" class="outline-2">
-<h2 id="org8a6fe10"><span class="section-number-2">11</span> 将项目文件打成tar包，并且排除.git目录</h2>
+<div id="outline-container-org25d7f27" class="outline-2">
+<h2 id="org25d7f27"><span class="section-number-2">11</span> 将项目文件打成tar包，并且排除.git目录</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 有时，你需要将项目副本提供给无法访问GitHub仓库的外部成员。最简单的方式就是使用tar或zip来打包所有的项目文件。不过，如果不小心，隐藏的.git目录就会包含到tar文件中，这会导致文件体积变大；同时，如果里面的文件与接收者自己的Git仓库弄混了，那就更加令人头疼了。轻松的做法则是自动从tar文件中排除掉.git目录：
@@ -261,8 +261,8 @@ $ git clean -nfd   <span style="color: #cd5c5c; font-style: italic;"># </span><s
 </div>
 
 
-<div id="outline-container-orgea0a6b3" class="outline-2">
-<h2 id="orgea0a6b3"><span class="section-number-2">12</span> 查找修改者</h2>
+<div id="outline-container-org6b51825" class="outline-2">
+<h2 id="org6b51825"><span class="section-number-2">12</span> 查找修改者</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 最后，如果出现混乱的情况，你一定想要找出是谁造成的。如果生产服务器宕机，那么找到罪魁祸首是比较容易的事情：只需执行git blame。该命令会显示出文件中每一行的作者，提交hash则会找出该行的上一次修改，还能看到提交的时间戳：

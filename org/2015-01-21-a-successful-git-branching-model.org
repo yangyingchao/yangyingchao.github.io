@@ -23,7 +23,7 @@ to be very successful. I’ve been meaning to write about it for a while now, bu
 I’ve never really found the time to do so thoroughly, until now. I won’t talk
 about any of the projects’ details, merely about the branching strategy and
 release management.</p>
-<p class="centered"><img alt="" src="../assets/img/git-model@2x.png" width="575" /></p>
+<p class="centered"><img alt="" src="images/git-model@2x.png" width="575" /></p>
 <p>It focuses around <a href="http://git-scm.com">Git</a> as the tool for the versioning of
 all of our source code.</p>
 <h2 id="why-git">Why git? <a href="#why-git" rel="bookmark"></a></h2>
@@ -56,7 +56,7 @@ is that with a central “truth” repo. Note that this repo is only <em>conside
 to be the central one (since Git is a DVCS, there is no such thing as a central
 repo at a technical level). We will refer to this repo as <code>origin</code>, since this
 name is familiar to all Git users.</p>
-<p class="centered"><img alt="" src="../assets/img/centr-decentr@2x.png" width="487" /></p>
+<p class="centered"><img alt="" src="images/centr-decentr@2x.png" width="487" /></p>
 <p>Each developer pulls and pushes to origin. But besides the centralized
 push-pull relationships, each developer may also pull changes from other peers
 to form sub teams. For example, this might be useful to work together with two
@@ -66,7 +66,7 @@ Alice and David, and Clair and David.</p>
 <p>Technically, this means nothing more than that Alice has defined a Git remote,
 named <code>bob</code>, pointing to Bob’s repository, and vice versa.</p>
 <h2 id="the-main-branches">The main branches <a href="#the-main-branches" rel="bookmark"></a></h2>
-<p><img alt="" class="right" src="../assets/img/main-branches@2x.png" width="267" /></p>
+<p><img alt="" class="right" src="images/main-branches@2x.png" width="267" /></p>
 <p>At the core, the development model is greatly inspired by existing models out
 there. The central repo holds two main branches with an infinite lifetime:</p>
 <ul>
@@ -110,7 +110,7 @@ their merge targets. We will walk through them in a minute.</p>
 branch types are categorized by how we <em>use</em> them. They are of course plain old
 Git branches.</p>
 <h3 id="feature-branches">Feature branches <a href="#feature-branches" rel="bookmark"></a></h3>
-<p><img alt="" class="right" src="../assets/img/fb@2x.png" width="133" /></p>
+<p><img alt="" class="right" src="images/fb@2x.png" width="133" /></p>
 <dl>
 <dt>May branch off from:</dt>
 <dd><code>develop</code>  </dd>
@@ -152,7 +152,7 @@ to the upcoming release:</p>
 if the merge could be performed with a fast-forward. This avoids losing
 information about the historical existence of a feature branch and groups
 together all commits that together added the feature. Compare:</p>
-<p class="centered"><img alt="" src="../assets/img/merge-without-ff@2x.png" width="478" /></p>
+<p class="centered"><img alt="" src="images/merge-without-ff@2x.png" width="478" /></p>
 <p>In the latter case, it is impossible to see from the Git history which of the
 commit objects together have implemented a feature—you would have to manually
 read all the log messages. Reverting a whole feature (i.e. a group of commits),
@@ -257,7 +257,7 @@ need it anymore:</p>
 
 
 <h3 id="hotfix-branches">Hotfix branches <a href="#hotfix-branches" rel="bookmark"></a></h3>
-<p><img alt="" class="right" src="../assets/img/hotfix-branches@2x.png" width="316" /></p>
+<p><img alt="" class="right" src="images/hotfix-branches@2x.png" width="316" /></p>
 <dl>
 <dt>May branch off from:</dt>
 <dd><code>master</code></dd>
@@ -346,7 +346,7 @@ branching and releasing processes.</p>
 on the wall for quick reference at any time.</p>
 <p><strong>Update:</strong> And for anyone who requested it: here’s the
 <a href="http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip">gitflow-model.src.key</a> of the main diagram image (Apple Keynote).</p>
-<p class="centered"><a href="http://nvie.com/files/Git-branching-model.pdf"><img alt="" src="../assets/img/pdf@2x.png" width="128" /></a><br />
+<p class="centered"><a href="http://nvie.com/files/Git-branching-model.pdf"><img alt="" src="images/pdf@2x.png" width="128" /></a><br />
 <a href="/files/Git-branching-model.pdf">Git-branching-model.pdf</a></p>
   </div>
 #+END_HTML

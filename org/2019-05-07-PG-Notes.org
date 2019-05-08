@@ -1,4 +1,4 @@
-#+TITLE: GiST Indexing in PG
+#+TITLE: PG Notes
 #+AUTHOR: Yang,Ying-chao
 #+EMAIL:  yingchao.yang@icloud.com
 #+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
@@ -11,8 +11,8 @@
 #+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
-Based on https://github.com/postgres/postgres/tree/master/src/backend/access/gist .
+* 简化函数流程
 
-#+NAME: fig:Data_Structures
-#+RESULTS:
-[[file:images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+为突出主体，介绍函数实现时，大多进行了简化，包括：
+- 错误处理
+- 当前不关心的分支

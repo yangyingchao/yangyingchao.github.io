@@ -254,7 +254,7 @@ Here, the kernel implementation does not use helper function to "*divide*" list,
 table to store partially sorted list. The following figure show the =parts= will look like
 after processed the first 127 (2^6-1) elements:
 
-#+BEGIN_SRC dot :file ../assets/img/list_sort.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/list_sort.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=false dir=both arrowtail=dot];
@@ -281,7 +281,7 @@ node_parts:f0:c->node_l0:f0;
 And after processed the 128th elements, the first 6 places of parts are empty, and the 7th
 element of parts array are filled with a sorted list of the first 128 nodes:
 
-#+BEGIN_SRC dot :file ../assets/img/lsort_2.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file images/lsort_2.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=false dir=both arrowtail=dot];
