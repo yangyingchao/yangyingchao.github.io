@@ -13,6 +13,9 @@
 
 
 * Catalogs
+:PROPERTIES:
+:CUSTOM_ID: h:5B15A528-576D-4D94-8D29-6912A2C017A8
+:END:
 
 #+BEGIN_SRC sql -r
   test=# select oid, relname from pg_class where oid=2601;
@@ -36,8 +39,14 @@
 #+END_SRC
 
 * When catalogs are generated
+:PROPERTIES:
+:CUSTOM_ID: h:FA98003D-DD18-42D2-A24A-9058AF7B8C9D
+:END:
 
 ** postgres.bki
+:PROPERTIES:
+:CUSTOM_ID: h:59896B9C-401F-47F0-9F6E-6510AB0442BA
+:END:
 
 https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml
 
@@ -61,5 +70,30 @@ https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml
 #+END_SRC
 
 ** generation of postgres.bki
+:PROPERTIES:
+:CUSTOM_ID: h:11B41CE3-E5E9-4E31-B2E7-209875333FF0
+:END:
 =postgres/src/backend/catalog/genbki.pl= , called when execute =make= in directory:
 =postgres/src/backend/catalog= .
+
+* Allocation of RelFileNode
+:PROPERTIES:
+:CUSTOM_ID: 77AE2973-BB20-4C52-B09C-A91316793901
+:END:
+
+
+** TODO GetNewRelFileNode(Oid reltablespace, Relation pg_class, char relpersistence)
+:PROPERTIES:
+:CUSTOM_ID: h:C42EA8E1-8789-4419-91CB-5F218666A026
+:END:
+
+:PROPERTIES:
+:CUSTOM_ID: h:D5EE1550-1C5F-482E-A299-61FD9448D8BC
+:END:
+
+[[file:~/Work/postgres/src/backend/catalog/catalog.c::GetNewRelFileNode(Oid%20reltablespace,%20Relation%20pg_class,%20char%20relpersistence)]]
+
+* PG Constraints
+:PROPERTIES:
+:CUSTOM_ID: h:0C50F27B-D29C-4548-896C-C852461A10FC
+:END:

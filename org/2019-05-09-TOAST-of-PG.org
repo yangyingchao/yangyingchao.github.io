@@ -1,4 +1,4 @@
-#+TITLE: PG Notes
+#+TITLE: TOAST of PG
 #+AUTHOR: Yang,Ying-chao
 #+EMAIL:  yingchao.yang@icloud.com
 #+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
@@ -11,11 +11,4 @@
 #+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
-* 简化函数流程
-:PROPERTIES:
-:CUSTOM_ID: h:6E5A705D-187A-4A9B-9460-71301038036E
-:END:
-
-为突出主体，介绍函数实现时，大多进行了简化，包括：
-- 错误处理
-- 当前不关心的分支
+* TODO: DIG INTO IT

@@ -16,3 +16,6 @@ Based on https://github.com/postgres/postgres/tree/master/src/backend/access/gis
 #+NAME: fig:Data_Structures
 #+RESULTS:
 [[file:images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+
+
+How this is called: [[file:2019-05-07-Indexing-in-PG.org::#h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13][index_build]] .

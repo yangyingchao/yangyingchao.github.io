@@ -8,21 +8,24 @@ tags : pg index
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org7579d8b">1. Basic Structures</a></li>
-<li><a href="#org689c06b">2. Creating Index</a>
+<li><a href="#h:039EBBEB-076B-4436-BFB4-19C1D7BFB899">1. Basic Structures</a></li>
+<li><a href="#h:D9762CAA-6972-4524-970C-C24827745D12">2. Creating Index</a>
 <ul>
-<li><a href="#orgf886228">2.1. DefineIndex</a></li>
+<li><a href="#h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60">2.1. DefineIndex</a></li>
+<li><a href="#h:915E8B62-8A03-434E-B202-B54BC639F2C7">2.2. index_create</a></li>
+<li><a href="#h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13">2.3. index_build</a></li>
 </ul>
 </li>
+<li><a href="#h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F">3. <span class="todo TODO">TODO</span> Searching through Index</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org7579d8b" class="outline-2">
-<h2 id="org7579d8b"><span class="section-number-2">1</span> Basic Structures</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org0969c94" class="outline-2">
+<h2 id="h:039EBBEB-076B-4436-BFB4-19C1D7BFB899"><a id="org0969c94"></a><span class="section-number-2">1</span> Basic Structures</h2>
+<div class="outline-text-2" id="text-h:039EBBEB-076B-4436-BFB4-19C1D7BFB899">
 
-<div id="org56b2bab" class="figure">
+<div id="org7e25034" class="figure">
 <p><img src="../../../../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" alt="gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Data Structures</p>
@@ -30,9 +33,9 @@ tags : pg index
 </div>
 </div>
 
-<div id="outline-container-org689c06b" class="outline-2">
-<h2 id="org689c06b"><span class="section-number-2">2</span> Creating Index</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org43da90a" class="outline-2">
+<h2 id="h:D9762CAA-6972-4524-970C-C24827745D12"><a id="org43da90a"></a><span class="section-number-2">2</span> Creating Index</h2>
+<div class="outline-text-2" id="text-h:D9762CAA-6972-4524-970C-C24827745D12">
 <div class="org-src-container">
 <pre class="src src-sql"><span style="color: #ff4040;">CREATE</span> <span style="color: #ff4040;">UNIQUE</span> <span style="color: #ff4040;">INDEX</span> title_idx <span style="color: #ff4040;">ON</span> films (title);
 </pre>
@@ -47,24 +50,24 @@ tags : pg index
 </p>
 </div>
 
-<div id="outline-container-orgf886228" class="outline-3">
-<h3 id="orgf886228"><span class="section-number-3">2.1</span> DefineIndex</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orgdd5087a" class="outline-3">
+<h3 id="h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60"><a id="orgdd5087a"></a><span class="section-number-3">2.1</span> DefineIndex</h3>
+<div class="outline-text-3" id="text-h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60">
 <p>
 Note： <a href="PG-Notes.html"> 简化流程 </a> 。
 </p>
 
 
-<div id="orgd64f1cb" class="figure">
+<div id="orgd065890" class="figure">
 <p><img src="../../../../assets/img/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>DefineIndex</p>
 </div>
 </div>
 
-<div id="outline-container-org6429e32" class="outline-4">
-<h4 id="org6429e32"><span class="section-number-4">2.1.1</span> Sanity Check</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-orgad35d9b" class="outline-4">
+<h4 id="h:823B4311-6164-4A47-89D6-988099199845"><a id="orgad35d9b"></a><span class="section-number-4">2.1.1</span> Sanity Check</h4>
+<div class="outline-text-4" id="text-h:823B4311-6164-4A47-89D6-988099199845">
 <ul class="org-ul">
 <li>仅支持表，分区表和物化视图</li>
 <li>如果是分区表的话，不支持并发，以及 exclustion <b>(XXX: FIXME)</b></li>
@@ -77,9 +80,9 @@ Note： <a href="PG-Notes.html"> 简化流程 </a> 。
 </div>
 </div>
 
-<div id="outline-container-org13021a0" class="outline-4">
-<h4 id="org13021a0"><span class="section-number-4">2.1.2</span> Catalog</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<div id="outline-container-org4bc5ccc" class="outline-4">
+<h4 id="h:05C684FF-2C62-4484-AA6C-9B60F1FA51E3"><a id="org4bc5ccc"></a><span class="section-number-4">2.1.2</span> Catalog</h4>
+<div class="outline-text-4" id="text-h:05C684FF-2C62-4484-AA6C-9B60F1FA51E3">
 <p>
 Created by <a href="Catalog-of-PG.html"> Catalog of PG </a> .
 </p>
@@ -107,17 +110,84 @@ oid  | amname |      amhandler       | amtype
 </div>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orgb3d5628" class="outline-4">
-<h4 id="orgb3d5628"><span class="section-number-4">2.1.3</span> index_create</h4>
-<div class="outline-text-4" id="text-2-1-3">
+<div id="outline-container-orga91b7c4" class="outline-3">
+<h3 id="h:915E8B62-8A03-434E-B202-B54BC639F2C7"><a id="orga91b7c4"></a><span class="section-number-3">2.2</span> index_create</h3>
+<div class="outline-text-3" id="text-h:915E8B62-8A03-434E-B202-B54BC639F2C7">
+<p>
+该过程首先创建 <code>indexRelation</code> 记录，并将其添加进 <code>pg_class</code> 中，随后更新 <code>pg_index</code> 表，处理约束、依赖，最后调用 <code>index_build</code> 生成索引。
+</p>
 
-<div id="org2782c36" class="figure">
+
+<div id="orgb9e170f" class="figure">
 <p><img src="../../../../assets/img/index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Index Create</p>
 </div>
+
+
+<ul class="org-ul">
+<li>Sanity Check <br />
+这里的错误检查包括：
+<ul class="org-ul">
+<li>用户对系统表或者 toast table 建索引</li>
+
+<li>允许对系统表建议索引时，需检查是否为并行建 <br />
+不允许对系统表并行建索引，原因：并行建索引会导致在系统表提交之前释放锁。。。（XXX:
+DETAILS。。。）
+
+<ul class="org-ul">
+<li>“排他” 和 “并发” 不能同时制定 （XXX: DETAILS。。。）</li>
+<li>&#x2026;</li>
+</ul></li>
+</ul></li>
+
+<li>Allocation of Index OID: <br />
+Refer to:  <a href="Catalog-of-PG.html#77AE2973-BB20-4C52-B09C-A91316793901"> Allocation of RelFileNode </a></li>
+
+<li>Constraints: <a href="Catalog-of-PG.html#h:0C50F27B-D29C-4548-896C-C852461A10FC"> PG Constraints </a></li>
+</ul>
 </div>
 </div>
+
+<div id="outline-container-org6ffbc6f" class="outline-3">
+<h3 id="h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13"><a id="org6ffbc6f"></a><span class="section-number-3">2.3</span> index_build</h3>
+<div class="outline-text-3" id="text-h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13">
+<p>
+index_build - invoke access-method-specific index build procedure.
+</p>
+
+
+<div id="org032473a" class="figure">
+<p><img src="../../../../assets/img/index_build-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="index_build-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>Index Build</p>
+</div>
+
+<ul class="org-ul">
+<li><p>
+Parallel Execution
+</p>
+
+<p>
+Refer to <a href="Parallel-Execution-of-PG.html"> more info </a> .
+</p></li>
+</ul>
+
+
+<ul class="org-ul">
+<li>User Context<br />
+Switch to the table owner's userid, so that any index functions are run
+as that user.  Also lock down security-restricted operations and
+arrange to make GUC variable changes local to this command.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6c147c2" class="outline-2">
+<h2 id="h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F"><a id="org6c147c2"></a><span class="section-number-2">3</span> <span class="todo TODO">TODO</span> Searching through Index</h2>
+<div class="outline-text-2" id="text-h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F">
 </div>
 </div>

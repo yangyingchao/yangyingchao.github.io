@@ -7,21 +7,27 @@ categories : 未分类
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgd883086">1. Catalogs</a></li>
-<li><a href="#org24f4b01">2. When catalogs are generated</a>
+<li><a href="#h:5B15A528-576D-4D94-8D29-6912A2C017A8">1. Catalogs</a></li>
+<li><a href="#h:FA98003D-DD18-42D2-A24A-9058AF7B8C9D">2. When catalogs are generated</a>
 <ul>
-<li><a href="#org608520b">2.1. postgres.bki</a></li>
-<li><a href="#org333bfed">2.2. generation of postgres.bki</a></li>
+<li><a href="#h:59896B9C-401F-47F0-9F6E-6510AB0442BA">2.1. postgres.bki</a></li>
+<li><a href="#h:11B41CE3-E5E9-4E31-B2E7-209875333FF0">2.2. generation of postgres.bki</a></li>
 </ul>
 </li>
+<li><a href="#77AE2973-BB20-4C52-B09C-A91316793901">3. Allocation of RelFileNode</a>
+<ul>
+<li><a href="#h:C42EA8E1-8789-4419-91CB-5F218666A026">3.1. <span class="todo TODO">TODO</span> GetNewRelFileNode(Oid reltablespace, Relation pg_class, char relpersistence)</a></li>
+</ul>
+</li>
+<li><a href="#h:0C50F27B-D29C-4548-896C-C852461A10FC">4. PG Constraints</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgd883086" class="outline-2">
-<h2 id="orgd883086"><span class="section-number-2">1</span> Catalogs</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgcbfc6c6" class="outline-2">
+<h2 id="h:5B15A528-576D-4D94-8D29-6912A2C017A8"><a id="orgcbfc6c6"></a><span class="section-number-2">1</span> Catalogs</h2>
+<div class="outline-text-2" id="text-h:5B15A528-576D-4D94-8D29-6912A2C017A8">
 <div class="org-src-container">
 <pre class="src src-sql">test=<span style="color: #cd5c5c; font-style: italic;"># select oid, relname from pg_class where oid=2601;</span>
 oid  | relname
@@ -46,13 +52,14 @@ oid  | amname |      amhandler       | amtype
 </div>
 </div>
 
-<div id="outline-container-org24f4b01" class="outline-2">
-<h2 id="org24f4b01"><span class="section-number-2">2</span> When catalogs are generated</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org9269e4b" class="outline-2">
+<h2 id="h:FA98003D-DD18-42D2-A24A-9058AF7B8C9D"><a id="org9269e4b"></a><span class="section-number-2">2</span> When catalogs are generated</h2>
+<div class="outline-text-2" id="text-h:FA98003D-DD18-42D2-A24A-9058AF7B8C9D">
 </div>
-<div id="outline-container-org608520b" class="outline-3">
-<h3 id="org608520b"><span class="section-number-3">2.1</span> postgres.bki</h3>
-<div class="outline-text-3" id="text-2-1">
+
+<div id="outline-container-org52d2fc8" class="outline-3">
+<h3 id="h:59896B9C-401F-47F0-9F6E-6510AB0442BA"><a id="org52d2fc8"></a><span class="section-number-3">2.1</span> postgres.bki</h3>
+<div class="outline-text-3" id="text-h:59896B9C-401F-47F0-9F6E-6510AB0442BA">
 <p>
 <a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml">https://github.com/postgres/postgres/blob/master/doc/src/sgml/bki.sgml</a>
 </p>
@@ -79,13 +86,35 @@ oid  | amname |      amhandler       | amtype
 </div>
 </div>
 
-<div id="outline-container-org333bfed" class="outline-3">
-<h3 id="org333bfed"><span class="section-number-3">2.2</span> generation of postgres.bki</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org96ec5ee" class="outline-3">
+<h3 id="h:11B41CE3-E5E9-4E31-B2E7-209875333FF0"><a id="org96ec5ee"></a><span class="section-number-3">2.2</span> generation of postgres.bki</h3>
+<div class="outline-text-3" id="text-h:11B41CE3-E5E9-4E31-B2E7-209875333FF0">
 <p>
 <code>postgres/src/backend/catalog/genbki.pl</code> , called when execute <code>make</code> in directory:
 <code>postgres/src/backend/catalog</code> .
 </p>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org02baed0" class="outline-2">
+<h2 id="77AE2973-BB20-4C52-B09C-A91316793901"><a id="org02baed0"></a><span class="section-number-2">3</span> Allocation of RelFileNode</h2>
+<div class="outline-text-2" id="text-77AE2973-BB20-4C52-B09C-A91316793901">
+</div>
+
+
+<div id="outline-container-org8f518f1" class="outline-3">
+<h3 id="h:C42EA8E1-8789-4419-91CB-5F218666A026"><a id="org8f518f1"></a><span class="section-number-3">3.1</span> <span class="todo TODO">TODO</span> GetNewRelFileNode(Oid reltablespace, Relation pg_class, char relpersistence)</h3>
+<div class="outline-text-3" id="text-h:C42EA8E1-8789-4419-91CB-5F218666A026">
+<p>
+<a href="file:///Volumes/yyc/Work/postgres/src/backend/catalog/catalog.c#org8cb41ac">file:///Volumes/yyc/Work/postgres/src/backend/catalog/catalog.c#org8cb41ac</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5e7e69d" class="outline-2">
+<h2 id="h:0C50F27B-D29C-4548-896C-C852461A10FC"><a id="org5e7e69d"></a><span class="section-number-2">4</span> PG Constraints</h2>
+<div class="outline-text-2" id="text-h:0C50F27B-D29C-4548-896C-C852461A10FC">
 </div>
 </div>
