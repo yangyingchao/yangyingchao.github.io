@@ -17,7 +17,7 @@
 :CUSTOM_ID: h:039EBBEB-076B-4436-BFB4-19C1D7BFB899
 :END:
 
-#+BEGIN_SRC plantuml :file images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class RelationData {
       + RelFileNode rd_node
@@ -39,7 +39,7 @@
 #+CAPTION: Data Structures
 #+NAME: fig:Data_Structures
 #+RESULTS:
-[[file:images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+[[file:../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
 
 * Creating Index
 :PROPERTIES:
@@ -62,7 +62,7 @@
 
 Note： [[file:2019-05-07-PG-Notes.org][简化流程]] 。
 
-#+BEGIN_SRC plantuml :file images/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |indexcmd.c|
 
   start
@@ -86,14 +86,13 @@ Note： [[file:2019-05-07-PG-Notes.org][简化流程]] 。
   #8a2be2:END - index_create();
   |indexcmd.c|
 
-
   #00ffff:END - DefineIndex();
   stop
 #+END_SRC
 #+CAPTION: DefineIndex
 #+NAME: fig:DefineIndex
 #+RESULTS:
-[[file:images/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png]]
+[[file:../assets/img/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png]]
 
 *** Sanity Check
 :PROPERTIES:

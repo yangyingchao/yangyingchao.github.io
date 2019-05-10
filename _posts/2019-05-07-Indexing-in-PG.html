@@ -21,11 +21,11 @@ tags : pg index
 </div>
 </div>
 
-<div id="outline-container-org0969c94" class="outline-2">
-<h2 id="h:039EBBEB-076B-4436-BFB4-19C1D7BFB899"><a id="org0969c94"></a><span class="section-number-2">1</span> Basic Structures</h2>
+<div id="outline-container-orgdff1293" class="outline-2">
+<h2 id="h:039EBBEB-076B-4436-BFB4-19C1D7BFB899"><a id="orgdff1293"></a><span class="section-number-2">1</span> Basic Structures</h2>
 <div class="outline-text-2" id="text-h:039EBBEB-076B-4436-BFB4-19C1D7BFB899">
 
-<div id="org7e25034" class="figure">
+<div id="org0f913d2" class="figure">
 <p><img src="../../../../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" alt="gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Data Structures</p>
@@ -33,8 +33,8 @@ tags : pg index
 </div>
 </div>
 
-<div id="outline-container-org43da90a" class="outline-2">
-<h2 id="h:D9762CAA-6972-4524-970C-C24827745D12"><a id="org43da90a"></a><span class="section-number-2">2</span> Creating Index</h2>
+<div id="outline-container-org2461748" class="outline-2">
+<h2 id="h:D9762CAA-6972-4524-970C-C24827745D12"><a id="org2461748"></a><span class="section-number-2">2</span> Creating Index</h2>
 <div class="outline-text-2" id="text-h:D9762CAA-6972-4524-970C-C24827745D12">
 <div class="org-src-container">
 <pre class="src src-sql"><span style="color: #ff4040;">CREATE</span> <span style="color: #ff4040;">UNIQUE</span> <span style="color: #ff4040;">INDEX</span> title_idx <span style="color: #ff4040;">ON</span> films (title);
@@ -50,23 +50,23 @@ tags : pg index
 </p>
 </div>
 
-<div id="outline-container-orgdd5087a" class="outline-3">
-<h3 id="h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60"><a id="orgdd5087a"></a><span class="section-number-3">2.1</span> DefineIndex</h3>
+<div id="outline-container-orgbbd05d2" class="outline-3">
+<h3 id="h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60"><a id="orgbbd05d2"></a><span class="section-number-3">2.1</span> DefineIndex</h3>
 <div class="outline-text-3" id="text-h:5A93ECDF-5557-4B55-A3A9-EF0D9057EF60">
 <p>
 Note： <a href="PG-Notes.html"> 简化流程 </a> 。
 </p>
 
 
-<div id="orgd065890" class="figure">
+<div id="org8cfa9b8" class="figure">
 <p><img src="../../../../assets/img/define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="define-index-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>DefineIndex</p>
 </div>
 </div>
 
-<div id="outline-container-orgad35d9b" class="outline-4">
-<h4 id="h:823B4311-6164-4A47-89D6-988099199845"><a id="orgad35d9b"></a><span class="section-number-4">2.1.1</span> Sanity Check</h4>
+<div id="outline-container-orgbedb545" class="outline-4">
+<h4 id="h:823B4311-6164-4A47-89D6-988099199845"><a id="orgbedb545"></a><span class="section-number-4">2.1.1</span> Sanity Check</h4>
 <div class="outline-text-4" id="text-h:823B4311-6164-4A47-89D6-988099199845">
 <ul class="org-ul">
 <li>仅支持表，分区表和物化视图</li>
@@ -80,8 +80,8 @@ Note： <a href="PG-Notes.html"> 简化流程 </a> 。
 </div>
 </div>
 
-<div id="outline-container-org4bc5ccc" class="outline-4">
-<h4 id="h:05C684FF-2C62-4484-AA6C-9B60F1FA51E3"><a id="org4bc5ccc"></a><span class="section-number-4">2.1.2</span> Catalog</h4>
+<div id="outline-container-orgc6c4133" class="outline-4">
+<h4 id="h:05C684FF-2C62-4484-AA6C-9B60F1FA51E3"><a id="orgc6c4133"></a><span class="section-number-4">2.1.2</span> Catalog</h4>
 <div class="outline-text-4" id="text-h:05C684FF-2C62-4484-AA6C-9B60F1FA51E3">
 <p>
 Created by <a href="Catalog-of-PG.html"> Catalog of PG </a> .
@@ -112,15 +112,15 @@ oid  | amname |      amhandler       | amtype
 </div>
 </div>
 
-<div id="outline-container-orga91b7c4" class="outline-3">
-<h3 id="h:915E8B62-8A03-434E-B202-B54BC639F2C7"><a id="orga91b7c4"></a><span class="section-number-3">2.2</span> index_create</h3>
+<div id="outline-container-org3896f54" class="outline-3">
+<h3 id="h:915E8B62-8A03-434E-B202-B54BC639F2C7"><a id="org3896f54"></a><span class="section-number-3">2.2</span> index_create</h3>
 <div class="outline-text-3" id="text-h:915E8B62-8A03-434E-B202-B54BC639F2C7">
 <p>
 该过程首先创建 <code>indexRelation</code> 记录，并将其添加进 <code>pg_class</code> 中，随后更新 <code>pg_index</code> 表，处理约束、依赖，最后调用 <code>index_build</code> 生成索引。
 </p>
 
 
-<div id="orgb9e170f" class="figure">
+<div id="orgc56dedf" class="figure">
 <p><img src="../../../../assets/img/index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="index_create-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>Index Create</p>
@@ -151,15 +151,15 @@ Refer to:  <a href="Catalog-of-PG.html#77AE2973-BB20-4C52-B09C-A91316793901"> Al
 </div>
 </div>
 
-<div id="outline-container-org6ffbc6f" class="outline-3">
-<h3 id="h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13"><a id="org6ffbc6f"></a><span class="section-number-3">2.3</span> index_build</h3>
+<div id="outline-container-org32a57be" class="outline-3">
+<h3 id="h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13"><a id="org32a57be"></a><span class="section-number-3">2.3</span> index_build</h3>
 <div class="outline-text-3" id="text-h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13">
 <p>
 index_build - invoke access-method-specific index build procedure.
 </p>
 
 
-<div id="org032473a" class="figure">
+<div id="orgb06eeb9" class="figure">
 <p><img src="../../../../assets/img/index_build-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" alt="index_build-gen-7fa0631d1c49017da1e7bfcace7ace4d.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>Index Build</p>
@@ -186,8 +186,8 @@ arrange to make GUC variable changes local to this command.</li>
 </div>
 </div>
 
-<div id="outline-container-org6c147c2" class="outline-2">
-<h2 id="h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F"><a id="org6c147c2"></a><span class="section-number-2">3</span> <span class="todo TODO">TODO</span> Searching through Index</h2>
+<div id="outline-container-org6acf636" class="outline-2">
+<h2 id="h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F"><a id="org6acf636"></a><span class="section-number-2">3</span> <span class="todo TODO">TODO</span> Searching through Index</h2>
 <div class="outline-text-2" id="text-h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F">
 </div>
 </div>

@@ -1,8 +1,8 @@
-#+TITLE: (>>FILE_NO_EXT_MINUS<<)
-#+AUTHOR: (>>USER<<)
-#+EMAIL:  (>>EMAIL<<)
-#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc (>>TEX<<)
-#+STARTUP:  align nodlcheck oddeven lognotestate (>>TEX_PREVIEW<<)
+#+TITLE: Parallel Execution of PG
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
 #+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
 #+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+LANGUAGE: en
