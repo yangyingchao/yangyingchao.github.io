@@ -44,5 +44,4 @@
 #+CAPTION: Process Utility Call flow
 #+NAME: fig:Process_Utility_Call_flow
 #+RESULTS:
-[[file:images/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png]]
-
+[[file:../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png]]

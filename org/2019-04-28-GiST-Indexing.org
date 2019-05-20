@@ -16,6 +16,9 @@
 Based on http://gist.cs.berkeley.edu .
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: h:B43231EB-A9B8-4E03-B659-6B390AD7DD11
+:END:
 
 传统数据库使用 B+ 树，B+ Tree 可以有效降低 IO，足以应对处理字符和数字。
 但现在数据库中存储的数据类型越来越多，为更好支持这些类型，当前（back to
@@ -51,11 +54,17 @@ data and query extensibility.
  - 扩展性：与自定义函数结合，提供其他纬度的搜索、查询。
 
 * The Generalized Search Tree
+:PROPERTIES:
+:CUSTOM_ID: h:4A1B2052-3C5D-4145-9998-AB1E8925B839
+:END:
 
 定义其数据结构、不变性 (invariant properties) ，扩展方法和内置算法。
 
 
 ** Structure
+:PROPERTIES:
+:CUSTOM_ID: h:73BF76F3-8483-4EB8-8BE1-CE9D3E9ABB85
+:END:
 
 A GiST is a balanced tree of variable fanout between kM and M
 
@@ -71,6 +80,9 @@ A GiST is a balanced tree of variable fanout between kM and M
 
 
 ** Properties
+:PROPERTIES:
+:CUSTOM_ID: h:1B7FBD1E-C361-4122-ABA2-CF3868B70B06
+:END:
 
 GiST 有下列属性：
 
@@ -87,6 +99,9 @@ GiST 有下列属性：
 5. All leaves appear on the same level.
 
 * The Keys to the GiST
+:PROPERTIES:
+:CUSTOM_ID: h:CBCAAD38-8FA7-422A-9FF8-241F55B7FB17
+:END:
 
  和 B tree 相比：
  - 共同点：
@@ -99,6 +114,9 @@ GiST 有下列属性：
      data items reachable from the pointer associated with the key.
 
 * Key Methods
+:PROPERTIES:
+:CUSTOM_ID: h:0A68C98C-35E8-4F0D-B999-B6FA34EBFE16
+:END:
 
 理论上来说， GiST 的 key 可以为任意谓词。但实际上， key 来源于用户实现的 class，这些 class 提供了
 GiST 所需要的特定的若干方法 （method）。 key structures 有若干例子：
@@ -174,13 +192,22 @@ Here are the 4 methods required of the key class to make a GiST work:
 
 
 * Tree Methods
+:PROPERTIES:
+:CUSTOM_ID: h:DF36B5C3-5240-4E3B-ADBA-6A5147710400
+:END:
 
 前面介绍的 Key Methods 必须由用户提供，而 Tree Methods 则由 GiST 提供，Tree Methods 将会调用 Key
 Methods 。
 
 ** Search
+:PROPERTIES:
+:CUSTOM_ID: h:1B675835-610E-4C78-B97A-6A19D6C6A44A
+:END:
 
 *** Generic Search
+:PROPERTIES:
+:CUSTOM_ID: h:64F467F1-9E9C-4BE2-AC1C-FB524A06704F
+:END:
 遍历尽可能多的树，以寻找符合条件的数据，该方法可用来对任意数据进行搜索，但效率
 不够高。
 #+BEGIN_SRC python -r
@@ -212,6 +239,9 @@ Methods 。
   #+END_SRC
 
 *** Search in Linearly Ordered Domains
+:PROPERTIES:
+:CUSTOM_ID: h:62C39C18-CF49-43BB-8273-BBDEFF997BFD
+:END:
 
 如果目标数据满足线性排列，并且常用的查询为等值查询或者范围查询，则用
 =FindMin= 和 =Next= 方法更加高效。要想使用这种方法，需满足几个先决条件：
@@ -248,6 +278,9 @@ Methods 。
 
 
 **** FindMin
+:PROPERTIES:
+:CUSTOM_ID: h:EBFF5732-F4B0-4543-B3E5-DA62827ED81C
+:END:
 
 
 沿着左侧分支遍历所有满足 $Consistent(E,q)$ 的节点，直到找到符合 $Consistent(E,q) = True$  的叶子
@@ -285,6 +318,9 @@ Methods 。
   #+END_SRC
 
 **** Next
+:PROPERTIES:
+:CUSTOM_ID: h:CFA55B64-D402-4034-BD18-E47F39A947E7
+:END:
 
 =FindMin= 返回 =E=  之后 ， =Next()= 返回下一个符合条件的元素，或者无符合条件的元素时，
 返回 =None= 。
@@ -319,12 +355,18 @@ Methods 。
   #+END_SRC
 
 ** Insert
+:PROPERTIES:
+:CUSTOM_ID: h:8789E663-987F-4D32-9FCE-0AD7C72A9F3B
+:END:
 
 =Insert= 用于保证， 在插入新的数据之后， GiST 仍然是个平衡树。插入的过程和 =R-Tree= 的插入过程很相
 似，而 =R-Tree= 的插入过程，则是 =B+-Tree= 的泛化、简化版本。插入需要指定在哪一级 （level） 上插入，
 Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 
 *** Insert
+:PROPERTIES:
+:CUSTOM_ID: h:38CE8223-BA0B-40ED-B346-DAAE2F8769DB
+:END:
 
 找到 E 应该插入的位置，插入之，如果有需要，进行分裂。
 
@@ -355,6 +397,9 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
   #+END_SRC
 
 *** ChooseSubtree
+:PROPERTIES:
+:CUSTOM_ID: h:9A397FCB-FD47-493B-862D-09A909B41851
+:END:
 
 该函数用于在 GiST 中寻找最好的插入位置。
 
@@ -390,6 +435,9 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 
 
 *** Split
+:PROPERTIES:
+:CUSTOM_ID: h:8020C0A5-00A2-44FC-9DDA-A27D5B65DD72
+:END:
 
 ==Split= 函数通过用户自定义函数 =PickSplit= 来决定如何拆分 node 中的元素，一旦元素拆分到两个组后，
 =Split= 会生成新的节点，并将新节点插入到 GiST 中。
@@ -427,6 +475,9 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 
 
 *** AdjustKeys
+:PROPERTIES:
+:CUSTOM_ID: h:D8C2A382-7DB8-4868-9EB5-CD2B3CD9FE8A
+:END:
 
 该函数用户确保 keys 对节点下的记录有效。从节点 N 开始，向上遍历父节点，逐个确
 保 Key 有效。
@@ -450,10 +501,16 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 
 
 ** Delete
+:PROPERTIES:
+:CUSTOM_ID: h:80EF3C65-61D4-44A0-86FD-FD420322DF13
+:END:
 
 删除时候必须维持树的平衡，并维护 Keys.
 
 *** Delete
+:PROPERTIES:
+:CUSTOM_ID: h:98D6DD67-5CFD-41CC-AB2F-C92A900100EF
+:END:
 
 #+BEGIN_SRC python -r
   def Delete(R, E):
@@ -487,6 +544,9 @@ Level 从 Leaf 开始递增， leaf 的 level 为 0 。
 #+END_SRC
 
 *** CondenseTree
+:PROPERTIES:
+:CUSTOM_ID: h:2310EB2D-2FC8-4A5E-A02C-6B602B507008
+:END:
 
 此函数保证 Tree 的属性满足 GiST 的要求 [[Structure]]。
 

@@ -11,11 +11,29 @@
 #+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
+About GiST search tree, refer to: [[file:2019-04-28-GiST-Indexing.org][here]] .
+
+* GiST Building:
+:PROPERTIES:
+:CUSTOM_ID: h:4A6DAD58-CC81-42A8-9627-5A8E0103DA39
+:END:
+
+How this is called: [[file:2019-05-07-Indexing-in-PG.org::#h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13][index_build]] .
+
 Based on https://github.com/postgres/postgres/tree/master/src/backend/access/gist .
 
 #+NAME: fig:Data_Structures
 #+RESULTS:
-[[file:images/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
+[[file:../assets/img/gist-index-ds-gen-6c098717812c93443b563d9c2627a8d6.png]]
 
 
-How this is called: [[file:2019-05-07-Indexing-in-PG.org::#h:93F0DCA0-4ADF-4132-8C2C-F5AAE090CE13][index_build]] .
+
+#+BEGIN_SRC plantuml :file ../assets/img/gistbuild-gen-6c098717812c93443b563d9c2627a8d6.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  start
+
+  stop
+#+END_SRC
+#+CAPTION: GiST Build
+#+NAME: fig:GiST_Build
+#+RESULTS:
+[[file:../assets/img/gistbuild-gen-6c098717812c93443b563d9c2627a8d6.png]]

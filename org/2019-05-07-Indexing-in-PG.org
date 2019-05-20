@@ -261,6 +261,9 @@ index_build - invoke access-method-specific index build procedure.
   as that user.  Also lock down security-restricted operations and
   arrange to make GUC variable changes local to this command.
 
+- AMBuild \\
+  由各个 AccessMethod 指定，例如 [[file:2019-05-07-GiST-Indexing-in-PG.org::#h:4A6DAD58-CC81-42A8-9627-5A8E0103DA39][GiST Building]] 。
+
 * TODO Searching through Index
 :PROPERTIES:
 :CUSTOM_ID: h:AF4AA329-3A5B-4FD6-9B9C-F5AB451D130F
