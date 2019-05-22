@@ -1,0 +1,130 @@
+---
+layout : post
+title : ORCA Worker Pool
+categories : 未分类
+---
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#h:4AC27AF3-6D35-4D72-A944-360593EC11BF">1. Introduction</a></li>
+<li><a href="#h:6F088DB5-79E9-481A-853E-FD1C09FE0CE0">2. Data Structures</a>
+<ul>
+<li><a href="#h:11B6E1B5-82C9-43E4-9208-556273FF0FF8">2.1. Auto Task Proxy (ATP)</a></li>
+<li><a href="#h:FA99CCDF-B154-4B1A-9061-740B843504F7">2.2. <span class="todo TODO">TODO</span> </a></li>
+</ul>
+</li>
+<li><a href="#h:62BC1890-DC5E-4830-8AD8-00EDF82EBEAF">3. Execute a task using current thread</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org76d705f" class="outline-2">
+<h2 id="h:4AC27AF3-6D35-4D72-A944-360593EC11BF"><a id="org76d705f"></a><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-h:4AC27AF3-6D35-4D72-A944-360593EC11BF">
+</div>
+</div>
+
+<div id="outline-container-orge387915" class="outline-2">
+<h2 id="h:6F088DB5-79E9-481A-853E-FD1C09FE0CE0"><a id="orge387915"></a><span class="section-number-2">2</span> Data Structures</h2>
+<div class="outline-text-2" id="text-h:6F088DB5-79E9-481A-853E-FD1C09FE0CE0">
+
+<div id="org4bda298" class="figure">
+<p><img src="../../../../assets/img/worker-pool-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png" alt="worker-pool-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Data Structures</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgba3aed8" class="outline-3">
+<h3 id="h:11B6E1B5-82C9-43E4-9208-556273FF0FF8"><a id="orgba3aed8"></a><span class="section-number-3">2.1</span> Auto Task Proxy (ATP)</h3>
+<div class="outline-text-3" id="text-h:11B6E1B5-82C9-43E4-9208-556273FF0FF8">
+<p>
+Auto task proxy (ATP) to handle task creation, execution and cleanup
+ATP operations are not thread-safe; only one worker can use each ATP
+object.
+</p>
+</div>
+
+<div id="outline-container-org7881f23" class="outline-4">
+<h4 id="h:4DEE866C-E5B8-49C2-9C6A-A0667D28C48C"><a id="org7881f23"></a><span class="section-number-4">2.1.1</span> Create Task via ATP</h4>
+<div class="outline-text-4" id="text-h:4DEE866C-E5B8-49C2-9C6A-A0667D28C48C">
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbaac460" class="outline-3">
+<h3 id="h:FA99CCDF-B154-4B1A-9061-740B843504F7"><a id="orgbaac460"></a><span class="section-number-3">2.2</span> <span class="todo TODO">TODO</span> </h3>
+<div class="outline-text-3" id="text-h:FA99CCDF-B154-4B1A-9061-740B843504F7">
+<p>
+CAutoTaskProxy::Create
+</p>
+
+<p>
+<a href="file:///Volumes/yyc/Work/orca/gporca/libgpos/src/task/CAutoTaskProxy.cpp#org77896ee">file:///Volumes/yyc/Work/orca/gporca/libgpos/src/task/CAutoTaskProxy.cpp#org77896ee</a>
+</p>
+</div>
+
+
+
+<div id="outline-container-org7bf474d" class="outline-4">
+<h4 id="h:61B4B534-E56C-42CC-9128-F0AE2DE35C9E"><a id="org7bf474d"></a><span class="section-number-4">2.2.1</span> Execute Task Via ATP</h4>
+<div class="outline-text-4" id="text-h:61B4B534-E56C-42CC-9128-F0AE2DE35C9E">
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org213c3e1" class="outline-2">
+<h2 id="h:62BC1890-DC5E-4830-8AD8-00EDF82EBEAF"><a id="org213c3e1"></a><span class="section-number-2">3</span> Execute a task using current thread</h2>
+<div class="outline-text-2" id="text-h:62BC1890-DC5E-4830-8AD8-00EDF82EBEAF">
+<p>
+After gpos is <a href="Learning-GP-ORCA--Infrastructure.html#h:051018CB-0AF8-494E-83D1-3FBF62D0EB98"> initialized </a> , construct a <code>gpos_exec_params</code> and call: <code>gpos_exec(&amp;params)</code> to
+execute task in Worker Pool.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #cd5c5c; font-style: italic;">/*</span>
+<span style="color: #cd5c5c; font-style: italic;"> * struct with configuration parameters for task execution;</span>
+<span style="color: #cd5c5c; font-style: italic;"> * this needs to be in sync with the corresponding structure in optserver.h</span>
+<span style="color: #cd5c5c; font-style: italic;"> */</span>
+<span style="color: #ff4040;">struct</span> <span style="color: #32cd32;">gpos_exec_params</span>
+{
+    <span style="color: #32cd32;">void</span> *(*<span style="color: #1e90ff; font-weight: bold;">func</span>)(<span style="color: #32cd32;">void</span>*);           <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">task function */</span>
+    <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">arg</span>;                      <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">task argument */</span>
+    <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">result</span>;                   <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">task result */</span>
+    <span style="color: #32cd32;">void</span> *<span style="color: #daa520;">stack_start</span>;              <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">start of current thread's stack */</span>
+    <span style="color: #32cd32;">char</span> *<span style="color: #daa520;">error_buffer</span>;             <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">buffer used to store error messages */</span>
+    <span style="color: #32cd32;">int</span> <span style="color: #daa520;">error_buffer_size</span>;          <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">size of error message buffer */</span>
+    <span style="color: #ff4040;">volatile</span> <span style="color: #32cd32;">bool</span> *<span style="color: #daa520;">abort_requested</span>; <span style="color: #cd5c5c; font-style: italic;">/* </span><span style="color: #cd5c5c; font-style: italic;">flag indicating if abort is requested */</span>
+};
+</pre>
+</div>
+
+
+<div id="org6043a97" class="figure">
+<p><img src="../../../../assets/img/gpos_exec-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png" alt="gpos_exec-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>gpos_exec</p>
+</div>
+
+
+<ul class="org-ul">
+<li>Scoped Memory Pool<br />
+refer to: <a href="ORCA-Memory-Pool.html#h:4BFC6792-607A-4FCE-B8C4-C10F9775D779"> Scoped Memory Pool </a></li>
+
+<li><p>
+CWorkerId <br />
+</p>
+
+<p>
+Identification of a worker, by <code>thread_t</code>
+</p></li>
+
+<li>ATP: refer to <a href="#h:11B6E1B5-82C9-43E4-9208-556273FF0FF8">Auto Task Proxy</a></li>
+</ul>
+</div>
+</div>

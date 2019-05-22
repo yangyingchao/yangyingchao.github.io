@@ -7,9 +7,9 @@
 #+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
 #+LANGUAGE: en
 #+EXCLUDE_TAGS: noexport
-#+KEYWORDS: (nil)
+#+KEYWORDS: orca optimizer gp
 #+CATEGORY: 未分类
-#+DESCRIPTION: (nil)
+#+DESCRIPTION: Memory Pool model for ORCA.
 
 * Overview
 :PROPERTIES:
