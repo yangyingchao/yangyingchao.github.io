@@ -14,7 +14,7 @@
 #+LINK_HOME:  http://yangyingchao.github.io
 #+EXCLUDE_TAGS: noexport
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
 <div class="post">
 <h1>How to Mount EXT4 Linux File Systems on a Mac with OS X Fuse</h1>
 

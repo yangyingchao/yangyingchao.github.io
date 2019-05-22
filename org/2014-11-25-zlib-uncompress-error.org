@@ -15,6 +15,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * 问题描述
+:PROPERTIES:
+:CUSTOM_ID: h:D0BB112A-925D-4CA8-A987-84D2448ABED3
+:END:
 
 有段代码，示例如下：
 
@@ -39,6 +42,9 @@
 看起来是因为输出区不够大，是这样么？
 
 * 问题的解决
+:PROPERTIES:
+:CUSTOM_ID: h:E5FB36EF-67F1-4BBE-99A0-9D3108020E7C
+:END:
 
 查看64位的编译log，发现其中有提示：
 
@@ -60,6 +66,9 @@ note: expected ‘uLongf *’ but argument is of type ‘uint32_t *’
 Release 版有问题？
 
 * 问题原因
+:PROPERTIES:
+:CUSTOM_ID: h:F964C691-E39C-43F4-ACED-9ECA3AFCFDAD
+:END:
 
 翻开 zlib 的源码看了一下，=uncompress= 开始有一段检查：
 
@@ -106,5 +115,8 @@ zlib 为什么加了这段转换和检查 ？ \\
 不知道，看起来像是想强制检查入参的类型是否与自己的期望相符？
 
 * 结论
+:PROPERTIES:
+:CUSTOM_ID: h:722056EA-E862-4365-92E6-A4B6E963C72B
+:END:
 
  [[http://www.kuqin.com/effectivec2e/ch12d.htm][重视编译器警告。。。]]

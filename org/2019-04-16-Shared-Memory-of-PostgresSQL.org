@@ -13,4 +13,7 @@
 #+DESCRIPTION: (nil)
 
 * TODO   ShmemInitStruct(const char *name, Size size, bool *foundPtr)
+:PROPERTIES:
+:CUSTOM_ID: h:9E8797FE-291D-4420-A328-BDF81A58AA65
+:END:
   [[file:~/Work/postgres-xl/src/backend/storage/ipc/shmem.c::ShmemInitStruct(const%20char%20*name,%20Size%20size,%20bool%20*foundPtr)]]

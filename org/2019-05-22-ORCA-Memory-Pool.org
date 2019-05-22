@@ -1,0 +1,225 @@
+#+TITLE: ORCA Memory Pool
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+* Overview
+:PROPERTIES:
+:CUSTOM_ID: h:A85120A1-138F-4FBA-9706-DDA45B7550B8
+:END:
+
+* Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:BF3BE3A7-A5BB-4D4B-92E2-FF4B839152EE
+:END:
+
+Central memory pool manager, provides factory method to generate memory pools;
+
+
+#+BEGIN_SRC plantuml :file ../assets/img/mem-pool-gen-8d73a16e1c5062072e6d962054b54da2.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class CMemoryPoolManager {
+  - CMemoryPool* Convert()
+  - IMemoryPool* New()
+  - void Cleanup()
+  + IMemoryPool* Create()
+  + void Destroy()
+  + void DeleteUnregistered()
+  + void Shutdown()
+  + IMemoryPool* GetGlobalMemoryPool()
+  + BOOL IsGlobalNewAllowed()
+  + void DisableGlobalNew()
+  + void EnableGlobalNew()
+  + ULLONG TotalAllocatedSize()
+  - IMemoryPool* m_base_memory_pool
+  - IMemoryPool* m_internal_memory_pool
+  - IMemoryPool* m_global_memory_pool
+  - BOOL m_allow_global_new
+  - CSyncHashtable<CMemoryPool> m_hash_table
+  }
+
+
+  class IMemoryPool {
+  + void* NewImpl()
+  + T* NewArrayImpl()
+  + void* Allocate()
+  + void Free()
+  + void TearDown()
+  + BOOL StoresPoolPointer()
+  + BOOL IsThreadSafe()
+  + ULONG_PTR GetHashKey()
+  + ULLONG TotalAllocatedSize()
+  }
+  note right
+      Interface class for memory pool
+  end note
+
+  CMemoryPoolManager .> IMemoryPool: "produce"
+
+  class AllocHeader {
+      + IMemoryPool* m_mp
+      + ULONG m_alloc
+  }
+
+  class CMemoryPool {
+      # IMemoryPool* GetUnderlyingMemoryPool()
+      + void TearDown()
+      + BOOL IsThreadSafe()
+      + ULONG_PTR GetHashKey()
+      + void* FinalizeAlloc()
+      + BOOL StoresPoolPointer()
+      + ULLONG TotalAllocatedSize()
+      - ULONG m_ref_counter
+      - ULONG_PTR m_hash_key
+      - IMemoryPool* m_underlying_memory_pool
+      - BOOL m_owns_underlying_memory_pool
+      - BOOL m_thread_safe
+      - SLink m_link
+  }
+
+  note right
+      Interface class for memory pool
+  end note
+
+  IMemoryPool <|-- CMemoryPool
+
+  class CMemoryPoolAlloc {
+      - void* m_alloc()
+      - void m_free()
+      + void* Allocate()
+      + void Free()
+  }
+
+  note bottom
+      Implementation of memory pool using
+      a configurable allocator
+  end note
+
+  CMemoryPool <|-- CMemoryPoolAlloc
+
+  class CMemoryPoolInjectFault {
+      + void* Allocate()
+      + void Free()
+      + ULLONG TotalAllocatedSize()
+  }
+  note bottom
+      Memory pool wrapper that uses stack
+      enumeration to simulate Out-Of-Memory
+      exceptions for all executed allocations.
+  end note
+  CMemoryPool <|-- CMemoryPoolInjectFault
+
+
+  class SBlockDescriptor {
+      + void Init()
+      + BOOL CanFit()
+      + void* m_user
+      + ULONG m_total_size
+      + ULONG m_used_size
+      + SLink m_link
+  }
+
+  class CMemoryPoolStack {
+      - SBlockDescriptor* New()
+      - SBlockDescriptor* FindMemoryBlock()
+      - void SLock()
+      - void SUnlock()
+      + void* Allocate()
+      + void Free()
+      + void TearDown()
+      + BOOL StoresPoolPointer()
+      + ULLONG TotalAllocatedSize()
+      - SBlockDescriptor* m_block_descriptor
+      - ULLONG m_reserved
+      - ULLONG m_capacity
+      - ULONG m_blocksize
+      - CList<SBlockDescriptor> m_block_list
+      - CSpinlockOS m_lock
+  }
+
+  note bottom
+      Memory pool which allocates
+      memory in blocks;
+  end note
+
+  CMemoryPool <|-- CMemoryPoolStack
+  class SAllocHeader {
+      + ULLONG m_serial
+      + ULONG m_size
+      + CHAR* m_filename
+      + ULONG m_line
+      + SLink m_link
+  }
+
+  class CMemoryPoolTracker {
+      - BOOL Reserve()
+      - void Unreserve()
+      - void SLock()
+      - void SUnlock()
+      + void* Allocate()
+      + void Free()
+      + void TearDown()
+      + BOOL StoresPoolPointer()
+      + ULLONG TotalAllocatedSize()
+      - CSpinlockOS m_lock
+      - CMemoryPoolStatistics m_memory_pool_statistics
+      - ULONG m_alloc_sequence
+      - ULLONG m_capacity
+      - ULLONG m_reserved
+      - CList<SAllocHeader> m_allocations_list
+  }
+
+  note bottom
+      memory pool with statistics
+      and debugging support
+  end note
+
+  CMemoryPool <|-- CMemoryPoolTracker
+
+
+#+END_SRC
+#+CAPTION: Memory Pool
+#+NAME: fig:Memory_Pool
+#+RESULTS:
+[[file:../assets/img/mem-pool-gen-8d73a16e1c5062072e6d962054b54da2.png]]
+
+  + Why two level interface for memory pool =ImemoryPool= & =CMemoryPool=..
+
+* Scoped Memory Pool
+:PROPERTIES:
+:CUSTOM_ID: h:4BFC6792-607A-4FCE-B8C4-C10F9775D779
+:END:
+
+#+BEGIN_SRC plantuml :file ../assets/img/automem-pool-gen-fc4fe510a87191280d345205949b6788.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+enum ELeakCheck {
+ElcNone
+ElcExc
+ElcStrict
+}
+
+class CAutoMemoryPool {
++ IMemoryPool* Pmp()
++ IMemoryPool* Detach()
+- IMemoryPool* m_mp
+- ELeakCheck m_leak_check_type
+}
+
+CStackObject <|-- CAutoMemoryPool
+
+#+END_SRC
+#+CAPTION: Auto Memory Pool
+#+NAME: fig:Auto_Memory_Pool
+#+RESULTS:
+[[file:../assets/img/automem-pool-gen-fc4fe510a87191280d345205949b6788.png]]
+#+BEGIN_SRC c++ -r
+
+#+END_SRC

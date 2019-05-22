@@ -15,10 +15,16 @@
 
 
 * Storage Initialization
+:PROPERTIES:
+:CUSTOM_ID: h:091EDB2F-4E8F-4765-A23D-E0FF4F82E9BA
+:END:
 
 ** In postmaster (master)
+:PROPERTIES:
+:CUSTOM_ID: h:D3E23817-F8AB-4988-A1A0-3095014ADB9B
+:END:
 
-#+BEGIN_SRC plantuml :file images/storage-init-postmaster-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/storage-init-postmaster-gen.png
 
   |postmaster|
   start
@@ -38,11 +44,14 @@
 #+CAPTION: Storage Init under Postmaster
 #+NAME: fig:Storage_Init_under_Postmaster
 #+RESULTS:
-[[file:images/storage-init-postmaster-gen.png]]
+[[file:../assets/img/storage-init-postmaster-gen.png]]
 
 ** In postgres main (backend)
+:PROPERTIES:
+:CUSTOM_ID: h:626553FE-1249-47C9-BF44-CDDF4374A8F5
+:END:
 
-#+BEGIN_SRC plantuml :file images/storage-init-postmain-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/storage-init-postmain-gen.png
 
 
   |postgres.c|
@@ -69,9 +78,12 @@
 #+CAPTION: caption
 #+NAME: fig:caption
 #+RESULTS:
-[[file:images/storage-init-postmain-gen.png]]
+[[file:../assets/img/storage-init-postmain-gen.png]]
 
 * Storage Manager (storage/smgr)
+:PROPERTIES:
+:CUSTOM_ID: h:6AD5D540-A50F-4EA0-B827-2DE338C31A86
+:END:
 
 In the original Berkeley Postgres system, there were several storage managers,
 of which only the "magnetic disk" manager remains.  (At Berkeley there were
@@ -87,8 +99,11 @@ nothing noticeable anyway, since storage-access operations are surely far
 more expensive than one extra layer of C function calls.
 
 ** smgr
+:PROPERTIES:
+:CUSTOM_ID: h:A08DEDF3-DC30-496C-9621-00346629FD0E
+:END:
 
-#+BEGIN_SRC plantuml :file images/f_smgr-gen.png :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/f_smgr-gen.png :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class f_smgr {
   + void smgr_init()
@@ -146,11 +161,14 @@ more expensive than one extra layer of C function calls.
 #+END_SRC
 
 #+RESULTS:
-[[file:images/f_smgr-gen.png]]
+[[file:../assets/img/f_smgr-gen.png]]
 
 ** smgr_open()
+:PROPERTIES:
+:CUSTOM_ID: h:978E55B5-E1CD-4F1B-B837-EBF3B2FB4818
+:END:
 
-#+BEGIN_SRC plantuml :file images/smgr-open-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/smgr-open-gen.png
 
   start
 
@@ -172,20 +190,26 @@ more expensive than one extra layer of C function calls.
 #+CAPTION: smgr_open
 #+NAME: fig:smgr_open
 #+RESULTS:
-[[file:images/smgr-open-gen.png]]
+[[file:../assets/img/smgr-open-gen.png]]
 
 
 =open= 的最后，将返回的  relation 的各个 fork 中的 seg 都初始化为 0 。
 
 ** md
+:PROPERTIES:
+:CUSTOM_ID: h:47FB2C4D-2969-4EEC-834E-7ED260412D81
+:END:
 
 magnetic disk.
 
 * (storage/file)
+:PROPERTIES:
+:CUSTOM_ID: h:3CC8570D-60E0-4A17-B1E9-711400F2F506
+:END:
 
 Virtual file descriptor
 
-#+BEGIN_SRC plantuml :file images/vfd-pg-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/vfd-pg-gen.png
 
   class vfd {
       + int fd
@@ -204,12 +228,18 @@ Virtual file descriptor
 #+CAPTION: VFD
 #+NAME: fig:VFD
 #+RESULTS:
-[[file:images/vfd-pg-gen.png]]
+[[file:../assets/img/vfd-pg-gen.png]]
 
 * BufferManager (storage/buffer)
+:PROPERTIES:
+:CUSTOM_ID: h:C1203727-1850-4948-B8FF-578665FA875B
+:END:
 
 ** Data Structures
-#+BEGIN_SRC plantuml :file images/bf-ds-gen.png
+:PROPERTIES:
+:CUSTOM_ID: h:8B7BE46E-9E22-4573-8EC5-51C1F60AC8B3
+:END:
+#+BEGIN_SRC plantuml :file ../assets/img/bf-ds-gen.png
 
   class BufferDesc {
       + BufferTag tag
@@ -274,7 +304,7 @@ Virtual file descriptor
 #+CAPTION: Buffer Pool Data Structures
 #+NAME: fig:Buffer_Pool_Data_Structures
 #+RESULTS:
-[[file:images/bf-ds-gen.png]]
+[[file:../assets/img/bf-ds-gen.png]]
 
 =BufferDesc->state= 比较好玩，该 field 是一个 =uint32=  ， 但实际使用时候，被分成了三段：
 
@@ -301,23 +331,35 @@ Virtual file descriptor
 
 
 *** TODO Refcount vs Usage count????
+:PROPERTIES:
+:CUSTOM_ID: h:9B2C6077-693C-4AE3-A6E7-DB4C1201313A
+:END:
 
 ** InitBufferPool(void)
+:PROPERTIES:
+:CUSTOM_ID: h:7F0FE88C-1588-4BC4-AC22-01DD9D27039F
+:END:
 
 [[file:~/Work/postgres/src/backend/storage/buffer/buf_init.c::InitBufferPool(void)]]
 
 Allocate & initiate above structures (in shared memory).
 
 ** Buffer Pool Initialization
+:PROPERTIES:
+:CUSTOM_ID: h:959BA6C1-7057-422D-9487-0AAFB6FC31F6
+:END:
 
 This is called once during shared-memory initialization (either in the
 postmaster, or in a standalone backend).
 
 ** Buffer Read
+:PROPERTIES:
+:CUSTOM_ID: h:4343B042-9273-4B7B-806E-3C41ED32C693
+:END:
 
 eg flow:
 
-#+BEGIN_SRC plantuml :file images/buffer-read-call-flow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/buffer-read-call-flow-gen.png
 
   |heapam|
   start
@@ -333,17 +375,23 @@ eg flow:
 #+CAPTION: Buffer Read call flow
 #+NAME: fig:Buffer_Read_call_flow
 #+RESULTS:
-[[file:images/buffer-read-call-flow-gen.png]]
+[[file:../assets/img/buffer-read-call-flow-gen.png]]
 
 
 
 
 ***  ReadBufferExtended(Relation reln, ForkNumber forkNum, BlockNumber blockNum,
+:PROPERTIES:
+:CUSTOM_ID: h:DD785EA6-9D2E-4F74-996F-7C0F35DCA9BA
+:END:
                    ReadBufferMode mode, BufferAccessStrategy strategy)
 
   [[file:~/Work/postgres/src/backend/storage/buffer/bufmgr.c::ReadBufferExtended(Relation%20reln,%20ForkNumber%20forkNum,%20BlockNumber%20blockNum,%20ReadBufferMode%20mode,%20BufferAccessStrategy%20strategy)]]
 
 **** Read Buffer Mode
+:PROPERTIES:
+:CUSTOM_ID: h:CAE78C28-7BD5-4499-BFB8-1089DD932D84
+:END:
 
 #+BEGIN_SRC c -r
   /* Possible modes for ReadBufferExtended() */
@@ -361,6 +409,9 @@ eg flow:
 #+END_SRC
 
 ***** =RBM_NORMAL=
+:PROPERTIES:
+:CUSTOM_ID: h:5A6B785A-4735-4CDB-8A0D-2C3115D3DDF5
+:END:
 In =RBM_NORMAL= mode, the page is read from disk, and the page header is
 validated.  An error is thrown if the page header is not valid.  (But
 note that an all-zero page is considered "valid"; see PageIsVerified().)
@@ -369,6 +420,9 @@ note that an all-zero page is considered "valid"; see PageIsVerified().)
 为 0 的页视为合法页。
 
 ***** =RBM_ZERO_ON_ERROR=
+:PROPERTIES:
+:CUSTOM_ID: h:8C73425B-EE6D-45AB-9334-E12AF0333D9B
+:END:
 =RBM_ZERO_ON_ERROR= is like the normal mode, but if the page header is not
 valid, the page is zeroed instead of throwing an error. This is intended
 for non-critical data, where the caller is prepared to repair errors.
@@ -376,6 +430,9 @@ for non-critical data, where the caller is prepared to repair errors.
 与 =normal= 模式类似，但不校验页头，当发生错误时，不抛出异常，而是返回零页。
 
 ***** =RBM_ZERO_AND_LOCK mode=
+:PROPERTIES:
+:CUSTOM_ID: h:34742989-1F1B-4034-A6B5-883FFAC30443
+:END:
 
 In =RBM_ZERO_AND_LOCK= mode, if the page isn't in buffer cache already, it's
 filled with zeros instead of reading it from disk.  Useful when the caller
@@ -392,16 +449,25 @@ current physical EOF; that is likely to cause problems in md.c when
 the page is modified and written out. P_NEW is OK, though.
 
 ***** =RBM_ZERO_AND_CLEANUP_LOCK=
+:PROPERTIES:
+:CUSTOM_ID: h:76113438-727A-48A1-BB8E-9DFC5197199D
+:END:
 =RBM_ZERO_AND_CLEANUP_LOCK= is the same as =RBM_ZERO_AND_LOCK=, but acquires
 a cleanup-strength lock on the page.
 
 ***** =RBM_NORMAL_NO_LOG=
+:PROPERTIES:
+:CUSTOM_ID: h:8028AF0C-7C4D-463D-8A84-DD5DAC30127F
+:END:
 =RBM_NORMAL_NO_LOG= mode is treated the same as =RBM_NORMAL= here.
 
 
 **** ReadBufferExtended Flow
+:PROPERTIES:
+:CUSTOM_ID: h:E0046165-FBB0-4BF0-807B-1F05CF51CF5F
+:END:
 
-#+BEGIN_SRC plantuml :file images/readbuffer-extented-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/readbuffer-extented-gen.png
 
   |bufmgr|
   start
@@ -479,9 +545,12 @@ a cleanup-strength lock on the page.
 #+CAPTION: ReadBufferExtended flow
 #+NAME: fig:ReadBufferExtended_flow
 #+RESULTS:
-[[file:images/readbuffer-extented-gen.png]]
+[[file:../assets/img/readbuffer-extented-gen.png]]
 
 ***** BufferAlloc
+:PROPERTIES:
+:CUSTOM_ID: h:D2E8D041-464A-45D1-8D5F-6CC1A0951FBF
+:END:
 
   BufferAlloc -- subroutine for ReadBuffer.  Handles lookup of a shared
   buffer.  If no buffer exists already, selects a replacement
@@ -490,7 +559,7 @@ a cleanup-strength lock on the page.
   The returned buffer is pinned and is already marked as holding the
   desired page.
 
-  #+BEGIN_SRC plantuml :file images/pg-buffer-alloc-gen.png
+  #+BEGIN_SRC plantuml :file ../assets/img/pg-buffer-alloc-gen.png
     |BufferAlloc|
 
     start
@@ -549,11 +618,14 @@ a cleanup-strength lock on the page.
   #+CAPTION: BufferAlloc
   #+NAME: fig:BufferAlloc
   #+RESULTS:
-  [[file:images/pg-buffer-alloc-gen.png]]
+  [[file:../assets/img/pg-buffer-alloc-gen.png]]
 
 ****** StartBufferIO
+:PROPERTIES:
+:CUSTOM_ID: h:28578702-A0A2-4A07-8505-E757A357D31D
+:END:
 
-#+BEGIN_SRC plantuml :file images/pg-start-bufferio-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/pg-start-bufferio-gen.png
   start
   while(IO_IN_PROGRESS) is (TRUE)
   :WaitIO();
@@ -570,10 +642,13 @@ a cleanup-strength lock on the page.
 #+CAPTION: Start buffer io
 #+NAME: fig:Start_buffer_io
 #+RESULTS:
-[[file:images/pg-start-bufferio-gen.png]]
+[[file:../assets/img/pg-start-bufferio-gen.png]]
 
 
 ****** PinBuffer
+:PROPERTIES:
+:CUSTOM_ID: h:53834EC8-B617-43F8-86EE-8EC96726703F
+:END:
 
 =PinBuffer= -- make buffer unavailable for replacement.
 
@@ -586,7 +661,7 @@ taking the buffer header lock; instead update the state variable in loop of
 CAS operations. Hopefully it's just a single CAS.
 
 
-#+BEGIN_SRC plantuml :file images/pin-buffer-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/pin-buffer-gen.png
   start
   :find ref for buffer;
   if (ref is NULL) then (YES)
@@ -625,16 +700,22 @@ CAS operations. Hopefully it's just a single CAS.
 #+CAPTION: Pin Buffer
 #+NAME: fig:Pin_Buffer
 #+RESULTS:
-[[file:images/pin-buffer-gen.png]]
+[[file:../assets/img/pin-buffer-gen.png]]
 
 - *strategy:*
 
 **** Fork????
+:PROPERTIES:
+:CUSTOM_ID: h:30CB73E3-19F2-4F91-A0A9-D684C69B9721
+:END:
 
 * Page (storage/page)
+:PROPERTIES:
+:CUSTOM_ID: h:6DB66A44-9100-42E4-A133-1EC6EFD74195
+:END:
 
 
-#+BEGIN_SRC plantuml :file images/page-ds-pg-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/page-ds-pg-gen.png
 
   class PageHeaderData {
       + PageXLogRecPtr pd_lsn
@@ -652,8 +733,11 @@ CAS operations. Hopefully it's just a single CAS.
 #+CAPTION: Page related data structure
 #+NAME: fig:Page_related_data_structure
 #+RESULTS:
-[[file:images/page-ds-pg-gen.png]]
+[[file:../assets/img/page-ds-pg-gen.png]]
 
 * Storage IPC
+:PROPERTIES:
+:CUSTOM_ID: h:4740F660-EBD8-4D93-8780-6F7F1AD4E228
+:END:
 
 Refer to: [[file:2019-04-15-Processes-of-PostgresSQL.org]]

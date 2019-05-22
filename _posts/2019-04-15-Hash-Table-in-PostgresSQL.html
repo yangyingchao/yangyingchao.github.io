@@ -8,55 +8,58 @@ tags : pg
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge549b1d">1. Data Structures</a>
+<li><a href="#h:C4E1984E-FF3D-48ED-8D63-47923D19B899">1. Data Structures</a>
 <ul>
-<li><a href="#org82de784">1.1. hash_create()</a></li>
+<li><a href="#h:FF2DB6D8-15D5-4EF7-BE33-8F50C581BAEE">1.1. hash_create()</a></li>
 </ul>
 </li>
-<li><a href="#org768e830">2. Shared-Memory Hash Table</a>
+<li><a href="#h:6844C317-FA0B-41E6-95AC-AA729D67FCBE">2. Shared-Memory Hash Table</a>
 <ul>
-<li><a href="#orgf3b5179">2.1. Partition of Shared Hash Table</a></li>
+<li><a href="#h:590C96D3-9FBA-4B48-B41C-F5BF2049DC1E">2.1. Partition of Shared Hash Table</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge549b1d" class="outline-2">
-<h2 id="orge549b1d"><span class="section-number-2">1</span> Data Structures</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-org9c430d5" class="outline-2">
+<h2 id="h:C4E1984E-FF3D-48ED-8D63-47923D19B899"><a id="org9c430d5"></a><span class="section-number-2">1</span> Data Structures</h2>
+<div class="outline-text-2" id="text-h:C4E1984E-FF3D-48ED-8D63-47923D19B899">
 
-<div id="org476caf6" class="figure">
+<div id="orga019d1e" class="figure">
 <p><img src="../../../../assets/img/pg-hash-table-gen.png" alt="pg-hash-table-gen.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Hash Table Data Structures</p>
 </div>
 </div>
 
-<div id="outline-container-org82de784" class="outline-3">
-<h3 id="org82de784"><span class="section-number-3">1.1</span> hash_create()</h3>
+<div id="outline-container-org17cb097" class="outline-3">
+<h3 id="h:FF2DB6D8-15D5-4EF7-BE33-8F50C581BAEE"><a id="org17cb097"></a><span class="section-number-3">1.1</span> hash_create()</h3>
+<div class="outline-text-3" id="text-h:FF2DB6D8-15D5-4EF7-BE33-8F50C581BAEE">
+</div>
 </div>
 </div>
 
-<div id="outline-container-org768e830" class="outline-2">
-<h2 id="org768e830"><span class="section-number-2">2</span> Shared-Memory Hash Table</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgdc6c587" class="outline-2">
+<h2 id="h:6844C317-FA0B-41E6-95AC-AA729D67FCBE"><a id="orgdc6c587"></a><span class="section-number-2">2</span> Shared-Memory Hash Table</h2>
+<div class="outline-text-2" id="text-h:6844C317-FA0B-41E6-95AC-AA729D67FCBE">
 <p>
 <code>ShmemInitHash()</code>
 </p>
 
 
-<div id="org06cf66b" class="figure">
+<div id="org2233577" class="figure">
 <p><img src="../../../../assets/img/shared-memory-hash-table-gen.png" alt="shared-memory-hash-table-gen.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>Shared-Memory Hash Table</p>
 </div>
 </div>
 
-<div id="outline-container-orgf3b5179" class="outline-3">
-<h3 id="orgf3b5179"><span class="section-number-3">2.1</span> Partition of Shared Hash Table</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orga3f1036" class="outline-3">
+<h3 id="h:590C96D3-9FBA-4B48-B41C-F5BF2049DC1E"><a id="orga3f1036"></a><span class="section-number-3">2.1</span> Partition of Shared Hash Table</h3>
+<div class="outline-text-3" id="text-h:590C96D3-9FBA-4B48-B41C-F5BF2049DC1E">
 <p>
-Partition designed for shared hash table only. Reduce lock conflict.</p>
+Partition designed for shared hash table only. Reduce lock conflict.
+</p>
 </div>
 </div>
 </div>

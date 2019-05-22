@@ -1,0 +1,59 @@
+#+TITLE: Learning GP ORCA -- Infrastructure
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+* Brief Introduction
+:PROPERTIES:
+:CUSTOM_ID: h:FB43D9C9-8805-4F76-AE36-D461EDC8E0AE
+:END:
+
+* Notations
+:PROPERTIES:
+:CUSTOM_ID: h:A517972E-E23B-4DEA-B10E-5E6720D17AF1
+:END:
+
+ORCA code follows [[file:2019-05-22-Hungarian-Notation.org][Hungarian Notation]] convention,  with following extra rules:
+
+- Auto:  eg: =CAutoTimer=
+
+  Some automatic action will be taken during destruction.
+
+* Initialize
+:PROPERTIES:
+:CUSTOM_ID: h:051018CB-0AF8-494E-83D1-3FBF62D0EB98
+:END:
+
+https://github.com/greenplum-db/gporca/blob/master/libgpos/src/_api.cpp
+
+Initialize GPOS memory pool, worker pool and message repository.
+
+- Called during before any optimization
+- [[file:2019-05-22-ORCA-Memory-Pool.org][Memory Pool]]
+- [[#h:4AC27AF3-6D35-4D72-A944-360593EC11BF][Worker Pool]]
+- [[#h:CA5D47EB-EE98-4EF9-B46E-87A885719F26][Message Repository]]
+- [[#h:1DACC83D-D153-454F-9173-29673DC95EC0][Cache Factory]]
+
+
+TODO: Add dedicated post for it...
+
+* Message Repository
+:PROPERTIES:
+:CUSTOM_ID: h:CA5D47EB-EE98-4EF9-B46E-87A885719F26
+:END:
+
+TODO: Add dedicated post for it...
+
+* Cache Factory
+:PROPERTIES:
+:CUSTOM_ID: h:1DACC83D-D153-454F-9173-29673DC95EC0
+:END:
+
+TODO: Add dedicated post for it...

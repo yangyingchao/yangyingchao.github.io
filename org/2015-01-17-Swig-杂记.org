@@ -20,8 +20,14 @@
 
 
 * [[../assets/sources/swig/example1.7z][Example1]] Return =byte[]= instead of =std::string=
+:PROPERTIES:
+:CUSTOM_ID: h:1FD94AD0-06CA-4E7E-A4E5-0D2FEFB8F5CA
+:END:
 
 **  C++ Header:
+:PROPERTIES:
+:CUSTOM_ID: h:8C61C739-C03C-41CF-A525-CED84C2D4959
+:END:
 
  #+BEGIN_SRC c++ -r -n
    #ifndef _EXAMPLE1_H_
@@ -38,6 +44,9 @@
  #+END_SRC
 
 **  修改的 *SWIG* 接口文件：
+:PROPERTIES:
+:CUSTOM_ID: h:9B3F1B06-83AC-4E13-9446-3B23FA177BBD
+:END:
 
  #+BEGIN_SRC swig -r -n
    %module exampl1
@@ -66,8 +75,14 @@
  #+END_SRC
 
 ** 生成的文件
+:PROPERTIES:
+:CUSTOM_ID: h:94905065-DD69-4830-9F81-A87D37F1432C
+:END:
 
 *** Java:
+:PROPERTIES:
+:CUSTOM_ID: h:E4C62352-05EB-4939-8982-C042E135E786
+:END:
 
 
 #+BEGIN_SRC java -r -n
@@ -83,6 +98,9 @@
 #+END_SRC
 
 *** Java JNI:
+:PROPERTIES:
+:CUSTOM_ID: h:05A69293-B4A2-4139-8444-AFE5FA02E469
+:END:
 
 #+BEGIN_SRC java -r -n
   public class exampl1JNI {
@@ -93,6 +111,9 @@
 #+END_SRC
 
 *** JNI Code CPP:
+:PROPERTIES:
+:CUSTOM_ID: h:64BFE00A-29B2-4D83-8E61-BEFC9BE9F84C
+:END:
 
 #+BEGIN_SRC c++ -r -n
   SWIGEXPORT jbyteArray JNICALL Java_exampl1JNI_Example1_1GetString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
@@ -119,8 +140,14 @@
 #+END_SRC
 
 * [[../assets/sources/swig/example2.7z][Example2: ]]转引用为bytearrary：
+:PROPERTIES:
+:CUSTOM_ID: h:1784808B-32D3-4C96-9A66-E001550FA3DF
+:END:
 
 ** C++
+:PROPERTIES:
+:CUSTOM_ID: h:747C9A6A-DA94-4345-927D-2AE3B9AD376E
+:END:
 #+BEGIN_SRC c++ -r -n
   #ifndef _EXAMPLE1_H_
   #define _EXAMPLE1_H_
@@ -135,6 +162,9 @@
 #+END_SRC
 
 ** SWIG Interface
+:PROPERTIES:
+:CUSTOM_ID: h:A3BCCDC3-5CE8-42C1-92EC-6FD8500CF199
+:END:
 #+BEGIN_SRC swig -r -n
   %module exampl1
   %{
@@ -161,7 +191,13 @@
 #+END_SRC
 
 ** Generated Codes:
+:PROPERTIES:
+:CUSTOM_ID: h:60E12CB3-D906-42BD-9358-A8887ADC637A
+:END:
 *** Java Layer
+:PROPERTIES:
+:CUSTOM_ID: h:0034F063-BF6E-4F2E-BC6E-7EECF9AF3C9D
+:END:
 
 #+BEGIN_SRC java -r -n
   public class Example2 {
@@ -205,6 +241,9 @@
 
 
 *** Java JNI
+:PROPERTIES:
+:CUSTOM_ID: h:639AF8F9-0492-49C8-ABEF-76CFA5A59285
+:END:
 #+BEGIN_SRC java -r -n
 
   public class exampl2JNI {
@@ -215,6 +254,9 @@
 #+END_SRC
 
 *** C++ JNI:
+:PROPERTIES:
+:CUSTOM_ID: h:01580B1C-06F3-4F5A-A4DB-D7B01C1D2CCC
+:END:
 #+BEGIN_SRC c++ -r -n
   SWIGEXPORT void JNICALL Java_exampl2JNI_Example2_1GetString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
       Example2 *arg1 = (Example2 *) 0 ;
@@ -244,8 +286,14 @@
 #+END_SRC
 
 * [[../assets/sources/swig/example3.7z][Example3: ]]Director
+:PROPERTIES:
+:CUSTOM_ID: h:55C0E9CC-2A3F-4232-8444-F01D292C70C3
+:END:
 
 ** C++
+:PROPERTIES:
+:CUSTOM_ID: h:B44EFC57-B9A0-4DD1-8C4F-5DE96E1C1CC2
+:END:
 
 #+BEGIN_SRC c++ -r -n
   #include <string>
@@ -258,6 +306,9 @@
 #+END_SRC
 
 ** SWIG Interface
+:PROPERTIES:
+:CUSTOM_ID: h:704C4E2D-BDC6-42FA-B04A-45DB1E2DB414
+:END:
 #+BEGIN_SRC swig -r -n
 %module (directors="1") exampl3
 %{
@@ -300,8 +351,14 @@
 #+END_SRC
 
 ** Generated Codes:
+:PROPERTIES:
+:CUSTOM_ID: h:BC24391F-A931-400D-8EF0-67AAABA69C40
+:END:
 
 *** Java
+:PROPERTIES:
+:CUSTOM_ID: h:FC57685B-5C7F-48C2-AAED-BF1118350BB6
+:END:
 
 #+BEGIN_SRC java -r -n
   public class Example3 {
@@ -356,6 +413,9 @@
 #+END_SRC
 
 *** Java JNI
+:PROPERTIES:
+:CUSTOM_ID: h:7450D73C-3619-4871-97A7-3D569FDCEA6F
+:END:
 #+BEGIN_SRC java -r -n
 public class exampl3JNI {
   public final static native void Example3_Updated(long jarg1, Example3 jarg1_, byte[] jarg2, byte[] jarg3);
@@ -376,6 +436,9 @@ public class exampl3JNI {
 #+END_SRC
 
 *** C++ Wrapper
+:PROPERTIES:
+:CUSTOM_ID: h:2A86BD78-6DED-4114-85D3-60307B042001
+:END:
 #+BEGIN_SRC c++ -r -n
   void SwigDirector_Example3::Updated(std::string const &o, std::string const &n) {
       JNIEnvWrapper swigjnienv(this) ;

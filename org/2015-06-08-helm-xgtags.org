@@ -14,6 +14,9 @@
 helm-xgtags is helm interface for [[http://www.emacswiki.org/emacs/xgtags.el][xgtags]].
 
 * Why [[https://github.com/yangyingchao/helm-xgtags][helm-xgtags]]?
+:PROPERTIES:
+:CUSTOM_ID: h:B8CD456F-10FC-458E-8A9D-52B4B8DC04F6
+:END:
 
 [[http://www.emacswiki.org/emacs/xgtags.el][xgtags]] is great, but when there are multiple candidates of definitions or references,
 we have to use =C-s= to locate/find specified file in =xgtags-select-mode=.
@@ -32,6 +35,9 @@ Compared with =xgtags=, it can:
 - Update database when file is saved
 
 * Installation
+:PROPERTIES:
+:CUSTOM_ID: h:DE7B9F10-EF92-411D-90BA-5BA53FF538A7
+:END:
 
 
  To use helm-xgtags copy this file to some place where emacs can find it,
@@ -62,6 +68,9 @@ Compared with =xgtags=, it can:
  overview of those bindings.
 
 * Customization
+:PROPERTIES:
+:CUSTOM_ID: h:D1B44366-C3D4-4EAC-A32A-47D1C5BAE432
+:END:
 
 It is recommended to use =Easy Csutomization= to customize =helm-xgtags=.
 Simple execute =customize=, and search for =helm-xgtags=.

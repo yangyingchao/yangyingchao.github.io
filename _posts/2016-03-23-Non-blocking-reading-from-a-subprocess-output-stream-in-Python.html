@@ -7,46 +7,46 @@ categories : 未分类
 repost from: <a href="http://eyalarubas.com/python-subproc-nonblock.html">http://eyalarubas.com/python-subproc-nonblock.html</a>
 </p>
 
-<div class="HTML">
 <p>
-    &lt;div class="container"&gt;
-        &lt;div class="row"&gt;
-            &lt;div class="col-sm-2"&gt;&lt;/div&gt;
-            &lt;div class="col-sm-8"&gt;
-                &lt;h1&gt;Non blocking reading from a subprocess output stream in Python&lt;/h1&gt;
-                &lt;div&gt;
-                    Wednesday, 11 December 2013
-                &lt;/div&gt;
-                &lt;div&gt;
-                    Eyal Arubas
-                &lt;/div&gt;
-                &lt;hr&gt;
-                &lt;div class="post-content"&gt;
-                    &lt;p&gt;In one of my projects I had to run an interactive shell application as a
-subprocess. I would send commands through the process&amp;#39; &lt;code&gt;stdin&lt;/code&gt; pipe and read
-the results through its &lt;code&gt;stdout&lt;/code&gt; pipe. As this subprocess is an interactive
-shell, it never terminates. This means that the subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt; pipe
-stays open, even if no new data is streamed through; which causes various
-problems with Python&amp;#39;s stream reading functions (namely the &lt;code&gt;readline&lt;/code&gt;
-function). Specifically, trying to read from such a stream causes the reading
-functions to hang until new data is present.&lt;/p&gt;
-&lt;p&gt;When dealing with a subprocess such an interactive shell, it&amp;#39;s natural that
-the stream stays open but no data arrives.&lt;/p&gt;
-&lt;p&gt;In my project, I wanted to interact with the subprocess by issuing commands
-through its &lt;code&gt;stdin&lt;/code&gt;, reading the result through its &lt;code&gt;stdout&lt;/code&gt;, do some other
-things in my script, and repeat this process. But every time I read from the
-subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt;, my script would hang.&lt;/p&gt;
-&lt;p&gt;To demonstrate, we could simulate the problem using the following code:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;shell.py&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-keyword"&gt;import&lt;/span&gt; sys
-&lt;span class="hljs-keyword"&gt;while&lt;/span&gt; &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;:
-    s = raw_input(&lt;span class="hljs-string"&gt;"Enter command: "&lt;/span&gt;)
-    &lt;span class="hljs-keyword"&gt;print&lt;/span&gt; &lt;span class="hljs-string"&gt;"You entered: {}"&lt;/span&gt;.format(s)
-    sys.stdout.flush()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;code&gt;client.py&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; subprocess import Popen, PIPE
-&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; &lt;span class="hljs-built_in"&gt;time&lt;/span&gt; import sleep
+#+BEGIN_EXPORT html
+      &lt;div class="container"&gt;
+          &lt;div class="row"&gt;
+              &lt;div class="col-sm-2"&gt;&lt;/div&gt;
+              &lt;div class="col-sm-8"&gt;
+                  &lt;h1&gt;Non blocking reading from a subprocess output stream in Python&lt;/h1&gt;
+                  &lt;div&gt;
+                      Wednesday, 11 December 2013
+                  &lt;/div&gt;
+                  &lt;div&gt;
+                      Eyal Arubas
+                  &lt;/div&gt;
+                  &lt;hr&gt;
+                  &lt;div class="post-content"&gt;
+                      &lt;p&gt;In one of my projects I had to run an interactive shell application as a
+  subprocess. I would send commands through the process&amp;#39; &lt;code&gt;stdin&lt;/code&gt; pipe and read
+  the results through its &lt;code&gt;stdout&lt;/code&gt; pipe. As this subprocess is an interactive
+  shell, it never terminates. This means that the subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt; pipe
+  stays open, even if no new data is streamed through; which causes various
+  problems with Python&amp;#39;s stream reading functions (namely the &lt;code&gt;readline&lt;/code&gt;
+  function). Specifically, trying to read from such a stream causes the reading
+  functions to hang until new data is present.&lt;/p&gt;
+  &lt;p&gt;When dealing with a subprocess such an interactive shell, it&amp;#39;s natural that
+  the stream stays open but no data arrives.&lt;/p&gt;
+  &lt;p&gt;In my project, I wanted to interact with the subprocess by issuing commands
+  through its &lt;code&gt;stdin&lt;/code&gt;, reading the result through its &lt;code&gt;stdout&lt;/code&gt;, do some other
+  things in my script, and repeat this process. But every time I read from the
+  subprocess&amp;#39; &lt;code&gt;stdout&lt;/code&gt;, my script would hang.&lt;/p&gt;
+  &lt;p&gt;To demonstrate, we could simulate the problem using the following code:&lt;/p&gt;
+  &lt;p&gt;&lt;code&gt;shell.py&lt;/code&gt;:&lt;/p&gt;
+  &lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-keyword"&gt;import&lt;/span&gt; sys
+  &lt;span class="hljs-keyword"&gt;while&lt;/span&gt; &lt;span class="hljs-keyword"&gt;True&lt;/span&gt;:
+      s = raw_input(&lt;span class="hljs-string"&gt;"Enter command: "&lt;/span&gt;)
+      &lt;span class="hljs-keyword"&gt;print&lt;/span&gt; &lt;span class="hljs-string"&gt;"You entered: {}"&lt;/span&gt;.format(s)
+      sys.stdout.flush()
+  &lt;/code&gt;&lt;/pre&gt;
+  &lt;p&gt;&lt;code&gt;client.py&lt;/code&gt;:&lt;/p&gt;
+  &lt;pre&gt;&lt;code class="lang-python"&gt;&lt;span class="hljs-built_in"&gt;from&lt;/span&gt; subprocess import Popen, PIPE
+  &lt;span class="hljs-built_in"&gt;from&lt;/span&gt; &lt;span class="hljs-built_in"&gt;time&lt;/span&gt; import sleep
 </p>
 
 <p>
@@ -221,14 +221,13 @@ p.stdin.write(&lt;span class="hljs-string"&gt;'command\n'&lt;/span&gt;)
 </p>
 
 <p>
-            &lt;/div&gt;
-            &lt;footer class="footer"&gt;
-                Generated from &lt;a href="<a href="https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown">https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown</a>"&gt;Markdown source&lt;/a&gt; using &lt;a href="<a href="https://github.com/EyalAr/Contrive">https://github.com/EyalAr/Contrive</a>"&gt;Contrive&lt;/a&gt;.
-            &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class="col-sm-2"&gt;&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;footer class="footer"&gt;
+                      Generated from &lt;a href="<a href="https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown">https://raw.githubusercontent.com/EyalAr/Tech-Blog-Posts/master/posts/python-subproc-nonblock.markdown</a>"&gt;Markdown source&lt;/a&gt; using &lt;a href="<a href="https://github.com/EyalAr/Contrive">https://github.com/EyalAr/Contrive</a>"&gt;Contrive&lt;/a&gt;.
+                  &lt;/div&gt;
+              &lt;/div&gt;
+              &lt;div class="col-sm-2"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+      &lt;/div&gt;
+#+END_HTML
 </p>
-
-</div>

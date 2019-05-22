@@ -12,6 +12,9 @@
 #+DESCRIPTION: (nil)
 
 * Running emacs like a Daemon
+:PROPERTIES:
+:CUSTOM_ID: h:A1B0BA34-6106-4A82-A74F-F8C7EE0E51C0
+:END:
 
 This a new feature that is included in emacs-23.1.
 
@@ -29,6 +32,9 @@ sudo emacs --daemon
 
 
 * Simple setup
+:PROPERTIES:
+:CUSTOM_ID: h:59B63ACE-1ED1-4424-8AF2-31B709332C51
+:END:
 
 Put
 
@@ -50,11 +56,17 @@ if one is not found running, and sane programs will know to run emacsclient to
 start an editor.
 
 * Debian/Ubuntu
+:PROPERTIES:
+:CUSTOM_ID: h:7ECF2799-1C91-4DA0-A1F5-E216DFB5AC5E
+:END:
 
 Depending on your requirements, there are a couple ways to work with
 =emacs --daemon= and =emacsclient=.
 
 ** Basic setup
+:PROPERTIES:
+:CUSTOM_ID: h:86F65E10-C237-4458-AFF5-991FEF4E7B53
+:END:
 Add =emacs --daemon= to auto-start on boot. This can be done the easy way (via
 “Settings > Session and Startup > Application Autostart”) or by writing your own
 =.desktop= file and placing it in =~/.config/autostart=.
@@ -77,6 +89,9 @@ alias emacsc="emacsclient -c -a emacs"           # new - opens the GUI with alte
 #+END_SRC
 
 ** Comprehensive init script
+:PROPERTIES:
+:CUSTOM_ID: h:51BA0D97-731A-4F26-AF4C-431EC301B701
+:END:
 Here a little init script for GNU Debian/Ubuntu (please help to improve!) Save in
 /etc/init.d/emacs
 
@@ -267,6 +282,9 @@ root can run emacs in this way!
 You should rather change the variables in /etc/default/emacs, this is how other init scripts work. You could extend the script to start daemons for several users, e.g. by looking for a .start-emacs-daemon file in their home directories. But then, the init script wouldn’t make much sense on a system with multiple users, anyway: such a computer should never get powered off, so the init script will not run, anyway. A better solution would be to start the daemon lazily: just create a wrapper around emacsclient, starting the daemon if it isn’t already running. – AnselmHelbig
 
 * Gentoo
+:PROPERTIES:
+:CUSTOM_ID: h:5422C071-751D-4A45-B946-1882A4EF46CD
+:END:
 
 Gentoo includes support for running Emacs as a daemon in the
 =app-emacs/emacs-daemon= package.
@@ -295,6 +313,9 @@ extensively commented. You may also create individual /etc/conf.d/emacs.username
 files for “multiplexed” user configuration.
 
 * Emacs as Daemon on OS X using Launchd
+:PROPERTIES:
+:CUSTOM_ID: h:7E736866-C83E-4146-A286-F05F5E55D58D
+:END:
 
 If you’re running Emacs 23, you can run Emacs As Daemon via OS X’s launchd. The
 easiest solution is to use a tool like Lingon to create the plist file or can
@@ -331,6 +352,9 @@ This can then be installed in =/Library/LaunchAgents= and loaded via:
 #+END_SRC
 
 * Systemd user service on startup
+:PROPERTIES:
+:CUSTOM_ID: h:AE7BAF15-18A1-48E9-95C2-771B13420695
+:END:
 
 It’s simple enough to run the emacs daemon with systemd.
 

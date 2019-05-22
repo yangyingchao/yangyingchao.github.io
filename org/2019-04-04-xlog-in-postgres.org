@@ -12,14 +12,26 @@
 #+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 * Overview
+:PROPERTIES:
+:CUSTOM_ID: h:5F8CEB29-319F-44F2-A106-9F3525CAC413
+:END:
 * Init
+:PROPERTIES:
+:CUSTOM_ID: h:AF5C3F8B-C5D7-402A-96F9-1C8DF123F827
+:END:
 
 
 * Insert Flow
+:PROPERTIES:
+:CUSTOM_ID: h:30EB1E82-A2B7-4831-8D23-6BB93737D88E
+:END:
 
 ** General Flow
+:PROPERTIES:
+:CUSTOM_ID: h:5810C3A6-7E44-4FB5-AA72-41778259D7C4
+:END:
 
-#+BEGIN_SRC plantuml :file images/xlog-insert-general-flow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/xlog-insert-general-flow-gen.png
   |CALLER|
   :XLogBeginInsert();
 
@@ -73,18 +85,24 @@
 #+CAPTION: xlog insert general flow
 #+NAME: fig:xlog_insert_general_flow
 #+RESULTS:
-[[file:images/xlog-insert-general-flow-gen.png]]
+[[file:../assets/img/xlog-insert-general-flow-gen.png]]
 
 
 ** XLogRecordAssemble
+:PROPERTIES:
+:CUSTOM_ID: h:421EC9B7-EE8D-4538-917D-E729CF36A110
+:END:
 
 
 ** Insert
+:PROPERTIES:
+:CUSTOM_ID: h:89F4D0C7-53C8-412F-9505-65BCC0FE8031
+:END:
 
 
 用到的地方很多，以 =heap_insert= 为例。
 
-#+BEGIN_SRC plantuml :file images/xlog-insert-flow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/xlog-insert-flow-gen.png
   |heamam|
   #00ffff:BEGIN - heap_insert();
 
@@ -96,12 +114,15 @@
   #00ffff:END - heap_insert();
 #+END_SRC
 #+RESULTS:
-[[file:images/xlog-insert-flow-gen.png]]
+[[file:../assets/img/xlog-insert-flow-gen.png]]
 
 
 ** Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:B7D20D31-66C1-4B39-98DE-B695A092330A
+:END:
 
-#+BEGIN_SRC plantuml :file images/xl-ds-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/xl-ds-gen.png
   class XLogRecData {
       + XLogRecData* next
       + char* data
@@ -169,5 +190,5 @@
 #+CAPTION: xlog data structures
 #+NAME: fig:xlog_data_structures
 #+RESULTS:
-[[file:images/xl-ds-gen.png]]
+[[file:../assets/img/xl-ds-gen.png]]
 

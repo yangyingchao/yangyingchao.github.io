@@ -13,10 +13,16 @@
 
 
 * Flow
+:PROPERTIES:
+:CUSTOM_ID: h:A3A9377E-CFF7-41C6-A636-B549F437EB61
+:END:
 
 * Packet Format
+:PROPERTIES:
+:CUSTOM_ID: h:11D3E184-2A8F-4F43-A25A-9BEEB7C4F8BA
+:END:
 
-#+BEGIN_SRC dot :file images/my_pf.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/my_pf.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=true];

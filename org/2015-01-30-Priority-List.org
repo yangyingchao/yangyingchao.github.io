@@ -15,6 +15,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * 概念与实现
+:PROPERTIES:
+:CUSTOM_ID: h:55765635-67EE-48ED-A982-6406C555B40D
+:END:
 
 Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序排列优先级的链表。
 
@@ -121,9 +124,12 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 #+END_SRC
 
 * 图解几个状态
+:PROPERTIES:
+:CUSTOM_ID: h:A0C60E01-F3C6-4F5B-93C7-FCBAB3034938
+:END:
 
 1. 未添加任何 node 的表头
-#+BEGIN_SRC dot :file images/empty_phead.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/empty_phead.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled];
       edge[color="#666666" style=dashed arrowhead=open];
@@ -139,7 +145,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
    各种指针都指向自己
 
-    #+BEGIN_SRC dot :file images/pnode_0.png :cmdline -Kdot -Tpng
+    #+BEGIN_SRC dot :file ../assets/img/pnode_0.png :cmdline -Kdot -Tpng
       digraph Name {
           node [fontsize=12 fontname=Courier style=filled];
           edge[color="#666666" style=dashed arrowhead=open];
@@ -158,7 +164,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
 3. 添加一个 =plist_node=
 
-   #+BEGIN_SRC dot :file images/1node.png :cmdline -Kdot -Tpng
+   #+BEGIN_SRC dot :file ../assets/img/1node.png :cmdline -Kdot -Tpng
      digraph Name {
          node [fontsize=12 fontname=Courier style=filled shape=record];
          edge[color="#666666" style=dashed arrowhead=open tailclip=false];
@@ -192,7 +198,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
 4. 添加两个不同的 Node:
 
-   #+BEGIN_SRC dot :file images/2nodes.png :cmdline -Kdot -Tpng
+   #+BEGIN_SRC dot :file ../assets/img/2nodes.png :cmdline -Kdot -Tpng
      digraph Name {
          node [fontsize=12 fontname=Courier style=filled shape=record];
          edge[color="#666666" style=dashed arrowhead=open tailclip=false];
@@ -240,7 +246,7 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
 
    5. 添加三个 Node，其中有两个 prio 相同:
 
-      #+BEGIN_SRC dot :file images/3nodes.png :cmdline -Kdot -Tpng
+      #+BEGIN_SRC dot :file ../assets/img/3nodes.png :cmdline -Kdot -Tpng
         digraph Name {
             node [fontsize=12 fontname=Courier style=filled];
             edge[color="#666666" style=dashed arrowhead=open];
@@ -292,6 +298,9 @@ Priority List (plist) 是用双向链表 (double-linked list) 构建的，降序
       #+END_SRC
 
 * 测试代码
+:PROPERTIES:
+:CUSTOM_ID: h:E18B328D-B914-45C8-8A0F-DC6DBF379BC5
+:END:
 
 #+BEGIN_SRC c -r -n
   #include <linux/module.h>   /* Needed by all modules */

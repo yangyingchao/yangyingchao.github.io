@@ -11,7 +11,7 @@
 #+CATEGORY: Linux
 #+DESCRIPTION: (nil)
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
   <span class="drop_cap">H</span>ow do I identify Linux server ECC memory modules from a shell prompt?<br> <span id="more-1005"></span><br> You need to count the chips on the module. If memory module has 9 chips per sides, it is ECC memory (EDAC protected memory). It may or may not be registered. If the memory module has 8 chips per side, it is not ECC memory modules.</p><p>You can get this information by visiting your BIOS setup menu. Another option is to use <a href="http://www.cyberciti.biz/tips/querying-dumping-bios-from-linux-command-prompt.html">dmidecode command to dump bios memory information</a> from a shell prompt:<br> <code># dmidecode --type 16</code></p><pre># dmidecode 2.11
   SMBIOS 2.5 present.
   Handle 0x0016, DMI type 16, 15 bytes

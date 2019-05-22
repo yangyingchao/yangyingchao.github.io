@@ -11,8 +11,14 @@
 #+CATEGORY: Database
 #+DESCRIPTION: (nil)
 * Overview
+:PROPERTIES:
+:CUSTOM_ID: h:6A573BFC-5498-43F6-99D3-33D0A2858145
+:END:
 
 ** postmaster、postgres & utility
+:PROPERTIES:
+:CUSTOM_ID: h:7B6C84E3-843D-4005-B1CA-9D745DCB799C
+:END:
 
 - postmaster: 主进程，启动后监听指定端口，客户端连接后，fork 出 postgres 用于
   服务客户端。
@@ -21,7 +27,7 @@
 
 postmaster 活动：
 
-#+BEGIN_SRC plantuml :file images/postmaster-simple-flow-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/postmaster-simple-flow-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |postmaster|
   start
 
@@ -57,10 +63,13 @@ postmaster 活动：
 #+CAPTION: Postmaster Simple Flow
 #+NAME: fig:Postmaster_Simple_Flow
 #+RESULTS:
-[[file:images/postmaster-simple-flow-gen.png]]
+[[file:../assets/img/postmaster-simple-flow-gen.png]]
 
 
 ** Init flow for postmaster
+:PROPERTIES:
+:CUSTOM_ID: h:A89B01F3-1B09-41AE-A90C-AE9494622B8A
+:END:
 
 =src/backend/storage/ipc=
 
@@ -69,7 +78,7 @@ inter-process communication.
 
 Always started and initialized by postmaster...
 
-#+BEGIN_SRC plantuml :file images/ipci-init-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/ipci-init-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   |postmaster|
   start
@@ -99,13 +108,16 @@ Always started and initialized by postmaster...
 #+CAPTION: IPC Initialization
 #+NAME: fig:IPC_Initialization
 #+RESULTS:
-[[file:images/ipci-init-gen.png]]
+[[file:../assets/img/ipci-init-gen.png]]
 
 For init of shared memory: [[file:2019-04-16-Shared-Memory-of-PostgresSQL.org]]
 
 * Global Process Table
+:PROPERTIES:
+:CUSTOM_ID: h:ACEAEA2B-589E-4511-9800-C730C988657A
+:END:
 
-#+BEGIN_SRC plantuml :file images/global-process-table-pg-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/global-process-table-pg-gen.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class PROC_HDR {
       + PGPROC* allProcs
@@ -203,14 +215,17 @@ For init of shared memory: [[file:2019-04-16-Shared-Memory-of-PostgresSQL.org]]
 #+CAPTION: global process table
 #+NAME: fig:global_process_table
 #+RESULTS:
-[[file:images/global-process-table-pg-gen.png]]
+[[file:../assets/img/global-process-table-pg-gen.png]]
 
 ** InitProcGlobal
+:PROPERTIES:
+:CUSTOM_ID: h:46C0676C-9E9F-4F46-BC31-D8AE807599C6
+:END:
 
 Initialize the global process table during postmaster or standalone
 backend startup.
 
-#+BEGIN_SRC plantuml :file images/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   start
   :allocate space for ProGlobal\nfrom shared memory;
   :init variables of ProGlobal;
@@ -228,7 +243,7 @@ backend startup.
 #+CAPTION: InitProcGlobal
 #+NAME: fig:InitProcGlobal
 #+RESULTS:
-[[file:images/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+[[file:../assets/img/InitProcGlobal-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 
 After Init:
@@ -241,7 +256,7 @@ After Init:
 #+END_SRC
 
 
-#+BEGIN_SRC ditaa :file images/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png
+#+BEGIN_SRC ditaa :file ../assets/img/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png
     +------------------------------------------------------------------------------------------------+
     |                        PROCS  (up to TotalProcs)                                               |
     +-----+----------------+-------------------------------+--------------------+--------------------+
@@ -255,11 +270,14 @@ After Init:
 #+CAPTION: Global Proc Table After Init
 #+NAME: fig:Global_Proc_Table_After_Init
 #+RESULTS:
-[[file:images/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+[[file:../assets/img/global-proc-table-after-init-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 
 
 * Proc Array
+:PROPERTIES:
+:CUSTOM_ID: h:BB377F9B-A434-4983-BBBD-502A12F9A061
+:END:
 
  This module maintains arrays of the PGPROC and PGXACT structures for all
  active backends.  Although there are several uses for this, the principal
@@ -272,7 +290,7 @@ After Init:
 
  =static ProcArrayStruct *procArray=
 
- #+BEGIN_SRC plantuml :file images/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+ #+BEGIN_SRC plantuml :file ../assets/img/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
    class ProcArrayStruct {
    + int numProcs
@@ -292,10 +310,13 @@ After Init:
  #+CAPTION: Process Array
  #+NAME: fig:Proc_Array
  #+RESULTS:
- [[file:images/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+ [[file:../assets/img/proc-array-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 
 ** Init
+:PROPERTIES:
+:CUSTOM_ID: h:030DCF52-C4B9-4C34-A43F-4BAF26F6954E
+:END:
 
 - CreateSharedProcArray(void)
 
@@ -306,8 +327,14 @@ After Init:
 
 
 ** Add/remove proc to/from array
+:PROPERTIES:
+:CUSTOM_ID: h:67B83C51-C8C6-46A8-A9D9-D425ECD6E53E
+:END:
 
 *** call flow
+:PROPERTIES:
+:CUSTOM_ID: h:26FC8456-A5CF-4D23-AB2A-D5830F2FAD19
+:END:
 
 called from PostgresMain (from main to PostgresMain, refer to: [[fig:Postmaster_Simple_Flow]] )
 
@@ -315,8 +342,11 @@ called from PostgresMain (from main to PostgresMain, refer to: [[fig:Postmaster_
 
 
 *** ProcArrayAdd Flow
+:PROPERTIES:
+:CUSTOM_ID: h:93F2182D-E70C-4222-ACAA-3F3415D74933
+:END:
 
-#+BEGIN_SRC plantuml :file images/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   start
   :lock ProcArrayLock;
@@ -334,16 +364,25 @@ called from PostgresMain (from main to PostgresMain, refer to: [[fig:Postmaster_
 #+CAPTION: ProcArraryAdd flow
 #+NAME: fig:ProcArraryAdd_flow
 #+RESULTS:
-[[file:images/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+[[file:../assets/img/proc_array_add-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 
 *** ProcArrayRemove
+:PROPERTIES:
+:CUSTOM_ID: h:0040168F-B66B-4A44-B191-1217E556AD01
+:END:
 called automatically =on_shmem_exit(RemoveProcFromArray, 0)= .
 
 
 * Process Init of backends (PostgresMain)
+:PROPERTIES:
+:CUSTOM_ID: h:B8631F44-087B-4601-A8DB-DAC4C3938B66
+:END:
 
 *** InitProcess();
+:PROPERTIES:
+:CUSTOM_ID: h:C8881E8E-8BEA-4999-8ABC-41E74A799150
+:END:
 
 [[file:~/Work/postgres/src/backend/tcop/postgres.c::InitProcess();]]
 
@@ -356,7 +395,7 @@ Initialize a per-process data structure for this backend.
 - MyLatch
 
 
-#+BEGIN_SRC plantuml :file images/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   start
   :sanity check;
@@ -382,17 +421,23 @@ Initialize a per-process data structure for this backend.
 #+CAPTION: Init Process
 #+NAME: fig:Init_Process
 #+RESULTS:
-[[file:images/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+[[file:../assets/img/init-prcess-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 
 
 
 *** InitProcessPhase2()
+:PROPERTIES:
+:CUSTOM_ID: h:DE82A1A1-7789-4357-9A01-AEE6358A5923
+:END:
 
 Second part of process initialization, simply call =ProcArrayAdd()= and set
 hook to run during [[Process Exit][shemem_exit]].
 
 * Process Exit
+:PROPERTIES:
+:CUSTOM_ID: h:8DC40E00-20BF-41B0-A798-98E72EE26A1D
+:END:
 
 Calls all the callbacks registered for it, and then calls =exit= .
 
@@ -402,7 +447,7 @@ call flow:
 [[fig:Postmaster_Simple_Flow][PostgresMain]]  $-->$ =Loop for Commands= $-->$ [[fig:proc_exit_flow][proc_exit]]
 
 
-#+BEGIN_SRC plantuml :file images/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   |proc_exit|
   start
@@ -420,7 +465,7 @@ call flow:
 #+CAPTION: proc_exit flow
 #+NAME: fig:proc_exit_flow
 #+RESULTS:
-[[file:images/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
+[[file:../assets/img/prox_exit_flow-gen-bc94e7d6bc7303eb844883b4fcdd8ff7.png]]
 
 on_proc_exit(pg_on_exit_callback function, Datum arg)
 

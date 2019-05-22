@@ -12,12 +12,18 @@
 #+DESCRIPTION: (nil)
 
 * 安装
+:PROPERTIES:
+:CUSTOM_ID: h:8DA2B00C-5253-4A7A-8398-9052DBE4309D
+:END:
 
 #+BEGIN_SRC console -r
 emerge -av subversion
 #+END_SRC
 
 * 配置
+:PROPERTIES:
+:CUSTOM_ID: h:7CCEA8F1-90FD-40B3-B1A3-29A5036FA38C
+:END:
 #+BEGIN_SRC console -r
 emerge --config dev-vcs/subversion
 #+END_SRC
@@ -39,10 +45,19 @@ emerge --config dev-vcs/subversion
 #+END_SRC
 
 * 启动服务
+:PROPERTIES:
+:CUSTOM_ID: h:CF5F1D7F-B4DE-475F-A128-7918BE7F8C37
+:END:
 ** openrc
+:PROPERTIES:
+:CUSTOM_ID: h:DD08C747-8B7B-4FF5-ACBC-C4E4601373D4
+:END:
 如果使用 openrc，可以直接执行： /etc/init.d/svnserve start
 
 ** systemd
+:PROPERTIES:
+:CUSTOM_ID: h:CB469163-BCC0-4DA4-89BF-932E6E5AB7AC
+:END:
 subversion 没有提供 systemd 的 unit，需要自己写一个。如果像我一样只是临时测试
 用，可以直接用命令行启动 svnserve：
 
@@ -51,6 +66,9 @@ t-station ~ # svnserve -d -r /var/svn/ --pid-file /var/run/svnd.pid
 #+END_SRC
 
 * Check out files & play
+:PROPERTIES:
+:CUSTOM_ID: h:29FD7AAC-E56A-4F0B-9CCB-352080666336
+:END:
 #+BEGIN_SRC console -r
 svn co svn://localhost/repos --username yyc
 #+END_SRC

@@ -30,8 +30,11 @@ http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multip
 摘录一下：
 
 *** G++ 生成的 ABI 遵循 http://mentorembedded.github.io/cxx-abi/abi.html
+    :PROPERTIES:
+    :CUSTOM_ID: h:CECE2893-E773-4C36-A712-751E8B9580C5
+    :END:
 
-       #+BEGIN_HTML
+       #+BEGIN_EXPORT html
        <div class="post-text" itemprop="text">
     <p>We'll start by declaring that <a href="http://gcc.gnu.org/onlinedocs/gcc/Compatibility.html">GCC follows</a> <a href="http://web.archive.org/web/20100315072857/http://www.codesourcery.com/public/cxx-abi/abi.html">the Itanium C++ ABI</a>.</p>
 
@@ -65,11 +68,14 @@ http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multip
        #+END_HTML
 
 *** G++ 生成多个析构函数，其意义如下
+    :PROPERTIES:
+    :CUSTOM_ID: h:E2B211DC-6438-48E2-9200-E9A1AE1F97B1
+    :END:
 
     （参考：
         http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multiple-dtors/6614369#6614369)
 
-       #+BEGIN_HTML
+       #+BEGIN_EXPORT html
           <ul>
     <li>D2 is the "base object destructor". It destroys the object itself, as well as data members and non-virtual base classes.</li>
     <li>D1 is the "complete object destructor". It additionally destroys virtual base classes.</li>
@@ -80,6 +86,9 @@ http://stackoverflow.com/questions/6613870/gnu-gcc-g-why-does-it-generate-multip
 
 
 *** D0~D3 的调用顺序
+    :PROPERTIES:
+    :CUSTOM_ID: h:56A098AC-651C-4FCB-B5C5-052048956C50
+    :END:
 
   1) 示例 1:
 

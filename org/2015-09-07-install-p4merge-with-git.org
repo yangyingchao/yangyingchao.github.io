@@ -13,7 +13,7 @@
 
 Reposted from: [[http://blogs.pdmlab.com/alexander.zeitler/articles/installing-and-configuring-p4merge-for-git-on-ubuntu/]]
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
 
 
   <div class="page color-4">

@@ -15,18 +15,30 @@
 
 
 * Recency & Inter-reference Recency
+:PROPERTIES:
+:CUSTOM_ID: h:E1A66223-D1D3-4F9D-80EA-BFE55079D2DD
+:END:
 
  LIRS*: Low Inter-reference Recency Set，中文？？
 
 ** Recency
+:PROPERTIES:
+:CUSTOM_ID: h:DA12C16F-57EB-42ED-8789-E07F0439FBA6
+:END:
     页面上次访问至今，共访问了多少其他页面。
 
 ** IRR: Inter-Reference Recency
+:PROPERTIES:
+:CUSTOM_ID: h:5A6533BC-38C0-46DA-9620-ABD71BF1BAEA
+:END:
   页最近两次访问之间访问了多少次其他页面。 IRR 越大 (high)，表示该页被使用的间隔越长，频率越低，
   越 “冷”。反之， IRR 越小 (low)， 该页使用间隔越小，频率越高，即越 “热”。
 
 
 * 冷页与热页
+:PROPERTIES:
+:CUSTOM_ID: h:37B9DEDF-D8FD-4B9A-B4FA-B3B9A10F9CB9
+:END:
 
   面根据 IRR 分为了两类： LIR (low IRR) 与 HIR (high IRR) ，也即：热页与冷页。
   中，热页驻留内存，而冷页则不一定驻留。
@@ -35,10 +47,16 @@
   限制到达之后， *LIRS* 根据[[*%E9%A1%B5%E6%9B%BF%E6%8D%A2%E8%A7%84%E5%88%99][算法]] 来进行后续处理。
 
 * Stack & Queue
+:PROPERTIES:
+:CUSTOM_ID: h:AC81AD59-322F-4F8F-990F-600859D05032
+:END:
 
  LIRS* 算法中借用了两个数据结构来实现： Stack & Queue
 
 ** Stack
+:PROPERTIES:
+:CUSTOM_ID: h:0BA09B73-36FC-46CB-A666-2FF4CDA2F795
+:END:
 
   tack (栈) 是 LIRS  算法中的主要数据结构，其中存储了所有的热页以及最近使用的冷页。
   tack 本身依据 Recency 排序：越老的越靠近栈底，越新的越靠近栈顶。栈里面比 least recent hot page 还
@@ -48,30 +66,51 @@
   栈底移除。
 
 ** Queue
+:PROPERTIES:
+:CUSTOM_ID: h:F0E7625C-8B1B-441A-942D-69B91F57FCA0
+:END:
 
   Queue (队) 中保存了所有驻留内存的冷页。当热页从 Stack 中移除时，该页被加入到 Queue
   末尾。而当需要进行页面替代时， *LIRS* 会从 Queue 的首部取出一个页面以供使用。
 
 * 页替换规则
+:PROPERTIES:
+:CUSTOM_ID: h:13EE0132-2B7C-4DE9-9644-1A7F2711F8B0
+:END:
 
  向 *LIRS List* 中插入页时，会根据待插入的页类型来进行处理：
 
 ** 热页
+:PROPERTIES:
+:CUSTOM_ID: h:58A7634C-25B8-45AE-9738-D65AA046B82F
+:END:
   果待插入页为热页，将该页置于栈顶，而如果该页之前处于栈底，则需对栈进行[[*Stack][清理]]
 
 ** 驻留冷页
+:PROPERTIES:
+:CUSTOM_ID: h:19F7D27B-A62A-46EC-B4D4-8D8F3EF13148
+:END:
 
   先将该页置于栈顶，并做如下处理：
 
 ** 如果该页之前已经在栈里
+:PROPERTIES:
+:CUSTOM_ID: h:C3D6FAAE-8F97-49EC-860E-8DB203FAB718
+:END:
  1. 则将其转换为热页，并从队中移除。
  2. 将栈底标记为冷页，并移到队尾。
  3. 对栈进行[[*Stack][清理]] 。
 
 ** 如果该页之前仅在队里（之前为冷页）
+:PROPERTIES:
+:CUSTOM_ID: h:163EA0EF-B35A-4802-B03E-B272C6FE0C5D
+:END:
   不改变冷热状态，但挪动队尾。
 
 ** 非驻留冷页
+:PROPERTIES:
+:CUSTOM_ID: h:D15B63CD-07AB-4C0F-BC15-6D6ED2AB5504
+:END:
   队首移除一条记录，并将其从 Cache 中驱逐。如果被驱逐的记录之前已经在栈里，则其仍处于未绑定
   ，依然处于试用期。将这个记录与 cache 页绑定，并移植栈顶：
   果该页之前已经在栈里：\\
@@ -80,8 +119,14 @@
      3. 对栈进行[[*Stack][清理]] 。
 
 ** 如果该页之前仅在队里（之前为冷页）
+:PROPERTIES:
+:CUSTOM_ID: h:9F95BD4C-E6DC-4B62-AD6C-35F3FBC37B2E
+:END:
   不改变冷热状态，但挪动队尾。
 
 * 页的状态
+:PROPERTIES:
+:CUSTOM_ID: h:61F4DF02-64FF-422B-BAC6-DCB2FF921FBA
+:END:
 
  栈里面的页可以是绑定的，页可以是非绑定的，但队里面的页必须是绑定状态的。

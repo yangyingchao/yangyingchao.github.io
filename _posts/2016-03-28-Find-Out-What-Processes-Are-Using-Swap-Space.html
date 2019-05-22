@@ -8,102 +8,102 @@ tags : linux process
 Reposted from: <a href="http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/">http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/</a>
 </p>
 
-<div class="HTML">
 <p>
-&lt;div class="content"&gt;
-  &lt;div id="post-13113" class="post_box grt top" itemscope="" itemtype="<a href="http://schema.org/Article">http://schema.org/Article</a>"&gt;
-    &lt;meta itemscope="" itemprop="mainEntityOfPage" itemtype="<a href="https://schema.org/WebPage">https://schema.org/WebPage</a>" itemid="<a href="http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/">http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/</a>"&gt;
-    &lt;div class="headline_area"&gt;
-      &lt;h1 class="headline" itemprop="headline"&gt;
-        Linux: Find Out What Process Are Using Swap Space&lt;/h1&gt;
-      &lt;div class="byline small"&gt;
-        &lt;span class="post_author_intro"&gt;
-          by&lt;/span&gt;
-        &lt;span class="post_author"&gt;
-          Vivek Gite&lt;/span&gt;
-        &lt;span class="post_date_intro"&gt;
-          on&lt;/span&gt;
-        &lt;span class="post_date" title="2013-01-15"&gt;
-          January 15, 2013&lt;span style="font-style: italic; text-transform: lowercase;"&gt;
-            last updated &lt;/span&gt;
-          January 15, 2013&lt;/span&gt;
-        &lt;div class="post_cats"&gt;
-          &lt;span class="post_cats_intro"&gt;
-            in&lt;/span&gt;
-          &lt;a href="<a href="http://www.cyberciti.biz/faq/category/bash-shell/">http://www.cyberciti.biz/faq/category/bash-shell/</a>" rel="category tag"&gt;
-            BASH Shell&lt;/a&gt;
-          , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/debian-ubuntu/">http://www.cyberciti.biz/faq/category/debian-ubuntu/</a>" rel="category tag"&gt;
-            Debian / Ubuntu&lt;/a&gt;
-          , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/linux/">http://www.cyberciti.biz/faq/category/linux/</a>" rel="category tag"&gt;
-            Linux&lt;/a&gt;
-          , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/redhat-and-friends/">http://www.cyberciti.biz/faq/category/redhat-and-friends/</a>" rel="category tag"&gt;
-            RedHat and Friends&lt;/a&gt;
+#+BEGIN_EXPORT html
+  &lt;div class="content"&gt;
+    &lt;div id="post-13113" class="post_box grt top" itemscope="" itemtype="<a href="http://schema.org/Article">http://schema.org/Article</a>"&gt;
+      &lt;meta itemscope="" itemprop="mainEntityOfPage" itemtype="<a href="https://schema.org/WebPage">https://schema.org/WebPage</a>" itemid="<a href="http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/">http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/</a>"&gt;
+      &lt;div class="headline_area"&gt;
+        &lt;h1 class="headline" itemprop="headline"&gt;
+          Linux: Find Out What Process Are Using Swap Space&lt;/h1&gt;
+        &lt;div class="byline small"&gt;
+          &lt;span class="post_author_intro"&gt;
+            by&lt;/span&gt;
+          &lt;span class="post_author"&gt;
+            Vivek Gite&lt;/span&gt;
+          &lt;span class="post_date_intro"&gt;
+            on&lt;/span&gt;
+          &lt;span class="post_date" title="2013-01-15"&gt;
+            January 15, 2013&lt;span style="font-style: italic; text-transform: lowercase;"&gt;
+              last updated &lt;/span&gt;
+            January 15, 2013&lt;/span&gt;
+          &lt;div class="post_cats"&gt;
+            &lt;span class="post_cats_intro"&gt;
+              in&lt;/span&gt;
+            &lt;a href="<a href="http://www.cyberciti.biz/faq/category/bash-shell/">http://www.cyberciti.biz/faq/category/bash-shell/</a>" rel="category tag"&gt;
+              BASH Shell&lt;/a&gt;
+            , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/debian-ubuntu/">http://www.cyberciti.biz/faq/category/debian-ubuntu/</a>" rel="category tag"&gt;
+              Debian / Ubuntu&lt;/a&gt;
+            , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/linux/">http://www.cyberciti.biz/faq/category/linux/</a>" rel="category tag"&gt;
+              Linux&lt;/a&gt;
+            , &lt;a href="<a href="http://www.cyberciti.biz/faq/category/redhat-and-friends/">http://www.cyberciti.biz/faq/category/redhat-and-friends/</a>" rel="category tag"&gt;
+              RedHat and Friends&lt;/a&gt;
+          &lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class="post_content"&gt;
-      &lt;p&gt;
-      &lt;/p&gt;
-      &lt;div class="my_story"&gt;
-        &lt;a title="See all GNU/Linux related FAQ" href="<i>/www.cyberciti.biz/faq/category/linux</i>"&gt;
-          &lt;img src="//s0.cyberciti.orgimages/category/old/linux-logo.png" alt="" border="0"&gt;
-        &lt;/a&gt;
-      &lt;/div&gt;
-      &lt;span class="drop_cap"&gt;
-        T&lt;/span&gt;
-      he top and free command display the total amount of free and used physical and swap memory in the server. How do I determine which process is using swap space under Linux operating systems? How do I find out swap space usage of particular process such as &lt;a href="<a href="http://www.cyberciti.biz/faq/howto-install-memcached-under-rhel-fedora-centos/">http://www.cyberciti.biz/faq/howto-install-memcached-under-rhel-fedora-centos/</a>"&gt;
-        memcached&lt;/a&gt;
-      ?&lt;br&gt;
-      &lt;span id="more-13113"&gt;
-      &lt;/span&gt;
-      &lt;br&gt;
-      You can use the any one of the following techniques but keep in mind that because of shared pages, there is no reliable way to get this information&lt;sup&gt;
-        [&lt;a name="cite_ref1"&gt;
-        &lt;/a&gt;
-        &lt;a href="#ref1" title="htop faq"&gt;
-          1&lt;/a&gt;
-        ]&lt;/sup&gt;
-      &lt;br&gt;
-      &lt;br&gt;
-      [&lt;strong&gt;
-        a&lt;/strong&gt;
-      ] &lt;kbd&gt;
-        &lt;span style="color: rgb(0, 153, 0);"&gt;
-          /proc/meminfo&lt;/span&gt;
-      &lt;/kbd&gt;
-      – This file reports  statistics  about memory usage on the system.  It is used by free to report the amount of free and used memory (both physical and swap) on the system as well as the shared memory and buffers used by the kernel. You can also use &lt;a href="<a href="http://www.cyberciti.biz/faq/linux-check-memory-usage/">http://www.cyberciti.biz/faq/linux-check-memory-usage/</a>"&gt;
-        free, vmstat and other tools to find out the same information&lt;/a&gt;
-      .&lt;p&gt;
-      &lt;/p&gt;
-      &lt;center&gt;
-        &lt;script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"&gt;
-        &lt;/script&gt;
-        &lt;ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-7825705102693166" data-ad-slot="2404767461"&gt;
-        &lt;/ins&gt;
-        &lt;script&gt;
-          (adsbygoogle = window.adsbygoogle || []).push({});&lt;/script&gt;
+      &lt;div class="post_content"&gt;
         &lt;p&gt;
         &lt;/p&gt;
-      &lt;/center&gt;
-      &lt;p&gt;
-      &lt;/p&gt;
-      &lt;p&gt;
+        &lt;div class="my_story"&gt;
+          &lt;a title="See all GNU/Linux related FAQ" href="<i>/www.cyberciti.biz/faq/category/linux</i>"&gt;
+            &lt;img src="//s0.cyberciti.orgimages/category/old/linux-logo.png" alt="" border="0"&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+        &lt;span class="drop_cap"&gt;
+          T&lt;/span&gt;
+        he top and free command display the total amount of free and used physical and swap memory in the server. How do I determine which process is using swap space under Linux operating systems? How do I find out swap space usage of particular process such as &lt;a href="<a href="http://www.cyberciti.biz/faq/howto-install-memcached-under-rhel-fedora-centos/">http://www.cyberciti.biz/faq/howto-install-memcached-under-rhel-fedora-centos/</a>"&gt;
+          memcached&lt;/a&gt;
+        ?&lt;br&gt;
+        &lt;span id="more-13113"&gt;
+        &lt;/span&gt;
+        &lt;br&gt;
+        You can use the any one of the following techniques but keep in mind that because of shared pages, there is no reliable way to get this information&lt;sup&gt;
+          [&lt;a name="cite_ref1"&gt;
+          &lt;/a&gt;
+          &lt;a href="#ref1" title="htop faq"&gt;
+            1&lt;/a&gt;
+          ]&lt;/sup&gt;
+        &lt;br&gt;
+        &lt;br&gt;
         [&lt;strong&gt;
-          b&lt;/strong&gt;
+          a&lt;/strong&gt;
         ] &lt;kbd&gt;
           &lt;span style="color: rgb(0, 153, 0);"&gt;
-            /proc/\({PID}/smaps</span>
+            /proc/meminfo&lt;/span&gt;
+        &lt;/kbd&gt;
+        – This file reports  statistics  about memory usage on the system.  It is used by free to report the amount of free and used memory (both physical and swap) on the system as well as the shared memory and buffers used by the kernel. You can also use &lt;a href="<a href="http://www.cyberciti.biz/faq/linux-check-memory-usage/">http://www.cyberciti.biz/faq/linux-check-memory-usage/</a>"&gt;
+          free, vmstat and other tools to find out the same information&lt;/a&gt;
+        .&lt;p&gt;
+        &lt;/p&gt;
+        &lt;center&gt;
+          &lt;script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"&gt;
+          &lt;/script&gt;
+          &lt;ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-7825705102693166" data-ad-slot="2404767461"&gt;
+          &lt;/ins&gt;
+          &lt;script&gt;
+            (adsbygoogle = window.adsbygoogle || []).push({});&lt;/script&gt;
+          &lt;p&gt;
+          &lt;/p&gt;
+        &lt;/center&gt;
+        &lt;p&gt;
+        &lt;/p&gt;
+        &lt;p&gt;
+          [&lt;strong&gt;
+            b&lt;/strong&gt;
+          ] &lt;kbd&gt;
+            &lt;span style="color: rgb(0, 153, 0);"&gt;
+              /proc/\({PID}/smaps</span>
           </kbd>
           , <kbd>
             <span style="color: rgb(0, 153, 0);">
               <span style="color: rgb(0, 153, 0);">
                 /proc/\){PID}/status&lt;/span&gt;
-          &lt;/span&gt;
-        &lt;/kbd&gt;
-        , and &lt;kbd&gt;
-          &lt;span style="color: rgb(0, 153, 0);"&gt;
-            /proc/${PID}/stat&lt;/span&gt;
-        &lt;/kbd&gt;
+            &lt;/span&gt;
+          &lt;/kbd&gt;
+          , and &lt;kbd&gt;
+            &lt;span style="color: rgb(0, 153, 0);"&gt;
+              /proc/${PID}/stat&lt;/span&gt;
+          &lt;/kbd&gt;
 </p>
 <pre class="example">
 Use these files to find information about memory, pages and swap used by each process using its PID.&lt;/p&gt;
@@ -582,4 +582,6 @@ To see totals and percentages, enter:&lt;br&gt;
 &lt;/div&gt;
 </p>
 
-</div>
+<p>
+#+END_HTML
+</p>

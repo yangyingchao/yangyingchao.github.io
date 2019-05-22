@@ -12,6 +12,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * Overview
+:PROPERTIES:
+:CUSTOM_ID: h:D588AEBC-BBC6-48E6-9E7F-1D40B5F93FC6
+:END:
 
 蓝牙编程与网络编程很大程度上可以类比，但在下面的这些步骤中有所区别：
 
@@ -22,6 +25,9 @@
 5. 接收数据。
 
 * 选择通讯设备
+:PROPERTIES:
+:CUSTOM_ID: h:BF9204AE-4FBB-4E30-9BE2-A6F10D5F48C6
+:END:
 
 每个网卡都有一个全球唯一的 MAC 地址，与之类似，每个蓝牙设备都有一个全球唯一的，长度为
  48 bit 的蓝牙地址（或者称为设备地址）。该地址在蓝牙编程中，作为基础的寻址单元。
@@ -36,16 +42,25 @@
  户端搜索附近的蓝牙设备，再将该名字转换称为设备地址。
 
 * 选择传输协议
+:PROPERTIES:
+:CUSTOM_ID: h:8FF25DF2-DAEC-4746-B0E4-6ED6C69A5AE4
+:END:
 一旦客户端找到了对端的地址，客户端就可以选择传输协议了。与网络编程类似，蓝牙编程的传输
 层也有多种协议。
 
 
 ** RFCOMM + TCP
+:PROPERTIES:
+:CUSTOM_ID: h:A3B5ED5F-68CA-4925-8FAB-E22A095DEA88
+:END:
 
 RFCCOMM 最早是用来模拟 RS232 串口的，尽管如此，除去若干与网络编程无关的特性后， RFCOMM
 和 TCP 很类似。所不同的是， TCP 支持多达 65536 个端口，而 RFCOMM 仅仅支持 30 个。
 
 ** L2CAP + UDP
+:PROPERTIES:
+:CUSTOM_ID: h:05612B24-608A-4299-9D5A-97775D776D16
+:END:
 
 | Requirement             | Internet | Bluetooth                                |
 |-------------------------+----------+------------------------------------------|

@@ -13,6 +13,9 @@
 #+DESCRIPTION: (nil)
 
 * The Transaction System
+:PROPERTIES:
+:CUSTOM_ID: h:6A029C94-6024-4EC9-B7CC-EAFD8836F529
+:END:
 
 
 PostgreSQL's transaction system is a three-layer system.  The bottom layer
@@ -20,7 +23,7 @@ implements low-level transactions and subtransactions, on top of which rests
 the mainloop's control code, which in turn implements user-visible
 transactions and savepoints.
 
-#+BEGIN_SRC ditaa :file images/xact-layers-gen.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/xact-layers-gen.png  :cmdline -r -s 1.5
       +--------------------------------+-------------+
       |   BeginTransactionBlock        |             |
       |   EndTransactionBlock          |             |
@@ -46,13 +49,16 @@ transactions and savepoints.
 #+CAPTION: Transaction Layers
 #+NAME: fig:Transaction_Layers
 #+RESULTS:
-[[file:images/xact-layers-gen.png]]
+[[file:../assets/img/xact-layers-gen.png]]
 
 
 
 * Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:65F48FCF-72F7-42AF-BB53-2FC49D884B73
+:END:
 
-#+BEGIN_SRC plantuml :file images/xact-ds-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/xact-ds-gen.png
 
   class TransactionStateData {
       + TransactionId transactionId
@@ -83,9 +89,12 @@ transactions and savepoints.
 #+CAPTION: Data Structures related to Transaction
 #+NAME: fig:Data_Structures_related_to_Transaction
 #+RESULTS:
-[[file:images/xact-ds-gen.png]]
+[[file:../assets/img/xact-ds-gen.png]]
 
 * Work flow
+:PROPERTIES:
+:CUSTOM_ID: h:63608A78-BFFE-4FE7-8D3D-5E73C0F508CC
+:END:
 
 For example, consider the following sequence of user commands:
 
@@ -97,8 +106,11 @@ For example, consider the following sequence of user commands:
 #+END_SRC
 
 ** BEGIN
+:PROPERTIES:
+:CUSTOM_ID: h:95165430-CF2D-4311-A3F7-88F62698BA52
+:END:
 
-#+BEGIN_SRC plantuml :file images/begin-xcat-flow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/begin-xcat-flow-gen.png
   |postgres.c|
   start
   :PostgresMain();
@@ -139,15 +151,18 @@ For example, consider the following sequence of user commands:
 #+CAPTION: BEGIN
 #+NAME: fig:BEGIN
 #+RESULTS:
-[[file:images/begin-xcat-flow-gen.png]]
+[[file:../assets/img/begin-xcat-flow-gen.png]]
 
 
 *** TODO StartTransactionCommand(void)
+:PROPERTIES:
+:CUSTOM_ID: h:8B89910E-3875-4149-BAF5-8586B6CB8DB6
+:END:
 [[file:~/Work/postgres/src/backend/access/transam/xact.c::StartTransactionCommand(void)]]
 
 
 
-#+BEGIN_SRC plantuml :file images/StartTransactionCommand-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/StartTransactionCommand-gen.png
   |StartTransactionCommand|
 
   start
@@ -189,13 +204,16 @@ For example, consider the following sequence of user commands:
 #+CAPTION: StartTransactionCommand
 #+NAME: fig:StartTransactionCommand
 #+RESULTS:
-[[file:images/StartTransactionCommand-gen.png]]
+[[file:../assets/img/StartTransactionCommand-gen.png]]
 
 
 ** TODO  BeginTransactionBlock(void)
+:PROPERTIES:
+:CUSTOM_ID: h:8C41D298-4643-4314-983F-65F2AA4C50F4
+:END:
   [[file:~/Work/postgres/src/backend/access/transam/xact.c::BeginTransactionBlock(void)]]
 
-  #+BEGIN_SRC plantuml :file images/BeginTransactionBlock-gen.png
+  #+BEGIN_SRC plantuml :file ../assets/img/BeginTransactionBlock-gen.png
 
     |BeginTransactionBlock|
     start
@@ -214,12 +232,15 @@ For example, consider the following sequence of user commands:
   #+CAPTION: BeginTransactionBlock
   #+NAME: fig:BeginTransactionBlock
   #+RESULTS:
-  [[file:images/BeginTransactionBlock-gen.png]]
+  [[file:../assets/img/BeginTransactionBlock-gen.png]]
 
 *** TODO  CommitTransactionCommand(void)
+:PROPERTIES:
+:CUSTOM_ID: h:374FE93F-FEE5-43DF-B233-D1BF059B9C75
+:END:
 [[file:~/Work/postgres/src/backend/access/transam/xact.c::CommitTransactionCommand(void)]]
 
-#+BEGIN_SRC plantuml :file images/CommitTransactionCommand-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/CommitTransactionCommand-gen.png
 
   |CommitTransactionCommand|
   start
@@ -239,14 +260,17 @@ For example, consider the following sequence of user commands:
 #+CAPTION: CommitTransactionCommand
 #+NAME: fig:CommitTransactionCommand
 #+RESULTS:
-[[file:images/CommitTransactionCommand-gen.png]]
+[[file:../assets/img/CommitTransactionCommand-gen.png]]
 
 TODO: State machine of block State.
 
 
 ** SELECT
+:PROPERTIES:
+:CUSTOM_ID: h:6A1A0D17-734C-45C2-B639-372F2942D505
+:END:
 
-#+BEGIN_SRC plantuml :file images/select-xcat-flow-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/select-xcat-flow-gen.png
   |postgres.c|
 
   start
@@ -283,4 +307,4 @@ TODO: State machine of block State.
 #+CAPTION: SELECT
 #+NAME: fig:SELECT
 #+RESULTS:
-[[file:images/select-xcat-flow-gen.png]]
+[[file:../assets/img/select-xcat-flow-gen.png]]

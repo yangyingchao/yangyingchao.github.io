@@ -15,6 +15,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * 简介
+:PROPERTIES:
+:CUSTOM_ID: h:D97F54FC-655F-4312-BAC2-49E5E15A5DC3
+:END:
 
 业余时间做的一个 [[https://github.com/yangyingchao/TDictionary/tree/master/chrome-extension][chrome extension]], 已完成的特性包括：
 
@@ -23,16 +26,25 @@
  - TTS 语音
 
 * 安装
+:PROPERTIES:
+:CUSTOM_ID: h:A9DAFFD2-6499-4818-A77F-0938724D98C7
+:END:
 
 下载后需手动安装。
 
 * 截图
+:PROPERTIES:
+:CUSTOM_ID: h:A5DB464C-1FE5-40C0-ACA0-0178A4B0AA7F
+:END:
 
 #+CAPTION: Screenshot
 [[images/tdict.png]]
 
 
 * 记录一下开发 TDictionary 过程中的若干小问题
+:PROPERTIES:
+:CUSTOM_ID: h:9BCF5F60-6904-40E7-92CF-73296432FA36
+:END:
 
  - Placing a background image after =h2=
 

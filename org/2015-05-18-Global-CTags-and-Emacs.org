@@ -16,7 +16,13 @@
 
 
 * Global
+:PROPERTIES:
+:CUSTOM_ID: h:DB352E1A-6DAE-4EE7-9BF5-629F868B3BF3
+:END:
 ** Gnu Global & C++
+:PROPERTIES:
+:CUSTOM_ID: h:664096EA-9A08-440B-A658-E19120B4923F
+:END:
 
 之前在工作中发现 global 貌似不能正确的解析 C++ 的命名空间 (namespace) 。比如：
 
@@ -54,10 +60,16 @@
 折腾了多次 global 的配置后，终于解决了这个问题，配置文件参见：[[*Global%20%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6][Global 配置文件]]。
 
 ** Global, Ctags & pygments
+:PROPERTIES:
+:CUSTOM_ID: h:322C68B6-C02F-494A-ACFB-B16E01AB8BC6
+:END:
 global 本身支持多种语言的 TAG 的交叉查找，包括 c/c++, java, elisp, php 等等，此外还可
 以通过插件来支持其他的语言。
 
 *** ctags
+:PROPERTIES:
+:CUSTOM_ID: h:6E912FF8-C52C-485F-BF81-DCFF90DD3BAC
+:END:
 
 Global 可以通过 ctags 来解析其他的语言，安装方法参考：[[https://github.com/leoliu/ggtags]]
 
@@ -72,6 +84,9 @@ The executable ctags is unfortunately named because emacs also includes a comman
 #+END_QUOTE
 
 *** Pygments
+:PROPERTIES:
+:CUSTOM_ID: h:8C458959-DD31-4BAF-A4A7-1CE5EA8BF9B0
+:END:
 
 新版 (6.4) 的 Global 内置了 pygments，用于从 python 文件中提取标签。
 [[https://github.com/leoliu/ggtags]] 上给出了 pygments 的手动安装方法：
@@ -99,17 +114,26 @@ Make sure the value of <PREFIX> agree with step 1.
 #+END_QUOTE
 
 *** My gentoo overlay
+:PROPERTIES:
+:CUSTOM_ID: h:5F9C2460-7324-4CEC-9070-0F661068636E
+:END:
 
 [[https://github.com/yangyingchao/gentoo-overlay-tubo/blob/master/dev-util/global/global-6.4.ebuild][这里]] 有一个 global 的 ebuild，已经添加了 ctags 和 pygments 的支持，Gentoo 和 Prefix 的
 用可以拿它来安装 global.
 
 ** Global 配置文件
+:PROPERTIES:
+:CUSTOM_ID: h:E4304A98-20EF-45B0-86EE-17088A61B4DA
+:END:
 
 前面提到的 C++ 解析和 Ctags, pygments 都需要相应的配置文件。可惜的是，global 的配置文
 件文档不全，磕磕绊绊折腾了比较长的时间才弄好一份:
 [[https://github.com/yangyingchao/tubo-env/blob/master/.globalrc_rc]]
 
 * Global & Emacs
+:PROPERTIES:
+:CUSTOM_ID: h:F22932BE-B23A-44BD-BDDC-5415912C0ABE
+:END:
 关于 global 和 Emacs 的整合，网络上已经有很多的教程和插件了，比如：
 
  - https://github.com/leoliu/ggtags

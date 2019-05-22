@@ -12,8 +12,11 @@
 #+CATEGORY: Database
 #+DESCRIPTION: (nil)
 * Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:C4E1984E-FF3D-48ED-8D63-47923D19B899
+:END:
 
-#+BEGIN_SRC plantuml :file images/pg-hash-table-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/pg-hash-table-gen.png
   class HASHCTL {
       + long num_partitions
       + long ssize
@@ -71,15 +74,21 @@
 #+CAPTION: Hash Table Data Structures
 #+NAME: fig:Hash_Table_Data_Structures
 #+RESULTS:
-[[file:images/pg-hash-table-gen.png]]
+[[file:../assets/img/pg-hash-table-gen.png]]
 
 ** hash_create()
+:PROPERTIES:
+:CUSTOM_ID: h:FF2DB6D8-15D5-4EF7-BE33-8F50C581BAEE
+:END:
 
 * Shared-Memory Hash Table
+:PROPERTIES:
+:CUSTOM_ID: h:6844C317-FA0B-41E6-95AC-AA729D67FCBE
+:END:
 
 =ShmemInitHash()=
 
-#+BEGIN_SRC ditaa :file images/shared-memory-hash-table-gen.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/shared-memory-hash-table-gen.png  :cmdline -r -s 1.5
                      +--------------------+-----------+
            +-------->|       HASHHDR      |           |
            |         +--------------------+   Shared  |
@@ -103,7 +112,10 @@
 #+CAPTION: Shared-Memory Hash Table
 #+NAME: fig:Shared_Memory_Hash_Table
 #+RESULTS:
-[[file:images/shared-memory-hash-table-gen.png]]
+[[file:../assets/img/shared-memory-hash-table-gen.png]]
 
 ** Partition of Shared Hash Table
+:PROPERTIES:
+:CUSTOM_ID: h:590C96D3-9FBA-4B48-B41C-F5BF2049DC1E
+:END:
  Partition designed for shared hash table only. Reduce lock conflict.

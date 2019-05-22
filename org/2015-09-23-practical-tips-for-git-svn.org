@@ -12,7 +12,7 @@
 #+EXCLUDE_TAGS: noexport
 
 http://www.janosgyerik.com/practical-tips-for-using-git-with-large-subversion-repositories/
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
           <div class="row">
             <div class="content col-lg-12">
               <p>So you want to use Git with Subversion? That&rsquo;s a great idea! If the Subversion repository is small, you should not have too big problems. If on the other hand the repository is relatively large, you may have quite a few issues.</p>

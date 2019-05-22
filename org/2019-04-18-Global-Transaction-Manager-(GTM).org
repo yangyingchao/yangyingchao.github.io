@@ -12,7 +12,13 @@
 #+DESCRIPTION: (nil)
 
 * Intro
+:PROPERTIES:
+:CUSTOM_ID: h:2AF98F69-83A7-422B-8015-1ADA384E4215
+:END:
 ** What is Postgres XL
+:PROPERTIES:
+:CUSTOM_ID: h:C71A30A4-B00E-4FF4-B731-1E0840F70A3C
+:END:
 
 Postgres-XL is an open source project to provide both write-scalability
 and massively parallel processing transparently to PostgreSQL.  It is a
@@ -60,6 +66,9 @@ it needs to ship, and where it needs to send to others.
 
 
 ** Postgres-XL's Goal
+:PROPERTIES:
+:CUSTOM_ID: h:43150DC4-DDA4-4C06-8980-86FC7275C469
+:END:
 
 The ultimate goal of Postgres-XL is to provide database scalability with
 ACID consistency across all types of database workloads.  That is,
@@ -89,12 +98,18 @@ Postgres-XL should provide the following features:
 
 
 ** Postgres-XL Key Components
+:PROPERTIES:
+:CUSTOM_ID: h:E708A164-AD0D-40B0-91DA-445418D9C504
+:END:
 
 Postgres-XL is composed of three major components: the GTM (Global
 Transaction Manager), the Coordinator and the Datanode. Their features are
 given in the following sections.
 
 *** GTM (Global Transaction Manager)
+:PROPERTIES:
+:CUSTOM_ID: h:217CFE5C-FB63-4AA6-B4B0-FB5FFD87B436
+:END:
 
 The GTM is a key component of Postgres-XL to provide consistent transaction management and tuple
 visibility control.
@@ -105,6 +120,9 @@ separate component such as the =GTM= so that any Postgres-XL component's transac
 based upon single global status.
 
 *** Coordinator
+:PROPERTIES:
+:CUSTOM_ID: h:487768D4-2159-4706-B6A5-343E59B36DDC
+:END:
 
 The Coordinator is an interface to the database for applications. It acts like a conventional
 PostgreSQL backend process, however the Coordinator *DOES NOT STORE ANY ACTUAL DATA* . The actual
@@ -116,6 +134,9 @@ When issuing statement to Datanodes, it is associated with GXID and Global Snaps
 Multi-version Concurrency Control (MVCC) properties extend cluster-wide.
 
 *** Datanode
+:PROPERTIES:
+:CUSTOM_ID: h:2DC89338-77CB-4F2B-9028-B37741EB4B6B
+:END:
 
 The Datanode actually stores user data. Tables may be distributed among Datanodes, or replicated
 to all the Datanodes.  The Datanode does not have a global view of the whole database, it just
@@ -128,6 +149,9 @@ transaction and snapshot context.
 
 
 * GTM
+:PROPERTIES:
+:CUSTOM_ID: h:07465D38-5D38-4093-9C38-B924F81D6C5E
+:END:
 
 GTM stands for Global Transaction Manager.  It provides [[Transaction Manager][global transaction IDs]] and snapshots for
 each transaction in the Postgres-XL database cluster.  It also provide several global values such
@@ -166,8 +190,11 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 
 
 ** Transaction Manager
+:PROPERTIES:
+:CUSTOM_ID: h:2677AF0E-C6A8-4BF4-BA35-19DED5324515
+:END:
 
-  #+BEGIN_SRC dot :file images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+  #+BEGIN_SRC dot :file ../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
     digraph Name {
 
     node [fontsize=12 fontname=Courier style=filled shape=record];
@@ -255,12 +282,15 @@ visibility. Because snapshots here is also a global property, it is called *Glob
   #+CAPTION: GTM Data Structures
   #+NAME: fig:GTM_Data_Structures
   #+RESULTS:
-  [[file:images/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
+  [[file:../assets/img/gtm-ds-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 ** GTM_ThreadMain
+:PROPERTIES:
+:CUSTOM_ID: h:2B9C5D83-6C13-4993-B291-FFFAC2A1D024
+:END:
 
-#+BEGIN_SRC dot :file images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -357,10 +387,10 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 #+CAPTION: GTM Thread Info
 #+NAME: fig:GTM_Thread_Info
 #+RESULTS:
-[[file:images/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-thread-info-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
-#+BEGIN_SRC plantuml :file images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   start
 
 
@@ -394,10 +424,13 @@ visibility. Because snapshots here is also a global property, it is called *Glob
 #+CAPTION: GTM Thread Main
 #+NAME: fig:Thread_main
 #+RESULTS:
-[[file:images/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm_thread_main-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 ** Assignment of XID
+:PROPERTIES:
+:CUSTOM_ID: h:6EF303A3-B673-41BA-AC5F-0912A8385CE3
+:END:
 
 There should be other entrances...
 
@@ -406,10 +439,16 @@ Each transaction reports when it starts and ends, as well as when it issues
 
 
 *** Coordinator:
+:PROPERTIES:
+:CUSTOM_ID: h:E33829C2-FDE2-4A5E-AB0F-997F9BE8C379
+:END:
 
 **** BeginTranGTM()
+:PROPERTIES:
+:CUSTOM_ID: h:03FFE92E-8E6B-4179-9984-C86F648195C3
+:END:
 
-#+BEGIN_SRC plantuml :file images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   |xact.c|
   :GetTopTransactionId();
@@ -445,11 +484,14 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: XID Assignment
 #+NAME: fig:XID_Assignment
 #+RESULTS:
-[[file:images/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-assign-xid-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 **** GTM_Result:
+:PROPERTIES:
+:CUSTOM_ID: h:BA246F04-4927-44ED-8C8D-745D4E7D1B77
+:END:
 
-#+BEGIN_SRC plantuml :file images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class GTM_Result {
       + GTM_ResultType gr_type
@@ -526,15 +568,18 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: GTM Result
 #+NAME: fig:GTM_Result
 #+RESULTS:
-[[file:images/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm_result-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 *** GTM: =ProcessBeginTransactionGetGXIDCommand=
+:PROPERTIES:
+:CUSTOM_ID: h:6F40618D-8C7D-4030-916F-3BF58B1DAFCD
+:END:
 
 =ProcessCommand()= $-->$ =ProcessTransactionCommand()=  $-->$ =ProcessBeginTransactionGetGXIDCommand()=
 
 
-#+BEGIN_SRC plantuml :file images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |ProcessBeginTransactionGetGXIDCommand|
   start
 
@@ -577,11 +622,14 @@ Each transaction reports when it starts and ends, as well as when it issues
 #+CAPTION: ProcessBeginTransactionGetGXIDCommand
 #+NAME: fig:Processbegintransactiongetgxidcommand
 #+RESULTS:
-[[file:images/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/process-begin-txn-get-xic-cmd-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 
 * GTM-Proxy
+:PROPERTIES:
+:CUSTOM_ID: h:085B8019-F30C-4D79-8177-DBB84BF3B95B
+:END:
 
 # Because GTM can be regarded as "serializing" all the transaction processing, people may think that
 # GTM can be a performance bottleneck.
@@ -609,8 +657,11 @@ backends.
 Map Connection to Thread: Round-Robin (RR).
 
 ** Proxy Server Loop
+:PROPERTIES:
+:CUSTOM_ID: h:29F032D1-41F6-4AE5-87F7-95916122E98B
+:END:
 
-#+BEGIN_SRC plantuml :file images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
   |proxy_main|
 
   start
@@ -645,12 +696,18 @@ Map Connection to Thread: Round-Robin (RR).
 #+CAPTION: Proxy Server Loop
 #+NAME: fig:Proxy_Server_Loop
 #+RESULTS:
-[[file:images/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/proxy-server-loop-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 ** GTMProxy_ThreadMain
+:PROPERTIES:
+:CUSTOM_ID: h:23814832-E686-4721-853F-6058E1EC49F1
+:END:
 
 
 * Coordinator
+:PROPERTIES:
+:CUSTOM_ID: h:C1CE3C8A-69D5-4D5D-ACDC-F057262D080F
+:END:
 
 Coordinator is an entry point for Postgres-XL from applications.  You can configure more than one
 Coordinators in the same Postgres-XL.  With the help of GTM, they provide transparent concurrency
@@ -678,6 +735,9 @@ two-phase commit protocol internally.
 
 
 * Datanodes
+:PROPERTIES:
+:CUSTOM_ID: h:C3D5F94E-137E-4120-9AC7-DB3F42CD6516
+:END:
 
 Datanode stores user data.  As described in and , more than one Datanodes can be configured.  Each
 table can be replicated or distributed among Datanodes.  A table is distributed, you can choose a
@@ -690,9 +750,12 @@ information is obtained from GTM, as well as other global value.
 
 
 * Seq Manager
+:PROPERTIES:
+:CUSTOM_ID: h:6339ED65-860F-4A1F-AD6B-07FB4E90E122
+:END:
 
 
-#+BEGIN_SRC dot :file images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -716,11 +779,14 @@ information is obtained from GTM, as well as other global value.
 #+CAPTION: SegManager
 #+NAME: fig:SegManager
 #+RESULTS:
-[[file:images/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/seq-manager-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 * XCNode
+:PROPERTIES:
+:CUSTOM_ID: h:8AA07A32-79E9-4C33-8570-528986E5147A
+:END:
 
-#+BEGIN_SRC dot :file images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png :cmdline -Kdot -Tpng
   digraph Name {
   node [fontsize=12 fontname=Courier style=filled shape=record];
   edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -739,23 +805,35 @@ information is obtained from GTM, as well as other global value.
 #+CAPTION: XCNode
 #+NAME: fig:XCNode
 #+RESULTS:
-[[file:images/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/xc-node-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 * Recovery Standby Mode
+:PROPERTIES:
+:CUSTOM_ID: h:2ABD3FBB-32FF-49F8-8D7D-891124C063B2
+:END:
 
 
 
 * Commands
+:PROPERTIES:
+:CUSTOM_ID: h:A0763EAF-98F5-4B3A-AC38-EE0985EFC633
+:END:
 
 
 ** =A=
+:PROPERTIES:
+:CUSTOM_ID: h:5E78F837-125D-40FE-B214-922115F12F9B
+:END:
 
 Send by client, sign of connect/attach.
 
 *** client
+:PROPERTIES:
+:CUSTOM_ID: h:161B4485-7022-4E46-9BC6-33909BD518AB
+:END:
 
 Send by client when a client connects to server, followed by a =StartupPacket= :
-#+BEGIN_SRC plantuml :file images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   class GTM_StartupPacket {
   + char[SP_NODE_NAME] sp_node_name
@@ -768,14 +846,20 @@ Send by client when a client connects to server, followed by a =StartupPacket= :
 #+CAPTION: Startup Packet
 #+NAME: fig:Startup_Packet
 #+RESULTS:
-[[file:images/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
+[[file:../assets/img/gtm-startup-package-gen-5805565210799e8224dfe0010e45a67f.png]]
 
 
 *** server
+:PROPERTIES:
+:CUSTOM_ID: h:EC15727A-CCB6-4DD4-B6E6-5A7F1805F063
+:END:
 - Update thread info based on StartupPacket.
 - Response with packet 'R' + client_id
 
 ** =R=
+:PROPERTIES:
+:CUSTOM_ID: h:2A5A1A92-6743-4D02-855A-66970EF74832
+:END:
 
 *Response*
 
@@ -783,33 +867,57 @@ Send by client when a client connects to server, followed by a =StartupPacket= :
 
 
 ** =X=
+:PROPERTIES:
+:CUSTOM_ID: h:90A8FE64-FF6C-4D2B-B311-A5B4738E4CF2
+:END:
 Send by client.
 
 End, Remove all transaction info.
 
 ** =EOF=
+:PROPERTIES:
+:CUSTOM_ID: h:F50C675D-3560-42F8-B074-15FA7F38A87F
+:END:
 Send by client.
 
 Connection Termination.
 
 ** =F=
+:PROPERTIES:
+:CUSTOM_ID: h:732565F8-8C5D-48B7-886E-4390FB968DBD
+:END:
 Flush all outgoing data on the wire.
 
 
 ** =C=
+:PROPERTIES:
+:CUSTOM_ID: h:3922CFA0-C18C-4185-86C1-49251B0DE6AE
+:END:
 Send by client.
 
 Command.
 
 
 ** =S=
+:PROPERTIES:
+:CUSTOM_ID: h:173A6BEC-2875-4E3B-BF79-4E2C740E84C8
+:END:
 
 ** =E=
+:PROPERTIES:
+:CUSTOM_ID: h:244C44EC-D042-4A33-BDCA-6363A06B85A3
+:END:
 
 error occurred.
 
 * 2PC
+:PROPERTIES:
+:CUSTOM_ID: h:EACD21F0-2CE6-4573-99ED-611A7690D246
+:END:
 * Snapshot Management
+:PROPERTIES:
+:CUSTOM_ID: h:E6360BFD-5EBB-415B-ABA2-D459168A6D8F
+:END:
 
 Each transaction requests snapshots according to the transaction isolation level as done in
 PostgreSQL. If the transaction isolation level is "*read committed*", then transaction will

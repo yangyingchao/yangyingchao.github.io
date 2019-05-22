@@ -17,7 +17,7 @@
 
 Repost from [[http://android.stackexchange.com/questions/15503/how-to-start-ssh-server-in-my-android]]
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
 <div>
     <div class="post-text" itemprop="text">
 

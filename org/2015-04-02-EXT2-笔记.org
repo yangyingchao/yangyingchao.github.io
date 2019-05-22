@@ -17,6 +17,9 @@
 记录一下 Ext2 文件系统相关的一些知识。
 
 * Specification
+:PROPERTIES:
+:CUSTOM_ID: h:C369EF66-30EA-4728-848D-03DD90B9086B
+:END:
 
  * Blocks
 
@@ -39,7 +42,7 @@
    + The block allocation algorithm attempts to allocate data blocks
      in the same block group as the inode which contains them.
 
-   #+BEGIN_SRC ditaa :file images/block1.png  :cmdline -r -s 1.5
+   #+BEGIN_SRC ditaa :file ../assets/img/block1.png  :cmdline -r -s 1.5
 
    +-----------+-------------------+---------------+
    | SuperBlock| Block Group Infor |  Block Group1 |
@@ -96,6 +99,9 @@
    - 字符设备与块设备都直接将数据存到 inode 中，没有额外的 block，与小型的符号链接一样。
 
 * Module Initialization
+:PROPERTIES:
+:CUSTOM_ID: h:1CC1012F-D4B7-447B-B1A7-B7AC56290C7A
+:END:
 
 #+BEGIN_SRC c -r -n
 static int __init init_ext2_fs(void)
@@ -120,7 +126,7 @@ out1:
 
 初始化 =xattr= 和 =inode= cache 之后，将 =ext2_fs_type= 注册到内核中。
 
-#+BEGIN_SRC dot :file images/fs_type.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/fs_type.png :cmdline -Kdot -Tpng
 digraph Name {
     node [fontsize=12 fontname=Courier style=filled shape=record];
     edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -168,8 +174,14 @@ static struct file_system_type ext2_fs_type = {
  初始化就这么结束了，函数返回，默默等待触发。怎么触发？何时触发？ mount....
 
 * Mount
+:PROPERTIES:
+:CUSTOM_ID: h:292041B8-AFB2-4D94-BD3D-6A5944B9D682
+:END:
 
 ** 从系统调用到注册的函数指针
+:PROPERTIES:
+:CUSTOM_ID: h:CD947A60-DB98-442B-9D5D-0906266D3214
+:END:
 #+BEGIN_SRC Man -r -n
 MOUNT(2)                               Linux Programmer's Manual                              MOUNT(2)
 
@@ -204,7 +216,7 @@ DESCRIPTION
 
 #+END_SRC
 
-#+BEGIN_SRC ditaa :file images/mount_flow.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/mount_flow.png  :cmdline -r -s 1.5
   |
   |   +-------+
   |   | mount |
@@ -241,7 +253,7 @@ DESCRIPTION
 =vfs_kern_mount= 分配出新的 =mount= 对象，然后通过 =mount_fs()= 来调用之前注册的
 =ext2_fs_type= 中的函数指针。
 
-#+BEGIN_SRC dot :file images/vfs_mount.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/vfs_mount.png :cmdline -Kdot -Tpng
     digraph Name {
         node [fontsize=12 fontname=Courier style=filled shape=record];
         edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -293,6 +305,9 @@ DESCRIPTION
 #+END_SRC
 
 ** 挂载 ext2 文件系统
+:PROPERTIES:
+:CUSTOM_ID: h:1C002490-AC0E-4E77-9771-82C0D644AF16
+:END:
 
  #+BEGIN_SRC c -r -n
    static struct dentry *ext2_mount(struct file_system_type *fs_type,
@@ -305,6 +320,9 @@ DESCRIPTION
 该函数调用 =mount_bdev= 来挂载文件系统。
 
 ** mount_bdev
+:PROPERTIES:
+:CUSTOM_ID: h:E6E8F78A-9238-4B00-87E0-43251DD146FE
+:END:
 
 =mount_bdev= 是文件系统提供的 Utility， 该函数首先使用 =blkdev_get_by_path= 来根据磁盘（分区）
 路径获取对应的块设备，并增加块设备的引用计数。
@@ -403,8 +421,14 @@ DESCRIPTION
 随后，调用 =mount_bdev= 调用传入的 =ext2_fill_super= 来读取和填充超块信息。
 
 ** ext2_fill_super
+:PROPERTIES:
+:CUSTOM_ID: h:019F3CF9-4782-46F5-8D0E-9EB1E0B9BD6A
+:END:
 
 *** super_block, ext2_sb_info 与 ext2_super_block
+:PROPERTIES:
+:CUSTOM_ID: h:C4C7D42E-1F83-46A4-90F2-7D4A12944445
+:END:
 
 =ext2_fill_super= 初始化了一些数据结构后，从指定的块设备中读取指定大小的数据，这些数据其实是
 =ext2_super_block= 在硬盘上存储，其大致内容参考前文。值得提到的是，其中的数据都是小端存储，
@@ -417,7 +441,7 @@ DESCRIPTION
 超块的内容在内存中作为 =node_ext2_sb_info= 来存储，而 =node_ext2_sb_info= 本身是
 =super_block= 的私有成员。
 
-#+BEGIN_SRC dot :file images/ext2_sb.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/ext2_sb.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -641,6 +665,9 @@ super_block，这些函数将会被 VFS 使用。
 之后，开始读取 root inode.
 
 *** root inode
+:PROPERTIES:
+:CUSTOM_ID: h:D2F0F764-F11F-41DE-B6C2-88D8877ACBD5
+:END:
 
 EXT2 文件系统预先定义了几个特殊的 inode number：
 
@@ -728,7 +755,7 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
 
 =ext2_get_inode()= 用于读取 raw inode。三者之间的关系：
 
-#+BEGIN_SRC dot :file images/ext2_inode.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file ../assets/img/ext2_inode.png :cmdline -Kdot -Tpng
   digraph Name {
       node [fontsize=12 fontname=Courier style=filled shape=record];
       edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -950,10 +977,16 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
  成了 super_block 初始化工作。
 
 * Open
+:PROPERTIES:
+:CUSTOM_ID: h:876CDB73-B042-4FAE-A97C-D8173A465F00
+:END:
 
 ** Open Flow
+:PROPERTIES:
+:CUSTOM_ID: h:FC85AF22-4027-4241-A9A1-CA5D263E0429
+:END:
 
-#+BEGIN_SRC ditaa :file images/ext2_open_flow.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/ext2_open_flow.png  :cmdline -r -s 1.5
   |   +---------------+
   |   |Open SystemCall|
   |   +---------------+
@@ -991,3 +1024,6 @@ inode 有另外一种表现: =ext_inode= ， 或者叫 raw-inode:
 =ext2_dir_inode_operations.create=  [[(set_dir_inode_ops)]].
 
 ** ext2_create (namei.c(ext2))
+:PROPERTIES:
+:CUSTOM_ID: h:2AFE11C1-1F19-4133-BCE9-BAFDA17978FA
+:END:

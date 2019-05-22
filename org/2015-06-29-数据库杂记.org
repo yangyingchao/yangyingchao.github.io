@@ -14,8 +14,14 @@
 记录一些概念性的东西。
 
 * [[http://www.databasejournal.com/features/mysql/article.php/3914401/Use-Derived-Tables-in-Your-MySQL-Queries-to-Improve-Database-Performance.htm][Subquery and Dreived-Tables]]
+:PROPERTIES:
+:CUSTOM_ID: h:075CEF10-2336-40B5-850F-680E44BAECCD
+:END:
 
 ** Subquery
+:PROPERTIES:
+:CUSTOM_ID: h:AB1B025E-7938-4E45-9FEC-0A08ED845499
+:END:
 A subquery is defined as any query that appears within another SQL command.
 These can be further broken down into two kinds of subqueries:
 
@@ -43,6 +49,9 @@ order in that year:
 #+END_SRC
 
 ** Derived-Tables
+:PROPERTIES:
+:CUSTOM_ID: h:51863A79-1F70-4E91-AF55-EDA23A97D706
+:END:
 
 Compare the previous query to the following one:
 

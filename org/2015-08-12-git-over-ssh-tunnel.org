@@ -13,7 +13,7 @@
 
 Reposted from: http://randyfay.com/content/git-over-ssh-tunnel-through-firewall-or-vpn.
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
   <h1 class="page-title">Git over an ssh tunnel (like through a firewall or VPN)</h1>
   <div class="region region-content">
     <div id="block-system-main" class="block-system">

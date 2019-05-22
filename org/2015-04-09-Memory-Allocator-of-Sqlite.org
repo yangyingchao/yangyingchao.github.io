@@ -15,6 +15,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * Sqlite 中的内存管理
+:PROPERTIES:
+:CUSTOM_ID: h:44178C42-5138-4AD5-92BB-02A5A04D04E0
+:END:
 
 =sqlite3_initialize()= 会检查和设置 Sqlite 的内存分配方案。设置通过
 =sqlite3MallocInit()= 来完成。 =sqlite3MallocInit()=  会检查全局设置中的内存操作指
@@ -94,6 +97,9 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
 
 * Mem1 -- Standard Memory Management
+:PROPERTIES:
+:CUSTOM_ID: h:3B38D231-D29A-4A01-BEC3-D768419DBBDF
+:END:
 
 =mem1= 中的内存操作函数是对 =malloc/free= 的封装。
 
@@ -137,15 +143,21 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
    #+END_SRC
 
 * Mem2 -- Standard Memory with Debug Info
+:PROPERTIES:
+:CUSTOM_ID: h:07AEEDC1-B88D-4282-8C4F-E0DD9D248748
+:END:
 
 =mem2= 同样采用系统的 =malloc/free/realloc= 来分配内存，但在其基础上增加了额外的调试信息，可
 以帮助检测内存泄漏 *(HOW?)* 和内存的其他错误。
 
 ** sqlite3MemMalloc()
+:PROPERTIES:
+:CUSTOM_ID: h:B892E8A7-BB8D-4064-9BC3-5E4118C86BEE
+:END:
 
 每块内存的布局如下：
 
-#+BEGIN_SRC ditaa :file images/mem2_allocation.png  :cmdline -r -s 1.5
+#+BEGIN_SRC ditaa :file ../assets/img/mem2_allocation.png  :cmdline -r -s 1.5
   +-------+---------------------+--------------+-------------+-----------+
   | Title |  backtrace pointers |  MemBlockHdr |  allocation |  EndGuard |
   +-------+---------------------+--------------+-------------+-----------+
@@ -244,7 +256,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
   } mem;
   #+END_SRC
 
-  #+BEGIN_SRC dot :file images/mem_2_mem.png :cmdline -Kdot -Tpng
+  #+BEGIN_SRC dot :file ../assets/img/mem_2_mem.png :cmdline -Kdot -Tpng
     digraph Name {
         node [fontsize=12 fontname=Courier style=filled shape=record];
         edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -321,10 +333,16 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
   #+END_SRC
 
 ** sqlite3MemdebugDump()
+:PROPERTIES:
+:CUSTOM_ID: h:625FD9C9-AA9F-48B8-936D-F29147BB4BD0
+:END:
 
 用于将已经分配的资源 dump 到指定的文件中。
 
 * Mem3
+:PROPERTIES:
+:CUSTOM_ID: h:1487DF76-C134-4B5F-B62D-A7DE61582C6F
+:END:
 
 =mem3= 不使用 =malloc/free= ，而是从预先分好的内存中（ =sqlite3GlobalConfig.pHeap= ）
 动态规划。整个 Heap 被分成 N 个 chunk ( N = size_of_Heap/sizeof(Mem3Block)):
@@ -396,6 +414,9 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 回收内存时，将 chunk 链入 =mem3->aiSmall=  或者 =mem3->aiHash= 。
 
 * Mem5
+:PROPERTIES:
+:CUSTOM_ID: h:2DCF8257-4CAD-4C8D-B80C-051CDBEDA1F6
+:END:
 
  mem5 遵循三条规则：
 
@@ -404,6 +425,9 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
  * 新内存始终从第一块空闲的内存块中分配。
 
 ** memsys5Init()
+:PROPERTIES:
+:CUSTOM_ID: h:548536D9-4B0A-47DA-82C5-9A2F76AA93D4
+:END:
 
 与之前的几种分配方式相同，mem5 中也有一个静态变量用于记录全局信息， =memsys5Init()= 用于初始
 化它：
@@ -477,7 +501,7 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
 
  * =aiFreelist= \\
    List of free blocks
-   #+BEGIN_SRC dot :file images/mem5_aiFreeList.png :cmdline -Kdot -Tpng
+   #+BEGIN_SRC dot :file ../assets/img/mem5_aiFreeList.png :cmdline -Kdot -Tpng
      digraph Name {
          node [fontsize=12 fontname=Courier style=filled shape=record];
          edge[color="#666666" style=dashed arrowhead=open tailclip=true];
@@ -499,6 +523,9 @@ win32 的 =winMemMethods= ，具体使用哪一个在编译
    #+END_SRC
 
 ** memsys5Malloc()
+:PROPERTIES:
+:CUSTOM_ID: h:276ABEC1-9B7A-47E3-804F-0F989F2795CC
+:END:
 
 
  * Round nByte up to the next valid power of two

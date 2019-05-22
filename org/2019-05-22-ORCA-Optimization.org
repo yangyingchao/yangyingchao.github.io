@@ -1,0 +1,194 @@
+#+TITLE: ORCA Optimization
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+* Basic Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:AA10A408-EE54-4439-95F5-72D347002CF5
+:END:
+
+#+BEGIN_SRC plantuml :file ../assets/img/orca-opt-gen-b7dbe950a0e8b9ddc474fa8fabd269f4.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class COptimizerConfig {
+  - CEnumeratorConfig* m_enumerator_cfg
+  - CStatisticsConfig* m_stats_conf
+  - CCTEConfig* m_cte_conf
+  - ICostModel* m_cost_model
+  - CHint* m_hint
+  - CWindowOids* m_window_oids
+  }
+
+  class COptimizerConfig {
+      - CEnumeratorConfig* m_enumerator_cfg
+      - CStatisticsConfig* m_stats_conf
+      - CCTEConfig* m_cte_conf
+      - ICostModel* m_cost_model
+      - CHint* m_hint
+      - CWindowOids* m_window_oids
+  }
+
+  class SSamplePlan {
+      + ULLONG GetPlanId()
+      + CCost Cost()
+      - ULLONG m_plan_id
+      - CCost m_cost
+  }
+
+  class CEnumeratorConfig {
+      - ULLONG m_plan_id
+      - ULLONG m_ullSpaceSize
+      - ULLONG m_ullInputSamples
+      - CCost m_costBest
+      - CCost m_costMax
+      - CDouble m_dCostThreshold
+      - SSamplePlanArray* m_pdrgpsp
+      - CDouble m_dStep
+      - DOUBLE* m_pdX
+      - DOUBLE* m_pdY
+      - ULONG m_ulDistrSize
+      - BOOL m_fSampleValidPlans
+      - FnPlanChecker* m_pfpc
+  }
+
+  note bottom
+      Configurations of plan enumerator
+  end note
+
+
+  COptimizerConfig *-- CEnumeratorConfig
+
+  class CStatisticsConfig {
+      - IMemoryPool* m_mp
+      - CDouble m_damping_factor_filter
+      - CDouble m_damping_factor_join
+      - CDouble m_damping_factor_groupby
+      - MdidHashSet* m_phsmdidcolinfo
+      - CMutex m_mutexMissingColStats
+  }
+
+  note bottom
+      Statistics configurations
+  end note
+
+  COptimizerConfig *--  CStatisticsConfig
+
+
+  class CCTEConfig {
+      - ULONG m_ulCTEInliningCutoff
+  }
+
+  note bottom
+      CTE configurations
+  end note
+
+  COptimizerConfig *--  CCTEConfig
+
+
+  class ICostModel {
+      + ULONG UlHosts()
+      + CDouble DRowsPerHost()
+      + ICostModelParams* GetCostModelParams()
+      + CCost Cost()
+      + ECostModelType Ecmt()
+      + void SetParams()
+  }
+
+  class CCostModelGPDBLegacy {
+      - CCost FnCost()
+      + ULONG UlHosts()
+      + CDouble DRowsPerHost()
+      + ICostModelParams* GetCostModelParams()
+      + CCost Cost()
+      + ECostModelType Ecmt()
+      - IMemoryPool* m_mp
+      - ULONG m_num_of_segments
+      - CCostModelParamsGPDBLegacy* m_cost_model_params
+  }
+  note bottom
+      GPDB's legacy cost model
+  end note
+
+  ICostModel <|-- CCostModelGPDBLegacy
+
+  COptimizerConfig *--  ICostModel
+
+  class CHint {
+      - ULONG m_ulMinNumOfPartsToRequireSortOnInsert
+      - ULONG m_ulJoinArityForAssociativityCommutativity
+      - ULONG m_ulArrayExpansionThreshold
+      - ULONG m_ulJoinOrderDPLimit
+      - ULONG m_ulBroadcastThreshold
+      - BOOL m_fEnforceConstraintsOnDML
+  }
+
+  note bottom
+      Hint configurations
+  end note
+
+  COptimizerConfig *--   CHint
+
+  class CWindowOids {
+      - OID m_oidRowNumber
+      - OID m_oidRank
+  }
+
+  note bottom
+      GPDB specific oids
+  end note
+
+  COptimizerConfig *--   CWindowOids
+#+END_SRC
+#+CAPTION: optimization structures
+#+NAME: fig:optimization_structures
+#+RESULTS:
+[[file:../assets/img/orca-opt-gen-b7dbe950a0e8b9ddc474fa8fabd269f4.png]]
+
+* COptimizer::PdxlnOptimize
+:PROPERTIES:
+:CUSTOM_ID: h:F53B8718-E6F3-46DC-80DA-81417383098F
+:END:
+
+COptimizer::PdxlnOptimize()
+[[file:~/Work/orca/gporca/libgpopt/src/optimizer/COptimizer.cpp::COptimizer::PdxlnOptimize]]
+
+
+*  DXL to Expr Tree
+:PROPERTIES:
+:CUSTOM_ID: h:00978D92-5E83-4FBD-BBCF-0EDB01FB89FB
+:END:
+
+#+BEGIN_SRC plantuml :file ../assets/img/dxl2expr-gen-b7dbe950a0e8b9ddc474fa8fabd269f4.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class STranslatorMapping {
+      + Edxlopid edxlopid
+      + PfPexpr pf
+  }
+
+  class CTranslatorDXLToExpr {
+      - IMemoryPool* m_mp
+      - CSystemId m_sysid
+      - CMDAccessor* m_pmda
+      - UlongToColRefMap* m_phmulcr
+      - UlongToUlongMap* m_phmululCTE
+      - ULongPtrArray* m_pdrgpulOutputColRefs
+      - CMDNameArray* m_pdrgpmdname
+      - IdToCDXLNodeMap* m_phmulpdxlnCTEProducer
+      - ULONG m_ulCTEId
+      - PfPexpr[] m_rgpfTranslators
+      - CColumnFactory* m_pcf
+  }
+#+END_SRC
+#+CAPTION: DXL 2 Expr
+#+NAME: fig:DXL_2_Expr
+#+RESULTS:
+[[file:../assets/img/dxl2expr-gen-b7dbe950a0e8b9ddc474fa8fabd269f4.png]]
+
+=CTranslatorDXLToExpr::Pexpr=

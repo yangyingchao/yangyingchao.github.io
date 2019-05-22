@@ -12,6 +12,9 @@
 #+DESCRIPTION: (nil)
 
 * pipe 缓冲区有多大
+:PROPERTIES:
+:CUSTOM_ID: h:BF3B4A66-CC5E-43C2-B6B7-EE4B3898B504
+:END:
 
 网络编程中，有时候会用 =pipe= 来唤醒 =epoll/poll/select= ，但 =pipe= 缓冲区有
 多大？超了会怎么样？
@@ -50,8 +53,14 @@
 
 
 * Socket SO_ERROR vs errno
+:PROPERTIES:
+:CUSTOM_ID: h:E7F7C117-2B73-43EB-B59B-89DF76B197EB
+:END:
 
 ** errno
+:PROPERTIES:
+:CUSTOM_ID: h:66F06378-D6FA-4E47-AB68-FF9EA02349D6
+:END:
 =errno= 看起来像是一个全局变量，实则不然：
 
 =man 3 errno= 显示：
@@ -66,6 +75,9 @@
 #+END_SRC
 
 ** SO_ERROR
+:PROPERTIES:
+:CUSTOM_ID: h:6B1FC78F-2B9D-4F54-B174-F4F701491EC5
+:END:
 =getsockopt()= 提供了另外一种方式来获取 errno: =SO_ERROR= ， =man 7 socket= 显示：
 
 #+BEGIN_SRC text -r
@@ -97,5 +109,8 @@ sample:
 #+END_SRC
 
 ** 用哪个
+:PROPERTIES:
+:CUSTOM_ID: h:89D30618-D229-46EA-A62D-DDAED8456961
+:END:
 
 答案是：都行。。。。

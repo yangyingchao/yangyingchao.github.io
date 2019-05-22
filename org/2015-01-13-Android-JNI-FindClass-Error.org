@@ -16,15 +16,21 @@
 
 
 * Q:
+:PROPERTIES:
+:CUSTOM_ID: h:891299B1-FC96-46B6-AEFB-89AEEFA5AD16
+:END:
 
 If we try to find java class in native thread, it probably results with an error: Can't find
 class.
 
 * A:
+:PROPERTIES:
+:CUSTOM_ID: h:A086773E-6037-4D2C-9F40-1F1FC15C1123
+:END:
 
 [[http://developer.android.com/training/articles/perf-jni.html][Here]] is the explanation:
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
 
 <a name="faq_FindClass" id="faq_FindClass"></a>
 <h2>FAQ: Why didn't <code>FindClass</code> find my class?</h2>
@@ -88,6 +94,9 @@ with your application, so attempts to find app-specific classes will fail.</p>
 #+END_HTML
 
 ** Solution 1: cache =jclass=:
+:PROPERTIES:
+:CUSTOM_ID: h:D051CE06-A558-4787-9DCD-003D0B9ED6E3
+:END:
 
 Here is what I did in =JNI_OnLoad()= to cache =jclass=:
 
@@ -183,6 +192,9 @@ static void callback(client_status status, rxp_header* rxp, void* priv)
 You can get source code at [[https://github.com/yangyingchao/remotedx/blob/master/client/jni/native_client.c][github]] .
 
 ** Solution 2: cache /class loader/ :
+:PROPERTIES:
+:CUSTOM_ID: h:D92377F7-EC0A-4537-A60E-1E91DCC6B945
+:END:
 
 There is another solution in [[http://stackoverflow.com/questions/13263340/findclass-from-any-thread-in-android-jni][StackOverflow]], which caches /class loader/ :
 

@@ -1,0 +1,271 @@
+#+TITLE: ORCA Worker Pool
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: h:4AC27AF3-6D35-4D72-A944-360593EC11BF
+:END:
+
+* Data Structures
+:PROPERTIES:
+:CUSTOM_ID: h:6F088DB5-79E9-481A-853E-FD1C09FE0CE0
+:END:
+
+#+BEGIN_SRC plantuml :file ../assets/img/worker-pool-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+
+  class CStackObject {
+  }
+
+  interface IWorker {
+      - void CheckForAbort()
+      + ULONG GetThreadId()
+      + CWorkerId GetWid()
+      + ULONG_PTR GetStackStart()
+      + ITask* GetTask()
+      + BOOL CheckStackSize()
+  }
+
+  CStackObject <|-- IWorker
+
+  class CWorker {
+      - void Run()
+      - void Execute()
+      - void CheckForAbort()
+      + ULONG GetThreadId()
+      + CWorkerId GetWid()
+      + ULONG_PTR GetStackStart()
+      + BOOL CheckStackSize()
+      + CTask* GetTask()
+      - CTask* m_task
+      - ULONG m_thread_id
+      - ULONG m_stack_size
+      - ULONG_PTR m_stack_start
+      + SLink m_link
+      + CWorkerId m_wid
+  }
+
+  IWorker <|-- CWorker
+
+
+  interface ITask
+
+  class CTask {
+      - void* m_func()
+      - void SetStatus()
+      - void Signal()
+      - void Bind()
+      - void Execute()
+      - BOOL IsScheduled()
+      - BOOL IsFinished()
+      - BOOL IsRunning()
+      - BOOL IsReported()
+      - void SetReported()
+      + IMemoryPool* Pmp()
+      + CTaskLocalStorage GetTls()
+      + CTaskId GetTid()
+      + CTaskContext* GetTaskCtxt()
+      + BOOL SetTrace()
+      + BOOL IsTraceSet()
+      + ELocale Locale()
+      + BOOL IsCanceled()
+      + void ResetCancel()
+      + void Cancel()
+      + BOOL IsAbortSuspended()
+      + void SuspendAbort()
+      + void ResumeAbort()
+      + ETaskStatus GetStatus()
+      + void* GetRes()
+      + IErrorContext* GetErrCtxt()
+      + CErrorContext* ConvertErrCtxt()
+      + BOOL HasPendingExceptions()
+      - IMemoryPool* m_mp
+      - CTaskContext* m_task_ctxt
+      - IErrorContext* m_err_ctxt
+      - CErrorHandler* m_err_handle
+      - void* m_arg
+      - void* m_res
+      - CTaskLocalStorage m_tls
+      - CMutexBase* m_mutex
+      - CEvent* m_event
+      - ETaskStatus m_status
+      - BOOL* m_cancel
+      - BOOL m_cancel_local
+      - ULONG m_abort_suspend_count
+      - BOOL m_reported
+      - CTaskId m_tid
+  }
+
+  ITask <|-- CTask
+
+  CWorker *- CTask
+
+  class CWorkerId {
+      + BOOL Equals()
+      + void SetThreadToCurrent()
+      + void SetThreadToInvalid()
+      + BOOL ==()
+      - PTHREAD_T m_pthread
+  }
+
+  CWorker *-- CWorkerId
+
+  class CAutoTaskProxy {
+      - GPOS_RESULT FindFinished()
+      - void PropagateError()
+      - void CheckError()
+      + ULONG TaskCount()
+      + void SetPropagateError()
+      + CTask* Create()
+      + void Schedule()
+      + void Wait()
+      + GPOS_RESULT TimedWait()
+      + void WaitAny()
+      + GPOS_RESULT TimedWaitAny()
+      + void Execute()
+      + void Cancel()
+      + void Destroy()
+      + void DestroyAll()
+      - IMemoryPool* m_mp
+      - CWorkerPoolManager* m_pwpm
+      - CList<CTask> m_list
+      - CMutex m_mutex
+      - CEvent m_event
+      - BOOL m_propagate_error
+  }
+
+  CStackObject <|-- CAutoTaskProxy
+
+  CAutoTaskProxy .> CTask: "Create"
+
+
+  class CTaskContext {
+      + ILogger* GetOutputLogger()
+      + ILogger* GetErrorLogger()
+      + void SetLogOut()
+      + void SetLogErr()
+      + BOOL SetTrace()
+      + BOOL IsTraceSet()
+      + ELocale Locale()
+      + void SetLocale()
+      + CBitSet* copy_trace_flags()
+      - CBitSet* m_bitset
+      - ILogger* m_log_out
+      - ILogger* m_log_err
+      - ELocale m_locale
+  }
+#+END_SRC
+#+CAPTION: Data Structures
+#+NAME: fig:Data_Structures
+#+RESULTS:
+[[file:../assets/img/worker-pool-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png]]
+
+
+** Auto Task Proxy (ATP)
+:PROPERTIES:
+:CUSTOM_ID: h:11B6E1B5-82C9-43E4-9208-556273FF0FF8
+:END:
+
+Auto task proxy (ATP) to handle task creation, execution and cleanup
+ATP operations are not thread-safe; only one worker can use each ATP
+object.
+
+*** Create Task via ATP
+:PROPERTIES:
+:CUSTOM_ID: h:4DEE866C-E5B8-49C2-9C6A-A0667D28C48C
+:END:
+
+** TODO
+:PROPERTIES:
+:CUSTOM_ID: h:FA99CCDF-B154-4B1A-9061-740B843504F7
+:END:
+
+CAutoTaskProxy::Create
+
+[[file:~/Work/orca/gporca/libgpos/src/task/CAutoTaskProxy.cpp::CAutoTaskProxy::Create]]
+
+
+
+*** Execute Task Via ATP
+:PROPERTIES:
+:CUSTOM_ID: h:61B4B534-E56C-42CC-9128-F0AE2DE35C9E
+:END:
+
+
+* Execute a task using current thread
+:PROPERTIES:
+:CUSTOM_ID: h:62BC1890-DC5E-4830-8AD8-00EDF82EBEAF
+:END:
+
+After gpos is [[file:2019-05-22-Learning-GP-ORCA--Infrastructure.org::#h:051018CB-0AF8-494E-83D1-3FBF62D0EB98][initialized]] , construct a =gpos_exec_params= and call: =gpos_exec(&params)= to
+execute task in Worker Pool.
+
+#+BEGIN_SRC c++ -r
+  /*
+   ,* struct with configuration parameters for task execution;
+   ,* this needs to be in sync with the corresponding structure in optserver.h
+   ,*/
+  struct gpos_exec_params
+  {
+      void *(*func)(void*);           /* task function */
+      void *arg;                      /* task argument */
+      void *result;                   /* task result */
+      void *stack_start;              /* start of current thread's stack */
+      char *error_buffer;             /* buffer used to store error messages */
+      int error_buffer_size;          /* size of error message buffer */
+      volatile bool *abort_requested; /* flag indicating if abort is requested */
+  };
+#+END_SRC
+
+#+BEGIN_SRC plantuml :file ../assets/img/gpos_exec-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+  |gpos_exec|
+  start
+  :sanity check;
+
+  :get WorkerPoolManager;
+
+  :put worker to stack (ID-0);
+
+  |CWorker|
+  #00ffff:BEGIN - CWorker::CWorker();
+  :Register this into WorkPoolManager;
+  |CWorkerPoolManager|
+  #a52a2a:BEGIN - CWorkerPoolManager::RegisterWorker();
+  :get WorkId from worker;
+  :Insert into HashTable;
+  #a52a2a:END - CWorkerPoolManager::RegisterWorker();
+  |CWorker|
+
+  #00ffff:END - CWorker::CWorker();
+  |gpos_exec|
+  :construct scoped memory pool;
+  :construct ATP;
+  :Create new task with params from ATP;
+  :Execute task via ATP;
+  :Get result from task;
+  stop
+#+END_SRC
+#+CAPTION: gpos_exec
+#+NAME: fig:gpos_exec
+#+RESULTS:
+[[file:../assets/img/gpos_exec-gen-a400e3720fdef1f9aa86610bbdbb5d9d.png]]
+
+
+- Scoped Memory Pool\\
+  refer to: [[file:2019-05-22-ORCA-Memory-Pool.org::#h:4BFC6792-607A-4FCE-B8C4-C10F9775D779][Scoped Memory Pool]]
+
+- CWorkerId \\
+
+  Identification of a worker, by =thread_t=
+
+- ATP: refer to [[#h:11B6E1B5-82C9-43E4-9208-556273FF0FF8][Auto Task Proxy]]

@@ -14,8 +14,14 @@
 简单记录一下折腾 Spark, Ensime, sbt 过程中遇到的问题。
 
 * sbt run 报错： Uncaught exception in thread SparkListenerBus
+:PROPERTIES:
+:CUSTOM_ID: h:162A6EF5-5185-47C3-8963-247AB1D3A667
+:END:
 
 ** 表现
+:PROPERTIES:
+:CUSTOM_ID: h:30468EE3-D84A-4F72-965C-667D03879F0A
+:END:
 
 #+BEGIN_SRC text -r
 15/02/06 15:56:49 ERROR Utils: Uncaught exception in thread SparkListenerBus
@@ -42,9 +48,15 @@ java.lang.InterruptedException
 #+END_SRC
 
 ** 原因
+:PROPERTIES:
+:CUSTOM_ID: h:7F8C0004-77F0-4B51-A221-3BF576EAEF00
+:END:
 SparkSession、SparkContext 没有关闭
 
 ** 解决方法
+:PROPERTIES:
+:CUSTOM_ID: h:DFF6DDCD-7A4E-4FC8-A934-3B976E13DADA
+:END:
 
 下面两者均可：
 

@@ -15,11 +15,17 @@
 #+EXCLUDE_TAGS: noexport
 
 * 如何在 XML 里指定 Alpha 通道
+:PROPERTIES:
+:CUSTOM_ID: h:C5BA4C06-FE03-4399-BA88-228387990DCE
+:END:
 
 [[http://stackoverflow.com/questions/15852122/hex-transparency-in-colors]]
 [[http://stackoverflow.com/questions/16611759/how-set-alpha-opacity-value-to-color-on-xml-drawable]]
 
 * How to force layout to refresh/repaint android?
+:PROPERTIES:
+:CUSTOM_ID: h:EEC5AE08-163A-46D4-BDA8-DE11429E57CE
+:END:
 
 [[http://stackoverflow.com/questions/18470753/force-layout-to-refresh-repaint-android]]
 

@@ -13,7 +13,7 @@
 
 Reposted from: http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
   <div class="content">
     <div id="post-13113" class="post_box grt top" itemscope="" itemtype="http://schema.org/Article">
       <meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="http://www.cyberciti.biz/faq/linux-which-process-is-using-swap/">

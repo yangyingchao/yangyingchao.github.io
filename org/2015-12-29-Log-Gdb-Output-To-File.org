@@ -13,7 +13,7 @@
 
 Repost from: https://www.fayewilliams.com/2015/04/28/log-gdb-output-to-a-file/
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
         <div class="entry-content">
 
             <p>Sometimes, especially when you&#8217;re dealing with a long stack trace, or a multi-threaded stack trace, trying to view the debug output from GDB in a terminal window can be a little awkward.</p>

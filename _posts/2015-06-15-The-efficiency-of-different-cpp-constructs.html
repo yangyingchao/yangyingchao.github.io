@@ -8,10 +8,10 @@ tags : constructs cpp
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgd1f24f8">1. 存储类型</a>
+<li><a href="#h:B26396FF-DC1D-416A-A7D2-64D6BB1CE96E">1. 存储类型</a>
 <ul>
-<li><a href="#org7514114">1.1. Stack:</a></li>
-<li><a href="#org827e1b1">1.2. Global or static storage</a></li>
+<li><a href="#h:55602FD9-47E1-4D2F-ACE4-9071C38F2A72">1.1. Stack:</a></li>
+<li><a href="#h:245EB757-00F9-450B-8886-B8FE21D91AB0">1.2. Global or static storage</a></li>
 </ul>
 </li>
 </ul>
@@ -19,31 +19,32 @@ tags : constructs cpp
 </div>
 
 
-<div id="outline-container-orgd1f24f8" class="outline-2">
-<h2 id="orgd1f24f8"><span class="section-number-2">1</span> 存储类型</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgcbd8b8b" class="outline-2">
+<h2 id="h:B26396FF-DC1D-416A-A7D2-64D6BB1CE96E"><a id="orgcbd8b8b"></a><span class="section-number-2">1</span> 存储类型</h2>
+<div class="outline-text-2" id="text-h:B26396FF-DC1D-416A-A7D2-64D6BB1CE96E">
 <p>
 C++ 中，变量和对象根据不同的声明，会被存放于内存的不同段里。这些存储方式，会对 Cache
 产生一些影响：如果这些变量和对象过于分散，将会影响 cache。
 </p>
 </div>
 
-<div id="outline-container-org7514114" class="outline-3">
-<h3 id="org7514114"><span class="section-number-3">1.1</span> Stack:</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-orgea6f47e" class="outline-3">
+<h3 id="h:55602FD9-47E1-4D2F-ACE4-9071C38F2A72"><a id="orgea6f47e"></a><span class="section-number-3">1.1</span> Stack:</h3>
+<div class="outline-text-3" id="text-h:55602FD9-47E1-4D2F-ACE4-9071C38F2A72">
 </div>
-<div id="outline-container-orgb0a4e37" class="outline-4">
-<h4 id="orgb0a4e37"><span class="section-number-4">1.1.1</span> Who</h4>
-<div class="outline-text-4" id="text-1-1-1">
+
+<div id="outline-container-org7027d66" class="outline-4">
+<h4 id="h:4D63D80F-B49F-42DD-B2AD-2B4AB1B51176"><a id="org7027d66"></a><span class="section-number-4">1.1.1</span> Who</h4>
+<div class="outline-text-4" id="text-h:4D63D80F-B49F-42DD-B2AD-2B4AB1B51176">
 <p>
 Variables and objects declared inside a function are stored on the stack, except for the cases described in the sections below.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4a75781" class="outline-4">
-<h4 id="org4a75781"><span class="section-number-4">1.1.2</span> Explain:</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<div id="outline-container-org68968e4" class="outline-4">
+<h4 id="h:3F50EB1E-ED01-487F-9298-78030E31D686"><a id="org68968e4"></a><span class="section-number-4">1.1.2</span> Explain:</h4>
+<div class="outline-text-4" id="text-h:3F50EB1E-ED01-487F-9298-78030E31D686">
 <p>
 The stack is the most efficient memory space to store data because the same range of
 memory addresses is reused again and again. If there are no big arrays, then it is
@@ -52,9 +53,9 @@ almost certain that this part of the memory is mirrored in the level-1 data cach
 </div>
 </div>
 
-<div id="outline-container-org15c2e48" class="outline-4">
-<h4 id="org15c2e48"><span class="section-number-4">1.1.3</span> Lesson</h4>
-<div class="outline-text-4" id="text-1-1-3">
+<div id="outline-container-orgdf40ba9" class="outline-4">
+<h4 id="h:2B9CECFF-816A-4514-95BE-B0BD1A7F58EC"><a id="orgdf40ba9"></a><span class="section-number-4">1.1.3</span> Lesson</h4>
+<div class="outline-text-4" id="text-h:2B9CECFF-816A-4514-95BE-B0BD1A7F58EC">
 <p>
 The lesson we can learn from this is that all variables and objects should preferably
 be declared inside the function in which they are used.
@@ -63,13 +64,14 @@ be declared inside the function in which they are used.
 </div>
 </div>
 
-<div id="outline-container-org827e1b1" class="outline-3">
-<h3 id="org827e1b1"><span class="section-number-3">1.2</span> Global or static storage</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-org2526678" class="outline-3">
+<h3 id="h:245EB757-00F9-450B-8886-B8FE21D91AB0"><a id="org2526678"></a><span class="section-number-3">1.2</span> Global or static storage</h3>
+<div class="outline-text-3" id="text-h:245EB757-00F9-450B-8886-B8FE21D91AB0">
 </div>
-<div id="outline-container-org14395d0" class="outline-4">
-<h4 id="org14395d0"><span class="section-number-4">1.2.1</span> Who</h4>
-<div class="outline-text-4" id="text-1-2-1">
+
+<div id="outline-container-orgdea8928" class="outline-4">
+<h4 id="h:5AFB1C91-F859-44CF-98CC-8044AEB571AB"><a id="orgdea8928"></a><span class="section-number-4">1.2.1</span> Who</h4>
+<div class="outline-text-4" id="text-h:5AFB1C91-F859-44CF-98CC-8044AEB571AB">
 <p>
 Variables that are declared outside of any function are called global variables. They
 can be accessed from any function. Global variables are stored in a static part of the
@@ -80,8 +82,10 @@ statement jump tables, and virtual function tables.
 </div>
 </div>
 
-<div id="outline-container-org2b3117f" class="outline-4">
-<h4 id="org2b3117f"><span class="section-number-4">1.2.2</span> Explain</h4>
+<div id="outline-container-orgee6256c" class="outline-4">
+<h4 id="h:B2F5180C-C876-4AEB-9FA1-C648FCF21092"><a id="orgee6256c"></a><span class="section-number-4">1.2.2</span> Explain</h4>
+<div class="outline-text-4" id="text-h:B2F5180C-C876-4AEB-9FA1-C648FCF21092">
+</div>
 </div>
 </div>
 </div>

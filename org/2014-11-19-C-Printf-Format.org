@@ -16,6 +16,9 @@
 #+EXCLUDE_TAGS: noexport
 
 * printf family format:
+:PROPERTIES:
+:CUSTOM_ID: h:EB7C1B38-0CA5-4D4E-98AC-EF916E58199B
+:END:
 
 
 [[sec:one][=ordinary characters=]] + [[sec:conversion][=conversion sepcifications=]]
@@ -309,14 +312,23 @@
 
 
 * C99 Enhancement
+:PROPERTIES:
+:CUSTOM_ID: h:7035809D-1B2D-4AEE-8F56-3FEE5989B218
+:END:
 
 为了让代码可移植性更好，C99 提供了两个极为有用的头文件。
 
 ** stdint.h
+:PROPERTIES:
+:CUSTOM_ID: h:1745EF37-A6EF-475D-9B60-61F92A85EA30
+:END:
 
 该文件提供了诸如 =int32=, =uint32=, =uint16= 等等类型的定义
 
 ** inttypes.h
+:PROPERTIES:
+:CUSTOM_ID: h:ED40E9D1-1A26-4510-9355-B0F387D8B2A3
+:END:
 
 该文件提供了若干宏用于格式化输出，可以用于 =printf= 以及 =scanf= 。
 

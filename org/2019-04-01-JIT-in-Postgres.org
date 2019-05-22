@@ -15,6 +15,9 @@
 
 
 * 简单总结
+:PROPERTIES:
+:CUSTOM_ID: h:9BFCB4ED-E3D3-4187-864E-54AF021FD7DD
+:END:
 - backend 目录中所有文件都通过 =clang -emit-llvm= 编译输出 LLVM 形态的中间文件，用于后期 JIT 调用。
 - JIT 代码生成，就是运行期，生成代码、将之前的中间文件组织起来，再进行内联、优化，输出可执行代二进制机器码。
 - PG 中可以用到的优化方式包括：
@@ -22,13 +25,19 @@
   - LLVM 中的各种 pass
 
 *  Overview
+:PROPERTIES:
+:CUSTOM_ID: h:3C8468CD-3667-42FA-95F2-B54658CC6F44
+:END:
 
 
 [[./images/pg-jit-overview.png]]
 
 
 * Callflow
-#+BEGIN_SRC plantuml :file images/jit-callflow-gen.png
+:PROPERTIES:
+:CUSTOM_ID: h:8C3B7B4F-16A1-431A-A129-2EC74833B8B7
+:END:
+#+BEGIN_SRC plantuml :file ../assets/img/jit-callflow-gen.png
   |execExpr.c|
   :jit_compile_expr(state);
   |jit.c|
@@ -54,12 +63,15 @@
 #+CAPTION: JIT call flow
 #+NAME: fig:JIT_call_flow
 #+RESULTS:
-[[file:images/jit-callflow-gen.png]]
+[[file:../assets/img/jit-callflow-gen.png]]
 
 * LLVM Jit Context
+:PROPERTIES:
+:CUSTOM_ID: h:0BAD3076-AEDA-469A-9A23-D169C69119FB
+:END:
 =llvm_session_initialize()=
 
-#+BEGIN_SRC plantuml :file images/llvm_session_init-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm_session_init-gen.png
   |llvm_session_initialize|
 
   #a52a2a:BEGIN - llvm_session_initialize();
@@ -87,6 +99,9 @@
 [[./images/llvm_session_init-gen.png]]
 
 ** llvmjit types
+:PROPERTIES:
+:CUSTOM_ID: h:9A1031A6-BAEE-41C6-A4F2-94F42C98964C
+:END:
 
 #+BEGIN_QUOTE
 To be able to generate code that can perform tasks done by "interpreted"
@@ -102,6 +117,9 @@ compile time, and loaded when LLVM is initialized in a backend.
 #+END_QUOTE
 
 *** =llvmjit_types.bc=
+:PROPERTIES:
+:CUSTOM_ID: h:0874C826-92EF-4D9D-82E5-305595E7B176
+:END:
 
 Makefile:
 
@@ -136,6 +154,9 @@ Makefile:
 
 
 * Do Create Function
+:PROPERTIES:
+:CUSTOM_ID: h:D83ECC2B-CC8D-4857-A5C1-FA2D6ACCCF60
+:END:
 
 核心思想是将 =ExprState= 中的 Steps 编译生成一个新函数，其签名和作用与下面的函数相同：
 
@@ -147,7 +168,7 @@ Makefile:
 
 =ExprState= 类图：
 
-#+BEGIN_SRC plantuml :file images/exprstate-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/exprstate-gen.png
 
   class ExprState {
       + Node tag
@@ -172,11 +193,11 @@ Makefile:
 #+CAPTION: ExprState
 #+NAME: fig:ExprState
 #+RESULTS:
-[[file:images/exprstate-gen.png]]
+[[file:../assets/img/exprstate-gen.png]]
 
 步骤如下：
 
-#+BEGIN_SRC plantuml :file images/do-create-function-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/do-create-function-gen.png
   |do_compile|
   :prepare function;
   |prepare|
@@ -249,13 +270,16 @@ Makefile:
 #+CAPTION: Do Create Function
 #+NAME: fig:Do_Create_Function
 #+RESULTS:
-[[file:images/do-create-function-gen.png]]
+[[file:../assets/img/do-create-function-gen.png]]
 
 * Inline
+:PROPERTIES:
+:CUSTOM_ID: h:8BE75A6B-840E-4755-9AA5-819B047359FA
+:END:
 
 减少函数调用开销。
 
-#+BEGIN_SRC plantuml :file images/inline-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/inline-gen.png
   |llvm_inline|
 
   start
@@ -315,27 +339,39 @@ Makefile:
 #+CAPTION: Inline
 #+NAME: fig:Inline
 #+RESULTS:
-[[file:images/inline-gen.png]]
+[[file:../assets/img/inline-gen.png]]
 
 ** llvm_build_inline_plan
+:PROPERTIES:
+:CUSTOM_ID: h:420D8D3D-9511-430D-ABAC-9DB5ED54414D
+:END:
 
 收集表达式中用到的函数，检查这些函数是否可以用来内联，如果是的话则将其定义和依
 赖放进 =globalsToInline= 中。
 
 ** llvm_execute_inline_plan
+:PROPERTIES:
+:CUSTOM_ID: h:1E526F9D-D5D7-4F72-AB3E-903C58408FF6
+:END:
 
 Perform the actual inlining of external functions (and their dependencies) into mod.
 
 将之前收集的模块和函数及其依赖，插入到 mod 中。
 
 ** 疑问
+:PROPERTIES:
+:CUSTOM_ID: h:EE54C8DC-9037-4A95-9D69-4F68F56E2270
+:END:
 为什么还需有手动做这个事情呢？不是应该在优化阶段自动进行吗？
 
 * Optimize
+:PROPERTIES:
+:CUSTOM_ID: h:6BDBE2E0-7256-440B-950A-7B04F829C5C2
+:END:
 
 Optimize code in module using the flags set in context.
 
-#+BEGIN_SRC plantuml :file images/llvm-optimization-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm-optimization-gen.png
   |llvm_optimize_module|
 
   start
@@ -424,10 +460,16 @@ Optimize code in module using the flags set in context.
 #+CAPTION: Optimization
 #+NAME: fig:Optimization
 #+RESULTS:
-[[file:images/llvm-optimization-gen.png]]
+[[file:../assets/img/llvm-optimization-gen.png]]
 
 * LLVM 知识点
+:PROPERTIES:
+:CUSTOM_ID: h:330423FA-BFE2-4454-AC09-22F0DFCD7A40
+:END:
 ** Target Triple
+:PROPERTIES:
+:CUSTOM_ID: h:F2E36CE1-1A36-4373-96DA-DC46911D5E7B
+:END:
 
 A module may specify a =target triple string= that describes the target host. The syntax for the
 target triple is simply:
@@ -449,6 +491,9 @@ architecture. It’s possible to override this on the command line with the -mtr
 option.
 
 ** Data Layout
+:PROPERTIES:
+:CUSTOM_ID: h:2E0A009A-129B-4E1F-BDDA-313D756AC128
+:END:
 
 A module may specify a target specific data layout string that specifies how data is to be laid
 out in memory. The syntax for the data layout is simply:
@@ -463,10 +508,16 @@ character (‘-‘). Each specification starts with a letter and may include oth
 the letter to define some aspect of the data layout.
 
 ** =br= Instruction
+:PROPERTIES:
+:CUSTOM_ID: h:C43749AC-A3FA-4423-8185-20A09A15FA0F
+:END:
 
 编译过程中用到了 =LLVMBuildBr(b, opblocks[0]);= ：该函数用于增加 =br= 指令。
 
 *** Syntax:
+:PROPERTIES:
+:CUSTOM_ID: h:F661FFCC-4464-40CC-B5E1-CAC26CDAA977
+:END:
 
 #+BEGIN_SRC asm -r
 br i1 <cond>, label <iftrue>, label <iffalse>
@@ -474,6 +525,9 @@ br label <dest>          ; Unconditional branch
 #+END_SRC
 
 *** Overview:
+:PROPERTIES:
+:CUSTOM_ID: h:94962F22-F3C6-4A8E-B8CF-5403703D25BE
+:END:
 
 The =br= instruction is used to cause control flow to transfer to a different basic block in the
 current function. There are two forms of this instruction, corresponding to a conditional branch
@@ -481,12 +535,18 @@ and an unconditional branch.
 
 
 *** Arguments:
+:PROPERTIES:
+:CUSTOM_ID: h:A5B9D2CB-8A90-48C1-8E86-496E61625C38
+:END:
 
 - The conditional branch form of the =br= instruction takes a single =i1= value and two =label= values.
 - The unconditional form of the =br= instruction takes a single =label= value as a target.
 
 
 *** Semantics:
+:PROPERTIES:
+:CUSTOM_ID: h:1D7B21AC-9A87-481F-B44C-1D23FB7A6611
+:END:
 
 Upon execution of a conditional ‘br’ instruction, the ‘i1’ argument is evaluated. If the value
 is true, control flows to the ‘iftrue’ label argument. If “cond” is false, control flows to
@@ -494,6 +554,9 @@ the ‘iffalse’ label argument.
 
 
 *** Example:
+:PROPERTIES:
+:CUSTOM_ID: h:A5D5604A-B0FB-4CC6-A48F-152643FFBEC9
+:END:
 
 #+BEGIN_SRC llvm -r
   Test:
@@ -508,6 +571,9 @@ the ‘iffalse’ label argument.
 
 
 ** Function Attributes
+:PROPERTIES:
+:CUSTOM_ID: h:7908A15B-7848-428D-8C27-0F4F2FB41A99
+:END:
 
 Function attributes are set to communicate additional information about a function. Function
 attributes are considered to be part of the function, not of the function type, so functions with
@@ -527,6 +593,9 @@ define void @f() optsize { ... }
 #+END_SRC
 
 ** Module Structure
+:PROPERTIES:
+:CUSTOM_ID: h:F7252509-251D-4D61-A03D-2C7E814C647C
+:END:
 
 LLVM programs are composed of Module’s, each of which is a translation unit
 of the input programs. Each module consists of functions, global variables,
@@ -565,6 +634,9 @@ This example is made up of a global variable named “.str”, an external decla
 In general, a module is made up of a list of global values (where both functions and global variables are global values). Global values are represented by a pointer to a memory location (in this case, a pointer to an array of char, and a pointer to a function), and have one of the following linkage types.
 
 ** Passes
+:PROPERTIES:
+:CUSTOM_ID: h:324042DC-7FF9-4134-B990-8F14B9FCF25B
+:END:
 
 This document serves as a high level summary of the optimization features that LLVM
 provides. Optimizations are implemented as Passes that traverse some portion of a program to
@@ -577,7 +649,7 @@ bitcode or write a module to bitcode are neither analysis nor transform passes. 
 contents above provides a quick summary of each pass and links to the more complete pass
 description later in the document.
 
-#+BEGIN_SRC plantuml :file images/llvm-pass-managers-gen.png
+#+BEGIN_SRC plantuml :file ../assets/img/llvm-pass-managers-gen.png
 
 
   class PassManagerBase {
@@ -728,5 +800,5 @@ description later in the document.
 #+CAPTION: Pass Manager
 #+NAME: fig:Pass_Manager
 #+RESULTS:
-[[file:images/llvm-pass-managers-gen.png]]
+[[file:../assets/img/llvm-pass-managers-gen.png]]
 

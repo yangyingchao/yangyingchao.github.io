@@ -13,6 +13,9 @@
 
 
 * Use -C and --strip-components (See man tar).
+:PROPERTIES:
+:CUSTOM_ID: h:2D583C65-6840-40FA-A18D-D0051FD728E6
+:END:
 
 Example:
 
@@ -28,6 +31,9 @@ tar -xz FILENAME -C FOLDER --strip-components=1
 
 
 * Use =--transform=
+:PROPERTIES:
+:CUSTOM_ID: h:E95EEF8A-AB69-4685-979C-D22DF370ADB7
+:END:
 
    You can also use the --transform option for a bit more flexibility. It accepts any sed replacement (s) operation.
 

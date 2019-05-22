@@ -21,8 +21,11 @@
 
 
 * [[http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/][linux内核中双链表的实现]]
+:PROPERTIES:
+:CUSTOM_ID: h:1FD0A965-F3C3-478B-B648-D28D4ADC345E
+:END:
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
           <p>双链表是最常用的数据结构之一，在Linux内核中也不例外。下图表示了双链表在内核中的实现：</p>
   <p style="text-align: center;"><img class="size-full wp-image-55 aligncenter" alt="Linux中的双链表" src="http://galex.cn/wp-content/uploads/c7450680b6472749ed8327ce01711c0f.jpg" width="672" height="265" /></p>
   <p>可以看出，链表的组织是循环的，即第一个元素的前一项是链表中的最后一项，最后一项的下一项是链表的第一项。</p>
@@ -575,8 +578,11 @@
 #+END_HTML
 
 *  [[http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%ADhash%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0][linux内核中hash链表的实现]]
+:PROPERTIES:
+:CUSTOM_ID: h:0D0589E2-28CD-4E9D-B180-4E824FAA2942
+:END:
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
       <div class="post-content">
           <p>在<a title="上一篇" href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">上一篇</a>中介绍了双链表的实现，现在来看下hash链表是如何实现的。注意这里所说的“hash链表”和“hash表”的不同，hash链表是指映射到hash表中同一位置的所有元素组成的溢出链表。</p>
   <p>hash链表的结构和双链表一样，也是内嵌到需要作为hash链表表元素的结构中。不同的是，双链表的表头和表元素是用相同的结构表示的（struct list_head），hash链表使用了不同的结构：</p><!-- Crayon Syntax Highlighter v2.6.6 -->

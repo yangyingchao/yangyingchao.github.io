@@ -8,8 +8,8 @@ tags : Kernel List Hash List
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge54227e">1. linux内核中双链表的实现</a></li>
-<li><a href="#org08285dd">2. linux内核中hash链表的实现</a></li>
+<li><a href="#h:1FD0A965-F3C3-478B-B648-D28D4ADC345E">1. linux内核中双链表的实现</a></li>
+<li><a href="#h:0D0589E2-28CD-4E9D-B180-4E824FAA2942">2. linux内核中hash链表的实现</a></li>
 </ul>
 </div>
 </div>
@@ -22,15 +22,15 @@ tags : Kernel List Hash List
 </p>
 
 
-<div id="outline-container-orge54227e" class="outline-2">
-<h2 id="orge54227e"><span class="section-number-2">1</span> <a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">linux内核中双链表的实现</a></h2>
-<div class="outline-text-2" id="text-1">
-<div class="HTML">
+<div id="outline-container-orgcb05a4a" class="outline-2">
+<h2 id="h:1FD0A965-F3C3-478B-B648-D28D4ADC345E"><a id="orgcb05a4a"></a><span class="section-number-2">1</span> <a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">linux内核中双链表的实现</a></h2>
+<div class="outline-text-2" id="text-h:1FD0A965-F3C3-478B-B648-D28D4ADC345E">
 <p>
-        &lt;p&gt;双链表是最常用的数据结构之一，在Linux内核中也不例外。下图表示了双链表在内核中的实现：&lt;/p&gt;
-&lt;p style="text-align: center;"&gt;&lt;img class="size-full wp-image-55 aligncenter" alt="Linux中的双链表" src="<img src="http://galex.cn/wp-content/uploads/c7450680b6472749ed8327ce01711c0f.jpg" alt="c7450680b6472749ed8327ce01711c0f.jpg" />" width="672" height="265" /&gt;&lt;/p&gt;
-&lt;p&gt;可以看出，链表的组织是循环的，即第一个元素的前一项是链表中的最后一项，最后一项的下一项是链表的第一项。&lt;/p&gt;
-&lt;p&gt;我们在用到双链表时，通常会这样定义结构体：&lt;/p&gt;&lt;!&#x2013; Crayon Syntax Highlighter v2.6.6 &#x2013;&gt;
+#+BEGIN_EXPORT html
+          &lt;p&gt;双链表是最常用的数据结构之一，在Linux内核中也不例外。下图表示了双链表在内核中的实现：&lt;/p&gt;
+  &lt;p style="text-align: center;"&gt;&lt;img class="size-full wp-image-55 aligncenter" alt="Linux中的双链表" src="<img src="http://galex.cn/wp-content/uploads/c7450680b6472749ed8327ce01711c0f.jpg" alt="c7450680b6472749ed8327ce01711c0f.jpg" />" width="672" height="265" /&gt;&lt;/p&gt;
+  &lt;p&gt;可以看出，链表的组织是循环的，即第一个元素的前一项是链表中的最后一项，最后一项的下一项是链表的第一项。&lt;/p&gt;
+  &lt;p&gt;我们在用到双链表时，通常会这样定义结构体：&lt;/p&gt;&lt;!&#x2013; Crayon Syntax Highlighter v2.6.6 &#x2013;&gt;
 </p>
 
 <p>
@@ -702,18 +702,21 @@ tags : Kernel List Hash List
 &lt;/div&gt; &lt;!&#x2013; /post-content &#x2013;&gt;
 </p>
 
-</div>
+
+<p>
+#+END_HTML
+</p>
 </div>
 </div>
 
-<div id="outline-container-org08285dd" class="outline-2">
-<h2 id="org08285dd"><span class="section-number-2">2</span> <a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%ADhash%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0">linux内核中hash链表的实现</a></h2>
-<div class="outline-text-2" id="text-2">
-<div class="HTML">
+<div id="outline-container-org88f1d4a" class="outline-2">
+<h2 id="h:0D0589E2-28CD-4E9D-B180-4E824FAA2942"><a id="org88f1d4a"></a><span class="section-number-2">2</span> <a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%ADhash%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0">linux内核中hash链表的实现</a></h2>
+<div class="outline-text-2" id="text-h:0D0589E2-28CD-4E9D-B180-4E824FAA2942">
 <p>
-    &lt;div class="post-content"&gt;
-        &lt;p&gt;在&lt;a title="上一篇" href="<a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">http://galex.cn/linux内核中双链表的实现/</a>"&gt;上一篇&lt;/a&gt;中介绍了双链表的实现，现在来看下hash链表是如何实现的。注意这里所说的“hash链表”和“hash表”的不同，hash链表是指映射到hash表中同一位置的所有元素组成的溢出链表。&lt;/p&gt;
-&lt;p&gt;hash链表的结构和双链表一样，也是内嵌到需要作为hash链表表元素的结构中。不同的是，双链表的表头和表元素是用相同的结构表示的（struct list_head），hash链表使用了不同的结构：&lt;/p&gt;&lt;!&#x2013; Crayon Syntax Highlighter v2.6.6 &#x2013;&gt;
+#+BEGIN_EXPORT html
+      &lt;div class="post-content"&gt;
+          &lt;p&gt;在&lt;a title="上一篇" href="<a href="http://galex.cn/linux%E5%86%85%E6%A0%B8%E4%B8%AD%E5%8F%8C%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">http://galex.cn/linux内核中双链表的实现/</a>"&gt;上一篇&lt;/a&gt;中介绍了双链表的实现，现在来看下hash链表是如何实现的。注意这里所说的“hash链表”和“hash表”的不同，hash链表是指映射到hash表中同一位置的所有元素组成的溢出链表。&lt;/p&gt;
+  &lt;p&gt;hash链表的结构和双链表一样，也是内嵌到需要作为hash链表表元素的结构中。不同的是，双链表的表头和表元素是用相同的结构表示的（struct list_head），hash链表使用了不同的结构：&lt;/p&gt;&lt;!&#x2013; Crayon Syntax Highlighter v2.6.6 &#x2013;&gt;
 </p>
 
 <p>
@@ -958,6 +961,9 @@ tags : Kernel List Hash List
 &lt;/div&gt; &lt;!&#x2013; /post-content &#x2013;&gt;
 </p>
 
-</div>
+
+<p>
+#+END_HTML
+</p>
 </div>
 </div>

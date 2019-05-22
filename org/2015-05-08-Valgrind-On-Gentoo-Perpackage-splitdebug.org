@@ -14,7 +14,7 @@
 
 [[https://archives.gentoo.org/gentoo-user/message/f456c607cb337b10fd0a8afec7bc4712]]
 
-#+BEGIN_HTML
+#+BEGIN_EXPORT html
 <pre class="ag-message-content">On 08/23/2011 09:17 AM, Leonardo Guilherme wrote:
 <div class="ag-quote">&gt; Hi.
 &gt;

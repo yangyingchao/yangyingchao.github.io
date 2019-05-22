@@ -8,58 +8,56 @@ tags : git p4
 Reposted from: <a href="http://blogs.pdmlab.com/alexander.zeitler/articles/installing-and-configuring-p4merge-for-git-on-ubuntu/">http://blogs.pdmlab.com/alexander.zeitler/articles/installing-and-configuring-p4merge-for-git-on-ubuntu/</a>
 </p>
 
-<div class="HTML">
 <p>
-
+#+BEGIN_EXPORT html
 </p>
 
 
 <p>
-&lt;div class="page color-4"&gt;
-  &lt;div class="inner-page row-fluid"&gt;
-    &lt;div class="span12"&gt;
-      &lt;h1&gt;Installing and configuring P4Merge for Git on Ubuntu&lt;/h1&gt;
-      &lt;p class="author"&gt;Geschrieben von &lt;span class="author"&gt;&lt;a href="<a href="mailto:alexander.zeitler@pdmlab.com">mailto:alexander.zeitler@pdmlab.com</a>"&gt;Alexander Zeitler&lt;/a&gt;&lt;/span&gt;&lt;span&gt; am&amp;nbsp;&lt;/span&gt;&lt;span&gt;03. August 2014&lt;/span&gt;
-      &lt;/p&gt;
-      &lt;p class="autor"&gt;&lt;span&gt;Tags:&amp;nbsp;&lt;/span&gt;&lt;a href="<i>alexander.zeitler/tag/english/1</i>" class="big-tag"&gt;english&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/p4merge/1</i>" class="big-tag"&gt;p4merge&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/git/1</i>" class="big-tag"&gt;git&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/ubuntu/1</i>" class="big-tag"&gt;ubuntu&lt;/a&gt;
-      &lt;/p&gt;
-      &lt;article class="article"&gt;
-        &lt;section class="content"&gt;&lt;p&gt;I’m using &lt;a href="<a href="http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools">http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools</a>"&gt;P4Merge&lt;/a&gt; as Git merge and diff tool on all platforms.&lt;br&gt;This post describes how to install it on&amp;nbsp;Ubuntu.&lt;/p&gt;
-          &lt;p&gt;&lt;span class="more"&gt;&lt;/span&gt;&lt;/p&gt;
-          &lt;p&gt;In order to set up P4Merge on Ubuntu, copy the extracted P4Merge download to &lt;code&gt;/opt/p4merge&lt;/code&gt;:&lt;/p&gt;
-          &lt;pre&gt;&lt;code class="lang-bash"&gt;[~/Downloads/p4merge/p4v-&lt;span class="number"&gt;2014.1&lt;/span&gt;.&lt;span class="number"&gt;888424&lt;/span&gt;]$ &lt;span class="built_in"&gt;sudo&lt;/span&gt; mv * /opt/p4merge
-          &lt;/code&gt;&lt;/pre&gt;
-          &lt;p&gt;Then symlink&amp;nbsp;p4merge:&lt;/p&gt;
-          &lt;pre&gt;&lt;code class="lang-bash"&gt;&lt;span class="built_in"&gt;sudo&lt;/span&gt; ln &lt;span class="operator"&gt;-s&lt;/span&gt; /opt/p4merge/bin/p4merge /usr/local/bin/p4merge
-          &lt;/code&gt;&lt;/pre&gt;
-          &lt;p&gt;After that, add this to your &lt;code&gt;~/.gitconfig&lt;/code&gt;:&lt;/p&gt;
-          &lt;pre&gt;&lt;code class="lang-bash"&gt;[merge]
-              keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;;
-              tool = p4merge
-              [mergetool]
-              prompt = &lt;span class="literal"&gt;false&lt;/span&gt;
-              [mergetool &lt;span class="string"&gt;"p4merge"&lt;/span&gt;]
-              cmd = p4merge &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;BASE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;LOCAL&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;REMOTE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;MERGED&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt;
-              keepTemporaries = &lt;span class="literal"&gt;false&lt;/span&gt;
-              trustExitCode = &lt;span class="literal"&gt;false&lt;/span&gt;
-              keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;
-              [diff]
-              tool = p4merge
-              [difftool]
-              prompt = &lt;span class="literal"&gt;false&lt;/span&gt;
-              [difftool &lt;span class="string"&gt;"p4merge"&lt;/span&gt;]
-              cmd = p4merge &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;LOCAL&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;REMOTE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt;
-              keepTemporaries = &lt;span class="literal"&gt;false&lt;/span&gt;
-              trustExitCode = &lt;span class="literal"&gt;false&lt;/span&gt;
-              keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;
-          &lt;/code&gt;&lt;/pre&gt;
-          &lt;p&gt;Your next call of &lt;code&gt;git difftool&lt;/code&gt; should look like this:
-            &lt;img src="../../images/p4merge.png" alt="P4Merge diff"&gt;&lt;/p&gt;
-        &lt;/section&gt;
-      &lt;/article&gt;
+  &lt;div class="page color-4"&gt;
+    &lt;div class="inner-page row-fluid"&gt;
+      &lt;div class="span12"&gt;
+        &lt;h1&gt;Installing and configuring P4Merge for Git on Ubuntu&lt;/h1&gt;
+        &lt;p class="author"&gt;Geschrieben von &lt;span class="author"&gt;&lt;a href="<a href="mailto:alexander.zeitler@pdmlab.com">mailto:alexander.zeitler@pdmlab.com</a>"&gt;Alexander Zeitler&lt;/a&gt;&lt;/span&gt;&lt;span&gt; am&amp;nbsp;&lt;/span&gt;&lt;span&gt;03. August 2014&lt;/span&gt;
+        &lt;/p&gt;
+        &lt;p class="autor"&gt;&lt;span&gt;Tags:&amp;nbsp;&lt;/span&gt;&lt;a href="<i>alexander.zeitler/tag/english/1</i>" class="big-tag"&gt;english&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/p4merge/1</i>" class="big-tag"&gt;p4merge&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/git/1</i>" class="big-tag"&gt;git&lt;/a&gt;,&amp;nbsp;&lt;a href="<i>alexander.zeitler/tag/ubuntu/1</i>" class="big-tag"&gt;ubuntu&lt;/a&gt;
+        &lt;/p&gt;
+        &lt;article class="article"&gt;
+          &lt;section class="content"&gt;&lt;p&gt;I’m using &lt;a href="<a href="http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools">http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools</a>"&gt;P4Merge&lt;/a&gt; as Git merge and diff tool on all platforms.&lt;br&gt;This post describes how to install it on&amp;nbsp;Ubuntu.&lt;/p&gt;
+            &lt;p&gt;&lt;span class="more"&gt;&lt;/span&gt;&lt;/p&gt;
+            &lt;p&gt;In order to set up P4Merge on Ubuntu, copy the extracted P4Merge download to &lt;code&gt;/opt/p4merge&lt;/code&gt;:&lt;/p&gt;
+            &lt;pre&gt;&lt;code class="lang-bash"&gt;[~/Downloads/p4merge/p4v-&lt;span class="number"&gt;2014.1&lt;/span&gt;.&lt;span class="number"&gt;888424&lt;/span&gt;]$ &lt;span class="built_in"&gt;sudo&lt;/span&gt; mv * /opt/p4merge
+            &lt;/code&gt;&lt;/pre&gt;
+            &lt;p&gt;Then symlink&amp;nbsp;p4merge:&lt;/p&gt;
+            &lt;pre&gt;&lt;code class="lang-bash"&gt;&lt;span class="built_in"&gt;sudo&lt;/span&gt; ln &lt;span class="operator"&gt;-s&lt;/span&gt; /opt/p4merge/bin/p4merge /usr/local/bin/p4merge
+            &lt;/code&gt;&lt;/pre&gt;
+            &lt;p&gt;After that, add this to your &lt;code&gt;~/.gitconfig&lt;/code&gt;:&lt;/p&gt;
+            &lt;pre&gt;&lt;code class="lang-bash"&gt;[merge]
+                keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;;
+                tool = p4merge
+                [mergetool]
+                prompt = &lt;span class="literal"&gt;false&lt;/span&gt;
+                [mergetool &lt;span class="string"&gt;"p4merge"&lt;/span&gt;]
+                cmd = p4merge &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;BASE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;LOCAL&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;REMOTE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;MERGED&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt;
+                keepTemporaries = &lt;span class="literal"&gt;false&lt;/span&gt;
+                trustExitCode = &lt;span class="literal"&gt;false&lt;/span&gt;
+                keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;
+                [diff]
+                tool = p4merge
+                [difftool]
+                prompt = &lt;span class="literal"&gt;false&lt;/span&gt;
+                [difftool &lt;span class="string"&gt;"p4merge"&lt;/span&gt;]
+                cmd = p4merge &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;LOCAL&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt; &lt;span class="string"&gt;"&lt;span class="variable"&gt;$&lt;span class="caps"&gt;REMOTE&lt;/span&gt;&lt;/span&gt;"&lt;/span&gt;
+                keepTemporaries = &lt;span class="literal"&gt;false&lt;/span&gt;
+                trustExitCode = &lt;span class="literal"&gt;false&lt;/span&gt;
+                keepBackup = &lt;span class="literal"&gt;false&lt;/span&gt;
+            &lt;/code&gt;&lt;/pre&gt;
+            &lt;p&gt;Your next call of &lt;code&gt;git difftool&lt;/code&gt; should look like this:
+              &lt;img src="../../images/p4merge.png" alt="P4Merge diff"&gt;&lt;/p&gt;
+          &lt;/section&gt;
+        &lt;/article&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
+  &lt;/div&gt;
+#+END_HTML
 </p>
-
-</div>

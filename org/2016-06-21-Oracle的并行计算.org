@@ -15,6 +15,9 @@
 
 
 * 理论和概念
+:PROPERTIES:
+:CUSTOM_ID: h:6A9FCD4D-4624-4134-B55C-228A6861E74E
+:END:
 
 - *并行度 (Degree of parallelism, DOP):*  并行计算中所使用的独立进程数。
 
@@ -43,15 +46,24 @@
     的处理单元都可见，DOP 也因此与实际的数据存储解耦。
 
 * Oracle 的并行执行
+:PROPERTIES:
+:CUSTOM_ID: h:FF6ACFA2-CDED-4D38-BFB9-D65795F006A0
+:END:
 
 Oracle 可以在无需人为干预的情况进行复杂任务的并行化执行，例如：数据加载，查询，DML，
 DDL 等。
 
 ** SQL 语句的并行处理
+:PROPERTIES:
+:CUSTOM_ID: h:4BBB6708-AE4A-4A20-9CC3-B623648F6EEF
+:END:
 
 Oracle 的 SQL 并行执行建立于几个基本概念之上。
 
 *** Query Coordinator (QC) and Parallel Execution (PX) servers
+:PROPERTIES:
+:CUSTOM_ID: h:48705D4B-6EA6-4FDF-BA76-6B5BACEDF27F
+:END:
 
 - *QC* 查询协调器\\
   指发起查询语句的那个会话，负责向 *PX Server* 分布任务，并执行少量的不能并行的任务。
@@ -65,12 +77,18 @@ Oracle 的 SQL 并行执行建立于几个基本概念之上。
 [[images/qc_px.png]]
 
 *** 生产者消费者模型
+:PROPERTIES:
+:CUSTOM_ID: h:2BEE0FE5-88C2-4A8E-A62E-CF7FA3C8EEB3
+:END:
 
 *PX Servers* 可以进一步分为两类：
 - 生产者 (Producer) 用来生成数据
 - 消费者 (Consumer) 用来消费数据
 
 *** 颗粒
+:PROPERTIES:
+:CUSTOM_ID: h:B575D617-B288-43A3-89A4-8A46ECC5C688
+:END:
 颗粒 (granule) 是指访问数据是的最小的工作单元。
 
 - 块基颗粒 \\

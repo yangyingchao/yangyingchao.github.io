@@ -11,7 +11,7 @@
 #+CATEGORY: 未分类
 #+DESCRIPTION: (nil)
 
-#+BEGIN_SRC plantuml :file images/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
+#+BEGIN_SRC plantuml :file ../assets/img/flow-process-utility-gen-a3ead7713578ccb68d672cffd4c5f6cd.png  :cmdline -Djava.awt.headless=true  -charset UTF-8
 
   |postgres.c|
   start
