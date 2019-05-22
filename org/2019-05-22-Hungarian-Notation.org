@@ -1,0 +1,173 @@
+#+TITLE: Hungarian Notation
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: (nil)
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+#+BEGIN_EXPORT html
+
+<div class="content-detail markdown-body">
+
+<p style="margin-top:10px;margin-bottom:10px;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14.4px;background-color:rgb(238,238,238);" data-spm-anchor-id="a2c4e.11153940.blogcont226651.i1.425b29ffIe8oYZ">Charles Simonyi is credited with first discussing Hungarian Notation. It is a variable naming convention that includes C++ information about the variable in its name (such as data type, whether it is a reference variable or a constant variable, etc). Every company and programmer seems to have their own flavor of Hungarian Notation. The following is just what we thought seemed easy for beginning students to understand.</p>
+<p style="margin-top:10px;margin-bottom:10px;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14.4px;background-color:rgb(238,238,238);"></p>
+<table border="5" style="font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;background-color:rgb(238,238,238);"><tbody>
+<tr>
+<th>Prefix</th>
+<th>Type</th>
+<th>Example</th>
+</tr>
+<tr>
+<td style="font-size:12px;">b</td>
+<td style="font-size:12px;">boolean</td>
+<td style="font-size:12px;" data-spm-anchor-id="a2c4e.11153940.blogcont226651.i4.425b29ffIe8oYZ">bool bStillGoing;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">c</td>
+<td style="font-size:12px;">character</td>
+<td style="font-size:12px;">char cLetterGrade;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">str</td>
+<td style="font-size:12px;">C++ String</td>
+<td style="font-size:12px;">string strFirstName;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">si</td>
+<td style="font-size:12px;">short integer</td>
+<td style="font-size:12px;">short siChairs;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">i</td>
+<td style="font-size:12px;">integer</td>
+<td style="font-size:12px;">int iCars;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">li</td>
+<td style="font-size:12px;">long integer</td>
+<td style="font-size:12px;">long liStars;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">f</td>
+<td style="font-size:12px;">floating point</td>
+<td style="font-size:12px;">float fPercent;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">d</td>
+<td style="font-size:12px;">double-precision floating point</td>
+<td style="font-size:12px;">double dMiles;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">ld</td>
+<td style="font-size:12px;">long double-precision floating point</td>
+<td style="font-size:12px;">long double ldLightYears;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">sz</td>
+<td style="font-size:12px;">Old-Style Null Terminated String</td>
+<td style="font-size:12px;">char szName[NAME_LEN];</td>
+</tr>
+<tr>
+<td style="font-size:12px;">if</td>
+<td style="font-size:12px;">Input File Stream</td>
+<td style="font-size:12px;">ifstream ifNameFile;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">is</td>
+<td style="font-size:12px;">Input Stream</td>
+<td style="font-size:12px;">void fct(istream &amp;risIn);</td>
+</tr>
+<tr>
+<td style="font-size:12px;">of</td>
+<td style="font-size:12px;">Output File Stream</td>
+<td style="font-size:12px;">ofstream ofNameFile;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">os</td>
+<td style="font-size:12px;">Output Stream</td>
+<td style="font-size:12px;">void fct(ostream &amp;rosIn);</td>
+</tr>
+<tr>
+<td style="font-size:12px;">S</td>
+<td style="font-size:12px;" data-spm-anchor-id="a2c4e.11153940.blogcont226651.i2.425b29ffIe8oYZ">declaring a struct</td>
+<td style="font-size:12px;">struct SPoint<br>
+{</td>
+</tr>
+<tr>
+<td style="font-size:12px;">C</td>
+<td style="font-size:12px;" data-spm-anchor-id="a2c4e.11153940.blogcont226651.i3.425b29ffIe8oYZ">declaring a class</td>
+<td style="font-size:12px;">class CPerson<br>
+{</td>
+</tr>
+<tr>
+<td style="font-size:12px;">struct name or abbrev</td>
+<td style="font-size:12px;">declaring an instance of a struct</td>
+<td style="font-size:12px;">SPoint pointLeft;&nbsp;<br>
+SPoint ptLeft; // or abbrev. (be consistent)</td>
+</tr>
+<tr>
+<td style="font-size:12px;">class name or abbrev</td>
+<td style="font-size:12px;">declaring an instance of a class</td>
+<td style="font-size:12px;">CPerson personFound;<br>
+CPerson perFound; // or abbrev. (be consistent)</td>
+</tr>
+</tbody></table>
+<p style="margin-top:10px;margin-bottom:10px;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14.4px;background-color:rgb(238,238,238);"><b>The following table contains letters that go before the above prefixes.</b></p>
+<p style="margin-top:10px;margin-bottom:10px;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;font-size:14.4px;background-color:rgb(238,238,238);"></p>
+<table border="5" style="font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;background-color:rgb(238,238,238);"><tbody>
+<tr>
+<th>Pre-prefix</th>
+<th>Type</th>
+<th>Example</th>
+</tr>
+<tr>
+<td style="font-size:12px;">u</td>
+<td style="font-size:12px;">unsigned</td>
+<td style="font-size:12px;">unsigned short usiStudents;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">k</td>
+<td style="font-size:12px;">constant formal parameter</td>
+<td style="font-size:12px;">void fct(const long kliGalaxies)</td>
+</tr>
+<tr>
+<td style="font-size:12px;">r</td>
+<td style="font-size:12px;">reference formal parameter</td>
+<td style="font-size:12px;">void fct(long &amp;rliGalaxies)</td>
+</tr>
+<tr>
+<td style="font-size:12px;">s</td>
+<td style="font-size:12px;">static</td>
+<td style="font-size:12px;">static char scChoice;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">rg</td>
+<td style="font-size:12px;">array (stands for range)</td>
+<td style="font-size:12px;">float rgfTemp[MAX_TEMP];</td>
+</tr>
+<tr>
+<td style="font-size:12px;">m_</td>
+<td style="font-size:12px;">member variable of a struct or class</td>
+<td style="font-size:12px;">char m_cLetterGrade;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">p</td>
+<td style="font-size:12px;">pointer to a single thing</td>
+<td style="font-size:12px;">char *pcGrade;</td>
+</tr>
+<tr>
+<td style="font-size:12px;">prg</td>
+<td style="font-size:12px;">dynamically allocated array</td>
+<td style="font-size:12px;">char *prgcGrades;<br><br>
+</td>
+</tr>
+</tbody></table>
+</div>
+
+#+END_EXPORT
