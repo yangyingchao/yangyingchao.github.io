@@ -1,0 +1,32 @@
+#+TITLE: squid+shadowsocks+pac
+#+AUTHOR: Yang,Ying-chao
+#+EMAIL:  yingchao.yang@icloud.com
+#+OPTIONS:  ^:nil H:7 num:t toc:2 \n:nil ::t |:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc tex:imagemagick
+#+STARTUP:  align nodlcheck oddeven lognotestate latexpreview
+#+SEQ_TODO: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:     noexport(n)
+#+LANGUAGE: en
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS: pac
+#+CATEGORY: 未分类
+#+DESCRIPTION: (nil)
+
+
+=${HOME}.ShadowsocksX-NG/gfwlist.js= ：
+
+#+BEGIN_SRC js -r
+
+  function FindProxyForURL(url, host) {
+      // return "PROXY 10.10.1.3:3128";
+
+      if (shExpMatch(host, "192.168.0.*"))  // target servers...
+          return "PROXY 10.10.1.3:3128";    // where squid runs..
+      else
+          if (defaultMatcher.matchesAny(url, host) instanceof BlockingFilter) {
+          return proxy;
+      }
+      return direct;
+  }
+
+
+#+END_SRC
