@@ -1,0 +1,4 @@
+baseURL = 'http://yangyingchao.github.io/'
+languageCode = 'zh-cn'
+title = 'My New Hugo Site'
+theme = 'LoveIt'
