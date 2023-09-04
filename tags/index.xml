@@ -1,86 +1,22 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Tags - Tag - My New Hugo Site</title>
+        <title>Tags - 标签 - LoveIt</title>
         <link>http://yangyingchao.github.io/tags/</link>
-        <description>Tags - Tag - My New Hugo Site</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 22 Aug 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://yangyingchao.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+        <description>Tags - 标签 - LoveIt</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 May 2023 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://yangyingchao.github.io/tags/" rel="self" type="application/rss+xml" /><item>
+    <title>database</title>
+    <link>http://yangyingchao.github.io/tags/database/</link>
+    <pubDate>Fri, 05 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>xxxx</author>
+    <guid>http://yangyingchao.github.io/tags/database/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>guassdb</title>
     <link>http://yangyingchao.github.io/tags/guassdb/</link>
-    <pubDate>Tue, 22 Aug 2023 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
+    <pubDate>Fri, 05 May 2023 00:00:00 &#43;0000</pubDate>
+    <author>xxxx</author>
     <guid>http://yangyingchao.github.io/tags/guassdb/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>htap</title>
-    <link>http://yangyingchao.github.io/tags/htap/</link>
-    <pubDate>Tue, 22 Aug 2023 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/htap/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>chrome</title>
-    <link>http://yangyingchao.github.io/tags/chrome/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/chrome/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>crash</title>
-    <link>http://yangyingchao.github.io/tags/crash/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/crash/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>gtk4</title>
-    <link>http://yangyingchao.github.io/tags/gtk4/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/gtk4/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>hyprland</title>
-    <link>http://yangyingchao.github.io/tags/hyprland/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/hyprland/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>journalctl</title>
-    <link>http://yangyingchao.github.io/tags/journalctl/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/journalctl/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>logs</title>
-    <link>http://yangyingchao.github.io/tags/logs/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/logs/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>内容</title>
-    <link>http://yangyingchao.github.io/tags/content/_index.zh-cn/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/content/_index.zh-cn/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>安装</title>
-    <link>http://yangyingchao.github.io/tags/installation/_index.zh-cn/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/tags/installation/_index.zh-cn/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

@@ -1,24 +1,16 @@
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    ><url>
-            <loc>http://yangyingchao.github.io/posts/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/tags/guassdb/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/tags/htap/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/posts/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/tags/</loc><lastmod>2023-08-22T00:00:00&#43;00:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/about/</loc><lastmod>2019-08-02T11:04:49&#43;08:00</lastmod></url><url>
-            <loc>http://yangyingchao.github.io/categories/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/chrome/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/crash/</loc></url><url>
-            <loc>http://yangyingchao.github.io/categories/documentation/</loc></url><url>
-            <loc>http://yangyingchao.github.io/posts/google-chrome-in-hyprland/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/gtk4/</loc></url><url>
-            <loc>http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/hyprland/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/journalctl/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/logs/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/content/_index.zh-cn/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/installation/_index.zh-cn/</loc></url><url>
-            <loc>http://yangyingchao.github.io/tags/configuration/_index.zh-cn/</loc></url></urlset>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <sitemap>
+    <loc>http://yangyingchao.github.io/en/sitemap.xml</loc>
+    
+  </sitemap>
+  
+  <sitemap>
+    <loc>http://yangyingchao.github.io/zh-cn/sitemap.xml</loc>
+    
+      <lastmod>2023-05-05T00:00:00+00:00</lastmod>
+    
+  </sitemap>
+  
+</sitemapindex>
