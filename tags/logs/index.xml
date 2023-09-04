@@ -1,0 +1,17 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>logs - Tag - My New Hugo Site</title>
+        <link>http://yangyingchao.github.io/tags/logs/</link>
+        <description>logs - Tag - My New Hugo Site</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="http://yangyingchao.github.io/tags/logs/" rel="self" type="application/rss+xml" /><item>
+    <title>How To Use Journalctl to View and Manipulate Systemd Logs</title>
+    <link>http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</guid>
+    <description><![CDATA[1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。
+当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条目将显示在顶部：
+journalctl Output -- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. -- Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49. Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.]]></description>
+</item>
+</channel>
+</rss>

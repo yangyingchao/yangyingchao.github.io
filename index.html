@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+	<meta name="generator" content="Hugo 0.115.4">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>My New Hugo Site</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="My New Hugo Site" />
+<meta property="og:description" content="This is my cool site" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://yangyingchao.github.io/" /><meta property="og:site_name" content="My cool site" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="My New Hugo Site"/>
+<meta name="twitter:description" content="This is my cool site"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://yangyingchao.github.io/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="My New Hugo Site">
+    <link rel="feed" href="/index.xml" type="application/rss+xml" title="My New Hugo Site"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "http:\/\/yangyingchao.github.io\/","inLanguage": "zh-cn","description": "This is my cool site","name": "My New Hugo Site"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="My New Hugo Site">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="My New Hugo Site">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="page home" data-home="posts"><div class="home-profile"><div class="home-subtitle"><div id="id-1" class="typeit"></div></div><div class="links"></div></div>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/">GaussDB技术解读系列之HTAP方向的探索与发展</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="2023-08-22">2023-08-22</time></span></div><div class="content">1 什么是 HTAP？ 2 HTAP 架构模式有哪些？ 2.1 IN-Memory Store 模式 2.2 主备架构模式 2.3 IN-Memory Computing 模式 2.4 主列存+增量行存模式 3 思考 3.1 GaussDB 对 HTAP 的思考 4 GaussDB 在 HTAP 上的创新 1 什么是 HTAP？ TP 和 AP 的特点
+TP 一般是做交易型的业务， 它的数据量通常来说比较小，在 GB~TB 的范围内， 它要求低时延、高吞吐，同时对高可用、故障恢复要求较高。 AP 一般用于对历史数 据做分析，根据数据分析的结论为企业的商业决策提供一些支撑，因此 AP 对时延和吞吐的要求没有 那么高， 主要面对数据量大、查询偏复杂的场景。 2010 年左右，业内开始考虑把 TP 和 AP 同时融合到同一个数据库里，通过这种 方式提升数据库处理数据的能力
+总结了 HTAP 有两个关键特点:
+一个是采用 In-Memory 的架构。 我们可以看到，无论是老牌的数据库厂商，还是新兴的数据库厂商，都不约而同采用 In-Memory 的架构来实现 HTAP。
+另外一个是实时。 我们当前的架构主要是，交易型的业务在行存的数据库上，分析型的业务在列存的数仓上，中间通过 ETL 工具传输数据。这个架构的问题是，它的数据新鲜度不够好，比如说先前在互联网应用方面，我们经常做一些个性化的用户推荐，在给用户推荐感兴趣的商品时，会在登录时对它进行一个用户画像，根据用户画像的结果推荐产品，这是一种实时分析的能力。另外就是防诈骗系统，需要实时的响应，实时分析这笔交易是否为诈骗交易。这种实时性的特点，对 HTAP 方案提出了新的要求。我们当前的 HTAP 架构主要应对实时 AP 分析的能力，实时 AP 对性能上有一些影响，它随着数据新鲜度，也就是实时性要求变高，数据库的性能会有一些下降。</div><div class="post-footer">
+        <a href="/posts/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/guassdb/">guassdb</a>,&nbsp;<a href="/tags/htap/">htap</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/google-chrome-in-hyprland/">google chrome in hyprland</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content">1 google chrome in hyprland 2 Weird crash when running chrome with: –gtk-version=4 1 google chrome in hyprland Hyprland is cool, but it may not work smoothly on default Google Chrome. The borders appear distorted and blurry.
+To resolve this issue, simply open the Chrome settings, navigate to appearance (chrome://settings/appearance), and enable &ldquo;Use system title bar and borders.&rdquo; Afterwards, restart the browser.
+2 Weird crash when running chrome with: –gtk-version=4 This happens when use GTK theme as shown in above screenshot.</div><div class="post-footer">
+        <a href="/posts/google-chrome-in-hyprland/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/chrome/">chrome</a>,&nbsp;<a href="/tags/hyprland/">hyprland</a>,&nbsp;<a href="/tags/gtk4/">gtk4</a>,&nbsp;<a href="/tags/crash/">crash</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+        <a href="/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/">How To Use Journalctl to View and Manipulate Systemd Logs</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span>&nbsp;<span class="post-publish">published on <time datetime="0001-01-01">0001-01-01</time></span></div><div class="content">1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。
+当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条目将显示在顶部：
+journalctl Output -- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. -- Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49. Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.</div><div class="post-footer">
+        <a href="/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/journalctl/">journalctl</a>,&nbsp;<a href="/tags/logs/">logs</a></div></div>
+</article></div></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.115.4">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typeit@8.6.0/dist/index.umd.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"data":{"id-1":"This is my cool site"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
