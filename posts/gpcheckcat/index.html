@@ -1,0 +1,166 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>gpcheckcat - 杂七杂八随手记</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="yyc"><meta name=description content="Table of Contents 1 概述 2 pg_class 3 namespace 4 unique_index_violation 5 duplicate 1 概述 GP 提供了 gpcheckcat 用于在集群内检查系统表。 Table 1: gpcheckcat | 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 | |&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;| | pg_class || Check pg_class entry that does not have"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.115.0 with theme even"><link rel=canonical href=https://yangyingchao.github.io/posts/gpcheckcat/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="gpcheckcat"><meta property="og:description" content="Table of Contents 1 概述 2 pg_class 3 namespace 4 unique_index_violation 5 duplicate 1 概述 GP 提供了 gpcheckcat 用于在集群内检查系统表。 Table 1: gpcheckcat | 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 | |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;| | pg_class || Check pg_class entry that does not have"><meta property="og:type" content="article"><meta property="og:url" content="https://yangyingchao.github.io/posts/gpcheckcat/"><meta property="article:section" content="posts"><meta itemprop=name content="gpcheckcat"><meta itemprop=description content="Table of Contents 1 概述 2 pg_class 3 namespace 4 unique_index_violation 5 duplicate 1 概述 GP 提供了 gpcheckcat 用于在集群内检查系统表。 Table 1: gpcheckcat | 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 | |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;| | pg_class || Check pg_class entry that does not have"><meta itemprop=wordCount content="654"><meta itemprop=keywords content="gp,catlog,repair,"><meta name=twitter:card content="summary"><meta name=twitter:title content="gpcheckcat"><meta name=twitter:description content="Table of Contents 1 概述 2 pg_class 3 namespace 4 unique_index_violation 5 duplicate 1 概述 GP 提供了 gpcheckcat 用于在集群内检查系统表。 Table 1: gpcheckcat | 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 | |&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;| | pg_class || Check pg_class entry that does not have"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><div class=post-content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#h:bfa36016-e178-44c5-b78a-c8c0bd52f193>概述</a></li><li><span class=section-num>2</span> <a href=#h:85f7df11-2f89-46c4-909c-db8f5f11cd1b>pg_class</a></li><li><span class=section-num>3</span> <a href=#h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f>namespace</a></li><li><span class=section-num>4</span> <a href=#h:f8543ff9-a368-452c-a51f-a5c76ba2b516>unique_index_violation</a></li><li><span class=section-num>5</span> <a href=#h:4aae321e-1ac2-462c-8adf-6ed7b44069d3>duplicate</a></li></ul></div><h2 id=h:bfa36016-e178-44c5-b78a-c8c0bd52f193><span class=section-num>1</span> 概述</h2><p>GP 提供了 <a href=https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat>gpcheckcat</a> 用于在集群内检查系统表。</p><p><a id=table--tbl-data-table></a></p><div class=table-caption><span class=table-number><a href=#table--tbl-data-table>Table 1</a>:</span>
+gpcheckcat</div><p>| 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 |
+|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;|
+| pg_class || Check pg_class entry that does not have any correspond pg_attribute entry || Y || N || NOREPAIR |
+| namespace || Check for schemas with a missing schema definition || Y || N || NOREPAIR |
+| unique_index_violation || Check for violated unique indexes || N || Y || NOREPAIR |
+| duplicate || Check for duplicate entries || N || Y || |
+| missing_extraneous || Cross consistency check for missing or extraneous entries || N || Y || |
+| inconsistent || Cross consistency check for coordinator segment inconsistency || N || || |
+| foreign_key || Check foreign keys || N || || |
+| || || || || |</p><p>Note:</p><ul><li><p>Utility 模式： 对应 SQL 是否执行在 utility 模式下<br>有些 SQL 只能在集群中执行</p></li><li><p>复合查询： 下发的 SQL 是否为动态生成<br>有些 SQL 为根据表定义或者其他条件拼接而成</p></li><li><p>错误等级：</p><ul><li>SUCCESS<br>success</li><li>REMOVE<br>error, with repair script removes objects</li><li>RESYNC<br>error, with repair script that resynchronizes objects</li><li>NOREPAIR<br>error, no repair script</li></ul></li></ul><h2 id=h:85f7df11-2f89-46c4-909c-db8f5f11cd1b><span class=section-num>2</span> pg_class</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=n>relname</span><span class=p>,</span><span class=w> </span><span class=n>relkind</span><span class=p>,</span><span class=w> </span><span class=n>tc</span><span class=p>.</span><span class=n>oid</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>oid</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w>   </span><span class=n>pg_class</span><span class=w> </span><span class=n>tc</span><span class=w> </span><span class=k>left</span><span class=w> </span><span class=k>outer</span><span class=w> </span><span class=k>join</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>       </span><span class=n>pg_attribute</span><span class=w> </span><span class=n>ta</span><span class=w> </span><span class=k>on</span><span class=w> </span><span class=p>(</span><span class=n>tc</span><span class=p>.</span><span class=n>oid</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>ta</span><span class=p>.</span><span class=n>attrelid</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>WHERE</span><span class=w>  </span><span class=n>ta</span><span class=p>.</span><span class=n>attrelid</span><span class=w> </span><span class=k>is</span><span class=w> </span><span class=k>NULL</span><span class=w> </span><span class=k>and</span><span class=w> </span><span class=n>tc</span><span class=p>.</span><span class=n>relnatts</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f><span class=section-num>3</span> namespace</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=line><span class=cl><span class=k>SELECT</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=k>catalog</span><span class=p>,</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>nsp</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>FROM</span><span class=w> </span><span class=n>pg_namespace</span><span class=w> </span><span class=n>n</span><span class=w> </span><span class=k>right</span><span class=w> </span><span class=k>outer</span><span class=w> </span><span class=k>join</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>     </span><span class=p>(</span><span class=k>select</span><span class=w> </span><span class=s1>&#39;pg_class&#39;</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=k>catalog</span><span class=p>,</span><span class=w> </span><span class=n>relnamespace</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>nsp</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>pg_class</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>union</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>select</span><span class=w> </span><span class=s1>&#39;pg_type&#39;</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=k>catalog</span><span class=p>,</span><span class=w> </span><span class=n>typnamespace</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>nsp</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>pg_type</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>union</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>select</span><span class=w> </span><span class=s1>&#39;pg_operator&#39;</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=k>catalog</span><span class=p>,</span><span class=w> </span><span class=n>oprnamespace</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>nsp</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>pg_operator</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>union</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=k>select</span><span class=w> </span><span class=s1>&#39;pg_proc&#39;</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=k>catalog</span><span class=p>,</span><span class=n>pronamespace</span><span class=w> </span><span class=k>as</span><span class=w> </span><span class=n>nsp</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>pg_proc</span><span class=p>)</span><span class=w> </span><span class=n>o</span><span class=w> </span><span class=k>on</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=p>(</span><span class=n>n</span><span class=p>.</span><span class=n>oid</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=n>nsp</span><span class=p>)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>WHERE</span><span class=w> </span><span class=n>n</span><span class=p>.</span><span class=n>oid</span><span class=w> </span><span class=k>is</span><span class=w> </span><span class=k>NULL</span><span class=p>;</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=h:f8543ff9-a368-452c-a51f-a5c76ba2b516><span class=section-num>4</span> unique_index_violation</h2><p>SQL 为拼接而成，分成两步：</p><ol><li>获取有唯一索引约束的表和索引</li><li>逐一检查每个表是否违反了唯一约束</li></ol><p>代码： <a href=https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat_modules/unique_index_violation_check.py>unique_index_violation_check.py</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>UniqueIndexViolationCheck</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>unique_indexes_query</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        select table_oid, index_name, table_name, array_agg(attname) as column_names
+</span></span></span><span class=line><span class=cl><span class=s2>        from pg_attribute, (
+</span></span></span><span class=line><span class=cl><span class=s2>            select pg_index.indrelid as table_oid, index_class.relname as index_name, table_class.relname as table_name, unnest(pg_index.indkey) as column_index
+</span></span></span><span class=line><span class=cl><span class=s2>            from pg_index, pg_class index_class, pg_class table_class
+</span></span></span><span class=line><span class=cl><span class=s2>            where pg_index.indisunique=&#39;t&#39;
+</span></span></span><span class=line><span class=cl><span class=s2>            and index_class.relnamespace = (select oid from pg_namespace where nspname = &#39;pg_catalog&#39;)
+</span></span></span><span class=line><span class=cl><span class=s2>            and index_class.relkind = &#39;i&#39;
+</span></span></span><span class=line><span class=cl><span class=s2>            and index_class.oid = pg_index.indexrelid
+</span></span></span><span class=line><span class=cl><span class=s2>            and table_class.oid = pg_index.indrelid
+</span></span></span><span class=line><span class=cl><span class=s2>        ) as unique_catalog_index_columns
+</span></span></span><span class=line><span class=cl><span class=s2>        where attnum = column_index
+</span></span></span><span class=line><span class=cl><span class=s2>        and attrelid = table_oid
+</span></span></span><span class=line><span class=cl><span class=s2>        group by table_oid, index_name, table_name;
+</span></span></span><span class=line><span class=cl><span class=s2>    &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>violated_segments_query</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>            select distinct(gp_segment_id) from (
+</span></span></span><span class=line><span class=cl><span class=s2>                (select gp_segment_id, </span><span class=si>%s</span><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>                from gp_dist_random(&#39;</span><span class=si>%s</span><span class=s2>&#39;)
+</span></span></span><span class=line><span class=cl><span class=s2>                where (</span><span class=si>%s</span><span class=s2>) is not null
+</span></span></span><span class=line><span class=cl><span class=s2>                group by gp_segment_id, </span><span class=si>%s</span><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>                having count(*) &gt; 1)
+</span></span></span><span class=line><span class=cl><span class=s2>                union
+</span></span></span><span class=line><span class=cl><span class=s2>                (select gp_segment_id, </span><span class=si>%s</span><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>                from </span><span class=si>%s</span><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>                where (</span><span class=si>%s</span><span class=s2>) is not null
+</span></span></span><span class=line><span class=cl><span class=s2>                group by gp_segment_id, </span><span class=si>%s</span><span class=s2>
+</span></span></span><span class=line><span class=cl><span class=s2>                having count(*) &gt; 1)
+</span></span></span><span class=line><span class=cl><span class=s2>            ) as violations
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>runCheck</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>db_connection</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=n>unique_indexes</span> <span class=o>=</span> <span class=n>db_connection</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>unique_indexes_query</span><span class=p>)</span><span class=o>.</span><span class=n>getresult</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>violations</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=n>table_oid</span><span class=p>,</span> <span class=n>index_name</span><span class=p>,</span> <span class=n>table_name</span><span class=p>,</span> <span class=n>column_names</span><span class=p>)</span> <span class=ow>in</span> <span class=n>unique_indexes</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>column_names</span> <span class=o>=</span> <span class=s2>&#34;,&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>column_names</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>sql</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_violated_segments_query</span><span class=p>(</span><span class=n>table_name</span><span class=p>,</span> <span class=n>column_names</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>violated_segments</span> <span class=o>=</span> <span class=n>db_connection</span><span class=o>.</span><span class=n>query</span><span class=p>(</span><span class=n>sql</span><span class=p>)</span><span class=o>.</span><span class=n>getresult</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>violated_segments</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=n>violations</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=nb>dict</span><span class=p>(</span><span class=n>table_oid</span><span class=o>=</span><span class=n>table_oid</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                       <span class=n>table_name</span><span class=o>=</span><span class=n>table_name</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                       <span class=n>index_name</span><span class=o>=</span><span class=n>index_name</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                       <span class=n>column_names</span><span class=o>=</span><span class=n>column_names</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                       <span class=n>violated_segments</span><span class=o>=</span><span class=p>[</span><span class=n>row</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=k>for</span> <span class=n>row</span> <span class=ow>in</span> <span class=n>violated_segments</span><span class=p>]))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>violations</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>get_violated_segments_query</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>table_name</span><span class=p>,</span> <span class=n>column_names</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>violated_segments_query</span> <span class=o>%</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=n>column_names</span><span class=p>,</span> <span class=n>table_name</span><span class=p>,</span> <span class=n>column_names</span><span class=p>,</span> <span class=n>column_names</span><span class=p>,</span> <span class=n>column_names</span><span class=p>,</span> <span class=n>table_name</span><span class=p>,</span> <span class=n>column_names</span><span class=p>,</span> <span class=n>column_names</span>
+</span></span><span class=line><span class=cl>        <span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=h:4aae321e-1ac2-462c-8adf-6ed7b44069d3><span class=section-num>5</span> duplicate</h2></div></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:yang.yingchao@qq.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=https://github.com/yangyingchao/ class="iconfont icon-github" title=github></a>
+<a href=https://yangyingchao.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动</span>
+<span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2023<span class=heart><i class="iconfont icon-heart"></i></span><span>yyc</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

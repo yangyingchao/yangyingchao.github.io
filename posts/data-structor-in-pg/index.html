@@ -1,0 +1,324 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Data Structures in PG - 杂七杂八随手记</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="yyc"><meta name=description content=" Table of Contents 1 Hash &amp;amp; TapeSet 2 Slot &amp;amp; tuple 1 Hash &amp;amp; TapeSet 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot &amp;amp; tuple 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot &amp;lt;|-- MinimalTupleTableSlot TupleTableSlot &amp;lt;|-- VirtualTupleTableSlot TupleTableSlot &amp;lt;|-- HeapTupleTableSlot HeapTupleTableSlot &amp;lt;|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.115.0 with theme even"><link rel=canonical href=https://yangyingchao.github.io/posts/data-structor-in-pg/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Data Structures in PG"><meta property="og:description" content=" Table of Contents 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><meta property="og:type" content="article"><meta property="og:url" content="https://yangyingchao.github.io/posts/data-structor-in-pg/"><meta property="article:section" content="posts"><meta itemprop=name content="Data Structures in PG"><meta itemprop=description content=" Table of Contents 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><meta itemprop=wordCount content="519"><meta itemprop=keywords content="tag1,tag2,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Data Structures in PG"><meta name=twitter:description content=" Table of Contents 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><div class=post-content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#h:cc825ae9-05f0-4ce8-a53c-a0697f0c1d99>Hash & TapeSet</a></li><li><span class=section-num>2</span> <a href=#h:c2c5a9a7-a0ef-4fd8-b7ec-46ada6e71726>Slot & tuple</a></li></ul></div><h2 id=h:cc825ae9-05f0-4ce8-a53c-a0697f0c1d99><span class=section-num>1</span> Hash & TapeSet</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class LogicalTapeSet {
+</span></span><span class=line><span class=cl>    + BufFile pfile
+</span></span><span class=line><span class=cl>    + SharedFileSet fileset
+</span></span><span class=line><span class=cl>    + int worker
+</span></span><span class=line><span class=cl>    + long nBlocksAllocated
+</span></span><span class=line><span class=cl>    + long nBlocksWritten
+</span></span><span class=line><span class=cl>    + long nHoleBlocks
+</span></span><span class=line><span class=cl>    + bool forgetFreeSpace
+</span></span><span class=line><span class=cl>    + long freeBlocks
+</span></span><span class=line><span class=cl>    + long nFreeBlocks
+</span></span><span class=line><span class=cl>    + Size freeBlocksLen
+</span></span><span class=line><span class=cl>    + bool enable_prealloc
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class LogicalTape {
+</span></span><span class=line><span class=cl>    + LogicalTapeSet tapeSet
+</span></span><span class=line><span class=cl>    + bool writing
+</span></span><span class=line><span class=cl>    + bool frozen
+</span></span><span class=line><span class=cl>    + bool dirty
+</span></span><span class=line><span class=cl>    + long firstBlockNumber
+</span></span><span class=line><span class=cl>    + long curBlockNumber
+</span></span><span class=line><span class=cl>    + long nextBlockNumber
+</span></span><span class=line><span class=cl>    + long offsetBlockNumber
+</span></span><span class=line><span class=cl>    + char buffer
+</span></span><span class=line><span class=cl>    + int buffer_size
+</span></span><span class=line><span class=cl>    + int max_size
+</span></span><span class=line><span class=cl>    + int pos
+</span></span><span class=line><span class=cl>    + int nbytes
+</span></span><span class=line><span class=cl>    + long prealloc
+</span></span><span class=line><span class=cl>    + int nprealloc
+</span></span><span class=line><span class=cl>    + int prealloc_size
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class BufFile {
+</span></span><span class=line><span class=cl>    + int numFiles
+</span></span><span class=line><span class=cl>    + File files
+</span></span><span class=line><span class=cl>    + bool isInterXact
+</span></span><span class=line><span class=cl>    + bool dirty
+</span></span><span class=line><span class=cl>    + bool readOnly
+</span></span><span class=line><span class=cl>    + FileSet fileset
+</span></span><span class=line><span class=cl>    + const name
+</span></span><span class=line><span class=cl>    + ResourceOwner resowner
+</span></span><span class=line><span class=cl>    + int curFile
+</span></span><span class=line><span class=cl>    + off_t curOffset
+</span></span><span class=line><span class=cl>    + int pos
+</span></span><span class=line><span class=cl>    + int nbytes
+</span></span><span class=line><span class=cl>    + PGAlignedBlock buffer
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>LogicalTapeSet *-- BufFile
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class HashAggSpill {
+</span></span><span class=line><span class=cl>+ int npartitions
+</span></span><span class=line><span class=cl>+ LogicalTape partitions
+</span></span><span class=line><span class=cl>+ int64 ntuples
+</span></span><span class=line><span class=cl>+ uint32 mask
+</span></span><span class=line><span class=cl>+ int shift
+</span></span><span class=line><span class=cl>+ hyperLogLogState hll_card
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>HashAggSpill *-- LogicalTape
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>LogicalTape - LogicalTapeSet
+</span></span></code></pre></td></tr></table></div></div><h2 id=h:c2c5a9a7-a0ef-4fd8-b7ec-46ada6e71726><span class=section-num>2</span> Slot & tuple</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class TupleTableSlot {
+</span></span><span class=line><span class=cl>  + NodeTag type
+</span></span><span class=line><span class=cl>  + int tts_flags
+</span></span><span class=line><span class=cl>  + AttrNumber tts_nvalid
+</span></span><span class=line><span class=cl>  + const tts_ops
+</span></span><span class=line><span class=cl>  + TupleDesc tts_tupleDescriptor
+</span></span><span class=line><span class=cl>  + int tts_values
+</span></span><span class=line><span class=cl>  + int tts_isnull
+</span></span><span class=line><span class=cl>  + int tts_mcxt
+</span></span><span class=line><span class=cl>  + ItemPointerData tts_tid
+</span></span><span class=line><span class=cl>  + int tts_tableOid
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class MinimalTupleData {
+</span></span><span class=line><span class=cl>  + int t_len
+</span></span><span class=line><span class=cl>  + char mt_padding
+</span></span><span class=line><span class=cl>  + int t_infomask2
+</span></span><span class=line><span class=cl>  + int t_infomask
+</span></span><span class=line><span class=cl>  + int t_hoff
+</span></span><span class=line><span class=cl>  + int t_bits
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class HeapTupleHeaderData {
+</span></span><span class=line><span class=cl>  + union t_choice
+</span></span><span class=line><span class=cl>  + ItemPointerData t_ctid
+</span></span><span class=line><span class=cl>  + int t_infomask2
+</span></span><span class=line><span class=cl>  + int t_infomask
+</span></span><span class=line><span class=cl>  + int t_hoff
+</span></span><span class=line><span class=cl>  + int t_bits
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class union {
+</span></span><span class=line><span class=cl>  + HeapTupleFields t_heap
+</span></span><span class=line><span class=cl>  + DatumTupleFields t_datum
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>HeapTupleHeaderData *-- union
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class MinimalTupleTableSlot {
+</span></span><span class=line><span class=cl>  + TupleTableSlot base
+</span></span><span class=line><span class=cl>  + HeapTuple tuple
+</span></span><span class=line><span class=cl>  + MinimalTuple mintuple
+</span></span><span class=line><span class=cl>  + HeapTupleData minhdr
+</span></span><span class=line><span class=cl>  + int off
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class HeapTupleData {
+</span></span><span class=line><span class=cl>  + int t_len
+</span></span><span class=line><span class=cl>  + ItemPointerData t_self
+</span></span><span class=line><span class=cl>  + int t_tableOid
+</span></span><span class=line><span class=cl>  + HeapTupleHeader t_data
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class VirtualTupleTableSlot {
+</span></span><span class=line><span class=cl>  + TupleTableSlot base
+</span></span><span class=line><span class=cl>  + char data
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class HeapTupleTableSlot {
+</span></span><span class=line><span class=cl>  + TupleTableSlot base
+</span></span><span class=line><span class=cl>  + HeapTuple tuple
+</span></span><span class=line><span class=cl>  + int off
+</span></span><span class=line><span class=cl>  + HeapTupleData tupdata
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>class BufferHeapTupleTableSlot {
+</span></span><span class=line><span class=cl>  + HeapTupleTableSlot base
+</span></span><span class=line><span class=cl>  + Buffer buffer
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>TupleTableSlot &lt;|-- MinimalTupleTableSlot
+</span></span><span class=line><span class=cl>TupleTableSlot &lt;|-- VirtualTupleTableSlot
+</span></span><span class=line><span class=cl>TupleTableSlot &lt;|-- HeapTupleTableSlot
+</span></span><span class=line><span class=cl>HeapTupleTableSlot &lt;|-- BufferHeapTupleTableSlot
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>MinimalTupleTableSlot *-- MinimalTupleData
+</span></span><span class=line><span class=cl>HeapTupleTableSlot *-- HeapTupleData
+</span></span><span class=line><span class=cl>HeapTupleData *-- HeapTupleHeaderData
+</span></span></code></pre></td></tr></table></div></div></div></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:yang.yingchao@qq.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=https://github.com/yangyingchao/ class="iconfont icon-github" title=github></a>
+<a href=https://yangyingchao.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动</span>
+<span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2023<span class=heart><i class="iconfont icon-heart"></i></span><span>yyc</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

@@ -1,17 +1,3 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>gtk4 - Tag - My New Hugo Site</title>
-        <link>http://yangyingchao.github.io/tags/gtk4/</link>
-        <description>gtk4 - Tag - My New Hugo Site</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="http://yangyingchao.github.io/tags/gtk4/" rel="self" type="application/rss+xml" /><item>
-    <title>google chrome in hyprland</title>
-    <link>http://yangyingchao.github.io/posts/google-chrome-in-hyprland/</link>
-    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
-    <author>Author</author>
-    <guid>http://yangyingchao.github.io/posts/google-chrome-in-hyprland/</guid>
-    <description><![CDATA[1 google chrome in hyprland 2 Weird crash when running chrome with: –gtk-version=4 1 google chrome in hyprland Hyprland is cool, but it may not work smoothly on default Google Chrome. The borders appear distorted and blurry.
-To resolve this issue, simply open the Chrome settings, navigate to appearance (chrome://settings/appearance), and enable &ldquo;Use system title bar and borders.&rdquo; Afterwards, restart the browser.
-2 Weird crash when running chrome with: –gtk-version=4 This happens when use GTK theme as shown in above screenshot.]]></description>
-</item>
-</channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>gtk4 on 杂七杂八随手记</title><link>https://yangyingchao.github.io/tags/gtk4/</link><description>Recent content in gtk4 on 杂七杂八随手记</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gtk4/index.xml" rel="self" type="application/rss+xml"/><item><title>google chrome in hyprland</title><link>https://yangyingchao.github.io/posts/google-chrome-in-hyprland/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/google-chrome-in-hyprland/</guid><description>Table of Contents 1 google chrome in hyprland 2 Weird crash when running chrome with: –gtk-version=4 1 google chrome in hyprland Hyprland is cool, but it may not work smoothly on default Google Chrome. The borders appear distorted and blurry.
+To resolve this issue, simply open the Chrome settings, navigate to appearance (chrome://settings/appearance), and enable &amp;ldquo;Use system title bar and borders.&amp;rdquo; Afterwards, restart the browser.
+2 Weird crash when running chrome with: –gtk-version=4 This happens when use GTK theme as shown in above screenshot.</description></item></channel></rss>

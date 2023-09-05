@@ -1,206 +1,58 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="robots" content="noodp" />
-        <title>How To Use Journalctl to View and Manipulate Systemd Logs - My New Hugo Site</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="How To Use Journalctl to View and Manipulate Systemd Logs" />
-<meta property="og:description" content="1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。
-当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条目将显示在顶部：
-journalctl Output -- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. -- Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49. Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" /><meta property="article:section" content="posts" />
-
-<meta property="og:site_name" content="My cool site" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="How To Use Journalctl to View and Manipulate Systemd Logs"/>
-<meta name="twitter:description" content="1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。
-当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条目将显示在顶部：
-journalctl Output -- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. -- Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49. Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6."/>
-<meta name="application-name" content="My cool site">
-<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" /><link rel="next" href="http://yangyingchao.github.io/posts/google-chrome-in-hyprland/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
-    {
-        "@context": "http://schema.org",
-        "@type": "BlogPosting",
-        "headline": "How To Use Journalctl to View and Manipulate Systemd Logs",
-        "inLanguage": "zh-cn",
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "http:\/\/yangyingchao.github.io\/posts\/how-to-use-journalctl-to-view-and-manipulate-systemd-logs\/"
-        },"genre": "posts","keywords": "journalctl, logs","wordcount":  280 ,
-        "url": "http:\/\/yangyingchao.github.io\/posts\/how-to-use-journalctl-to-view-and-manipulate-systemd-logs\/","publisher": {
-            "@type": "Organization",
-            "name": ""},"author": {
-                "@type": "Person",
-                "name": "Author"
-            },"description": ""
-    }
-    </script></head>
-    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
-
-        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
-    <div class="header-wrapper">
-        <div class="header-title">
-            <a href="/" title="My New Hugo Site">My cool site</a>
-        </div>
-        <div class="menu">
-            <div class="menu-inner"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-                </a></div>
-        </div>
-    </div>
-</header><header class="mobile" id="header-mobile">
-    <div class="header-container">
-        <div class="header-wrapper">
-            <div class="header-title">
-                <a href="/" title="My New Hugo Site">My cool site</a>
-            </div>
-            <div class="menu-toggle" id="menu-toggle-mobile">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-        <div class="menu" id="menu-mobile"><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
-                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
-            </a></div>
-    </div>
-</header><main class="main">
-                <div class="container"><div class="toc" id="toc-auto">
-            <h2 class="toc-title">Contents</h2>
-            <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">How To Use Journalctl to View and Manipulate Systemd Logs</h1><div class="post-meta">
-            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Author</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;280 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
-        </div><div class="details toc" id="toc-static"  data-kept="">
-                <div class="details-summary toc-title">
-                    <span>Contents</span>
-                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
-                </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#h:cf631f63-41b8-4f82-8544-76d72d2bdcdf"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> Basic Log Viewing</a>
-      <ul>
-        <li></li>
-      </ul>
-    </li>
-    <li><a href="#h:a95fc26a-5a39-458f-9a0f-bbbddcbab960"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> Journal Filtering by Time</a>
-      <ul>
-        <li><a href="#h:692298a1-3c38-4603-9577-94123cec0d63"><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> Displaying Logs from the Current Boot</a></li>
-        <li><a href="#h:d6a93171-ab71-47be-b173-951f3cc5675a"><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> Filtering by Message Interest</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<ul>
-<li><!-- raw HTML omitted -->1<!-- raw HTML omitted --> <a href="#h:cf631f63-41b8-4f82-8544-76d72d2bdcdf" rel="">Basic Log Viewing</a></li>
-<li><!-- raw HTML omitted -->2<!-- raw HTML omitted --> <a href="#h:a95fc26a-5a39-458f-9a0f-bbbddcbab960" rel="">Journal Filtering by Time</a>
-<ul>
-<li><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> <a href="#h:692298a1-3c38-4603-9577-94123cec0d63" rel="">Displaying Logs from the Current Boot</a></li>
-<li><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> <a href="#h:d6a93171-ab71-47be-b173-951f3cc5675a" rel="">Filtering by Message Interest</a></li>
-</ul>
-</li>
-</ul>
-<!-- raw HTML omitted -->
-<h2 id="h:cf631f63-41b8-4f82-8544-76d72d2bdcdf"><!-- raw HTML omitted -->1<!-- raw HTML omitted --> Basic Log Viewing</h2>
-<p>要查看 journald 守护程序收集的日志，请使用 journalctl 命令。</p>
-<p>当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条目将显示在顶部：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>journalctl
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Output
-</span></span><span style="display:flex;"><span>-- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. --
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49.
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49.
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain systemd-journald[139]: Received SIGTERM from PID 1 (systemd).
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: audit: type=1404 audit(1423000132.274:2): enforcing=1 old_en
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: SELinux: 2048 avtab hash slots, 104131 rules.
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: SELinux: 2048 avtab hash slots, 104131 rules.
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: input: ImExPS/2 Generic Explorer Mouse as /devices/platform/
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: SELinux:  8 users, 102 roles, 4976 types, 294 bools, 1 sens,
-</span></span><span style="display:flex;"><span>Feb 03 21:48:52 localhost.localdomain kernel: SELinux:  83 classes, 104131 rules
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>. . .
-</span></span></code></pre></div><p>你可能会注意到，当前显示的时间戳都是使用本地时间。现在我们已经在系统上正确地设置了本地时间，因此每条日志条目都可以使用本地时间显示。所有日志都使用这些新信息进行显示。</p>
-<p>如果你想显示 UTC 时间戳，可以使用–utc 标志： <code>journalctl --utc</code></p>
-<h4 id="h:c4ccd84c-9681-4ddb-93a0-0a1f1de5e4ea"><!-- raw HTML omitted -->1.0.1<!-- raw HTML omitted --> Displaying Kernel Messages</h4>
-<h2 id="h:a95fc26a-5a39-458f-9a0f-bbbddcbab960"><!-- raw HTML omitted -->2<!-- raw HTML omitted --> Journal Filtering by Time</h2>
-<h3 id="h:692298a1-3c38-4603-9577-94123cec0d63"><!-- raw HTML omitted -->2.1<!-- raw HTML omitted --> Displaying Logs from the Current Boot</h3>
-<ul>
-<li>journalctl -b</li>
-<li>journalctl –list-boots</li>
-<li>journalctl -b -1</li>
-</ul>
-<h4 id="h:9848389e-a8bf-4fb5-acf2-8e8d5a6c02f4"><!-- raw HTML omitted -->2.1.1<!-- raw HTML omitted --> Time Windows</h4>
-<ul>
-<li>journalctl –since &ldquo;2015-01-10 17:15:00&rdquo;</li>
-<li>journalctl –since &ldquo;2015-01-10&rdquo; –until &ldquo;2015-01-11 03:00&rdquo;</li>
-</ul>
-<h3 id="h:d6a93171-ab71-47be-b173-951f3cc5675a"><!-- raw HTML omitted -->2.2<!-- raw HTML omitted --> Filtering by Message Interest</h3>
-<h4 id="h:b4688189-5838-407a-9730-705f81f22dad"><!-- raw HTML omitted -->2.2.1<!-- raw HTML omitted --> By Unit</h4>
-<ul>
-<li>journalctl -u nginx.service</li>
-<li>journalctl -u nginx.service –since today</li>
-<li>journalctl -u nginx.service -u php-fpm.service –since today</li>
-</ul>
-<h4 id="h:861a1506-8460-4fc3-bd7c-011f42a63112"><!-- raw HTML omitted -->2.2.2<!-- raw HTML omitted --> By Process, User, or Group ID</h4>
-<p>内核消息通常在 dmesg 的输出中找到，也可以从日志中检索出来。</p>
-<p>要仅显示这些消息，我们可以在命令中添加-k 或–dmesg 标志：</p>
-<p><code>journalctl -k</code></p>
-<p>默认情况下，这将显示来自当前启动的内核消息。您可以使用之前讨论的标准启动选择标志指定替代启动。例如，要获取五个启动前的消息，可以键入：</p>
-<p><code>journalctl -k -b -5</code></p>
-<h4 id="h:9ba0bf60-421b-4ee3-a8b5-a9f3ed93e38b"><!-- raw HTML omitted -->2.2.3<!-- raw HTML omitted --> By Priority</h4>
-<p>系统管理员经常感兴趣的一个过滤器是消息优先级。虽然记录详细信息通常很有用，但在实际处理可用信息时，低优先级的日志可能会分散注意力，使人感到困惑。您可以使用 journalctl 命令使用-p 选项仅显示指定优先级或更高优先级的消息。这允许您过滤掉较低优先级的消息。例如，您可以键入以下内容仅显示在错误级别或更高级别记录的条目：</p>
-<p><code>journalctl -p err -b</code></p>
-<p>这将向您显示所有标记为错误、关键、警报或紧急的消息。journal 实现了标准的 syslog 消息级别。您可以使用优先级名称或其相应的数字值。按照从最高到最低优先级的顺序，它们是：</p>
-<p>– 0：emerg
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>How To Use Journalctl to View and Manipulate Systemd Logs - 杂七杂八随手记</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="yyc"><meta name=description content="Table of Contents 1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。 当单独使用时，系统中的每个日志条目都会在翻"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.115.0 with theme even"><link rel=canonical href=https://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="How To Use Journalctl to View and Manipulate Systemd Logs"><meta property="og:description" content="Table of Contents 1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。 当单独使用时，系统中的每个日志条目都会在翻"><meta property="og:type" content="article"><meta property="og:url" content="https://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/"><meta property="article:section" content="posts"><meta itemprop=name content="How To Use Journalctl to View and Manipulate Systemd Logs"><meta itemprop=description content="Table of Contents 1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。 当单独使用时，系统中的每个日志条目都会在翻"><meta itemprop=wordCount content="936"><meta itemprop=keywords content="journalctl,logs,"><meta name=twitter:card content="summary"><meta name=twitter:title content="How To Use Journalctl to View and Manipulate Systemd Logs"><meta name=twitter:description content="Table of Contents 1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。 当单独使用时，系统中的每个日志条目都会在翻"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><div class=post-content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#h:cf631f63-41b8-4f82-8544-76d72d2bdcdf>Basic Log Viewing</a></li><li><span class=section-num>2</span> <a href=#h:a95fc26a-5a39-458f-9a0f-bbbddcbab960>Journal Filtering by Time</a><ul><li><span class=section-num>2.1</span> <a href=#h:692298a1-3c38-4603-9577-94123cec0d63>Displaying Logs from the Current Boot</a></li><li><span class=section-num>2.2</span> <a href=#h:d6a93171-ab71-47be-b173-951f3cc5675a>Filtering by Message Interest</a></li></ul></li></ul></div><h2 id=h:cf631f63-41b8-4f82-8544-76d72d2bdcdf><span class=section-num>1</span> Basic Log Viewing</h2><p>要查看 journald 守护程序收集的日志，请使用 journalctl 命令。</p><p>当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条
+目将显示在顶部：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>journalctl
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Output
+</span></span><span class=line><span class=cl>-- Logs begin at Tue 2015-02-03 21:48:52 UTC, end at Tue 2015-02-03 22:29:38 UTC. --
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49.
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain systemd-journal[243]: Runtime journal is using 6.2M (max allowed 49.
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain systemd-journald[139]: Received SIGTERM from PID 1 (systemd).
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: audit: type=1404 audit(1423000132.274:2): enforcing=1 old_en
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: SELinux: 2048 avtab hash slots, 104131 rules.
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: SELinux: 2048 avtab hash slots, 104131 rules.
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: input: ImExPS/2 Generic Explorer Mouse as /devices/platform/
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: SELinux:  8 users, 102 roles, 4976 types, 294 bools, 1 sens,
+</span></span><span class=line><span class=cl>Feb 03 21:48:52 localhost.localdomain kernel: SELinux:  83 classes, 104131 rules
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>. . .
+</span></span></code></pre></td></tr></table></div></div><p>你可能会注意到，当前显示的时间戳都是使用本地时间。现在我们已经在系统上正确地设置了本地时
+间，因此每条日志条目都可以使用本地时间显示。所有日志都使用这些新信息进行显示。</p><p>如果你想显示 UTC 时间戳，可以使用–utc 标志： <code>journalctl --utc</code></p><h4 id=h:c4ccd84c-9681-4ddb-93a0-0a1f1de5e4ea><span class=section-num>1.0.1</span> Displaying Kernel Messages</h4><h2 id=h:a95fc26a-5a39-458f-9a0f-bbbddcbab960><span class=section-num>2</span> Journal Filtering by Time</h2><h3 id=h:692298a1-3c38-4603-9577-94123cec0d63><span class=section-num>2.1</span> Displaying Logs from the Current Boot</h3><ul><li>journalctl -b</li><li>journalctl –list-boots</li><li>journalctl -b -1</li></ul><h4 id=h:9848389e-a8bf-4fb5-acf2-8e8d5a6c02f4><span class=section-num>2.1.1</span> Time Windows</h4><ul><li>journalctl –since &ldquo;2015-01-10 17:15:00&rdquo;</li><li>journalctl –since &ldquo;2015-01-10&rdquo; –until &ldquo;2015-01-11 03:00&rdquo;</li></ul><h3 id=h:d6a93171-ab71-47be-b173-951f3cc5675a><span class=section-num>2.2</span> Filtering by Message Interest</h3><h4 id=h:b4688189-5838-407a-9730-705f81f22dad><span class=section-num>2.2.1</span> By Unit</h4><ul><li>journalctl -u nginx.service</li><li>journalctl -u nginx.service –since today</li><li>journalctl -u nginx.service -u php-fpm.service –since today</li></ul><h4 id=h:861a1506-8460-4fc3-bd7c-011f42a63112><span class=section-num>2.2.2</span> By Process, User, or Group ID</h4><p>内核消息通常在 dmesg 的输出中找到，也可以从日志中检索出来。</p><p>要仅显示这些消息，我们可以在命令中添加-k 或–dmesg 标志：</p><p><code>journalctl -k</code></p><p>默认情况下，这将显示来自当前启动的内核消息。您可以使用之前讨论的标准启动选择标志指定替代启动。例如，要获取五个启动前的消息，可以键入：</p><p><code>journalctl -k -b -5</code></p><h4 id=h:9ba0bf60-421b-4ee3-a8b5-a9f3ed93e38b><span class=section-num>2.2.3</span> By Priority</h4><p>系统管理员经常感兴趣的一个过滤器是消息优先级。虽然记录详细信息通常很有用，但在实际处理可
+用信息时，低优先级的日志可能会分散注意力，使人感到困惑。您可以使用 journalctl 命令使用-p 选
+项仅显示指定优先级或更高优先级的消息。这允许您过滤掉较低优先级的消息。例如，您可以键入以
+下内容仅显示在错误级别或更高级别记录的条目：</p><p><code>journalctl -p err -b</code></p><p>这将向您显示所有标记为错误、关键、警报或紧急的消息。journal 实现了标准的 syslog 消息级别。您可以使用优先级名称或其相应的数字值。按照从最高到最低优先级的顺序，它们是：</p><p>– 0：emerg
 – 1：alert
 – 2：crit
 – 3：err
 – 4：warning
 – 5：notice
 – 6：info
-– 7：debug</p>
-<p>上述数字或名称可以在-p 选项中互换使用。选择一个优先级将显示标记为指定级别及其以上级别的消息。</p>
-</div><div class="post-footer" id="post-footer">
-    <div class="post-info">
-        <div class="post-info-line">
-            <div class="post-info-mod">
-                <span>Updated on 0001-01-01</span>
-            </div></div>
-        <div class="post-info-line">
-            <div class="post-info-md"></div>
-            <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" data-title="How To Use Journalctl to View and Manipulate Systemd Logs" data-hashtags="journalctl,logs"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" data-hashtag="journalctl"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" data-title="How To Use Journalctl to View and Manipulate Systemd Logs"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" data-title="How To Use Journalctl to View and Manipulate Systemd Logs"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/" data-title="How To Use Journalctl to View and Manipulate Systemd Logs"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="post-info-more">
-        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/journalctl/">journalctl</a>,&nbsp;<a href="/tags/logs/">logs</a></section>
-        <section>
-            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
-        </section>
-    </div>
-
-    <div class="post-nav">
-            <a href="/posts/google-chrome-in-hyprland/" class="next" rel="next" title="google chrome in hyprland">google chrome in hyprland<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
-</div>
-</article></div>
-            </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.115.4">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
-        </div>
-    </footer></div>
-
-        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
-                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
-            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
-                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
-            </a>
-        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
-</html>
+– 7：debug</p><p>上述数字或名称可以在-p 选项中互换使用。选择一个优先级将显示标记为指定级别及其以上级别的消息。</p></div></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:yang.yingchao@qq.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=https://github.com/yangyingchao/ class="iconfont icon-github" title=github></a>
+<a href=https://yangyingchao.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动</span>
+<span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2023<span class=heart><i class="iconfont icon-heart"></i></span><span>yyc</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

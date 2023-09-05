@@ -1,0 +1,48 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Hash Index of PG - 杂七杂八随手记</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="yyc"><meta name=description content="Table of Contents 1 Hash Indexing 2 Page Addressing 1 Hash Indexing 这个目录包含了 Postgres 的散列索引实现。其中大部分核心思想来自于 Margo Seltzer 和 Ozan Yigit 在 1991 年 1 月举行的冬季 USENIX 会议上的论文《A New Hashing Package for UN"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.115.0 with theme even"><link rel=canonical href=https://yangyingchao.github.io/posts/pg_hash_index/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Hash Index of PG"><meta property="og:description" content="Table of Contents 1 Hash Indexing 2 Page Addressing 1 Hash Indexing 这个目录包含了 Postgres 的散列索引实现。其中大部分核心思想来自于 Margo Seltzer 和 Ozan Yigit 在 1991 年 1 月举行的冬季 USENIX 会议上的论文《A New Hashing Package for UN"><meta property="og:type" content="article"><meta property="og:url" content="https://yangyingchao.github.io/posts/pg_hash_index/"><meta property="article:section" content="posts"><meta itemprop=name content="Hash Index of PG"><meta itemprop=description content="Table of Contents 1 Hash Indexing 2 Page Addressing 1 Hash Indexing 这个目录包含了 Postgres 的散列索引实现。其中大部分核心思想来自于 Margo Seltzer 和 Ozan Yigit 在 1991 年 1 月举行的冬季 USENIX 会议上的论文《A New Hashing Package for UN"><meta itemprop=wordCount content="1570"><meta itemprop=keywords content="tag1,tag2,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Hash Index of PG"><meta name=twitter:description content="Table of Contents 1 Hash Indexing 2 Page Addressing 1 Hash Indexing 这个目录包含了 Postgres 的散列索引实现。其中大部分核心思想来自于 Margo Seltzer 和 Ozan Yigit 在 1991 年 1 月举行的冬季 USENIX 会议上的论文《A New Hashing Package for UN"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><div class=post-content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#h:307f8d11-ac46-4f53-9442-3e1790a581fa>Hash Indexing</a></li><li><span class=section-num>2</span> <a href=#h:e284dd98-5860-4a26-9029-8c19dc8551db>Page Addressing</a></li></ul></div><h2 id=h:307f8d11-ac46-4f53-9442-3e1790a581fa><span class=section-num>1</span> Hash Indexing</h2><p>这个目录包含了 Postgres 的散列索引实现。其中大部分核心思想来自于 Margo Seltzer 和 Ozan
+Yigit 在 1991 年 1 月举行的冬季 USENIX 会议上的论文《A New Hashing Package for UNIX》。我们
+的内存哈希表实现（src/backend/utils/hash/dynahash.c）也依赖于相同的概念；它源自于 Esmond
+Pitt 编写的代码，后来又由 Margo 和其他人进行了改进。</p><p>哈希索引由两个或更多“桶”组成，每当元组的哈希键映射到桶号时，就将其放入其中一个桶中。选择
+键到桶号的映射，以便可以增量扩展索引。当要向索引中添加新桶时，必须“拆分”一个现有的桶，将
+其中一些元组根据更新的键到桶号映射转移到新桶中。这与 src/backend/utils/hash/dynahash.c
+中的内存哈希表管理技术本质上相同。</p><p>哈希索引中的每个桶包含一个或多个索引页面。当创建桶时，该桶的第一个页面被永久分配给它。如
+果桶接收的元组过多，无法放入主桶页面中，则添加附加页面（称为“溢出页面”）。桶的页使用索引
+页面特殊空间中的字段作为双向链表链接在一起。</p><p>目前不存在缩小哈希索引的方法，除非使用 REINDEX 重新构建它。可以重新利用溢出页面以在其他
+桶中重用，但我们永远不会将它们返回到操作系统。也没有减少桶数的方法。</p><p>截至 PostgreSQL 8.4，哈希索引条目仅存储每个索引项的哈希代码，而不是实际的数据值。这使得
+索引条目更小（可能非常大），并加速了各种操作。特别是，我们可以通过将任何一个索引页面中的
+索引条目按哈希码排序来加快搜索速度，从而在索引页面内使用二进制搜索。但请注意，对于同一桶
+的不同索引页面之间的哈希码相对排序没有任何假设。</p><h2 id=h:e284dd98-5860-4a26-9029-8c19dc8551db><span class=section-num>2</span> Page Addressing</h2><p>哈希索引中有四种页面：</p><ul><li>元页面（第 0 页），其中包含静态分配的控制信息；</li><li>主桶页面；</li><li>溢出页面；</li><li>位图页面，它们跟踪已被释放且可供重新使用的溢出页面。</li></ul><p>为 addressing purposes，位图页面
+被认为是溢出页面的子集。</p><p>主桶页面和溢出页面是独立分配的（因为任何给定的索引可能相对于其桶的数量需要更多或更少的溢
+出页面）。哈希码使用一组有趣的 addressing rules 来支持可变数量的溢出页面，而不必在创建主
+桶页面后移动它们。</p><p>主桶页面（以下简称“桶页面”）以 2 的幂组分配，称为代码中的 <strong>“分割点”</strong> 。这意味着每次新的
+分割点时，我们都会将现有的桶数加倍。一次性分配大量桶页面并不理想，我们需要很长时间才能消
+耗它们。</p><p>为避免指数级增长的索引大小，我们使用了一个技巧，将分割点处的桶分配拆分为 4 个相等的阶段。
+如果（2 ^ x）是要在分割点分配的总桶数（从现在开始我们将其称为分割点组），则在分割点组的
+每个阶段中分配总桶数的 1/4（2 ^（x-2））。下一四分之一的分配只会发生在之前的一相桶已经被
+消耗完了。对于初始分割点组 &lt; 10，我们将仅在单个阶段中分配它们的所有桶，因为初始组分配的
+桶数很少。对于组 >= 10，分配过程分为四个相等阶段。在组 10 中，我们将 4 个不同阶段（{2 ^
+7，2 ^ 7，2 ^ 7，2 ^ 7}）分配了（2 ^ 9）个桶，括号中的数字表示分割点组的每个阶段分配的桶
+数 10。对于分割点组 11 和 12，分配阶段将分别为{2 ^ 8，2 ^ 8，2 ^ 8，2 ^ 8}和{2 ^ 9，2 ^
+9，2 ^ 9，2 ^ 9}。我们可以看到，在每个分割点组中，我们将前一个组中桶的总数加倍，但是在增
+量阶段中完成。同一分割点组中分配的 bucket 页面将依次出现在索引中。这种 addressing scheme
+允许相对轻松地通过使用仅少量的控制信息将桶页面的物理位置从桶号计算出来。如果我们看一下给
+定的桶号的函数 _hash_spareindex，我们首先计算它所属的分割点组，然后计算桶所属的阶段。将
+它们加起来我们得到桶所属的全局分割点阶段号 S，然后只需添加“hashm_spares[S] + 1”（其中
+hashm_spares[] 是存储在元页面中的数组）就可以计算其物理地址。hashm_spares [S] 可以解释为
+已分配分割点阶段 S 的 bucket 页面之前分配的溢出页面的总数。hashm_spares [0] 始终为 0，因
+此桶 0 和 1 总是出现在元页后的块编号 1 和 2 中。我们始终有 hashm_spares [N] &lt;=
+hashm_spares [N</p></div></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:yang.yingchao@qq.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=https://github.com/yangyingchao/ class="iconfont icon-github" title=github></a>
+<a href=https://yangyingchao.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动</span>
+<span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2023<span class=heart><i class="iconfont icon-heart"></i></span><span>yyc</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
