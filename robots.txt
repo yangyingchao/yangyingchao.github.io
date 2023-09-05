@@ -1,2 +1,3 @@
 User-agent: *
+Disallow:
 Sitemap: https://yangyingchao.github.io/sitemap.xml
