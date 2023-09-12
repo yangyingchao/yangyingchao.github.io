@@ -3,7 +3,7 @@
 <label class="menu-button float-right" for=menu-toggle><i class="fa fa-bars fa-fw" aria-hidden=true></i></label><ul class=navigation-list><li class=navigation-item><a class=navigation-link href=/posts/>Blog</a></li><li class=navigation-item><a class=navigation-link href=/tags/>Tags</a></li><li class=navigation-item><a class=navigation-link href=/contact/>Contact me</a></li></ul></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://yangyingchao.github.io/posts/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa fa-calendar" aria-hidden=true></i>
 <time datetime=0001-01-01T00:00:00Z>January 1, 0001</time></span>
 <span class=reading-time><i class="fa fa-clock-o" aria-hidden=true></i>
-阅读时间：3 分钟</span></div><div class=tags><i class="fa fa-tag" aria-hidden=true></i>
+阅读时间：4 分钟</span></div><div class=tags><i class="fa fa-tag" aria-hidden=true></i>
 <span class=tag><a href=/tags/simd/>simd</a></span>
 <span class=separator>•</span>
 <span class=tag><a href=/tags/compression/>compression</a></span></div></div></header><div class=post-content><ul><li>1 <a href=#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a>Introduction</a></li><li>2 <a href=#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf>Related Work</a><ul><li>2.1 <a href=#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b>Storage Layouts</a></li><li>2.2 <a href=#h:ed60df52-edbb-4a50-97fc-7fdb583c275c>Bit-(Un)Packing</a></li></ul></li><li>3 <a href=#h:d68b112b-a914-43aa-8e0f-d15256f92412>SIMD-Friendly Bit-(Un)Packing</a></li><li>4 <a href=#h:f92acd3a-f139-465a-9376-9098f4ed8ed4>Composable Functions</a></li><li>5 <a href=#h:a085ae14-3c24-42f3-8747-92eef98eda99>Composable Compression Schemes</a></li></ul><p>本文为摘录，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf</p><h2 id=h:580c0cb0-61f9-4a43-ac02-4fad348cc20a>1 Introduction
@@ -35,9 +35,24 @@
 (bit-packing) 。反向操作，即将位字符串转换回可由机器寻址的整数数组的操作被称为 <code>位取消填 充</code> , bit-unpacking 。位取消填充可以使用五个简单的操作（加载、移位、与、或和存储）来提取
 每个整数，如图 2.3 所示。</p><p>在将 32 位数据加载到 CPU 寄存器中之后，使用右移操作将期望的位放置到寄存器的开头。此外，使用
 预定义的掩码寄存器进行按位 AND 操作（用 0 表示随机位，用 1 表示期望的位），可以将具有任意值的
-位更改为 0。这种实现效率高，因为它不涉及任何分支。</p><p></p><figure><img src=/ox-hugo/screenshot@2023-09-12_16:02:42.png width=800px></figure><h4 id=h:5a388ec5-7e4f-493a-b9f5-4abac30ce812>2.2.1 Vectorized Bit-Unpacking
+位更改为 0。这种实现效率高，因为它不涉及任何分支。</p><p></p><figure><img src=/ox-hugo/screenshot@2023-09-12_16:02:42.png width=800px></figure><ul><li>Bit Alignment:</li></ul><h4 id=h:5a388ec5-7e4f-493a-b9f5-4abac30ce812>2.2.1 Vectorized Bit-Unpacking
 <a class=heading-link href=#h:5a388ec5-7e4f-493a-b9f5-4abac30ce812><i class="fa fa-link" aria-hidden=true title=链接到标题></i>
-<span class=sr-only>链接到标题</span></a></h4><h2 id=h:d68b112b-a914-43aa-8e0f-d15256f92412>3 SIMD-Friendly Bit-(Un)Packing
+<span class=sr-only>链接到标题</span></a></h4><p>Willhaml 等提出了一个方法来通过 SIMD 来批量 bitunpack:</p><ul><li><p>16-Byte Alignment: 通过 128 位的 SIMD aligned load 从内存中加载 128-bit 的数据
+使用一个 128 位的 SIMD 对齐加载指令从内存中加载 128 位的数据。对于一些位宽值，比如 9，
+第一个整数值可能不完全加载，因为它跨越了两个 128 位的寄存器。为了处理这些情况，作者更
+喜欢使用一个 128 位 SIMD 寄存器串联指令，而不是 128 位 SIMD 不对齐加载指令，因为 SIMD
+不对齐的指令在旧处理器上的计算成本高昂。</p></li><li><p>4-Byte Alignment: four compressed integer values are copied to four separate 32-bit
+lanes in a new register using a SIMD shuffle mask instruction.</p><p>使用 SIMD 洗牌掩码指令将四个压缩整数值复制到新寄存器中的四个独立的 32 位通道。</p></li><li><p>Bit Alignment: 通过将每个语段任意移动几次，通过 SIMD 乘以四个不同整数和一个 SIMD 右移
+指令将最后一个寄存器中的四个整数的每个语段的第一位对齐。</p></li></ul><p>然而，Willhalm 等人的方法仅适用于 SSE，无法扩展到 AVX2，因为 Shuffle 指令无法跨所有 lane 移动字节。</p><p>Polychroniou 等人提出了一项更改，以调整 Willhalm 等人的方法以适用于 AVX2（33）。
+为了模拟 256 位跨 lane Shuffle，我们可以将寄存器的每个半段（128 位）复制到两个半段，并使用常规的 256 位 Shuffle。
+此外，Willhalm 等人将他们的位解压实现翻译为英特尔 AVX2 指令（34）。
+在 Willhalm 的新实现中，模拟的移位操作被 AVX2 矢量-矢量移位指令所取代。
+此外，与他们之前的实现相反，新的实现使用非对齐加载指令而不是对齐加载指令，因为他们声称对于当前架构，
+这个指令比对齐加载指令更快。只有在数据加载分裂跨越缓存线时才会有性能损失，这被其他情况下的减少所分摊。</p><p>除了水平布局（即连续存储元组）外，Schlegel 等人提出了一种称为垂直布局的替代布局（2）。在
+k-垂直布局中，k个连续的位压缩元组存储在不同的存储字中。</p><p>图 2.4 显示了一个 4 路垂直布局的示例，其中每个数字表示序列中整数的位置。可以看到，每 4
+个连续整数分布在 4 个不同的字中。垂直布局使我们能够使用单个加载/存储 SIMD 指令加载/存储
+压缩数据，而无需使用置换指令将元组分配到 SIMD lane 中。Lemire 等人使用 4 路垂直布局使用
+相同的位宽位压缩 128 个元组，以利用 SSE SIMD 指令（35）。</p><h2 id=h:d68b112b-a914-43aa-8e0f-d15256f92412>3 SIMD-Friendly Bit-(Un)Packing
 <a class=heading-link href=#h:d68b112b-a914-43aa-8e0f-d15256f92412><i class="fa fa-link" aria-hidden=true title=链接到标题></i>
 <span class=sr-only>链接到标题</span></a></h2><p>In this chapter we present our 1024-bit interleaved bit-(un)packing technique. As discussed
 in Section 2.2.1, the most efficient Bit-(un)packing approach is proposed by Lemire et
