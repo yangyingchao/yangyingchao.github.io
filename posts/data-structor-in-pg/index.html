@@ -1,0 +1,159 @@
+<!doctype html><html lang=zh-cn dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Data Structures in PG | MyNotes</title><meta name=keywords content="tag1,tag2"><meta name=description content=" 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><meta name=author content><link rel=canonical href=https://yangyingchao.github.io/posts/data-structor-in-pg/><link crossorigin=anonymous href=/assets/css/stylesheet.6a98292fb8fa8cf0f3ba4042d4b75515c04267550f3ad49ff6271b5af9562443.css integrity="sha256-apgpL7j6jPDzukBC1LdVFcBCZ1UPOtSf9icbWvlWJEM=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://yangyingchao.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://yangyingchao.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://yangyingchao.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://yangyingchao.github.io/apple-touch-icon.png><link rel=mask-icon href=https://yangyingchao.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="Data Structures in PG"><meta property="og:description" content=" 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><meta property="og:type" content="article"><meta property="og:url" content="https://yangyingchao.github.io/posts/data-structor-in-pg/"><meta property="article:section" content="posts"><meta name=twitter:card content="summary"><meta name=twitter:title content="Data Structures in PG"><meta name=twitter:description content=" 1 Hash & TapeSet 2 Slot & tuple 1 Hash & TapeSet class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot & tuple class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot <|-- MinimalTupleTableSlot TupleTableSlot <|-- VirtualTupleTableSlot TupleTableSlot <|-- HeapTupleTableSlot HeapTupleTableSlot <|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData "><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://yangyingchao.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Data Structures in PG","item":"https://yangyingchao.github.io/posts/data-structor-in-pg/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Data Structures in PG","name":"Data Structures in PG","description":" 1 Hash \u0026amp; TapeSet 2 Slot \u0026amp; tuple 1 Hash \u0026amp; TapeSet class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot \u0026amp; tuple class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot \u0026lt;|-- MinimalTupleTableSlot TupleTableSlot \u0026lt;|-- VirtualTupleTableSlot TupleTableSlot \u0026lt;|-- HeapTupleTableSlot HeapTupleTableSlot \u0026lt;|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData ","keywords":["tag1","tag2"],"articleBody":" 1 Hash \u0026 TapeSet 2 Slot \u0026 tuple 1 Hash \u0026 TapeSet class LogicalTapeSet { + BufFile pfile + SharedFileSet fileset + int worker + long nBlocksAllocated + long nBlocksWritten + long nHoleBlocks + bool forgetFreeSpace + long freeBlocks + long nFreeBlocks + Size freeBlocksLen + bool enable_prealloc } class LogicalTape { + LogicalTapeSet tapeSet + bool writing + bool frozen + bool dirty + long firstBlockNumber + long curBlockNumber + long nextBlockNumber + long offsetBlockNumber + char buffer + int buffer_size + int max_size + int pos + int nbytes + long prealloc + int nprealloc + int prealloc_size } class BufFile { + int numFiles + File files + bool isInterXact + bool dirty + bool readOnly + FileSet fileset + const name + ResourceOwner resowner + int curFile + off_t curOffset + int pos + int nbytes + PGAlignedBlock buffer } LogicalTapeSet *-- BufFile class HashAggSpill { + int npartitions + LogicalTape partitions + int64 ntuples + uint32 mask + int shift + hyperLogLogState hll_card } HashAggSpill *-- LogicalTape LogicalTape - LogicalTapeSet 2 Slot \u0026 tuple class TupleTableSlot { + NodeTag type + int tts_flags + AttrNumber tts_nvalid + const tts_ops + TupleDesc tts_tupleDescriptor + int tts_values + int tts_isnull + int tts_mcxt + ItemPointerData tts_tid + int tts_tableOid } class MinimalTupleData { + int t_len + char mt_padding + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class HeapTupleHeaderData { + union t_choice + ItemPointerData t_ctid + int t_infomask2 + int t_infomask + int t_hoff + int t_bits } class union { + HeapTupleFields t_heap + DatumTupleFields t_datum } HeapTupleHeaderData *-- union class MinimalTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + MinimalTuple mintuple + HeapTupleData minhdr + int off } class HeapTupleData { + int t_len + ItemPointerData t_self + int t_tableOid + HeapTupleHeader t_data } class VirtualTupleTableSlot { + TupleTableSlot base + char data } class HeapTupleTableSlot { + TupleTableSlot base + HeapTuple tuple + int off + HeapTupleData tupdata } class BufferHeapTupleTableSlot { + HeapTupleTableSlot base + Buffer buffer } TupleTableSlot \u003c|-- MinimalTupleTableSlot TupleTableSlot \u003c|-- VirtualTupleTableSlot TupleTableSlot \u003c|-- HeapTupleTableSlot HeapTupleTableSlot \u003c|-- BufferHeapTupleTableSlot MinimalTupleTableSlot *-- MinimalTupleData HeapTupleTableSlot *-- HeapTupleData HeapTupleData *-- HeapTupleHeaderData ","wordCount":"362","inLanguage":"zh-cn","datePublished":"0001-01-01T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://yangyingchao.github.io/posts/data-structor-in-pg/"},"publisher":{"@type":"Organization","name":"MyNotes","logo":{"@type":"ImageObject","url":"https://yangyingchao.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://yangyingchao.github.io accesskey=h title="MyNotes (Alt + H)">MyNotes</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://yangyingchao.github.io/ title=Home><span>Home</span></a></li><li><a href=https://yangyingchao.github.io/posts/ title=Archives><span>Archives</span></a></li><li><a href=https://yangyingchao.github.io/tags/ title=Tags><span>Tags</span></a></li><li><a href=https://yangyingchao.github.io/categories/ title=Categories><span>Categories</span></a></li><li><a href=https://yangyingchao.github.io/contact/ title="Contact me"><span>Contact me</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>Data Structures in PG</h1><div class=post-meta></div></header><div class=post-content><ul><li>1 <a href=#h:cc825ae9-05f0-4ce8-a53c-a0697f0c1d99>Hash & TapeSet</a></li><li>2 <a href=#h:c2c5a9a7-a0ef-4fd8-b7ec-46ada6e71726>Slot & tuple</a></li></ul><h2 id=h:cc825ae9-05f0-4ce8-a53c-a0697f0c1d99>1 Hash & TapeSet<a hidden class=anchor aria-hidden=true href=#h:cc825ae9-05f0-4ce8-a53c-a0697f0c1d99>#</a></h2><pre tabindex=0><code class=language-plantuml data-lang=plantuml>
+class LogicalTapeSet {
+    + BufFile pfile
+    + SharedFileSet fileset
+    + int worker
+    + long nBlocksAllocated
+    + long nBlocksWritten
+    + long nHoleBlocks
+    + bool forgetFreeSpace
+    + long freeBlocks
+    + long nFreeBlocks
+    + Size freeBlocksLen
+    + bool enable_prealloc
+}
+
+class LogicalTape {
+    + LogicalTapeSet tapeSet
+    + bool writing
+    + bool frozen
+    + bool dirty
+    + long firstBlockNumber
+    + long curBlockNumber
+    + long nextBlockNumber
+    + long offsetBlockNumber
+    + char buffer
+    + int buffer_size
+    + int max_size
+    + int pos
+    + int nbytes
+    + long prealloc
+    + int nprealloc
+    + int prealloc_size
+}
+
+
+
+class BufFile {
+    + int numFiles
+    + File files
+    + bool isInterXact
+    + bool dirty
+    + bool readOnly
+    + FileSet fileset
+    + const name
+    + ResourceOwner resowner
+    + int curFile
+    + off_t curOffset
+    + int pos
+    + int nbytes
+    + PGAlignedBlock buffer
+}
+
+LogicalTapeSet *-- BufFile
+
+class HashAggSpill {
++ int npartitions
++ LogicalTape partitions
++ int64 ntuples
++ uint32 mask
++ int shift
++ hyperLogLogState hll_card
+}
+
+
+HashAggSpill *-- LogicalTape
+
+LogicalTape - LogicalTapeSet
+</code></pre><h2 id=h:c2c5a9a7-a0ef-4fd8-b7ec-46ada6e71726>2 Slot & tuple<a hidden class=anchor aria-hidden=true href=#h:c2c5a9a7-a0ef-4fd8-b7ec-46ada6e71726>#</a></h2><pre tabindex=0><code class=language-plantuml data-lang=plantuml>
+class TupleTableSlot {
+  + NodeTag type
+  + int tts_flags
+  + AttrNumber tts_nvalid
+  + const tts_ops
+  + TupleDesc tts_tupleDescriptor
+  + int tts_values
+  + int tts_isnull
+  + int tts_mcxt
+  + ItemPointerData tts_tid
+  + int tts_tableOid
+}
+
+
+
+
+class MinimalTupleData {
+  + int t_len
+  + char mt_padding
+  + int t_infomask2
+  + int t_infomask
+  + int t_hoff
+  + int t_bits
+}
+
+
+class HeapTupleHeaderData {
+  + union t_choice
+  + ItemPointerData t_ctid
+  + int t_infomask2
+  + int t_infomask
+  + int t_hoff
+  + int t_bits
+}
+
+class union {
+  + HeapTupleFields t_heap
+  + DatumTupleFields t_datum
+}
+
+
+HeapTupleHeaderData *-- union
+
+class MinimalTupleTableSlot {
+  + TupleTableSlot base
+  + HeapTuple tuple
+  + MinimalTuple mintuple
+  + HeapTupleData minhdr
+  + int off
+}
+
+class HeapTupleData {
+  + int t_len
+  + ItemPointerData t_self
+  + int t_tableOid
+  + HeapTupleHeader t_data
+}
+
+
+class VirtualTupleTableSlot {
+  + TupleTableSlot base
+  + char data
+}
+
+class HeapTupleTableSlot {
+  + TupleTableSlot base
+  + HeapTuple tuple
+  + int off
+  + HeapTupleData tupdata
+}
+
+class BufferHeapTupleTableSlot {
+  + HeapTupleTableSlot base
+  + Buffer buffer
+}
+
+
+TupleTableSlot &lt;|-- MinimalTupleTableSlot
+TupleTableSlot &lt;|-- VirtualTupleTableSlot
+TupleTableSlot &lt;|-- HeapTupleTableSlot
+HeapTupleTableSlot &lt;|-- BufferHeapTupleTableSlot
+
+
+MinimalTupleTableSlot *-- MinimalTupleData
+HeapTupleTableSlot *-- HeapTupleData
+HeapTupleData *-- HeapTupleHeaderData
+</code></pre></div><footer class=post-footer><ul class=post-tags><li><a href=https://yangyingchao.github.io/tags/tag1/>tag1</a></li><li><a href=https://yangyingchao.github.io/tags/tag2/>tag2</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2024 <a href=https://yangyingchao.github.io>MyNotes</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
