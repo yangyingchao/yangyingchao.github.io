@@ -4,23 +4,23 @@
 消耗 CPU 时间：</p><ul><li>我们不希望长时间持有自旋锁，</li><li>当持有自旋锁时，我们当然也不希望被抢占。</li></ul><p>很多年前，人们提出了基于标准内存操作（加载和存储）的自旋锁实现方式。Eisenberg＆McGuire
 和 Lamport Bakery 是其中的例子。具有弱内存模型（包括 x86 和 x86-64）的现代多核处理器破坏
 了这些算法的朴素实现，尽管可以通过添加内存屏障来修复，但由此产生的代码效率不如使用硬件支
-持的原子内存操作来得高，这些操作比加载和存储更为强大，例如 test-and-set, compare-and-swap, and load-linked / store-conditional</p><p>自旋锁并不需要太复杂，我们可以使用 GCC 的原子内置函数编写一个相当通用的用户态自旋锁。</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>spin_lock_t</span> {
-</span></span><span style=display:flex><span>  <span style=color:#b00040>int</span> lock;
+持的原子内存操作来得高，这些操作比加载和存储更为强大，例如 test-and-set, compare-and-swap, and load-linked / store-conditional</p><p>自旋锁并不需要太复杂，我们可以使用 GCC 的原子内置函数编写一个相当通用的用户态自旋锁。</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>struct</span> <span style=color:#dc322f>spin_lock_t</span> {
+</span></span><span style=display:flex><span>  <span style=color:#dc322f>int</span> lock;
 </span></span><span style=display:flex><span>};
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span> <span style=color:#00f>spin_lock</span>(<span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>spin_lock_t</span> <span style=color:#666>*</span>s) {
-</span></span><span style=display:flex><span>  <span style=color:green;font-weight:700>while</span> (<span style=color:#666>1</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span> zero <span style=color:#666>=</span> <span style=color:#666>0</span>;
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span> one <span style=color:#666>=</span> <span style=color:#666>1</span>;
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>__atomic_compare_exchange</span>(<span style=color:#666>&amp;</span>s<span style=color:#666>-&gt;</span>lock, <span style=color:#666>&amp;</span>zero,
-</span></span><span style=display:flex><span>                                  <span style=color:#666>&amp;</span>one, <span style=color:#666>0</span>,
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_lock</span>(<span style=color:#719e07>struct</span> <span style=color:#dc322f>spin_lock_t</span> <span style=color:#719e07>*</span>s) {
+</span></span><span style=display:flex><span>  <span style=color:#719e07>while</span> (<span style=color:#2aa198>1</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span> zero <span style=color:#719e07>=</span> <span style=color:#2aa198>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span> one <span style=color:#719e07>=</span> <span style=color:#2aa198>1</span>;
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>__atomic_compare_exchange</span>(<span style=color:#719e07>&amp;</span>s<span style=color:#719e07>-&gt;</span>lock, <span style=color:#719e07>&amp;</span>zero,
+</span></span><span style=display:flex><span>                                  <span style=color:#719e07>&amp;</span>one, <span style=color:#2aa198>0</span>,
 </span></span><span style=display:flex><span>                                  __ATOMIC_SEQ_CST,
 </span></span><span style=display:flex><span>                                  __ATOMIC_SEQ_CST))
-</span></span><span style=display:flex><span>      <span style=color:green;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>      <span style=color:#719e07>return</span>;
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock</span>(<span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>spin_lock_t</span> <span style=color:#666>*</span>s) {
-</span></span><span style=display:flex><span>  <span style=color:#b00040>int</span> zero <span style=color:#666>=</span> <span style=color:#666>0</span>;
-</span></span><span style=display:flex><span>  <span style=color:#00f>__atomic_store</span>(<span style=color:#666>&amp;</span>s<span style=color:#666>-&gt;</span>lock, <span style=color:#666>&amp;</span>zero, __ATOMIC_SEQ_CST);
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock</span>(<span style=color:#719e07>struct</span> <span style=color:#dc322f>spin_lock_t</span> <span style=color:#719e07>*</span>s) {
+</span></span><span style=display:flex><span>  <span style=color:#dc322f>int</span> zero <span style=color:#719e07>=</span> <span style=color:#2aa198>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#268bd2>__atomic_store</span>(<span style=color:#719e07>&amp;</span>s<span style=color:#719e07>-&gt;</span>lock, <span style=color:#719e07>&amp;</span>zero, __ATOMIC_SEQ_CST);
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p>这里的想法是， <code>lock</code> 字段在锁空闲时保存 <code>0</code> ，在锁被持有时保存 <code>1</code> 。要获取锁，我们使用
 比较和交换（compare-and-swap）操作，尝试将 lock 字段中的 <code>0</code> 更改为 <code>1</code> -— 关键是*比较和
@@ -28,24 +28,24 @@
 此锁的这一和的其他方面可能会被优化，但此实现可行。</p><p>这种自旋锁的一个问题是在竞争情况下可能导致不公平：如果多个核心试图进入临界区，实际上是处
 理器的内存子系统在选择谁可以进入。在我拥有的一台随机的 AMD 机器上，很容易看到在竞争激烈
 时，一些核心访问临界区的次数远远多于其他核心。为了使对临界区的访问更公平，我们可以创建强
-制 FIFO 访问的自旋锁。这是实现这一点的简单方法：</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>ticket_lock_t</span> {
-</span></span><span style=display:flex><span>  <span style=color:#b00040>unsigned</span> front;
-</span></span><span style=display:flex><span>  <span style=color:#b00040>unsigned</span> back;
+制 FIFO 访问的自旋锁。这是实现这一点的简单方法：</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>struct</span> <span style=color:#dc322f>ticket_lock_t</span> {
+</span></span><span style=display:flex><span>  <span style=color:#dc322f>unsigned</span> front;
+</span></span><span style=display:flex><span>  <span style=color:#dc322f>unsigned</span> back;
 </span></span><span style=display:flex><span>};
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span> <span style=color:#00f>ticket_lock</span>(<span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>ticket_lock_t</span> <span style=color:#666>*</span>s) {
-</span></span><span style=display:flex><span>  <span style=color:#b00040>unsigned</span> ticket <span style=color:#666>=</span>
-</span></span><span style=display:flex><span>  <span style=color:#00f>__atomic_add_fetch</span>(<span style=color:#666>&amp;</span>s<span style=color:#666>-&gt;</span>back, <span style=color:#666>1</span>, __ATOMIC_SEQ_CST) <span style=color:#666>-</span> <span style=color:#666>1</span>;
-</span></span><span style=display:flex><span>  <span style=color:green;font-weight:700>while</span> (<span style=color:#666>1</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#b00040>unsigned</span> front;
-</span></span><span style=display:flex><span>    <span style=color:#00f>__atomic_load</span>(<span style=color:#666>&amp;</span>s<span style=color:#666>-&gt;</span>front, <span style=color:#666>&amp;</span>front, __ATOMIC_SEQ_CST);
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (front <span style=color:#666>==</span> ticket)
-</span></span><span style=display:flex><span>      <span style=color:green;font-weight:700>return</span>;
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span> <span style=color:#268bd2>ticket_lock</span>(<span style=color:#719e07>struct</span> <span style=color:#dc322f>ticket_lock_t</span> <span style=color:#719e07>*</span>s) {
+</span></span><span style=display:flex><span>  <span style=color:#dc322f>unsigned</span> ticket <span style=color:#719e07>=</span>
+</span></span><span style=display:flex><span>  <span style=color:#268bd2>__atomic_add_fetch</span>(<span style=color:#719e07>&amp;</span>s<span style=color:#719e07>-&gt;</span>back, <span style=color:#2aa198>1</span>, __ATOMIC_SEQ_CST) <span style=color:#719e07>-</span> <span style=color:#2aa198>1</span>;
+</span></span><span style=display:flex><span>  <span style=color:#719e07>while</span> (<span style=color:#2aa198>1</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>unsigned</span> front;
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__atomic_load</span>(<span style=color:#719e07>&amp;</span>s<span style=color:#719e07>-&gt;</span>front, <span style=color:#719e07>&amp;</span>front, __ATOMIC_SEQ_CST);
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (front <span style=color:#719e07>==</span> ticket)
+</span></span><span style=display:flex><span>      <span style=color:#719e07>return</span>;
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span> <span style=color:#00f>ticket_unlock</span>(<span style=color:green;font-weight:700>struct</span> <span style=color:#b00040>ticket_lock_t</span> <span style=color:#666>*</span>s) {
-</span></span><span style=display:flex><span>  <span style=color:#00f>__atomic_add_fetch</span>(<span style=color:#666>&amp;</span>s<span style=color:#666>-&gt;</span>front, <span style=color:#666>1</span>, __ATOMIC_SEQ_CST);
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span> <span style=color:#268bd2>ticket_unlock</span>(<span style=color:#719e07>struct</span> <span style=color:#dc322f>ticket_lock_t</span> <span style=color:#719e07>*</span>s) {
+</span></span><span style=display:flex><span>  <span style=color:#268bd2>__atomic_add_fetch</span>(<span style=color:#719e07>&amp;</span>s<span style=color:#719e07>-&gt;</span>front, <span style=color:#2aa198>1</span>, __ATOMIC_SEQ_CST);
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p>在这里，当 <code>front =</code> back= 时，锁是自由的，而等待进入临界区的线程数是 =front - back - 1=。
 这个比喻与 Lamport 面包店的情况相同：线程在请求进入临界区时会得到递增的票号，它们按照票
@@ -100,4 +100,4 @@ back — but that doesn’t matter because we’re only touching owner using 16-
 we’re done!</p><p>November 6, 2021</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://yangyingchao.github.io/tags/spinlock/>spinlock</a></li></ul></footer><script src=https://giscus.app/client.js data-repo=yangyingchao/giscus data-repo-id=R_kgDON6NYZA data-category=Announcements data-category-id=DIC_kwDON6NYZM4CnANs data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><footer class=footer><span>&copy; 2025 <a href=https://yangyingchao.github.io>MyNotes</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

@@ -8,559 +8,559 @@ CPU 平时只需要查询自己对应的这个变量所在的本地 cache line�
 qspinlock 的首要目标就是改进原生的 MCS lock 结构体，尽量将原生 MCS lock 要包含的内容塞进 4 字节的空间里。</p><p>如果只有 1 个或 2 个 CPU 试图获取锁，那么只需要一个 4 字节的 qspinlock 就可以了，其所占内存的大小和 ticket spinlock 一样。当有 3 个以上
 的 CPU 试图获取锁，需要一个 qspinlock 加上(N-2)个 MCS node。</p><p>qspinlock 中加入”pending”位域，如果是两个 CPU 试图获取锁，那么第二个 CPU 只需要简单地设置”pending”为 1，而不用另起炉灶创建一个
 MCS node。</p><p>试图加锁的 CPU 数目超过 3 个是小概率事件，但一旦发生，使用 ticket spinlock 机制就会造成多个 CPU 的 cache line 无谓刷新的问题，而
-qspinlock 可以利用 MCS node 队列来解决这个问题。</p><p>可见，使用 qspinlock 机制来实现 spinlock，具有很好的可扩展性，也就是无论当前锁的争抢程度如何，性能都可以得到保证。</p><h2 id=h:af803ca3-6514-4ef5-a060-23dc07163a51>2 相关数据结构<a hidden class=anchor aria-hidden=true href=#h:af803ca3-6514-4ef5-a060-23dc07163a51>#</a></h2><h3 id=h:0bc412b4-41a6-47f9-a084-5b9c4dba03c7>2.1 struct spinlock<a hidden class=anchor aria-hidden=true href=#h:0bc412b4-41a6-47f9-a084-5b9c4dba03c7>#</a></h3><p>除去使能 deug 才会有的相关成员，结构如下：</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> spinlock { <span style=color:#408080;font-style:italic>//include/linux/spinlock_types.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:green;font-weight:700>struct</span> raw_spinlock rlock;
-</span></span><span style=display:flex><span>} <span style=color:#b00040>spinlock_t</span>;
+qspinlock 可以利用 MCS node 队列来解决这个问题。</p><p>可见，使用 qspinlock 机制来实现 spinlock，具有很好的可扩展性，也就是无论当前锁的争抢程度如何，性能都可以得到保证。</p><h2 id=h:af803ca3-6514-4ef5-a060-23dc07163a51>2 相关数据结构<a hidden class=anchor aria-hidden=true href=#h:af803ca3-6514-4ef5-a060-23dc07163a51>#</a></h2><h3 id=h:0bc412b4-41a6-47f9-a084-5b9c4dba03c7>2.1 struct spinlock<a hidden class=anchor aria-hidden=true href=#h:0bc412b4-41a6-47f9-a084-5b9c4dba03c7>#</a></h3><p>除去使能 deug 才会有的相关成员，结构如下：</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> spinlock { <span style=color:#586e75>//include/linux/spinlock_types.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#719e07>struct</span> raw_spinlock rlock;
+</span></span><span style=display:flex><span>} <span style=color:#dc322f>spinlock_t</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> raw_spinlock { <span style=color:#408080;font-style:italic>//include/linux/spinlock_types.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#b00040>arch_spinlock_t</span> raw_lock;
-</span></span><span style=display:flex><span>} <span style=color:#b00040>raw_spinlock_t</span>;
+</span></span><span style=display:flex><span><span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> raw_spinlock { <span style=color:#586e75>//include/linux/spinlock_types.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#dc322f>arch_spinlock_t</span> raw_lock;
+</span></span><span style=display:flex><span>} <span style=color:#dc322f>raw_spinlock_t</span>;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> qspinlock { <span style=color:#408080;font-style:italic>//include/asm-generic/qspinlock_types.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:green;font-weight:700>union</span> {
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * &#34;val&#34;作为一个 32 位的变量，包含了三个部分：&#34;locked byte&#34;,
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * &#34;pending&#34;和&#34;tail&#34;，&#34;tail&#34;又细分为&#34;tail index&#34;和&#34;tail cpu&#34;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * bit0-7: locked byte
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * bit8: pending
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * bit9-15: not used(实际上算在 pending 上了，只不过只使用了 bit8)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * bit16-17: tail index
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * bit18-31: tail cpu(+1)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 为了方便演示和说明，下面将&#34;tail&#34;表示为 x, &#34;pending&#34;表示为 y,
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * &#34;locked byte&#34;表示为 z, 组成一个三元组(x,y,z)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        <span style=color:#b00040>atomic_t</span> val;
+</span></span><span style=display:flex><span><span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> qspinlock { <span style=color:#586e75>//include/asm-generic/qspinlock_types.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#719e07>union</span> {
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * &#34;val&#34;作为一个 32 位的变量，包含了三个部分：&#34;locked byte&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * &#34;pending&#34;和&#34;tail&#34;，&#34;tail&#34;又细分为&#34;tail index&#34;和&#34;tail cpu&#34;
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * bit0-7: locked byte
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * bit8: pending
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * bit9-15: not used(实际上算在 pending 上了，只不过只使用了 bit8)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * bit16-17: tail index
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * bit18-31: tail cpu(+1)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 为了方便演示和说明，下面将&#34;tail&#34;表示为 x, &#34;pending&#34;表示为 y,
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * &#34;locked byte&#34;表示为 z, 组成一个三元组(x,y,z)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        <span style=color:#dc322f>atomic_t</span> val;
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>struct</span> {
+</span></span><span style=display:flex><span>        <span style=color:#719e07>struct</span> {
 </span></span><span style=display:flex><span>            u16    tail;
 </span></span><span style=display:flex><span>            u16    locked_pending;
 </span></span><span style=display:flex><span>        };
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>struct</span> {
-</span></span><span style=display:flex><span>            u8    reserved[<span style=color:#666>2</span>];
+</span></span><span style=display:flex><span>        <span style=color:#719e07>struct</span> {
+</span></span><span style=display:flex><span>            u8    reserved[<span style=color:#2aa198>2</span>];
 </span></span><span style=display:flex><span>            u8    pending;
 </span></span><span style=display:flex><span>            u8    locked;
 </span></span><span style=display:flex><span>        };
 </span></span><span style=display:flex><span>    };
-</span></span><span style=display:flex><span>} <span style=color:#b00040>arch_spinlock_t</span>;
+</span></span><span style=display:flex><span>} <span style=color:#dc322f>arch_spinlock_t</span>;
 </span></span></code></pre></div><p>其实 <code>arch_spinlock_t</code> 结构中只是一个 val 变量，分成多个位段使用，但是为了使用方便，不用进行位于/位或的操作，将其定义成了联
 合体，每个变量表示 val 中的一个位段。</p><p>spinlock 结构中只有一个类型为 <code>raw_spinlock</code> 的 rlock 成员。而 raw_spinlock 结构中只有一个类型为 qspinlock 的 raw_lock 成员。
-qspinlock 结构中维护的是一个联合体。</p><p>val：为 0 表示没有人持锁，然后对其赋值为 _Q_LOCKED_VAL(1)表示持有了该锁。</p><h3 id=h:ff217c37-8fee-4d66-899c-1b61079fdcc9>2.2 struct qnode<a hidden class=anchor aria-hidden=true href=#h:ff217c37-8fee-4d66-899c-1b61079fdcc9>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>struct</span> qnode { <span style=color:#408080;font-style:italic>//kernel/locking/qspinlock.c
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:green;font-weight:700>struct</span> mcs_spinlock mcs;
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#ifdef CONFIG_PARAVIRT_SPINLOCKS </span><span style=color:#408080;font-style:italic>//默认不使能，没有下面成员
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#b00040>long</span> reserved[<span style=color:#666>2</span>];
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#endif
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00></span>};
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>struct</span> mcs_spinlock { <span style=color:#408080;font-style:italic>//kernel/locking/mcs_spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:green;font-weight:700>struct</span> mcs_spinlock <span style=color:#666>*</span>next; <span style=color:#408080;font-style:italic>/* 组成单链表 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span> locked; <span style=color:#408080;font-style:italic>/* 1 if lock acquired */</span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span> count;  <span style=color:#408080;font-style:italic>/* nesting count, see qspinlock.c */</span>
+qspinlock 结构中维护的是一个联合体。</p><p>val：为 0 表示没有人持锁，然后对其赋值为 _Q_LOCKED_VAL(1)表示持有了该锁。</p><h3 id=h:ff217c37-8fee-4d66-899c-1b61079fdcc9>2.2 struct qnode<a hidden class=anchor aria-hidden=true href=#h:ff217c37-8fee-4d66-899c-1b61079fdcc9>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>struct</span> qnode { <span style=color:#586e75>//kernel/locking/qspinlock.c
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#719e07>struct</span> mcs_spinlock mcs;
+</span></span><span style=display:flex><span><span style=color:#719e07>#ifdef CONFIG_PARAVIRT_SPINLOCKS </span><span style=color:#586e75>//默认不使能，没有下面成员
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#dc322f>long</span> reserved[<span style=color:#2aa198>2</span>];
+</span></span><span style=display:flex><span><span style=color:#719e07>#endif
+</span></span></span><span style=display:flex><span><span style=color:#719e07></span>};
+</span></span><span style=display:flex><span><span style=color:#719e07>struct</span> mcs_spinlock { <span style=color:#586e75>//kernel/locking/mcs_spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#719e07>struct</span> mcs_spinlock <span style=color:#719e07>*</span>next; <span style=color:#586e75>/* 组成单链表 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span> locked; <span style=color:#586e75>/* 1 if lock acquired */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span> count;  <span style=color:#586e75>/* nesting count, see qspinlock.c */</span>
 </span></span><span style=display:flex><span>};
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> <span style=color:#00f>DEFINE_PER_CPU_ALIGNED</span>(<span style=color:green;font-weight:700>struct</span> qnode, qnodes[MAX_NODES]); <span style=color:#408080;font-style:italic>//MAX_NODES=4
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> <span style=color:#268bd2>DEFINE_PER_CPU_ALIGNED</span>(<span style=color:#719e07>struct</span> qnode, qnodes[MAX_NODES]); <span style=color:#586e75>//MAX_NODES=4
 </span></span></span></code></pre></div><p>MAX_NODES=4, 因为 CPU 只能处于 4 种上下文(thread、soft irq、irq、nmi)，因此一个 CPU 最多只能同时持有 4 个 spin_lock，嵌套 4 层。本次
-使用哪个 qnode 结构是由 lock->val 的 tail_cpu 和 tail idx 决定。</p><h2 id=h:de96322f-228c-4b02-816e-2c21f180b8d8>3 相关函数<a hidden class=anchor aria-hidden=true href=#h:de96322f-228c-4b02-816e-2c21f180b8d8>#</a></h2><h3 id=h:5d759b92-82ff-42b4-9d57-33c6bcbbd80b>3.1 初始化函数<a hidden class=anchor aria-hidden=true href=#h:5d759b92-82ff-42b4-9d57-33c6bcbbd80b>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//定义并初始化为 unlock 状态的，名为 x 的 spin_lock 变量。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>DEFINE_SPINLOCK</span>(x);
-</span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//初始化为非持锁状态
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>spin_lock_init</span>(_lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h 宏
-</span></span></span></code></pre></div><h3 id=h:3c9c36a5-9705-4007-a997-cd9fa364e497>3.2 上锁函数<a hidden class=anchor aria-hidden=true href=#h:3c9c36a5-9705-4007-a997-cd9fa364e497>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_lock(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_lock</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_lock_bh(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_lock_bh</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_lock_irq(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_lock_irq</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//宏，等效于 raw_spin_lock_irqsave(spinlock_check(lock), flags)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>spin_lock_irqsave</span>(lock, flags) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h 宏
-</span></span></span></code></pre></div><h3 id=h:6ed0c420-d4d7-4a49-8429-d63a29040446>3.3 解锁函数<a hidden class=anchor aria-hidden=true href=#h:6ed0c420-d4d7-4a49-8429-d63a29040446>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_unlock(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_unlock_bh(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock_bh</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_unlock_irq(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock_irq</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_unlock_irqrestore(&amp;lock-&gt;rlock, flags)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock_irqrestore</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock, <span style=color:#b00040>unsigned</span> <span style=color:#b00040>long</span> flags) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span></code></pre></div><h3 id=h:0328de7e-60d8-4fed-84ee-9f87ea212509>3.4 尝试获取锁函数<a hidden class=anchor aria-hidden=true href=#h:0328de7e-60d8-4fed-84ee-9f87ea212509>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_trylock(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>spin_trylock</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_trylock_bh(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>spin_trylock_bh</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//里面直接调用的是 raw_spin_trylock_irq(&amp;lock-&gt;rlock)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>spin_trylock_irq</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#666>//</span><span>宏，里面直接调用的是</span> <span style=color:#00f>raw_spin_trylock_irqsave</span>(<span style=color:#00f>spinlock_check</span>(lock), flags);
-</span></span><span style=display:flex><span><span style=color:#00f>spin_trylock_irqsave</span>(lock, flags) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h 宏
-</span></span></span></code></pre></div><h3 id=h:7d4fd4ec-c540-4189-b61e-89be724f406f>3.5 判断上锁状态<a hidden class=anchor aria-hidden=true href=#h:7d4fd4ec-c540-4189-b61e-89be724f406f>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//直接调用的是 raw_spin_is_locked(&amp;lock-&gt;rlock), 直接返回的是 lock-&gt;val，非 0 表示 locked 的状态，0表示非 locked 状态
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>spin_is_locked</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//直接调用的是 raw_spin_is_contended(&amp;lock-&gt;rlock), 判断锁是否处于被竞争状态，也即是否有任务在等待获取锁，为真表示锁处于竞争状态
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>spin_is_contended</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//判断上锁状态，等效于调用 BUG_ON(!raw_spin_is_locked(&amp;lock-&gt;rlock))
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>assert_spin_locked</span>(lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h 宏
+使用哪个 qnode 结构是由 lock->val 的 tail_cpu 和 tail idx 决定。</p><h2 id=h:de96322f-228c-4b02-816e-2c21f180b8d8>3 相关函数<a hidden class=anchor aria-hidden=true href=#h:de96322f-228c-4b02-816e-2c21f180b8d8>#</a></h2><h3 id=h:5d759b92-82ff-42b4-9d57-33c6bcbbd80b>3.1 初始化函数<a hidden class=anchor aria-hidden=true href=#h:5d759b92-82ff-42b4-9d57-33c6bcbbd80b>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//定义并初始化为 unlock 状态的，名为 x 的 spin_lock 变量。
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>DEFINE_SPINLOCK</span>(x);
+</span></span><span style=display:flex><span><span style=color:#586e75>//初始化为非持锁状态
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>spin_lock_init</span>(_lock) <span style=color:#586e75>//include/linux/spinlock.h 宏
+</span></span></span></code></pre></div><h3 id=h:3c9c36a5-9705-4007-a997-cd9fa364e497>3.2 上锁函数<a hidden class=anchor aria-hidden=true href=#h:3c9c36a5-9705-4007-a997-cd9fa364e497>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_lock(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_lock</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_lock_bh(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_lock_bh</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_lock_irq(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_lock_irq</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//宏，等效于 raw_spin_lock_irqsave(spinlock_check(lock), flags)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>spin_lock_irqsave</span>(lock, flags) <span style=color:#586e75>//include/linux/spinlock.h 宏
+</span></span></span></code></pre></div><h3 id=h:6ed0c420-d4d7-4a49-8429-d63a29040446>3.3 解锁函数<a hidden class=anchor aria-hidden=true href=#h:6ed0c420-d4d7-4a49-8429-d63a29040446>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_unlock(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_unlock_bh(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock_bh</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_unlock_irq(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock_irq</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_unlock_irqrestore(&amp;lock-&gt;rlock, flags)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock_irqrestore</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock, <span style=color:#dc322f>unsigned</span> <span style=color:#dc322f>long</span> flags) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span></code></pre></div><h3 id=h:0328de7e-60d8-4fed-84ee-9f87ea212509>3.4 尝试获取锁函数<a hidden class=anchor aria-hidden=true href=#h:0328de7e-60d8-4fed-84ee-9f87ea212509>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_trylock(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>spin_trylock</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_trylock_bh(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>spin_trylock_bh</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//里面直接调用的是 raw_spin_trylock_irq(&amp;lock-&gt;rlock)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>spin_trylock_irq</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>//</span>宏，里面直接调用的是 <span style=color:#268bd2>raw_spin_trylock_irqsave</span>(<span style=color:#268bd2>spinlock_check</span>(lock), flags);
+</span></span><span style=display:flex><span><span style=color:#268bd2>spin_trylock_irqsave</span>(lock, flags) <span style=color:#586e75>//include/linux/spinlock.h 宏
+</span></span></span></code></pre></div><h3 id=h:7d4fd4ec-c540-4189-b61e-89be724f406f>3.5 判断上锁状态<a hidden class=anchor aria-hidden=true href=#h:7d4fd4ec-c540-4189-b61e-89be724f406f>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//直接调用的是 raw_spin_is_locked(&amp;lock-&gt;rlock), 直接返回的是 lock-&gt;val，非 0 表示 locked 的状态，0表示非 locked 状态
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>spin_is_locked</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//直接调用的是 raw_spin_is_contended(&amp;lock-&gt;rlock), 判断锁是否处于被竞争状态，也即是否有任务在等待获取锁，为真表示锁处于竞争状态
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>spin_is_contended</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75>//判断上锁状态，等效于调用 BUG_ON(!raw_spin_is_locked(&amp;lock-&gt;rlock))
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>assert_spin_locked</span>(lock) <span style=color:#586e75>//include/linux/spinlock.h 宏
 </span></span></span></code></pre></div><p>raw_XXX() 函数是直接对 lock->rlock 操作，一般使用不会直接使用。</p><p>可以看到，spin lock 的使用是需要区分是何种上下文的。spin_lock() 在持锁前先关抢占，通过在
 current->thread_info.preempt.count 的"preempt bit"位段上加 1 来实现。spin_lock_bh() 持锁前先关底半部，通过在"software
 interrupt count" bit 位段上加 2 和在"preempt bit"位段上加 1 实现的。spin_lock_irq() 持锁之前先关本地中断，再关抢占(这里关中断
-是没有直接操作 preempt.count 的位段)。spin_lock_irqsave() 持锁之前先关中断再关抢占，同时保存中断标志位。</p><h3 id=h:e5859ac4-e6ed-4d9d-aad8-55bff1770ccd>3.6 还可以直接使用 <code>raw_spinlock_t</code> 和与其配套的一组 <code>raw_spin_xxx()</code><a hidden class=anchor aria-hidden=true href=#h:e5859ac4-e6ed-4d9d-aad8-55bff1770ccd>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#bc7a00>#define DEFINE_RAW_SPINLOCK(x) </span><span style=color:#408080;font-style:italic>//include/linux/spinlock_types.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>raw_spin_lock_irqsave</span>(lock, flags) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#00f>raw_spin_unlock_irqrestore</span>(lock, flags) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>...
-</span></span></code></pre></div><h2 id=h:99559801-d2f0-4850-8000-f4326f72a359>4 锁代码分析<a hidden class=anchor aria-hidden=true href=#h:99559801-d2f0-4850-8000-f4326f72a359>#</a></h2><h3 id=h:21c8b10c-e5e1-4d2e-9a4b-dd13c57332b5>4.1 <code>spin_lock()</code><a hidden class=anchor aria-hidden=true href=#h:21c8b10c-e5e1-4d2e-9a4b-dd13c57332b5>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_lock</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>raw_spin_lock</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>rlock);
+是没有直接操作 preempt.count 的位段)。spin_lock_irqsave() 持锁之前先关中断再关抢占，同时保存中断标志位。</p><h3 id=h:e5859ac4-e6ed-4d9d-aad8-55bff1770ccd>3.6 还可以直接使用 <code>raw_spinlock_t</code> 和与其配套的一组 <code>raw_spin_xxx()</code><a hidden class=anchor aria-hidden=true href=#h:e5859ac4-e6ed-4d9d-aad8-55bff1770ccd>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>#define DEFINE_RAW_SPINLOCK(x) </span><span style=color:#586e75>//include/linux/spinlock_types.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>raw_spin_lock_irqsave</span>(lock, flags) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#268bd2>raw_spin_unlock_irqrestore</span>(lock, flags) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>...
+</span></span></code></pre></div><h2 id=h:99559801-d2f0-4850-8000-f4326f72a359>4 锁代码分析<a hidden class=anchor aria-hidden=true href=#h:99559801-d2f0-4850-8000-f4326f72a359>#</a></h2><h3 id=h:21c8b10c-e5e1-4d2e-9a4b-dd13c57332b5>4.1 <code>spin_lock()</code><a hidden class=anchor aria-hidden=true href=#h:21c8b10c-e5e1-4d2e-9a4b-dd13c57332b5>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_lock</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>raw_spin_lock</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>rlock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#define raw_spin_lock(lock)    _raw_spin_lock(lock) </span><span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>void</span> __lockfunc <span style=color:#00f>_raw_spin_lock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//kernel/locking/spinlock.c
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>__raw_spin_lock</span>(lock);
+</span></span><span style=display:flex><span><span style=color:#719e07>#define raw_spin_lock(lock)    _raw_spin_lock(lock) </span><span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>void</span> __lockfunc <span style=color:#268bd2>_raw_spin_lock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//kernel/locking/spinlock.c
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__raw_spin_lock</span>(lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> <span style=color:green;font-weight:700>inline</span> <span style=color:#b00040>void</span> <span style=color:#00f>__raw_spin_lock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock_api_smp.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 关抢占 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>preempt_disable</span>();
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认不使能 CONFIG_LOCKDEP，是个空函数 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>spin_acquire</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>dep_map, <span style=color:#666>0</span>, <span style=color:#666>0</span>, _RET_IP_);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认不使能 CONFIG_LOCK_STAT,      等效于 do_raw_spin_lock(lock) */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>LOCK_CONTENDED</span>(lock, do_raw_spin_trylock, do_raw_spin_lock);
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> <span style=color:#268bd2>inline</span> <span style=color:#dc322f>void</span> <span style=color:#268bd2>__raw_spin_lock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock_api_smp.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 关抢占 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>preempt_disable</span>();
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认不使能 CONFIG_LOCKDEP，是个空函数 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>spin_acquire</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>dep_map, <span style=color:#2aa198>0</span>, <span style=color:#2aa198>0</span>, _RET_IP_);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认不使能 CONFIG_LOCK_STAT,      等效于 do_raw_spin_lock(lock) */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>LOCK_CONTENDED</span>(lock, do_raw_spin_trylock, do_raw_spin_lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> <span style=color:green;font-weight:700>inline</span> <span style=color:#b00040>void</span> <span style=color:#00f>do_raw_spin_lock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#00f>__acquires</span>(lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 静态代码检查相关，忽略之 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>__acquire</span>(lock);
-</span></span><span style=display:flex><span>    <span style=color:#00f>arch_spin_lock</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>raw_lock);
-</span></span><span style=display:flex><span>    <span style=color:#00f>mmiowb_spin_lock</span>();
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> <span style=color:#268bd2>inline</span> <span style=color:#dc322f>void</span> <span style=color:#268bd2>do_raw_spin_lock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#268bd2>__acquires</span>(lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 静态代码检查相关，忽略之 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__acquire</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>arch_spin_lock</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>raw_lock);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>mmiowb_spin_lock</span>();
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#define arch_spin_lock(l)    queued_spin_lock(l) </span><span style=color:#408080;font-style:italic>//include/asm-generic/qspinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#408080;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * queued_spin_lock - acquire a queued spinlock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * @lock: Pointer to queued spinlock structure, that is arch_spinlock_t.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> */</span>
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>queued_spin_lock</span>(<span style=color:green;font-weight:700>struct</span> qspinlock <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/asm-generic/qspinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    u32 val <span style=color:#666>=</span> <span style=color:#666>0</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 参数(*v, *old, new):
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *    if (*v == *old) {*v = new; return true;}
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *    if (*v != *old) {*old = *v; return false;}
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 如果 lock-&gt;val == 0, lock-&gt;val = _Q_LOCKED_VAL; return true;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 也就是说 lock-&gt;val 为 0 表示没有人持锁，此时赋值为 1 表示持有了该锁
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>likely</span>(<span style=color:#00f>atomic_try_cmpxchg_acquire</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, <span style=color:#666>&amp;</span>val, _Q_LOCKED_VAL)))
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>return</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 若是上面持锁失败，进入持锁慢速路径，上面进行了赋值，传参 val=lock-&gt;val */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>queued_spin_lock_slowpath</span>(lock, val);
+</span></span><span style=display:flex><span><span style=color:#719e07>#define arch_spin_lock(l)    queued_spin_lock(l) </span><span style=color:#586e75>//include/asm-generic/qspinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#586e75>/**
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * queued_spin_lock - acquire a queued spinlock
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * @lock: Pointer to queued spinlock structure, that is arch_spinlock_t.
+</span></span></span><span style=display:flex><span><span style=color:#586e75> */</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>queued_spin_lock</span>(<span style=color:#719e07>struct</span> qspinlock <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/asm-generic/qspinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    u32 val <span style=color:#719e07>=</span> <span style=color:#2aa198>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 参数(*v, *old, new):
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *    if (*v == *old) {*v = new; return true;}
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *    if (*v != *old) {*old = *v; return false;}
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 如果 lock-&gt;val == 0, lock-&gt;val = _Q_LOCKED_VAL; return true;
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 也就是说 lock-&gt;val 为 0 表示没有人持锁，此时赋值为 1 表示持有了该锁
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>likely</span>(<span style=color:#268bd2>atomic_try_cmpxchg_acquire</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, <span style=color:#719e07>&amp;</span>val, _Q_LOCKED_VAL)))
+</span></span><span style=display:flex><span>        <span style=color:#719e07>return</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 若是上面持锁失败，进入持锁慢速路径，上面进行了赋值，传参 val=lock-&gt;val */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>queued_spin_lock_slowpath</span>(lock, val);
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=h:2dcaa6de-51ee-4f66-9dcc-7380cc1cd15d>4.2 spin_lock 持锁慢速路径 queued_spin_lock_slowpath():<a hidden class=anchor aria-hidden=true href=#h:2dcaa6de-51ee-4f66-9dcc-7380cc1cd15d>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * queued_spin_lock_slowpath - acquire the queued spinlock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * @lock: Pointer to queued spinlock structure
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * @val: Current value of the queued spinlock 32-bit word
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * val: (queue tail(bit16-31 x), pending bit(bit8 y), lock value(bit0-7 z))
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *              fast     :    slow                                  :    unlock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :                                          :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * uncontended  (0,0,0) -:--&gt; (0,0,1) ------------------------------:--&gt; (*,*,0)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :       | ^--------.------.             /  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :       v           \      \            |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * pending               :    (0,1,1) +--&gt; (0,1,0)   \           |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :       | ^--&#39;              |           |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :       v                   |           |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * uncontended           :    (n,x,y) +--&gt; (n,0,0) --&#39;           |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *   queue               :       | ^--&#39;                          |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *                       :       v                               |  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * contended             :    (*,x,y) +--&gt; (*,0,0) ---&gt; (*,0,1) -&#39;  :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *   queue               :         ^--&#39;                             :
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> */</span>
-</span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>queued_spin_lock 传参(lock, lock-&gt;val)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>*/</span>
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span> <span style=color:#00f>queued_spin_lock_slowpath</span>(<span style=color:green;font-weight:700>struct</span> qspinlock <span style=color:#666>*</span>lock, u32 val)
+</span></span></code></pre></div><h3 id=h:2dcaa6de-51ee-4f66-9dcc-7380cc1cd15d>4.2 spin_lock 持锁慢速路径 queued_spin_lock_slowpath():<a hidden class=anchor aria-hidden=true href=#h:2dcaa6de-51ee-4f66-9dcc-7380cc1cd15d>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>/**
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * queued_spin_lock_slowpath - acquire the queued spinlock
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * @lock: Pointer to queued spinlock structure
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * @val: Current value of the queued spinlock 32-bit word
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * val: (queue tail(bit16-31 x), pending bit(bit8 y), lock value(bit0-7 z))
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *              fast     :    slow                                  :    unlock
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :                                          :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * uncontended  (0,0,0) -:--&gt; (0,0,1) ------------------------------:--&gt; (*,*,0)
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :       | ^--------.------.             /  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :       v           \      \            |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * pending               :    (0,1,1) +--&gt; (0,1,0)   \           |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :       | ^--&#39;              |           |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :       v                   |           |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * uncontended           :    (n,x,y) +--&gt; (n,0,0) --&#39;           |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *   queue               :       | ^--&#39;                          |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *                       :       v                               |  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * contended             :    (*,x,y) +--&gt; (*,0,0) ---&gt; (*,0,1) -&#39;  :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *   queue               :         ^--&#39;                             :
+</span></span></span><span style=display:flex><span><span style=color:#586e75> */</span>
+</span></span><span style=display:flex><span><span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>queued_spin_lock 传参(lock, lock-&gt;val)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>*/</span>
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span> <span style=color:#268bd2>queued_spin_lock_slowpath</span>(<span style=color:#719e07>struct</span> qspinlock <span style=color:#719e07>*</span>lock, u32 val)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>struct</span> mcs_spinlock <span style=color:#666>*</span>prev, <span style=color:#666>*</span>next, <span style=color:#666>*</span>node;
+</span></span><span style=display:flex><span>    <span style=color:#719e07>struct</span> mcs_spinlock <span style=color:#719e07>*</span>prev, <span style=color:#719e07>*</span>next, <span style=color:#719e07>*</span>node;
 </span></span><span style=display:flex><span>    u32 old, tail;
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span> idx;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 32 &gt;= 1&lt;&lt;14 恒不成立 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>BUILD_BUG_ON</span>(CONFIG_NR_CPUS <span style=color:#666>&gt;=</span> (<span style=color:#666>1U</span> <span style=color:#666>&lt;&lt;</span> _Q_TAIL_CPU_BITS));
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认为 false，恒不执行 */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>pv_enabled</span>())
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>goto</span> pv_queue;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认为 false，恒不执行 */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>virt_spin_lock</span>(lock))
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>return</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Wait for in-progress pending-&gt;locked hand-overs with a bounded
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * number of spins so that we guarantee forward progress. 0,1,0 -&gt; 0,0,1
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 进入慢速路径时有任务在等待 spin lock，执行这段代码时间内它可能已经获取到 spin lock 了，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 这里更新下从 lock-&gt;val 读取到的值.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (val <span style=color:#666>==</span> _Q_PENDING_VAL) { <span style=color:#408080;font-style:italic>//1&lt;&lt;8
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#b00040>int</span> cnt <span style=color:#666>=</span> _Q_PENDING_LOOPS; <span style=color:#408080;font-style:italic>//1
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 函数作用：死循环读取 lock-&gt;val 的值，直到 arg2 为真才返回读取的结果。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * VAL 为读取的 lock-&gt;val 的值.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 含义为死循环读取 lock-&gt;val 的值，直到 lock-&gt;val != _Q_PENDING_VAL(即 1&lt;&lt;8),
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 或尝试读取的次数达到 cnt 次，这里 cnt 初始化为 1，其实就只是读取一次。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        val <span style=color:#666>=</span> <span style=color:#00f>atomic_cond_read_relaxed</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, (VAL <span style=color:#666>!=</span> _Q_PENDING_VAL) <span style=color:#666>||</span> <span style=color:#666>!</span>cnt<span style=color:#666>--</span>);
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span> idx;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 32 &gt;= 1&lt;&lt;14 恒不成立 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>BUILD_BUG_ON</span>(CONFIG_NR_CPUS <span style=color:#719e07>&gt;=</span> (<span style=color:#2aa198>1U</span> <span style=color:#719e07>&lt;&lt;</span> _Q_TAIL_CPU_BITS));
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认为 false，恒不执行 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>pv_enabled</span>())
+</span></span><span style=display:flex><span>        <span style=color:#719e07>goto</span> pv_queue;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认为 false，恒不执行 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>virt_spin_lock</span>(lock))
+</span></span><span style=display:flex><span>        <span style=color:#719e07>return</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Wait for in-progress pending-&gt;locked hand-overs with a bounded
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * number of spins so that we guarantee forward progress. 0,1,0 -&gt; 0,0,1
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 进入慢速路径时有任务在等待 spin lock，执行这段代码时间内它可能已经获取到 spin lock 了，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 这里更新下从 lock-&gt;val 读取到的值.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (val <span style=color:#719e07>==</span> _Q_PENDING_VAL) { <span style=color:#586e75>//1&lt;&lt;8
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#dc322f>int</span> cnt <span style=color:#719e07>=</span> _Q_PENDING_LOOPS; <span style=color:#586e75>//1
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 函数作用：死循环读取 lock-&gt;val 的值，直到 arg2 为真才返回读取的结果。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * VAL 为读取的 lock-&gt;val 的值.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 含义为死循环读取 lock-&gt;val 的值，直到 lock-&gt;val != _Q_PENDING_VAL(即 1&lt;&lt;8),
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 或尝试读取的次数达到 cnt 次，这里 cnt 初始化为 1，其实就只是读取一次。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        val <span style=color:#719e07>=</span> <span style=color:#268bd2>atomic_cond_read_relaxed</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, (VAL <span style=color:#719e07>!=</span> _Q_PENDING_VAL) <span style=color:#719e07>||</span> <span style=color:#719e07>!</span>cnt<span style=color:#719e07>--</span>);
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * If we observe any contention; queue.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 除了 lock value(即 z)之外，还有其它位段不为 0，说明已经有任务处于 pending 等锁的状态了，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 那么就直接 queue，在自己的 mcs 锁上自旋，不要在 lock-&gt;val 上自旋了。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (val <span style=color:#666>&amp;</span> <span style=color:#666>~</span>_Q_LOCKED_MASK) <span style=color:#408080;font-style:italic>// val &amp; ~0xff
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:green;font-weight:700>goto</span> queue;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * trylock || pending
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 0,0,* -&gt; 0,1,* -&gt; 0,0,1 pending, trylock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 代码走到这里，说明没有任务处于 pending 状态，那么设置锁的 pending 标志，标识本任务
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 要 pending 了。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 函数等效于 ret = lock-&gt;val; lock-&gt;val |= _Q_PENDING_VAL(1&lt;&lt;8); val = ret;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    val <span style=color:#666>=</span> <span style=color:#00f>queued_fetch_set_pending_acquire</span>(lock);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * If we observe contention, there is a concurrent locker.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Undo and queue; our setting of PENDING might have made the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * n,0,0 -&gt; 0,0,0 transition fail and it will now be waiting
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * on @next to become !NULL.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 在执行这段代码期间，若是有任务进入了 pending 状态(设置了 pending 标识或
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 在 msc lock 上 spin 了)，那么也是要直接 queue 的，在自己的 msc lock 上 spin，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 不要在 lock-&gt;val 上 spin 了。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 若情况是其它任务在 mcs lock 上自旋了，就清除自己或上的 pending 标志。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>unlikely</span>(val <span style=color:#666>&amp;</span> <span style=color:#666>~</span>_Q_LOCKED_MASK)) { <span style=color:#408080;font-style:italic>//~0xff
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/* Undo PENDING if we set it. */</span>
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>if</span> (<span style=color:#666>!</span>(val <span style=color:#666>&amp;</span> _Q_PENDING_MASK)) <span style=color:#408080;font-style:italic>//_Q_PENDING_MASK = 0xff&lt;&lt;8
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>            <span style=color:#408080;font-style:italic>/* 直接 lock-&gt;pending=0, 将 pending 位段清 0，看来 pending 位段只使用了 bit8 */</span>
-</span></span><span style=display:flex><span>            <span style=color:#00f>clear_pending</span>(lock);
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>goto</span> queue;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * If we observe any contention; queue.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 除了 lock value(即 z)之外，还有其它位段不为 0，说明已经有任务处于 pending 等锁的状态了，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 那么就直接 queue，在自己的 mcs 锁上自旋，不要在 lock-&gt;val 上自旋了。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (val <span style=color:#719e07>&amp;</span> <span style=color:#719e07>~</span>_Q_LOCKED_MASK) <span style=color:#586e75>// val &amp; ~0xff
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#719e07>goto</span> queue;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * trylock || pending
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 0,0,* -&gt; 0,1,* -&gt; 0,0,1 pending, trylock
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 代码走到这里，说明没有任务处于 pending 状态，那么设置锁的 pending 标志，标识本任务
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 要 pending 了。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 函数等效于 ret = lock-&gt;val; lock-&gt;val |= _Q_PENDING_VAL(1&lt;&lt;8); val = ret;
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    val <span style=color:#719e07>=</span> <span style=color:#268bd2>queued_fetch_set_pending_acquire</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * If we observe contention, there is a concurrent locker.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Undo and queue; our setting of PENDING might have made the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * n,0,0 -&gt; 0,0,0 transition fail and it will now be waiting
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * on @next to become !NULL.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 在执行这段代码期间，若是有任务进入了 pending 状态(设置了 pending 标识或
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 在 msc lock 上 spin 了)，那么也是要直接 queue 的，在自己的 msc lock 上 spin，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 不要在 lock-&gt;val 上 spin 了。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 若情况是其它任务在 mcs lock 上自旋了，就清除自己或上的 pending 标志。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>unlikely</span>(val <span style=color:#719e07>&amp;</span> <span style=color:#719e07>~</span>_Q_LOCKED_MASK)) { <span style=color:#586e75>//~0xff
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/* Undo PENDING if we set it. */</span>
+</span></span><span style=display:flex><span>        <span style=color:#719e07>if</span> (<span style=color:#719e07>!</span>(val <span style=color:#719e07>&amp;</span> _Q_PENDING_MASK)) <span style=color:#586e75>//_Q_PENDING_MASK = 0xff&lt;&lt;8
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>            <span style=color:#586e75>/* 直接 lock-&gt;pending=0, 将 pending 位段清 0，看来 pending 位段只使用了 bit8 */</span>
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>clear_pending</span>(lock);
+</span></span><span style=display:flex><span>        <span style=color:#719e07>goto</span> queue;
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * We&#39;re pending, wait for the owner to go away.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 0,1,1 -&gt; 0,1,0
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * this wait loop must be a load-acquire such that we match the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * store-release that clears the locked bit and create lock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * sequentiality; this is because not all
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * clear_pending_set_locked() implementations imply full
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * barriers.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 代码走到这里，说明目前只有一个任务正持有锁(也可能已经释放了)，且没有任务等待。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 那么就在 lock-&gt;val 上自旋等待，只有锁的 owner 退出临界区。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 上面的这个 pending 位段为 1 还是上面本任务设置的。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (val <span style=color:#666>&amp;</span> _Q_LOCKED_MASK) <span style=color:#408080;font-style:italic>//0xff
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#00f>atomic_cond_read_acquire</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, <span style=color:#666>!</span>(VAL <span style=color:#666>&amp;</span> _Q_LOCKED_MASK)); <span style=color:#408080;font-style:italic>//【1. 在 lock-&gt;val 上 spin】
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * take ownership and clear the pending bit.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 0,1,0 -&gt; 0,0,1
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * owner 退出临界区释放锁了，我们就获取锁，清除我们设置的 pending 标志位。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 通过将 bit0-15 设置为 1 来实现的。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>clear_pending_set_locked</span>(lock);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认不使能 CONFIG_LOCK_EVENT_COUNTS，为空 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>lockevent_inc</span>(lock_pending);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 这个路径下，我们就是锁的第一继承人，获取到锁后就退出了 */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>return</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * End of pending bit optimistic spinning and beginning of MCS queuing.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 下面就是非第一位继承人，要在自己的 msc node 节点上自旋了。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span><span style=color:#a0a000>queue</span>:
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 原生有记录进入执行慢速路径的次数 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>lockevent_inc</span>(lock_slowpath);
-</span></span><span style=display:flex><span><span style=color:#a0a000>pv_queue</span>:
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 获取当前 cpu 的 spin lock 嵌套深度 */</span>
-</span></span><span style=display:flex><span>    node <span style=color:#666>=</span> <span style=color:#00f>this_cpu_ptr</span>(<span style=color:#666>&amp;</span>qnodes[<span style=color:#666>0</span>].mcs);
-</span></span><span style=display:flex><span>    idx <span style=color:#666>=</span> node<span style=color:#666>-&gt;</span>count<span style=color:#666>++</span>; <span style=color:#408080;font-style:italic>//先赋值，再嵌套计数加 1
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#408080;font-style:italic>//对 tail(即 x)的 tail cpu 和 tail idx 位段进行编码
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    tail <span style=color:#666>=</span> <span style=color:#00f>encode_tail</span>(<span style=color:#00f>smp_processor_id</span>(), idx);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 4 nodes are allocated based on the assumption that there will
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * not be nested NMIs taking spinlocks. That may not be true in
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * some architectures even though the chance of needing more than
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 4 nodes will still be extremely unlikely. When that happens,
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * we fall back to spinning on the lock directly without using
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * any MCS node. This is not the most elegant solution, but is
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * simple enough.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 翻译：基于不会有嵌套 NMI 采用自旋锁的假设分配了 4 个节点。这在某
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 些架构中可能并非如此，即使需要超过 4 的可能性仍然极小。发生这种情
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 况时，我们会退回到直接在锁上自旋而不使用任何 MCS 节点。这不是最优
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 雅的解决方案，但足够简单。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 判断了等于，说明最大只允许嵌套 3 层。这里有个统计，若为真，说明出现
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 了 nmi 中断中持 spin lock 锁的嵌套。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>unlikely</span>(idx <span style=color:#666>&gt;=</span> MAX_NODES)) {
-</span></span><span style=display:flex><span>        <span style=color:#00f>lockevent_inc</span>(lock_no_node);
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/* 退回到在 lock-&gt;val 上 spin 的状态，几乎不可能进到上面 if 语句中来 */</span>
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>while</span> (<span style=color:#666>!</span><span style=color:#00f>queued_spin_trylock</span>(lock))
-</span></span><span style=display:flex><span>            <span style=color:#00f>cpu_relax</span>();
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>goto</span> release;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * We&#39;re pending, wait for the owner to go away.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 0,1,1 -&gt; 0,1,0
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * this wait loop must be a load-acquire such that we match the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * store-release that clears the locked bit and create lock
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * sequentiality; this is because not all
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * clear_pending_set_locked() implementations imply full
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * barriers.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 代码走到这里，说明目前只有一个任务正持有锁(也可能已经释放了)，且没有任务等待。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 那么就在 lock-&gt;val 上自旋等待，只有锁的 owner 退出临界区。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 上面的这个 pending 位段为 1 还是上面本任务设置的。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (val <span style=color:#719e07>&amp;</span> _Q_LOCKED_MASK) <span style=color:#586e75>//0xff
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#268bd2>atomic_cond_read_acquire</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, <span style=color:#719e07>!</span>(VAL <span style=color:#719e07>&amp;</span> _Q_LOCKED_MASK)); <span style=color:#586e75>//【1. 在 lock-&gt;val 上 spin】
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * take ownership and clear the pending bit.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 0,1,0 -&gt; 0,0,1
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * owner 退出临界区释放锁了，我们就获取锁，清除我们设置的 pending 标志位。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 通过将 bit0-15 设置为 1 来实现的。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>clear_pending_set_locked</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认不使能 CONFIG_LOCK_EVENT_COUNTS，为空 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>lockevent_inc</span>(lock_pending);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 这个路径下，我们就是锁的第一继承人，获取到锁后就退出了 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>return</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * End of pending bit optimistic spinning and beginning of MCS queuing.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 下面就是非第一位继承人，要在自己的 msc node 节点上自旋了。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>queue:
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 原生有记录进入执行慢速路径的次数 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>lockevent_inc</span>(lock_slowpath);
+</span></span><span style=display:flex><span>pv_queue:
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 获取当前 cpu 的 spin lock 嵌套深度 */</span>
+</span></span><span style=display:flex><span>    node <span style=color:#719e07>=</span> <span style=color:#268bd2>this_cpu_ptr</span>(<span style=color:#719e07>&amp;</span>qnodes[<span style=color:#2aa198>0</span>].mcs);
+</span></span><span style=display:flex><span>    idx <span style=color:#719e07>=</span> node<span style=color:#719e07>-&gt;</span>count<span style=color:#719e07>++</span>; <span style=color:#586e75>//先赋值，再嵌套计数加 1
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#586e75>//对 tail(即 x)的 tail cpu 和 tail idx 位段进行编码
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    tail <span style=color:#719e07>=</span> <span style=color:#268bd2>encode_tail</span>(<span style=color:#268bd2>smp_processor_id</span>(), idx);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 4 nodes are allocated based on the assumption that there will
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * not be nested NMIs taking spinlocks. That may not be true in
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * some architectures even though the chance of needing more than
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 4 nodes will still be extremely unlikely. When that happens,
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * we fall back to spinning on the lock directly without using
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * any MCS node. This is not the most elegant solution, but is
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * simple enough.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 翻译：基于不会有嵌套 NMI 采用自旋锁的假设分配了 4 个节点。这在某
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 些架构中可能并非如此，即使需要超过 4 的可能性仍然极小。发生这种情
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 况时，我们会退回到直接在锁上自旋而不使用任何 MCS 节点。这不是最优
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 雅的解决方案，但足够简单。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 判断了等于，说明最大只允许嵌套 3 层。这里有个统计，若为真，说明出现
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 了 nmi 中断中持 spin lock 锁的嵌套。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>unlikely</span>(idx <span style=color:#719e07>&gt;=</span> MAX_NODES)) {
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>lockevent_inc</span>(lock_no_node);
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/* 退回到在 lock-&gt;val 上 spin 的状态，几乎不可能进到上面 if 语句中来 */</span>
+</span></span><span style=display:flex><span>        <span style=color:#719e07>while</span> (<span style=color:#719e07>!</span><span style=color:#268bd2>queued_spin_trylock</span>(lock))
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>cpu_relax</span>();
+</span></span><span style=display:flex><span>        <span style=color:#719e07>goto</span> release;
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 返回当前 cpu 的 qnodes[idx].mcs 节点的地址 */</span>
-</span></span><span style=display:flex><span>    node <span style=color:#666>=</span> <span style=color:#00f>grab_mcs_node</span>(node, idx);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* Keep counts of non-zero index values: */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>lockevent_cond_inc</span>(lock_use_node2 <span style=color:#666>+</span> idx <span style=color:#666>-</span> <span style=color:#666>1</span>, idx);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Ensure that we increment the head node-&gt;count before initialising
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * the actual node. If the compiler is kind enough to reorder these
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * stores, then an IRQ could overwrite our assignments.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>barrier</span>();
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*不是继承者 locked 为 0, 最尾部节点指向 NULL */</span>
-</span></span><span style=display:flex><span>    node<span style=color:#666>-&gt;</span>locked <span style=color:#666>=</span> <span style=color:#666>0</span>;
-</span></span><span style=display:flex><span>    node<span style=color:#666>-&gt;</span>next <span style=color:#666>=</span> <span style=color:green>NULL</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 默认没有定义_GEN_PV_LOCK_SLOWPATH，是空函数 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>pv_init_node</span>(node);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * We touched a (possibly) cold cacheline in the per-cpu queue node;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * attempt the trylock once more in the hope someone let go while we
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * weren&#39;t watching.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 尝试获取锁，成功返回 1，失败返回 0
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>queued_spin_trylock</span>(lock))
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>goto</span> release;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Ensure that the initialisation of @node is complete before we
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * publish the updated tail via xchg_tail() and potentially link
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * @node into the waitqueue via WRITE_ONCE(prev-&gt;next, node) below.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>smp_wmb</span>();
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Publish the updated tail. We have already touched the queueing cacheline;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * don&#39;t bother with pending stuff.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * p,*,* -&gt; n,*,*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 等效于：ret=lock-&gt;tail; lock-&gt;tail=tail&gt;&gt;_Q_TAIL_OFFSET; old = ret&lt;&lt;_Q_TAIL_OFFSET
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 也即是将 tail 值赋值给 lock-&gt;val 的 bit16-31.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 也就是说 lock-&gt;tail 恒指向最后一个 pending 锁的任务对应的 msc node 节点上 ###########
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    old <span style=color:#666>=</span> <span style=color:#00f>xchg_tail</span>(lock, tail);
-</span></span><span style=display:flex><span>    next <span style=color:#666>=</span> <span style=color:green>NULL</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * if there was a previous node; link it and wait until reaching the head of the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * waitqueue.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 为真，说明之前已经有 mcs node 等待节点存在了。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (old <span style=color:#666>&amp;</span> _Q_TAIL_MASK) { <span style=color:#408080;font-style:italic>//bit16-bit31, 也即是 tail 的掩码
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/* 获取的是 cpu 的嵌套深度 idx 为下标的节点 */</span>
-</span></span><span style=display:flex><span>        prev <span style=color:#666>=</span> <span style=color:#00f>decode_tail</span>(old); <span style=color:#408080;font-style:italic>//return per_cpu_ptr(&amp;qnodes[idx].mcs, cpu)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/* Link @node into the waitqueue. 构建 msc 链表 */</span>
-</span></span><span style=display:flex><span>        <span style=color:#00f>WRITE_ONCE</span>(prev<span style=color:#666>-&gt;</span>next, node);
-</span></span><span style=display:flex><span>        <span style=color:#00f>pv_wait_node</span>(node, prev); <span style=color:#408080;font-style:italic>//空函数
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/* 死循环，spin 等待，直到 node-&gt;locked 不为 0 才退出 spin */</span>
-</span></span><span style=display:flex><span>        <span style=color:#00f>arch_mcs_spin_lock_contended</span>(<span style=color:#666>&amp;</span>node<span style=color:#666>-&gt;</span>locked); <span style=color:#408080;font-style:italic>//【2. 在 mcs node-&gt;locked 上 spin】
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * While waiting for the MCS lock, the next pointer may have
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * been set by another lock waiter. We optimistically load
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * the next pointer &amp; prefetch the cacheline for writing
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * to reduce latency in the upcoming MCS unlock operation.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 翻译：在等待 MCS 锁时，下一个指针可能已被另一个锁的 waiter 设置(在另一个 cpu 上，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 若被设置 next 就不为 NULL)。我们乐观地加载下一个指针并为写入预取缓存线，以减少
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 即将到来的 MCS 解锁操作的延迟。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        next <span style=color:#666>=</span> <span style=color:#00f>READ_ONCE</span>(node<span style=color:#666>-&gt;</span>next);
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>if</span> (next)
-</span></span><span style=display:flex><span>            <span style=color:#00f>prefetchw</span>(next); <span style=color:#408080;font-style:italic>//cache line 预取
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    }
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * we&#39;re at the head of the waitqueue, wait for the owner &amp; pending to
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * go away.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * *,x,y -&gt; *,0,0
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * this wait loop must use a load-acquire such that we match the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * store-release that clears the locked bit and create lock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * sequentiality; this is because the set_locked() function below
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * does not imply a full barrier.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * The PV pv_wait_head_or_lock function, if active, will acquire
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * the lock and return a non-zero value. So we have to skip the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * atomic_cond_read_acquire() call. As the next PV queue head hasn&#39;t
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * been designated yet, there is no way for the locked value to become
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * _Q_SLOW_VAL. So both the set_locked() and the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * atomic_cmpxchg_relaxed() calls will be safe.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * If PV isn&#39;t active, 0 will be returned instead.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 没有使能，函数直接返回 0 */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> ((val <span style=color:#666>=</span> <span style=color:#00f>pv_wait_head_or_lock</span>(lock, node)))
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>goto</span> locked;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 代码走到这里，当前任务就是锁的第一继承人了 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 死循环等待，直到         lock-&gt;val 的 y(pending bit)和 z(locked byte)都是 0,  并返回 lock-&gt;val
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * spin_unlock 时直接将 lock-&gt;val 赋值为 0, 判断 pending bit 是为还没进入 msc spin 的尝试
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 持锁的任务让路的应该。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    val <span style=color:#666>=</span> <span style=color:#00f>atomic_cond_read_acquire</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, <span style=color:#666>!</span>(VAL <span style=color:#666>&amp;</span> _Q_LOCKED_PENDING_MASK)); <span style=color:#408080;font-style:italic>//【3. 在 lock-&gt;val 上 spin】
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#a0a000>locked</span>:
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * claim the lock:
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * n,0,0 -&gt; 0,0,1 : lock, uncontended
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * *,*,0 -&gt; *,*,1 : lock, contended
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * If the queue head is the only one in the queue (lock value == tail)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * and nobody is pending, clear the tail code and grab the lock.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Otherwise, we only need to grab the lock.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * In the PV case we might already have _Q_LOCKED_VAL set, because
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * of lock stealing; therefore we must also allow:
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * n,0,1 -&gt; 0,0,1
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Note: at this point: (val &amp; _Q_PENDING_MASK) == 0, because of the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *       above wait condition, therefore any concurrent setting of
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *       PENDING will make the uncontended transition fail.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 走到这里，val 的 lock 和 pending 是为 0 的，但是 tail 中可能还保存着其它等待者的信息。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * lock-&gt;tail 指向最后一个等待获取锁的任务的 mcs node 节点，若和自己相等，说明自己
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 是唯一一个 mcs node 节点。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> ((val <span style=color:#666>&amp;</span> _Q_TAIL_MASK) <span style=color:#666>==</span> tail) {
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * if (lock-&gt;val == val) {lock-&gt;val = _Q_LOCKED_VAL; return true;} 持锁退出
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * if (lock-&gt;val != val) {val = lock-&gt;val; return false;} //没持锁
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>atomic_try_cmpxchg_relaxed</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, <span style=color:#666>&amp;</span>val, _Q_LOCKED_VAL))
-</span></span><span style=display:flex><span>            <span style=color:green;font-weight:700>goto</span> release; <span style=color:#408080;font-style:italic>/* No contention */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 返回当前 cpu 的 qnodes[idx].mcs 节点的地址 */</span>
+</span></span><span style=display:flex><span>    node <span style=color:#719e07>=</span> <span style=color:#268bd2>grab_mcs_node</span>(node, idx);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* Keep counts of non-zero index values: */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>lockevent_cond_inc</span>(lock_use_node2 <span style=color:#719e07>+</span> idx <span style=color:#719e07>-</span> <span style=color:#2aa198>1</span>, idx);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Ensure that we increment the head node-&gt;count before initialising
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * the actual node. If the compiler is kind enough to reorder these
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * stores, then an IRQ could overwrite our assignments.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>barrier</span>();
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*不是继承者 locked 为 0, 最尾部节点指向 NULL */</span>
+</span></span><span style=display:flex><span>    node<span style=color:#719e07>-&gt;</span>locked <span style=color:#719e07>=</span> <span style=color:#2aa198>0</span>;
+</span></span><span style=display:flex><span>    node<span style=color:#719e07>-&gt;</span>next <span style=color:#719e07>=</span> <span style=color:#b58900>NULL</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 默认没有定义_GEN_PV_LOCK_SLOWPATH，是空函数 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>pv_init_node</span>(node);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * We touched a (possibly) cold cacheline in the per-cpu queue node;
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * attempt the trylock once more in the hope someone let go while we
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * weren&#39;t watching.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 尝试获取锁，成功返回 1，失败返回 0
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>queued_spin_trylock</span>(lock))
+</span></span><span style=display:flex><span>        <span style=color:#719e07>goto</span> release;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Ensure that the initialisation of @node is complete before we
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * publish the updated tail via xchg_tail() and potentially link
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * @node into the waitqueue via WRITE_ONCE(prev-&gt;next, node) below.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>smp_wmb</span>();
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Publish the updated tail. We have already touched the queueing cacheline;
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * don&#39;t bother with pending stuff.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * p,*,* -&gt; n,*,*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 等效于：ret=lock-&gt;tail; lock-&gt;tail=tail&gt;&gt;_Q_TAIL_OFFSET; old = ret&lt;&lt;_Q_TAIL_OFFSET
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 也即是将 tail 值赋值给 lock-&gt;val 的 bit16-31.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 也就是说 lock-&gt;tail 恒指向最后一个 pending 锁的任务对应的 msc node 节点上 ###########
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    old <span style=color:#719e07>=</span> <span style=color:#268bd2>xchg_tail</span>(lock, tail);
+</span></span><span style=display:flex><span>    next <span style=color:#719e07>=</span> <span style=color:#b58900>NULL</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * if there was a previous node; link it and wait until reaching the head of the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * waitqueue.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 为真，说明之前已经有 mcs node 等待节点存在了。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (old <span style=color:#719e07>&amp;</span> _Q_TAIL_MASK) { <span style=color:#586e75>//bit16-bit31, 也即是 tail 的掩码
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/* 获取的是 cpu 的嵌套深度 idx 为下标的节点 */</span>
+</span></span><span style=display:flex><span>        prev <span style=color:#719e07>=</span> <span style=color:#268bd2>decode_tail</span>(old); <span style=color:#586e75>//return per_cpu_ptr(&amp;qnodes[idx].mcs, cpu)
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/* Link @node into the waitqueue. 构建 msc 链表 */</span>
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>WRITE_ONCE</span>(prev<span style=color:#719e07>-&gt;</span>next, node);
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>pv_wait_node</span>(node, prev); <span style=color:#586e75>//空函数
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/* 死循环，spin 等待，直到 node-&gt;locked 不为 0 才退出 spin */</span>
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>arch_mcs_spin_lock_contended</span>(<span style=color:#719e07>&amp;</span>node<span style=color:#719e07>-&gt;</span>locked); <span style=color:#586e75>//【2. 在 mcs node-&gt;locked 上 spin】
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * While waiting for the MCS lock, the next pointer may have
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * been set by another lock waiter. We optimistically load
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * the next pointer &amp; prefetch the cacheline for writing
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * to reduce latency in the upcoming MCS unlock operation.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 翻译：在等待 MCS 锁时，下一个指针可能已被另一个锁的 waiter 设置(在另一个 cpu 上，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 若被设置 next 就不为 NULL)。我们乐观地加载下一个指针并为写入预取缓存线，以减少
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 即将到来的 MCS 解锁操作的延迟。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        next <span style=color:#719e07>=</span> <span style=color:#268bd2>READ_ONCE</span>(node<span style=color:#719e07>-&gt;</span>next);
+</span></span><span style=display:flex><span>        <span style=color:#719e07>if</span> (next)
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>prefetchw</span>(next); <span style=color:#586e75>//cache line 预取
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    }
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * we&#39;re at the head of the waitqueue, wait for the owner &amp; pending to
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * go away.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * *,x,y -&gt; *,0,0
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * this wait loop must use a load-acquire such that we match the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * store-release that clears the locked bit and create lock
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * sequentiality; this is because the set_locked() function below
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * does not imply a full barrier.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * The PV pv_wait_head_or_lock function, if active, will acquire
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * the lock and return a non-zero value. So we have to skip the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * atomic_cond_read_acquire() call. As the next PV queue head hasn&#39;t
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * been designated yet, there is no way for the locked value to become
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * _Q_SLOW_VAL. So both the set_locked() and the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * atomic_cmpxchg_relaxed() calls will be safe.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * If PV isn&#39;t active, 0 will be returned instead.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 没有使能，函数直接返回 0 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> ((val <span style=color:#719e07>=</span> <span style=color:#268bd2>pv_wait_head_or_lock</span>(lock, node)))
+</span></span><span style=display:flex><span>        <span style=color:#719e07>goto</span> locked;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 代码走到这里，当前任务就是锁的第一继承人了 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 死循环等待，直到         lock-&gt;val 的 y(pending bit)和 z(locked byte)都是 0,  并返回 lock-&gt;val
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * spin_unlock 时直接将 lock-&gt;val 赋值为 0, 判断 pending bit 是为还没进入 msc spin 的尝试
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 持锁的任务让路的应该。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    val <span style=color:#719e07>=</span> <span style=color:#268bd2>atomic_cond_read_acquire</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, <span style=color:#719e07>!</span>(VAL <span style=color:#719e07>&amp;</span> _Q_LOCKED_PENDING_MASK)); <span style=color:#586e75>//【3. 在 lock-&gt;val 上 spin】
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>locked:
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * claim the lock:
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * n,0,0 -&gt; 0,0,1 : lock, uncontended
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * *,*,0 -&gt; *,*,1 : lock, contended
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * If the queue head is the only one in the queue (lock value == tail)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * and nobody is pending, clear the tail code and grab the lock.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Otherwise, we only need to grab the lock.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * In the PV case we might already have _Q_LOCKED_VAL set, because
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * of lock stealing; therefore we must also allow:
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * n,0,1 -&gt; 0,0,1
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Note: at this point: (val &amp; _Q_PENDING_MASK) == 0, because of the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *       above wait condition, therefore any concurrent setting of
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *       PENDING will make the uncontended transition fail.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 走到这里，val 的 lock 和 pending 是为 0 的，但是 tail 中可能还保存着其它等待者的信息。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * lock-&gt;tail 指向最后一个等待获取锁的任务的 mcs node 节点，若和自己相等，说明自己
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 是唯一一个 mcs node 节点。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> ((val <span style=color:#719e07>&amp;</span> _Q_TAIL_MASK) <span style=color:#719e07>==</span> tail) {
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * if (lock-&gt;val == val) {lock-&gt;val = _Q_LOCKED_VAL; return true;} 持锁退出
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * if (lock-&gt;val != val) {val = lock-&gt;val; return false;} //没持锁
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        <span style=color:#719e07>if</span> (<span style=color:#268bd2>atomic_try_cmpxchg_relaxed</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, <span style=color:#719e07>&amp;</span>val, _Q_LOCKED_VAL))
+</span></span><span style=display:flex><span>            <span style=color:#719e07>goto</span> release; <span style=color:#586e75>/* No contention */</span>
 </span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 下面就是还有新的任务等待了，有新 msc                 node 串联在链表上了 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * Either somebody is queued behind us or _Q_PENDING_VAL got set
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * which will then detect the remaining tail and queue behind us
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * ensuring we&#39;ll see a @next.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 直接赋值 lock-&gt;locked = _Q_LOCKED_VAL，即对 bit0-7 locked byte 进行赋值，已经持锁了 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>set_locked</span>(lock);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * contended path; wait for next if not observed yet, release.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 等待已经更新 lock-&gt;tail 的新的 waiter 挂在 msc 链表上
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#666>!</span>next)
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/* 死循环等待，直到 node-&gt;next 不为 NULL，通过不会等待很多次 */</span>
-</span></span><span style=display:flex><span>        next <span style=color:#666>=</span> <span style=color:#00f>smp_cond_load_relaxed</span>(<span style=color:#666>&amp;</span>node<span style=color:#666>-&gt;</span>next, (VAL)); <span style=color:#408080;font-style:italic>//【4. 在 mcs node-&gt;next 上 spin】
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 直接 next-&gt;locked = 1, 将下一个 mcs 节点设为第一继承人，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 其就会退出在 node-&gt;locked 上的自旋，改为在 lock-&gt;val 上的自旋
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>arch_mcs_spin_unlock_contended</span>(<span style=color:#666>&amp;</span>next<span style=color:#666>-&gt;</span>locked);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*没有使能，为空 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>pv_kick_node</span>(lock, next);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 下面就是获取到 spin_lock 锁后的逻辑了 */</span>
-</span></span><span style=display:flex><span><span style=color:#a0a000>release</span>:
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* release the node. qnodes[0].mcs.count - 1 应该是和前面的加 1 相对应的 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>__this_cpu_dec</span>(qnodes[<span style=color:#666>0</span>].mcs.count);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 下面就是还有新的任务等待了，有新 msc                 node 串联在链表上了 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * Either somebody is queued behind us or _Q_PENDING_VAL got set
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * which will then detect the remaining tail and queue behind us
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * ensuring we&#39;ll see a @next.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 直接赋值 lock-&gt;locked = _Q_LOCKED_VAL，即对 bit0-7 locked byte 进行赋值，已经持锁了 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>set_locked</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * contended path; wait for next if not observed yet, release.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 等待已经更新 lock-&gt;tail 的新的 waiter 挂在 msc 链表上
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#719e07>!</span>next)
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/* 死循环等待，直到 node-&gt;next 不为 NULL，通过不会等待很多次 */</span>
+</span></span><span style=display:flex><span>        next <span style=color:#719e07>=</span> <span style=color:#268bd2>smp_cond_load_relaxed</span>(<span style=color:#719e07>&amp;</span>node<span style=color:#719e07>-&gt;</span>next, (VAL)); <span style=color:#586e75>//【4. 在 mcs node-&gt;next 上 spin】
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 直接 next-&gt;locked = 1, 将下一个 mcs 节点设为第一继承人，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 其就会退出在 node-&gt;locked 上的自旋，改为在 lock-&gt;val 上的自旋
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>arch_mcs_spin_unlock_contended</span>(<span style=color:#719e07>&amp;</span>next<span style=color:#719e07>-&gt;</span>locked);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*没有使能，为空 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>pv_kick_node</span>(lock, next);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 下面就是获取到 spin_lock 锁后的逻辑了 */</span>
+</span></span><span style=display:flex><span>release:
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* release the node. qnodes[0].mcs.count - 1 应该是和前面的加 1 相对应的 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__this_cpu_dec</span>(qnodes[<span style=color:#2aa198>0</span>].mcs.count);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#00f>EXPORT_SYMBOL</span>(queued_spin_lock_slowpath);
+</span></span><span style=display:flex><span><span style=color:#268bd2>EXPORT_SYMBOL</span>(queued_spin_lock_slowpath);
 </span></span></code></pre></div><p>a. spin lock 持锁后就一直在临界区了，不会休眠，因此不需要记录锁的 owner。
 b. 非第一继承人的 waiter 在自己的 mcs node 的 node->locked 上的自旋，而第一继承人在 lock->val 上自旋。
 c. 每个 cpu 有一个 mcs node[]数组，数组中有 4 个 mcs node 成员，对应四种嵌套深度(thread、softirq、irq、nmi)，若是没有嵌套的话，
 使用的恒定是 node[0].
 d. 一个锁对应的 mcs node 节点构成一个单链表，以 NULL 结尾，lock->val 的 tail 域"指向"最后一个获取锁的 waiter 所对应的 mcs node 节
-点。</p><p>(1) queued_spin_trylock 函数，尝试获取 spin lock。</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>/**
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * queued_spin_trylock - try to acquire the queued spinlock
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * @lock : Pointer to queued spinlock structure
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * Return: 1 if lock acquired, 0 if failed
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> */</span>
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>int</span> <span style=color:#00f>queued_spin_trylock</span>(<span style=color:green;font-weight:700>struct</span> qspinlock <span style=color:#666>*</span>lock)
+点。</p><p>(1) queued_spin_trylock 函数，尝试获取 spin lock。</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>/**
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * queued_spin_trylock - try to acquire the queued spinlock
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * @lock : Pointer to queued spinlock structure
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * Return: 1 if lock acquired, 0 if failed
+</span></span></span><span style=display:flex><span><span style=color:#586e75> */</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>int</span> <span style=color:#268bd2>queued_spin_trylock</span>(<span style=color:#719e07>struct</span> qspinlock <span style=color:#719e07>*</span>lock)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    u32 val <span style=color:#666>=</span> <span style=color:#00f>atomic_read</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 这里 val 不等于 0 就退出了，若没退出走到下面就是本线程可以持锁的状态了 */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>unlikely</span>(val))
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>return</span> <span style=color:#666>0</span>;
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 参数：(atomic_t *v, int *old, int new)
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * if (*v == *old) {*v = new; return true;}
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * if (*v != *old) {*old = *v; return false;}
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>return</span> <span style=color:#00f>likely</span>(<span style=color:#00f>atomic_try_cmpxchg_acquire</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>val, <span style=color:#666>&amp;</span>val, _Q_LOCKED_VAL));
+</span></span><span style=display:flex><span>    u32 val <span style=color:#719e07>=</span> <span style=color:#268bd2>atomic_read</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 这里 val 不等于 0 就退出了，若没退出走到下面就是本线程可以持锁的状态了 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (<span style=color:#268bd2>unlikely</span>(val))
+</span></span><span style=display:flex><span>        <span style=color:#719e07>return</span> <span style=color:#2aa198>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 参数：(atomic_t *v, int *old, int new)
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * if (*v == *old) {*v = new; return true;}
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * if (*v != *old) {*old = *v; return false;}
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#719e07>return</span> <span style=color:#268bd2>likely</span>(<span style=color:#268bd2>atomic_try_cmpxchg_acquire</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>val, <span style=color:#719e07>&amp;</span>val, _Q_LOCKED_VAL));
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=h:1f8557df-11a7-4ad4-bcf7-d3a4d569749d>5 解锁代码分析<a hidden class=anchor aria-hidden=true href=#h:1f8557df-11a7-4ad4-bcf7-d3a4d569749d>#</a></h2><h3 id=h:8ad2683c-f285-4321-8995-dc22478091a8>5.1 <code>spin_unlock()</code> 函数<a hidden class=anchor aria-hidden=true href=#h:8ad2683c-f285-4321-8995-dc22478091a8>#</a></h3><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>spin_unlock</span>(<span style=color:#b00040>spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>raw_spin_unlock</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>rlock);
+</span></span></code></pre></div><h2 id=h:1f8557df-11a7-4ad4-bcf7-d3a4d569749d>5 解锁代码分析<a hidden class=anchor aria-hidden=true href=#h:1f8557df-11a7-4ad4-bcf7-d3a4d569749d>#</a></h2><h3 id=h:8ad2683c-f285-4321-8995-dc22478091a8>5.1 <code>spin_unlock()</code> 函数<a hidden class=anchor aria-hidden=true href=#h:8ad2683c-f285-4321-8995-dc22478091a8>#</a></h3><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>spin_unlock</span>(<span style=color:#dc322f>spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>raw_spin_unlock</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>rlock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#define raw_spin_unlock(lock)    _raw_spin_unlock(lock) </span><span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>void</span> __lockfunc <span style=color:#00f>_raw_spin_unlock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//kernel/locking/spinlock.c
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>__raw_spin_unlock</span>(lock);
+</span></span><span style=display:flex><span><span style=color:#719e07>#define raw_spin_unlock(lock)    _raw_spin_unlock(lock) </span><span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>void</span> __lockfunc <span style=color:#268bd2>_raw_spin_unlock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//kernel/locking/spinlock.c
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__raw_spin_unlock</span>(lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#00f>EXPORT_SYMBOL</span>(_raw_spin_unlock);
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> <span style=color:green;font-weight:700>inline</span> <span style=color:#b00040>void</span> <span style=color:#00f>__raw_spin_unlock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock_api_smp.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>spin_release</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>dep_map, _RET_IP_);
-</span></span><span style=display:flex><span>    <span style=color:#00f>do_raw_spin_unlock</span>(lock);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* unlock 后开抢占 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>preempt_enable</span>();
+</span></span><span style=display:flex><span><span style=color:#268bd2>EXPORT_SYMBOL</span>(_raw_spin_unlock);
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> <span style=color:#268bd2>inline</span> <span style=color:#dc322f>void</span> <span style=color:#268bd2>__raw_spin_unlock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#586e75>//include/linux/spinlock_api_smp.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>spin_release</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>dep_map, _RET_IP_);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>do_raw_spin_unlock</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* unlock 后开抢占 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>preempt_enable</span>();
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>static</span> <span style=color:green;font-weight:700>inline</span> <span style=color:#b00040>void</span> <span style=color:#00f>do_raw_spin_unlock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock) <span style=color:#00f>__releases</span>(lock) <span style=color:#408080;font-style:italic>//include/linux/spinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 没使能 CONFIG_MMIOWB，是个空函数 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>mmiowb_spin_unlock</span>();
-</span></span><span style=display:flex><span>    <span style=color:#00f>arch_spin_unlock</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>raw_lock);
-</span></span><span style=display:flex><span>    <span style=color:#00f>__release</span>(lock);
+</span></span><span style=display:flex><span><span style=color:#719e07>static</span> <span style=color:#268bd2>inline</span> <span style=color:#dc322f>void</span> <span style=color:#268bd2>do_raw_spin_unlock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock) <span style=color:#268bd2>__releases</span>(lock) <span style=color:#586e75>//include/linux/spinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>{
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 没使能 CONFIG_MMIOWB，是个空函数 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>mmiowb_spin_unlock</span>();
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>arch_spin_unlock</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>raw_lock);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__release</span>(lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#define arch_spin_unlock(l)    queued_spin_unlock(l) </span><span style=color:#408080;font-style:italic>//include/asm-generic/qspinlock.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:green;font-weight:700>static</span> __always_inline <span style=color:#b00040>void</span> <span style=color:#00f>queued_spin_unlock</span>(<span style=color:green;font-weight:700>struct</span> qspinlock <span style=color:#666>*</span>lock)
+</span></span><span style=display:flex><span><span style=color:#719e07>#define arch_spin_unlock(l)    queued_spin_unlock(l) </span><span style=color:#586e75>//include/asm-generic/qspinlock.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>static</span> __always_inline <span style=color:#dc322f>void</span> <span style=color:#268bd2>queued_spin_unlock</span>(<span style=color:#719e07>struct</span> qspinlock <span style=color:#719e07>*</span>lock)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * unlock() needs release semantics:
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 直接将 lock-&gt;locked 赋值为 0，也即只是将 lock-&gt;val 的 bit0-8 设置为 0
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#00f>smp_store_release</span>(<span style=color:#666>&amp;</span>lock<span style=color:#666>-&gt;</span>locked, <span style=color:#666>0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * unlock() needs release semantics:
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 直接将 lock-&gt;locked 赋值为 0，也即只是将 lock-&gt;val 的 bit0-8 设置为 0
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>smp_store_release</span>(<span style=color:#719e07>&amp;</span>lock<span style=color:#719e07>-&gt;</span>locked, <span style=color:#2aa198>0</span>);
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><h2 id=h:07457cda-612a-4a0e-bd61-f9ce0c077db3>6 总结<a hidden class=anchor aria-hidden=true href=#h:07457cda-612a-4a0e-bd61-f9ce0c077db3>#</a></h2><ol><li><p>spin lock 是不休眠锁，不像其它锁一样，没有 owner 成员保存当前持锁任务。其持锁之前是抢
 占的，使用需要区分是在哪个上下文中使用，来用对应的函数。</p></li><li><p>spin lock 实现机制中考虑了中断嵌套，由于只有 4 种上下文，为每个 cpu 分配了 4 个 mcs node。</p></li><li><p>当一个 spin lock 在不同 cpu 上存在竞争时，各个 cpu 的 mcs node 构成一个单链表，
 lock->tail 字段"指向"最后尝试获取锁的任务所在 cpu 对应的 mcs node 节点。第一顺位继承人
 在 lock->val 上进行自旋，非第一顺位继承人在自己的 msc node 的 locked 成员上自旋，这样
-就做了释放锁时只有一个 cpu 需要更新其 cache line。</p></li></ol><h2 id=h:d77f1671-6696-4f58-9f58-4011809165f8>7 补充<a hidden class=anchor aria-hidden=true href=#h:d77f1671-6696-4f58-9f58-4011809165f8>#</a></h2><ol><li>内核中为了 debug spin_lock 方便，对函数原型进行了 inline 和 unline 的封装</li></ol><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//kernel/locking/spinlock.c
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#bc7a00>#ifndef CONFIG_INLINE_SPIN_LOCK </span><span style=color:#408080;font-style:italic>//默认不使能
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>void</span> __lockfunc <span style=color:#00f>_raw_spin_lock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock)
+就做了释放锁时只有一个 cpu 需要更新其 cache line。</p></li></ol><h2 id=h:d77f1671-6696-4f58-9f58-4011809165f8>7 补充<a hidden class=anchor aria-hidden=true href=#h:d77f1671-6696-4f58-9f58-4011809165f8>#</a></h2><ol><li>内核中为了 debug spin_lock 方便，对函数原型进行了 inline 和 unline 的封装</li></ol><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//kernel/locking/spinlock.c
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>#ifndef CONFIG_INLINE_SPIN_LOCK </span><span style=color:#586e75>//默认不使能
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>void</span> __lockfunc <span style=color:#268bd2>_raw_spin_lock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>__raw_spin_lock</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__raw_spin_lock</span>(lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#00f>EXPORT_SYMBOL</span>(_raw_spin_lock);
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#endif
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#ifdef CONFIG_UNINLINE_SPIN_UNLOCK </span><span style=color:#408080;font-style:italic>//默认使能
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>void</span> __lockfunc <span style=color:#00f>_raw_spin_unlock</span>(<span style=color:#b00040>raw_spinlock_t</span> <span style=color:#666>*</span>lock)
+</span></span><span style=display:flex><span><span style=color:#268bd2>EXPORT_SYMBOL</span>(_raw_spin_lock);
+</span></span><span style=display:flex><span><span style=color:#719e07>#endif
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#ifdef CONFIG_UNINLINE_SPIN_UNLOCK </span><span style=color:#586e75>//默认使能
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>void</span> __lockfunc <span style=color:#268bd2>_raw_spin_unlock</span>(<span style=color:#dc322f>raw_spinlock_t</span> <span style=color:#719e07>*</span>lock)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>__raw_spin_unlock</span>(lock);
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>__raw_spin_unlock</span>(lock);
 </span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span><span style=color:#00f>EXPORT_SYMBOL</span>(_raw_spin_unlock);
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#endif
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00></span><span style=color:#408080;font-style:italic>//include/linux/spinlock_api_smp.h
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#bc7a00>#ifndef CONFIG_UNINLINE_SPIN_UNLOCK
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#define _raw_spin_unlock(lock) __raw_spin_unlock(lock)
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#endif
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#ifdef CONFIG_INLINE_SPIN_LOCK
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#define _raw_spin_lock(lock) __raw_spin_lock(lock)
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00>#endif
-</span></span></span></code></pre></div><p>kernel/locking/spinlock.c 中还有 CONFIG_INLINE_READ_LOCK_IRQ、CONFIG_INLINE_SPIN_UNLOCK_BH 等。</p><ol><li>linux-5.15.41 中新增: 若使能 CONFIG_PREEMPT_RT(Linux RT patch 默认不使能)，则将 spin_lock 的实现改为基于 rt_mutex 的可</li></ol><p>休眠 spin_lock 实现了。</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>/* include\linux\spinlock_types.h */</span>
-</span></span><span style=display:flex><span><span style=color:#bc7a00>#include</span> <span style=color:#bc7a00>&lt;linux/rtmutex.h&gt;</span><span style=color:#bc7a00>
-</span></span></span><span style=display:flex><span><span style=color:#bc7a00></span><span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> spinlock {
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>struct</span> rt_mutex_base    lock; <span style=color:#408080;font-style:italic>//5.10 的内核还是 struct raw_spinlock rlock;
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>} <span style=color:#b00040>spinlock_t</span>;
-</span></span></code></pre></div><p>因此有实现以下两套 lock 和 raw lock 接口：</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>//raw spinlock:
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>raw_spinlock_t</span> lock;
-</span></span><span style=display:flex><span><span style=color:#00f>raw_spin_lock_init</span>(<span style=color:#666>&amp;</span>lock)
-</span></span><span style=display:flex><span><span style=color:#00f>raw_spin_lock</span>(<span style=color:#666>&amp;</span>lock);
-</span></span><span style=display:flex><span><span style=color:#00f>raw_spin_unlock</span>(<span style=color:#666>&amp;</span>lock);
-</span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>//spinlock:
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span><span style=color:#b00040>spinlock_t</span> lock;
-</span></span><span style=display:flex><span><span style=color:#00f>spin_lock_init</span>(<span style=color:#666>&amp;</span>lock)
-</span></span><span style=display:flex><span><span style=color:#00f>spin_lock</span>(<span style=color:#666>&amp;</span>lock);
-</span></span><span style=display:flex><span><span style=color:#00f>spin_unlock</span>(<span style=color:#666>&amp;</span>lock);
+</span></span><span style=display:flex><span><span style=color:#268bd2>EXPORT_SYMBOL</span>(_raw_spin_unlock);
+</span></span><span style=display:flex><span><span style=color:#719e07>#endif
+</span></span></span><span style=display:flex><span><span style=color:#719e07></span><span style=color:#586e75>//include/linux/spinlock_api_smp.h
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#719e07>#ifndef CONFIG_UNINLINE_SPIN_UNLOCK
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#define _raw_spin_unlock(lock) __raw_spin_unlock(lock)
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#endif
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#ifdef CONFIG_INLINE_SPIN_LOCK
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#define _raw_spin_lock(lock) __raw_spin_lock(lock)
+</span></span></span><span style=display:flex><span><span style=color:#719e07>#endif
+</span></span></span></code></pre></div><p>kernel/locking/spinlock.c 中还有 CONFIG_INLINE_READ_LOCK_IRQ、CONFIG_INLINE_SPIN_UNLOCK_BH 等。</p><ol><li>linux-5.15.41 中新增: 若使能 CONFIG_PREEMPT_RT(Linux RT patch 默认不使能)，则将 spin_lock 的实现改为基于 rt_mutex 的可</li></ol><p>休眠 spin_lock 实现了。</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>/* include\linux\spinlock_types.h */</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>#include</span> <span style=color:#719e07>&lt;linux/rtmutex.h&gt;</span><span style=color:#719e07>
+</span></span></span><span style=display:flex><span><span style=color:#719e07></span><span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> spinlock {
+</span></span><span style=display:flex><span>    <span style=color:#719e07>struct</span> rt_mutex_base    lock; <span style=color:#586e75>//5.10 的内核还是 struct raw_spinlock rlock;
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>} <span style=color:#dc322f>spinlock_t</span>;
+</span></span></code></pre></div><p>因此有实现以下两套 lock 和 raw lock 接口：</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>//raw spinlock:
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>raw_spinlock_t</span> lock;
+</span></span><span style=display:flex><span><span style=color:#268bd2>raw_spin_lock_init</span>(<span style=color:#719e07>&amp;</span>lock)
+</span></span><span style=display:flex><span><span style=color:#268bd2>raw_spin_lock</span>(<span style=color:#719e07>&amp;</span>lock);
+</span></span><span style=display:flex><span><span style=color:#268bd2>raw_spin_unlock</span>(<span style=color:#719e07>&amp;</span>lock);
+</span></span><span style=display:flex><span><span style=color:#586e75>//spinlock:
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span><span style=color:#dc322f>spinlock_t</span> lock;
+</span></span><span style=display:flex><span><span style=color:#268bd2>spin_lock_init</span>(<span style=color:#719e07>&amp;</span>lock)
+</span></span><span style=display:flex><span><span style=color:#268bd2>spin_lock</span>(<span style=color:#719e07>&amp;</span>lock);
+</span></span><span style=display:flex><span><span style=color:#268bd2>spin_unlock</span>(<span style=color:#719e07>&amp;</span>lock);
 </span></span></code></pre></div><p>在没有配置 CONFIG_PREEMPT_RT 的情况下两者实现是一样的，但是在使能了 CONFIG_PREEMPT_RT(默认不使能) 的 RT 内核中，spinlock 会
 被实现为基于 rtmutex 的可休眠锁，raw spinlock 保持和之前一致的逻辑。</p><p>内核工匠中有一篇类似博客：<a href=https://blog.csdn.net/feelabclihu/article/details/125454456>https://blog.csdn.net/feelabclihu/article/details/125454456</a></p></div><footer class=post-footer><ul class=post-tags></ul></footer><script src=https://giscus.app/client.js data-repo=yangyingchao/giscus data-repo-id=R_kgDON6NYZA data-category=Announcements data-category-id=DIC_kwDON6NYZM4CnANs data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><footer class=footer><span>&copy; 2025 <a href=https://yangyingchao.github.io>MyNotes</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

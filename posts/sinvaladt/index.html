@@ -11,58 +11,58 @@ MAXNUMMESSAGES，缓冲区就足够大。如果缓冲区溢出，我们通过为
 式获取 SInvalReadLock；这允许它们修改自己的 ProcState，但不能修改或查看其他读者的。写者总
 是以独占模式获取 SInvalWriteLock，以串行化向列队添加消息。最多一个这样的中断正在飞行，当一个
 后端完成处理 catchup 中断后，它执行 SICleanupQueue，如果需要，则将信号传递给下一个最落后的
-后端。</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>  <span style=color:#408080;font-style:italic>/* 共享失效结构状态， 存在于每个后端中 */</span>
-</span></span><span style=display:flex><span>  <span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> ProcState
+后端。</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>  <span style=color:#586e75>/* 共享失效结构状态， 存在于每个后端中 */</span>
+</span></span><span style=display:flex><span>  <span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> ProcState
 </span></span><span style=display:flex><span>  {
-</span></span><span style=display:flex><span>      <span style=color:#408080;font-style:italic>/* 如果 ProcState 数组条目处于非活动状态，procPid 为零。 */</span>
-</span></span><span style=display:flex><span>      <span style=color:#b00040>pid_t</span>		procPid;		<span style=color:#408080;font-style:italic>// 后端的 PID，用于信号传递 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>      <span style=color:#408080;font-style:italic>/* 如果 procPid == 0 或 resetState 为真，则 nextMsgNum 没有意义。 */</span>
-</span></span><span style=display:flex><span>      <span style=color:#b00040>int</span>			nextMsgNum;		<span style=color:#408080;font-style:italic>/* 下一个要读取的消息号 */</span>
-</span></span><span style=display:flex><span>      <span style=color:#b00040>bool</span>		resetState;		<span style=color:#408080;font-style:italic>/* 后端需要重置其状态 */</span>
-</span></span><span style=display:flex><span>      <span style=color:#b00040>bool</span>		signaled;		<span style=color:#408080;font-style:italic>// 后端已发送“追赶”信号 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>      <span style=color:#b00040>bool</span>		hasMessages;	<span style=color:#408080;font-style:italic>// 后端有未读消息 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>
+</span></span><span style=display:flex><span>      <span style=color:#586e75>/* 如果 ProcState 数组条目处于非活动状态，procPid 为零。 */</span>
+</span></span><span style=display:flex><span>      <span style=color:#dc322f>pid_t</span>		procPid;		<span style=color:#586e75>// 后端的 PID，用于信号传递 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>      <span style=color:#586e75>/* 如果 procPid == 0 或 resetState 为真，则 nextMsgNum 没有意义。 */</span>
+</span></span><span style=display:flex><span>      <span style=color:#dc322f>int</span>			nextMsgNum;		<span style=color:#586e75>/* 下一个要读取的消息号 */</span>
+</span></span><span style=display:flex><span>      <span style=color:#dc322f>bool</span>		resetState;		<span style=color:#586e75>/* 后端需要重置其状态 */</span>
+</span></span><span style=display:flex><span>      <span style=color:#dc322f>bool</span>		signaled;		<span style=color:#586e75>// 后端已发送“追赶”信号 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>      <span style=color:#dc322f>bool</span>		hasMessages;	<span style=color:#586e75>// 后端有未读消息 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      <span style=color:#408080;font-style:italic>/*  */</span>
-</span></span><span style=display:flex><span>       <span style=color:#666>*</span> <span>后端只发送失效信息，不接收失效信息。只有在恢复期间的启动进程才有意义，</span>
-</span></span><span style=display:flex><span>       <span style=color:#666>*</span> <span>因为它不维护</span> relcache<span>，但会发送失效消息以让查询后端看到模式更改。</span>
-</span></span><span style=display:flex><span>       <span>*/</span>
-</span></span><span style=display:flex><span>      <span style=color:#b00040>bool</span>		sendOnly;		<span style=color:#408080;font-style:italic>// 后端只发送，不接收 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>
-</span></span><span style=display:flex><span>      <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>       * 每个空闲后端槽使用的下一个LocalTransactionId。 我们将其保存在这里是因为它由ProcNumber索引，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>       * 并且在设置MyProcNumber时将值从本地内存复制到其中非常方便。在活动ProcState条目中没有意义。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>       */</span>
+</span></span><span style=display:flex><span>      <span style=color:#586e75>/*  */</span>
+</span></span><span style=display:flex><span>       <span style=color:#719e07>*</span> 后端只发送失效信息，不接收失效信息。只有在恢复期间的启动进程才有意义，
+</span></span><span style=display:flex><span>       <span style=color:#719e07>*</span> 因为它不维护 relcache，但会发送失效消息以让查询后端看到模式更改。
+</span></span><span style=display:flex><span>       */
+</span></span><span style=display:flex><span>      <span style=color:#dc322f>bool</span>		sendOnly;		<span style=color:#586e75>// 后端只发送，不接收 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>
+</span></span><span style=display:flex><span>      <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>       * 每个空闲后端槽使用的下一个LocalTransactionId。 我们将其保存在这里是因为它由ProcNumber索引，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>       * 并且在设置MyProcNumber时将值从本地内存复制到其中非常方便。在活动ProcState条目中没有意义。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>       */</span>
 </span></span><span style=display:flex><span>      LocalTransactionId nextLXID;
 </span></span><span style=display:flex><span>  } ProcState;
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>/* 共享缓存失效内存段, 存在于共享内存中 */</span>
-</span></span><span style=display:flex><span><span style=color:green;font-weight:700>typedef</span> <span style=color:green;font-weight:700>struct</span> SISeg
+</span></span><span style=display:flex><span><span style=color:#586e75>/* 共享缓存失效内存段, 存在于共享内存中 */</span>
+</span></span><span style=display:flex><span><span style=color:#719e07>typedef</span> <span style=color:#719e07>struct</span> SISeg
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 通用状态信息   */</span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span>         minMsgNum;        <span style=color:#408080;font-style:italic>/* 最早仍然需要的消息 */</span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span>         maxMsgNum;        <span style=color:#408080;font-style:italic>// 下一个要分配的消息数字 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:#b00040>int</span>         nextThreshold;    <span style=color:#408080;font-style:italic>/* 调用 SICleanupQueue 的消息数量 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 通用状态信息   */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span>         minMsgNum;        <span style=color:#586e75>/* 最早仍然需要的消息 */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span>         maxMsgNum;        <span style=color:#586e75>// 下一个要分配的消息数字 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#dc322f>int</span>         nextThreshold;    <span style=color:#586e75>/* 调用 SICleanupQueue 的消息数量 */</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>slock_t</span>     msgnumLock;       <span style=color:#408080;font-style:italic>// 保护 maxMsgNum 的自旋锁 */
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/* 保存共享失效消息的循环缓冲区    */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>slock_t</span>     msgnumLock;       <span style=color:#586e75>// 保护 maxMsgNum 的自旋锁 */
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/* 保存共享失效消息的循环缓冲区    */</span>
 </span></span><span style=display:flex><span>    SharedInvalidationMessage buffer[MAXNUMMESSAGES];
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * 每个后端失效状态信息
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * &#39;procState&#39; 有 NumProcStateSlots 个条目，并且由 pgprocno 进行索引。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * &#39;numProcs&#39; 是当前使用的插槽数，&#39;pgprocnos&#39; 是它们索引的稠密数组，以加快扫描所有正在使用的插槽的速度。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * &#39;pgprocnos&#39; 在很大程度上与 ProcArrayStruct-&gt;pgprocnos 重复，但有了我们单独的副本，避免了
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     * ProcArrayLock 上的争用，并允许我们仅跟踪参与共享缓存失效的进程。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>     */</span>
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span>         numProcs;
-</span></span><span style=display:flex><span>    <span style=color:#b00040>int</span>         <span style=color:#666>*</span>pgprocnos;
+</span></span><span style=display:flex><span>    <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * 每个后端失效状态信息
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * &#39;procState&#39; 有 NumProcStateSlots 个条目，并且由 pgprocno 进行索引。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * &#39;numProcs&#39; 是当前使用的插槽数，&#39;pgprocnos&#39; 是它们索引的稠密数组，以加快扫描所有正在使用的插槽的速度。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * &#39;pgprocnos&#39; 在很大程度上与 ProcArrayStruct-&gt;pgprocnos 重复，但有了我们单独的副本，避免了
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     * ProcArrayLock 上的争用，并允许我们仅跟踪参与共享缓存失效的进程。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>     */</span>
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span>         numProcs;
+</span></span><span style=display:flex><span>    <span style=color:#dc322f>int</span>         <span style=color:#719e07>*</span>pgprocnos;
 </span></span><span style=display:flex><span>    ProcState   procState[FLEXIBLE_ARRAY_MEMBER];
 </span></span><span style=display:flex><span>} SISeg;
 </span></span></code></pre></div><h2 id=configurable-parameters>2 Configurable parameters<a hidden class=anchor aria-hidden=true href=#configurable-parameters>#</a></h2><ul><li><p><code>MAXNUMMESSAGES</code>
@@ -74,134 +74,134 @@ MAXNUMMESSAGES，缓冲区就足够大。如果缓冲区溢出，我们通过为
 在 SIInsertDataEntries 的每次迭代中将推送到缓冲区的最大消息数。
 非关键，但应该小于 <code>CLEANUP_QUANTUM</code> ，因为我们每次迭代只考虑调用 SICleanupQueue 一次。</p></li></ul><h2 id=sicleanupqueue>3 SICleanupQueue<a hidden class=anchor aria-hidden=true href=#sicleanupqueue>#</a></h2><p>删除已被所有活跃后端进程消费的消息</p><p>如果调用者持有 SInvalWriteLock，则 callerHasWriteLock 为 true。
 minFree 是要释放的最小消息槽数量。</p><ul><li>落后太多的会被重置 (<code>stateP->resetState = true</code>)</li><li>严重落后但不至于重置的，会被发送信号 <code>PROCSIG_CATCHUP_INTERRUPT</code>
-一次最多对一个后端进行信号处理。</li></ul><p>注意：由于我们在信号其他后端进程时瞬时释放写锁，退出时不保证仍有 minFree 个空闲消息槽。调用者必须重新检查并可能重试。</p><h3 id=重置后的处理>3.1 重置后的处理<a hidden class=anchor aria-hidden=true href=#重置后的处理>#</a></h3><div class=highlight><div style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-1><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-1> 1</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-2><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-2> 2</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-3><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-3> 3</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-4><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-4> 4</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-5><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-5> 5</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-6><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-6> 6</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-7><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-7> 7</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-8><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-8> 8</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-9><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-9> 9</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-10><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-10>10</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-11><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-11>11</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-12><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-12>12</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-13><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-13>13</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-14><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-14>14</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-15><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-15>15</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-16><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-16>16</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-17><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-17>17</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-18><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-18>18</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-19><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-19>19</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-20><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-20>20</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-21><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-21>21</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-22><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-22>22</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-23><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-23>23</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-24><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-24>24</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-25><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-25>25</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-26><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-26>26</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-27><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-27>27</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-28><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-28>28</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-29><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-29>29</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-30><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-30>30</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-31><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-31>31</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-32><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-32>32</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-33><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-33>33</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-34><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-34>34</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-35><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-35>35</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-36><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-36>36</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-37><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-37>37</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-38><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-38>38</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-39><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-39>39</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-40><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-40>40</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-41><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-41>41</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-42><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-42>42</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-43><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-43>43</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-44><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-44>44</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-45><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-45>45</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-46><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-46>46</a>
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f" id=org-coderef--cd71af-47><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-47>47</a>
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#b00040>void</span>
-</span></span><span style=display:flex><span><span style=color:#00f>AcceptInvalidationMessages</span>(<span style=color:#b00040>void</span>)
+一次最多对一个后端进行信号处理。</li></ul><p>注意：由于我们在信号其他后端进程时瞬时释放写锁，退出时不保证仍有 minFree 个空闲消息槽。调用者必须重新检查并可能重试。</p><h3 id=重置后的处理>3.1 重置后的处理<a hidden class=anchor aria-hidden=true href=#重置后的处理>#</a></h3><div class=highlight><div style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-1><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-1> 1</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-2><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-2> 2</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-3><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-3> 3</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-4><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-4> 4</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-5><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-5> 5</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-6><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-6> 6</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-7><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-7> 7</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-8><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-8> 8</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-9><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-9> 9</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-10><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-10>10</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-11><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-11>11</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-12><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-12>12</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-13><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-13>13</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-14><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-14>14</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-15><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-15>15</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-16><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-16>16</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-17><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-17>17</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-18><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-18>18</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-19><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-19>19</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-20><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-20>20</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-21><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-21>21</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-22><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-22>22</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-23><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-23>23</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-24><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-24>24</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-25><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-25>25</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-26><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-26>26</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-27><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-27>27</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-28><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-28>28</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-29><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-29>29</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-30><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-30>30</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-31><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-31>31</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-32><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-32>32</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-33><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-33>33</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-34><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-34>34</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-35><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-35>35</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-36><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-36>36</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-37><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-37>37</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-38><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-38>38</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-39><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-39>39</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-40><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-40>40</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-41><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-41>41</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-42><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-42>42</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-43><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-43>43</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-44><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-44>44</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-45><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-45>45</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-46><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-46>46</a>
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#495050" id=org-coderef--cd71af-47><a style=outline:none;text-decoration:none;color:inherit href=#org-coderef--cd71af-47>47</a>
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#dc322f>void</span>
+</span></span><span style=display:flex><span><span style=color:#268bd2>AcceptInvalidationMessages</span>(<span style=color:#dc322f>void</span>)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#00f>ReceiveSharedInvalidMessages</span>(LocalExecuteInvalidationMessage,
+</span></span><span style=display:flex><span>    <span style=color:#268bd2>ReceiveSharedInvalidMessages</span>(LocalExecuteInvalidationMessage,
 </span></span><span style=display:flex><span>                                 InvalidateSystemCaches);
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>// ... skipped ...
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>}
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span>
-</span></span><span style=display:flex><span><span style=color:#00f>ReceiveSharedInvalidMessages</span>(<span style=color:#b00040>void</span> (<span style=color:#666>*</span>invalFunction) (SharedInvalidationMessage <span style=color:#666>*</span>msg),
-</span></span><span style=display:flex><span>                             <span style=color:#b00040>void</span> (<span style=color:#666>*</span>resetFunction) (<span style=color:#b00040>void</span>))
+</span></span><span style=display:flex><span>    <span style=color:#586e75>// ... skipped ...
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>}
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span>
+</span></span><span style=display:flex><span><span style=color:#268bd2>ReceiveSharedInvalidMessages</span>(<span style=color:#dc322f>void</span> (<span style=color:#719e07>*</span>invalFunction) (SharedInvalidationMessage <span style=color:#719e07>*</span>msg),
+</span></span><span style=display:flex><span>                             <span style=color:#dc322f>void</span> (<span style=color:#719e07>*</span>resetFunction) (<span style=color:#dc322f>void</span>))
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>// ... skipped ...
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>
-</span></span><span style=display:flex><span>    getResult <span style=color:#666>=</span> <span style=color:#00f>SIGetDataEntries</span>(messages, MAXINVALMSGS);
+</span></span><span style=display:flex><span>    <span style=color:#586e75>// ... skipped ...
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>
+</span></span><span style=display:flex><span>    getResult <span style=color:#719e07>=</span> <span style=color:#268bd2>SIGetDataEntries</span>(messages, MAXINVALMSGS);
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>if</span> (getResult <span style=color:#666>&lt;</span> <span style=color:#666>0</span>)
+</span></span><span style=display:flex><span>    <span style=color:#719e07>if</span> (getResult <span style=color:#719e07>&lt;</span> <span style=color:#2aa198>0</span>)
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/* got a reset message */</span>
-</span></span><span style=display:flex><span>        <span style=color:#00f>elog</span>(DEBUG4, <span style=color:#ba2121>&#34;cache state reset&#34;</span>);
-</span></span><span style=display:flex><span>        SharedInvalidMessageCounter<span style=color:#666>++</span>;
-</span></span><span style=display:flex><span>        <span style=color:#00f>resetFunction</span>();
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>break</span>;				<span style=color:#408080;font-style:italic>/* nothing more to do */</span>
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/* got a reset message */</span>
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>elog</span>(DEBUG4, <span style=color:#2aa198>&#34;cache state reset&#34;</span>);
+</span></span><span style=display:flex><span>        SharedInvalidMessageCounter<span style=color:#719e07>++</span>;
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>resetFunction</span>();
+</span></span><span style=display:flex><span>        <span style=color:#719e07>break</span>;				<span style=color:#586e75>/* nothing more to do */</span>
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>// ... skipped ...
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>}
+</span></span><span style=display:flex><span>    <span style=color:#586e75>// ... skipped ...
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>}
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#b00040>int</span>
-</span></span><span style=display:flex><span><span style=color:#00f>SIGetDataEntries</span>(SharedInvalidationMessage <span style=color:#666>*</span>data, <span style=color:#b00040>int</span> datasize)
+</span></span><span style=display:flex><span><span style=color:#dc322f>int</span>
+</span></span><span style=display:flex><span><span style=color:#268bd2>SIGetDataEntries</span>(SharedInvalidationMessage <span style=color:#719e07>*</span>data, <span style=color:#dc322f>int</span> datasize)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>// ... skipped ...
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>    <span style=color:green;font-weight:700>if</span> (stateP<span style=color:#666>-&gt;</span>resetState)
+</span></span><span style=display:flex><span>    <span style=color:#586e75>// ... skipped ...
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>    <span style=color:#719e07>if</span> (stateP<span style=color:#719e07>-&gt;</span>resetState)
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * Force reset.  We can say we have dealt with any messages added
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * since the reset, as well; and that means we should clear the
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * signaled flag, too.
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        stateP<span style=color:#666>-&gt;</span>nextMsgNum <span style=color:#666>=</span> max;
-</span></span><span style=display:flex><span>        stateP<span style=color:#666>-&gt;</span>resetState <span style=color:#666>=</span> <span style=color:green>false</span>;
-</span></span><span style=display:flex><span>        stateP<span style=color:#666>-&gt;</span>signaled <span style=color:#666>=</span> <span style=color:green>false</span>;
-</span></span><span style=display:flex><span>        <span style=color:#00f>LWLockRelease</span>(SInvalReadLock);
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>return</span> <span style=color:#666>-</span><span style=color:#666>1</span>;
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * Force reset.  We can say we have dealt with any messages added
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * since the reset, as well; and that means we should clear the
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * signaled flag, too.
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        stateP<span style=color:#719e07>-&gt;</span>nextMsgNum <span style=color:#719e07>=</span> max;
+</span></span><span style=display:flex><span>        stateP<span style=color:#719e07>-&gt;</span>resetState <span style=color:#719e07>=</span> <span style=color:#b58900>false</span>;
+</span></span><span style=display:flex><span>        stateP<span style=color:#719e07>-&gt;</span>signaled <span style=color:#719e07>=</span> <span style=color:#b58900>false</span>;
+</span></span><span style=display:flex><span>        <span style=color:#268bd2>LWLockRelease</span>(SInvalReadLock);
+</span></span><span style=display:flex><span>        <span style=color:#719e07>return</span> <span style=color:#719e07>-</span><span style=color:#2aa198>1</span>;
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#408080;font-style:italic>// ... skipped ...
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic></span>}
+</span></span><span style=display:flex><span>    <span style=color:#586e75>// ... skipped ...
+</span></span></span><span style=display:flex><span><span style=color:#586e75></span>}
 </span></span></code></pre></td></tr></table></div></div><ul><li><code>ReceiveSharedInvalidMessages()</code> 中调用 <code>SIGetDataEntries()</code> 来取得未处理的消息</li><li><code>SIGetDataEntries()</code> 发现被重置后，返回 <code>-1</code></li><li><code>ReceiveSharedInvalidMessages()</code> 检查到返回值小于 <code>0</code> ，则调用传入的回调函数
-<code>InvalidateSystemCaches()</code> 来进行清理缓存</li></ul><h3 id=信号的处理>3.2 信号的处理<a hidden class=anchor aria-hidden=true href=#信号的处理>#</a></h3><p>信号处理最终会调到函数 <code>ProcessCatchupInterrupt()</code> ：</p><div class=highlight><pre tabindex=0 style=-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * ProcessCatchupInterrupt
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> * 处理追赶中断的部分，运行在信号处理程序之外，使其能够实际处理待处理的失效消息。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic> */</span>
-</span></span><span style=display:flex><span><span style=color:#b00040>void</span>
-</span></span><span style=display:flex><span><span style=color:#00f>ProcessCatchupInterrupt</span>(<span style=color:#b00040>void</span>)
+<code>InvalidateSystemCaches()</code> 来进行清理缓存</li></ul><h3 id=信号的处理>3.2 信号的处理<a hidden class=anchor aria-hidden=true href=#信号的处理>#</a></h3><p>信号处理最终会调到函数 <code>ProcessCatchupInterrupt()</code> ：</p><div class=highlight><pre tabindex=0 style=color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * ProcessCatchupInterrupt
+</span></span></span><span style=display:flex><span><span style=color:#586e75> *
+</span></span></span><span style=display:flex><span><span style=color:#586e75> * 处理追赶中断的部分，运行在信号处理程序之外，使其能够实际处理待处理的失效消息。
+</span></span></span><span style=display:flex><span><span style=color:#586e75> */</span>
+</span></span><span style=display:flex><span><span style=color:#dc322f>void</span>
+</span></span><span style=display:flex><span><span style=color:#268bd2>ProcessCatchupInterrupt</span>(<span style=color:#dc322f>void</span>)
 </span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:green;font-weight:700>while</span> (catchupInterruptPending)
+</span></span><span style=display:flex><span>    <span style=color:#719e07>while</span> (catchupInterruptPending)
 </span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:#408080;font-style:italic>/*
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 在这里我们需要让 ReceiveSharedInvalidMessages() 函数运行，它将进行必要的处理并重置
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * catchupInterruptPending 标志。如果我们正在事务中，可以直接调用 AcceptInvalidationMessages()
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 来执行这个操作。如果不是，在这里启动并立即结束一个事务；AcceptInvalidationMessages() 的调用
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 发生在事务启动内部。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         *
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 很诱人地，我们可以尝试只调用 AcceptInvalidationMessages()，而不执行事务启动/停止的其他操作，
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         * 我认为在正常情况下这样做是可行的；但是如果出现错误，我不确定处理会不会很顺利。
-</span></span></span><span style=display:flex><span><span style=color:#408080;font-style:italic>         */</span>
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>if</span> (<span style=color:#00f>IsTransactionOrTransactionBlock</span>())
+</span></span><span style=display:flex><span>        <span style=color:#586e75>/*
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 在这里我们需要让 ReceiveSharedInvalidMessages() 函数运行，它将进行必要的处理并重置
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * catchupInterruptPending 标志。如果我们正在事务中，可以直接调用 AcceptInvalidationMessages()
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 来执行这个操作。如果不是，在这里启动并立即结束一个事务；AcceptInvalidationMessages() 的调用
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 发生在事务启动内部。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         *
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 很诱人地，我们可以尝试只调用 AcceptInvalidationMessages()，而不执行事务启动/停止的其他操作，
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         * 我认为在正常情况下这样做是可行的；但是如果出现错误，我不确定处理会不会很顺利。
+</span></span></span><span style=display:flex><span><span style=color:#586e75>         */</span>
+</span></span><span style=display:flex><span>        <span style=color:#719e07>if</span> (<span style=color:#268bd2>IsTransactionOrTransactionBlock</span>())
 </span></span><span style=display:flex><span>        {
-</span></span><span style=display:flex><span>            <span style=color:#00f>elog</span>(DEBUG4, <span style=color:#ba2121>&#34;ProcessCatchupEvent inside transaction&#34;</span>);
-</span></span><span style=display:flex><span>            <span style=color:#00f>AcceptInvalidationMessages</span>();
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>elog</span>(DEBUG4, <span style=color:#2aa198>&#34;ProcessCatchupEvent inside transaction&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>AcceptInvalidationMessages</span>();
 </span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        <span style=color:green;font-weight:700>else</span>
+</span></span><span style=display:flex><span>        <span style=color:#719e07>else</span>
 </span></span><span style=display:flex><span>        {
-</span></span><span style=display:flex><span>            <span style=color:#00f>elog</span>(DEBUG4, <span style=color:#ba2121>&#34;ProcessCatchupEvent outside transaction&#34;</span>);
-</span></span><span style=display:flex><span>            <span style=color:#00f>StartTransactionCommand</span>();
-</span></span><span style=display:flex><span>            <span style=color:#00f>CommitTransactionCommand</span>();
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>elog</span>(DEBUG4, <span style=color:#2aa198>&#34;ProcessCatchupEvent outside transaction&#34;</span>);
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>StartTransactionCommand</span>();
+</span></span><span style=display:flex><span>            <span style=color:#268bd2>CommitTransactionCommand</span>();
 </span></span><span style=display:flex><span>        }
 </span></span><span style=display:flex><span>    }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div><p><code>AcceptInvalidationMessages()</code> 见 <a href=#org-coderef--cd71af-2>2</a> 。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://yangyingchao.github.io/tags/pg/>pg</a></li><li><a href=https://yangyingchao.github.io/tags/cache/>cache</a></li><li><a href=https://yangyingchao.github.io/tags/inval/>inval</a></li><li><a href=https://yangyingchao.github.io/tags/msg/>msg</a></li><li><a href=https://yangyingchao.github.io/tags/postgres/>postgres</a></li></ul></footer><script src=https://giscus.app/client.js data-repo=yangyingchao/giscus data-repo-id=R_kgDON6NYZA data-category=Announcements data-category-id=DIC_kwDON6NYZM4CnANs data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=preferred_color_scheme data-lang=zh-CN crossorigin=anonymous async></script></article></main><footer class=footer><span>&copy; 2025 <a href=https://yangyingchao.github.io>MyNotes</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
