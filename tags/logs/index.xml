@@ -1,1 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>logs on MyNotes</title><link>https://yangyingchao.github.io/tags/logs/</link><description>Recent content in logs on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/logs/index.xml" rel="self" type="application/rss+xml"/><item><title>How To Use Journalctl to View and Manipulate Systemd Logs</title><link>https://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</guid><description>1 Basic Log Viewing 2 Journal Filtering by Time 2.1 Displaying Logs from the Current Boot 2.2 Filtering by Message Interest 本文为摘录，原文为： https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs 1 Basic Log Viewing 要查看 journald 守护程序收集的日志，请使用 journalctl 命令。 当单独使用时，系统中的每个</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Logs - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/logs/</link><description>Logs - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/logs/" rel="self" type="application/rss+xml"/><item><title>How To Use Journalctl to View and Manipulate Systemd Logs</title><link>https://yangyingchao.github.io/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-use-journalctl-to-view-and-manipulate-systemd-logs/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:cf631f63-41b8-4f82-8544-76d72d2bdcdf" rel="">Basic Log Viewing</a></li>
+<li><span class="section-num">2</span> <a href="#h:a95fc26a-5a39-458f-9a0f-bbbddcbab960" rel="">Journal Filtering by Time</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:692298a1-3c38-4603-9577-94123cec0d63" rel="">Displaying Logs from the Current Boot</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:d6a93171-ab71-47be-b173-951f3cc5675a" rel="">Filtering by Message Interest</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs" target="_blank" rel="noopener noreffer ">https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs</a></p>
+<h2 id="h:cf631f63-41b8-4f82-8544-76d72d2bdcdf"><span class="section-num">1</span> Basic Log Viewing</h2>
+<p>要查看 journald 守护程序收集的日志，请使用 journalctl 命令。</p>
+<p>当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条
+目将显示在顶部：</p>]]></description></item></channel></rss>

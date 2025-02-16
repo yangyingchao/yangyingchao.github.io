@@ -1,1 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>blockchain on MyNotes</title><link>https://yangyingchao.github.io/tags/blockchain/</link><description>Recent content in blockchain on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/blockchain/index.xml" rel="self" type="application/rss+xml"/><item><title>Hybrid Blockchain Database Systems: Design and Performance</title><link>https://yangyingchao.github.io/posts/p1092-loghin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p1092-loghin/</guid><description>1 ABSTRACT 2 INTRODUCTION 本文为摘录，原文为： attachments/pdf/e/p1092-loghin.pdf 1 ABSTRACT Abbrs: CFT: crash fault-tolerant BFT: byzantine fault-tolerant Byzantine Fault Tolerance (BFT) is a trait of decentralized, permissionless systems which are capable of successfully identifying and rejecting dishonest or faulty information. Byzantine fault tolerant systems have successfully solved the Byzantine Generals Problem and are robust against sybil attacks. 2 INTRODUCTION 学术界出</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Blockchain - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/blockchain/</link><description>Blockchain - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/blockchain/" rel="self" type="application/rss+xml"/><item><title>Hybrid Blockchain Database Systems: Design and Performance</title><link>https://yangyingchao.github.io/p1092-loghin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1092-loghin/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:9f78e1f8-2b12-4076-aac1-e9e70da3d5c4" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:9a37547d-d53e-4acb-870b-1a94f6f35306" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/e/p1092-loghin.pdf</p>
+<h2 id="h:9f78e1f8-2b12-4076-aac1-e9e70da3d5c4"><span class="section-num">1</span> ABSTRACT</h2>
+<p>Abbrs:</p>
+<ul>
+<li>CFT: crash fault-tolerant</li>
+<li>BFT: <a href="https://river.com/learn/terms/b/byzantine-fault-tolerance-bft/" target="_blank" rel="noopener noreffer ">byzantine fault-tolerant</a> <br />
+Byzantine Fault Tolerance (BFT) is a trait of decentralized, permissionless
+systems which are capable of successfully identifying and rejecting
+dishonest or faulty information. Byzantine fault tolerant systems have
+successfully solved the Byzantine Generals Problem and are robust against
+sybil attacks.</li>
+</ul>
+<h2 id="h:9a37547d-d53e-4acb-870b-1a94f6f35306"><span class="section-num">2</span> INTRODUCTION</h2>
+<ul>
+<li>
+<p>学术界出现了集成分布式数据库与区块链特性的系统</p>]]></description></item></channel></rss>

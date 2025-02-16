@@ -1,1 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>guassdb on MyNotes</title><link>https://yangyingchao.github.io/tags/guassdb/</link><description>Recent content in guassdb on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/guassdb/index.xml" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/posts/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description>1 什么是 HTAP？ 2 HTAP 架构模式有哪些？ 2.1 IN-Memory Store 模式 2.2 主备架构模式 2.3 IN-Memory Computing 模式 2.4 主列存+增量行存模式 3 思考 3.1 GaussDB 对 HTAP 的思考 4 GaussDB 在 HTAP 上的创新 本文为摘录</description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/posts/opengauss+%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/opengauss+%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description>1 体系结构 本文为摘录，原文为： ../pptx/9/openGauss+技术架构.pptx 1 体系结构</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Guassdb - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/guassdb/</link><description>Guassdb - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/guassdb/" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:5b21d35f-99bb-4d99-81d3-91a62417244e" rel="">什么是 HTAP？</a></li>
+<li><span class="section-num">2</span> <a href="#h:cf283d8d-9c7c-4a64-8102-e08cef75921f" rel="">HTAP 架构模式有哪些？</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:e50df0a5-f62c-4e9e-b225-236d99e8e439" rel="">IN-Memory Store 模式</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:d30833b8-2140-4152-9ea7-e8f70bf3e8d1" rel="">主备架构模式</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:b651f209-8a4b-4faf-859e-e20feef34570" rel="">IN-Memory Computing 模式</a></li>
+<li><span class="section-num">2.4</span> <a href="#h:5b382630-9cd4-4651-a0b5-3184be1119fd" rel="">主列存+增量行存模式</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:05ee8b35-d261-4b7b-9f39-ba3c95542278" rel="">思考</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:19e241a9-66b3-446d-a2a7-cffe857e87d0" rel="">GaussDB 对 HTAP 的思考</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#h:fe8fe64e-4da2-4de3-8d67-65b166c68b46" rel="">GaussDB 在 HTAP 上的创新</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd</a></p>
+<h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"><span class="section-num">1</span> 什么是 HTAP？</h2>
+<ul>
+<li>
+<p>TP 和 AP 的特点</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： ../pptx/9/openGauss+技术架构.pptx</p>
+<h2 id="h:ffedcec1-02e6-45ff-b383-ae60f29ec920"><span class="section-num">1</span> 体系结构</h2>
+<p><a id="figure--fig:screenshot@2023-05-23-18:32:14"></a></p>
+<figure>
+</figure>
+
+<p><a id="figure--fig:screenshot@2023-05-23-18:32:47"></a></p>
+<figure>
+</figure>
+
+<p><a id="figure--fig:screenshot@2023-05-23-18:34:33"></a></p>
+<figure>
+</figure>
+
+<p><a id="figure--fig:screenshot@2023-05-23-18:34:47"></a></p>
+<figure>
+</figure>
+
+<p><a id="figure--fig:screenshot@2023-05-23-18:36:47"></a></p>
+<figure>
+</figure>]]></description></item></channel></rss>

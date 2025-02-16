@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>postgres on MyNotes</title><link>https://yangyingchao.github.io/tags/postgres/</link><description>Recent content in postgres on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/postgres/index.xml" rel="self" type="application/rss+xml"/><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/posts/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/sinvaladt/</guid><description>1 prelog 2 Configurable parameters 3 SICleanupQueue 3.1 重置后的处理 3.2 信号的处理 本文为摘录，原文为： https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c 1 prelog 共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Postgres - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/postgres/</link><description>Postgres - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/postgres/" rel="self" type="application/rss+xml"/><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#prelog" rel="">prelog</a></li>
+<li><span class="section-num">2</span> <a href="#configurable-parameters" rel="">Configurable parameters</a></li>
+<li><span class="section-num">3</span> <a href="#sicleanupqueue" rel="">SICleanupQueue</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86" rel="">重置后的处理</a></li>
+<li><span class="section-num">3.2</span> <a href="#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86" rel="">信号的处理</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
+<h2 id="prelog"><span class="section-num">1</span> prelog</h2>
+<p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
+minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。
+每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
+maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。</p>]]></description></item></channel></rss>

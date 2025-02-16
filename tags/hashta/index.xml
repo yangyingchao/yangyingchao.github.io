@@ -1,1 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>hashta on MyNotes</title><link>https://yangyingchao.github.io/tags/hashta/</link><description>Recent content in hashta on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/hashta/index.xml" rel="self" type="application/rss+xml"/><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/posts/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/20-product-guide/</guid><description>1 Abort HashData 2 设计理念 3 架构介绍 3.1 管理模块 3.2 用户模块 4 产品特性 4.1 数据仓库服务 4.2 灵活高效的业务支持 4.3 多维度弹性 4.4 高可用和低成本 4.5 接近零停机时间 4.6 优化</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Hashta - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/hashta/</link><description>Hashta - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/hashta/" rel="self" type="application/rss+xml"/><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/20-product-guide/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:2786e008-f119-411c-9a74-c638782209f4" rel="">Abort HashData</a></li>
+<li><span class="section-num">2</span> <a href="#h:ca6a6265-aba7-4649-915a-491dcafa2674" rel="">设计理念</a></li>
+<li><span class="section-num">3</span> <a href="#h:01e085d2-f9e4-466a-ac81-c3070862ea14" rel="">架构介绍</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:2583d853-abf9-4a9f-84b3-ad291185c046" rel="">管理模块</a></li>
+<li><span class="section-num">3.2</span> <a href="#h:f3f697e1-8559-4318-a40f-d86b958503aa" rel="">用户模块</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#h:8c2b3d9a-f636-4b5f-8625-279bfd7efea6" rel="">产品特性</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#h:e8f5a5da-4a1d-41b9-9543-8ca31e03ab5a" rel="">数据仓库服务</a></li>
+<li><span class="section-num">4.2</span> <a href="#h:4ecba8ce-fd69-4546-bc38-73ac880f78d5" rel="">灵活高效的业务支持</a></li>
+<li><span class="section-num">4.3</span> <a href="#h:20f1781a-a1db-4f47-b65b-080e7f6b2383" rel="">多维度弹性</a></li>
+<li><span class="section-num">4.4</span> <a href="#h:8f6d0651-d755-482a-af31-b728b469fb87" rel="">高可用和低成本</a></li>
+<li><span class="section-num">4.5</span> <a href="#h:f616d73d-1198-4d40-a663-dee767e725d5" rel="">接近零停机时间</a></li>
+<li><span class="section-num">4.6</span> <a href="#h:3a45f298-f33b-4f3b-9aca-e30f4cc5d985" rel="">优化的硬件配置</a></li>
+<li><span class="section-num">4.7</span> <a href="#h:9a14c0a7-21b5-472b-bf1d-318932ebe3ec" rel="">兼容开源</a></li>
+<li><span class="section-num">4.8</span> <a href="#h:ff27a80f-1230-4c8c-b929-8e7a6928a7d0" rel="">完善的数据库能力</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://docs.hashdata.xyz/docs/20-product-guide/" target="_blank" rel="noopener noreffer ">https://docs.hashdata.xyz/docs/20-product-guide/</a></p>
+<h2 id="h:2786e008-f119-411c-9a74-c638782209f4"><span class="section-num">1</span> Abort HashData</h2>
+<p>HashData was founded in 2016 by the guys who built Apache HAWQ, one of the most
+advanced SQL on Hadoop solutions. As the flagship product of the company, HashData
+Warehousing is a data warehouse service built for the cloud. While 100% compatible with
+the analytics interfaces of the open source MPP database Greenplum，HashData&rsquo;s unique
+architecture delivers proven breakthroughs in performance, concurrency, elasticity and
+simplicity.</p>]]></description></item></channel></rss>

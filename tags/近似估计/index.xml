@@ -1,1 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>近似估计 on MyNotes</title><link>https://yangyingchao.github.io/tags/%E8%BF%91%E4%BC%BC%E4%BC%B0%E8%AE%A1/</link><description>Recent content in 近似估计 on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/%E8%BF%91%E4%BC%BC%E4%BC%B0%E8%AE%A1/index.xml" rel="self" type="application/rss+xml"/><item><title>AB-tree: Index for Concurrent Random Sampling and Updates</title><link>https://yangyingchao.github.io/posts/p1835-zhao/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p1835-zhao/</guid><description>1 ABSTRACT 2 INTRODUCTION 2.1 AQP 2.2 现有 AQP 的采样对实时处理不太适用 2.3 Aggregated Btree Index 本文为摘录，原文为： ../../attachments/pdf/d/p1835-zhao.pdf 1 ABSTRACT 本文介绍了一种名为 AB-tree 的索引结构，用于高并发随机抽样和更新操作。</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>近似估计 - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/%E8%BF%91%E4%BC%BC%E4%BC%B0%E8%AE%A1/</link><description>近似估计 - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/%E8%BF%91%E4%BC%BC%E4%BC%B0%E8%AE%A1/" rel="self" type="application/rss+xml"/><item><title>AB-tree: Index for Concurrent Random Sampling and Updates</title><link>https://yangyingchao.github.io/p1835-zhao/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1835-zhao/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:e45b6d32-a08f-4b57-93e8-82f7f09a3a3f" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:83dc47be-be7b-43ef-b003-64e0a4313af4" rel="">INTRODUCTION</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:09b345e4-1744-4bc1-9ac4-62527fc76723" rel="">AQP</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:5303ffee-9d4b-48b7-8816-b010fa4f804e" rel="">现有 AQP 的采样对实时处理不太适用</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:0c93866c-b6c9-4773-b660-1e2d7b2c1828" rel="">Aggregated Btree Index</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： ../../attachments/pdf/d/p1835-zhao.pdf</p>
+<h2 id="h:e45b6d32-a08f-4b57-93e8-82f7f09a3a3f"><span class="section-num">1</span> ABSTRACT</h2>
+<p>本文介绍了一种名为 AB-tree 的索引结构，用于高并发随机抽样和更新操作。</p>
+<ul>
+<li>实时数据分析需求日益日益增长</li>
+<li>近似查询处理（Approximate Query Processing, AQP） 适合用作实时数据分析：
+<ul>
+<li>使用随机抽样</li>
+<li>通过降低查询延迟，换取一定的准确度。</li>
+</ul>
+</li>
+</ul>
+<p>然而，现有的 AQP 系统:</p>]]></description></item></channel></rss>

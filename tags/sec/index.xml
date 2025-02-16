@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>sec on MyNotes</title><link>https://yangyingchao.github.io/tags/sec/</link><description>Recent content in sec on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Tue, 21 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sec/index.xml" rel="self" type="application/rss+xml"/><item><title>sdl_note</title><link>https://yangyingchao.github.io/posts/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/sdl_note/</guid><description>1 什么是 SDL 2 为什么要做 SDL 3 微软 SDL 4 安全设计核心原则 5 SDL 困难 6 总结 7 reference： 本文为摘录，原文为： https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD 1 什么是 SDL SDL 其实是由微软提出并应</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sec - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/sec/</link><description>Sec - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 21 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sec/" rel="self" type="application/rss+xml"/><item><title>sdl_note</title><link>https://yangyingchao.github.io/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sdl_note/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e4%bb%80%e4%b9%88%e6%98%af-sdl" rel="">什么是 SDL</a></li>
+<li><span class="section-num">2</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9a-sdl" rel="">为什么要做 SDL</a></li>
+<li><span class="section-num">3</span> <a href="#%e5%be%ae%e8%bd%af-sdl" rel="">微软 SDL</a></li>
+<li><span class="section-num">4</span> <a href="#%e5%ae%89%e5%85%a8%e8%ae%be%e8%ae%a1%e6%a0%b8%e5%bf%83%e5%8e%9f%e5%88%99" rel="">安全设计核心原则</a></li>
+<li><span class="section-num">5</span> <a href="#sdl-%e5%9b%b0%e9%9a%be" rel="">SDL 困难</a></li>
+<li><span class="section-num">6</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
+<li><span class="section-num">7</span> <a href="#reference" rel="">reference：</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD" target="_blank" rel="noopener noreffer ">https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD</a></p>
+<h2 id="什么是-sdl"><span class="section-num">1</span> 什么是 SDL</h2>
+<p>SDL 其实是由微软提出并应用一个帮助开发人员构建更安全的软件和解决安全合规要求的同时降低开发成本的软件开发过程，侧重于软件开
+发的安全保证过程，旨在开发出安全的软件应用。</p>]]></description></item></channel></rss>

@@ -1,1 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>transaction on MyNotes</title><link>https://yangyingchao.github.io/tags/transaction/</link><description>Recent content in transaction on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Mon, 13 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/transaction/index.xml" rel="self" type="application/rss+xml"/><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/posts/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/www.51cto.com_article_703272/</guid><description>1 节点 1.1 Coordinator 与 Worker 2 分布式数据 2.1 表类型 2.2 Shards 3 查询执行 本文为摘录，原文为： https://www.51cto.com/article/703272.html 1 节点 Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(sha</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Transaction - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/transaction/</link><description>Transaction - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 13 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/transaction/" rel="self" type="application/rss+xml"/><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e8%8a%82%e7%82%b9" rel="">节点</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#coordinator-%e4%b8%8e-worker" rel="">Coordinator 与 Worker</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e6%95%b0%e6%8d%ae" rel="">分布式数据</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#%e8%a1%a8%e7%b1%bb%e5%9e%8b" rel="">表类型</a></li>
+<li><span class="section-num">2.2</span> <a href="#shards" rel="">Shards</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e6%9f%a5%e8%af%a2%e6%89%a7%e8%a1%8c" rel="">查询执行</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html</a></p>
+<h2 id="节点"><span class="section-num">1</span> 节点</h2>
+<p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，
+允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据
+库。</p>]]></description></item></channel></rss>

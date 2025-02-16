@@ -1,1 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>tty on MyNotes</title><link>https://yangyingchao.github.io/tags/tty/</link><description>Recent content in tty on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Fri, 08 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tty/index.xml" rel="self" type="application/rss+xml"/><item><title>How to Terminate Stuck or Unwanted User Sessions in Linux</title><link>https://yangyingchao.github.io/posts/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</link><pubDate>Fri, 08 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</guid><description>1 Linux 中的 TTY 和 PTS 是什么？ 2 如何在 Linux 中终止被卡住/不需要的用户会话 2.1 Terminate User Session by TTY 2.2 按进程 ID 终止用户会话 2.3 Conclusion 本文为摘录，原文为： https://linuxiac.com/how-to-terminate-user-session-in-linux/ 1 Linux 中的 TTY 和 PTS 是什</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Tty - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/tty/</link><description>Tty - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 08 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tty/" rel="self" type="application/rss+xml"/><item><title>How to Terminate Stuck or Unwanted User Sessions in Linux</title><link>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</link><pubDate>Fri, 08 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:630c60b8-137a-4521-84fd-8c01eb6c2e48" rel="">Linux 中的 TTY 和 PTS 是什么？</a></li>
+<li><span class="section-num">2</span> <a href="#h:78ab4e18-5d26-4a48-84a3-7d3129debc4e" rel="">如何在 Linux 中终止被卡住/不需要的用户会话</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:ef209893-46c7-448a-90a8-8eeffeb11171" rel="">Terminate User Session by TTY</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:fb2a4d0e-261f-43d3-b207-b366e4f2d4e2" rel="">按进程 ID 终止用户会话</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:d7fd8a22-d7ec-4841-9ae7-54f2f7892626" rel="">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://linuxiac.com/how-to-terminate-user-session-in-linux/" target="_blank" rel="noopener noreffer ">https://linuxiac.com/how-to-terminate-user-session-in-linux/</a></p>
+<h2 id="h:630c60b8-137a-4521-84fd-8c01eb6c2e48"><span class="section-num">1</span> Linux 中的 TTY 和 PTS 是什么？</h2>
+<p>在 Linux 中，&ldquo;PTS&quot;和&quot;TTY&quot;都指不同的终端设备，用于用户与操作系统之间的通信。它们作为输入命令和从系统接收输出的接口。</p>]]></description></item></channel></rss>

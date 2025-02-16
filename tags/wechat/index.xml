@@ -1,1 +1,41 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>wechat on MyNotes</title><link>https://yangyingchao.github.io/tags/wechat/</link><description>Recent content in wechat on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Wed, 16 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/wechat/index.xml" rel="self" type="application/rss+xml"/><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/posts/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description>1 一 2 二 3 三 1 一 刚刚读完了韩国作家崔恩荣的《明亮的夜晚》，作者以细腻的笔法，将八十年来几代人的故事娓娓道来： 和丈夫离婚后，三十一岁的我独自来</description></item><item><title>公众号-读书笔记-马斯克传-五步工作法</title><link>https://yangyingchao.github.io/posts/%E5%85%AC%E4%BC%97%E5%8F%B7-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E9%A9%AC%E6%96%AF%E5%85%8B%E4%BC%A0/</link><pubDate>Wed, 09 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/%E5%85%AC%E4%BC%97%E5%8F%B7-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E9%A9%AC%E6%96%AF%E5%85%8B%E4%BC%A0/</guid><description>前几天看完了《埃隆·马斯克传》，仍然在书写传奇的硅谷钢铁侠。这本书整体上来说非常好，个人感觉比《乔布斯传》要好，更贴近现实，也更有参考意义。</description></item><item><title>十年前的微信消息收发架构长啥样</title><link>https://yangyingchao.github.io/posts/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</link><pubDate>Fri, 29 Mar 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</guid><description>1 背景 2 消息收发架构 2.1 消息发送架构 2.2 消息接收架构 2.3 小结 3 消息防丢失机制 3.1 sequence 机制 3.2 消息收取 sequnece 确认机制 本文为摘录，原文为： https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA 2023 年，微信及 WeChat 的 DA</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Wechat - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/wechat/</link><description>Wechat - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 16 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/wechat/" rel="self" type="application/rss+xml"/><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e4%b8%80" rel="">一</a></li>
+<li><span class="section-num">2</span> <a href="#%e4%ba%8c" rel="">二</a></li>
+<li><span class="section-num">3</span> <a href="#%e4%b8%89" rel="">三</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<h2 id="一"><span class="section-num">1</span> 一</h2>
+<p>刚刚读完了韩国作家崔恩荣的《明亮的夜晚》，作者以细腻的笔法，将八十年来几代人的故事娓娓道来：</p>
+<blockquote>
+<p>和丈夫离婚后，三十一岁的我独自来到海边小城熙岭，却在那里邂逅多年未见的祖母。尴尬和沉默之后，孤独的心一点点靠近，
+我和祖母成为相互倾吐心声的朋友。
+在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封
+感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身
+边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去
+的无数个我吗？</p>]]></description></item><item><title>公众号-读书笔记-马斯克传-五步工作法</title><link>https://yangyingchao.github.io/%E5%85%AC%E4%BC%97%E5%8F%B7-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E9%A9%AC%E6%96%AF%E5%85%8B%E4%BC%A0/</link><pubDate>Wed, 09 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E5%85%AC%E4%BC%97%E5%8F%B7-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E9%A9%AC%E6%96%AF%E5%85%8B%E4%BC%A0/</guid><description>&lt;p>前几天看完了《埃隆·马斯克传》，仍然在书写传奇的硅谷钢铁侠。这本书整体上来说非常好，个人感觉比《乔布斯传》要好，更贴近现实，也更有参考意义。&lt;/p>
+&lt;p>今天只简单记录一下马斯克推崇的 “五步工作法” 。&lt;/p></description></item><item><title>十年前的微信消息收发架构长啥样</title><link>https://yangyingchao.github.io/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</link><pubDate>Fri, 29 Mar 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e8%83%8c%e6%99%af" rel="">背景</a></li>
+<li><span class="section-num">2</span> <a href="#%e6%b6%88%e6%81%af%e6%94%b6%e5%8f%91%e6%9e%b6%e6%9e%84" rel="">消息收发架构</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#%e6%b6%88%e6%81%af%e5%8f%91%e9%80%81%e6%9e%b6%e6%9e%84" rel="">消息发送架构</a></li>
+<li><span class="section-num">2.2</span> <a href="#%e6%b6%88%e6%81%af%e6%8e%a5%e6%94%b6%e6%9e%b6%e6%9e%84" rel="">消息接收架构</a></li>
+<li><span class="section-num">2.3</span> <a href="#%e5%b0%8f%e7%bb%93" rel="">小结</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e6%b6%88%e6%81%af%e9%98%b2%e4%b8%a2%e5%a4%b1%e6%9c%ba%e5%88%b6" rel="">消息防丢失机制</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#sequence-%e6%9c%ba%e5%88%b6" rel="">sequence 机制</a></li>
+<li><span class="section-num">3.2</span> <a href="#%e6%b6%88%e6%81%af%e6%94%b6%e5%8f%96-sequnece-%e7%a1%ae%e8%ae%a4%e6%9c%ba%e5%88%b6" rel="">消息收取 sequnece 确认机制</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA</a></p>
+<p>2023 年，微信及 WeChat 的 DAU（月活用户）达到 13.4 亿，微信已经是很多人工作、生活中不可或缺的一个环节。从 2011 年 1 月
+21 日上线至今，微信已经走过了 13 个年头，其背后的技术基座与架构也发生了巨大的变化。</p>]]></description></item></channel></rss>

@@ -1,1 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>sqlserver on MyNotes</title><link>https://yangyingchao.github.io/tags/sqlserver/</link><description>Recent content in sqlserver on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlserver/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/posts/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p1714-kossmann/</guid><description>1 ABSTRACT 2 INTRODUCTION 3 APPLICATION EXAMPLE 3.1 Project Siberia 本文为摘录，原文为： attachments/pdf/f/p1714-kossmann.pdf 对目前的架构来讲，和 粗糙索引 作用重叠。。 1 ABSTRACT ARF: Adaptive Range Filter, 自适应范围过滤器 ARF is for Range queries, while BloomFilter is for Point queries 2 INTRODUCTION 3 APPLICATION</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sqlserver - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/sqlserver/</link><description>Sqlserver - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlserver/" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:a4fb225f-a49e-4a9e-927c-a0173212264d" rel="">INTRODUCTION</a></li>
+<li><span class="section-num">3</span> <a href="#h:a555d6ac-abe7-471a-872e-af21f9cfa13c" rel="">APPLICATION EXAMPLE</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:e89b04c8-78da-49f9-ae2b-4b9de35e7442" rel="">Project Siberia</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/f/p1714-kossmann.pdf</p>
+<p>对目前的架构来讲，和 <strong>粗糙索引</strong> 作用重叠。。</p>
+<h2 id="h:925d40ea-36be-4f97-92e1-5a9583172847"><span class="section-num">1</span> ABSTRACT</h2>
+<ul>
+<li><strong>ARF</strong>: Adaptive Range Filter, 自适应范围过滤器</li>
+<li>ARF is for Range queries, while</li>
+<li>BloomFilter is for Point queries</li>
+</ul>
+<h2 id="h:a4fb225f-a49e-4a9e-927c-a0173212264d"><span class="section-num">2</span> INTRODUCTION</h2>
+<h2 id="h:a555d6ac-abe7-471a-872e-af21f9cfa13c"><span class="section-num">3</span> APPLICATION EXAMPLE</h2>
+<h3 id="h:e89b04c8-78da-49f9-ae2b-4b9de35e7442"><span class="section-num">3.1</span> Project Siberia</h3>
+<ul>
+<li>Siberia 是 Hekaton 项目用于管理冷数据的一个项目
+<ul>
+<li>Hekaton 则是 SQL Server 套件中的内存数据库</li>
+</ul>
+</li>
+</ul>
+<!--listend-->
+<ul>
+<li>查询处理</li>
+</ul>
+<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item></channel></rss>

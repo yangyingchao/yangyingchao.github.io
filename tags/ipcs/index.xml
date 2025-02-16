@@ -1,1 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ipcs on MyNotes</title><link>https://yangyingchao.github.io/tags/ipcs/</link><description>Recent content in ipcs on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ipcs/index.xml" rel="self" type="application/rss+xml"/><item><title>shared memory utilities</title><link>https://yangyingchao.github.io/posts/shared-memory-utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/shared-memory-utilities/</guid><description>1 RTFM… 1.1 ipcs 1.2 ipcrm 2 Check shared memory in Linux 本文为摘录，原文为： https://linuxopsys.com/topics/check-shared-memory-in-linux 1 RTFM… 1.1 ipcs 1.2 ipcrm 2 Check shared memory in Linux Print active shared memory segments using -m option. # ipcs -m ------ Shared Memory Segments -------- key shmid owner perms bytes nattch status 0x00000000 65536 root 600</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ipcs - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/ipcs/</link><description>Ipcs - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ipcs/" rel="self" type="application/rss+xml"/><item><title>shared memory utilities</title><link>https://yangyingchao.github.io/shared-memory-utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/shared-memory-utilities/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:c32fe430-3144-4745-8d64-a0bce73720c9" rel="">RTFM…</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#h:aa00c038-6852-443e-8679-c0081f6bcbd9" rel="">ipcs</a></li>
+<li><span class="section-num">1.2</span> <a href="#h:528e7c73-98e2-4f52-b45a-0715874093fd" rel="">ipcrm</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#h:06646b4f-87e4-4591-919b-cce0fe1f3983" rel="">Check shared memory in Linux</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://linuxopsys.com/topics/check-shared-memory-in-linux" target="_blank" rel="noopener noreffer ">https://linuxopsys.com/topics/check-shared-memory-in-linux</a></p>
+<h2 id="h:c32fe430-3144-4745-8d64-a0bce73720c9"><span class="section-num">1</span> RTFM…</h2>
+<h3 id="h:aa00c038-6852-443e-8679-c0081f6bcbd9"><span class="section-num">1.1</span> ipcs</h3>
+<h3 id="h:528e7c73-98e2-4f52-b45a-0715874093fd"><span class="section-num">1.2</span> ipcrm</h3>
+<h2 id="h:06646b4f-87e4-4591-919b-cce0fe1f3983"><span class="section-num">2</span> <a href="https://linuxopsys.com/topics/check-shared-memory-in-linux#:~:text=Check%20shared%20memory%20in%20Linux" target="_blank" rel="noopener noreffer ">Check shared memory in Linux</a></h2>
+<p>Print active shared memory segments using -m option.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># ipcs -m
+</span></span><span class="line"><span class="cl">------ Shared Memory Segments --------
+</span></span><span class="line"><span class="cl">key shmid owner perms bytes nattch status
+</span></span><span class="line"><span class="cl">0x00000000 65536 root 600 393216 2 dest
+</span></span><span class="line"><span class="cl">0x00000000 98305 root 600 393216 2 dest
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>where,</p>]]></description></item></channel></rss>

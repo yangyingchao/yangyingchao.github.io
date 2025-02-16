@@ -1,5 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>clean on MyNotes</title><link>https://yangyingchao.github.io/tags/clean/</link><description>Recent content in clean on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Thu, 19 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/clean/index.xml" rel="self" type="application/rss+xml"/><item><title>git tips</title><link>https://yangyingchao.github.io/posts/git-tips/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/git-tips/</guid><description> To list untracked files
-git ls-files --others --exclude-standard If you need to pipe the output to xargs, it is wise to mind white spaces using git ls-files -z and xargs -0:
-git ls-files -z -o --exclude-standard | xargs -0 git add Nice alias for adding untracked files:
-au = !git add $(git ls-files -o --exclude-standard) Delete untracked files:
-git clean -dfx</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Clean - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/clean/</link><description>Clean - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 19 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/clean/" rel="self" type="application/rss+xml"/><item><title>git tips</title><link>https://yangyingchao.github.io/git-tips/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/git-tips/</guid><description><![CDATA[<ul>
+<li>
+<p>To list untracked files</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git ls-files --others --exclude-standard
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you need to pipe the output to xargs, it is wise to mind white spaces using <code>git ls-files -z</code> and <code>xargs -0</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git ls-files -z -o --exclude-standard <span class="p">|</span> xargs -0 git add
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nice alias for adding untracked files:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">au</span> <span class="o">=</span> !git add <span class="k">$(</span>git ls-files -o --exclude-standard<span class="k">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>Delete untracked files:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clean -dfx
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>]]></description></item></channel></rss>

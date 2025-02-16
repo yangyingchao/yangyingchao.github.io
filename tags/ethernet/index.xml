@@ -1,1 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ethernet on MyNotes</title><link>https://yangyingchao.github.io/tags/ethernet/</link><description>Recent content in ethernet on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ethernet/index.xml" rel="self" type="application/rss+xml"/><item><title>Performance of 10 G Ethernet Using Commodity Hardware</title><link>https://yangyingchao.github.io/posts/performanceof10gbe/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/performanceof10gbe/</guid><description>1 INTRODUCTION 2 NETWORK PROCESSING IN THE LINUX KERNEL 2.1 Kernel Accounting 2.2 Packet Transmission 发送 2.3 Packet Reception 接收 2.4 Incorrect SoftIRQ Accounting 3 TESTBED AND KERNEL CONFIGURATION 4 UDP TRANSMISSION 5 TCP TRANSMISSION 6 TCP TRANSMISSION WITH ZERO-COPY 7 THE HARDWARE OFFLOAD FUNCTIONALITIES OF THE NETWORK ADAPTER 8 FIBRE CHANNEL TO 10 GIGABIT ETHERNET TESTS 9 CONCLUSIONS 本文为摘录，原文为</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ethernet - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/ethernet/</link><description>Ethernet - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ethernet/" rel="self" type="application/rss+xml"/><item><title>Performance of 10 G Ethernet Using Commodity Hardware</title><link>https://yangyingchao.github.io/performanceof10gbe/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/performanceof10gbe/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:ff062e17-a590-447b-af94-db765fe35d49" rel="">INTRODUCTION</a></li>
+<li><span class="section-num">2</span> <a href="#h:79aa9e78-e621-4482-a37f-6c4e9faa51ed" rel="">NETWORK PROCESSING IN THE LINUX KERNEL</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:ae958029-e093-4749-8e53-86bbf3c625c0" rel="">Kernel Accounting</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:becafb3e-b9d7-42ce-a7f6-ef239ea75c5a" rel="">Packet Transmission 发送</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:89c95fde-f17c-4f48-a103-2c4f8a22c09c" rel="">Packet Reception 接收</a></li>
+<li><span class="section-num">2.4</span> <a href="#h:9010c7b0-db9f-4169-8ec4-b8905c4dd54a" rel="">Incorrect SoftIRQ Accounting</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:aaaa327c-4cf8-4784-a699-88f940bd6e60" rel="">TESTBED AND KERNEL CONFIGURATION</a></li>
+<li><span class="section-num">4</span> <a href="#h:8168452b-6b7f-4d83-91b1-33a6df8d63fc" rel="">UDP TRANSMISSION</a></li>
+<li><span class="section-num">5</span> <a href="#h:3d1a9962-b03b-481c-8098-aeaaad110f71" rel="">TCP TRANSMISSION</a></li>
+<li><span class="section-num">6</span> <a href="#h:b3dad9b5-5d55-4dbb-ad94-74e11ba80a91" rel="">TCP TRANSMISSION WITH ZERO-COPY</a></li>
+<li><span class="section-num">7</span> <a href="#h:566096d2-c034-451a-9844-517b5b69c0f0" rel="">THE HARDWARE OFFLOAD FUNCTIONALITIES OF THE NETWORK ADAPTER</a></li>
+<li><span class="section-num">8</span> <a href="#h:321ebff8-6056-49e5-9deb-bfc61ccb5011" rel="">FIBRE CHANNEL TO 10 GIGABIT ETHERNET TESTS</a></li>
+<li><span class="section-num">9</span> <a href="#h:77721e10-4994-4b5b-97c8-6d13ef405b68" rel="">CONCLUSIONS</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/3/performanceOf10GbE.pdf</p>
+<h2 id="h:ff062e17-a590-447b-af94-db765fe35d49"><span class="section-num">1</span> INTRODUCTION</h2>
+<p>With the introduction of 10-GbE, network I/O re-entered the “fast network,
+slow host” scenario that occurred with both the transitions to Fast Ethernet
+and Gigabit Ethernet. Specifically, three major system bottlenecks may limit
+the efficiency of high-performance I/O adapters:</p>]]></description></item></channel></rss>

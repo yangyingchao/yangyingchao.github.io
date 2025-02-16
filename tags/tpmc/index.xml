@@ -1,1 +1,54 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>tpmc on MyNotes</title><link>https://yangyingchao.github.io/tags/tpmc/</link><description>Recent content in tpmc on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/tpmc/index.xml" rel="self" type="application/rss+xml"/><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/posts/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p3385-xu/</guid><description>1 Introduction 2 DESIGN OVERVIEW 2.1 Goals 2.2 Criteria of Design 3 架构图 3.1 Application Layer 3.2 Proxy Layer 3.3 Data Service Layer 3.4 Zones 3.5 表 3.6 Node 3.7 SQL Engine 3.8 Multi-tenancy 3.9 Resource Isolation. 3.10 Features 4 STORAGE ENGINE 4.1 LSM Tree-Based Architecture 4.2 Asymmetric Read and Write 4.3 Daily Incremental Major Compaction 4.4 Replica Type 5 TRANSACTION PROCESSING ENGINE 5.1 Partition and Paxos Group</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Tpmc - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/tpmc/</link><description>Tpmc - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/tpmc/" rel="self" type="application/rss+xml"/><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3385-xu/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:0a45267f-a3ae-43ad-8a8a-2a8ff4d14e35" rel="">Introduction</a></li>
+<li><span class="section-num">2</span> <a href="#h:81c079a8-b5c8-4073-b6dc-4390e495b9ac" rel="">DESIGN OVERVIEW</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:89cbb686-47c9-439f-94af-5baf3dbdec55" rel="">Goals</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:d8875fcd-41a7-4eb3-bcdb-7f4698884d41" rel="">Criteria of Design</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:1d973c3d-dfa5-4501-806a-a3691d5f5ddb" rel="">架构图</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:8c3fca18-cdec-4d5c-a080-0d9f7ce5d187" rel="">Application Layer</a></li>
+<li><span class="section-num">3.2</span> <a href="#h:02cd8c19-34d7-4bbd-8ec9-c5e1df9a54b2" rel="">Proxy Layer</a></li>
+<li><span class="section-num">3.3</span> <a href="#h:dda54135-ae89-427a-88cd-a83212f504d5" rel="">Data Service Layer</a></li>
+<li><span class="section-num">3.4</span> <a href="#h:e6097928-8983-4e4e-a6e7-789f28d6ba2c" rel="">Zones</a></li>
+<li><span class="section-num">3.5</span> <a href="#h:e7b840bd-069f-43ac-9f26-efd8b9d23815" rel="">表</a></li>
+<li><span class="section-num">3.6</span> <a href="#h:b613b575-2ec7-4ac9-af01-6abc2ac33597" rel="">Node</a></li>
+<li><span class="section-num">3.7</span> <a href="#h:93134f71-c553-4bdf-85d9-b635dc2e6cfa" rel="">SQL Engine</a></li>
+<li><span class="section-num">3.8</span> <a href="#h:3ff4162e-c44a-44bf-a591-06272e393a61" rel="">Multi-tenancy</a></li>
+<li><span class="section-num">3.9</span> <a href="#h:795aebda-ad5d-423b-bbd8-18e201a3ea05" rel="">Resource Isolation.</a></li>
+<li><span class="section-num">3.10</span> <a href="#h:d1d0b2ec-39d3-4860-a5e2-1fc17e06cb0a" rel="">Features</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#h:b529b550-1b76-4517-b51e-c2ef317a50e8" rel="">STORAGE ENGINE</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#h:2d0129de-6b8c-4123-bcae-3381d34e2426" rel="">LSM Tree-Based Architecture</a></li>
+<li><span class="section-num">4.2</span> <a href="#h:3b88b7f0-2a81-46b3-a504-81ead89714dc" rel="">Asymmetric Read and Write</a></li>
+<li><span class="section-num">4.3</span> <a href="#h:fd24213c-c8e8-47e2-b267-b650ade48456" rel="">Daily Incremental Major Compaction</a></li>
+<li><span class="section-num">4.4</span> <a href="#h:38ef652e-1cac-4458-ab8d-c5a450387a17" rel="">Replica Type</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#h:daef193b-c166-40bc-897c-1ba68e6d2e7e" rel="">TRANSACTION PROCESSING ENGINE</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#h:9ddf467b-d11e-4b8e-9056-ff15b67602fe" rel="">Partition and Paxos Group</a></li>
+<li><span class="section-num">5.2</span> <a href="#h:af98d321-1caf-4efe-811a-12302ffb7321" rel="">Timestamp Service</a></li>
+<li><span class="section-num">5.3</span> <a href="#h:3fa0c121-d1e6-41d0-94b0-aba40baa6340" rel="">Transaction Processing</a></li>
+<li><span class="section-num">5.4</span> <a href="#h:48068368-5e2c-46d7-8973-fcd6ed207b2e" rel="">Isolation Level</a></li>
+<li><span class="section-num">5.5</span> <a href="#h:9c090d3d-1284-4a59-8748-5f4f41d92fd4" rel="">Replicated Table</a></li>
+</ul>
+</li>
+<li><span class="section-num">6</span> <a href="#h:b9272e56-7a6c-4576-bb2e-07d908598d53" rel="">TPC-C BENCHMARK TEST</a></li>
+<li><span class="section-num">7</span> <a href="#h:dd8ffbcb-ac77-4683-ae5b-4bdb8f828c61" rel="">LESSONS IN BUILDING OCEANBASE</a>
+<ul>
+<li><span class="section-num">7.1</span> <a href="#h:bba12c9f-9272-42f1-ba0f-121f5f6a19fa" rel="">From NoSQL to NewSQL</a></li>
+<li><span class="section-num">7.2</span> <a href="#h:a901f7ee-f75f-41b7-aa25-cafb87bf5a98" rel="">Both cost and performance</a></li>
+<li><span class="section-num">7.3</span> <a href="#h:c0fcd1a9-665b-43af-b2be-8b02b1349136" rel="">Data validation</a></li>
+<li><span class="section-num">7.4</span> <a href="#h:823cf2bc-3ef4-4e03-b67d-154e672b80ec" rel="">Partitioning vs. sharding</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/d/p3385-xu.pdf</p>]]></description></item></channel></rss>

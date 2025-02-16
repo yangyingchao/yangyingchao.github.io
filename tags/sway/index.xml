@@ -1,1 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>sway on MyNotes</title><link>https://yangyingchao.github.io/tags/sway/</link><description>Recent content in sway on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Thu, 07 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sway/index.xml" rel="self" type="application/rss+xml"/><item><title>Back to Sway</title><link>https://yangyingchao.github.io/posts/back-to-sway/</link><pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/back-to-sway/</guid><description>1 autotiling 2 swaynagmode 2.1 swaynag (sway-1.8) crash… 3 chrome 启动慢 用了一段时间的 hyprland, 其 UI 和易用性都很不错，但可能是因为还处于功能的积极开发中，稳定性还差点， 在 session 退出， 或者断</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sway - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/sway/</link><description>Sway - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 07 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sway/" rel="self" type="application/rss+xml"/><item><title>Back to Sway</title><link>https://yangyingchao.github.io/back-to-sway/</link><pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/back-to-sway/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:50b10f4a-0c41-4213-a5ef-33e5fc92743d" rel="">autotiling</a></li>
+<li><span class="section-num">2</span> <a href="#h:bad15834-89da-4d37-befe-4075355f213e" rel="">swaynagmode</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:cc9885d3-fc6a-4157-a72a-bd4be9f08cfe" rel="">swaynag (sway-1.8) crash…</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:95b2f90d-0f6b-4eda-9ec0-0002971b90de" rel="">chrome 启动慢</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>用了一段时间的 <a href="https://hyprland.org/" target="_blank" rel="noopener noreffer ">hyprland</a>, 其 UI 和易用性都很不错，但可能是因为还处于功能的积极开发中，稳定性还差点，
+在 session 退出， 或者断开、连接新显示器时候会经常宕机， coredumpctl 里面总是一票 coredump 。。
+昨天受不了了，还是换回了 <a href="https://swaywm.org/" target="_blank" rel="noopener noreffer ">sway</a> 。这里记录几个换回来后发现的几个小问题（和增强）。</p>]]></description></item></channel></rss>

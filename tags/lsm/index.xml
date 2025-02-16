@@ -1,1 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>LSM on MyNotes</title><link>https://yangyingchao.github.io/tags/lsm/</link><description>Recent content in LSM on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/lsm/index.xml" rel="self" type="application/rss+xml"/><item><title>SA-LSM: Optimize Data Layout for LSM-tree Based Storage using Survial Analysis</title><link>https://yangyingchao.github.io/posts/p2161-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p2161-zhang/</guid><description>1 ABSTRACT 2 INTRODUCTION 本文为摘录，原文为： attachments/pdf/5/p2161-zhang.pdf 1 ABSTRACT 云存储中很大一部分数据很少被访问，被称为 冷数据 。 精确地识别和有效地管理成本效益高的存储中的冷数据是云提供商</description></item><item><title>X-Engine: An optimized storage engine for TP</title><link>https://yangyingchao.github.io/posts/sigmod-xengine/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/sigmod-xengine/</guid><description>1 Abstract 2 System Overview 2.1 Storage layout. 本文为摘录，原文为： attachments/pdf/7/sigmod-xengine.pdf 1 Abstract 在线电商交易具有三个显著特点： 随着主要销售和促销活动的开始，每秒交易数量急剧增加； 大量的热门记录很</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>LSM - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/lsm/</link><description>LSM - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/lsm/" rel="self" type="application/rss+xml"/><item><title>SA-LSM: Optimize Data Layout for LSM-tree Based Storage using Survial Analysis</title><link>https://yangyingchao.github.io/p2161-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p2161-zhang/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:575da9a1-9545-4947-bccf-8d8b218005b7" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:e2299604-e4d5-417f-89bf-1d6f21baf3cc" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/5/p2161-zhang.pdf</p>
+<h2 id="h:575da9a1-9545-4947-bccf-8d8b218005b7"><span class="section-num">1</span> ABSTRACT</h2>
+<ul>
+<li>云存储中很大一部分数据很少被访问，被称为 <strong>冷数据</strong> 。</li>
+<li>精确地识别和有效地管理成本效益高的存储中的冷数据是云提供商面临的主要挑战之一，需要平衡降低成本和提高系统性能。</li>
+<li>为此，提出了 <strong>SA-LSM</strong> 来利用生存分析（Survival Analysis）的方式来处理 LSM-tree 键值（KV）存储。</li>
+<li>传统上，LSM-tree 的数据布局是由写操作和压实操作共同确定的。</li>
+<li>然而，该过程默认情况下并未充分利用数据记录的访问信息，导致次优的数据布局，对系统性能产生负面影响。</li>
+<li><strong>SA-LMS</strong> 使用生存分析，一种在生物统计学中常用的统计学习算法来优化数据布局。</li>
+<li>当与合适的 <strong>LSM-tree</strong> 实现结合使用时，SA-LSM 可以使用历史信息和访问痕迹准确预测冷数据。</li>
+<li>具体实现方面，将 <strong>SA-LSM</strong> 应用于商业化开源 <strong>LSM-tree</strong> 存储引擎 <strong>X-Engine</strong> 中</li>
+<li>了使部署更加灵活，还设计了一种非侵入式架构，可以将 CPU 密集型任务（例如模型训练和推断）卸载到外部服务上。</li>
+<li>在真实工作负载上的广泛实验表明，与现有技术相比，SA-LSM 可以将尾延迟降低高达 78.9％。</li>
+<li>这种方法的通用性和显著性能提升在相关应用中具有巨大潜力。</li>
+</ul>
+<h2 id="h:e2299604-e4d5-417f-89bf-1d6f21baf3cc"><span class="section-num">2</span> INTRODUCTION</h2>
+<p>为了降低存储成本，LSM 树变成了一种越来越受欢迎的架构。它引入了多层异构存储:</p>]]></description></item><item><title>X-Engine: An optimized storage engine for TP</title><link>https://yangyingchao.github.io/sigmod-xengine/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sigmod-xengine/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:2c165c11-315a-4b37-8b21-0aa7abc2c686" rel="">Abstract</a></li>
+<li><span class="section-num">2</span> <a href="#h:9146fed8-4330-42f2-8e09-1b18a38a1c6d" rel="">System Overview</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:51404d1c-1567-40d0-a7fe-1f2481f6c3fa" rel="">Storage layout.</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/7/sigmod-xengine.pdf</p>
+<h2 id="h:2c165c11-315a-4b37-8b21-0aa7abc2c686"><span class="section-num">1</span> Abstract</h2>
+<p>在线电商交易具有三个显著特点：</p>
+<ol>
+<li>随着主要销售和促销活动的开始，每秒交易数量急剧增加；</li>
+<li>大量的热门记录很容易压垮系统缓冲区；</li>
+<li>由于不同类别的促销在不同的短时间内可用，不同记录的“温度”（热、温、冷）会快速转换。</li>
+</ol>
+<p>为了解决这些挑战，阿里巴巴引入了一种名为 X-Engine 的新的存储引擎，它是 POLARDB
+的一种优化的写入存储引擎。它采用分层存储体系结构和 LSM 树（日志结构合并树）来利用硬件加
+速，例如 FPGA 加速压实，并提供一系列优化，包括事务中的异步写入、多阶段管道和压实期间的增
+量缓存替换。评估结果表明，X-Engine 在此类事务负载下表现出更高的性能。</p>]]></description></item></channel></rss>

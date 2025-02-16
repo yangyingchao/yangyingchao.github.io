@@ -1,1 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>ai on MyNotes</title><link>https://yangyingchao.github.io/tags/ai/</link><description>Recent content in ai on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>UDO: Universal Database Optimization using Reinforcement Learning</title><link>https://yangyingchao.github.io/posts/p3402-wang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/p3402-wang/</guid><description>1 ABSTRACT 2 INTRODUCTION 本文为摘录，原文为： attachments/pdf/7/p3402-wang.pdf 1 ABSTRACT UDO: Universal Database Optimization, 通用数据库优化 为数据库的某种工作负载所做的特殊优化 包含多种调优：从索引选择到系统参数 基于强化学习 达</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ai - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/ai/</link><description>Ai - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ai/" rel="self" type="application/rss+xml"/><item><title>UDO: Universal Database Optimization using Reinforcement Learning</title><link>https://yangyingchao.github.io/p3402-wang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3402-wang/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:c5af75eb-2734-48dd-9281-7ce95ec73184" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： attachments/pdf/7/p3402-wang.pdf</p>
+<h2 id="h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc"><span class="section-num">1</span> ABSTRACT</h2>
+<ul>
+<li>
+<p>UDO:</p>
+<ul>
+<li>Universal Database Optimization, 通用数据库优化</li>
+<li>为数据库的某种工作负载所做的特殊优化</li>
+<li>包含多种调优：从索引选择到系统参数</li>
+</ul>
+</li>
+<li>
+<p>基于强化学习</p>]]></description></item></channel></rss>

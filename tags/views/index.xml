@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>views on MyNotes</title><link>https://yangyingchao.github.io/tags/views/</link><description>Recent content in views on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Tue, 10 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/views/index.xml" rel="self" type="application/rss+xml"/><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/posts/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/four-views-in-cpp23/</guid><description>1 String View (C++17) SVG Image 1.1 string_view vs const string &amp;amp; 2 Span (C++20) 3 Range Views (C++20) 4 MD Span (C++23) 5 Comparing Spans to Range Views 6 Summary 本文为摘录，原文为： https://www.cppstories.com/2023/four-views-in-cpp23/ 在本博客文章中，我们将探讨现代 C++中引入的几种不同的视</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Views - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/views/</link><description>Views - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 10 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/views/" rel="self" type="application/rss+xml"/><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/four-views-in-cpp23/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:fac5fec9-45cc-4f3d-852b-d06a6b989983" rel="">String View (C++17) SVG Image</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#h:b9c83c11-bb0b-4c53-83e8-cefa5214d4c2" rel=""><code>string_view</code> vs <code>const string &amp;</code></a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#h:e386b658-db23-445a-ab6a-06bb367950ac" rel="">Span (C++20)</a></li>
+<li><span class="section-num">3</span> <a href="#h:faf47418-f580-4b64-9f0d-16b18af5671e" rel="">Range Views (C++20)</a></li>
+<li><span class="section-num">4</span> <a href="#h:ae160436-19fe-4900-bddf-a4c4e00ccebc" rel="">MD Span (C++23)</a></li>
+<li><span class="section-num">5</span> <a href="#h:5ebc8985-1155-4cf3-a4ac-588b2b331ebe" rel="">Comparing Spans to Range Views</a></li>
+<li><span class="section-num">6</span> <a href="#h:adcb85b9-4fa7-45fa-860b-9c99c7000414" rel="">Summary</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://www.cppstories.com/2023/four-views-in-cpp23/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/four-views-in-cpp23/</a></p>
+<p>在本博客文章中，我们将探讨现代 C++中引入的几种不同的视图/引用类型。第一种是 C++17 中新增的 <code>string_view</code> 。
+C++20 引入了 <code>std::span</code> 和 <code>ranges</code> 视图。最后新增的是来自 C++23 的 <code>std::mdspan</code> 。</p>]]></description></item></channel></rss>

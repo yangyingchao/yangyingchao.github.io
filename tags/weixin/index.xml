@@ -1,1 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>weixin on MyNotes</title><link>https://yangyingchao.github.io/tags/weixin/</link><description>Recent content in weixin on MyNotes</description><generator>Hugo -- 0.115.0</generator><language>zh-cn</language><lastBuildDate>Fri, 29 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/weixin/index.xml" rel="self" type="application/rss+xml"/><item><title>十年前的微信消息收发架构长啥样</title><link>https://yangyingchao.github.io/posts/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</link><pubDate>Fri, 29 Mar 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/posts/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</guid><description>1 背景 2 消息收发架构 2.1 消息发送架构 2.2 消息接收架构 2.3 小结 3 消息防丢失机制 3.1 sequence 机制 3.2 消息收取 sequnece 确认机制 本文为摘录，原文为： https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA 2023 年，微信及 WeChat 的 DA</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Weixin - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/weixin/</link><description>Weixin - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 29 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/weixin/" rel="self" type="application/rss+xml"/><item><title>十年前的微信消息收发架构长啥样</title><link>https://yangyingchao.github.io/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</link><pubDate>Fri, 29 Mar 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/mp.weixin.qq.com_s_dd-aphnynoqsc3muyljeaa/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e8%83%8c%e6%99%af" rel="">背景</a></li>
+<li><span class="section-num">2</span> <a href="#%e6%b6%88%e6%81%af%e6%94%b6%e5%8f%91%e6%9e%b6%e6%9e%84" rel="">消息收发架构</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#%e6%b6%88%e6%81%af%e5%8f%91%e9%80%81%e6%9e%b6%e6%9e%84" rel="">消息发送架构</a></li>
+<li><span class="section-num">2.2</span> <a href="#%e6%b6%88%e6%81%af%e6%8e%a5%e6%94%b6%e6%9e%b6%e6%9e%84" rel="">消息接收架构</a></li>
+<li><span class="section-num">2.3</span> <a href="#%e5%b0%8f%e7%bb%93" rel="">小结</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e6%b6%88%e6%81%af%e9%98%b2%e4%b8%a2%e5%a4%b1%e6%9c%ba%e5%88%b6" rel="">消息防丢失机制</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#sequence-%e6%9c%ba%e5%88%b6" rel="">sequence 机制</a></li>
+<li><span class="section-num">3.2</span> <a href="#%e6%b6%88%e6%81%af%e6%94%b6%e5%8f%96-sequnece-%e7%a1%ae%e8%ae%a4%e6%9c%ba%e5%88%b6" rel="">消息收取 sequnece 确认机制</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录，原文为： <a href="https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA</a></p>
+<p>2023 年，微信及 WeChat 的 DAU（月活用户）达到 13.4 亿，微信已经是很多人工作、生活中不可或缺的一个环节。从 2011 年 1 月
+21 日上线至今，微信已经走过了 13 个年头，其背后的技术基座与架构也发生了巨大的变化。</p>]]></description></item></channel></rss>
