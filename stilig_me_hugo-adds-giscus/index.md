@@ -14,16 +14,16 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   如下图，创建一个公开的 Github 仓库
 
-<a id="org43b770c"></a>
+<a id="org0e2b0ab"></a>
 
-![](images/PicGo%2F202306190903900.webp)
+![](./images/PicGo%2F202306190903900.png)
 pic-01
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="orgaf8f9b4"></a>
+<a id="org148a0b7"></a>
 
-![](images/PicGo%2F202306190909575.webp)
+![](./images/PicGo%2F202306190909575.png)
 pic-02
 
 ---
@@ -32,16 +32,16 @@ pic-02
 
 -   点击这里，我们将会看到下面的界面，我们点击安装
 
-<a id="org89e79f5"></a>
+<a id="org7b6e1e8"></a>
 
-![](images/PicGo%2F202306190919754.webp)
+![](./images/PicGo%2F202306190919754.png)
 pic-03
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="org6a85f86"></a>
+<a id="org79227a6"></a>
 
-![](images/PicGo%2F202306190928971.webp)
+![](./images/PicGo%2F202306190928971.png)
 pic-04
 
 我遇到的问题
@@ -58,34 +58,34 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="org769cd1e"></a>
+<a id="orgfef1b0b"></a>
 
-![](images/PicGo%2F202306191023678.webp)
+![](./images/PicGo%2F202306191023678.png)
 pic-05
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="orgbc2f4d4"></a>
+<a id="orgd57ed36"></a>
 
-![](images/PicGo%2F202306191027361.webp)
+![](./images/PicGo%2F202306191027361.png)
 pic-06
 
 直接选第一个就行
 
 -   选择 Discussion 分类，如下图
 
-<a id="org3f7ce99"></a>
+<a id="org9c23ff9"></a>
 
-![](images/PicGo%2F202306191029555.webp)
+![](./images/PicGo%2F202306191029555.png)
 pic-07
 
 我们选择 Announcements 类型即可，官方也是这样推荐的，因为这样便于管理。
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="org4ca1dea"></a>
+<a id="orga673e4f"></a>
 
-![](images/PicGo%2F202306191354061.webp)
+![](./images/PicGo%2F202306191354061.png)
 pic-08
 
 我们要记下 data-repo，data-repo-id，data-category，data-category-id，data-mapping 这几个值。
@@ -98,8 +98,9 @@ pic-08
 
     -   打开配置文件 config.toml，找到# 评论系统设置的第一个 enable 参量，将其改为 true，如下图：
 
-<a id="org84c9895"></a>
+<a id="org0e3a17b"></a>
 
+![](./images/PicGo%2F202306191403367.png)
 pic-09
 
 -   找到# giscus comment 评论系统设置,并把其配置按照下面代码块修改。
@@ -129,15 +130,9 @@ pic-09
 
     配置好后,就可以开启 Giscus 评论系统了。
 
-    参考文章：
+**参考文章：**
 
-    1.  Hugo 博客引入 Giscus 评论系统
-    2.  迁移博客评论系统从 Utteranc.es 到 Giscus
-    3.  Giscus 官网
-
-警告
-
-本文最后更新于 June 19, 2023，若内容或图片失效，请留言反馈。部分素材来自网络，若不小心影响到您的利益，请联系删除。
-
-若文章帮助到了您，就不妨点一下👇广告，支持博主吧！
+1.  Hugo 博客引入 Giscus 评论系统
+2.  迁移博客评论系统从 Utteranc.es 到 Giscus
+3.  Giscus 官网
 
