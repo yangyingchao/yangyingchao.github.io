@@ -14,14 +14,14 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   如下图，创建一个公开的 Github 仓库
 
-<a id="org4447093"></a>
+<a id="orgaff1bfe"></a>
 
 ![](images/PicGo%2F202306190903900.webp)
 pic-01
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="org75a4a5b"></a>
+<a id="org2690cb2"></a>
 
 ![](images/PicGo%2F202306190909575.webp)
 pic-02
@@ -32,14 +32,14 @@ pic-02
 
 -   点击这里，我们将会看到下面的界面，我们点击安装
 
-<a id="orgb4e608c"></a>
+<a id="org34dfc19"></a>
 
 ![](images/PicGo%2F202306190919754.webp)
 pic-03
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="orgd74ebb6"></a>
+<a id="orgc5ac40a"></a>
 
 ![](images/PicGo%2F202306190928971.webp)
 pic-04
@@ -58,14 +58,14 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="org0921b67"></a>
+<a id="orgf8694fc"></a>
 
 ![](images/PicGo%2F202306191023678.webp)
 pic-05
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="org1993fee"></a>
+<a id="org708bfb3"></a>
 
 ![](images/PicGo%2F202306191027361.webp)
 pic-06
@@ -74,7 +74,7 @@ pic-06
 
 -   选择 Discussion 分类，如下图
 
-<a id="org0141017"></a>
+<a id="org4cbf3bc"></a>
 
 ![](images/PicGo%2F202306191029555.webp)
 pic-07
@@ -83,7 +83,7 @@ pic-07
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="org8bece55"></a>
+<a id="orgc70ca69"></a>
 
 ![](images/PicGo%2F202306191354061.webp)
 pic-08
@@ -98,7 +98,7 @@ pic-08
 
     -   打开配置文件 config.toml，找到# 评论系统设置的第一个 enable 参量，将其改为 true，如下图：
 
-<a id="org483e1ae"></a>
+<a id="org7de7e12"></a>
 
 pic-09
 
