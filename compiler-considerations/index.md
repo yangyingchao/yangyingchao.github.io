@@ -12,7 +12,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://people.redhat.com/~jolawren/klp-compiler-notes/livepatch/compiler-considerations.html
+本文为摘录(或转载)，侵删，原文为： https://people.redhat.com/~jolawren/klp-compiler-notes/livepatch/compiler-considerations.html
 
 
 

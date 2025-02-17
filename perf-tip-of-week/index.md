@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://abseil.io/fast
+本文为摘录(或转载)，侵删，原文为： https://abseil.io/fast
 
 
 

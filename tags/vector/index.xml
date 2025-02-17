@@ -6,7 +6,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： attachments/pdf/8/p3548-yan.pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf</p>
 <h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"><span class="section-num">1</span> ABSTRACT</h2>
 <p>下一代向量数据库应该有的特性：</p>
 <ul>
@@ -15,16 +15,4 @@
 <li>good elasticity</li>
 <li>high performance</li>
 </ul>
-<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>
-<ul>
-<li>使用 WAL 和 binlog 作为服务的骨干</li>
-<li>写组件作为日志的发布者</li>
-<li>只读组件作为日志的订阅者，只读组件包括：
-<ul>
-<li>分析</li>
-<li>搜索</li>
-</ul>
-</li>
-<li>使用 MVCC 和增量一致模型来简化组件之间的通讯和协作</li>
-</ul>
-<h2 id="h:21580be0-85a4-4596-838b-f76c80a9b8c8"><span class="section-num">2</span> INTRODUCTION</h2>]]></description></item></channel></rss>
+<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item></channel></rss>

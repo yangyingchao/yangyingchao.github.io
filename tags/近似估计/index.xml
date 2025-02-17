@@ -12,16 +12,6 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： ../../attachments/pdf/d/p1835-zhao.pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为： ../../attachments/pdf/d/p1835-zhao.pdf</p>
 <h2 id="h:e45b6d32-a08f-4b57-93e8-82f7f09a3a3f"><span class="section-num">1</span> ABSTRACT</h2>
-<p>本文介绍了一种名为 AB-tree 的索引结构，用于高并发随机抽样和更新操作。</p>
-<ul>
-<li>实时数据分析需求日益日益增长</li>
-<li>近似查询处理（Approximate Query Processing, AQP） 适合用作实时数据分析：
-<ul>
-<li>使用随机抽样</li>
-<li>通过降低查询延迟，换取一定的准确度。</li>
-</ul>
-</li>
-</ul>
-<p>然而，现有的 AQP 系统:</p>]]></description></item></channel></rss>
+<p>本文介绍了一种名为 AB-tree 的索引结构，用于高并发随机抽样和更新操作。</p>]]></description></item></channel></rss>

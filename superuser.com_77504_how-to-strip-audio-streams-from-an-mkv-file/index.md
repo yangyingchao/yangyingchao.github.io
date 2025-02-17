@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://superuser.com/questions/77504/how-to-strip-audio-streams-from-an-mkv-file
+本文为摘录(或转载)，侵删，原文为： https://superuser.com/questions/77504/how-to-strip-audio-streams-from-an-mkv-file
 
 
 

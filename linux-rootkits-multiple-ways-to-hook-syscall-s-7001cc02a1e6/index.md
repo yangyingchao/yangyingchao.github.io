@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6
+本文为摘录(或转载)，侵删，原文为： https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6
 
 我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常
 进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探

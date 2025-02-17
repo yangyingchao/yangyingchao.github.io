@@ -20,7 +20,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
 <h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
 <ul>
 <li>Running or Runnable (R)</li>

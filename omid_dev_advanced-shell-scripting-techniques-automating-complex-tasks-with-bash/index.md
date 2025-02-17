@@ -24,7 +24,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/
+本文为摘录(或转载)，侵删，原文为： https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/
 
 
 

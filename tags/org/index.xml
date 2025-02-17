@@ -12,7 +12,7 @@
 </div>
 <!--endtoc-->
 <p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，
-所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description><![CDATA[<p>本文为摘录，原文为： <a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552</a></p>
+所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552</a></p>
 <ul>
 <li>
 <p>将 CSV 转换为 org 表格 <br />
@@ -23,7 +23,4 @@
 请使用 M-x org-table-export。</p>
 </li>
 </ul>
-<p>参考资料：</p>
-<ol>
-<li><a href="http://stackoverflow.com/questions/1241581/emacs-import-a-csv-into-org-mode" target="_blank" rel="noopener noreffer ">http://stackoverflow.com/questions/1241581/emacs-import-a-csv-into-org-mode</a></li>
-</ol>]]></description></item></channel></rss>
+<p>参考资料：</p>]]></description></item></channel></rss>

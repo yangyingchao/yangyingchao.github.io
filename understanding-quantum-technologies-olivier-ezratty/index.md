@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/0/Understanding Quantum Technologies Olivier Ezratty.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/0/Understanding Quantum Technologies Olivier Ezratty.pdf
 
 
 

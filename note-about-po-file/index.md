@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52
+本文为摘录(或转载)，侵删，原文为： https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52
 
 
 

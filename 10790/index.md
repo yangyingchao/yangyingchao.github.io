@@ -21,7 +21,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://cloud.tencent.com/document/product/409/10790
+本文为摘录(或转载)，侵删，原文为： https://cloud.tencent.com/document/product/409/10790
 
 摘自：<https://cloud.tencent.com/document/product/409/49546>
 

@@ -16,7 +16,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc
+本文为摘录(或转载)，侵删，原文为： https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc
 
 
 

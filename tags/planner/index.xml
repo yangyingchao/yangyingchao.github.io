@@ -12,6 +12,6 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
 <h2 id="introduction"><span class="section-num">1</span> Introduction</h2>
 <p>当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：</p>]]></description></item></channel></rss>

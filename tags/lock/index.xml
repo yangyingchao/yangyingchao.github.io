@@ -21,7 +21,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</a></p>
 <h2 id="h:a69e195a-92fb-405b-9b6c-ec86c0015e47"><span class="section-num">1</span> mlockall()</h2>
 <p>from manpage:</p>
 <div class="highlight"><div class="chroma">
@@ -104,7 +104,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts" target="_blank" rel="noopener noreffer ">https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts" target="_blank" rel="noopener noreffer ">https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts</a></p>
 <h2 id="h:38aae4aa-a802-4cff-9ffb-1ecebc230218"><span class="section-num">1</span> Lock out user after three failed login attempts</h2>
 <p>截至 pambase 20200721.1-2 版本，pam_faillock.so 已默认启用，当用户在 15 分钟内尝试 3 次登录失败后会将其锁定 10 分钟
 （参见 FS＃67644）。锁定仅适用于密码验证（例如登录和 sudo），通过 SSH 的公钥验证仍然被接受。为了防止完全的拒绝服务，对于默认情况下 root 用户将不会被锁定。</p>]]></description></item></channel></rss>

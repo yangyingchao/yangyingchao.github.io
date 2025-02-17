@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/4/p1011-jin.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1011-jin.pdf
 
 
 

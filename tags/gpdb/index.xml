@@ -61,7 +61,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
 <h2 id="h:3127b791-8437-4d53-bf04-17e651151969"><span class="section-num">1</span> <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer ">IP Fragmentation Settings</a></h2>
 <p>IP Fragmentation Settings</p>
 <p>When the Greenplum Database interconnect uses UDP (the default), the network interface
@@ -78,7 +78,7 @@ fragments in a buffer before it can reorganize and reassemble the message.</p>]]
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:6543d92b-650b-4a86-a5f4-d93974938e1e" rel="">Resource Group 简介</a></li>
@@ -123,4 +123,4 @@ fragments in a buffer before it can reorganize and reassemble the message.</p>]]
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://blog.csdn.net/u013970710/article/details/115433014" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/u013970710/article/details/115433014</a></p>]]></description></item></channel></rss>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://blog.csdn.net/u013970710/article/details/115433014" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/u013970710/article/details/115433014</a></p>]]></description></item></channel></rss>

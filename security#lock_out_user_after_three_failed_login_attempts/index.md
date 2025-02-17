@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts
+本文为摘录(或转载)，侵删，原文为： https://wiki.archlinux.org/title/Security#Lock_out_user_after_three_failed_login_attempts
 
 
 

@@ -15,7 +15,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.cppstories.com/2017/01/cpp17features/
+本文为摘录(或转载)，侵删，原文为： https://www.cppstories.com/2017/01/cpp17features/
 
 
 

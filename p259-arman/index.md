@@ -16,7 +16,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/c/p259-arman.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/p259-arman.pdf
 
 
 

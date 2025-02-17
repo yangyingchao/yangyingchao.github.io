@@ -12,7 +12,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/8/p3548-yan.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf
 
 
 

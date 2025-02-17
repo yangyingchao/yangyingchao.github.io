@@ -18,7 +18,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.cppstories.com/2018/12/fromchars/
+本文为摘录(或转载)，侵删，原文为： https://www.cppstories.com/2018/12/fromchars/
 
 随着引入 C++17，C++标准库通过添加 `std::from_chars` 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较
 于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序

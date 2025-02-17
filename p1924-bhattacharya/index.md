@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/4/p1924-bhattacharya.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1924-bhattacharya.pdf
 
 FPR: Fault Positive Rate
 

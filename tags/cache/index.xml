@@ -12,7 +12,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
 <h2 id="prelog"><span class="section-num">1</span> prelog</h2>
 <p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
 minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。

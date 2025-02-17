@@ -1,7 +1,7 @@
 # 人生是一个长板问题
 
 
-本文为摘录，原文为： http://www.ruanyifeng.com/blog/2023/05/weekly-issue-254.html
+本文为摘录(或转载)，侵删，原文为： http://www.ruanyifeng.com/blog/2023/05/weekly-issue-254.html
 
 大家可能听说过"水桶原理"：水桶的容量由最短的那块木板决定。
 

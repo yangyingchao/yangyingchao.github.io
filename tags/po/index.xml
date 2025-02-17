@@ -5,7 +5,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52</a></p>
 <h2 id="h:7cc071ca-9356-4d53-94ff-f0819cc97b5e"><span class="section-num">1</span> Concepts</h2>
 <p>The pairs of original (English) messages and their (possibly) translated equivalents are
 kept in <code>message catalogs</code> , one for each program (although related programs can share a

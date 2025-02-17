@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A
+本文为摘录(或转载)，侵删，原文为： https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A
 
 <https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A>
 

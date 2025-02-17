@@ -20,7 +20,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html" target="_blank" rel="noopener noreffer ">https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html" target="_blank" rel="noopener noreffer ">https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html</a></p>
 <h2 id="h:d8904674-f80c-4a35-9330-9aced14d44dc"><span class="section-num">1</span> 背景介绍</h2>
 <p>PolarDB 采用了共享存储一写多读架构，读写节点 RW 和多个只读节点 RO 共享同一份存储，读写
 节点可以读写共享存储中的数据；只读节点仅能各自通过回放日志，从共享存储中读取数据，而不

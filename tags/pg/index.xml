@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Pg - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Pg - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/" rel="self" type="application/rss+xml"/><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p>本文为摘录，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6J3&lt;/a>&lt;/p></description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Pg - 标签 - 老杨的杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Pg - 标签 - 老杨的杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/" rel="self" type="application/rss+xml"/><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6J3&lt;/a>&lt;/p></description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e8%8a%82%e7%82%b9" rel="">节点</a>
@@ -16,7 +16,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html</a></p>
 <h2 id="节点"><span class="section-num">1</span> 节点</h2>
 <p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，
 允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据
@@ -34,7 +34,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
 <h2 id="prelog"><span class="section-num">1</span> prelog</h2>
 <p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
 minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。
@@ -53,7 +53,7 @@ maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。</p>]]></description></item><item><
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
 <h2 id="introduction"><span class="section-num">1</span> Introduction</h2>
 <p>当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：</p>]]></description></item><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/20-product-guide/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
@@ -81,7 +81,7 @@ maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。</p>]]></description></item><item><
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://docs.hashdata.xyz/docs/20-product-guide/" target="_blank" rel="noopener noreffer ">https://docs.hashdata.xyz/docs/20-product-guide/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.hashdata.xyz/docs/20-product-guide/" target="_blank" rel="noopener noreffer ">https://docs.hashdata.xyz/docs/20-product-guide/</a></p>
 <h2 id="h:2786e008-f119-411c-9a74-c638782209f4"><span class="section-num">1</span> Abort HashData</h2>
 <p>HashData was founded in 2016 by the guys who built Apache HAWQ, one of the most
 advanced SQL on Hadoop solutions. As the flagship product of the company, HashData
@@ -103,7 +103,7 @@ simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd</a></p>
 <p>对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库
 是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可
 用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并
@@ -146,7 +146,7 @@ simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/10790</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/10790</a></p>
 <p>摘自：<a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546</a></p>
 <h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"><span class="section-num">1</span> 慢查询</h2>
 <h3 id="h:d92eb969-c035-4657-ac55-97449699f838"><span class="section-num">1.1</span> 功能说明</h3>
@@ -175,7 +175,7 @@ simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
 <h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5"><span class="section-num">1</span> 什么是多版本并发控制？</h2>
 <ul>
 <li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。</li>

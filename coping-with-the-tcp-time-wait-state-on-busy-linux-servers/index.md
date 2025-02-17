@@ -19,7 +19,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary
+本文为摘录(或转载)，侵删，原文为： https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary
 
 
 

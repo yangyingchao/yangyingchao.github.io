@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024
+本文为摘录(或转载)，侵删，原文为： https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024
 
 这个图解释了它为什么叫 C4:
 

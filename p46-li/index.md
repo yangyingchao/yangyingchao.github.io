@@ -18,7 +18,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/7/p46-li.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p46-li.pdf
 
 -   查询重写使用启发式算法来实现，有两个限制
     -   规则的应用顺序严重影响查询性能，但

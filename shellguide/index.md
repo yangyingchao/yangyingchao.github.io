@@ -52,7 +52,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://google.github.io/styleguide/shellguide.html
+本文为摘录(或转载)，侵删，原文为： https://google.github.io/styleguide/shellguide.html
 
 
 

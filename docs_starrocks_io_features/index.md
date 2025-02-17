@@ -17,7 +17,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://docs.starrocks.io/zh/docs/introduction/Features/
+本文为摘录(或转载)，侵删，原文为： https://docs.starrocks.io/zh/docs/introduction/Features/
 
 
 

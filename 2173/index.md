@@ -1,7 +1,7 @@
 # A Close Look at a Spinlock – Embedded in Academia
 
 
-本文为摘录，原文为： https://blog.regehr.org/archives/2173
+本文为摘录(或转载)，侵删，原文为： https://blog.regehr.org/archives/2173
 
 自旋锁 (spinlock) 是多处理器操作系统提供的最基本的互斥原语。自旋锁需要保护当前 CPU 免受
 抢占（通常通过禁用中断，但我们会在本文中忽略这个方面），并且还需要防止其他核心同时访问临

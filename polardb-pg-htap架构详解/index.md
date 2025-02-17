@@ -20,7 +20,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je
+本文为摘录(或转载)，侵删，原文为： https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je
 
 PolarDB PostgreSQL 版读写分离后，由于底层是存储池，理论上 IO 吞吐是无限大的。而大查询只
 能在单个计算节点上执行，单个计算节点的 CPU/MEM/IO 是有限的，因此单个计算节点无法发挥出存

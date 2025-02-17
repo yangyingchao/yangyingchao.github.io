@@ -12,7 +12,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/7/p3402-wang.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p3402-wang.pdf
 
 
 

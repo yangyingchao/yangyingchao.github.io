@@ -17,50 +17,6 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.linuxjournal.com/article/9749" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/article/9749</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/article/9749" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/article/9749</a></p>
 <h2 id="h:2815bca8-e6bb-4b22-93b8-52266d83331a"><span class="section-num">1</span> SCTP Associations</h2>
-<p>SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有不同：</p>
-<ul>
-<li>TCP connection 在服务端和客户端之间的网络接口上建立的 <strong>一对一</strong> 连接</li>
-<li>SCTP association 是 <strong>多对多</strong> ：
-<ul>
-<li>可以在服务端的多个网口和客户端的多个网口之间建立联合 <br />
-例如，服务端和客户端各自有两个设备： Ethernet &amp; Wi-Fi , 则服务端和客户端之
-间的联合可以包括 4 路：
-<ul>
-<li>Eth -&gt; Eth</li>
-<li>Eth -&gt; Wi-Fi</li>
-<li>Wi-Fi -&gt; Eth</li>
-<li>Wi-Fi -&gt; Wi-Fi</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>一个联合中又可以有多个 stream ， 各个 stream 之间互不干扰，不会阻塞 <br />
-stream 用 stream id 来区分，从 0 开始增加</li>
-</ul>
-<!--listend-->
-<ul>
-<li>每个 socket 可以用来服务多个联合 <br />
-也就是说，每个 scoket 可以用来同多个主机通讯。 每个 association 用
-association id 来区分。</li>
-</ul>
-<h2 id="h:a7d3a58f-21fb-4e4e-b3d1-1de8bf5291e3"><span class="section-num">2</span> Using Multiple Interfaces</h2>
-<ul>
-<li>服务端可以通过 <code>sctp_bindx()</code> 来绑定多个接口</li>
-<li>客户端可以通过 <code>sctp_connectx()</code> 来使用多个地址</li>
-<li>客户端可以通过 <code>sctp_getpaddrs()</code> 来获取远端地址</li>
-<li>客户端可以通过 <code>sctp_getladdrs()</code> 来获取本地地址</li>
-</ul>
-<p>Once an association is set up between two endpoints, messages can be sent between them. Note that SCTP does not concern
-itself with QoS (Quality-of-Service) issues, such as real-time delivery, but only with reliability issues. SCTP uses the
-multihomed capabilities to try as many possible routes as possible to get messages through. So on the sending side,
-there is no control over which interfaces are used; indeed, the sender might even use a scheme such as round-robin among
-its interfaces for each message. However, the sending application can indicate to its SCTP stack which of the remote
-peer&rsquo;s interface it would prefer to use, and it can tell the remote peer on which interfaces it would prefer to receive
-messages. These are done by using the setsockopt() call with option type as SCTP_PRIMARY_ADDR or
-SCTP_SET_PEER_PRIMARY_ADDR. Of course, if these particular addresses are not available, SCTP simply will use different
-addresses in the association.</p>]]></description></item></channel></rss>
+<p>SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有不同：</p>]]></description></item></channel></rss>

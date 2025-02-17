@@ -20,7 +20,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.linuxjournal.com/article/9749
+本文为摘录(或转载)，侵删，原文为： https://www.linuxjournal.com/article/9749
 
 
 

@@ -12,7 +12,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html
+本文为摘录(或转载)，侵删，原文为： https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html
 
 
 

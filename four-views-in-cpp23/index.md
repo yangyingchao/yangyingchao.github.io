@@ -17,7 +17,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.cppstories.com/2023/four-views-in-cpp23/
+本文为摘录(或转载)，侵删，原文为： https://www.cppstories.com/2023/four-views-in-cpp23/
 
 在本博客文章中，我们将探讨现代 C++中引入的几种不同的视图/引用类型。第一种是 C++17 中新增的 `string_view` 。
 C++20 引入了 `std::span` 和 `ranges` 视图。最后新增的是来自 C++23 的 `std::mdspan` 。

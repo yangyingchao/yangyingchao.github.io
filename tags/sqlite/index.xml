@@ -10,7 +10,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： attachments/pdf/2/p3535-gaffney.pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/2/p3535-gaffney.pdf</p>
 <h2 id="h:bbf2c939-edb3-4108-bbc0-51bcd7e678b5"><span class="section-num">1</span> INTRODUCTION</h2>
 <ul>
 <li>
@@ -21,19 +21,4 @@
 applications manage a SQLite database by calling SQLite library functions</p>
 </li>
 <li>
-<p>several characteristics combine to make SQLite useful in a broad range of scenario:</p>
-<ul>
-<li>
-<p>Cross-platform</p>
-<ul>
-<li>数据库保存在单一文件中，文件可以随意拷贝，兼容：
-<ul>
-<li>32位/64位</li>
-<li>大端，小端架构</li>
-</ul>
-</li>
-<li>SQLite 可以运行在很多类型的机器上</li>
-</ul>
-</li>
-<li>
-<p>Compact and self-contained</p>]]></description></item></channel></rss>
+<p>several characteristics combine to make SQLite useful in a broad range of scenario:</p>]]></description></item></channel></rss>

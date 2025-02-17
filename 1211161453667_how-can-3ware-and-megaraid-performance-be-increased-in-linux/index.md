@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.broadcom.com/support/knowledgebase/1211161453667/how-can-3ware-and-megaraid-performance-be-increased-in-linux
+本文为摘录(或转载)，侵删，原文为： https://www.broadcom.com/support/knowledgebase/1211161453667/how-can-3ware-and-megaraid-performance-be-increased-in-linux
 
 
 

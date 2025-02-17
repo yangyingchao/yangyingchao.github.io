@@ -28,7 +28,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.cnblogs.com/hellokitty2/p/16368024.html
+本文为摘录(或转载)，侵删，原文为： https://www.cnblogs.com/hellokitty2/p/16368024.html
 
 
 

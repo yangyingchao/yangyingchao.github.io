@@ -19,7 +19,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference
+本文为摘录(或转载)，侵删，原文为： https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference
 
 在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这
 两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管

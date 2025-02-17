@@ -18,7 +18,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://postgr.es/p/6s9
+本文为摘录(或转载)，侵删，原文为： https://postgr.es/p/6s9
 
 
 

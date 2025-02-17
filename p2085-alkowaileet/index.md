@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/f/p2085-alkowaileet.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/f/p2085-alkowaileet.pdf
 
 这篇论文探讨了文档存储数据库系统的数据模型灵活性限制其在列式关系数据库中进行分析工作负载
 的表现。作者提出了几种基于Log-Structured Merge (LSM) tree事件的技术，旨在将数据存储在列

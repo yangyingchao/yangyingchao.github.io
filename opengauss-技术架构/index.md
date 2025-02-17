@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： ../pptx/9/openGauss+技术架构.pptx
+本文为摘录(或转载)，侵删，原文为： ../pptx/9/openGauss+技术架构.pptx
 
 
 

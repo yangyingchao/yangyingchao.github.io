@@ -15,7 +15,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://segmentfault.com/a/1190000042739883
+本文为摘录(或转载)，侵删，原文为： https://segmentfault.com/a/1190000042739883
 
 作者：贺凯，StarRocks Committer
 

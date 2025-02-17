@@ -11,7 +11,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://linuxopsys.com/topics/check-shared-memory-in-linux" target="_blank" rel="noopener noreffer ">https://linuxopsys.com/topics/check-shared-memory-in-linux</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxopsys.com/topics/check-shared-memory-in-linux" target="_blank" rel="noopener noreffer ">https://linuxopsys.com/topics/check-shared-memory-in-linux</a></p>
 <h2 id="h:c32fe430-3144-4745-8d64-a0bce73720c9"><span class="section-num">1</span> RTFM…</h2>
 <h3 id="h:aa00c038-6852-443e-8679-c0081f6bcbd9"><span class="section-num">1.1</span> ipcs</h3>
 <h3 id="h:528e7c73-98e2-4f52-b45a-0715874093fd"><span class="section-num">1.2</span> ipcrm</h3>

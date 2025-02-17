@@ -13,7 +13,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： attachments/pdf/c/p259-arman.pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/p259-arman.pdf</p>
 <h2 id="h:30779f14-6c09-4a57-b1f2-6c8b6224a589"><span class="section-num">1</span> ABSTRACT</h2>
 <p>Mergesort 优点：</p>
 <ul>
@@ -21,11 +21,4 @@
 <li>适于通过向量化执行来进行并行处理</li>
 <li>适于多线程操作操作</li>
 </ul>
-<p>Origami:</p>
-<ul>
-<li>内存归并排序算法框架</li>
-<li>对每个向量化指令集，提供寄存器内排序算子 （in-register sorter），小数据量性能提供 8 倍</li>
-<li>branchless streaming merge 1.5 倍提升</li>
-</ul>
-<h2 id="h:b9af59de-065f-47e9-a832-feaa4e164435"><span class="section-num">2</span> INTRODUCTION</h2>
-<p>MergeSort 的优点：</p>]]></description></item></channel></rss>
+<p>Origami:</p>]]></description></item></channel></rss>

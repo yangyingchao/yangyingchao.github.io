@@ -11,7 +11,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs" target="_blank" rel="noopener noreffer ">https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs" target="_blank" rel="noopener noreffer ">https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs</a></p>
 <h2 id="h:cf631f63-41b8-4f82-8544-76d72d2bdcdf"><span class="section-num">1</span> Basic Log Viewing</h2>
 <p>要查看 journald 守护程序收集的日志，请使用 journalctl 命令。</p>
 <p>当单独使用时，系统中的每个日志条目都会在翻页器（通常是 less）中显示，供您浏览。最旧的条

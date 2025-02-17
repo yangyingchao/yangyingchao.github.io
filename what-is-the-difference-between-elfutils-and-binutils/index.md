@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use
+本文为摘录(或转载)，侵删，原文为： https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use
 
 
 

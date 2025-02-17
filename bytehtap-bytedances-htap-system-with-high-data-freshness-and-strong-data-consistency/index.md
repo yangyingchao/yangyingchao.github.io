@@ -26,7 +26,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： ../pdf/5/p3411-chen.pdf
+本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf
 
 -   **ByteHTAP**: an HTAP system with high data freshness and strong data consistency.
 -   独立引擎和共享存储架构

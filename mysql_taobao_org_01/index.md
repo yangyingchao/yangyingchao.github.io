@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： http://mysql.taobao.org/monthly/2023/11/01/
+本文为摘录(或转载)，侵删，原文为： http://mysql.taobao.org/monthly/2023/11/01/
 
 [《数据库故障恢复机制的前世今生》](http://catkang.github.io/2019/01/16/crash-recovery.html)一文中介绍过，由于磁盘的的顺序访问性能远好于随机访问，数据库设计中通常都会采
 用 WAL 的方式，将随机访问的数据库请求转换为顺序的日志 IO，并通过 Buffer Pool 尽量的合并并推迟真正的数据修改落盘。

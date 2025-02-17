@@ -22,7 +22,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf
 
 
 

@@ -19,7 +19,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd
+本文为摘录(或转载)，侵删，原文为： https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd
 
 
 

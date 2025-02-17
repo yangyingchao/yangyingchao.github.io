@@ -20,7 +20,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
 <h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5"><span class="section-num">1</span> 什么是多版本并发控制？</h2>
 <ul>
 <li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。</li>

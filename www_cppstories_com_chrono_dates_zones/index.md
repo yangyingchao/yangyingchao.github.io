@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.cppstories.com/2024/chrono_dates_zones/
+本文为摘录(或转载)，侵删，原文为： https://www.cppstories.com/2024/chrono_dates_zones/
 
 在这篇博客文章中，我们将探讨如何使用 std::chrono 处理日期，包括时区。我们将利用该库的最新特性来检索各个时区的当前时间，同时考虑夏令时的变化。此外，我们还将结合 C++23 中引入的新功能，例如增强的打印函数等。
 

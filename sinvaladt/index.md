@@ -15,7 +15,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c
+本文为摘录(或转载)，侵删，原文为： https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c
 
 
 

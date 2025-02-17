@@ -1,7 +1,7 @@
 # What it means when you convert between different shared_ptrs - The Old New Thing
 
 
-本文为摘录，原文为： https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611
+本文为摘录(或转载)，侵删，原文为： https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611
 
 C++中的 `shared_ptr` 管理一个引用计数指针。通常情况下，它是一个指向对象的指针，当最后一个引用过期时将被删除。但它不一定非得是这样。
 

@@ -20,7 +20,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://segmentfault.com/a/1190000042326071
+本文为摘录(或转载)，侵删，原文为： https://segmentfault.com/a/1190000042326071
 
 `作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer`
 

@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/6/willhalm-vldb2009.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/willhalm-vldb2009.pdf
 
 现代服务器上的巨大系统内存可用性引起了对主内存数据库引擎的热情。数据仓库系统中，高度压缩的列式数据结构很突出。
 

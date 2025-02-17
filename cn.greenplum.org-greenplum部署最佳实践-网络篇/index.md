@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf
 
 
 

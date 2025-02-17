@@ -25,7 +25,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/d/The Design and Implementation of Modern Column-Oriented Database Systems (abadi-column-stores).pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/d/The Design and Implementation of Modern Column-Oriented Database Systems (abadi-column-stores).pdf
 
 
 

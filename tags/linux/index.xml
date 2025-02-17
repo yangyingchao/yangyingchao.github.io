@@ -8,7 +8,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6" target="_blank" rel="noopener noreffer ">https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6" target="_blank" rel="noopener noreffer ">https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6</a></p>
 <p>我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常
 进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探
 讨一些现有的方法，根据不同的 Linux 内核版本来挂钩系统调用。</p>]]></description></item><item><title>How to Terminate Stuck or Unwanted User Sessions in Linux</title><link>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</link><pubDate>Fri, 08 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
@@ -25,7 +25,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://linuxiac.com/how-to-terminate-user-session-in-linux/" target="_blank" rel="noopener noreffer ">https://linuxiac.com/how-to-terminate-user-session-in-linux/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxiac.com/how-to-terminate-user-session-in-linux/" target="_blank" rel="noopener noreffer ">https://linuxiac.com/how-to-terminate-user-session-in-linux/</a></p>
 <h2 id="h:630c60b8-137a-4521-84fd-8c01eb6c2e48"><span class="section-num">1</span> Linux 中的 TTY 和 PTS 是什么？</h2>
 <p>在 Linux 中，&ldquo;PTS&quot;和&quot;TTY&quot;都指不同的终端设备，用于用户与操作系统之间的通信。它们作为输入命令和从系统接收输出的接口。</p>]]></description></item><item><title>Ways to Deal With a Frozen Linux System</title><link>https://yangyingchao.github.io/frozen-linux-system/</link><pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/frozen-linux-system/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
@@ -34,7 +34,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
 <h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928"><span class="section-num">1</span> When everything else fails, talk with the Kernel using SysReq</h2>
 <p>有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。</p>]]></description></item><item><title>UNIX vs Linux: What's the Difference?</title><link>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</link><pubDate>Wed, 23 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
@@ -51,7 +51,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference</a></p>
 <p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这
 两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管
 理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，
@@ -76,7 +76,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary" target="_blank" rel="noopener noreffer ">https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary" target="_blank" rel="noopener noreffer ">https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary</a></p>
 <h2 id="h:871f360d-063e-46ff-9c0a-18322d91be4c"><span class="section-num">1</span> <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TL;DR" target="_blank" rel="noopener noreffer ">TL;DR</a></h2>
 <ul>
 <li>不用启用 <code>net.ipv4.tcp_tw_recycle</code> ， 该选项已在 Linux4.12 废弃</li>
@@ -112,7 +112,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
 <h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
 <ul>
 <li>Running or Runnable (R)</li>

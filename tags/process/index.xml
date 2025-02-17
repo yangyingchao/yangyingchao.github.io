@@ -5,7 +5,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
 <h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928"><span class="section-num">1</span> When everything else fails, talk with the Kernel using SysReq</h2>
 <p>有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。</p>]]></description></item><item><title>Linux Process States</title><link>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
@@ -29,7 +29,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
 <h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
 <ul>
 <li>Running or Runnable (R)</li>

@@ -12,7 +12,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： ../../../Work/pg_master/src/backend/access/hash/README
+本文为摘录(或转载)，侵删，原文为： ../../../Work/pg_master/src/backend/access/hash/README
 
 
 

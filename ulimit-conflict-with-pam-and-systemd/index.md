@@ -13,7 +13,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content
+本文为摘录(或转载)，侵删，原文为： https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content
 
 
 

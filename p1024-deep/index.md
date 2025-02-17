@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/6/p1024-deep.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/p1024-deep.pdf
 
 
 

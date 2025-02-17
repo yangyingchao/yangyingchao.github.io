@@ -26,7 +26,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://tonydeng.github.io/2022/04/20/threat-modeling-was-conducted-based-on-STRIDE/
+本文为摘录(或转载)，侵删，原文为： https://tonydeng.github.io/2022/04/20/threat-modeling-was-conducted-based-on-STRIDE/
 
 
 

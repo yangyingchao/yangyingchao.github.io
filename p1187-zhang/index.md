@@ -1,7 +1,7 @@
 # NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems
 
 
-本文为摘录，原文为： attachments/pdf/a/p1187-zhang.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf
 
 -   **PM** stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。
 -   **eADR** 保证了 CPU 缓存中的数据在电源故障时会被刷新到 PM 中

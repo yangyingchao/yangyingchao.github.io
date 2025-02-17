@@ -1,7 +1,7 @@
 # ABC: Attributed Bipartite Co-clustering 双向联合集聚归因算法
 
 
-本文为摘录，原文为： attachments/pdf/6/p2134-kim.pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/p2134-kim.pdf
 
 本文介绍了一种称为 ABC（Attributed Bipartite Co-clustering 双向联合集聚归因算法）的问题，
 

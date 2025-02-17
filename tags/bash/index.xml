@@ -24,7 +24,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/" target="_blank" rel="noopener noreffer ">https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/" target="_blank" rel="noopener noreffer ">https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</a></p>
 <h2 id="脚本优化"><span class="section-num">1</span> 脚本优化</h2>
 <p>优化对于确保脚本高效运行至关重要，特别是在处理大型数据集或密集任务时。以下是一些优化 Bash 脚本的关键技巧。</p>]]></description></item><item><title>Bash Mapfile Builtin Command Help and Examples</title><link>https://yangyingchao.github.io/mapfile/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/mapfile/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
@@ -45,7 +45,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.computerhope.com/unix/bash/mapfile.htm" target="_blank" rel="noopener noreffer ">https://www.computerhope.com/unix/bash/mapfile.htm</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.computerhope.com/unix/bash/mapfile.htm" target="_blank" rel="noopener noreffer ">https://www.computerhope.com/unix/bash/mapfile.htm</a></p>
 <h2 id="h:11d958d0-32e8-40f0-8b56-88270fd85ed4"><span class="section-num">1</span> 语法</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -58,25 +58,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="h:7ebb0f59-ff05-4de9-9346-346ac68e6cff"><span class="section-num">1.1</span> 选项</h3>
-<p>mapfile 内建命令接受以下选项：</p>
-<ul>
-<li><code>-n count</code>  读取最多 count 行。如果 count 为零，则复制所有可用的行。</li>
-<li><code>-O origin</code> 从索引号 origin 开始将行写入数组 array。默认值为零。</li>
-<li><code>-s count</code>  在写入数组之前丢弃 count 行。</li>
-<li><code>-t</code>  如果任何行以换行符结尾，则去除换行符。</li>
-<li><code>-u fd</code>  从文件描述符 fd 读取行，而不是标准输入。</li>
-<li><code>-C callback</code>  每次读取量子行时执行/评估一个函数/表达式 callback。默认量子值为 1，除非使用-c 另行指定。</li>
-<li><code>-c quantum</code>  指定函数/表达式 callback 在指定了-C 时执行/评估的行数量子。</li>
-<li><code>array</code>  要写入行的数组变量的名称。如果省略了 array，则默认变量 MAPFILE 是目标。</li>
-</ul>
-<h3 id="h:1ce845c9-394e-41af-a4a7-b280e219050c"><span class="section-num">1.2</span> 注意事项</h3>
-<ul>
-<li>命令名称 readarray 可以作为命令名称 mapfile 的别名使用，其操作没有任何差异。</li>
-<li>如果指定了-u 选项，mapfile 将从文件描述符 fd 而不是标准输入中读取。</li>
-<li>如果未指定 array，则默认变量 MAPFILE 将用作目标数组变量。</li>
-</ul>
-<p>mapfile 命令不是非常可移植的。也就是说，如果你希望确保脚本可以在多种系统上运行，不建议使
-用 mapfile。它主要提供方便。相同的功能可以使用 read 循环实现，尽管通常 mapfile 的性能更好。</p>]]></description></item><item><title>google shell style guide | Style guides for Google-originated open-source projects</title><link>https://yangyingchao.github.io/shellguide/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/shellguide/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>mapfile 内建命令接受以下选项：</p>]]></description></item><item><title>google shell style guide | Style guides for Google-originated open-source projects</title><link>https://yangyingchao.github.io/shellguide/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/shellguide/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:f6a55800-10d4-4052-be0f-f0d7053dd7b6" rel="">Background</a></li>
@@ -145,7 +127,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://google.github.io/styleguide/shellguide.html" target="_blank" rel="noopener noreffer ">https://google.github.io/styleguide/shellguide.html</a></p>]]></description></item><item><title>Tips of Bash/Zsh</title><link>https://yangyingchao.github.io/tips-of-bash-zsh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/tips-of-bash-zsh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://google.github.io/styleguide/shellguide.html" target="_blank" rel="noopener noreffer ">https://google.github.io/styleguide/shellguide.html</a></p>]]></description></item><item><title>Tips of Bash/Zsh</title><link>https://yangyingchao.github.io/tips-of-bash-zsh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/tips-of-bash-zsh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:c2349cd1-7eb4-4ae1-9eea-323aea44ee72" rel="">展开 Bash 数组 (array) 时候， <code>${ARRARY[@]}</code> 和 <code>${ARRARY[*]}</code> 有什么区别？</a></li>
@@ -160,6 +142,6 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc" target="_blank" rel="noopener noreffer ">https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc" target="_blank" rel="noopener noreffer ">https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc</a></p>
 <h2 id="h:c2349cd1-7eb4-4ae1-9eea-323aea44ee72"><span class="section-num">1</span> 展开 Bash 数组 (array) 时候， <code>${ARRARY[@]}</code> 和 <code>${ARRARY[*]}</code> 有什么区别？</h2>
 <p>INFO 中有相关说明：</p>]]></description></item></channel></rss>

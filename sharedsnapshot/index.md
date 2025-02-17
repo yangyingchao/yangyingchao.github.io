@@ -11,7 +11,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： ../../../Work/pg_gpdb/src/backend/utils/time/sharedsnapshot.c
+本文为摘录(或转载)，侵删，原文为： ../../../Work/pg_gpdb/src/backend/utils/time/sharedsnapshot.c
 
 在 Greenplum 中，作为切片计划的一部分，许多 PostgreSQL 进程（qExecs，QE）在单个段数据库
 上运行，作为同一用户 SQL 语句的一部分。属于特定用户在特定段数据库上的所有 qExecs 需要具

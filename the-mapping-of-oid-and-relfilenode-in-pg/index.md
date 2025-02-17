@@ -14,7 +14,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://www.highgo.ca/2021/01/12/the-mapping-of-oid-and-relfilenode-in-pg/
+本文为摘录(或转载)，侵删，原文为： https://www.highgo.ca/2021/01/12/the-mapping-of-oid-and-relfilenode-in-pg/
 
 A table in PostgreSQL has a relfilenode value, which specifies the file name of the table on disk (except foreign table
 and partition table). In general, this value can be found in the relfilenode field of the pg_class table, but there are

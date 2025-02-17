@@ -16,7 +16,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd
+本文为摘录(或转载)，侵删，原文为： https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd
 
 对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库
 是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可

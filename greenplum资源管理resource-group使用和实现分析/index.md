@@ -37,7 +37,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://blog.csdn.net/u013970710/article/details/115433014
+本文为摘录(或转载)，侵删，原文为： https://blog.csdn.net/u013970710/article/details/115433014
 
 Greenplum 是一款广泛应用的开源 MPP 数据库的产品，兼容 PostgreSQL 生态，被广泛应用与大数据的存储与分析。
 

@@ -25,8 +25,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer ">https://my.oschina.net/u/5658056/blog/5519656</a></p>
-<p>一条查询 SQL 在关系型分布式数据库中的处理，通常需要经过 3 大步骤：</p>]]></description></item><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer ">https://my.oschina.net/u/5658056/blog/5519656</a></p>]]></description></item><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e4%b8%80" rel="">一</a></li>
@@ -43,7 +42,7 @@
 在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封
 感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身
 边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去
-的无数个我吗？</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
+的无数个我吗？</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
 <ul>
 <li>
 <p><strong>PM</strong> stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。</p>
@@ -57,7 +56,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/initializer_list_improvements/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/initializer_list_improvements/</a></p>
 <h2 id="h:bfb895f8-a465-4cb7-a534-ad7148fe328d"><span class="section-num">1</span> <a href="https://www.cppstories.com/2023/initializer_list_improvements/#1-referencing-local-array" target="_blank" rel="noopener noreffer ">Referencing local array</a></h2>
 <p><code>std::initializer_list</code> 在使用中会转化成为常量对象的匿名局部数组：</p>
 <div class="highlight"><div class="chroma">

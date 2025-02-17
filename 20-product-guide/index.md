@@ -24,7 +24,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://docs.hashdata.xyz/docs/20-product-guide/
+本文为摘录(或转载)，侵删，原文为： https://docs.hashdata.xyz/docs/20-product-guide/
 
 
 

@@ -19,7 +19,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd</a></p>
 <h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"><span class="section-num">1</span> 什么是 HTAP？</h2>
 <ul>
 <li>
@@ -54,34 +54,4 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： ../pdf/5/p3411-chen.pdf</p>
-<ul>
-<li><strong>ByteHTAP</strong>: an HTAP system with high data freshness and strong data consistency.</li>
-<li>独立引擎和共享存储架构</li>
-</ul>
-<h2 id="h:1d0256eb-7020-40a9-8734-ff2cd768b879"><span class="section-num">1</span> INTRODUCTION</h2>
-<ul>
-<li>字节的实际需求：
-<ul>
-<li>对刚刚(sub-second, 亚秒级)导入的数据进行复杂分析</li>
-<li>支持事务和强一致性</li>
-</ul>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>Build HTAP with following <strong>Global Designs</strong>:
-<ul>
-<li>规模大 (Large Scale) <br />
-字节的应用，有亿级的用户，需要构建分布式、实时分析系统，可以支撑 PB 级数据</li>
-<li>实时 （Real time）</li>
-<li>高度新数据 Highly fresh data changes</li>
-<li>数据强一致性</li>
-</ul>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>
-<p>根据架构，可将 HTAP 分为两类：
-1 单引擎系统<br /></p>]]></description></item></channel></rss>
+<p>本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf</p>]]></description></item></channel></rss>

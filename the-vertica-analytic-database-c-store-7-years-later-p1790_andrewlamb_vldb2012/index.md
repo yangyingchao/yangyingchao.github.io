@@ -25,7 +25,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： attachments/pdf/3/The Vertica Analytic Database- C-Store 7 Years Later (p1790_andrewlamb_vldb2012).pdf
+本文为摘录(或转载)，侵删，原文为： attachments/pdf/3/The Vertica Analytic Database- C-Store 7 Years Later (p1790_andrewlamb_vldb2012).pdf
 
 
 

@@ -24,21 +24,8 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： attachments/pdf/e/p1911-lee.pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/e/p1911-lee.pdf</p>
 <h2 id="h:ebffcd16-173e-4644-a00f-8f6d92c798f0"><span class="section-num">1</span> ABSTRACT</h2>
 <ul>
 <li>
-<p>问题： <strong>读阻塞</strong></p>
-<ul>
-<li>buffer manager 采用 read-after-write (RAW) 策略</li>
-<li>读写速率不同，导致 <strong>读阻塞</strong></li>
-<li>RAW 分两层：
-<ul>
-<li>DBMS buffer</li>
-<li>Storage buffer （硬件层）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>方案：</p>]]></description></item></channel></rss>
+<p>问题： <strong>读阻塞</strong></p>]]></description></item></channel></rss>

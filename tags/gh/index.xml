@@ -11,7 +11,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely</a></p>
 <h2 id="q"><span class="section-num">1</span> Q</h2>
 <p>I am building an app that fetches the issues and pull requests of over 1K github repos, like this.</p>
 <div class="highlight"><div class="chroma">
@@ -22,20 +22,4 @@
 <pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">$ curl -i &#34;https://api.github.com/repos/user/repo/issues?state=closed&#34;
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>My problem is that, after the initial 60 iterations I get a rate limit error:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
-</span></span><span class="line"><span class="cl">    &#34;message&#34;: &#34;API rate limit exceeded for xxx.xxx.xxx.xxx. (But here&#39;s the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)&#34;,
-</span></span><span class="line"><span class="cl">    &#34;documentation_url&#34;: &#34;https://developer.github.com/v3/#rate-limiting&#34;
-</span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>The document says I can make upto 5000 requests using Authentication Which I registered an oauth for and obtained Client
-ID and Client Secret tokens</p>]]></description></item></channel></rss>
+</div><p>My problem is that, after the initial 60 iterations I get a rate limit error:</p>]]></description></item></channel></rss>

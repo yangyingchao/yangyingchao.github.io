@@ -18,7 +18,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA
+本文为摘录(或转载)，侵删，原文为： https://mp.weixin.qq.com/s/dD-aPhnynOqSC3MUYLjeAA
 
 2023 年，微信及 WeChat 的 DAU（月活用户）达到 13.4 亿，微信已经是很多人工作、生活中不可或缺的一个环节。从 2011 年 1 月
 21 日上线至今，微信已经走过了 13 个年头，其背后的技术基座与架构也发生了巨大的变化。

@@ -12,6 +12,6 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录，原文为： <a href="https://linuxiac.com/how-to-terminate-user-session-in-linux/" target="_blank" rel="noopener noreffer ">https://linuxiac.com/how-to-terminate-user-session-in-linux/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxiac.com/how-to-terminate-user-session-in-linux/" target="_blank" rel="noopener noreffer ">https://linuxiac.com/how-to-terminate-user-session-in-linux/</a></p>
 <h2 id="h:630c60b8-137a-4521-84fd-8c01eb6c2e48"><span class="section-num">1</span> Linux 中的 TTY 和 PTS 是什么？</h2>
 <p>在 Linux 中，&ldquo;PTS&quot;和&quot;TTY&quot;都指不同的终端设备，用于用户与操作系统之间的通信。它们作为输入命令和从系统接收输出的接口。</p>]]></description></item></channel></rss>

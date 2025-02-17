@@ -15,7 +15,7 @@
 <!--endtoc-->
 
 
-本文为摘录，原文为： https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je
+本文为摘录(或转载)，侵删，原文为： https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je
 
 PolarDB PostgreSQL 版是一款阿里云自主研发的企业级数据库产品，采用计算存储分离架构，兼容
 PostgreSQL 与 Oracle。PolarDB PostgreSQL 版的存储与计算能力均可横向扩展，具有高可靠、高可用、
