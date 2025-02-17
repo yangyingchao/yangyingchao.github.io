@@ -14,16 +14,15 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   如下图，创建一个公开的 Github 仓库
 
-<a id="org0e2b0ab"></a>
+<a id="figure--fig:PicGo%2F202306190903900"></a>
 
-![](./images/PicGo%2F202306190903900.png)
-pic-01
+{{< figure src="./images/PicGo%2F202306190903900.png" width="800px" >}}
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="org148a0b7"></a>
+<a id="org507288d"></a>
 
-![](./images/PicGo%2F202306190909575.png)
+<img src="./images/PicGo%2F202306190909575.png" alt="PicGo%2F202306190909575.png" width="800px" />
 pic-02
 
 ---
@@ -32,16 +31,15 @@ pic-02
 
 -   点击这里，我们将会看到下面的界面，我们点击安装
 
-<a id="org7b6e1e8"></a>
+<a id="figure--fig:PicGo%2F202306190919754"></a>
 
-![](./images/PicGo%2F202306190919754.png)
-pic-03
+{{< figure src="./images/PicGo%2F202306190919754.png" width="800px" >}}
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="org79227a6"></a>
+<a id="orgc56ba0b"></a>
 
-![](./images/PicGo%2F202306190928971.png)
+<img src="./images/PicGo%2F202306190928971.png" alt="PicGo%2F202306190928971.png" width="800px" />
 pic-04
 
 我遇到的问题
@@ -58,14 +56,14 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="orgfef1b0b"></a>
+<a id="org473dabb"></a>
 
-![](./images/PicGo%2F202306191023678.png)
+<img src="./images/PicGo%2F202306191023678.png" alt="PicGo%2F202306191023678.png" width="800px" />
 pic-05
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="orgd57ed36"></a>
+<a id="orged9797a"></a>
 
 ![](./images/PicGo%2F202306191027361.png)
 pic-06
@@ -74,18 +72,17 @@ pic-06
 
 -   选择 Discussion 分类，如下图
 
-<a id="org9c23ff9"></a>
+<a id="figure--fig:PicGo%2F202306191029555"></a>
 
-![](./images/PicGo%2F202306191029555.png)
-pic-07
+{{< figure src="./images/PicGo%2F202306191029555.png" width="800px" >}}
 
 我们选择 Announcements 类型即可，官方也是这样推荐的，因为这样便于管理。
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="orga673e4f"></a>
+<a id="org452e221"></a>
 
-![](./images/PicGo%2F202306191354061.png)
+<img src="./images/PicGo%2F202306191354061.png" alt="PicGo%2F202306191354061.png" width="800px" />
 pic-08
 
 我们要记下 data-repo，data-repo-id，data-category，data-category-id，data-mapping 这几个值。
@@ -98,7 +95,7 @@ pic-08
 
     -   打开配置文件 config.toml，找到# 评论系统设置的第一个 enable 参量，将其改为 true，如下图：
 
-<a id="org0e3a17b"></a>
+<a id="orgc36dffa"></a>
 
 ![](./images/PicGo%2F202306191403367.png)
 pic-09
