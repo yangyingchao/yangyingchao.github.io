@@ -20,7 +20,7 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="org51841a1"></a>
+<a id="orgf7327ac"></a>
 
 <img src="images/PicGo%2F202306190909575.webp" alt="PicGo%2F202306190909575.webp" width="800px" />
 pic-02
@@ -37,7 +37,7 @@ pic-02
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="orge2fad96"></a>
+<a id="orgdbebceb"></a>
 
 <img src="images/PicGo%2F202306190928971.webp" alt="PicGo%2F202306190928971.webp" width="800px" />
 pic-04
@@ -56,16 +56,16 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="orgf5d1b4e"></a>
+<a id="orgd240588"></a>
 
-<img src="images/PicGo_2F202306191023678.webp" alt="PicGo_2F202306191023678.webp" width="800px" />
+<img src="/ox-hugo/PicGo_2F202306191023678.webp" alt="PicGo_2F202306191023678.webp" width="800px" />
 pic-05
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="org23d39f7"></a>
+<a id="org1147de8"></a>
 
-![](images/PicGo_2F202306191027361.webp)
+![](/ox-hugo/PicGo_2F202306191027361.webp)
 pic-06
 
 直接选第一个就行
@@ -74,15 +74,15 @@ pic-06
 
 <a id="figure--fig:PicGo-2F202306191029555"></a>
 
-{{< figure src="images/PicGo_2F202306191029555.webp" width="800px" >}}
+{{< figure src="/ox-hugo/PicGo_2F202306191029555.webp" width="800px" >}}
 
 我们选择 Announcements 类型即可，官方也是这样推荐的，因为这样便于管理。
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="orgad343d8"></a>
+<a id="orgabfeacf"></a>
 
-<img src="images/PicGo_2F202306191354061.webp" alt="PicGo_2F202306191354061.webp" width="800px" />
+<img src="/ox-hugo/PicGo_2F202306191354061.webp" alt="PicGo_2F202306191354061.webp" width="800px" />
 pic-08
 
 我们要记下 data-repo，data-repo-id，data-category，data-category-id，data-mapping 这几个值。
@@ -95,7 +95,7 @@ pic-08
 
     -   打开配置文件 config.toml，找到# 评论系统设置的第一个 enable 参量，将其改为 true，如下图：
 
-{{< figure src="images/PicGo_2F202306191403367.webp" >}}
+{{< figure src="/ox-hugo/PicGo_2F202306191403367.webp" >}}
 
 -   找到# giscus comment 评论系统设置,并把其配置按照下面代码块修改。
 
