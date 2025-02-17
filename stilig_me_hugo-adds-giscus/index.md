@@ -16,13 +16,13 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 <a id="figure--fig:PicGo%2F202306190903900"></a>
 
-{{< figure src="./images/PicGo%2F202306190903900.png" width="800px" >}}
+{{< figure src="images/PicGo%2F202306190903900.webp" width="800px" >}}
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="org507288d"></a>
+<a id="org3e7c3e4"></a>
 
-<img src="./images/PicGo%2F202306190909575.png" alt="PicGo%2F202306190909575.png" width="800px" />
+<img src="images/PicGo%2F202306190909575.webp" alt="PicGo%2F202306190909575.webp" width="800px" />
 pic-02
 
 ---
@@ -33,13 +33,13 @@ pic-02
 
 <a id="figure--fig:PicGo%2F202306190919754"></a>
 
-{{< figure src="./images/PicGo%2F202306190919754.png" width="800px" >}}
+{{< figure src="images/PicGo%2F202306190919754.webp" width="800px" >}}
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="orgc56ba0b"></a>
+<a id="org84cea68"></a>
 
-<img src="./images/PicGo%2F202306190928971.png" alt="PicGo%2F202306190928971.png" width="800px" />
+<img src="images/PicGo%2F202306190928971.webp" alt="PicGo%2F202306190928971.webp" width="800px" />
 pic-04
 
 我遇到的问题
@@ -56,16 +56,16 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="org473dabb"></a>
+<a id="orge43463b"></a>
 
-<img src="./images/PicGo%2F202306191023678.png" alt="PicGo%2F202306191023678.png" width="800px" />
+<img src="images/PicGo%2F202306191023678.webp" alt="PicGo%2F202306191023678.webp" width="800px" />
 pic-05
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="orged9797a"></a>
+<a id="org29921c0"></a>
 
-![](./images/PicGo%2F202306191027361.png)
+![](images/PicGo%2F202306191027361.webp)
 pic-06
 
 直接选第一个就行
@@ -74,15 +74,15 @@ pic-06
 
 <a id="figure--fig:PicGo%2F202306191029555"></a>
 
-{{< figure src="./images/PicGo%2F202306191029555.png" width="800px" >}}
+{{< figure src="images/PicGo%2F202306191029555.webp" width="800px" >}}
 
 我们选择 Announcements 类型即可，官方也是这样推荐的，因为这样便于管理。
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="org452e221"></a>
+<a id="orgeb8921f"></a>
 
-<img src="./images/PicGo%2F202306191354061.png" alt="PicGo%2F202306191354061.png" width="800px" />
+<img src="images/PicGo%2F202306191354061.webp" alt="PicGo%2F202306191354061.webp" width="800px" />
 pic-08
 
 我们要记下 data-repo，data-repo-id，data-category，data-category-id，data-mapping 这几个值。
@@ -95,37 +95,38 @@ pic-08
 
     -   打开配置文件 config.toml，找到# 评论系统设置的第一个 enable 参量，将其改为 true，如下图：
 
-<a id="orgc36dffa"></a>
-
-![](./images/PicGo%2F202306191403367.png)
-pic-09
+{{< figure src="images/PicGo%2F202306191403367.webp" >}}
 
 -   找到# giscus comment 评论系统设置,并把其配置按照下面代码块修改。
 
-     1  [params.page.comment.giscus]
-     2    # 你可以参考官方文档来使用下列配置
-     3    enable = true
-     4    repo = "&lt;your_repo&gt;"
-     5    repoId = "&lt;your_repoId&gt;"
-     6    category = "&lt;your_category&gt;"
-     7    categoryId = "&lt;your_categoryId&gt;"
-     8    # &lt;your_repo&gt; 对应官网的 data-repo
-     9    # &lt;your_repoId&gt; 对应官网的 data-repo-id
-    10    # &lt;your_category&gt; 对应官网的 data-category
-    11    # &lt;your_categoryId&gt; 对应官网的 data-category-id
-    12
-    13    # 为空时自动适配当前主题 i18n 配置
-    14    lang = ""
-    15    mapping = "&lt;your_mapping&gt;"
-    16    # &lt;your_mapping&gt; 对应官网的 data-mapping
-    17    reactionsEnabled = "1"
-    18    emitMetadata = "0"
-    19    inputPosition = "bottom"
-    20    lazyLoading = false
-    21    lightTheme = "light"
-    22    darkTheme = "dark_dimmed"
+<!--listend-->
 
-    配置好后,就可以开启 Giscus 评论系统了。
+```toml
+[params.page.comment.giscus]
+  # 你可以参考官方文档来使用下列配置
+  enable = true
+  repo = "<your_repo>"
+  repoId = "<your_repoId>"
+  category = "<your_category>"
+  categoryId = "<your_categoryId>"
+  # <your_repo> 对应官网的 data-repo
+  # <your_repoId> 对应官网的 data-repo-id
+  # <your_category> 对应官网的 data-category
+  # <your_categoryId> 对应官网的 data-category-id
+
+  # 为空时自动适配当前主题 i18n 配置
+  lang = ""
+  mapping = "<your_mapping>"
+  # <your_mapping> 对应官网的 data-mapping
+  reactionsEnabled = "1"
+  emitMetadata = "0"
+  inputPosition = "bottom"
+  lazyLoading = false
+  lightTheme = "light"
+  darkTheme = "dark_dimmed"
+```
+
+配置好后,就可以开启 Giscus 评论系统了。
 
 **参考文章：**
 
