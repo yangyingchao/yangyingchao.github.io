@@ -43,9 +43,7 @@ Now is 2024-11-01 11:44:06.374573703
 
 ## <span class="section-num">1</span> Improving the print {#improving-the-print}
 
-如您所见，我使用了 C++23 中的 `std::print` ，这在 GCC 14 中可用！默认情况下，
-使用 `std::chrono::system_clock::now()` 获得的时间点会打印完整信息，
-但我们可以更改并调整它。例如：
+如您所见，我使用了 C++23 中的 `std::print` ，这在 GCC 14 中可用！默认情况下，使用 `std::chrono::system_clock::now()` 获得的时间点会打印完整信息，但我们可以更改并调整它。例如：
 
 -   基本日期和时间格式设置 Basic Date and Time Formatting
     -   **仅显示日期：**  `{0:%F}` 将日期格式化为 `YYYY-MM-DD` 。
@@ -152,34 +150,27 @@ Tokyo: 2024-11-02 04:24
 让我们现在深入细节：
 
 1.  获取当前时间：
-    -   我们通过使用 `std::chrono::system_clock::now()` 来获取当前时间。
-        这将给我们 UTC 的当前时间。
+    -   我们通过使用 `std::chrono::system_clock::now()` 来获取当前时间。这将给我们 UTC 的当前时间。
 
 2.  本地时区：
-    -   我们使用 `std::chrono::current_zone()` 创建一个 `std::chrono::zoned_time` 对象，
-        该对象会自动检测代码运行所在系统的本地时区。这使我们能够将 UTC 时间转换为本地时区。
+    -   我们使用 `std::chrono::current_zone()` 创建一个 `std::chrono::zoned_time` 对象，该对象会自动检测代码运行所在系统的本地时区。这使我们能够将 UTC 时间转换为本地时区。
 
 3.  时区转换：
-    -   我们使用 std=::string_view= 定义三个时区：华沙、纽约和东京。
-        这些时区是使用各自的 IANA 时区标识符进行指定的。
+    -   我们使用 std=::string_view= 定义三个时区：华沙、纽约和东京。这些时区是使用各自的 IANA 时区标识符进行指定的。
 
-    -   对于每个时区，我们创建一个 `std::chrono::zoned_time` 对象，
-        将当前的 UTC 时间转换为指定的时区。
+    -   对于每个时区，我们创建一个 `std::chrono::zoned_time` 对象，将当前的 UTC 时间转换为指定的时区。
 
 4.  打印结果：
     -   我们使用 `std::print` 来显示 UTC 和本地时区的当前时间。
 
-    -   对于每个指定的时区（华沙、纽约、东京），
-        我们使用格式说明符 `{0:%F}` 打印日期（ `YYYY-MM-DD` ）和 `{0:%R}` 打印时间（ `HH:MM` ）。
+    -   对于每个指定的时区（华沙、纽约、东京），我们使用格式说明符 `{0:%F}` 打印日期（ `YYYY-MM-DD` ）和 `{0:%R}` 打印时间（ `HH:MM` ）。
 
-5.  错误处理：
-    – 代码被包裹在一个 `try-catch` 块中，以处理任何潜在的运行时错误，例如无效的时区标识符。
+5.  错误处理：– 代码被包裹在一个 `try-catch` 块中，以处理任何潜在的运行时错误，例如无效的时区标识符。
 
 
 ## <span class="section-num">3</span> Daylight saving time 夏令时 {#daylight-saving-time-夏令时}
 
-我们甚至可以检查与我们当前时区相关的一些额外信息。
-我们可以从 `zoned_time` 中获取信息并打印出开始/结束、偏移量等信息：
+我们甚至可以检查与我们当前时区相关的一些额外信息。我们可以从 `zoned_time` 中获取信息并打印出开始/结束、偏移量等信息：
 
 ```cpp
 #include <chrono>
@@ -245,14 +236,10 @@ int main() {
 
 如您所见，我们获得了以下信息：
 
-– info.abbrev - 时区缩写名，例如 CET、PT 等
-– info.begin, info.end - 给定时区的开始和结束日期（以 sys_seconds 为单位），通常在夏令时转换时会发生变化
-– info.offset - 相对于 UTC 时间的偏移量
-– info.save - 如果不为零，则表示时区处于夏令时
+– info.abbrev - 时区缩写名，例如 CET、PT 等– info.begin, info.end - 给定时区的开始和结束日期（以 sys_seconds 为单位），通常在夏令时转换时会发生变化– info.offset - 相对于 UTC 时间的偏移量– info.save - 如果不为零，则表示时区处于夏令时
 
 
 ## <span class="section-num">4</span> Summary {#summary}
 
-这真是一趟旅程！我们从简单的当前时间显示开始，逐渐过渡到更复杂的场景，包括 C++20 和 C++23 中提供的各种格式选项，
-以及时区。最后，我们探讨了如何检查特定时间点的细节，并检查与其时区相关的信息。
+这真是一趟旅程！我们从简单的当前时间显示开始，逐渐过渡到更复杂的场景，包括 C++20 和 C++23 中提供的各种格式选项，以及时区。最后，我们探讨了如何检查特定时间点的细节，并检查与其时区相关的信息。
 

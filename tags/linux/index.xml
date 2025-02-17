@@ -9,9 +9,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6" target="_blank" rel="noopener noreffer ">https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6</a></p>
-<p>我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常
-进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探
-讨一些现有的方法，根据不同的 Linux 内核版本来挂钩系统调用。</p>]]></description></item><item><title>How to Terminate Stuck or Unwanted User Sessions in Linux</title><link>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</link><pubDate>Fri, 08 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探讨一些现有的方法，根据不同的 Linux 内核版本来挂钩系统调用。</p>]]></description></item><item><title>How to Terminate Stuck or Unwanted User Sessions in Linux</title><link>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</link><pubDate>Fri, 08 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-terminate-stuck-or-unwanted-user-sessions-in-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:630c60b8-137a-4521-84fd-8c01eb6c2e48" rel="">Linux 中的 TTY 和 PTS 是什么？</a></li>
@@ -52,10 +50,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference</a></p>
-<p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这
-两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管
-理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，
-阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。</p>]]></description></item><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。</p>]]></description></item><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:871f360d-063e-46ff-9c0a-18322d91be4c" rel="">TL;DR</a></li>

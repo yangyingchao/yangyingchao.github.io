@@ -9,8 +9,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://stilig.me/posts/hugo-adds-giscus/" target="_blank" rel="noopener noreffer ">https://stilig.me/posts/hugo-adds-giscus/</a></p>
-<p>捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而
-这时我找到了 Giscus。</p>]]></description></item><item><title>这个博客是怎么生成的？</title><link>https://yangyingchao.github.io/how-this-blog-is-generated/</link><pubDate>Tue, 05 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-this-blog-is-generated/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而这时我找到了 Giscus。</p>]]></description></item><item><title>这个博客是怎么生成的？</title><link>https://yangyingchao.github.io/how-this-blog-is-generated/</link><pubDate>Tue, 05 Sep 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-this-blog-is-generated/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:77d4f63b-c1fa-4f57-93b5-c757e41e1a71" rel="">用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages</a>

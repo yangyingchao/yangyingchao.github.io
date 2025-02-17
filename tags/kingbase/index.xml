@@ -10,6 +10,4 @@
 <ul>
 <li>
 <p><strong>KWR</strong> ： <br />
-KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，
-建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能
-调优提供指导。</p>]]></description></item></channel></rss>
+KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能调优提供指导。</p>]]></description></item></channel></rss>

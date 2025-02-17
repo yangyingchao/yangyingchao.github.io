@@ -13,9 +13,7 @@
 </div>
 <!--endtoc-->
 
-用了一段时间的 [hyprland](https://hyprland.org/), 其 UI 和易用性都很不错，但可能是因为还处于功能的积极开发中，稳定性还差点，
-在 session 退出， 或者断开、连接新显示器时候会经常宕机， coredumpctl 里面总是一票 coredump 。。
-昨天受不了了，还是换回了 [sway](https://swaywm.org/) 。这里记录几个换回来后发现的几个小问题（和增强）。
+用了一段时间的 [hyprland](https://hyprland.org/), 其 UI 和易用性都很不错，但可能是因为还处于功能的积极开发中，稳定性还差点，在 session 退出， 或者断开、连接新显示器时候会经常宕机， coredumpctl 里面总是一票 coredump 。。昨天受不了了，还是换回了 [sway](https://swaywm.org/) 。这里记录几个换回来后发现的几个小问题（和增强）。
 
 
 ## <span class="section-num">1</span> autotiling {#h:50b10f4a-0c41-4213-a5ef-33e5fc92743d}

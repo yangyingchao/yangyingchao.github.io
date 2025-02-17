@@ -11,5 +11,4 @@
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A</a></p>
 <p><a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A</a></p>
 <h2 id="h:2cbbde01-1566-4ece-b655-010ab5108341"><span class="section-num">1</span> rm 不能安全擦除</h2>
-<p>因为 rm 命令或者文件管理器删除文件只是删除指向文件系统的指针（inode），所以原始数据仍可
-以使用</p>]]></description></item></channel></rss>
+<p>因为 rm 命令或者文件管理器删除文件只是删除指向文件系统的指针（inode），所以原始数据仍可以使用</p>]]></description></item></channel></rss>

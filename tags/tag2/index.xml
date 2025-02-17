@@ -37,12 +37,7 @@
 <h2 id="一"><span class="section-num">1</span> 一</h2>
 <p>刚刚读完了韩国作家崔恩荣的《明亮的夜晚》，作者以细腻的笔法，将八十年来几代人的故事娓娓道来：</p>
 <blockquote>
-<p>和丈夫离婚后，三十一岁的我独自来到海边小城熙岭，却在那里邂逅多年未见的祖母。尴尬和沉默之后，孤独的心一点点靠近，
-我和祖母成为相互倾吐心声的朋友。
-在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封
-感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身
-边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去
-的无数个我吗？</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
+<p>和丈夫离婚后，三十一岁的我独自来到海边小城熙岭，却在那里邂逅多年未见的祖母。尴尬和沉默之后，孤独的心一点点靠近，我和祖母成为相互倾吐心声的朋友。在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去的无数个我吗？</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
 <ul>
 <li>
 <p><strong>PM</strong> stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。</p>
@@ -79,5 +74,4 @@
 </div>
 </div><p>The above code is equivalent to the following:</p>]]></description></item><item><title>大数据已死</title><link>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</guid><description><![CDATA[<p><a href="https://motherduck.com/blog/big-data-is-dead/" target="_blank" rel="noopener noreffer ">https://motherduck.com/blog/big-data-is-dead/</a></p>
 <p>谷歌的大数据工程师乔丹·蒂加尼 （Jordan Tigani），最近直言不讳地说：&ldquo;大数据已死&rdquo;。</p>
-<p>他认为，大数据时代已经结束了，大数据的存储和分析，作为一个技术问题已经解决了。 用户已经不必担心数据大小了，再多的数据都不
-是问题。</p>]]></description></item></channel></rss>
+<p>他认为，大数据时代已经结束了，大数据的存储和分析，作为一个技术问题已经解决了。 用户已经不必担心数据大小了，再多的数据都不是问题。</p>]]></description></item></channel></rss>

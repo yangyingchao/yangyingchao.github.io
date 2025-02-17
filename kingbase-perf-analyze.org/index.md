@@ -19,17 +19,13 @@
 ## <span class="section-num">1</span> 几个重要的库 {#h:181c6e2a-6c88-472a-9347-59fec0ec00f1}
 
 -   **KWR** ： <br />
-    KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，
-    建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能
-    调优提供指导。
+    KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能调优提供指导。
 
 -   **KSH：** <br />
-    KES 活跃会话历史库（Active Session History），每秒自动采样活跃会话的等待事件、SQL 语句、
-    阻塞等会话信息，提供针对某个历史时间点的性能问题分析。
+    KES 活跃会话历史库（Active Session History），每秒自动采样活跃会话的等待事件、SQL 语句、阻塞等会话信息，提供针对某个历史时间点的性能问题分析。
 
 -   **KDDM：** <br />
-    KES 自动诊断和建议（Automatic Database Diagnostic Monitor），基于 KWR 快照和数据库时间
-    模型，给出内存、网络、IO 和 SQL 性能优化建议。
+    KES 自动诊断和建议（Automatic Database Diagnostic Monitor），基于 KWR 快照和数据库时间模型，给出内存、网络、IO 和 SQL 性能优化建议。
 
 -   **KWR Diff：** <br />
     KWR 差异报告，通过比较 2 段时间内 KWR 性能指标的差异，发现性能变化的趋势。

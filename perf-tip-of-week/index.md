@@ -33,8 +33,7 @@
   bit-twiddling, intrinsics code, or inline assembly, consider first whether this is
   something the compiler could do.
 
-当你发现需要使用复杂的位运算、内嵌代码或内联汇编来进行底层性能优化时，请首先考虑这是否是编译器可以
-完成的工作。
+当你发现需要使用复杂的位运算、内嵌代码或内联汇编来进行底层性能优化时，请首先考虑这是否是编译器可以完成的工作。
 
 – If the code is hot, and the optimization is not something the compiler can be taught
   to perform, then: prefer portable code, possibly using hwy to generate efficient and
@@ -60,9 +59,7 @@
     usefulness.
 
 保留你要替换的“朴素”代码。如果你正在优化 ComputeFoo，考虑将简单的实现保留在
-REFERENCE_ComputeFoo 函数中。这使得编写单元测试来确保两个函数是等效的变得容易；它使编
-写微基准测试变得更容易；它也使得当（而不是如果）与机器相关的实现过时时，更容易恢复到参
-考代码。
+REFERENCE_ComputeFoo 函数中。这使得编写单元测试来确保两个函数是等效的变得容易；它使编写微基准测试变得更容易；它也使得当（而不是如果）与机器相关的实现过时时，更容易恢复到参考代码。
 
 – Include a microbenchmark with your change. <br />
   在你的更改中包含一个微基准测试。
@@ -73,9 +70,7 @@ REFERENCE_ComputeFoo 函数中。这使得编写单元测试来确保两个函�
   knobs in terms of the outcome rather than specific behavior aspects can make such
   overrides easier (or even possible) to evolve.
 
-在设计或更改配置选项时，请确保选择始终保持最优状态。通常，覆盖默认设置可能会导致次优行
-为，因为将事物钉在比开箱即用更差的状态。将选项设计为以结果为基础而不是特定行为方面，可
-以使这些覆盖更易于演变甚至成为可能。
+在设计或更改配置选项时，请确保选择始终保持最优状态。通常，覆盖默认设置可能会导致次优行为，因为将事物钉在比开箱即用更差的状态。将选项设计为以结果为基础而不是特定行为方面，可以使这些覆盖更易于演变甚至成为可能。
 
 
 ### <span class="section-num">1.2</span> #21: Improving the efficiency of your regular expressions {#h:b840fb72-5992-44a3-ad54-225b893a0b03}

@@ -49,23 +49,19 @@ LowCardinality is a superstructure that changes a data storage method and rules 
 applies dictionary coding to LowCardinality-columns. Operating with dictionary encoded data significantly
 increases performance of SELECT queries for many applications.
 
-LowCardinality 是一种改变数据存储方法和数据处理规则的超级结构。ClickHouse 对 LowCardinality 列应用字典编码。使用
-字典编码的数据操作显著提高了许多应用程序的 SELECT 查询性能。
+LowCardinality 是一种改变数据存储方法和数据处理规则的超级结构。ClickHouse 对 LowCardinality 列应用字典编码。使用字典编码的数据操作显著提高了许多应用程序的 SELECT 查询性能。
 
 The efficiency of using LowCardinality data type depends on data diversity. If a dictionary contains less than
 10,000 distinct values, then ClickHouse mostly shows higher efficiency of data reading and storing. If a
 dictionary contains more than 100,000 distinct values, then ClickHouse can perform worse in comparison with
 using ordinary data types.
 
-使用 LowCardinality 数据类型的效率取决于数据的多样性。如果字典包含少于 10,000 个不同的值，那么 ClickHouse 在数据
-读取和存储方面通常显示出更高的效率。如果字典包含超过 100,000 个不同的值，那么 ClickHouse 的性能可能会比使用普通
-数据类型差。
+使用 LowCardinality 数据类型的效率取决于数据的多样性。如果字典包含少于 10,000 个不同的值，那么 ClickHouse 在数据读取和存储方面通常显示出更高的效率。如果字典包含超过 100,000 个不同的值，那么 ClickHouse 的性能可能会比使用普通数据类型差。
 
 Consider using LowCardinality instead of Enum when working with strings. LowCardinality provides more
 flexibility in use and often reveals the same or higher efficiency.
 
-在处理字符串时，可以考虑使用 `LowCardinality` 代替 `Enum` 。 `LowCardinality` 在使用上提供了更多的灵活性，并且通
-常展现出相同或更高的效率。
+在处理字符串时，可以考虑使用 `LowCardinality` 代替 `Enum` 。 `LowCardinality` 在使用上提供了更多的灵活性，并且通常展现出相同或更高的效率。
 
 
 ### <span class="section-num">1.3</span> Example​ {#example}

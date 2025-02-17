@@ -31,8 +31,7 @@ SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有�
 -   TCP connection 在服务端和客户端之间的网络接口上建立的 **一对一** 连接
 -   SCTP association 是 **多对多** ：
     -   可以在服务端的多个网口和客户端的多个网口之间建立联合 <br />
-        例如，服务端和客户端各自有两个设备： Ethernet &amp; Wi-Fi , 则服务端和客户端之
-        间的联合可以包括 4 路：
+        例如，服务端和客户端各自有两个设备： Ethernet &amp; Wi-Fi , 则服务端和客户端之间的联合可以包括 4 路：
         -   Eth -&gt; Eth
         -   Eth -&gt; Wi-Fi
         -   Wi-Fi -&gt; Eth
@@ -203,8 +202,7 @@ SCTP stack then will send it to all live peers! There are only a few lines of
 
 ### <span class="section-num">7.3</span> The One-to-Many Style {#h:400f90d1-fb4b-4e76-ae90-8feff25e9124}
 
-一对多模式可以减少 server 所使用的 socket 数量：可以使用一个 socket 来建立多个
-联合。 联合通过 `association id` 来标识。 该 ID 由内核指定，对用户透明。
+一对多模式可以减少 server 所使用的 socket 数量：可以使用一个 socket 来建立多个联合。 联合通过 `association id` 来标识。 该 ID 由内核指定，对用户透明。
 
 使用该模式需要注意：
 
@@ -213,8 +211,7 @@ SCTP stack then will send it to all live peers! There are only a few lines of
 -   使用 `sendto/sendmsg/sctp_sendmsg` 发送数据时候，如果联合不存在，会自动创建。
 -   必须使用 `sendto/sctp_sendmsg` 来发送数据，而不能使用 `send/write`
 -   发送数据时，总是使用主目的地址 （建立联合时候系统选定的地址）。可以通过设置
-    flag `MSG_ADDR_OVER` 来强制使用其他地址。 该 flag 可以在 `sctp_sendmsg()` 中
-    通过 `sctp_sndrcvinfo` 来设置。
+    flag `MSG_ADDR_OVER` 来强制使用其他地址。 该 flag 可以在 `sctp_sendmsg()` 中通过 `sctp_sndrcvinfo` 来设置。
 -   事件通知可以通过 `SCTP_EVENTS` 来控制。
 
     <a id="figure--fig:screenshot@2022-06-21-17:33:56"></a>

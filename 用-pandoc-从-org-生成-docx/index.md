@@ -13,8 +13,7 @@
 </div>
 <!--endtoc-->
 
-最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，
-所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。
+最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。
 
 
 ## <span class="section-num">1</span> 所需软件 {#所需软件}
@@ -31,9 +30,7 @@
 
 Emacs 内置有命令 `org-odt-export-to-odt` 可以把 `org` 转换成 `odt` 格式，也可以再通过内置命令 `org-odt-convert`
 来把 `odt` 转换成 `docx` ， 但这种方式生成的 word 文档在 wps 打开后，总是怪怪的，还是直接使用 pandoc 配合过滤器以及
-reference-document 生成的文档看起来更舒服。
-所以我给 `org-odt-export-to-odt`  加了个 `advice` ，让他在转换成 `odt` 之后，直接调用 pandoc 来生成 `docx` 。
-之所以先生成 `odt` ，是为了在生成 `odt` 过程中 evaluate 各种 babel ，以便生成图片之类。
+reference-document 生成的文档看起来更舒服。所以我给 `org-odt-export-to-odt`  加了个 `advice` ，让他在转换成 `odt` 之后，直接调用 pandoc 来生成 `docx` 。之所以先生成 `odt` ，是为了在生成 `odt` 过程中 evaluate 各种 babel ，以便生成图片之类。
 
 ```emacs-lisp
 (yc/defmacro defadvice! (how places symbol arglist &optional docstring &rest body)
@@ -62,8 +59,7 @@ reference-document 生成的文档看起来更舒服。
       (s-contains? "toc:nil" (or (cadar (org-collect-keywords '("options") nil '("options"))) "")))))
 ```
 
-这里函数 `yc/org-odt-export-to-odt-a` 在 `org-odt-export-to-odt` 后执行，它会首先使用原始 `org` 文件生成一个临时文件，
-并将内置的 org 格式的引用替换成 pandoc 支持更好的 cite 方式，然后再根据 org header 中声明的是否自动生成 toc 来调用
+这里函数 `yc/org-odt-export-to-odt-a` 在 `org-odt-export-to-odt` 后执行，它会首先使用原始 `org` 文件生成一个临时文件，并将内置的 org 格式的引用替换成 pandoc 支持更好的 cite 方式，然后再根据 org header 中声明的是否自动生成 toc 来调用
 `yc/pandoc-convert-to-docx` ：
 
 ```emacs-lisp
@@ -140,8 +136,7 @@ rm  tonydeng_github_io_threat-modeling-was-conducted-based-on-STRIDE.org_tmp.org
 
 -   [custom-reference.docx](https://github.com/yangyingchao/MyNotes/blob/master/org/2025/02/assets/custom-reference.docx) <br />
 
-    根据我自己的需要调整过的 word 模板，其中比较坑的表格的边框，开始时候不管怎样调，边框都是透明的，用 wps 和 libreoffice 都不行，
-    直到最后用 ms office 调整过才生效。
+    根据我自己的需要调整过的 word 模板，其中比较坑的表格的边框，开始时候不管怎样调，边框都是透明的，用 wps 和 libreoffice 都不行，直到最后用 ms office 调整过才生效。
 
 -   [metadata.yaml](https://github.com/yangyingchao/MyNotes/blob/master/org/2025/02/assets/metadata.yaml) <br />
     其中含有 pandoc 和 pandoc-crossref 用的配置，主要是中文本土化。

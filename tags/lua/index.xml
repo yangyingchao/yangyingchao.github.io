@@ -11,5 +11,4 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，
-所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item></channel></rss>
+<p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item></channel></rss>

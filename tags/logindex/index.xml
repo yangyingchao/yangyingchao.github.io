@@ -22,8 +22,4 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html" target="_blank" rel="noopener noreffer ">https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html</a></p>
 <h2 id="h:d8904674-f80c-4a35-9330-9aced14d44dc"><span class="section-num">1</span> 背景介绍</h2>
-<p>PolarDB 采用了共享存储一写多读架构，读写节点 RW 和多个只读节点 RO 共享同一份存储，读写
-节点可以读写共享存储中的数据；只读节点仅能各自通过回放日志，从共享存储中读取数据，而不
-能写入，只读节点 RO 通过内存同步来维护数据的一致性。此外，只读节点可同时对外提供服务用
-于实现读写分离与负载均衡，在读写节点异常 crash 时，可将只读节点提升为读写节点，保证集群
-的高可用。基本架构图如下所示：</p>]]></description></item></channel></rss>
+<p>PolarDB 采用了共享存储一写多读架构，读写节点 RW 和多个只读节点 RO 共享同一份存储，读写节点可以读写共享存储中的数据；只读节点仅能各自通过回放日志，从共享存储中读取数据，而不能写入，只读节点 RO 通过内存同步来维护数据的一致性。此外，只读节点可同时对外提供服务用于实现读写分离与负载均衡，在读写节点异常 crash 时，可将只读节点提升为读写节点，保证集群的高可用。基本架构图如下所示：</p>]]></description></item></channel></rss>

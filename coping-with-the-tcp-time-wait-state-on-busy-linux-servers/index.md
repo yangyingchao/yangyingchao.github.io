@@ -70,7 +70,6 @@
 
 ## <span class="section-num">6</span> [总结](https://draveness.me/whys-the-design-tcp-time-wait/#:~:text=%E6%80%BB%E7%BB%93) {#h:d0c1d159-905d-4598-a15c-ffb80f1d452d}
 
-在某些场景下，60 秒的等待销毁时间确实是难以接受的，例如：高并发的压力测试。当我们通过并发请
-求测试远程服务的吞吐量和延迟时，本地就可能产生大量处于 TIME_WAIT 状态的 TCP 连接，在 macOS
+在某些场景下，60 秒的等待销毁时间确实是难以接受的，例如：高并发的压力测试。当我们通过并发请求测试远程服务的吞吐量和延迟时，本地就可能产生大量处于 TIME_WAIT 状态的 TCP 连接，在 macOS
 上可以使用如下所示的命令查看活跃的连接：
 

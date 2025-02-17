@@ -18,9 +18,7 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html</a></p>
 <h2 id="节点"><span class="section-num">1</span> 节点</h2>
-<p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，
-允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据
-库。</p>]]></description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据库。</p>]]></description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#prelog" rel="">prelog</a></li>
@@ -37,8 +35,7 @@
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
 <h2 id="prelog"><span class="section-num">1</span> prelog</h2>
 <p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
-minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。
-每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
+minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
 maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。</p>]]></description></item><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
@@ -104,10 +101,7 @@ simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd</a></p>
-<p>对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库
-是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可
-用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并
-减少了管理需求。</p>]]></description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并减少了管理需求。</p>]]></description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel="">Barriers: 协调进程的同步屏障</a>
@@ -150,10 +144,8 @@ simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL
 <p>摘自：<a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546</a></p>
 <h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"><span class="section-num">1</span> 慢查询</h2>
 <h3 id="h:d92eb969-c035-4657-ac55-97449699f838"><span class="section-num">1.1</span> 功能说明</h3>
-<p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ <strong>慢查询</strong> ”，对应语句称为“ <strong>慢查询语句</strong> （俗
-称 <strong>慢 SQL</strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
-<strong>慢查询分析</strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能
-力。如下图：</p>]]></description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ <strong>慢查询</strong> ”，对应语句称为“ <strong>慢查询语句</strong> （俗称 <strong>慢 SQL</strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
+<strong>慢查询分析</strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：</p>]]></description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel="">什么是多版本并发控制？</a></li>

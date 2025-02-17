@@ -25,7 +25,5 @@
 <p>摘自：<a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546</a></p>
 <h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"><span class="section-num">1</span> 慢查询</h2>
 <h3 id="h:d92eb969-c035-4657-ac55-97449699f838"><span class="section-num">1.1</span> 功能说明</h3>
-<p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ <strong>慢查询</strong> ”，对应语句称为“ <strong>慢查询语句</strong> （俗
-称 <strong>慢 SQL</strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
-<strong>慢查询分析</strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能
-力。如下图：</p>]]></description></item></channel></rss>
+<p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ <strong>慢查询</strong> ”，对应语句称为“ <strong>慢查询语句</strong> （俗称 <strong>慢 SQL</strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
+<strong>慢查询分析</strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：</p>]]></description></item></channel></rss>

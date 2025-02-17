@@ -9,8 +9,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://stilig.me/posts/hugo-adds-giscus/" target="_blank" rel="noopener noreffer ">https://stilig.me/posts/hugo-adds-giscus/</a></p>
-<p>捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而
-这时我找到了 Giscus。</p>]]></description></item><item><title>用 pandoc 从 org 生成 docx</title><link>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</link><pubDate>Sat, 15 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而这时我找到了 Giscus。</p>]]></description></item><item><title>用 pandoc 从 org 生成 docx</title><link>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</link><pubDate>Sat, 15 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e6%89%80%e9%9c%80%e8%bd%af%e4%bb%b6" rel="">所需软件</a></li>
@@ -23,8 +22,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，
-所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item><item><title>C4 &amp; Plantuml</title><link>https://yangyingchao.github.io/c4-model/</link><pubDate>Fri, 14 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/c4-model/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item><item><title>C4 &amp; Plantuml</title><link>https://yangyingchao.github.io/c4-model/</link><pubDate>Fri, 14 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/c4-model/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#stop-drawing-start-coding" rel="">Stop drawing, Start coding</a></li>
@@ -89,8 +87,7 @@
 <li>
 <p>431-432, 标注, 2025 年 1 月 5 日星期日 下午 6:43:47</p>
 <blockquote>
-<p>见其牝牡骊黄而弃其所谓千里者，意为：只见到马的雌雄黑黄而见不到其能驰骋千里的特质。比喻只看到事物的外表而看不到
-其本质。典出《淮南子·道应训》。</p>]]></description></item><item><title>[笔记]第一性原理:21堂科学通识课-[英]马库斯·乔恩(marcus Chown);周自恒</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%8621%E5%A0%82%E7%A7%91%E5%AD%A6%E9%80%9A%E8%AF%86%E8%AF%BE-%E8%8B%B1%E9%A9%AC%E5%BA%93%E6%96%AF%E4%B9%94%E6%81%A9marcus-chown%E5%91%A8%E8%87%AA%E6%81%92/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%8621%E5%A0%82%E7%A7%91%E5%AD%A6%E9%80%9A%E8%AF%86%E8%AF%BE-%E8%8B%B1%E9%A9%AC%E5%BA%93%E6%96%AF%E4%B9%94%E6%81%A9marcus-chown%E5%91%A8%E8%87%AA%E6%81%92/</guid><description><![CDATA[<ul>
+<p>见其牝牡骊黄而弃其所谓千里者，意为：只见到马的雌雄黑黄而见不到其能驰骋千里的特质。比喻只看到事物的外表而看不到其本质。典出《淮南子·道应训》。</p>]]></description></item><item><title>[笔记]第一性原理:21堂科学通识课-[英]马库斯·乔恩(marcus Chown);周自恒</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%8621%E5%A0%82%E7%A7%91%E5%AD%A6%E9%80%9A%E8%AF%86%E8%AF%BE-%E8%8B%B1%E9%A9%AC%E5%BA%93%E6%96%AF%E4%B9%94%E6%81%A9marcus-chown%E5%91%A8%E8%87%AA%E6%81%92/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%8621%E5%A0%82%E7%A7%91%E5%AD%A6%E9%80%9A%E8%AF%86%E8%AF%BE-%E8%8B%B1%E9%A9%AC%E5%BA%93%E6%96%AF%E4%B9%94%E6%81%A9marcus-chown%E5%91%A8%E8%87%AA%E6%81%92/</guid><description><![CDATA[<ul>
 <li>
 <p>31-32, 标注, 2025 年 1 月 23 日星期四 上午 8:10:22</p>
 <blockquote>
@@ -99,14 +96,11 @@
 <li>
 <p>33-35, 标注, 2025 年 1 月 23 日星期四 上午 8:12:58</p>
 <blockquote>
-<p>也可以采用相同的思路，在这个大家都没有多少空闲时间的世界中，告诉他们要理解某个话题所需要知道的第一性原理，然后
-告诉他们其他知识是如何从第一性原理出发，沿着逻辑的链条被推导出来的。</p>]]></description></item><item><title>[笔记]人间词话：叶嘉莹讲评本（诗词大家叶嘉莹逐条讲透、点评王国维诗词美学经典，读懂人生三境界）-王国维;叶嘉莹</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%BA%E9%97%B4%E8%AF%8D%E8%AF%9D%E5%8F%B6%E5%98%89%E8%8E%B9%E8%AE%B2%E8%AF%84%E6%9C%AC%E8%AF%97%E8%AF%8D%E5%A4%A7%E5%AE%B6%E5%8F%B6%E5%98%89%E8%8E%B9%E9%80%90%E6%9D%A1%E8%AE%B2%E9%80%8F%E7%82%B9%E8%AF%84%E7%8E%8B%E5%9B%BD%E7%BB%B4%E8%AF%97%E8%AF%8D%E7%BE%8E%E5%AD%A6%E7%BB%8F%E5%85%B8%E8%AF%BB%E6%87%82%E4%BA%BA%E7%94%9F%E4%B8%89%E5%A2%83%E7%95%8C-%E7%8E%8B%E5%9B%BD%E7%BB%B4%E5%8F%B6%E5%98%89%E8%8E%B9/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%BA%E9%97%B4%E8%AF%8D%E8%AF%9D%E5%8F%B6%E5%98%89%E8%8E%B9%E8%AE%B2%E8%AF%84%E6%9C%AC%E8%AF%97%E8%AF%8D%E5%A4%A7%E5%AE%B6%E5%8F%B6%E5%98%89%E8%8E%B9%E9%80%90%E6%9D%A1%E8%AE%B2%E9%80%8F%E7%82%B9%E8%AF%84%E7%8E%8B%E5%9B%BD%E7%BB%B4%E8%AF%97%E8%AF%8D%E7%BE%8E%E5%AD%A6%E7%BB%8F%E5%85%B8%E8%AF%BB%E6%87%82%E4%BA%BA%E7%94%9F%E4%B8%89%E5%A2%83%E7%95%8C-%E7%8E%8B%E5%9B%BD%E7%BB%B4%E5%8F%B6%E5%98%89%E8%8E%B9/</guid><description><![CDATA[<ul>
+<p>也可以采用相同的思路，在这个大家都没有多少空闲时间的世界中，告诉他们要理解某个话题所需要知道的第一性原理，然后告诉他们其他知识是如何从第一性原理出发，沿着逻辑的链条被推导出来的。</p>]]></description></item><item><title>[笔记]人间词话：叶嘉莹讲评本（诗词大家叶嘉莹逐条讲透、点评王国维诗词美学经典，读懂人生三境界）-王国维;叶嘉莹</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%BA%E9%97%B4%E8%AF%8D%E8%AF%9D%E5%8F%B6%E5%98%89%E8%8E%B9%E8%AE%B2%E8%AF%84%E6%9C%AC%E8%AF%97%E8%AF%8D%E5%A4%A7%E5%AE%B6%E5%8F%B6%E5%98%89%E8%8E%B9%E9%80%90%E6%9D%A1%E8%AE%B2%E9%80%8F%E7%82%B9%E8%AF%84%E7%8E%8B%E5%9B%BD%E7%BB%B4%E8%AF%97%E8%AF%8D%E7%BE%8E%E5%AD%A6%E7%BB%8F%E5%85%B8%E8%AF%BB%E6%87%82%E4%BA%BA%E7%94%9F%E4%B8%89%E5%A2%83%E7%95%8C-%E7%8E%8B%E5%9B%BD%E7%BB%B4%E5%8F%B6%E5%98%89%E8%8E%B9/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%BA%E9%97%B4%E8%AF%8D%E8%AF%9D%E5%8F%B6%E5%98%89%E8%8E%B9%E8%AE%B2%E8%AF%84%E6%9C%AC%E8%AF%97%E8%AF%8D%E5%A4%A7%E5%AE%B6%E5%8F%B6%E5%98%89%E8%8E%B9%E9%80%90%E6%9D%A1%E8%AE%B2%E9%80%8F%E7%82%B9%E8%AF%84%E7%8E%8B%E5%9B%BD%E7%BB%B4%E8%AF%97%E8%AF%8D%E7%BE%8E%E5%AD%A6%E7%BB%8F%E5%85%B8%E8%AF%BB%E6%87%82%E4%BA%BA%E7%94%9F%E4%B8%89%E5%A2%83%E7%95%8C-%E7%8E%8B%E5%9B%BD%E7%BB%B4%E5%8F%B6%E5%98%89%E8%8E%B9/</guid><description><![CDATA[<ul>
 <li>
 <p>1043-1046, 标注, 2025 年 1 月 23 日星期四 下午 8:36:06</p>
 <blockquote>
-<p>叔本华认为每个人都跳不出意欲的圈子，不过每个人目光的广狭和远近都不相同。一般人为庸俗浅薄的东西所吸引，而成大事
-业的人则意欲远大。所以，一个人要追求更高远的理想，就一定要先打碎眼前五光十色的繁华世界，经过一个“昨夜西风凋碧
-树”的阶段，才能有“独上高楼，望尽天涯路”的目光。</p>]]></description></item><item><title>[笔记]我看见的世界:李飞飞自传-[美] 李飞飞;赵灿</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>叔本华认为每个人都跳不出意欲的圈子，不过每个人目光的广狭和远近都不相同。一般人为庸俗浅薄的东西所吸引，而成大事业的人则意欲远大。所以，一个人要追求更高远的理想，就一定要先打碎眼前五光十色的繁华世界，经过一个“昨夜西风凋碧树”的阶段，才能有“独上高楼，望尽天涯路”的目光。</p>]]></description></item><item><title>[笔记]我看见的世界:李飞飞自传-[美] 李飞飞;赵灿</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e7%ae%80%e8%af%84" rel="">简评</a></li>
@@ -116,8 +110,7 @@
 <!--endtoc-->
 <h2 id="简评"><span class="section-num">1</span> 简评</h2>
 <p>本书描写了人工智能领域专家李飞飞教授在 90 年代移居美国后的生活、学习和科研的事情。</p>
-<p>读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，
-我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。</p>]]></description></item><item><title>威胁建模框架与技术：从STRIDE到NIST-CSDN博客</title><link>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</link><pubDate>Fri, 24 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。</p>]]></description></item><item><title>威胁建模框架与技术：从STRIDE到NIST-CSDN博客</title><link>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</link><pubDate>Fri, 24 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e7%ae%80%e8%a6%81%e4%bb%8b%e7%bb%8d" rel="">简要介绍</a></li>
@@ -147,10 +140,7 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://blog.csdn.net/weixin_43965597/article/details/122882763" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_43965597/article/details/122882763</a></p>
 <h2 id="简要介绍"><span class="section-num">1</span> 简要介绍</h2>
-<p>了解威胁建模框架、方法和工具可以帮助更好地识别、量化和排序面临的威胁。
-威胁建模是一个结构化的过程，IT 专业人员可以通过该过程识别潜在的安全威胁和漏洞，
-量化每个威胁的严重性，并确定技术的优先级以缓解攻击并保护 IT 资产。威胁模型的重要之处在于它是系统的和结构化的。
-威胁建模人员将执行一系列具体步骤，以全面了解他们试图保护的 IT 环境，识别漏洞和潜在攻击者。</p>]]></description></item><item><title>[笔记]大奉打更人-卖报小郎君</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%A7%E5%A5%89%E6%89%93%E6%9B%B4%E4%BA%BA-%E5%8D%96%E6%8A%A5%E5%B0%8F%E9%83%8E%E5%90%9B/</link><pubDate>Wed, 22 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%A7%E5%A5%89%E6%89%93%E6%9B%B4%E4%BA%BA-%E5%8D%96%E6%8A%A5%E5%B0%8F%E9%83%8E%E5%90%9B/</guid><description><![CDATA[<ul>
+<p>了解威胁建模框架、方法和工具可以帮助更好地识别、量化和排序面临的威胁。威胁建模是一个结构化的过程，IT 专业人员可以通过该过程识别潜在的安全威胁和漏洞，量化每个威胁的严重性，并确定技术的优先级以缓解攻击并保护 IT 资产。威胁模型的重要之处在于它是系统的和结构化的。威胁建模人员将执行一系列具体步骤，以全面了解他们试图保护的 IT 环境，识别漏洞和潜在攻击者。</p>]]></description></item><item><title>[笔记]大奉打更人-卖报小郎君</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%A7%E5%A5%89%E6%89%93%E6%9B%B4%E4%BA%BA-%E5%8D%96%E6%8A%A5%E5%B0%8F%E9%83%8E%E5%90%9B/</link><pubDate>Wed, 22 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%A7%E5%A5%89%E6%89%93%E6%9B%B4%E4%BA%BA-%E5%8D%96%E6%8A%A5%E5%B0%8F%E9%83%8E%E5%90%9B/</guid><description><![CDATA[<ul>
 <li>
 <p>5976-5976, 标注, 2025 年 1 月 21 日星期二 上午 7:19:26</p>
 <blockquote>
@@ -168,5 +158,4 @@
 <li>
 <p>135-137, 标注, 2025 年 1 月 14 日星期二 下午 6:28:01</p>
 <blockquote>
-<p>小鸡小鸭都很可爱。小鸡娇弱伶仃，小鸭傻气而固执。看它们在竹笼里挨挨挤挤，窜窜跳跳，令人感到生命的欢悦。捉在手里，
-那点轻微的挣扎搔挠，使人心中砰砰然，胸口痒痒的。</p>]]></description></item></channel></rss>
+<p>小鸡小鸭都很可爱。小鸡娇弱伶仃，小鸭傻气而固执。看它们在竹笼里挨挨挤挤，窜窜跳跳，令人感到生命的欢悦。捉在手里，那点轻微的挣扎搔挠，使人心中砰砰然，胸口痒痒的。</p>]]></description></item></channel></rss>

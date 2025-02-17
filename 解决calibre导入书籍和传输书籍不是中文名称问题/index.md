@@ -97,6 +97,5 @@ def ascii_filename(")
 
 ### <span class="section-num">2.1</span> 追加 {#追加}
 
-gentoo 里面提供的 binpkg 使用 [解决 calibre 导入书籍和传输书籍不是中文名称问题](#解决-calibre-导入书籍和传输书籍不是中文名称问题) 里提到的方法不起作用，
-但是如果 calibre 是从官网下载的二进制版本，则可以。。。
+gentoo 里面提供的 binpkg 使用 [解决 calibre 导入书籍和传输书籍不是中文名称问题](#解决-calibre-导入书籍和传输书籍不是中文名称问题) 里提到的方法不起作用，但是如果 calibre 是从官网下载的二进制版本，则可以。。。
 

@@ -17,8 +17,7 @@
 
 ## <span class="section-num">1</span> Lock out user after three failed login attempts {#h:38aae4aa-a802-4cff-9ffb-1ecebc230218}
 
-截至 pambase 20200721.1-2 版本，pam_faillock.so 已默认启用，当用户在 15 分钟内尝试 3 次登录失败后会将其锁定 10 分钟
-（参见 FS＃67644）。锁定仅适用于密码验证（例如登录和 sudo），通过 SSH 的公钥验证仍然被接受。为了防止完全的拒绝服务，对于默认情况下 root 用户将不会被锁定。
+截至 pambase 20200721.1-2 版本，pam_faillock.so 已默认启用，当用户在 15 分钟内尝试 3 次登录失败后会将其锁定 10 分钟（参见 FS＃67644）。锁定仅适用于密码验证（例如登录和 sudo），通过 SSH 的公钥验证仍然被接受。为了防止完全的拒绝服务，对于默认情况下 root 用户将不会被锁定。
 
 要解除用户的锁定，请执行以下操作：
 

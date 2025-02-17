@@ -18,8 +18,7 @@
 
 本文为摘录(或转载)，侵删，原文为： https://postgr.es/p/6oe
 
-最近我在 Postgres 中处理一些查询，发现它要么选择不使用索引执行顺序扫描，要么选择使用复合部分索引的替代索引。这
-让我感到困惑，尤其是知道系统中有可以更快执行这些查询的索引时。
+最近我在 Postgres 中处理一些查询，发现它要么选择不使用索引执行顺序扫描，要么选择使用复合部分索引的替代索引。这让我感到困惑，尤其是知道系统中有可以更快执行这些查询的索引时。
 
 为什么会这样呢？
 
@@ -28,19 +27,13 @@
 
 ## <span class="section-num">1</span> What is Random Page Cost? {#h:cb668550-2490-4cf4-829b-f5a60b54d00e}
 
-想象在图书馆里寻找一本特定的书。按顺序阅读书籍就像数据库中的顺序扫描，而直接跳转到所需书
-籍就像随机访问。random_page_cost 反映了数据库中随机访问相对于顺序访问的成本。当
-random_page_cost 较高时，Postgres 认为随机获取数据很昂贵，因此决定按顺序阅读所有内容（检查
-每一本书架上的书）代替。这个设置还会影响它是否决定使用完整索引还是部分或复合索引。我们将
-在下文中详细了解更多内容。
+想象在图书馆里寻找一本特定的书。按顺序阅读书籍就像数据库中的顺序扫描，而直接跳转到所需书籍就像随机访问。random_page_cost 反映了数据库中随机访问相对于顺序访问的成本。当
+random_page_cost 较高时，Postgres 认为随机获取数据很昂贵，因此决定按顺序阅读所有内容（检查每一本书架上的书）代替。这个设置还会影响它是否决定使用完整索引还是部分或复合索引。我们将在下文中详细了解更多内容。
 
 
 ## <span class="section-num">2</span> Diving Deeper {#h:5d83a798-845a-44a1-bd42-21c0f9df4678}
 
-魔法在于 PG 如何使用这个值。较高的 RPC（random_page_cost）会抑制索引的使用，更倾向于顺序扫
-描。在 Aurora Postgres 14.11 中，默认的 random_page_cost 目前为 4.0。然而，使用现代存储技
-术，随机访问的成本远低于传统旋转硬盘。通过根据这个实际情况调整 RPC，我们可以促使引擎更有
-效地利用索引，可能导致查询速度显著提高。
+魔法在于 PG 如何使用这个值。较高的 RPC（random_page_cost）会抑制索引的使用，更倾向于顺序扫描。在 Aurora Postgres 14.11 中，默认的 random_page_cost 目前为 4.0。然而，使用现代存储技术，随机访问的成本远低于传统旋转硬盘。通过根据这个实际情况调整 RPC，我们可以促使引擎更有效地利用索引，可能导致查询速度显著提高。
 
 
 ## <span class="section-num">3</span> Seeing is Believing: Before and After Examples {#h:e146b6ad-c339-44e4-9526-5b7eac05fdbd}
@@ -50,8 +43,7 @@ random_page_cost 较高时，Postgres 认为随机获取数据很昂贵，因此
 table_1 的表关联的有限数量的行，按其 ID 排序，同时排除已完成的条目，其 completed_at 具有值
 /非空值。
 
-现在，有两个索引存在 - 一个是标准索引 table_2_pkey，它是在 table_2 的主键上的索引。第二个是
-一个在 table_2 上的复合部分索引，其中索引在 table_1_id、id 上，并且在 (completed_at IS NULL)
+现在，有两个索引存在 - 一个是标准索引 table_2_pkey，它是在 table_2 的主键上的索引。第二个是一个在 table_2 上的复合部分索引，其中索引在 table_1_id、id 上，并且在 (completed_at IS NULL)
 条件下。
 
 
@@ -79,8 +71,7 @@ Execution Time: 11287.091 ms
 
 ```
 
-这里，PG 在 table_1 表上执行了顺序扫描，然后使用完整索引在 table_2 表上执行索引扫描。
-这是因为 PG 确定了使用默认 RPC 值 4.0 时，复合索引的成本更高，如上所述。
+这里，PG 在 table_1 表上执行了顺序扫描，然后使用完整索引在 table_2 表上执行索引扫描。这是因为 PG 确定了使用默认 RPC 值 4.0 时，复合索引的成本更高，如上所述。
 
 
 ### <span class="section-num">3.2</span> After (RPC = 1.1): {#h:eb107038-e92d-4378-b00a-9524adc18a99}

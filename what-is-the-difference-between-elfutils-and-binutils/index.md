@@ -50,9 +50,7 @@ elfutils 的作者 Ulrich Drepper 提到了以下差异，
 eu-strip a.out -f a.debug
 ```
 
-以上命令将 a.out 中的符号表段和调试信息段都移出到 a.debug 文件中。这样，a.out 的 size 会减小很多。
-而此时，a.out 中会多一个 `.gnu_debuglink` 段，它是用来保存符号表位置的。
-之后，再用 gdb 去打开并运行 a.out 时，gdb 还可以找到 a.debug 这样的符号表及调试信息文件。
+以上命令将 a.out 中的符号表段和调试信息段都移出到 a.debug 文件中。这样，a.out 的 size 会减小很多。而此时，a.out 中会多一个 `.gnu_debuglink` 段，它是用来保存符号表位置的。之后，再用 gdb 去打开并运行 a.out 时，gdb 还可以找到 a.debug 这样的符号表及调试信息文件。
 
 使用 `strip` 也能完成同样的任务，但是需要配合名 `objcopy` 命令，需要多个步骤完成：
 

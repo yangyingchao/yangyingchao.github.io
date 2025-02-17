@@ -26,9 +26,7 @@ with special syntax that translators edit.  The second is the `MO` file
 is used while the internationalized program is run.  Translators do not deal with MO
 files; in fact hardly anyone does.
 
-原始（英语）消息与它们的（可能的）翻译对应关系保存在 `消息目录` 中，
-每个程序都有一个（尽管相关的程序可以共享一个消息目录），对于每种目标语言也是如此。消息目
-录有两种文件格式：
+原始（英语）消息与它们的（可能的）翻译对应关系保存在 `消息目录` 中，每个程序都有一个（尽管相关的程序可以共享一个消息目录），对于每种目标语言也是如此。消息目录有两种文件格式：
 
 -   第一种是 `PO` 文件（Portable Object）
     -   这是一个特殊语法的纯文本文件，
@@ -45,8 +43,7 @@ base name is either the name of the program it accompanies, or the language the 
 for, depending on the situation.  This is a bit confusing.  Examples are `psql.po` (PO
 file for psql) or `fr.mo` (MO file in French).
 
-消息目录文件的扩展名也不足为奇，要么是 `.po` 要么是 `.mo` 。基本名称则根据情况是程序的名
-称或者文件所对应的语言。这有点让人困惑。例如， `psql.po` （psql 的 PO 文件）或 `fr.mo`
+消息目录文件的扩展名也不足为奇，要么是 `.po` 要么是 `.mo` 。基本名称则根据情况是程序的名称或者文件所对应的语言。这有点让人困惑。例如， `psql.po` （psql 的 PO 文件）或 `fr.mo`
 （法语的 MO 文件）。
 
 The file format of the PO files is illustrated here:

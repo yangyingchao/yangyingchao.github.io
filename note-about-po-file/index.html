@@ -19,13 +19,10 @@ catalogs: The first is the <code>PO</code> file (for Portable Object), which is 
 with special syntax that translators edit. The second is the <code>MO</code> file
 (for Machine Object), which is a binary file generated from the respective PO file and
 is used while the internationalized program is run. Translators do not deal with MO
-files; in fact hardly anyone does.</p><p>原始（英语）消息与它们的（可能的）翻译对应关系保存在 <code>消息目录</code> 中，
-每个程序都有一个（尽管相关的程序可以共享一个消息目录），对于每种目标语言也是如此。消息目
-录有两种文件格式：</p><ul><li><p>第一种是 <code>PO</code> 文件（Portable Object）</p><ul><li>这是一个特殊语法的纯文本文件，</li><li>由翻译人员编辑</li></ul></li><li><p>第二种是 <code>MO</code> 文件（Machine Object）</p><ul><li>它是从相应的 PO 文件生成的二进制文件</li><li>在国际化程序运行时使用。</li></ul></li></ul><p>翻译人员不需要处理 MO 文件；事实上，几乎没有人会处理。</p><p>The extension of the message catalog file is to no surprise either <code>.po</code> or <code>.mo</code>. The
+files; in fact hardly anyone does.</p><p>原始（英语）消息与它们的（可能的）翻译对应关系保存在 <code>消息目录</code> 中，每个程序都有一个（尽管相关的程序可以共享一个消息目录），对于每种目标语言也是如此。消息目录有两种文件格式：</p><ul><li><p>第一种是 <code>PO</code> 文件（Portable Object）</p><ul><li>这是一个特殊语法的纯文本文件，</li><li>由翻译人员编辑</li></ul></li><li><p>第二种是 <code>MO</code> 文件（Machine Object）</p><ul><li>它是从相应的 PO 文件生成的二进制文件</li><li>在国际化程序运行时使用。</li></ul></li></ul><p>翻译人员不需要处理 MO 文件；事实上，几乎没有人会处理。</p><p>The extension of the message catalog file is to no surprise either <code>.po</code> or <code>.mo</code>. The
 base name is either the name of the program it accompanies, or the language the file is
 for, depending on the situation. This is a bit confusing. Examples are <code>psql.po</code> (PO
-file for psql) or <code>fr.mo</code> (MO file in French).</p><p>消息目录文件的扩展名也不足为奇，要么是 <code>.po</code> 要么是 <code>.mo</code> 。基本名称则根据情况是程序的名
-称或者文件所对应的语言。这有点让人困惑。例如， <code>psql.po</code> （psql 的 PO 文件）或 <code>fr.mo</code>
+file for psql) or <code>fr.mo</code> (MO file in French).</p><p>消息目录文件的扩展名也不足为奇，要么是 <code>.po</code> 要么是 <code>.mo</code> 。基本名称则根据情况是程序的名称或者文件所对应的语言。这有点让人困惑。例如， <code>psql.po</code> （psql 的 PO 文件）或 <code>fr.mo</code>
 （法语的 MO 文件）。</p><p>The file format of the PO files is illustrated here:</p><p>PO 文件的文件格式如下所示：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3

@@ -22,25 +22,16 @@
 ## <span class="section-num">1</span> prelog {#prelog}
 
 共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
-minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。
-每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
+minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
 maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。
 
-消息实际上存储在一个 MAXNUMMESSAGES 条目的循环缓冲区中。我们将 MsgNum 值转换为循环缓冲
-区索引，通过计算 MsgNum % MAXNUMMESSAGES。只要 maxMsgNum 不比 minMsgNum 多出超过
+消息实际上存储在一个 MAXNUMMESSAGES 条目的循环缓冲区中。我们将 MsgNum 值转换为循环缓冲区索引，通过计算 MsgNum % MAXNUMMESSAGES。只要 maxMsgNum 不比 minMsgNum 多出超过
 MAXNUMMESSAGES，缓冲区就足够大。如果缓冲区溢出，我们通过为每个已经太落后的后端设置
 "reset" 标志来恢复。
 
-为降低需要重置的概率，我们向任何看起来严重滞后的后端发送“catchup” 中断。当一个后端完成处
-理 catchup 中断后，它执行 SICleanupQueue，这将在需要时向滞后最远的后端发送信号。这避免了多
-个后端同时尝试赶上导致的不必要争用。然而，最落后的后端可能被困在无法赶上的状态。最终，它
-会被重置，因此不会再给其他任何人带来问题。
+为降低需要重置的概率，我们向任何看起来严重滞后的后端发送“catchup” 中断。当一个后端完成处理 catchup 中断后，它执行 SICleanupQueue，这将在需要时向滞后最远的后端发送信号。这避免了多个后端同时尝试赶上导致的不必要争用。然而，最落后的后端可能被困在无法赶上的状态。最终，它会被重置，因此不会再给其他任何人带来问题。
 
-对共享 sinval 数组访问受两个锁的保护，SInvalReadLock 和 SInvalWriteLock。读者以共享模
-式获取 SInvalReadLock；这允许它们修改自己的 ProcState，但不能修改或查看其他读者的。写者总
-是以独占模式获取 SInvalWriteLock，以串行化向列队添加消息。最多一个这样的中断正在飞行，当一个
-后端完成处理 catchup 中断后，它执行 SICleanupQueue，如果需要，则将信号传递给下一个最落后的
-后端。
+对共享 sinval 数组访问受两个锁的保护，SInvalReadLock 和 SInvalWriteLock。读者以共享模式获取 SInvalReadLock；这允许它们修改自己的 ProcState，但不能修改或查看其他读者的。写者总是以独占模式获取 SInvalWriteLock，以串行化向列队添加消息。最多一个这样的中断正在飞行，当一个后端完成处理 catchup 中断后，它执行 SICleanupQueue，如果需要，则将信号传递给下一个最落后的后端。
 
 ```c
   /* 共享失效结构状态， 存在于每个后端中 */
@@ -118,8 +109,7 @@ typedef struct SISeg
     后端必须落后多少个消息才会发送 `PROCSIG_CATCHUP_INTERRUPT` 的最小消息数量。
 
 -   `WRITE_QUANTUM` <br />
-    在 SIInsertDataEntries 的每次迭代中将推送到缓冲区的最大消息数。
-    非关键，但应该小于 `CLEANUP_QUANTUM` ，因为我们每次迭代只考虑调用 SICleanupQueue 一次。
+    在 SIInsertDataEntries 的每次迭代中将推送到缓冲区的最大消息数。非关键，但应该小于 `CLEANUP_QUANTUM` ，因为我们每次迭代只考虑调用 SICleanupQueue 一次。
 
 
 ## <span class="section-num">3</span> SICleanupQueue {#sicleanupqueue}

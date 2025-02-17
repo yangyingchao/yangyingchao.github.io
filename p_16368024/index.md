@@ -40,29 +40,23 @@
 
 (1) CAS
 
-锁只有一个原子变量，执行单个 compare-and-swap 指令来获取锁。问题是没有公平可言，无法让等待最长的那个任务优先拿到锁，为了
-解决这个问题引入了 ticket spinlock。
+锁只有一个原子变量，执行单个 compare-and-swap 指令来获取锁。问题是没有公平可言，无法让等待最长的那个任务优先拿到锁，为了解决这个问题引入了 ticket spinlock。
 
 (2) ticket spinlock
 
-类似排队叫号，只有任务手中事先领取的号和被叫到的号相等时才能持锁进入临界区。这解决了不公平的问题。但是出现叫号时，所有等
-待的任务所在的 cpu 都要读取内存，刷新对应的 cache line，而只有获取锁的那个任务所在的 cpu 对 cache line 的刷新才是有意义的，锁争
-抢的越激烈，无谓的开销也就越大。
+类似排队叫号，只有任务手中事先领取的号和被叫到的号相等时才能持锁进入临界区。这解决了不公平的问题。但是出现叫号时，所有等待的任务所在的 cpu 都要读取内存，刷新对应的 cache line，而只有获取锁的那个任务所在的 cpu 对 cache line 的刷新才是有意义的，锁争抢的越激烈，无谓的开销也就越大。
 
 (3) MCS Lock
 
 在 ticket spinlock 的基础上做一定的修改，让多个 CPU 不再等待同一个 spinlock 变量，而是基于各自的 per-CPU 的变量进行等待，那么每个
-CPU 平时只需要查询自己对应的这个变量所在的本地 cache line，仅在这个变量发生变化的时候，才需要读取内存和刷新这条 cache line，
-这样就可以解决上述问题。要实现类似这样的 spinlock 的分身，其中的一种方法就是使用 MCS lock。试图获取一个 spinlock 的每个 CPU，都
-有一份自己的 MCS lock。
+CPU 平时只需要查询自己对应的这个变量所在的本地 cache line，仅在这个变量发生变化的时候，才需要读取内存和刷新这条 cache line，这样就可以解决上述问题。要实现类似这样的 spinlock 的分身，其中的一种方法就是使用 MCS lock。试图获取一个 spinlock 的每个 CPU，都有一份自己的 MCS lock。
 
 (4) qspinlock
 
 相比起 Linux 中只占 4 个字节的 ticket spinlock，MCS lock 多了一个指针，要多占 4（或者 8）个字节，消耗的存储空间是原来的 2-3 倍。
 qspinlock 的首要目标就是改进原生的 MCS lock 结构体，尽量将原生 MCS lock 要包含的内容塞进 4 字节的空间里。
 
-如果只有 1 个或 2 个 CPU 试图获取锁，那么只需要一个 4 字节的 qspinlock 就可以了，其所占内存的大小和 ticket spinlock 一样。当有 3 个以上
-的 CPU 试图获取锁，需要一个 qspinlock 加上(N-2)个 MCS node。
+如果只有 1 个或 2 个 CPU 试图获取锁，那么只需要一个 4 字节的 qspinlock 就可以了，其所占内存的大小和 ticket spinlock 一样。当有 3 个以上的 CPU 试图获取锁，需要一个 qspinlock 加上(N-2)个 MCS node。
 
 qspinlock 中加入”pending”位域，如果是两个 CPU 试图获取锁，那么第二个 CPU 只需要简单地设置”pending”为 1，而不用另起炉灶创建一个
 MCS node。
@@ -120,8 +114,7 @@ typedef struct qspinlock { //include/asm-generic/qspinlock_types.h
 
 ```
 
-其实 `arch_spinlock_t` 结构中只是一个 val 变量，分成多个位段使用，但是为了使用方便，不用进行位于/位或的操作，将其定义成了联
-合体，每个变量表示 val 中的一个位段。
+其实 `arch_spinlock_t` 结构中只是一个 val 变量，分成多个位段使用，但是为了使用方便，不用进行位于/位或的操作，将其定义成了联合体，每个变量表示 val 中的一个位段。
 
 spinlock 结构中只有一个类型为 `raw_spinlock` 的 rlock 成员。而 raw_spinlock 结构中只有一个类型为 qspinlock 的 raw_lock 成员。
 qspinlock 结构中维护的是一个联合体。
@@ -146,8 +139,7 @@ struct mcs_spinlock { //kernel/locking/mcs_spinlock.h
 static DEFINE_PER_CPU_ALIGNED(struct qnode, qnodes[MAX_NODES]); //MAX_NODES=4
 ```
 
-MAX_NODES=4, 因为 CPU 只能处于 4 种上下文(thread、soft irq、irq、nmi)，因此一个 CPU 最多只能同时持有 4 个 spin_lock，嵌套 4 层。本次
-使用哪个 qnode 结构是由 lock-&gt;val 的 tail_cpu 和 tail idx 决定。
+MAX_NODES=4, 因为 CPU 只能处于 4 种上下文(thread、soft irq、irq、nmi)，因此一个 CPU 最多只能同时持有 4 个 spin_lock，嵌套 4 层。本次使用哪个 qnode 结构是由 lock-&gt;val 的 tail_cpu 和 tail idx 决定。
 
 
 ## <span class="section-num">3</span> 相关函数 {#h:de96322f-228c-4b02-816e-2c21f180b8d8}
@@ -220,8 +212,7 @@ raw_XXX() 函数是直接对 lock-&gt;rlock 操作，一般使用不会直接使
 
 可以看到，spin lock 的使用是需要区分是何种上下文的。spin_lock() 在持锁前先关抢占，通过在
 current-&gt;thread_info.preempt.count 的"preempt bit"位段上加 1 来实现。spin_lock_bh() 持锁前先关底半部，通过在"software
-interrupt count" bit 位段上加 2 和在"preempt bit"位段上加 1 实现的。spin_lock_irq() 持锁之前先关本地中断，再关抢占(这里关中断
-是没有直接操作 preempt.count 的位段)。spin_lock_irqsave() 持锁之前先关中断再关抢占，同时保存中断标志位。
+interrupt count" bit 位段上加 2 和在"preempt bit"位段上加 1 实现的。spin_lock_irq() 持锁之前先关本地中断，再关抢占(这里关中断是没有直接操作 preempt.count 的位段)。spin_lock_irqsave() 持锁之前先关中断再关抢占，同时保存中断标志位。
 
 
 ### <span class="section-num">3.6</span> 还可以直接使用 `raw_spinlock_t` 和与其配套的一组 `raw_spin_xxx()` {#h:e5859ac4-e6ed-4d9d-aad8-55bff1770ccd}
@@ -612,10 +603,8 @@ EXPORT_SYMBOL(queued_spin_lock_slowpath);
 
 a. spin lock 持锁后就一直在临界区了，不会休眠，因此不需要记录锁的 owner。
 b. 非第一继承人的 waiter 在自己的 mcs node 的 node-&gt;locked 上的自旋，而第一继承人在 lock-&gt;val 上自旋。
-c. 每个 cpu 有一个 mcs node[]数组，数组中有 4 个 mcs node 成员，对应四种嵌套深度(thread、softirq、irq、nmi)，若是没有嵌套的话，
-使用的恒定是 node[0].
-d. 一个锁对应的 mcs node 节点构成一个单链表，以 NULL 结尾，lock-&gt;val 的 tail 域"指向"最后一个获取锁的 waiter 所对应的 mcs node 节
-点。
+c. 每个 cpu 有一个 mcs node[]数组，数组中有 4 个 mcs node 成员，对应四种嵌套深度(thread、softirq、irq、nmi)，若是没有嵌套的话，使用的恒定是 node[0].
+d. 一个锁对应的 mcs node 节点构成一个单链表，以 NULL 结尾，lock-&gt;val 的 tail 域"指向"最后一个获取锁的 waiter 所对应的 mcs node 节点。
 
 (1) queued_spin_trylock 函数，尝试获取 spin lock。
 
@@ -685,15 +674,12 @@ static __always_inline void queued_spin_unlock(struct qspinlock *lock)
 
 ## <span class="section-num">6</span> 总结 {#h:07457cda-612a-4a0e-bd61-f9ce0c077db3}
 
-1.  spin lock 是不休眠锁，不像其它锁一样，没有 owner 成员保存当前持锁任务。其持锁之前是抢
-    占的，使用需要区分是在哪个上下文中使用，来用对应的函数。
+1.  spin lock 是不休眠锁，不像其它锁一样，没有 owner 成员保存当前持锁任务。其持锁之前是抢占的，使用需要区分是在哪个上下文中使用，来用对应的函数。
 
 2.  spin lock 实现机制中考虑了中断嵌套，由于只有 4 种上下文，为每个 cpu 分配了 4 个 mcs node。
 
 3.  当一个 spin lock 在不同 cpu 上存在竞争时，各个 cpu 的 mcs node 构成一个单链表，
-    lock-&gt;tail 字段"指向"最后尝试获取锁的任务所在 cpu 对应的 mcs node 节点。第一顺位继承人
-    在 lock-&gt;val 上进行自旋，非第一顺位继承人在自己的 msc node 的 locked 成员上自旋，这样
-    就做了释放锁时只有一个 cpu 需要更新其 cache line。
+    lock-&gt;tail 字段"指向"最后尝试获取锁的任务所在 cpu 对应的 mcs node 节点。第一顺位继承人在 lock-&gt;val 上进行自旋，非第一顺位继承人在自己的 msc node 的 locked 成员上自旋，这样就做了释放锁时只有一个 cpu 需要更新其 cache line。
 
 
 ## <span class="section-num">7</span> 补充 {#h:d77f1671-6696-4f58-9f58-4011809165f8}
@@ -756,8 +742,7 @@ spin_lock(&lock);
 spin_unlock(&lock);
 ```
 
-在没有配置 CONFIG_PREEMPT_RT 的情况下两者实现是一样的，但是在使能了 CONFIG_PREEMPT_RT(默认不使能) 的 RT 内核中，spinlock 会
-被实现为基于 rtmutex 的可休眠锁，raw spinlock 保持和之前一致的逻辑。
+在没有配置 CONFIG_PREEMPT_RT 的情况下两者实现是一样的，但是在使能了 CONFIG_PREEMPT_RT(默认不使能) 的 RT 内核中，spinlock 会被实现为基于 rtmutex 的可休眠锁，raw spinlock 保持和之前一致的逻辑。
 
 内核工匠中有一篇类似博客：<https://blog.csdn.net/feelabclihu/article/details/125454456>
 

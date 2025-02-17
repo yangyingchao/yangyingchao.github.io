@@ -28,10 +28,7 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://blog.csdn.net/weixin_43965597/article/details/122882763" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_43965597/article/details/122882763</a></p>
 <h2 id="简要介绍"><span class="section-num">1</span> 简要介绍</h2>
-<p>了解威胁建模框架、方法和工具可以帮助更好地识别、量化和排序面临的威胁。
-威胁建模是一个结构化的过程，IT 专业人员可以通过该过程识别潜在的安全威胁和漏洞，
-量化每个威胁的严重性，并确定技术的优先级以缓解攻击并保护 IT 资产。威胁模型的重要之处在于它是系统的和结构化的。
-威胁建模人员将执行一系列具体步骤，以全面了解他们试图保护的 IT 环境，识别漏洞和潜在攻击者。</p>]]></description></item><item><title>sdl_note</title><link>https://yangyingchao.github.io/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sdl_note/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>了解威胁建模框架、方法和工具可以帮助更好地识别、量化和排序面临的威胁。威胁建模是一个结构化的过程，IT 专业人员可以通过该过程识别潜在的安全威胁和漏洞，量化每个威胁的严重性，并确定技术的优先级以缓解攻击并保护 IT 资产。威胁模型的重要之处在于它是系统的和结构化的。威胁建模人员将执行一系列具体步骤，以全面了解他们试图保护的 IT 环境，识别漏洞和潜在攻击者。</p>]]></description></item><item><title>sdl_note</title><link>https://yangyingchao.github.io/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sdl_note/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e4%bb%80%e4%b9%88%e6%98%af-sdl" rel="">什么是 SDL</a></li>
@@ -46,5 +43,4 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD" target="_blank" rel="noopener noreffer ">https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD</a></p>
 <h2 id="什么是-sdl"><span class="section-num">1</span> 什么是 SDL</h2>
-<p>SDL 其实是由微软提出并应用一个帮助开发人员构建更安全的软件和解决安全合规要求的同时降低开发成本的软件开发过程，侧重于软件开
-发的安全保证过程，旨在开发出安全的软件应用。</p>]]></description></item></channel></rss>
+<p>SDL 其实是由微软提出并应用一个帮助开发人员构建更安全的软件和解决安全合规要求的同时降低开发成本的软件开发过程，侧重于软件开发的安全保证过程，旨在开发出安全的软件应用。</p>]]></description></item></channel></rss>

@@ -20,8 +20,7 @@
 
 ## <span class="section-num">1</span> Introduction {#introduction}
 
-异步 I/O（AIO）是一种执行 I/O 操作的方法，使得发出 I/O 请求的进程在操作完成之前不被阻塞。相反，在提交 I/O 请求后，
-该进程继续执行其代码，并可以随后检查所提交请求的状态。
+异步 I/O（AIO）是一种执行 I/O 操作的方法，使得发出 I/O 请求的进程在操作完成之前不被阻塞。相反，在提交 I/O 请求后，该进程继续执行其代码，并可以随后检查所提交请求的状态。
 
 在 Linux 中实现异步 I/O 有几种方式：
 
@@ -71,8 +70,7 @@ int io_getevents(aio_context_t ctx, long min_nr, long nr,
 
 2.  `0 < ret < （已提交的 iocbs 数量）` <br />
 
-    `io_submit()` 系统调用会逐个处理传递数组中的 iocbs，从第一个条目开始。如果某个 iocb 的提交失败，系统会在这一
-    点停止并返回失败的 iocb 的索引。无法知道具体的失败原因。然而，如果第一个 iocb 的提交失败，请参考点 C。
+    `io_submit()` 系统调用会逐个处理传递数组中的 iocbs，从第一个条目开始。如果某个 iocb 的提交失败，系统会在这一点停止并返回失败的 iocb 的索引。无法知道具体的失败原因。然而，如果第一个 iocb 的提交失败，请参考点 C。
 
 3.  `ret < 0`
 

@@ -16,11 +16,9 @@
 
 本文为摘录(或转载)，侵删，原文为： https://stilig.me/posts/hugo-adds-giscus/
 
-捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而
-这时我找到了 Giscus。
+捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而这时我找到了 Giscus。
 
-Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单独配置，直接白嫖 Github 的资源即可，而且 UI 和功能都十分的
-合适我，配合 LoveIt 的配置可以做到十分美观。
+Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单独配置，直接白嫖 Github 的资源即可，而且 UI 和功能都十分的合适我，配合 LoveIt 的配置可以做到十分美观。
 
 
 ## <span class="section-num">1</span> 配置 Github 仓库 {#配置-github-仓库}
@@ -59,8 +57,7 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 ## <span class="section-num">3</span> 从官网获取配置信息 {#从官网获取配置信息}
 
-接下来，我们只需到 Giscus 官网获取配置信息，然后将配置信息填到 Hugo 的配置文件中即可。但是由于主题的不同，所以配置文件
-的填写也不同，这里以 LoveIt 为例。
+接下来，我们只需到 Giscus 官网获取配置信息，然后将配置信息填到 Hugo 的配置文件中即可。但是由于主题的不同，所以配置文件的填写也不同，这里以 LoveIt 为例。
 
 -   来到 Giscus 官网
 
@@ -72,7 +69,7 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="org1785e91"></a>
+<a id="org1283ad2"></a>
 
 ![](/ox-hugo/PicGo_2F202306191027361.webp)
 pic-06
@@ -89,7 +86,7 @@ pic-06
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="orgaec6365"></a>
+<a id="org2375a2e"></a>
 
 <img src="/ox-hugo/PicGo_2F202306191354061.webp" alt="PicGo_2F202306191354061.webp" width="800px" />
 pic-08

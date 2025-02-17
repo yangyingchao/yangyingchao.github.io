@@ -31,8 +31,7 @@
 </span></span></code></pre></td></tr></table></div></div><p>但是却奇怪地出现了错误：</p><p>至少必须指定一个输出文件</p><p>如果要删除字幕：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>ffmpeg -i input.mkv -map 0:0 -map 0:1 -vcodec copy -acodec libmp3lame test.mkv
 </span></span></code></pre></td></tr></table></div></div><p>则会出现：</p><p>流映射数量必须与输出流的数量相匹配</p><p>我似乎不太理解“map”选项的工作原理。有人能帮我弄清楚吗？</p><h2 id=a><span class=section-num>2</span> A:</h2><p>如果你只想删除一个流而不重新编码，你可能希望使用 MKVtoolnix 包来完成（请参阅 videohelp.com
-的页面）。</p><p>有一些图形用户界面可能会帮助你（在 videohelp 链接中查找）。我不确定确切的 mkvmerge 命令行可
-能是什么，但我认为类似这样的内容会起作用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+的页面）。</p><p>有一些图形用户界面可能会帮助你（在 videohelp 链接中查找）。我不确定确切的 mkvmerge 命令行可能是什么，但我认为类似这样的内容会起作用：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -48,10 +47,7 @@
 </span></span><span class=line><span class=cl>Track ID 3: audio (A_AAC)        &lt;----------- 例如，我们保留这个
 </span></span><span class=line><span class=cl>Track ID 4: audio (A_AAC)
 </span></span><span class=line><span class=cl>mkvmerge -o output.mkv --audio-tracks 3 input.mkv
-</span></span></code></pre></td></tr></table></div></div><p>这样应该就可以了（很抱歉，我没有可用于测试的文件）。–audio-tracks 选项告诉 mkvmerge 仅
-将列出的音轨复制到新文件中。如果你想保留第 2 和第 3 轨道，但不要第 4 轨道，可以使
-用–audio-tracks 2,3。</p><p>mkvmerge 还有很多其他选项，比如设置标题、为音频添加延迟以同步等等，所以请查看 manpage 以获
-取详细信息。</p><h2 id=further-more><span class=section-num>3</span> Further more</h2><p>For anyone needing to automate this, I&rsquo;ve done this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>这样应该就可以了（很抱歉，我没有可用于测试的文件）。–audio-tracks 选项告诉 mkvmerge 仅将列出的音轨复制到新文件中。如果你想保留第 2 和第 3 轨道，但不要第 4 轨道，可以使用–audio-tracks 2,3。</p><p>mkvmerge 还有很多其他选项，比如设置标题、为音频添加延迟以同步等等，所以请查看 manpage 以获取详细信息。</p><h2 id=further-more><span class=section-num>3</span> Further more</h2><p>For anyone needing to automate this, I&rsquo;ve done this:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4

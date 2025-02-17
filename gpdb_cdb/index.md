@@ -178,7 +178,7 @@ SegmentDatabaseDescriptor o-- CdbComponentDatabaseInfo
 @enduml
 ```
 
-<a id="org62c6197"></a>
+<a id="orgac5d23c"></a>
 
 2![](/ox-hugo/SliceTable-gen-e3de35057480a3f67a59b81aff9b1a55.png)
 
@@ -253,8 +253,7 @@ standard_ExecutorStart()
 
         -   [cdbgang_createGang_async()](~/Work/gpdb/src/backend/cdb/dispatcher/cdbgang_async.c)
             -   [buildGangDefinition()](~/Work/gpdb/src/backend/cdb/dispatcher/cdbgang.c) <br />
-                读取 GP 系统表， 构建 `CdbComponentDatabases` ，随后将该结构转换成为 `Gang` 结构， 并初始化其中与 connection 无
-                关的成员。随后对其中每个 seg 发起连接。
+                读取 GP 系统表， 构建 `CdbComponentDatabases` ，随后将该结构转换成为 `Gang` 结构， 并初始化其中与 connection 无关的成员。随后对其中每个 seg 发起连接。
 
             -   [cdbconn_doConnectStart()](~/Work/gpdb/src/backend/cdb/dispatcher/cdbgang_async.c) <br />
                 填充 keywords 之后，使用 `PQconnectStartParams()` 发起连接。

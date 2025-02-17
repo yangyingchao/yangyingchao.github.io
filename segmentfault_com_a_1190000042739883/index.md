@@ -19,8 +19,7 @@
 
 作者：贺凯，StarRocks Committer
 
-导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星
-开源数据库产品。
+导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。
 
 本文整理自作者在 StarRocks 线下 MeetUp 的分享，主要介绍 StarRocks 在 Join 查询规划上的经验和探索。文章主要分为四个部分：
 Join 背景，Join 逻辑优化，Join Reorder，分布式 Join 规划。
@@ -42,15 +41,13 @@ Join 背景，Join 逻辑优化，Join Reorder，分布式 Join 规划。
 
 2、Join 优化的难点
 
-Join 的执行效率通常分成两部分来优化，一是提高单机上 Join 算子的效率，二是规划一个合理的 Join 计划，尽可能地减少 Join 的输
-入/执行成本。本文主要集中在后者的介绍上，那么接下来就从 Join 优化的难点开始讲起。
+Join 的执行效率通常分成两部分来优化，一是提高单机上 Join 算子的效率，二是规划一个合理的 Join 计划，尽可能地减少 Join 的输入/执行成本。本文主要集中在后者的介绍上，那么接下来就从 Join 优化的难点开始讲起。
 
 -   难点一，Join 的实现方式多。
 
 <img src="/ox-hugo/1460000042739886.png" alt="1460000042739886.png" width="800px" />
 
-如上图所示，不同 Join 的实现方式在不同场景下效率不同，如 Sort-Merge Join 在 Join 有序数据时，效率可能远高于 Hash Join，但
-是在数据 Hash 分布的分布式数据库里，Hash Join 的效率可能远比 Sort-Merge 高。而数据库则需要针对不同的场景，选择合适的
+如上图所示，不同 Join 的实现方式在不同场景下效率不同，如 Sort-Merge Join 在 Join 有序数据时，效率可能远高于 Hash Join，但是在数据 Hash 分布的分布式数据库里，Hash Join 的效率可能远比 Sort-Merge 高。而数据库则需要针对不同的场景，选择合适的
 Join 方式。
 
 -   难点二，多表 Join 的执行顺序。
@@ -59,24 +56,19 @@ Join 方式。
 
 在多表 Join 的场景下，选择度高的 Join 先执行，会提高整个 SQL 的效率，但是怎么判断出 Join 的执行顺序呢？这却是十分困难的。
 
-如上图所示，在 Left-Deep 模型下，N 个表 Join 可能的排列个数有 2^n-1 个，但是在 Bushy 模型下，排列个数高达 2^(n-1) \* C(n-1)个，
-对于数据库而言，查找一个最佳 Join 顺序的耗时和成本是指数级的增长。
+如上图所示，在 Left-Deep 模型下，N 个表 Join 可能的排列个数有 2^n-1 个，但是在 Bushy 模型下，排列个数高达 2^(n-1) \* C(n-1)个，对于数据库而言，查找一个最佳 Join 顺序的耗时和成本是指数级的增长。
 
 -   难点三，Join 的效果难以评估。
 
 <img src="/ox-hugo/1460000042739888.png" alt="1460000042739888.png" width="800px" />
 
-在执行 SQL 之前，数据库难以准确评估一个 Join 实际的执行效果，通常我们都认为小表 Join 大表的选择度高于大表 Join 大表。但是
-实际情况下呢？显然并不是这样的，还有很多一对多的场景，甚至在更复杂的 SQL 中，存在各种聚合、过滤的算子，在数据经过一系列运
-算后，数据库系统对于 Join 的输入都会难以评估准确。
+在执行 SQL 之前，数据库难以准确评估一个 Join 实际的执行效果，通常我们都认为小表 Join 大表的选择度高于大表 Join 大表。但是实际情况下呢？显然并不是这样的，还有很多一对多的场景，甚至在更复杂的 SQL 中，存在各种聚合、过滤的算子，在数据经过一系列运算后，数据库系统对于 Join 的输入都会难以评估准确。
 
 -   难点四，单机最优的计划不等于分布式最优。
 
 <img src="/ox-hugo/1460000042739889.png" alt="1460000042739889.png" width="800px" />
 
-在分布式系统中，会通过 Re-Shuffle 或者广播数据的方式，将需要的数据发送到目的端参与计算，分布式数据库中 Join 也是如此。但
-这也带来了另外一个问题，一个单机数据库上最优的执行计划，因为没有考虑数据的分布 &amp; 网络传输的开销，放在分布式数据库上未必是
-最优的执行计划。分布式数据库在规划 Join 的执行计划和执行方式时，需要考虑数据的分布和网络成本。
+在分布式系统中，会通过 Re-Shuffle 或者广播数据的方式，将需要的数据发送到目的端参与计算，分布式数据库中 Join 也是如此。但这也带来了另外一个问题，一个单机数据库上最优的执行计划，因为没有考虑数据的分布 &amp; 网络传输的开销，放在分布式数据库上未必是最优的执行计划。分布式数据库在规划 Join 的执行计划和执行方式时，需要考虑数据的分布和网络成本。
 
 3、SQL 的优化流程
 
@@ -89,8 +81,7 @@ StarRocks 对于 SQL 的优化主要通过优化器完成，主要集中在 Rewr
 
 StarRocks 目前 Join 的算法主要是一个 Hash Join，默认使用右表去构建 Hash 表，在这个前提下，我们总结了五个优化方向：
 
-1.  不同 Join 类型的算子，性能是不同的，尽可能使用性能高的 Join 类型，避免使用性能差的 Join 类型。根据 Join 输出的数据量，
-    大致上的性能排序：Semi-Join/Anti-Join &gt; Inner Join &gt; Outer Join &gt; Full Outer Join &gt; Cross Join。
+1.  不同 Join 类型的算子，性能是不同的，尽可能使用性能高的 Join 类型，避免使用性能差的 Join 类型。根据 Join 输出的数据量，大致上的性能排序：Semi-Join/Anti-Join &gt; Inner Join &gt; Outer Join &gt; Full Outer Join &gt; Cross Join。
 2.  Hash Join 实现时，使用小表做 Hash 表，远比用一个大表做 Hash 表高效。
 3.  多表 Join 时，优先执行选择度高的 Join，能大幅减少后续 Join 的开销。
 4.  尽可能减少参与 Join 的数据量。
@@ -131,27 +122,21 @@ Select \*  From t1 Left Outer Join t2 On t1.v1 = t2.v1 Where t2.v1 &gt; 0;
 &#x2013; 转换后， t2.v1 &gt; 0 是一个 t2 表上的严格谓词
 Select \*  From t1 Inner Join t2 On t1.v1 = t2.v1 Where t2.v1 &gt; 0;
 
-需要注意的是，在 Outer Join 中，需要根据 On 子句的连接谓词进行补 Null 操作，而不是过滤，所以该转换规则不适用 On 子句中的
-连接谓词。例如：
+需要注意的是，在 Outer Join 中，需要根据 On 子句的连接谓词进行补 Null 操作，而不是过滤，所以该转换规则不适用 On 子句中的连接谓词。例如：
 
 Select \*  From t1 Left Outer Join t2 On t1.v1 = t2.v1 And t2.v1 &gt; 1;
 &#x2013; 显然，上面的 SQL 和下面 SQL 的语义并不等价
 Select \*  From t1 Inner Join t2  On t1.v1 = t2.v1 And t2.v1 &gt; 1;
 
-这里需要提到一个概念，即严格（Restrick Null）谓词。StarRocks 把一个可以过滤掉 Null 值的谓词叫做严格谓词，例如 a &gt; 0；而不
-能过滤 Null 的谓词，叫做非严格谓词，例如：a IS Null。大部分谓词都是严格谓词，非严格谓词主要是 IS Null、IF、CASE WHEN 或函数
-构成的谓词。
+这里需要提到一个概念，即严格（Restrick Null）谓词。StarRocks 把一个可以过滤掉 Null 值的谓词叫做严格谓词，例如 a &gt; 0；而不能过滤 Null 的谓词，叫做非严格谓词，例如：a IS Null。大部分谓词都是严格谓词，非严格谓词主要是 IS Null、IF、CASE WHEN 或函数构成的谓词。
 
-StarRocks 对于严格谓词的判断，用了一个简单的方法：将需要检测的列全部替换成 Null，然后进行表达式化简。如果结果是 True，意
-味着输入为 Null 时，Where 子句无法过滤数据，那么该谓词是一个非严格谓词；反之，如果结果是 False 或 Null，那么是一个严格谓
-词。
+StarRocks 对于严格谓词的判断，用了一个简单的方法：将需要检测的列全部替换成 Null，然后进行表达式化简。如果结果是 True，意味着输入为 Null 时，Where 子句无法过滤数据，那么该谓词是一个非严格谓词；反之，如果结果是 False 或 Null，那么是一个严格谓词。
 
 <img src="/ox-hugo/1460000042739891.png" alt="1460000042739891.png" width="800px" />
 
 -   转换规则三：Full Outer Join 转为 Left / Right Outer Join
 
-同样，当满足该约束时，Full Outer Join 可以转为 Left / Right Outer Join：存在一个可以 bind 到 Left / Right 表的严格谓词。
-例如：
+同样，当满足该约束时，Full Outer Join 可以转为 Left / Right Outer Join：存在一个可以 bind 到 Left / Right 表的严格谓词。例如：
 
 &#x2013; 转换前
 Select \*  From t1 Full Outer Join t2 On t1.v1 = t2.v1 Where t1.v1 &gt; 0;
@@ -185,8 +170,7 @@ t3 转换为 (t1 Left Outer Join t2) Inner Join t3。
 
 <img src="/ox-hugo/1460000042739893.png" alt="1460000042739893.png" width="800px" />
 
-需要注意的是，对于 On 子句上的连接谓词，其下推的规则和 Where 子句有所不同，这里我们分为 Inner  Join 和其他 Join 类型两种
-情况。
+需要注意的是，对于 On 子句上的连接谓词，其下推的规则和 Where 子句有所不同，这里我们分为 Inner  Join 和其他 Join 类型两种情况。
 
 第一种情况是，对于 Inner Join，On 子句上的连接谓词下推，和 Where 子句相同，上面已经叙述过，这里不再重复。
 
@@ -215,11 +199,9 @@ Inner Join。
 
 3、谓词提取
 
-在之前的谓词下推的规则中，只能下推满足合取语义的谓词，例如 t1.v1 = 1 And t2.v1 = 2 And t3.v2 = 3 中，三个子谓词都是通过合
-取谓词连接，而无法下推析取语义的谓词，例如 t1.v1 = 1 Or t2.v1 = 2 Or t3.v2 = 3。
+在之前的谓词下推的规则中，只能下推满足合取语义的谓词，例如 t1.v1 = 1 And t2.v1 = 2 And t3.v2 = 3 中，三个子谓词都是通过合取谓词连接，而无法下推析取语义的谓词，例如 t1.v1 = 1 Or t2.v1 = 2 Or t3.v2 = 3。
 
-但是在实际场景中，析取谓词也十分常见，对此 StarRocks 做了一个提取谓词（列值推导）的优化。通过一系列的交并集操作，将析取谓
-词中的列值范围提取出合取谓词，继而下推合取谓词。例如：
+但是在实际场景中，析取谓词也十分常见，对此 StarRocks 做了一个提取谓词（列值推导）的优化。通过一系列的交并集操作，将析取谓词中的列值范围提取出合取谓词，继而下推合取谓词。例如：
 
 &#x2013; 谓词提取前
 Select \*
@@ -236,8 +218,7 @@ AND t2.v1 &gt;= 2 AND t1.v2 IN (3, 4);
 
 4、等价推导
 
-在谓词上，除了上述的谓词提取，还有另一个重要的优化，叫等价推导。等价推导主要利用了 Join 的连接关系，从左表/右表列的取值范
-围，推导出右表/左表对应列的取值范围。例如：
+在谓词上，除了上述的谓词提取，还有另一个重要的优化，叫等价推导。等价推导主要利用了 Join 的连接关系，从左表/右表列的取值范围，推导出右表/左表对应列的取值范围。例如：
 
 &#x2013; 原始 SQL
 Select \*
@@ -256,8 +237,7 @@ From t1 Join t2 On t1.v1 = t2.v1
 Where (t2.v1 = 2 AND t1.v2 = 3) OR (t2.v1 &gt; 5 AND t1.v2 = 4)
 AND t2.v1 &gt;= 2 AND t1.v2 IN (3, 4) AND t1.v1 &gt;= 2;
 
-当然，等价推导的作用范围并不像谓词提取一样广泛，谓词提取可以在任意谓词上进行，但等价推导和谓词下推类似，在不同的 Join 上
-有不同的条件约束，这里同样分为 Where 谓词和 On 连接谓词来解析。
+当然，等价推导的作用范围并不像谓词提取一样广泛，谓词提取可以在任意谓词上进行，但等价推导和谓词下推类似，在不同的 Join 上有不同的条件约束，这里同样分为 Where 谓词和 On 连接谓词来解析。
 
 Where 谓词：
 
@@ -266,12 +246,10 @@ Where 谓词：
 On 连接谓词：
 
 -   在 Inner Join 上和 Where 谓词相同，没有条件约束；
--   除 Inner Join 外，仅支持 Semi Join 和 Outer Join，且仅支持与 Join 方向相反的单向推导。例如，Left Outer Join 可以从左表
-    的谓词推导出右表的谓词，Right Outer Join 可以从右表的谓词推导出左表的谓词。
+-   除 Inner Join 外，仅支持 Semi Join 和 Outer Join，且仅支持与 Join 方向相反的单向推导。例如，Left Outer Join 可以从左表的谓词推导出右表的谓词，Right Outer Join 可以从右表的谓词推导出左表的谓词。
 
 为什么在 Outer / Semi Join 上存在单向的限制呢？原因也很简单，以 Left Outer Join 为例，在谓词下推的规则中有提到，Left
-Outer Join 只能下推右表的谓词，而左表的谓词则由于违法语义导致无法下推。所以执行等价推导时，从右表谓词推导出的左表谓词，同
-样需要满足该约束。
+Outer Join 只能下推右表的谓词，而左表的谓词则由于违法语义导致无法下推。所以执行等价推导时，从右表谓词推导出的左表谓词，同样需要满足该约束。
 
 那么在这个前提下，推导出来的左表谓词并不能起到提前过滤数据的作用，而且还会带来执行额外谓词的开销，所以 Outer / Semi Join
 只支持单向推导。
@@ -283,8 +261,7 @@ Outer Join 只能下推右表的谓词，而左表的谓词则由于违法语义
 
 5、Limit 下推
 
-除了谓词可以下推，Join 上也支持 Limit 的下推。当 SQL 是一个 Outer Join 或 Cross Join 时，可以将 Limit 下推到输出行数稳定
-的孩子上。其中，Left Outer Join 输出行数至少和左孩子一致，那么 Limit 可以下推到左表上，Right Outer Join 反之。
+除了谓词可以下推，Join 上也支持 Limit 的下推。当 SQL 是一个 Outer Join 或 Cross Join 时，可以将 Limit 下推到输出行数稳定的孩子上。其中，Left Outer Join 输出行数至少和左孩子一致，那么 Limit 可以下推到左表上，Right Outer Join 反之。
 
 &#x2013; 下推前
 Select \*
@@ -296,8 +273,7 @@ Select \*
 From (Select \* From t1 Limit 100) t Left Outer Join t2 On t.v1 = t2.v1
 Limit 100;
 
-比较特殊的是 Cross Join 和 Full Outer Join、Cross Join 的输出是一个笛卡尔积，行数是左表 x 右表；而 Full Outer Join 的输出
-行数，则至少是左表 + 右表，所以这两种 Join 可以在左表和右表上各下推一个 Limit。例如：
+比较特殊的是 Cross Join 和 Full Outer Join、Cross Join 的输出是一个笛卡尔积，行数是左表 x 右表；而 Full Outer Join 的输出行数，则至少是左表 + 右表，所以这两种 Join 可以在左表和右表上各下推一个 Limit。例如：
 
 &#x2013; 下推前
 Select \*
@@ -315,8 +291,7 @@ Limit 100;
 
 ◎ —
 
-Join Reorder 用于推断多表 Join 的执行顺序，数据库需要尽可能地先执行一个高选择度的 Join，这样就能减少后续 Join 的输入数据，
-从而提升性能。
+Join Reorder 用于推断多表 Join 的执行顺序，数据库需要尽可能地先执行一个高选择度的 Join，这样就能减少后续 Join 的输入数据，从而提升性能。
 
 StarRocks 的 Join Reorder，主要是在一个连续的 Inner Join 或者 Cross Join 上工作。以下图为例，StarRocks 会将一组连续的
 Inner / Cross Join 叫做一个 Multi Join Node，而 Multi Join Node 就是一个 Join Reorder 的单位，即下推存在两个 Multi Join
@@ -377,8 +352,7 @@ StarRocks 使用这些 Join Reorder 的算法推导出 N 个 Plan，最终会根
 
 Join Cost: CPU \* (Row(L) + Row(R)) + Memory \* Row(R)
 
-其中 Row(L）、Row(R) 分别表示 Join 左右孩子的输出行数，公式主要是考虑 CPU 开销，以及 Hash Join 右表做 Hash 表内存的开销，
-下图详细展示了 StarRocks 中 Join 的输出行数的计算方式。
+其中 Row(L）、Row(R) 分别表示 Join 左右孩子的输出行数，公式主要是考虑 CPU 开销，以及 Hash Join 右表做 Hash 表内存的开销，下图详细展示了 StarRocks 中 Join 的输出行数的计算方式。
 
 <img src="/ox-hugo/1460000042739901.png" alt="1460000042739901.png" width="800px" />
 
@@ -386,10 +360,8 @@ Join Cost: CPU \* (Row(L) + Row(R)) + Memory \* Row(R)
 
 <img src="/ox-hugo/1460000042739902.png" alt="1460000042739902.png" width="800px" />
 
-基于上述耗时的结论，StarRocks 对各个算法的执行做了简单的限制。当在 4 表以内的 Join Reorder 使用穷举算法；4~10 表时会分别
-使用左深、贪心、动态规划算法产生 1 个、10 个、1 个计划，并且在此基础上会使用 Join 交换律探索更多的 Plan；当 10 表以上时，
-StarRocks 就只使用贪心和左深产生的 11 个 Plan 为基础进行 Reorder；另外，在  StarRocks 没有统计信息时，基于 Cost 的贪心和动
-规都无法很好地工作，所以只会使用左深产生的 1 个 Plan 为基础 Reorder。
+基于上述耗时的结论，StarRocks 对各个算法的执行做了简单的限制。当在 4 表以内的 Join Reorder 使用穷举算法；4~10 表时会分别使用左深、贪心、动态规划算法产生 1 个、10 个、1 个计划，并且在此基础上会使用 Join 交换律探索更多的 Plan；当 10 表以上时，
+StarRocks 就只使用贪心和左深产生的 11 个 Plan 为基础进行 Reorder；另外，在  StarRocks 没有统计信息时，基于 Cost 的贪心和动规都无法很好地工作，所以只会使用左深产生的 1 个 Plan 为基础 Reorder。
 
 <img src="/ox-hugo/1460000042739903.png" alt="1460000042739903.png" width="800px" />
 
@@ -409,9 +381,7 @@ B 的流程如下：
 2.  按照 Join 的连接谓词，将 A 表和 B 表的数据 Re-Shuffle 到同一批机器上；
 3.  单机 Join 执行，输出结果。
 
-可以看到，实际执行过程中，不只是一台机器参与计算，A 表的机器、B 表的机器、Join 的机器可能都不是同一批机器，中间会涉及到网
-络传输、数据交换等操作。而在这个过程中，很自然地就带来了网络操作的开销。所以对于 StarRocks，优化分布式 Join 效率中比较重
-要的一个措施，就是尽可能地减少网络开销，更合理地拆分/分发整个查询计划，尽可能将并行执行的优势发挥出来。
+可以看到，实际执行过程中，不只是一台机器参与计算，A 表的机器、B 表的机器、Join 的机器可能都不是同一批机器，中间会涉及到网络传输、数据交换等操作。而在这个过程中，很自然地就带来了网络操作的开销。所以对于 StarRocks，优化分布式 Join 效率中比较重要的一个措施，就是尽可能地减少网络开销，更合理地拆分/分发整个查询计划，尽可能将并行执行的优势发挥出来。
 
 <img src="/ox-hugo/1460000042739904.png" alt="1460000042739904.png" width="800px" />
 
@@ -426,26 +396,20 @@ Select \* From A Join B on A.a = B.b
 可以看到，StarRocks 实际执行中会产生 5 种最基本的分布式 Plan：
 
 -   Shuffle Join：分别将 A、B 两表的数据按照连接关系都 Shuffle 到同一批机器上，再进行 Join 操作。
--   Broadcast Join：通过将 B 表的数据全量的广播到 A 表的机器上，在 A 表的机器上进行 Join 操作，相比较于 Shuffle Join，节省
-    了 A 表的数据 Shuffle，但是 B 表的数据是全量广播，适合 B 表是个小表的场景。
+-   Broadcast Join：通过将 B 表的数据全量的广播到 A 表的机器上，在 A 表的机器上进行 Join 操作，相比较于 Shuffle Join，节省了 A 表的数据 Shuffle，但是 B 表的数据是全量广播，适合 B 表是个小表的场景。
 -   Bucket Shuffle Join：在 Broadcast 的基础上进一步优化，将 B 表按照 A 表的分布方式 Shuffle 到 A 表的机器上进行 Join 操作，
-    B 表 Shuffle 的数据量全局只有一份，比 Broadcast 少传输了很多倍数据量。当然，有约束条件限制，Join 的连接关系必须和 A 表
-    的分布一致。
--   Colocate Join：通过建表时指定 A 表和 B 表是同一个 Colocate Group，意味着 A、B 表的分布完全一致，那么当 Join 的连接关系
-    和 A、B 表分布一致时，StarRocks 可以直接在 A、B 表的机器上直接 Join，不需要进行数据 Shuffle。
+    B 表 Shuffle 的数据量全局只有一份，比 Broadcast 少传输了很多倍数据量。当然，有约束条件限制，Join 的连接关系必须和 A 表的分布一致。
+-   Colocate Join：通过建表时指定 A 表和 B 表是同一个 Colocate Group，意味着 A、B 表的分布完全一致，那么当 Join 的连接关系和 A、B 表分布一致时，StarRocks 可以直接在 A、B 表的机器上直接 Join，不需要进行数据 Shuffle。
 -   Replicate Join：StarRocks 的实验性功能，当每一台 A 表的机器上都存在一份完整的 B 表数据时，直接在本地进行 Join 操作，该
     Join 的约束条件比较严格，基本上意味着 B 表的副本数需要和整个集群的机器数保持一致，所以实践意义并不理想。
 
-StarRocks 会对每个 Join 都尝试生成上述 5 种分布式 Join 计划，但是由于不同 Join 类型的语义限制，实际上一些特殊的 Join 类型
-只能生成特定的分布式 Join 计划。例如，Cross Join 只能生成 Broadcast Join。
+StarRocks 会对每个 Join 都尝试生成上述 5 种分布式 Join 计划，但是由于不同 Join 类型的语义限制，实际上一些特殊的 Join 类型只能生成特定的分布式 Join 计划。例如，Cross Join 只能生成 Broadcast Join。
 
 3、探索分布式 Join
 
-StarRocks 的分布式 Join 计划，是通过一系列的 Distribution Property 推导产生的。以下述的 Join SQL 的 Shuffle Join Plan 为
-例，Join 会自顶向下地向 A、B 表分别要求 Shuffle Property。
+StarRocks 的分布式 Join 计划，是通过一系列的 Distribution Property 推导产生的。以下述的 Join SQL 的 Shuffle Join Plan 为例，Join 会自顶向下地向 A、B 表分别要求 Shuffle Property。
 
-当 Scan 节点无法满足该要求时，会通过 Enforce 操作，加入一个 Shuffle 的操作节点，用于满足 Join 的要求。最后在生成执行计划
-时，StarRocks 会将 Shuffle 节点“翻译”成一个 Exchange 节点，通过该节点完成网络数据的传输和交换。
+当 Scan 节点无法满足该要求时，会通过 Enforce 操作，加入一个 Shuffle 的操作节点，用于满足 Join 的要求。最后在生成执行计划时，StarRocks 会将 Shuffle 节点“翻译”成一个 Exchange 节点，通过该节点完成网络数据的传输和交换。
 
 其他的分布式 Join 生成方式和 Shuffle Join 类似，都是由 Join 向下要求不同的属性推导出。
 
@@ -455,8 +419,7 @@ Select \* From A Join B on A.a = B.b
 
 4、复杂的分布式 Join
 
-在用户场景中，用户的 SQL 远比前面的一个 A Join B 复杂得多，可能是 3 表 Join，也可能是 4 表 Join。实际上，StarRocks 对于更
-复杂的 Join，同样也会生成更复杂多样的分布式 Plan，但都是基于上述最基础的几种 Join 方式推导出来的。例如：
+在用户场景中，用户的 SQL 远比前面的一个 A Join B 复杂得多，可能是 3 表 Join，也可能是 4 表 Join。实际上，StarRocks 对于更复杂的 Join，同样也会生成更复杂多样的分布式 Plan，但都是基于上述最基础的几种 Join 方式推导出来的。例如：
 
 Select \* From A Join B on A.a = B.b Join C on A.a = C.c
 
@@ -468,8 +431,7 @@ Select \* From A Join B on A.a = B.b Join C on A.a = C.c
 
 <img src="/ox-hugo/1460000042739908.png" alt="1460000042739908.png" width="800px" />
 
-对于上面这些复杂的分布式 Join Plan，其推导原理和前面的原理几乎一致。Distribution Property 在节点间会一直向下传递，进而推
-导出各种 Join 组合的分布式 Plan。具体的推导实现也可以参考 StarRocks 优化器代码导读（<https://zhuanlan.zhihu.com/p/>&#x2026;）。
+对于上面这些复杂的分布式 Join Plan，其推导原理和前面的原理几乎一致。Distribution Property 在节点间会一直向下传递，进而推导出各种 Join 组合的分布式 Plan。具体的推导实现也可以参考 StarRocks 优化器代码导读（<https://zhuanlan.zhihu.com/p/>&#x2026;）。
 
 5、Global Runtime Filter
 
@@ -483,9 +445,7 @@ Filter 这样一个优化。StarRocks 的 Hash Join 执行过程如下：
 4.  基于 Hash 表来构建 Join 的连接关系；
 5.  输出 Join 结果。
 
-那么，Global Runtime Filter 的工作时机就在 Step 2 和 Step 3 之间，StarRocks 在得到右表的数据后，通过这些运行时数据构造出
-来一个过滤谓词，在拉取左表数据前先将这样一个 Runime 的过滤谓词下发到左表的 Scan 节点，从而帮助左表的 Scan 节点提前过滤数
-据，最终达到减少 Join 输入的目的。
+那么，Global Runtime Filter 的工作时机就在 Step 2 和 Step 3 之间，StarRocks 在得到右表的数据后，通过这些运行时数据构造出来一个过滤谓词，在拉取左表数据前先将这样一个 Runime 的过滤谓词下发到左表的 Scan 节点，从而帮助左表的 Scan 节点提前过滤数据，最终达到减少 Join 输入的目的。
 
 目前 Global Runtime Filter 支持的过滤方式为：Min / Max、In predicate 和 Bloom Filter。示意图如下：
 
@@ -494,11 +454,9 @@ Filter 这样一个优化。StarRocks 的 Hash Join 执行过程如下：
 
 ## <span class="section-num">5</span> 总结 {#总结}
 
-本文讲述了 StarRocks 对 Join 查询优化的实践和探索，所有的优化都是紧贴提到的优化原则。当然，用户在自行优化 SQL 时，也完全
-可以参考如下 5 点，以及 StarRocks 提供的功能进行优化。
+本文讲述了 StarRocks 对 Join 查询优化的实践和探索，所有的优化都是紧贴提到的优化原则。当然，用户在自行优化 SQL 时，也完全可以参考如下 5 点，以及 StarRocks 提供的功能进行优化。
 
-1.  不同 Join 类型的算子，性能是不同的，尽可能使用性能高的 Join 类型，避免使用性能差的 Join 类型。根据 Join 输出的数据量，
-    大致的性能排序为：Semi-Join/Anti-Join &gt; Inner Join &gt; Outer Join &gt; Full Outer Join &gt; Cross Join。
+1.  不同 Join 类型的算子，性能是不同的，尽可能使用性能高的 Join 类型，避免使用性能差的 Join 类型。根据 Join 输出的数据量，大致的性能排序为：Semi-Join/Anti-Join &gt; Inner Join &gt; Outer Join &gt; Full Outer Join &gt; Cross Join。
 2.  Hash Join 的实现时，使用小表做 Hash 表，远比用一个大表做 Hash 表高效。
 3.  多表 Join 时，优先执行选择度高的 Join，能大幅减少后续 Join 的开销。
 4.  尽可能减少参与 Join 的数据量。

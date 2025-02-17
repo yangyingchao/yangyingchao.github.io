@@ -13,10 +13,8 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.starrocks.io/zh/docs/introduction/Features/" target="_blank" rel="noopener noreffer ">https://docs.starrocks.io/zh/docs/introduction/Features/</a></p>
 <h2 id="mpp-分布式执行框架"><span class="section-num">1</span> MPP 分布式执行框架</h2>
-<p>StarRocks 采用 MPP (Massively Parallel Processing) 分布式执行框架。在 MPP 执行框架中，一条查
-询请求会被拆分成多个物理计算单元，在多机并行执行。每个执行节点拥有独享的资源（CPU、内存）。
-MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集
-群的水平扩展而不断提升。</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>StarRocks 采用 MPP (Massively Parallel Processing) 分布式执行框架。在 MPP 执行框架中，一条查询请求会被拆分成多个物理计算单元，在多机并行执行。每个执行节点拥有独享的资源（CPU、内存）。
+MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集群的水平扩展而不断提升。</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构</a></li>

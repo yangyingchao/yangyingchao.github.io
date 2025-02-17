@@ -18,13 +18,8 @@
 </span></span><span class=line><span class=cl><span class=nf>bar</span><span class=p>()</span> <span class=p>{</span> <span class=p>...</span> <span class=nf>foo</span><span class=p>()</span> <span class=p>...</span> <span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div><p>变为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>bar</span><span class=p>()</span> <span class=p>{</span> <span class=p>...</span> <span class=p>[</span> <span class=n>foo</span> <span class=n>implementation</span> <span class=p>]</span> <span class=p>...</span> <span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>内联类似于宏展开，然而编译器可能会内联它认为值得的情况（同时保留其他情况下的原始调用/返
-回语义），甚至部分内联函数的部分（见下文“GCC 函数后缀”中的冷函数）。</p><p>要安全地对上述示例中的 foo()进行动态修补，需要考虑到所有调用它的地方。对于那些编译器已经
-内联了 foo()的调用者，动态修补应该包含一个调用新的被修补内联函数版本的调用函数的新版本，
-使得它：</p><ol><li>调用内联函数的新的被修补版本，或者</li><li>提供调用者的更新版本，其中包含其自己的内联并更新的内联函数版本</li></ol><h2 id=h:548d6856-3e29-4e21-b186-2a7c202abb46><span class=section-num>2</span> GCC function suffixes</h2><p>GCC 可能会根据应用的优化将原始、复制和克隆函数进行重命名。以下是编译器可能应用于内核函数的名称后缀的部分列表：</p><ul><li><p><code>冷子函数(Cold subfunctions)</code> ： <code>.code</code> 或者 <code>.cold.&lt;N></code> ：<br>由属性或优化确定不太可能执行的函数（子函数）的部分。</p><p>例如， <code>irq_do_set_affinity()</code> 的不太可能执行的部分可能移出到子函数
-<code>irq_do_set_affinity.cold.49()</code> 。从 GCC 9 开始，编号后缀已被移除。因此，在上一个例子中，冷
-子函数简单地为 <code>irq_do_set_affinity.cold()</code> 。</p></li><li><p><code>部分内:联</code> <code>.part.&lt;N></code> ：<br>从原始函数主体中分离出来的函数部分，在整体内联决策上有所改进。 函数 <code>cdev_put()</code> 提供
-了一个有趣的部分克隆的例子。GCC 会将源函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></span></code></pre></td></tr></table></div></div><p>内联类似于宏展开，然而编译器可能会内联它认为值得的情况（同时保留其他情况下的原始调用/返回语义），甚至部分内联函数的部分（见下文“GCC 函数后缀”中的冷函数）。</p><p>要安全地对上述示例中的 foo()进行动态修补，需要考虑到所有调用它的地方。对于那些编译器已经内联了 foo()的调用者，动态修补应该包含一个调用新的被修补内联函数版本的调用函数的新版本，使得它：</p><ol><li>调用内联函数的新的被修补版本，或者</li><li>提供调用者的更新版本，其中包含其自己的内联并更新的内联函数版本</li></ol><h2 id=h:548d6856-3e29-4e21-b186-2a7c202abb46><span class=section-num>2</span> GCC function suffixes</h2><p>GCC 可能会根据应用的优化将原始、复制和克隆函数进行重命名。以下是编译器可能应用于内核函数的名称后缀的部分列表：</p><ul><li><p><code>冷子函数(Cold subfunctions)</code> ： <code>.code</code> 或者 <code>.cold.&lt;N></code> ：<br>由属性或优化确定不太可能执行的函数（子函数）的部分。</p><p>例如， <code>irq_do_set_affinity()</code> 的不太可能执行的部分可能移出到子函数
+<code>irq_do_set_affinity.cold.49()</code> 。从 GCC 9 开始，编号后缀已被移除。因此，在上一个例子中，冷子函数简单地为 <code>irq_do_set_affinity.cold()</code> 。</p></li><li><p><code>部分内:联</code> <code>.part.&lt;N></code> ：<br>从原始函数主体中分离出来的函数部分，在整体内联决策上有所改进。 函数 <code>cdev_put()</code> 提供了一个有趣的部分克隆的例子。GCC 会将源函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4

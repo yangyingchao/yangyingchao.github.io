@@ -16,10 +16,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2018/12/fromchars/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2018/12/fromchars/</a></p>
-<p>随着引入 C++17，C++标准库通过添加 <code>std::from_chars</code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较
-于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序
-的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 <code>std::from_chars</code> 如何
-可以改变您对字符串转换的方法。</p>]]></description></item><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/four-views-in-cpp23/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>随着引入 C++17，C++标准库通过添加 <code>std::from_chars</code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 <code>std::from_chars</code> 如何可以改变您对字符串转换的方法。</p>]]></description></item><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/four-views-in-cpp23/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:fac5fec9-45cc-4f3d-852b-d06a6b989983" rel="">String View (C++17) SVG Image</a>

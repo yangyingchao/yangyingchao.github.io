@@ -51,8 +51,7 @@
 
 #### <span class="section-num">1.1.3</span> 安装 ox-hugo {#h:16bf7be3-b1f1-480f-a90a-194c11970799}
 
--   将 org 文件翻译成 markdown 文件，written in Emacs Lisp。Hugo 支持 Org Mode，但据说支持得不是很好 1。
-    毕竟 Emacs Lisp 处理 org 文件相关的包比 Go 多，就直接用 ox-hugo 转 markdown 的方案了。
+-   将 org 文件翻译成 markdown 文件，written in Emacs Lisp。Hugo 支持 Org Mode，但据说支持得不是很好 1。毕竟 Emacs Lisp 处理 org 文件相关的包比 Go 多，就直接用 ox-hugo 转 markdown 的方案了。
 
 不是 Emacs 用户？
 
@@ -120,8 +119,7 @@ Hello，World
 
 1.  导出 org 到 markdown 文件
 
-2.  在 Emacs 里执行 C-c C-e H h（File to Md file）导出整个 org 文件到 markdown 文件，也可以导出 subtree，
-    具体看个人喜好
+2.  在 Emacs 里执行 C-c C-e H h（File to Md file）导出整个 org 文件到 markdown 文件，也可以导出 subtree，具体看个人喜好
 
 3.  访问<http://127.0.0.1:1313/>
 4.  正常情况就会看到博客界面啦
@@ -249,8 +247,7 @@ jobs:
 
     1  - unmarshal failed: Near line 4 (last key parsed 'tags'): Array contains values of type 'Integer' and 'String', but arrays must be homogeneous.
 
-原因：tags 的类型不一致，标签混用了数字和字符串
-解决方案：去掉数字类型的标签或升级至最新版本的 hugo
+原因：tags 的类型不一致，标签混用了数字和字符串解决方案：去掉数字类型的标签或升级至最新版本的 hugo
 
 
 ## <span class="section-num">2</span> 使用 Emacs Script 自动将 org 文件导出为 Markdown {#h:3dab7760-3b4f-456e-b112-e2e740204576}
@@ -281,8 +278,7 @@ purcell 大神已经准备好了。
 
 ### <span class="section-num">2.3</span> 存在的问题 {#h:b08e34c0-315f-43a9-9b4a-cc087fb86323}
 
-目前是全量导出，找到指定目录下的全部 org 文件，然后转成 markdown 文件。 这样每提交一篇文章，就需要
-处理全部存量文章。另外，全部文章的更新时间都会跟着变，这个和 HUGO_AUTO_SET_LASTMOD 这个 property
+目前是全量导出，找到指定目录下的全部 org 文件，然后转成 markdown 文件。 这样每提交一篇文章，就需要处理全部存量文章。另外，全部文章的更新时间都会跟着变，这个和 HUGO_AUTO_SET_LASTMOD 这个 property
 设置有关。详见：ox-hugo last modified 。待改成增量导出。
 
 
@@ -290,10 +286,7 @@ purcell 大神已经准备好了。
 
 1.  org 导出 markdown 文件了，但未生成静态文件 <br />
 
-原因：时区问题。Github Action 是按 UTC 时间执行的，而文件的发布日期是东八区的，这样 Hugo 可能会看到
-发布日期还未到，就不处理了 1。
-解决方案：修改 Github Action job 的时区，可一并解决文件修改时间不对的问题；或修改 Hugo 运行时的配
-置，增加–buildFuture 参数。
+原因：时区问题。Github Action 是按 UTC 时间执行的，而文件的发布日期是东八区的，这样 Hugo 可能会看到发布日期还未到，就不处理了 1。解决方案：修改 Github Action job 的时区，可一并解决文件修改时间不对的问题；或修改 Hugo 运行时的配置，增加–buildFuture 参数。
 
 
 ## <span class="section-num">3</span> 附录 {#h:7d9d2a30-9a98-4243-8da6-51eb1201b20e}
