@@ -88,7 +88,7 @@ System_Boundary(bounday1, "Cloud Boundary 1") {
 
 <a id="figure--fig:stride-model"></a>
 
-{{< figure src="/ox-hugo/stride-model-0ef-716b3fe4.png" caption="<span class=\"figure-number\">Figure 3: </span>stride model" >}}
+{{< figure src="/ox-hugo/stride-model-0ef-716b3fe4.png" caption="<span class=\"figure-number\">Figure 3: </span>stride model" width="800px" >}}
 
 通过这种方法，我们正在将信任边界从经典的威胁建模扩展到任何类型的系统表示。
 然而，我们并没有提供一种清晰的方法来表示模型中每个组件的信任和价值，因此我们需要创建一个信任:价值比率。

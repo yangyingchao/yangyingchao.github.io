@@ -20,7 +20,7 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   找到 Settings -&gt; General -&gt; Features -&gt; Discussions 勾选，为仓库启动 Discussions 功能 ，如下图
 
-<a id="orgf7327ac"></a>
+<a id="org532dc7c"></a>
 
 <img src="images/PicGo%2F202306190909575.webp" alt="PicGo%2F202306190909575.webp" width="800px" />
 pic-02
@@ -37,7 +37,7 @@ pic-02
 
 -   点击安装后，要选择一个仓库，如下图，选择我们之前创造的仓库即可
 
-<a id="orgdbebceb"></a>
+<a id="orgf71c64e"></a>
 
 <img src="images/PicGo%2F202306190928971.webp" alt="PicGo%2F202306190928971.webp" width="800px" />
 pic-04
@@ -56,14 +56,13 @@ pic-04
 -   来到 Giscus 官网
     -   填写你的仓库名，如下图
 
-<a id="orgd240588"></a>
+<a id="figure--fig:PicGo%2F202306191023678"></a>
 
-<img src="/ox-hugo/PicGo_2F202306191023678.webp" alt="PicGo_2F202306191023678.webp" width="800px" />
-pic-05
+{{< figure src="/ox-hugo/PicGo_2F202306191023678.webp" width="800px" >}}
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="org1147de8"></a>
+<a id="orgfb4f08c"></a>
 
 ![](/ox-hugo/PicGo_2F202306191027361.webp)
 pic-06
@@ -80,7 +79,7 @@ pic-06
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="orgabfeacf"></a>
+<a id="org73ee5ab"></a>
 
 <img src="/ox-hugo/PicGo_2F202306191354061.webp" alt="PicGo_2F202306191354061.webp" width="800px" />
 pic-08
