@@ -1,4 +1,14 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 22 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>AWS教你如何做威胁建模-腾讯云开发者社区-腾讯云</title><link>https://yangyingchao.github.io/cloud_tencent_com_article_2159953/</link><pubDate>Sat, 22 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/cloud_tencent_com_article_2159953/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 27 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e7%bb%99-git-%e6%b7%bb%e5%8a%a0%e6%96%b0%e7%9a%84%e6%96%87%e6%9c%ac%e8%bd%ac%e6%8d%a2%e5%a4%84%e7%90%86%e5%99%a8" rel="">给 git 添加新的文本转换处理器</a></li>
+<li><span class="section-num">2</span> <a href="#%e6%8c%87%e7%a4%ba-git-%e4%b8%ba%e6%af%8f%e7%a7%8d%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e5%ba%94%e7%94%a8%e6%ad%a3%e7%a1%ae%e7%9a%84%e5%a4%84%e7%90%86%e5%99%a8" rel="">指示 git 为每种文件类型应用正确的处理器</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html" target="_blank" rel="noopener noreffer ">https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html</a></p>
+<p>处理二进制文件类型，如 Microsoft Word XML 格式的文档 docx、OpenDocument 文本 odt 格式和便携式文档格式 pdf，搭配
+git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式的差异比较。不支持以文本格式比较二进制文件。</p>]]></description></item><item><title>AWS教你如何做威胁建模-腾讯云开发者社区-腾讯云</title><link>https://yangyingchao.github.io/cloud_tencent_com_article_2159953/</link><pubDate>Sat, 22 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/cloud_tencent_com_article_2159953/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e5%87%86%e5%a4%87%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">准备威胁建模</a>
@@ -143,34 +153,4 @@
 <!--endtoc-->
 <h2 id="简评"><span class="section-num">1</span> 简评</h2>
 <p>本书描写了人工智能领域专家李飞飞教授在 90 年代移居美国后的生活、学习和科研的事情。</p>
-<p>读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。</p>]]></description></item><item><title>威胁建模框架与技术：从STRIDE到NIST-CSDN博客</title><link>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</link><pubDate>Fri, 24 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/blog_csdn_net_details_122882763/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e7%ae%80%e8%a6%81%e4%bb%8b%e7%bb%8d" rel="">简要介绍</a></li>
-<li><span class="section-num">2</span> <a href="#%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1%e6%b5%81%e7%a8%8b%e5%92%8c%e6%ad%a5%e9%aa%a4" rel="">威胁建模流程和步骤</a></li>
-<li><span class="section-num">3</span> <a href="#%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1%e6%8a%80%e6%9c%af" rel="">威胁建模技术</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#%e6%95%b0%e6%8d%ae%e6%b5%81%e7%a8%8b%e5%9b%be" rel="">数据流程图</a></li>
-<li><span class="section-num">3.2</span> <a href="#%e8%bf%87%e7%a8%8b%e6%b5%81%e7%a8%8b%e5%9b%be" rel="">过程流程图</a></li>
-<li><span class="section-num">3.3</span> <a href="#%e6%94%bb%e5%87%bb%e6%a0%91" rel="">攻击树</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1%e6%a1%86%e6%9e%b6%e5%92%8c%e6%96%b9%e6%b3%95" rel="">威胁建模框架和方法</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#stride-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">STRIDE 威胁建模</a></li>
-<li><span class="section-num">4.2</span> <a href="#dread-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">DREAD 威胁建模</a></li>
-<li><span class="section-num">4.3</span> <a href="#pasta-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">PASTA 威胁建模</a></li>
-<li><span class="section-num">4.4</span> <a href="#vast-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">VAST 威胁建模</a></li>
-<li><span class="section-num">4.5</span> <a href="#trike-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">Trike 威胁建模</a></li>
-<li><span class="section-num">4.6</span> <a href="#octave-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">OCTAVE 威胁建模</a></li>
-<li><span class="section-num">4.7</span> <a href="#nist-%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1" rel="">NIST 威胁建模</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" rel="">威胁建模最佳实践</a></li>
-<li><span class="section-num">6</span> <a href="#%e5%a8%81%e8%83%81%e5%bb%ba%e6%a8%a1%e5%b7%a5%e5%85%b7" rel="">威胁建模工具</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://blog.csdn.net/weixin_43965597/article/details/122882763" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_43965597/article/details/122882763</a></p>
-<h2 id="简要介绍"><span class="section-num">1</span> 简要介绍</h2>
-<p>了解威胁建模框架、方法和工具可以帮助更好地识别、量化和排序面临的威胁。威胁建模是一个结构化的过程，IT 专业人员可以通过该过程识别潜在的安全威胁和漏洞，量化每个威胁的严重性，并确定技术的优先级以缓解攻击并保护 IT 资产。威胁模型的重要之处在于它是系统的和结构化的。威胁建模人员将执行一系列具体步骤，以全面了解他们试图保护的 IT 环境，识别漏洞和潜在攻击者。</p>]]></description></item></channel></rss>
+<p>读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。</p>]]></description></item></channel></rss>

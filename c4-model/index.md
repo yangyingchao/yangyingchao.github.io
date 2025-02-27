@@ -128,7 +128,7 @@ $AggregatedRisk("R2") Details of aggregated risk number 2
 
 <a id="figure--fig:stride-with-trust-value"></a>
 
-{{< figure src="/ox-hugo/stride-with-trust-value-144-716b3fe4.png" caption="<span class=\"figure-number\">Figure 4: </span>stride-with-trust-value" >}}
+{{< figure src="/ox-hugo/stride-with-trust-value-144-716b3fe4.png" caption="<span class=\"figure-number\">Figure 4: </span>stride-with-trust-value" width="500px" >}}
 
 
 ## <span class="section-num">3</span> REFERENCE: {#reference}
