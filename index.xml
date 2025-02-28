@@ -1,4 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 27 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 28 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>[笔记]1984:反乌托邦三部曲-[英] 乔治·奥威尔;孙仲旭</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B01984%E5%8F%8D%E4%B9%8C%E6%89%98%E9%82%A6%E4%B8%89%E9%83%A8%E6%9B%B2-%E8%8B%B1-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E5%AD%99%E4%BB%B2%E6%97%AD/</link><pubDate>Fri, 28 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B01984%E5%8F%8D%E4%B9%8C%E6%89%98%E9%82%A6%E4%B8%89%E9%83%A8%E6%9B%B2-%E8%8B%B1-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E5%AD%99%E4%BB%B2%E6%97%AD/</guid><description><![CDATA[<ul>
+<li>
+<p>54-55, 标注, 2025年2月28日星期五 上午7:56:15</p>
+<blockquote>
+<p>他表达的是一种对于人类未来近乎绝望的情绪，同时也预兆，除非历史的进程改变，否则全世界的人都会在不知不觉中失去大部分人类的特质，变成没有灵魂的机器人。</p>]]></description></item><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e7%bb%99-git-%e6%b7%bb%e5%8a%a0%e6%96%b0%e7%9a%84%e6%96%87%e6%9c%ac%e8%bd%ac%e6%8d%a2%e5%a4%84%e7%90%86%e5%99%a8" rel="">给 git 添加新的文本转换处理器</a></li>
@@ -143,14 +147,4 @@ git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式
 <li>
 <p>1043-1046, 标注, 2025 年 1 月 23 日星期四 下午 8:36:06</p>
 <blockquote>
-<p>叔本华认为每个人都跳不出意欲的圈子，不过每个人目光的广狭和远近都不相同。一般人为庸俗浅薄的东西所吸引，而成大事业的人则意欲远大。所以，一个人要追求更高远的理想，就一定要先打碎眼前五光十色的繁华世界，经过一个“昨夜西风凋碧树”的阶段，才能有“独上高楼，望尽天涯路”的目光。</p>]]></description></item><item><title>[笔记]我看见的世界:李飞飞自传-[美] 李飞飞;赵灿</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</link><pubDate>Fri, 07 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%88%91%E7%9C%8B%E8%A7%81%E7%9A%84%E4%B8%96%E7%95%8C%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%9D%8E%E9%A3%9E%E9%A3%9E%E8%B5%B5%E7%81%BF/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e7%ae%80%e8%af%84" rel="">简评</a></li>
-<li><span class="section-num">2</span> <a href="#%e4%b9%a6%e6%91%98" rel="">书摘</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<h2 id="简评"><span class="section-num">1</span> 简评</h2>
-<p>本书描写了人工智能领域专家李飞飞教授在 90 年代移居美国后的生活、学习和科研的事情。</p>
-<p>读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。</p>]]></description></item></channel></rss>
+<p>叔本华认为每个人都跳不出意欲的圈子，不过每个人目光的广狭和远近都不相同。一般人为庸俗浅薄的东西所吸引，而成大事业的人则意欲远大。所以，一个人要追求更高远的理想，就一定要先打碎眼前五光十色的繁华世界，经过一个“昨夜西风凋碧树”的阶段，才能有“独上高楼，望尽天涯路”的目光。</p>]]></description></item></channel></rss>
