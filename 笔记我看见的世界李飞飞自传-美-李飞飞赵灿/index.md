@@ -5,22 +5,26 @@
 
 <div class="heading">Table of Contents</div>
 
-- <span class="section-num">1</span> [简评](#简评)
-- <span class="section-num">2</span> [书摘](#书摘)
+- <span class="section-num">1</span> [Entries](#entries)
+- <span class="section-num">2</span> [简评](#简评)
+- <span class="section-num">3</span> [书摘](#书摘)
 
 </div>
 <!--endtoc-->
 
 
 
-## <span class="section-num">1</span> 简评 {#简评}
+## <span class="section-num">1</span> Entries {#entries}
+
+
+## <span class="section-num">2</span> 简评 {#简评}
 
 本书描写了人工智能领域专家李飞飞教授在 90 年代移居美国后的生活、学习和科研的事情。
 
 读书的过程中，我经常为其中的种种环境感慨，经常会想，如果这个人是我，我会做出什么样的选择，我能不能像作者一样坚持按照自己的北极星指引的方向前向。。。
 
 
-## <span class="section-num">2</span> 书摘 {#书摘}
+## <span class="section-num">3</span> 书摘 {#书摘}
 
 -   94-96, 标注, 2025 年 2 月 6 日星期四 下午 12:44:15
 

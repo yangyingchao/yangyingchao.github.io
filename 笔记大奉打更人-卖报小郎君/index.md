@@ -1,6 +1,19 @@
 # [笔记]大奉打更人-卖报小郎君
 
 
+<div class="ox-hugo-toc toc has-section-numbers">
+
+<div class="heading">Table of Contents</div>
+
+- <span class="section-num">1</span> [Entries](#entries)
+
+</div>
+<!--endtoc-->
+
+
+
+## <span class="section-num">1</span> Entries {#entries}
+
 -   5976-5976, 标注, 2025 年 1 月 21 日星期二 上午 7:19:26
 
     > 人性多变，光暗交织，不能因为见到过黑暗，就愤世妒俗，厌弃光明。

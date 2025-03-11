@@ -1,6 +1,19 @@
 # [笔记]切尔诺贝利的午夜-[英] 亚当·希金博特姆;鲁伊
 
 
+<div class="ox-hugo-toc toc has-section-numbers">
+
+<div class="heading">Table of Contents</div>
+
+- <span class="section-num">1</span> [Entries](#entries)
+
+</div>
+<!--endtoc-->
+
+
+
+## <span class="section-num">1</span> Entries {#entries}
+
 -   188-190, 标注, 2025 年 2 月 13 日星期四 上午 8:33:36
 
     > 1969 年 7 月，美国宇航员完成登月的最后准备，苏联能源与电气化部部长发出了大力发展核能建设的号召。他设立了雄心勃勃的目标，苏联的欧洲部分将建起一个由全新的核电站串起的电网，从芬兰湾到里海，众多规模巨大、发电能力惊人的反应堆将拔地而起。
