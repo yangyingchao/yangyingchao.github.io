@@ -1,19 +1,6 @@
 # [笔记]人间词话：叶嘉莹讲评本（诗词大家叶嘉莹逐条讲透、点评王国维诗词美学经典，读懂人生三境界）-王国维;叶嘉莹
 
 
-<div class="ox-hugo-toc toc has-section-numbers">
-
-<div class="heading">Table of Contents</div>
-
-- <span class="section-num">1</span> [Entries](#entries)
-
-</div>
-<!--endtoc-->
-
-
-
-## <span class="section-num">1</span> Entries {#entries}
-
 -   1043-1046, 标注, 2025 年 1 月 23 日星期四 下午 8:36:06
 
     > 叔本华认为每个人都跳不出意欲的圈子，不过每个人目光的广狭和远近都不相同。一般人为庸俗浅薄的东西所吸引，而成大事业的人则意欲远大。所以，一个人要追求更高远的理想，就一定要先打碎眼前五光十色的繁华世界，经过一个“昨夜西风凋碧树”的阶段，才能有“独上高楼，望尽天涯路”的目光。
