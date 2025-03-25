@@ -1,4 +1,14 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 18 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>[笔记]诡秘之主-爱潜水的乌贼</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB-%E7%88%B1%E6%BD%9C%E6%B0%B4%E7%9A%84%E4%B9%8C%E8%B4%BC/</link><pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB-%E7%88%B1%E6%BD%9C%E6%B0%B4%E7%9A%84%E4%B9%8C%E8%B4%BC/</guid><description><![CDATA[<ul>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 25 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>BTRFS and free space - emergency response</title><link>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</link><pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e6%88%91%e8%bf%98%e6%9c%89%e5%a4%9a%e5%b0%91%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel="">我还有多少自由空间？</a></li>
+<li><span class="section-num">2</span> <a href="#%e5%b0%86%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%9a%84%e5%88%86%e9%85%8d%e8%bd%ac%e6%8d%a2%e4%b8%ba%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel="">将未使用的分配转换为自由空间</a></li>
+<li><span class="section-num">3</span> <a href="#%e5%a6%82%e6%9e%9c%e6%82%a8%e5%b7%b2%e7%bb%8f%e7%94%a8%e5%b0%bd%e7%a9%ba%e9%97%b4" rel="">如果您已经用尽空间</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/" target="_blank" rel="noopener noreffer ">https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/</a></p>
+<p>我在我的根文件系统（Linux 上）上使用 BTRFS，主要是为了快速快照和恢复的功能。昨天我遇到了一个常见的问题：我的驱动器突然满了。我从系统驱动器上的 4GB 的可用空间瞬间变为 0，导致我的系统出现各种混乱。</p>]]></description></item><item><title>[笔记]诡秘之主-爱潜水的乌贼</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB-%E7%88%B1%E6%BD%9C%E6%B0%B4%E7%9A%84%E4%B9%8C%E8%B4%BC/</link><pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E8%AF%A1%E7%A7%98%E4%B9%8B%E4%B8%BB-%E7%88%B1%E6%BD%9C%E6%B0%B4%E7%9A%84%E4%B9%8C%E8%B4%BC/</guid><description><![CDATA[<ul>
 <li>
 <p>35-36, 标注, 2025 年 3 月 12 日星期三 下午 6:43:44</p>
 <blockquote>
@@ -52,16 +62,4 @@ git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://cloud.tencent.com/developer/article/2159953" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/developer/article/2159953</a></p>
 <h2 id="准备威胁建模"><span class="section-num">1</span> 准备威胁建模</h2>
 <h3 id="组建虚拟团队"><span class="section-num">1.1</span> 组建虚拟团队</h3>
-<p>威胁建模需要听取多种不同观点和经验才能进行，每个团队成员的意见都需要重视，最终在安全、交付、业务之间取得权衡。不能仅仅是安全和技术参与，checklist，卡点反而是阻碍威胁建模效果的瓶颈。</p>]]></description></item><item><title>[笔记]切尔诺贝利的午夜-[英] 亚当·希金博特姆;鲁伊</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%8D%88%E5%A4%9C-%E8%8B%B1-%E4%BA%9A%E5%BD%93%E5%B8%8C%E9%87%91%E5%8D%9A%E7%89%B9%E5%A7%86%E9%B2%81%E4%BC%8A/</link><pubDate>Wed, 19 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%8D%88%E5%A4%9C-%E8%8B%B1-%E4%BA%9A%E5%BD%93%E5%B8%8C%E9%87%91%E5%8D%9A%E7%89%B9%E5%A7%86%E9%B2%81%E4%BC%8A/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#entries" rel="">Entries</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<h2 id="entries"><span class="section-num">1</span> Entries</h2>
-<ul>
-<li>
-<p>188-190, 标注, 2025 年 2 月 13 日星期四 上午 8:33:36</p>
-<blockquote>
-<p>1969 年 7 月，美国宇航员完成登月的最后准备，苏联能源与电气化部部长发出了大力发展核能建设的号召。他设立了雄心勃勃的目标，苏联的欧洲部分将建起一个由全新的核电站串起的电网，从芬兰湾到里海，众多规模巨大、发电能力惊人的反应堆将拔地而起。</p>]]></description></item></channel></rss>
+<p>威胁建模需要听取多种不同观点和经验才能进行，每个团队成员的意见都需要重视，最终在安全、交付、业务之间取得权衡。不能仅仅是安全和技术参与，checklist，卡点反而是阻碍威胁建模效果的瓶颈。</p>]]></description></item></channel></rss>
