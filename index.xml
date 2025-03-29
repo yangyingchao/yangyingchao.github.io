@@ -1,4 +1,22 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 28 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>[笔记]不能承受的生命之轻-[捷克] 米兰·昆德拉;许钧</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%8D%E8%83%BD%E6%89%BF%E5%8F%97%E7%9A%84%E7%94%9F%E5%91%BD%E4%B9%8B%E8%BD%BB-%E6%8D%B7%E5%85%8B-%E7%B1%B3%E5%85%B0%E6%98%86%E5%BE%B7%E6%8B%89%E8%AE%B8%E9%92%A7/</link><pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%8D%E8%83%BD%E6%89%BF%E5%8F%97%E7%9A%84%E7%94%9F%E5%91%BD%E4%B9%8B%E8%BD%BB-%E6%8D%B7%E5%85%8B-%E7%B1%B3%E5%85%B0%E6%98%86%E5%BE%B7%E6%8B%89%E8%AE%B8%E9%92%A7/</guid><description></description></item><item><title>BTRFS and free space - emergency response</title><link>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</link><pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 29 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>pandoc 生成 docx 中的 list 处理</title><link>https://yangyingchao.github.io/pandoc-%E7%94%9F%E6%88%90-docx-%E4%B8%AD%E7%9A%84-list-%E5%A4%84%E7%90%86/</link><pubDate>Sat, 29 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/pandoc-%E7%94%9F%E6%88%90-docx-%E4%B8%AD%E7%9A%84-list-%E5%A4%84%E7%90%86/</guid><description><![CDATA[<p>上一篇 <a href="https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/" target="_blank" rel="noopener noreffer ">blog</a> 中，介绍了怎样使用 pandoc 将 <code>org</code> 文件转换成为 docx 文件，以及用到的 filter 和 word 模板。这解决了我再实际使用过程中遇到的大部分问题，比如基本的格式、表格边框、表格图片标号之类的。但当时还有一个问题没有解决，就是列表 （list） 的显示不理想。</p>]]></description></item><item><title>三月阅读总结</title><link>https://yangyingchao.github.io/weixin%E4%B8%89%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93/</link><pubDate>Sat, 29 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/weixin%E4%B8%89%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e4%ba%ba%e9%97%b4%e8%af%8d%e8%af%9d" rel="">《人间词话》</a></li>
+<li><span class="section-num">2</span> <a href="#1984" rel="">1984</a></li>
+<li><span class="section-num">3</span> <a href="#%e7%bf%a6%e5%95%86" rel="">翦商</a></li>
+<li><span class="section-num">4</span> <a href="#%e5%90%8e%e8%ae%b0" rel="">后记</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>转眼又是月底。</p>
+<p>三月份看完了《人间词话》、《1984》、《翦商:殷周之变与华夏新生》，新开了《诡秘之主》和《不能承受的生命之轻》。</p>]]></description></item><item><title>[笔记]不能承受的生命之轻-[捷克] 米兰·昆德拉;许钧</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%8D%E8%83%BD%E6%89%BF%E5%8F%97%E7%9A%84%E7%94%9F%E5%91%BD%E4%B9%8B%E8%BD%BB-%E6%8D%B7%E5%85%8B-%E7%B1%B3%E5%85%B0%E6%98%86%E5%BE%B7%E6%8B%89%E8%AE%B8%E9%92%A7/</link><pubDate>Fri, 28 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%8D%E8%83%BD%E6%89%BF%E5%8F%97%E7%9A%84%E7%94%9F%E5%91%BD%E4%B9%8B%E8%BD%BB-%E6%8D%B7%E5%85%8B-%E7%B1%B3%E5%85%B0%E6%98%86%E5%BE%B7%E6%8B%89%E8%AE%B8%E9%92%A7/</guid><description><![CDATA[<ul>
+<li>
+<p>30-31, 标注, 2025 年 3 月 26 日星期三 下午 1:09:56</p>
+<blockquote>
+<p>那些转瞬即逝的事物，我们能去谴责吗？橘黄色的落日余晖给一切都带上一丝怀旧的温情，哪怕是断头台。</p></blockquote>
+</li>
+<li>
+<p>37-38, 标注, 2025 年 3 月 26 日星期三 下午 1:11:32</p>]]></description></item><item><title>BTRFS and free space - emergency response</title><link>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</link><pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e6%88%91%e8%bf%98%e6%9c%89%e5%a4%9a%e5%b0%91%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel="">我还有多少自由空间？</a></li>
@@ -19,18 +37,8 @@
 <li>
 <p>93-94, 标注, 2025 年 3 月 9 日星期日 下午 8:35:46</p>
 <blockquote>
-<p>也许，我们至今也还难以完全了解我们自己。考古，就犹如一面深埋地下的镜子，倒映出我们陌生的形象</p></blockquote>
+<p>也许，我们至今也还难以完全了解我们自己。考古，就犹如一面深埋地下的镜子，倒映出我们陌生的形象。</p></blockquote>
 </li>
 <li>
 <p>301-301, 标注, 2025 年 3 月 10 日星期一 上午 7:56:27</p>]]></description></item><item><title>转载的激活</title><link>https://yangyingchao.github.io/www_cnblogs_com_p_17301190/</link><pubDate>Thu, 06 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_cnblogs_com_p_17301190/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cnblogs.com/maijin/p/17301190.html" target="_blank" rel="noopener noreffer ">https://www.cnblogs.com/maijin/p/17301190.html&lt;/a>&lt;/p></description></item><item><title>Debugging Errors in Emacs</title><link>https://yangyingchao.github.io/emacsredux_com_debugging-errors-in-emacs/</link><pubDate>Tue, 04 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/emacsredux_com_debugging-errors-in-emacs/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://emacsredux.com/blog/2025/03/01/debugging-errors-in-emacs/" target="_blank" rel="noopener noreffer ">https://emacsredux.com/blog/2025/03/01/debugging-errors-in-emacs/</a></p>
-<p>我最近写了一篇关于<a href="https://emacsredux.com/blog/2025/02/03/debugging-emacs-commands/" target="_blank" rel="noopener noreffer ">调试 Emacs 命令的文章</a>。在文章中，我简要提到了 <code>M-x toggle-debug-on-error</code> 和 =debug-on-error=，但在发布文章后，我意识到许多人可能不太理解它的具体工作原理。</p>]]></description></item><item><title>切尔诺贝利的午夜</title><link>https://yangyingchao.github.io/wexin%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%8D%88%E5%A4%9C/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/wexin%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%8D%88%E5%A4%9C/</guid><description>&lt;p>最近读完了亚当·希金博特姆的《切尔诺贝利的午夜》一书，这是一部关于切尔诺贝利核事故的纪实作品。素材是来自作者十多年来进行的数百小时采访，以及许多信件，未出版的回忆录和近年来刚刚解密的档案。读这本书的时候，我每每被其中英勇无畏的英雄感动，同时也对为了维护自己地位而不顾他人生死、尸位素餐的 &lt;strong>人们&lt;/strong> 感到愤慨，而每当能够从中看到某些现状的影子时候，又感到无奈和悲凉。&lt;/p></description></item><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e7%bb%99-git-%e6%b7%bb%e5%8a%a0%e6%96%b0%e7%9a%84%e6%96%87%e6%9c%ac%e8%bd%ac%e6%8d%a2%e5%a4%84%e7%90%86%e5%99%a8" rel="">给 git 添加新的文本转换处理器</a></li>
-<li><span class="section-num">2</span> <a href="#%e6%8c%87%e7%a4%ba-git-%e4%b8%ba%e6%af%8f%e7%a7%8d%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e5%ba%94%e7%94%a8%e6%ad%a3%e7%a1%ae%e7%9a%84%e5%a4%84%e7%90%86%e5%99%a8" rel="">指示 git 为每种文件类型应用正确的处理器</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html" target="_blank" rel="noopener noreffer ">https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html</a></p>
-<p>处理二进制文件类型，如 Microsoft Word XML 格式的文档 docx、OpenDocument 文本 odt 格式和便携式文档格式 pdf，搭配
-git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式的差异比较。不支持以文本格式比较二进制文件。</p>]]></description></item></channel></rss>
+<p>我最近写了一篇关于<a href="https://emacsredux.com/blog/2025/02/03/debugging-emacs-commands/" target="_blank" rel="noopener noreffer ">调试 Emacs 命令的文章</a>。在文章中，我简要提到了 <code>M-x toggle-debug-on-error</code> 和 =debug-on-error=，但在发布文章后，我意识到许多人可能不太理解它的具体工作原理。</p>]]></description></item></channel></rss>
