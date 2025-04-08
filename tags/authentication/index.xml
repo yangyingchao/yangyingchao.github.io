@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Authentication - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/authentication/</link><description>Authentication - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/authentication/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL LDAP Authentication: A Step-by-Step Guide</title><link>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#postgresql-ldap-%e8%ae%a4%e8%af%81%e7%9a%84%e5%a5%bd%e5%a4%84" rel="">PostgreSQL LDAP 认证的好处</a></li>
+<li><span class="section-num">2</span> <a href="#%e5%9c%a8-postgresql-%e4%b8%ad%e9%85%8d%e7%bd%ae-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" rel="">在 PostgreSQL 中配置 LDAP 身份验证</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#%e4%bf%ae%e6%94%b9-pg-hba-dot-conf-%e6%96%87%e4%bb%b6" rel="">修改 <em>pg_hba.conf</em> 文件</a></li>
+<li><span class="section-num">2.2</span> <a href="#%e9%85%8d%e7%bd%ae-postgresql-%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%82%e6%95%b0" rel="">配置 PostgreSQL 服务器参数</a></li>
+<li><span class="section-num">2.3</span> <a href="#%e5%88%9b%e5%bb%ba%e8%a7%92%e8%89%b2%e5%92%8c%e6%8e%88%e4%ba%88%e6%9d%83%e9%99%90" rel="">创建角色和授予权限</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e5%ae%89%e5%85%a8%e8%af%84%e5%88%86-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e5%ae%89%e5%85%a8%e5%90%97" rel="">安全评分：PostgreSQL LDAP 身份验证安全吗？</a></li>
+<li><span class="section-num">4</span> <a href="#%e8%ae%be%e7%bd%ae-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e7%9a%84%e9%80%90%e6%ad%a5%e6%8c%87%e5%8d%97" rel="">设置 PostgreSQL LDAP 身份验证的逐步指南</a></li>
+<li><span class="section-num">5</span> <a href="#%e7%bb%93%e8%ae%ba" rel="">结论</a></li>
+<li><span class="section-num">6</span> <a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e8%a7%a3%e7%ad%94" rel="">常见问题解答</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer ">https://goteleport.com/learn/postgresql-ldap-authentication/</a></p>]]></description></item></channel></rss>
