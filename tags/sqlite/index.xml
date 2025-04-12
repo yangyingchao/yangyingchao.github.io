@@ -1,24 +1,24 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sqlite - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/sqlite/</link><description>Sqlite - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlite/" rel="self" type="application/rss+xml"/><item><title>SQLite: Past, Present, and Future</title><link>https://yangyingchao.github.io/p3535-gaffney/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3535-gaffney/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:bbf2c939-edb3-4108-bbc0-51bcd7e678b5" rel="">INTRODUCTION</a></li>
-<li><span class="section-num">2</span> <a href="#h:a745cd6c-c855-4878-9e9b-0a4ade66be1a" rel="">ARCHITECTURE</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:b330e68c-83ff-4a06-a693-0aae09fdbfec" rel="">Modules</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/2/p3535-gaffney.pdf</p>
-<h2 id="h:bbf2c939-edb3-4108-bbc0-51bcd7e678b5"><span class="section-num">1</span> INTRODUCTION</h2>
-<ul>
-<li>
-<p>SQLite is embedded in the process of the host application</p>
-</li>
-<li>
-<p>Instead of communicating with a database server across process boundaries,
-applications manage a SQLite database by calling SQLite library functions</p>
-</li>
-<li>
-<p>several characteristics combine to make SQLite useful in a broad range of scenario:</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sqlite on 杂货铺</title><link>https://yangyingchao.github.io/tags/sqlite/</link><description>Recent content in Sqlite on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlite/index.xml" rel="self" type="application/rss+xml"/><item><title>SQLite: Past, Present, and Future</title><link>https://yangyingchao.github.io/p3535-gaffney/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3535-gaffney/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:bbf2c939-edb3-4108-bbc0-51bcd7e678b5" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:a745cd6c-c855-4878-9e9b-0a4ade66be1a" rel="">ARCHITECTURE&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:b330e68c-83ff-4a06-a693-0aae09fdbfec" rel="">Modules&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/2/p3535-gaffney.pdf&lt;/p>
+&lt;h2 id="h:bbf2c939-edb3-4108-bbc0-51bcd7e678b5">&lt;span class="section-num">1&lt;/span> INTRODUCTION&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>SQLite is embedded in the process of the host application&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Instead of communicating with a database server across process boundaries,
+applications manage a SQLite database by calling SQLite library functions&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>several characteristics combine to make SQLite useful in a broad range of scenario:&lt;/p></description></item></channel></rss>

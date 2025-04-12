@@ -1,25 +1,25 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Gh - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/gh/</link><description>Gh - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 11 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/gh/" rel="self" type="application/rss+xml"/><item><title>Github API: Fetch issues with exceeds rate limit prematurely</title><link>https://yangyingchao.github.io/stackoverflow.com_33655700_github-api-fetch-issues-with-exceeds-rate-limit-prematurely/</link><pubDate>Sat, 11 May 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/stackoverflow.com_33655700_github-api-fetch-issues-with-exceeds-rate-limit-prematurely/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#q" rel="">Q</a></li>
-<li><span class="section-num">2</span> <a href="#a" rel="">A</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#basic-authentication" rel="">Basic authentication</a></li>
-<li><span class="section-num">2.2</span> <a href="#using-personal-access-tokens" rel="">Using personal access tokens</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely</a></p>
-<h2 id="q"><span class="section-num">1</span> Q</h2>
-<p>I am building an app that fetches the issues and pull requests of over 1K github repos, like this.</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">$ curl -i &#34;https://api.github.com/repos/user/repo/issues?state=closed&#34;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>My problem is that, after the initial 60 iterations I get a rate limit error:</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gh on 杂货铺</title><link>https://yangyingchao.github.io/tags/gh/</link><description>Recent content in Gh on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 11 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/gh/index.xml" rel="self" type="application/rss+xml"/><item><title>Github API: Fetch issues with exceeds rate limit prematurely</title><link>https://yangyingchao.github.io/stackoverflow/</link><pubDate>Sat, 11 May 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/stackoverflow/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#q" rel="">Q&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#a" rel="">A&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#basic-authentication" rel="">Basic authentication&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#using-personal-access-tokens" rel="">Using personal access tokens&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/33655700/github-api-fetch-issues-with-exceeds-rate-limit-prematurely&lt;/a>&lt;/p>
+&lt;h2 id="q">&lt;span class="section-num">1&lt;/span> Q&lt;/h2>
+&lt;p>I am building an app that fetches the issues and pull requests of over 1K github repos, like this.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">$ curl -i &amp;#34;https://api.github.com/repos/user/repo/issues?state=closed&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>My problem is that, after the initial 60 iterations I get a rate limit error:&lt;/p></description></item></channel></rss>

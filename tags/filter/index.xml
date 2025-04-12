@@ -1,106 +1,106 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Filter - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Filter - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/filter/" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:a4fb225f-a49e-4a9e-927c-a0173212264d" rel="">INTRODUCTION</a></li>
-<li><span class="section-num">3</span> <a href="#h:a555d6ac-abe7-471a-872e-af21f9cfa13c" rel="">APPLICATION EXAMPLE</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:e89b04c8-78da-49f9-ae2b-4b9de35e7442" rel="">Project Siberia</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/f/p1714-kossmann.pdf</p>
-<p>对目前的架构来讲，和 <strong>粗糙索引</strong> 作用重叠。。</p>
-<h2 id="h:925d40ea-36be-4f97-92e1-5a9583172847"><span class="section-num">1</span> ABSTRACT</h2>
-<ul>
-<li><strong>ARF</strong>: Adaptive Range Filter, 自适应范围过滤器</li>
-<li>ARF is for Range queries, while</li>
-<li>BloomFilter is for Point queries</li>
-</ul>
-<h2 id="h:a4fb225f-a49e-4a9e-927c-a0173212264d"><span class="section-num">2</span> INTRODUCTION</h2>
-<h2 id="h:a555d6ac-abe7-471a-872e-af21f9cfa13c"><span class="section-num">3</span> APPLICATION EXAMPLE</h2>
-<h3 id="h:e89b04c8-78da-49f9-ae2b-4b9de35e7442"><span class="section-num">3.1</span> Project Siberia</h3>
-<ul>
-<li>Siberia 是 Hekaton 项目用于管理冷数据的一个项目
-<ul>
-<li>Hekaton 则是 SQL Server 套件中的内存数据库</li>
-</ul>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>查询处理</li>
-</ul>
-<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel="">Abstract</a></li>
-<li><span class="section-num">2</span> <a href="#h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903" rel="">INTRODUCTION</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： ../pdf/d/p1311-even.pdf</p>
-<h2 id="h:1786f904-c305-4cb3-9883-b0040924d2b1"><span class="section-num">1</span> Abstract</h2>
-<h2 id="h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903"><span class="section-num">2</span> INTRODUCTION</h2>
-<ul>
-<li>
-<p>What is a filter</p>
-<p>属于近似查询 (approximate membership query), 用于判断独具是否在集合中。</p>
-<ul>
-<li>如果输入在集合中，则必定输出 Yes</li>
-<li>如果不在集合中，则输出 Yes 的概率不能多于 \(\Sigma\)</li>
-</ul>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>What are filters used for
-<ul>
-<li>与精确查询相比
-<ul>
-<li>更省资源， 与数据量无关，而与 Σ （误报率）有关</li>
-<li>适于放在内存中，用于真正操作之前来过滤掉无效数据
-<ul>
-<li>比如 join</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>]]></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:4d4ce086-8979-4ce0-8e14-e0771827e7ad" rel="">INTRODUCTION</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:06c300b0-ac2c-4743-a09c-abb6ee673074" rel="">Range Filters</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:9ad4603f-9ca9-4dd4-a11b-086b2d5967fb" rel="">SNARF: A LEARNED FILTER</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:1952086c-7e65-4eee-b93d-38bb90429836" rel="">SNARF Description</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1632-vaidya.pdf</p>
-<h2 id="h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d"><span class="section-num">1</span> ABSTRACT</h2>
-<ul>
-<li>
-<p><strong>SNARF</strong>: Sparse Numerical Array-Based Range Filters
-基于稀疏数组的范围过滤器</p>
-</li>
-<li>
-<p>用于数值类型的范围过滤</p>
-</li>
-</ul>
-<h2 id="h:4d4ce086-8979-4ce0-8e14-e0771827e7ad"><span class="section-num">2</span> INTRODUCTION</h2>
-<ul>
-<li>Filters
-<ul>
-<li>
-<p>are space efficient but appropriate</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Filter on 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Recent content in Filter on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/filter/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:a4fb225f-a49e-4a9e-927c-a0173212264d" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:a555d6ac-abe7-471a-872e-af21f9cfa13c" rel="">APPLICATION EXAMPLE&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:e89b04c8-78da-49f9-ae2b-4b9de35e7442" rel="">Project Siberia&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/f/p1714-kossmann.pdf&lt;/p>
+&lt;p>对目前的架构来讲，和 &lt;strong>粗糙索引&lt;/strong> 作用重叠。。&lt;/p>
+&lt;h2 id="h:925d40ea-36be-4f97-92e1-5a9583172847">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
+&lt;ul>
+&lt;li>&lt;strong>ARF&lt;/strong>: Adaptive Range Filter, 自适应范围过滤器&lt;/li>
+&lt;li>ARF is for Range queries, while&lt;/li>
+&lt;li>BloomFilter is for Point queries&lt;/li>
+&lt;/ul>
+&lt;h2 id="h:a4fb225f-a49e-4a9e-927c-a0173212264d">&lt;span class="section-num">2&lt;/span> INTRODUCTION&lt;/h2>
+&lt;h2 id="h:a555d6ac-abe7-471a-872e-af21f9cfa13c">&lt;span class="section-num">3&lt;/span> APPLICATION EXAMPLE&lt;/h2>
+&lt;h3 id="h:e89b04c8-78da-49f9-ae2b-4b9de35e7442">&lt;span class="section-num">3.1&lt;/span> Project Siberia&lt;/h3>
+&lt;ul>
+&lt;li>Siberia 是 Hekaton 项目用于管理冷数据的一个项目
+&lt;ul>
+&lt;li>Hekaton 则是 SQL Server 套件中的内存数据库&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;!--listend-->
+&lt;ul>
+&lt;li>查询处理&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07">&lt;/a>&lt;/p></description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel="">Abstract&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： ../pdf/d/p1311-even.pdf&lt;/p>
+&lt;h2 id="h:1786f904-c305-4cb3-9883-b0040924d2b1">&lt;span class="section-num">1&lt;/span> Abstract&lt;/h2>
+&lt;h2 id="h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903">&lt;span class="section-num">2&lt;/span> INTRODUCTION&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>What is a filter&lt;/p>
+&lt;p>属于近似查询 (approximate membership query), 用于判断独具是否在集合中。&lt;/p>
+&lt;ul>
+&lt;li>如果输入在集合中，则必定输出 Yes&lt;/li>
+&lt;li>如果不在集合中，则输出 Yes 的概率不能多于 \(\Sigma\)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;!--listend-->
+&lt;ul>
+&lt;li>What are filters used for
+&lt;ul>
+&lt;li>与精确查询相比
+&lt;ul>
+&lt;li>更省资源， 与数据量无关，而与 Σ （误报率）有关&lt;/li>
+&lt;li>适于放在内存中，用于真正操作之前来过滤掉无效数据
+&lt;ul>
+&lt;li>比如 join&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel="">ABSTRACT&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:4d4ce086-8979-4ce0-8e14-e0771827e7ad" rel="">INTRODUCTION&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:06c300b0-ac2c-4743-a09c-abb6ee673074" rel="">Range Filters&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:9ad4603f-9ca9-4dd4-a11b-086b2d5967fb" rel="">SNARF: A LEARNED FILTER&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:1952086c-7e65-4eee-b93d-38bb90429836" rel="">SNARF Description&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1632-vaidya.pdf&lt;/p>
+&lt;h2 id="h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>SNARF&lt;/strong>: Sparse Numerical Array-Based Range Filters
+基于稀疏数组的范围过滤器&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>用于数值类型的范围过滤&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="h:4d4ce086-8979-4ce0-8e14-e0771827e7ad">&lt;span class="section-num">2&lt;/span> INTRODUCTION&lt;/h2>
+&lt;ul>
+&lt;li>Filters
+&lt;ul>
+&lt;li>
+&lt;p>are space efficient but appropriate&lt;/p></description></item></channel></rss>

@@ -1,199 +1,183 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Pg - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Pg - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL LDAP Authentication: A Step-by-Step Guide</title><link>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#postgresql-ldap-%e8%ae%a4%e8%af%81%e7%9a%84%e5%a5%bd%e5%a4%84" rel="">PostgreSQL LDAP 认证的好处</a></li>
-<li><span class="section-num">2</span> <a href="#%e5%9c%a8-postgresql-%e4%b8%ad%e9%85%8d%e7%bd%ae-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" rel="">在 PostgreSQL 中配置 LDAP 身份验证</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e4%bf%ae%e6%94%b9-pg-hba-dot-conf-%e6%96%87%e4%bb%b6" rel="">修改 <em>pg_hba.conf</em> 文件</a></li>
-<li><span class="section-num">2.2</span> <a href="#%e9%85%8d%e7%bd%ae-postgresql-%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%82%e6%95%b0" rel="">配置 PostgreSQL 服务器参数</a></li>
-<li><span class="section-num">2.3</span> <a href="#%e5%88%9b%e5%bb%ba%e8%a7%92%e8%89%b2%e5%92%8c%e6%8e%88%e4%ba%88%e6%9d%83%e9%99%90" rel="">创建角色和授予权限</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#%e5%ae%89%e5%85%a8%e8%af%84%e5%88%86-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e5%ae%89%e5%85%a8%e5%90%97" rel="">安全评分：PostgreSQL LDAP 身份验证安全吗？</a></li>
-<li><span class="section-num">4</span> <a href="#%e8%ae%be%e7%bd%ae-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e7%9a%84%e9%80%90%e6%ad%a5%e6%8c%87%e5%8d%97" rel="">设置 PostgreSQL LDAP 身份验证的逐步指南</a></li>
-<li><span class="section-num">5</span> <a href="#%e7%bb%93%e8%ae%ba" rel="">结论</a></li>
-<li><span class="section-num">6</span> <a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e8%a7%a3%e7%ad%94" rel="">常见问题解答</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer ">https://goteleport.com/learn/postgresql-ldap-authentication/</a></p>]]></description></item><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6J3&lt;/a>&lt;/p></description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e8%8a%82%e7%82%b9" rel="">节点</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#coordinator-%e4%b8%8e-worker" rel="">Coordinator 与 Worker</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e6%95%b0%e6%8d%ae" rel="">分布式数据</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e8%a1%a8%e7%b1%bb%e5%9e%8b" rel="">表类型</a></li>
-<li><span class="section-num">2.2</span> <a href="#shards" rel="">Shards</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#%e6%9f%a5%e8%af%a2%e6%89%a7%e8%a1%8c" rel="">查询执行</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html</a></p>
-<h2 id="节点"><span class="section-num">1</span> 节点</h2>
-<p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据库。</p>]]></description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#prelog" rel="">prelog</a></li>
-<li><span class="section-num">2</span> <a href="#configurable-parameters" rel="">Configurable parameters</a></li>
-<li><span class="section-num">3</span> <a href="#sicleanupqueue" rel="">SICleanupQueue</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86" rel="">重置后的处理</a></li>
-<li><span class="section-num">3.2</span> <a href="#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86" rel="">信号的处理</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p>
-<h2 id="prelog"><span class="section-num">1</span> prelog</h2>
-<p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
-minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
-maxMsgNum &gt;= nextMsgNum &gt;= minMsgNum。</p>]]></description></item><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>
-<li><span class="section-num">2</span> <a href="#where-it-all-start" rel="">Where it all start</a></li>
-<li><span class="section-num">3</span> <a href="#what-happens-behind-pg-plan-query" rel="">What happens behind <code>pg_plan_query</code></a></li>
-<li><span class="section-num">4</span> <a href="#set-base-rel-sizes" rel="">set_base_rel_sizes()</a></li>
-<li><span class="section-num">5</span> <a href="#set-base-rel-pathlist" rel="">set_base_rel_pathlist()</a></li>
-<li><span class="section-num">6</span> <a href="#generate-gather-paths" rel="">generate_gather_paths</a></li>
-<li><span class="section-num">7</span> <a href="#get-cheapest-fractional-path-and-create-plan" rel="">get_cheapest_fractional_path and create_plan</a></li>
-<li><span class="section-num">8</span> <a href="#examine-the-plan" rel="">Examine the Plan</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
-<h2 id="introduction"><span class="section-num">1</span> Introduction</h2>
-<p>当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：</p>]]></description></item><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/20-product-guide/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:2786e008-f119-411c-9a74-c638782209f4" rel="">Abort HashData</a></li>
-<li><span class="section-num">2</span> <a href="#h:ca6a6265-aba7-4649-915a-491dcafa2674" rel="">设计理念</a></li>
-<li><span class="section-num">3</span> <a href="#h:01e085d2-f9e4-466a-ac81-c3070862ea14" rel="">架构介绍</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:2583d853-abf9-4a9f-84b3-ad291185c046" rel="">管理模块</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:f3f697e1-8559-4318-a40f-d86b958503aa" rel="">用户模块</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:8c2b3d9a-f636-4b5f-8625-279bfd7efea6" rel="">产品特性</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#h:e8f5a5da-4a1d-41b9-9543-8ca31e03ab5a" rel="">数据仓库服务</a></li>
-<li><span class="section-num">4.2</span> <a href="#h:4ecba8ce-fd69-4546-bc38-73ac880f78d5" rel="">灵活高效的业务支持</a></li>
-<li><span class="section-num">4.3</span> <a href="#h:20f1781a-a1db-4f47-b65b-080e7f6b2383" rel="">多维度弹性</a></li>
-<li><span class="section-num">4.4</span> <a href="#h:8f6d0651-d755-482a-af31-b728b469fb87" rel="">高可用和低成本</a></li>
-<li><span class="section-num">4.5</span> <a href="#h:f616d73d-1198-4d40-a663-dee767e725d5" rel="">接近零停机时间</a></li>
-<li><span class="section-num">4.6</span> <a href="#h:3a45f298-f33b-4f3b-9aca-e30f4cc5d985" rel="">优化的硬件配置</a></li>
-<li><span class="section-num">4.7</span> <a href="#h:9a14c0a7-21b5-472b-bf1d-318932ebe3ec" rel="">兼容开源</a></li>
-<li><span class="section-num">4.8</span> <a href="#h:ff27a80f-1230-4c8c-b929-8e7a6928a7d0" rel="">完善的数据库能力</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.hashdata.xyz/docs/20-product-guide/" target="_blank" rel="noopener noreffer ">https://docs.hashdata.xyz/docs/20-product-guide/</a></p>
-<h2 id="h:2786e008-f119-411c-9a74-c638782209f4"><span class="section-num">1</span> Abort HashData</h2>
-<p>HashData was founded in 2016 by the guys who built Apache HAWQ, one of the most
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pg on 杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Recent content in Pg on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/index.xml" rel="self" type="application/rss+xml"/><item><title>PostgreSQL LDAP Authentication: A Step-by-Step Guide</title><link>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#postgresql-ldap-%e8%ae%a4%e8%af%81%e7%9a%84%e5%a5%bd%e5%a4%84" rel="">PostgreSQL LDAP 认证的好处&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e5%9c%a8-postgresql-%e4%b8%ad%e9%85%8d%e7%bd%ae-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81" rel="">在 PostgreSQL 中配置 LDAP 身份验证&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#%e4%bf%ae%e6%94%b9-pg-hba-dot-conf-%e6%96%87%e4%bb%b6" rel="">修改 &lt;em>pg_hba.conf&lt;/em> 文件&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#%e9%85%8d%e7%bd%ae-postgresql-%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%82%e6%95%b0" rel="">配置 PostgreSQL 服务器参数&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#%e5%88%9b%e5%bb%ba%e8%a7%92%e8%89%b2%e5%92%8c%e6%8e%88%e4%ba%88%e6%9d%83%e9%99%90" rel="">创建角色和授予权限&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e5%ae%89%e5%85%a8%e8%af%84%e5%88%86-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e5%ae%89%e5%85%a8%e5%90%97" rel="">安全评分：PostgreSQL LDAP 身份验证安全吗？&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#%e8%ae%be%e7%bd%ae-postgresql-ldap-%e8%ba%ab%e4%bb%bd%e9%aa%8c%e8%af%81%e7%9a%84%e9%80%90%e6%ad%a5%e6%8c%87%e5%8d%97" rel="">设置 PostgreSQL LDAP 身份验证的逐步指南&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#%e7%bb%93%e8%ae%ba" rel="">结论&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e8%a7%a3%e7%ad%94" rel="">常见问题解答&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer ">https://goteleport.com/learn/postgresql-ldap-authentication/&lt;/a>&lt;/p></description></item><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6J3&lt;/a>&lt;/p></description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e8%8a%82%e7%82%b9" rel="">节点&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#coordinator-%e4%b8%8e-worker" rel="">Coordinator 与 Worker&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e5%88%86%e5%b8%83%e5%bc%8f%e6%95%b0%e6%8d%ae" rel="">分布式数据&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#%e8%a1%a8%e7%b1%bb%e5%9e%8b" rel="">表类型&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#shards" rel="">Shards&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e6%9f%a5%e8%af%a2%e6%89%a7%e8%a1%8c" rel="">查询执行&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer ">https://www.51cto.com/article/703272.html&lt;/a>&lt;/p>
+&lt;h2 id="节点">&lt;span class="section-num">1&lt;/span> 节点&lt;/h2>
+&lt;p>Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据库。&lt;/p></description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#prelog" rel="">prelog&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#configurable-parameters" rel="">Configurable parameters&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#sicleanupqueue" rel="">SICleanupQueue&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86" rel="">重置后的处理&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86" rel="">信号的处理&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c&lt;/a>&lt;/p>
+&lt;h2 id="prelog">&lt;span class="section-num">1&lt;/span> prelog&lt;/h2>
+&lt;p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
+minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &amp;gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
+maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p></description></item><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/20-product-guide/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:2786e008-f119-411c-9a74-c638782209f4" rel="">Abort HashData&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:ca6a6265-aba7-4649-915a-491dcafa2674" rel="">设计理念&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:01e085d2-f9e4-466a-ac81-c3070862ea14" rel="">架构介绍&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:2583d853-abf9-4a9f-84b3-ad291185c046" rel="">管理模块&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:f3f697e1-8559-4318-a40f-d86b958503aa" rel="">用户模块&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:8c2b3d9a-f636-4b5f-8625-279bfd7efea6" rel="">产品特性&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:e8f5a5da-4a1d-41b9-9543-8ca31e03ab5a" rel="">数据仓库服务&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:4ecba8ce-fd69-4546-bc38-73ac880f78d5" rel="">灵活高效的业务支持&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:20f1781a-a1db-4f47-b65b-080e7f6b2383" rel="">多维度弹性&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.4&lt;/span> &lt;a href="#h:8f6d0651-d755-482a-af31-b728b469fb87" rel="">高可用和低成本&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.5&lt;/span> &lt;a href="#h:f616d73d-1198-4d40-a663-dee767e725d5" rel="">接近零停机时间&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.6&lt;/span> &lt;a href="#h:3a45f298-f33b-4f3b-9aca-e30f4cc5d985" rel="">优化的硬件配置&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.7&lt;/span> &lt;a href="#h:9a14c0a7-21b5-472b-bf1d-318932ebe3ec" rel="">兼容开源&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.8&lt;/span> &lt;a href="#h:ff27a80f-1230-4c8c-b929-8e7a6928a7d0" rel="">完善的数据库能力&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://docs.hashdata.xyz/docs/20-product-guide/" target="_blank" rel="noopener noreffer ">https://docs.hashdata.xyz/docs/20-product-guide/&lt;/a>&lt;/p>
+&lt;h2 id="h:2786e008-f119-411c-9a74-c638782209f4">&lt;span class="section-num">1&lt;/span> Abort HashData&lt;/h2>
+&lt;p>HashData was founded in 2016 by the guys who built Apache HAWQ, one of the most
 advanced SQL on Hadoop solutions. As the flagship product of the company, HashData
 Warehousing is a data warehouse service built for the cloud. While 100% compatible with
-the analytics interfaces of the open source MPP database Greenplum，HashData&rsquo;s unique
+the analytics interfaces of the open source MPP database Greenplum，HashData&amp;rsquo;s unique
 architecture delivers proven breakthroughs in performance, concurrency, elasticity and
-simplicity.</p>]]></description></item><item><title>OCI Database with PostgreSQL: 完善OCI的云数据库套件以满足各种需求</title><link>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</link><pubDate>Fri, 08 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:2f8a6966-c6d0-4c53-bd48-a538dcab3522" rel="">为什么 OCI Database for PostgreSQL 脱颖而出</a></li>
-<li><span class="section-num">2</span> <a href="#h:d1146bb4-c2b0-45a9-bfdd-0e5a6f5671e7" rel="">Vanilla PostgreSQL 的问题</a></li>
-<li><span class="section-num">3</span> <a href="#h:ed0ac907-e092-4485-942e-d97ced71c119" rel="">OCI Database with PostgreSQL – 高级架构</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:f3643978-df64-4c44-91e6-3eb81331394a" rel="">数据库优化存储 (DbOS) 的优点</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:edaa1505-1793-4798-94fb-fca3c6a5e41f" rel="">进一步的存储优化</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:da77a97b-e786-464e-aafc-82fc707ff5af" rel="">结论</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&mid=2247497316&idx=1&sn=d08b84d63ab2e4b69949af9170762189&chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&mpshare=1&scene=1&srcid=1208AtRH30qSa2LdMxzmf3sV&sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd</a></p>
-<p>对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并减少了管理需求。</p>]]></description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel="">Barriers: 协调进程的同步屏障</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:2d66dbfb-2295-40bf-bab2-22f8c77a3414" rel="">静态参与</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:d5dd2d64-5c1c-470a-bc3b-d3a9acbd7356" rel="">TODO: Barriers API</a></li>
-<li><span class="section-num">3</span> <a href="#h:4733ab46-ff4d-47aa-93eb-44dcbfba482a" rel="">TODO: how it is used in hash jon…</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>简单总结一下 PG 中进程同步用到的屏障：
-<a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c</a></p>
-<h2 id="h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c"><span class="section-num">1</span> Barriers: 协调进程的同步屏障</h2>
-<p>来自维基百科[1]：</p>]]></description></item><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/10790/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:6019344d-20aa-4954-b9ed-429bc6cf3cdc" rel="">慢查询</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:d92eb969-c035-4657-ac55-97449699f838" rel="">功能说明</a></li>
-<li><span class="section-num">1.2</span> <a href="#h:48d6dc25-ade1-49c2-9ce0-01d0ecbd8a70" rel="">监控视图</a></li>
-<li><span class="section-num">1.3</span> <a href="#h:07fca319-fb97-4c7b-a284-91bad80ce140" rel="">慢 SQL 列表</a></li>
-<li><span class="section-num">1.4</span> <a href="#h:e8ff9b3e-464b-436e-8cee-3fabc34a65b1" rel="">慢 SQL 统计分析</a></li>
-<li><span class="section-num">1.5</span> <a href="#h:ec0e6696-823d-4eb2-8916-b979e9aa045b" rel="">功能说明</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:674b234e-48fd-42bf-a2ce-904622df68ef" rel="">错误日志</a></li>
-<li><span class="section-num">3</span> <a href="#h:224bdb02-4654-4c42-963f-6e8ca391f4e9" rel="">错误日志默认设置</a></li>
-<li><span class="section-num">4</span> <a href="#h:62c155e2-aeaa-4b3e-9e5e-e1c5ac54a187" rel="">运行日志管理</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#h:a3fb6be9-2579-4a55-a635-798f91063de3" rel="">PG_LOG 介绍</a></li>
-<li><span class="section-num">4.2</span> <a href="#h:f07d52de-34f0-4c36-84ed-b1592578e807" rel="">修改 PG_LOG 保留时长</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/10790</a></p>
-<p>摘自：<a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546</a></p>
-<h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"><span class="section-num">1</span> 慢查询</h2>
-<h3 id="h:d92eb969-c035-4657-ac55-97449699f838"><span class="section-num">1.1</span> 功能说明</h3>
-<p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ <strong>慢查询</strong> ”，对应语句称为“ <strong>慢查询语句</strong> （俗称 <strong>慢 SQL</strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
-<strong>慢查询分析</strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：</p>]]></description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel="">什么是多版本并发控制？</a></li>
-<li><span class="section-num">2</span> <a href="#h:6d4191d2-59bb-4b0a-9d33-35f6dfb1a233" rel="">PostgreSQL 的多版本并发控制</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:65745514-9b1d-4b7c-96f9-71c9c8467a81" rel="">多版本存储</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:c78fa7fa-85b6-4964-aef9-744751c2d2db" rel="">Version Vacuum</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:4d04ba17-d382-433b-bcb8-1f0aa3362be6" rel="">为什么 PostgreSQL 的 MVCC 是最糟糕的</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:3082559f-73cc-4963-a475-f83fafea6148" rel="">Problem #1: Version Copying</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:ba891e94-db54-4062-ba24-e4fe99c89e55" rel="">Problem #2: Table Bloat</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:c1e21598-c3d4-4311-8008-f6fc9af9a5e3" rel="">Problem #3: Secondary Index Maintenance</a></li>
-<li><span class="section-num">3.4</span> <a href="#h:c28e3ac5-8660-487b-b98d-358af86e369b" rel="">Problem #4: Vacuum Management</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:2bafa9d8-72e6-462c-bb3f-7e0934bcf08f" rel="">Concluding Remarks</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
-<h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5"><span class="section-num">1</span> 什么是多版本并发控制？</h2>
-<ul>
-<li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。</li>
-<li>MVCC 的基本思想是，DBMS 永远不会覆盖现有行。
-<ul>
-<li>对于每个（逻辑）行，DBMS 维护多个（物理）版本。</li>
-<li>当应用程序执行查询时，DBMS 根据某个版本排序（例如创建时间戳），确定要检索哪个版本以满足请求。</li>
-</ul>
-</li>
-</ul>
-<p>这种方法的好处是，多个查询可以读取旧版本的行，而不会被更新它的其他查询阻塞。查询在数据库快照上观察到它开始查询事务时的状态（快照隔离）。</p>]]></description></item></channel></rss>
+simplicity.&lt;/p></description></item><item><title>OCI Database with PostgreSQL: 完善OCI的云数据库套件以满足各种需求</title><link>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</link><pubDate>Fri, 08 Dec 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:2f8a6966-c6d0-4c53-bd48-a538dcab3522" rel="">为什么 OCI Database for PostgreSQL 脱颖而出&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:d1146bb4-c2b0-45a9-bfdd-0e5a6f5671e7" rel="">Vanilla PostgreSQL 的问题&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:ed0ac907-e092-4485-942e-d97ced71c119" rel="">OCI Database with PostgreSQL – 高级架构&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:f3643978-df64-4c44-91e6-3eb81331394a" rel="">数据库优化存储 (DbOS) 的优点&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:edaa1505-1793-4798-94fb-fca3c6a5e41f" rel="">进一步的存储优化&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:da77a97b-e786-464e-aafc-82fc707ff5af" rel="">结论&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;amp;mid=2247497316&amp;amp;idx=1&amp;amp;sn=d08b84d63ab2e4b69949af9170762189&amp;amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd&lt;/a>&lt;/p>
+&lt;p>对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并减少了管理需求。&lt;/p></description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel="">Barriers: 协调进程的同步屏障&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:2d66dbfb-2295-40bf-bab2-22f8c77a3414" rel="">静态参与&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:d5dd2d64-5c1c-470a-bc3b-d3a9acbd7356" rel="">TODO: Barriers API&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:4733ab46-ff4d-47aa-93eb-44dcbfba482a" rel="">TODO: how it is used in hash jon…&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>简单总结一下 PG 中进程同步用到的屏障：
+&lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c&lt;/a>&lt;/p>
+&lt;h2 id="h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c">&lt;span class="section-num">1&lt;/span> Barriers: 协调进程的同步屏障&lt;/h2>
+&lt;p>来自维基百科[1]：&lt;/p></description></item><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/10790/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:6019344d-20aa-4954-b9ed-429bc6cf3cdc" rel="">慢查询&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:d92eb969-c035-4657-ac55-97449699f838" rel="">功能说明&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:48d6dc25-ade1-49c2-9ce0-01d0ecbd8a70" rel="">监控视图&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:07fca319-fb97-4c7b-a284-91bad80ce140" rel="">慢 SQL 列表&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:e8ff9b3e-464b-436e-8cee-3fabc34a65b1" rel="">慢 SQL 统计分析&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.5&lt;/span> &lt;a href="#h:ec0e6696-823d-4eb2-8916-b979e9aa045b" rel="">功能说明&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:674b234e-48fd-42bf-a2ce-904622df68ef" rel="">错误日志&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:224bdb02-4654-4c42-963f-6e8ca391f4e9" rel="">错误日志默认设置&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:62c155e2-aeaa-4b3e-9e5e-e1c5ac54a187" rel="">运行日志管理&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:a3fb6be9-2579-4a55-a635-798f91063de3" rel="">PG_LOG 介绍&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:f07d52de-34f0-4c36-84ed-b1592578e807" rel="">修改 PG_LOG 保留时长&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/10790&lt;/a>&lt;/p>
+&lt;p>摘自：&lt;a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546&lt;/a>&lt;/p>
+&lt;h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc">&lt;span class="section-num">1&lt;/span> 慢查询&lt;/h2>
+&lt;h3 id="h:d92eb969-c035-4657-ac55-97449699f838">&lt;span class="section-num">1.1&lt;/span> 功能说明&lt;/h3>
+&lt;p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ &lt;strong>慢查询&lt;/strong> ”，对应语句称为“ &lt;strong>慢查询语句&lt;/strong> （俗称 &lt;strong>慢 SQL&lt;/strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
+&lt;strong>慢查询分析&lt;/strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：&lt;/p></description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel="">什么是多版本并发控制？&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:6d4191d2-59bb-4b0a-9d33-35f6dfb1a233" rel="">PostgreSQL 的多版本并发控制&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:65745514-9b1d-4b7c-96f9-71c9c8467a81" rel="">多版本存储&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:c78fa7fa-85b6-4964-aef9-744751c2d2db" rel="">Version Vacuum&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:4d04ba17-d382-433b-bcb8-1f0aa3362be6" rel="">为什么 PostgreSQL 的 MVCC 是最糟糕的&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:3082559f-73cc-4963-a475-f83fafea6148" rel="">Problem #1: Version Copying&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:ba891e94-db54-4062-ba24-e4fe99c89e55" rel="">Problem #2: Table Bloat&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:c1e21598-c3d4-4311-8008-f6fc9af9a5e3" rel="">Problem #3: Secondary Index Maintenance&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:c28e3ac5-8660-487b-b98d-358af86e369b" rel="">Problem #4: Vacuum Management&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:2bafa9d8-72e6-462c-bb3f-7e0934bcf08f" rel="">Concluding Remarks&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/&lt;/a>&lt;/p>
+&lt;h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5">&lt;span class="section-num">1&lt;/span> 什么是多版本并发控制？&lt;/h2>
+&lt;ul>
+&lt;li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。&lt;/li>
+&lt;li>MVCC 的基本思想是，DBMS 永远不会覆盖现有行。
+&lt;ul>
+&lt;li>对于每个（逻辑）行，DBMS 维护多个（物理）版本。&lt;/li>
+&lt;li>当应用程序执行查询时，DBMS 根据某个版本排序（例如创建时间戳），确定要检索哪个版本以满足请求。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>这种方法的好处是，多个查询可以读取旧版本的行，而不会被更新它的其他查询阻塞。查询在数据库快照上观察到它开始查询事务时的状态（快照隔离）。&lt;/p></description></item></channel></rss>

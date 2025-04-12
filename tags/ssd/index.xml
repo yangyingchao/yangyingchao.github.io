@@ -1,31 +1,31 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ssd - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/ssd/</link><description>Ssd - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ssd/" rel="self" type="application/rss+xml"/><item><title>Your Read is Our Priority in Flash Storage</title><link>https://yangyingchao.github.io/p1911-lee/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1911-lee/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:ebffcd16-173e-4644-a00f-8f6d92c798f0" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:f8ebb4bf-cdee-4786-920f-9e5cca36c7ca" rel="">INTRODUCTION</a></li>
-<li><span class="section-num">3</span> <a href="#h:3fd376b5-2ff5-4320-b346-b0e2e679ba7f" rel="">BACKGROUND</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:d5416d09-f7a7-4448-b41e-c5f56ce6dc40" rel="">I/O Asymmetry in Flash SSDs</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:5a068019-5346-450f-b2b9-bb52b0395dfe" rel="">RAW Protocol in DBMS Buffer</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:b1ad1102-62a1-4ebf-a3d0-5175fb229e15" rel="">RAW Protocol in Storage Buffer</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:120954ae-7c0b-4356-9db3-2603f1c95561" rel="">READ STALL IN DBMS AND RW COMMAND</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#h:1961aec8-3148-4626-8ea7-d7aa8e3630c7" rel="">Read Stalls inRelational DBMS Buffer</a></li>
-<li><span class="section-num">4.2</span> <a href="#h:f4ca1bee-0c63-49d3-ad37-d8b7ba336e23" rel="">RW Command</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#h:83365df9-93ca-4225-93ac-036eb29a80cf" rel="">READ STALL IN STORAGE AND R-BUF</a>
-<ul>
-<li><span class="section-num">5.1</span> <a href="#h:4af9a557-45e7-494e-8d5b-540929258590" rel="">Read Stalls in SSD Buffer</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/e/p1911-lee.pdf</p>
-<h2 id="h:ebffcd16-173e-4644-a00f-8f6d92c798f0"><span class="section-num">1</span> ABSTRACT</h2>
-<ul>
-<li>
-<p>问题： <strong>读阻塞</strong></p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ssd on 杂货铺</title><link>https://yangyingchao.github.io/tags/ssd/</link><description>Recent content in Ssd on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ssd/index.xml" rel="self" type="application/rss+xml"/><item><title>Your Read is Our Priority in Flash Storage</title><link>https://yangyingchao.github.io/p1911-lee/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1911-lee/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:ebffcd16-173e-4644-a00f-8f6d92c798f0" rel="">ABSTRACT&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:f8ebb4bf-cdee-4786-920f-9e5cca36c7ca" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:3fd376b5-2ff5-4320-b346-b0e2e679ba7f" rel="">BACKGROUND&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:d5416d09-f7a7-4448-b41e-c5f56ce6dc40" rel="">I/O Asymmetry in Flash SSDs&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:5a068019-5346-450f-b2b9-bb52b0395dfe" rel="">RAW Protocol in DBMS Buffer&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:b1ad1102-62a1-4ebf-a3d0-5175fb229e15" rel="">RAW Protocol in Storage Buffer&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:120954ae-7c0b-4356-9db3-2603f1c95561" rel="">READ STALL IN DBMS AND RW COMMAND&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:1961aec8-3148-4626-8ea7-d7aa8e3630c7" rel="">Read Stalls inRelational DBMS Buffer&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:f4ca1bee-0c63-49d3-ad37-d8b7ba336e23" rel="">RW Command&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:83365df9-93ca-4225-93ac-036eb29a80cf" rel="">READ STALL IN STORAGE AND R-BUF&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:4af9a557-45e7-494e-8d5b-540929258590" rel="">Read Stalls in SSD Buffer&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/e/p1911-lee.pdf&lt;/p>
+&lt;h2 id="h:ebffcd16-173e-4644-a00f-8f6d92c798f0">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>问题： &lt;strong>读阻塞&lt;/strong>&lt;/p></description></item></channel></rss>

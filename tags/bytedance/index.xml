@@ -1,32 +1,32 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>ByteDance - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/bytedance/</link><description>ByteDance - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/bytedance/" rel="self" type="application/rss+xml"/><item><title>ByteHTAP: ByteDance’s HTAP System with High Data Freshness and Strong Data Consistency</title><link>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:1d0256eb-7020-40a9-8734-ff2cd768b879" rel="">INTRODUCTION</a></li>
-<li><span class="section-num">2</span> <a href="#h:f8850aab-d346-4ff0-9db5-7a5014c2be57" rel="">RELATED WORK</a></li>
-<li><span class="section-num">3</span> <a href="#h:2b77a1b6-e6f1-4061-9ba0-b25ce802c414" rel="">SYSTEM ARCHITECTURE</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:12bb623b-2631-4d79-a371-c3f4e2d4f331" rel="">ByteNDB Overview</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:0e2a5f9a-94a5-468d-b067-77b7e5b84e75" rel="">System Overview</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:bbd56a7b-4e5b-417f-9186-7d8a6a2ea1cd" rel="">Metadata Service</a></li>
-<li><span class="section-num">3.4</span> <a href="#h:e1123c8f-6aaa-4885-b6f6-60ba97a24542" rel="">OLAP Engine</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:efe671ff-4fbf-4403-93e8-dace57e327e3" rel="">SHARED STORAGE WITH HIGH DATA FRESHNESS</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#h:a2a82346-1519-440d-a9ea-5dc25449b2bc" rel="">Delta Store</a></li>
-<li><span class="section-num">4.2</span> <a href="#h:0c98ab5d-943f-4a7d-95e6-e7c13a230012" rel="">Base Store</a></li>
-<li><span class="section-num">4.3</span> <a href="#h:bb669fd7-9dac-4593-954c-febfc556e2d9" rel="">High Data Freshness</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#h:1a6bd9a4-09ea-406c-b57d-ab9ac767366e" rel="">LSN-BASED STRONG DATA CONSISTENCY</a></li>
-<li><span class="section-num">6</span> <a href="#h:c50f0fdb-da92-467e-a262-6eaf4fe962b1" rel="">OLAP QUERY PERFORMANCE OPTIMIZATION</a>
-<ul>
-<li><span class="section-num">6.1</span> <a href="#h:43cd5013-4a01-4792-8ddd-dad936aebd11" rel="">Delete Optimization for Scans</a></li>
-<li><span class="section-num">6.2</span> <a href="#h:6529c719-ecf6-4f88-81ca-b2b81039ac09" rel="">Computation Pushdown to Storage Engine</a></li>
-<li><span class="section-num">6.3</span> <a href="#h:c9ff9c1e-96b2-488b-94d5-3b35d3a459d7" rel="">OLAP Query Engine Optimization</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ByteDance on 杂货铺</title><link>https://yangyingchao.github.io/tags/bytedance/</link><description>Recent content in ByteDance on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/bytedance/index.xml" rel="self" type="application/rss+xml"/><item><title>ByteHTAP: ByteDance’s HTAP System with High Data Freshness and Strong Data Consistency</title><link>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:1d0256eb-7020-40a9-8734-ff2cd768b879" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:f8850aab-d346-4ff0-9db5-7a5014c2be57" rel="">RELATED WORK&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:2b77a1b6-e6f1-4061-9ba0-b25ce802c414" rel="">SYSTEM ARCHITECTURE&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:12bb623b-2631-4d79-a371-c3f4e2d4f331" rel="">ByteNDB Overview&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:0e2a5f9a-94a5-468d-b067-77b7e5b84e75" rel="">System Overview&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:bbd56a7b-4e5b-417f-9186-7d8a6a2ea1cd" rel="">Metadata Service&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:e1123c8f-6aaa-4885-b6f6-60ba97a24542" rel="">OLAP Engine&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:efe671ff-4fbf-4403-93e8-dace57e327e3" rel="">SHARED STORAGE WITH HIGH DATA FRESHNESS&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:a2a82346-1519-440d-a9ea-5dc25449b2bc" rel="">Delta Store&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:0c98ab5d-943f-4a7d-95e6-e7c13a230012" rel="">Base Store&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:bb669fd7-9dac-4593-954c-febfc556e2d9" rel="">High Data Freshness&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:1a6bd9a4-09ea-406c-b57d-ab9ac767366e" rel="">LSN-BASED STRONG DATA CONSISTENCY&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:c50f0fdb-da92-467e-a262-6eaf4fe962b1" rel="">OLAP QUERY PERFORMANCE OPTIMIZATION&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">6.1&lt;/span> &lt;a href="#h:43cd5013-4a01-4792-8ddd-dad936aebd11" rel="">Delete Optimization for Scans&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6.2&lt;/span> &lt;a href="#h:6529c719-ecf6-4f88-81ca-b2b81039ac09" rel="">Computation Pushdown to Storage Engine&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6.3&lt;/span> &lt;a href="#h:c9ff9c1e-96b2-488b-94d5-3b35d3a459d7" rel="">OLAP Query Engine Optimization&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf&lt;/p></description></item></channel></rss>

@@ -1,85 +1,85 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Cpp - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/cpp/</link><description>Cpp - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 14 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/cpp/" rel="self" type="application/rss+xml"/><item><title>C++ String Conversion: Exploring std::from_chars in C++17 to C++26</title><link>https://yangyingchao.github.io/www_cppstories_com_fromchars/</link><pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_cppstories_com_fromchars/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#before-c-plus-plus-17" rel="">Before C++17</a></li>
-<li><span class="section-num">2</span> <a href="#converting-from-characters-to-numbers-from-chars" rel="">Converting From Characters to Numbers: from_chars</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e7%a4%ba%e4%be%8b" rel="">示例</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#%e6%80%a7%e8%83%bd" rel="">性能</a></li>
-<li><span class="section-num">4</span> <a href="#c-plus-plus-23-%e6%9b%b4%e6%96%b0" rel="">C++23 更新</a></li>
-<li><span class="section-num">5</span> <a href="#c-plus-plus-26-%e6%9b%b4%e6%96%b0" rel="">C++26 更新</a></li>
-<li><span class="section-num">6</span> <a href="#c-plus-plus-%e4%b8%ad%e5%af%b9-std-from-chars-%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e6%94%af%e6%8c%81" rel="">C++ 中对 std::from_chars 的编译器支持</a></li>
-<li><span class="section-num">7</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2018/12/fromchars/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2018/12/fromchars/</a></p>
-<p>随着引入 C++17，C++标准库通过添加 <code>std::from_chars</code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 <code>std::from_chars</code> 如何可以改变您对字符串转换的方法。</p>]]></description></item><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/four-views-in-cpp23/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:fac5fec9-45cc-4f3d-852b-d06a6b989983" rel="">String View (C++17) SVG Image</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:b9c83c11-bb0b-4c53-83e8-cefa5214d4c2" rel=""><code>string_view</code> vs <code>const string &amp;</code></a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:e386b658-db23-445a-ab6a-06bb367950ac" rel="">Span (C++20)</a></li>
-<li><span class="section-num">3</span> <a href="#h:faf47418-f580-4b64-9f0d-16b18af5671e" rel="">Range Views (C++20)</a></li>
-<li><span class="section-num">4</span> <a href="#h:ae160436-19fe-4900-bddf-a4c4e00ccebc" rel="">MD Span (C++23)</a></li>
-<li><span class="section-num">5</span> <a href="#h:5ebc8985-1155-4cf3-a4ac-588b2b331ebe" rel="">Comparing Spans to Range Views</a></li>
-<li><span class="section-num">6</span> <a href="#h:adcb85b9-4fa7-45fa-860b-9c99c7000414" rel="">Summary</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2023/four-views-in-cpp23/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/four-views-in-cpp23/</a></p>
-<p>在本博客文章中，我们将探讨现代 C++中引入的几种不同的视图/引用类型。第一种是 C++17 中新增的 <code>string_view</code> 。
-C++20 引入了 <code>std::span</code> 和 <code>ranges</code> 视图。最后新增的是来自 C++23 的 <code>std::mdspan</code> 。</p>]]></description></item><item><title>What it means when you convert between different shared_ptrs - The Old New Thing</title><link>https://yangyingchao.github.io/p108611/</link><pubDate>Fri, 18 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p108611/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611" target="_blank" rel="noopener noreffer ">https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611</a></p>
-<p>C++中的 <code>shared_ptr</code> 管理一个引用计数指针。通常情况下，它是一个指向对象的指针，当最后一个引用过期时将被删除。但它不一定非得是这样。</p>]]></description></item><item><title>All Major C++17 Features You Should Know</title><link>https://yangyingchao.github.io/all-major-c-17-features-you-should-know/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/all-major-c-17-features-you-should-know/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:5d1ffb1b-4df4-4e37-82c6-58427dc149e4" rel="">Language Features</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:771f9d85-5896-4a45-8ce1-1ab7861af069" rel="">New auto rules for direct-list-initialization</a></li>
-<li><span class="section-num">1.2</span> <a href="#h:ae9aa599-ee2e-4fbf-8ac2-808e6666c693" rel="">static_assert with no message</a></li>
-<li><span class="section-num">1.3</span> <a href="#h:791c735d-4e0a-4e1b-bea9-592ef14dcdf6" rel="">typename in a template template parameter</a></li>
-<li><span class="section-num">1.4</span> <a href="#h:e5f75c48-e26e-445d-91cd-cb819d8017c4" rel="">Nested namespace definition</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2017/01/cpp17features/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2017/01/cpp17features/</a></p>
-<h2 id="h:5d1ffb1b-4df4-4e37-82c6-58427dc149e4"><span class="section-num">1</span> <a href="https://www.cppstories.com/2017/01/cpp17features/#language-features" target="_blank" rel="noopener noreffer ">Language Features</a></h2>
-<h3 id="h:771f9d85-5896-4a45-8ce1-1ab7861af069"><span class="section-num">1.1</span> <a href="https://www.cppstories.com/2017/01/cpp17features/#new-auto-rules-for-direct-list-initialization" target="_blank" rel="noopener noreffer ">New auto rules for direct-list-initialization</a></h3>
-<h3 id="h:ae9aa599-ee2e-4fbf-8ac2-808e6666c693"><span class="section-num">1.2</span> <a href="https://www.cppstories.com/2017/01/cpp17features/#static_assert-with-no-message" target="_blank" rel="noopener noreffer ">static_assert with no message</a></h3>
-<p><code>static_assert()</code> 可以不用再写 message 了， 类似 C <code>assert</code></p>]]></description></item><item><title>std::initializer_list in C++</title><link>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:bfb895f8-a465-4cb7-a534-ad7148fe328d" rel="">Referencing local array</a></li>
-<li><span class="section-num">2</span> <a href="#h:e1ac2da6-09b6-49cc-95eb-c30b134cd45c" rel="">The cost of copying elements</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/initializer_list_improvements/</a></p>
-<h2 id="h:bfb895f8-a465-4cb7-a534-ad7148fe328d"><span class="section-num">1</span> <a href="https://www.cppstories.com/2023/initializer_list_improvements/#1-referencing-local-array" target="_blank" rel="noopener noreffer ">Referencing local array</a></h2>
-<p><code>std::initializer_list</code> 在使用中会转化成为常量对象的匿名局部数组：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">wrong</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// for illustration only!
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">};</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">wrong</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>The above code is equivalent to the following:</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cpp on 杂货铺</title><link>https://yangyingchao.github.io/tags/cpp/</link><description>Recent content in Cpp on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 14 Oct 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/cpp/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ String Conversion: Exploring std::from_chars in C++17 to C++26</title><link>https://yangyingchao.github.io/www_cppstories_com_fromchars/</link><pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www_cppstories_com_fromchars/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#before-c-plus-plus-17" rel="">Before C++17&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#converting-from-characters-to-numbers-from-chars" rel="">Converting From Characters to Numbers: from_chars&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#%e7%a4%ba%e4%be%8b" rel="">示例&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e6%80%a7%e8%83%bd" rel="">性能&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#c-plus-plus-23-%e6%9b%b4%e6%96%b0" rel="">C++23 更新&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#c-plus-plus-26-%e6%9b%b4%e6%96%b0" rel="">C++26 更新&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#c-plus-plus-%e4%b8%ad%e5%af%b9-std-from-chars-%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e6%94%af%e6%8c%81" rel="">C++ 中对 std::from_chars 的编译器支持&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#%e6%80%bb%e7%bb%93" rel="">总结&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2018/12/fromchars/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2018/12/fromchars/&lt;/a>&lt;/p>
+&lt;p>随着引入 C++17，C++标准库通过添加 &lt;code>std::from_chars&lt;/code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 &lt;code>std::from_chars&lt;/code> 如何可以改变您对字符串转换的方法。&lt;/p></description></item><item><title>Spans, string_view, and Ranges - Four View types (C++17 to C++23) - C++ Stories</title><link>https://yangyingchao.github.io/four-views-in-cpp23/</link><pubDate>Tue, 10 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/four-views-in-cpp23/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:fac5fec9-45cc-4f3d-852b-d06a6b989983" rel="">String View (C++17) SVG Image&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:b9c83c11-bb0b-4c53-83e8-cefa5214d4c2" rel="">&lt;code>string_view&lt;/code> vs &lt;code>const string &amp;amp;&lt;/code>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:e386b658-db23-445a-ab6a-06bb367950ac" rel="">Span (C++20)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:faf47418-f580-4b64-9f0d-16b18af5671e" rel="">Range Views (C++20)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:ae160436-19fe-4900-bddf-a4c4e00ccebc" rel="">MD Span (C++23)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:5ebc8985-1155-4cf3-a4ac-588b2b331ebe" rel="">Comparing Spans to Range Views&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:adcb85b9-4fa7-45fa-860b-9c99c7000414" rel="">Summary&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2023/four-views-in-cpp23/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/four-views-in-cpp23/&lt;/a>&lt;/p>
+&lt;p>在本博客文章中，我们将探讨现代 C++中引入的几种不同的视图/引用类型。第一种是 C++17 中新增的 &lt;code>string_view&lt;/code> 。
+C++20 引入了 &lt;code>std::span&lt;/code> 和 &lt;code>ranges&lt;/code> 视图。最后新增的是来自 C++23 的 &lt;code>std::mdspan&lt;/code> 。&lt;/p></description></item><item><title>What it means when you convert between different shared_ptrs - The Old New Thing</title><link>https://yangyingchao.github.io/p108611/</link><pubDate>Fri, 18 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p108611/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611" target="_blank" rel="noopener noreffer ">https://devblogs.microsoft.com/oldnewthing/20230817-00/?p=108611&lt;/a>&lt;/p>
+&lt;p>C++中的 &lt;code>shared_ptr&lt;/code> 管理一个引用计数指针。通常情况下，它是一个指向对象的指针，当最后一个引用过期时将被删除。但它不一定非得是这样。&lt;/p></description></item><item><title>All Major C++17 Features You Should Know</title><link>https://yangyingchao.github.io/all-major-c-17-features-you-should-know/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/all-major-c-17-features-you-should-know/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:5d1ffb1b-4df4-4e37-82c6-58427dc149e4" rel="">Language Features&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:771f9d85-5896-4a45-8ce1-1ab7861af069" rel="">New auto rules for direct-list-initialization&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:ae9aa599-ee2e-4fbf-8ac2-808e6666c693" rel="">static_assert with no message&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:791c735d-4e0a-4e1b-bea9-592ef14dcdf6" rel="">typename in a template template parameter&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:e5f75c48-e26e-445d-91cd-cb819d8017c4" rel="">Nested namespace definition&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2017/01/cpp17features/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2017/01/cpp17features/&lt;/a>&lt;/p>
+&lt;h2 id="h:5d1ffb1b-4df4-4e37-82c6-58427dc149e4">&lt;span class="section-num">1&lt;/span> &lt;a href="https://www.cppstories.com/2017/01/cpp17features/#language-features" target="_blank" rel="noopener noreffer ">Language Features&lt;/a>&lt;/h2>
+&lt;h3 id="h:771f9d85-5896-4a45-8ce1-1ab7861af069">&lt;span class="section-num">1.1&lt;/span> &lt;a href="https://www.cppstories.com/2017/01/cpp17features/#new-auto-rules-for-direct-list-initialization" target="_blank" rel="noopener noreffer ">New auto rules for direct-list-initialization&lt;/a>&lt;/h3>
+&lt;h3 id="h:ae9aa599-ee2e-4fbf-8ac2-808e6666c693">&lt;span class="section-num">1.2&lt;/span> &lt;a href="https://www.cppstories.com/2017/01/cpp17features/#static_assert-with-no-message" target="_blank" rel="noopener noreffer ">static_assert with no message&lt;/a>&lt;/h3>
+&lt;p>&lt;code>static_assert()&lt;/code> 可以不用再写 message 了， 类似 C &lt;code>assert&lt;/code>&lt;/p></description></item><item><title>std::initializer_list in C++</title><link>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:bfb895f8-a465-4cb7-a534-ad7148fe328d" rel="">Referencing local array&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:e1ac2da6-09b6-49cc-95eb-c30b134cd45c" rel="">The cost of copying elements&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/initializer_list_improvements/&lt;/a>&lt;/p>
+&lt;h2 id="h:bfb895f8-a465-4cb7-a534-ad7148fe328d">&lt;span class="section-num">1&lt;/span> &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/#1-referencing-local-array" target="_blank" rel="noopener noreffer ">Referencing local array&lt;/a>&lt;/h2>
+&lt;p>&lt;code>std::initializer_list&lt;/code> 在使用中会转化成为常量对象的匿名局部数组：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">initializer_list&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">wrong&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// for illustration only!
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">initializer_list&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">wrong&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The above code is equivalent to the following:&lt;/p></description></item></channel></rss>

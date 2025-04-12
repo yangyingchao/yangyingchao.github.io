@@ -1,42 +1,42 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>String - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/string/</link><description>String - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/string/" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%bc%95%e5%85%a5%e4%bd%8e%e5%9f%ba%e6%95%b0%e5%ad%97%e5%85%b8%e4%bc%98%e5%8c%96" rel="">为什么要引入低基数字典优化</a></li>
-<li><span class="section-num">2</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">为什么需要全局字典</a></li>
-<li><span class="section-num">3</span> <a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e6%9e%84%e5%bb%ba%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效构建全局字典</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#%e9%80%9a%e5%b8%b8%e7%9a%84%e5%88%86%e5%b8%83%e5%bc%8f%e5%ad%97%e5%85%b8%e6%9e%84%e5%bb%ba%e6%96%b9%e5%bc%8f" rel="">通常的分布式字典构建方式</a></li>
-<li><span class="section-num">3.2</span> <a href="#starrocks-%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e6%9e%84%e5%bb%ba" rel="">StarRocks 全局字典的构建</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e4%bd%bf%e7%94%a8%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效使用全局字典</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8%e7%9a%84%e7%b4%a7%e5%af%86%e9%85%8d%e5%90%88" rel="">CBO 优化器的紧密配合</a></li>
-<li><span class="section-num">4.2</span> <a href="#%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%87%bd%e6%95%b0%e4%bc%98%e5%8c%96" rel="">全局字典的字符串函数优化</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#%e4%bc%98%e5%8c%96%e6%95%88%e6%9e%9c" rel="">优化效果</a></li>
-<li><span class="section-num">6</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://segmentfault.com/a/1190000042326071" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042326071</a></p>
-<p><code>作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer</code></p>]]></description></item><item><title>C++ String Conversion: Exploring std::from_chars in C++17 to C++26</title><link>https://yangyingchao.github.io/www_cppstories_com_fromchars/</link><pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_cppstories_com_fromchars/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#before-c-plus-plus-17" rel="">Before C++17</a></li>
-<li><span class="section-num">2</span> <a href="#converting-from-characters-to-numbers-from-chars" rel="">Converting From Characters to Numbers: from_chars</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e7%a4%ba%e4%be%8b" rel="">示例</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#%e6%80%a7%e8%83%bd" rel="">性能</a></li>
-<li><span class="section-num">4</span> <a href="#c-plus-plus-23-%e6%9b%b4%e6%96%b0" rel="">C++23 更新</a></li>
-<li><span class="section-num">5</span> <a href="#c-plus-plus-26-%e6%9b%b4%e6%96%b0" rel="">C++26 更新</a></li>
-<li><span class="section-num">6</span> <a href="#c-plus-plus-%e4%b8%ad%e5%af%b9-std-from-chars-%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e6%94%af%e6%8c%81" rel="">C++ 中对 std::from_chars 的编译器支持</a></li>
-<li><span class="section-num">7</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2018/12/fromchars/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2018/12/fromchars/</a></p>
-<p>随着引入 C++17，C++标准库通过添加 <code>std::from_chars</code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 <code>std::from_chars</code> 如何可以改变您对字符串转换的方法。</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>String on 杂货铺</title><link>https://yangyingchao.github.io/tags/string/</link><description>Recent content in String on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/string/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%bc%95%e5%85%a5%e4%bd%8e%e5%9f%ba%e6%95%b0%e5%ad%97%e5%85%b8%e4%bc%98%e5%8c%96" rel="">为什么要引入低基数字典优化&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">为什么需要全局字典&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e6%9e%84%e5%bb%ba%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效构建全局字典&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#%e9%80%9a%e5%b8%b8%e7%9a%84%e5%88%86%e5%b8%83%e5%bc%8f%e5%ad%97%e5%85%b8%e6%9e%84%e5%bb%ba%e6%96%b9%e5%bc%8f" rel="">通常的分布式字典构建方式&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#starrocks-%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e6%9e%84%e5%bb%ba" rel="">StarRocks 全局字典的构建&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e4%bd%bf%e7%94%a8%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效使用全局字典&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8%e7%9a%84%e7%b4%a7%e5%af%86%e9%85%8d%e5%90%88" rel="">CBO 优化器的紧密配合&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%87%bd%e6%95%b0%e4%bc%98%e5%8c%96" rel="">全局字典的字符串函数优化&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#%e4%bc%98%e5%8c%96%e6%95%88%e6%9e%9c" rel="">优化效果&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#%e6%80%bb%e7%bb%93" rel="">总结&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://segmentfault.com/a/1190000042326071" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042326071&lt;/a>&lt;/p>
+&lt;p>&lt;code>作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer&lt;/code>&lt;/p></description></item><item><title>C++ String Conversion: Exploring std::from_chars in C++17 to C++26</title><link>https://yangyingchao.github.io/www_cppstories_com_fromchars/</link><pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www_cppstories_com_fromchars/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#before-c-plus-plus-17" rel="">Before C++17&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#converting-from-characters-to-numbers-from-chars" rel="">Converting From Characters to Numbers: from_chars&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#%e7%a4%ba%e4%be%8b" rel="">示例&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e6%80%a7%e8%83%bd" rel="">性能&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#c-plus-plus-23-%e6%9b%b4%e6%96%b0" rel="">C++23 更新&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#c-plus-plus-26-%e6%9b%b4%e6%96%b0" rel="">C++26 更新&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#c-plus-plus-%e4%b8%ad%e5%af%b9-std-from-chars-%e7%9a%84%e7%bc%96%e8%af%91%e5%99%a8%e6%94%af%e6%8c%81" rel="">C++ 中对 std::from_chars 的编译器支持&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#%e6%80%bb%e7%bb%93" rel="">总结&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2018/12/fromchars/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2018/12/fromchars/&lt;/a>&lt;/p>
+&lt;p>随着引入 C++17，C++标准库通过添加 &lt;code>std::from_chars&lt;/code> 来扩展了将文本转换为数字的功能。这个低级、高性能的 API 相较于以前的方法（如 atoi 和 stringstream）提供了显著的优势。在本文中，我们将探讨从 C++17 到 C++26 的字符串转换程序的演变，重点突出了诸如 constexpr 支持和改进的错误处理等关键改进。让我们深入了解细节，看看 &lt;code>std::from_chars&lt;/code> 如何可以改变您对字符串转换的方法。&lt;/p></description></item></channel></rss>

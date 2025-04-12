@@ -1,22 +1,22 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Container - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/container/</link><description>Container - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 31 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/container/" rel="self" type="application/rss+xml"/><item><title>silly questions related to docker &amp; debian</title><link>https://yangyingchao.github.io/silly-questions-related-to-docker--debian/</link><pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/silly-questions-related-to-docker--debian/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:3491360f-3feb-4094-ada8-2d56c0ae069a" rel="">docker</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:ccb56fdd-1507-4e2b-a960-68771456cd81" rel="">how to convert container to image?</a></li>
-<li><span class="section-num">1.2</span> <a href="#how-to-export-image-to-tar" rel="">how to export image to tar ?</a></li>
-<li><span class="section-num">1.3</span> <a href="#how-to-import-image-into-docker" rel="">how to import image into docker 如何将图像导入到 Docker</a></li>
-<li><span class="section-num">1.4</span> <a href="#how-to-rename-an-image-in-docker" rel="">how to rename an image in docker 如何在 Docker 中重命名镜像</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:a0b89a76-d17f-4b51-844f-e58d84e06387" rel="">Debian</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#im-running-a-debian-docker-and-i-cant-find-ip-addr-command" rel="">I&rsquo;m running a debian docker, and I can&rsquo;t find ip addr command</a></li>
-<li><span class="section-num">2.2</span> <a href="#how-to-get-sshd-in-debian-docker" rel="">how to get sshd in debian docker</a></li>
-<li><span class="section-num">2.3</span> <a href="#h:6ca5e0f4-5277-42ee-aa22-cb4efa676186" rel="">how to search packages in debian</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>答案由 ChatGPT 生成。</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Container on 杂货铺</title><link>https://yangyingchao.github.io/tags/container/</link><description>Recent content in Container on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 31 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/container/index.xml" rel="self" type="application/rss+xml"/><item><title>silly questions related to docker &amp; debian</title><link>https://yangyingchao.github.io/silly-questions-related-to-docker--debian/</link><pubDate>Tue, 31 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/silly-questions-related-to-docker--debian/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:3491360f-3feb-4094-ada8-2d56c0ae069a" rel="">docker&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:ccb56fdd-1507-4e2b-a960-68771456cd81" rel="">how to convert container to image?&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#how-to-export-image-to-tar" rel="">how to export image to tar ?&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#how-to-import-image-into-docker" rel="">how to import image into docker 如何将图像导入到 Docker&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#how-to-rename-an-image-in-docker" rel="">how to rename an image in docker 如何在 Docker 中重命名镜像&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:a0b89a76-d17f-4b51-844f-e58d84e06387" rel="">Debian&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#im-running-a-debian-docker-and-i-cant-find-ip-addr-command" rel="">I&amp;rsquo;m running a debian docker, and I can&amp;rsquo;t find ip addr command&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#how-to-get-sshd-in-debian-docker" rel="">how to get sshd in debian docker&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#h:6ca5e0f4-5277-42ee-aa22-cb4efa676186" rel="">how to search packages in debian&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>答案由 ChatGPT 生成。&lt;/p></description></item></channel></rss>

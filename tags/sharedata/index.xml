@@ -1,34 +1,34 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sharedata - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/sharedata/</link><description>Sharedata - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 11 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sharedata/" rel="self" type="application/rss+xml"/><item><title>PolarDB PostgreSQL 版：存储计算分离架构详解</title><link>https://yangyingchao.github.io/polardb-pg-%E5%AD%98%E5%82%A8%E8%AE%A1%E7%AE%97%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</link><pubDate>Mon, 11 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/polardb-pg-%E5%AD%98%E5%82%A8%E8%AE%A1%E7%AE%97%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:d8d4ef97-4485-44f4-bc2d-c78a873701cd" rel="">Shared-Storage 带来的挑战</a></li>
-<li><span class="section-num">2</span> <a href="#h:c750efed-81ff-4f8e-ae09-ed02f60bb63d" rel="">架构原理</a></li>
-<li><span class="section-num">3</span> <a href="#h:a071ef56-0879-41d2-b95e-67f9e2cfbcec" rel="">数据一致性</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:ef8c9431-3ca6-442e-a55f-71a5a595c5f3" rel="">传统数据库的内存状态同步</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:1cfe1c7c-a47a-451e-b10c-3f836fe98d41" rel="">基于 Shared-Storage 的内存状态同步</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:16a80370-6a2e-4d84-952b-d5c4a4502de9" rel="">基于 Shared-Storage 的过去页面</a></li>
-<li><span class="section-num">3.4</span> <a href="#h:2cec3b2e-3535-4bfd-9c2f-7e472f90e237" rel="">过去页面的解法</a></li>
-<li><span class="section-num">3.5</span> <a href="#h:55fd37e4-0218-4b6e-aafc-7a47b0793ab7" rel="">基于 Shared-Storage 的未来页面</a></li>
-<li><span class="section-num">3.6</span> <a href="#h:62e86f15-aa20-4c60-a5e9-c2f6cf52efa5" rel="">未来页面的解法</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:87c53a58-40bf-48f7-a6c6-37ae183b7458" rel="">低延迟复制</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#h:ae890731-50a7-4503-a45c-54f40a2f59a8" rel="">传统流复制的问题</a></li>
-<li><span class="section-num">4.2</span> <a href="#h:8e96148b-53d3-49d2-9a7d-9477c53d476f" rel="">优化 1：只复制 Meta</a></li>
-<li><span class="section-num">4.3</span> <a href="#h:8c215440-dc4e-4295-9d49-5a913b3ed609" rel="">优化 2：页面回放优化</a></li>
-<li><span class="section-num">4.4</span> <a href="#h:2890df00-9e44-4df5-b228-d572ea27eac7" rel="">优化 3：DDL 锁回放优化</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#h:2eff1fce-d7c0-44bd-82df-bc786a42a946" rel="">Recovery 优化</a>
-<ul>
-<li><span class="section-num">5.1</span> <a href="#h:45cfaf2c-5ce3-4d89-a739-2684e04f5090" rel="">背景</a></li>
-<li><span class="section-num">5.2</span> <a href="#h:6a304701-3040-4134-8b94-e94a3b68b24f" rel="">Lazy Recovery</a></li>
-<li><span class="section-num">5.3</span> <a href="#h:656635f1-34a8-4284-a914-34458659c504" rel="">Persistent BufferPool</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je" target="_blank" rel="noopener noreffer ">https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je</a></p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sharedata on 杂货铺</title><link>https://yangyingchao.github.io/tags/sharedata/</link><description>Recent content in Sharedata on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 11 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sharedata/index.xml" rel="self" type="application/rss+xml"/><item><title>PolarDB PostgreSQL 版：存储计算分离架构详解</title><link>https://yangyingchao.github.io/polardb-pg-%E5%AD%98%E5%82%A8%E8%AE%A1%E7%AE%97%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</link><pubDate>Mon, 11 Dec 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/polardb-pg-%E5%AD%98%E5%82%A8%E8%AE%A1%E7%AE%97%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:d8d4ef97-4485-44f4-bc2d-c78a873701cd" rel="">Shared-Storage 带来的挑战&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:c750efed-81ff-4f8e-ae09-ed02f60bb63d" rel="">架构原理&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:a071ef56-0879-41d2-b95e-67f9e2cfbcec" rel="">数据一致性&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:ef8c9431-3ca6-442e-a55f-71a5a595c5f3" rel="">传统数据库的内存状态同步&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:1cfe1c7c-a47a-451e-b10c-3f836fe98d41" rel="">基于 Shared-Storage 的内存状态同步&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:16a80370-6a2e-4d84-952b-d5c4a4502de9" rel="">基于 Shared-Storage 的过去页面&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:2cec3b2e-3535-4bfd-9c2f-7e472f90e237" rel="">过去页面的解法&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.5&lt;/span> &lt;a href="#h:55fd37e4-0218-4b6e-aafc-7a47b0793ab7" rel="">基于 Shared-Storage 的未来页面&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.6&lt;/span> &lt;a href="#h:62e86f15-aa20-4c60-a5e9-c2f6cf52efa5" rel="">未来页面的解法&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:87c53a58-40bf-48f7-a6c6-37ae183b7458" rel="">低延迟复制&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:ae890731-50a7-4503-a45c-54f40a2f59a8" rel="">传统流复制的问题&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:8e96148b-53d3-49d2-9a7d-9477c53d476f" rel="">优化 1：只复制 Meta&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:8c215440-dc4e-4295-9d49-5a913b3ed609" rel="">优化 2：页面回放优化&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4.4&lt;/span> &lt;a href="#h:2890df00-9e44-4df5-b228-d572ea27eac7" rel="">优化 3：DDL 锁回放优化&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:2eff1fce-d7c0-44bd-82df-bc786a42a946" rel="">Recovery 优化&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:45cfaf2c-5ce3-4d89-a739-2684e04f5090" rel="">背景&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5.2&lt;/span> &lt;a href="#h:6a304701-3040-4134-8b94-e94a3b68b24f" rel="">Lazy Recovery&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5.3&lt;/span> &lt;a href="#h:656635f1-34a8-4284-a914-34458659c504" rel="">Persistent BufferPool&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je" target="_blank" rel="noopener noreffer ">https://help.aliyun.com/zh/polardb/polardb-for-postgresql/polardb-for-postgresql-architecture/?spm=a2c4g.11186623.0.0.2e3b5fb1p0L9je&lt;/a>&lt;/p></description></item></channel></rss>

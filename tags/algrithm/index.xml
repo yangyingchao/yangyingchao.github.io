@@ -1,24 +1,24 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Algrithm - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/algrithm/</link><description>Algrithm - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/algrithm/" rel="self" type="application/rss+xml"/><item><title>Origami: A High-Performance Mergesort Framework</title><link>https://yangyingchao.github.io/p259-arman/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p259-arman/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:30779f14-6c09-4a57-b1f2-6c8b6224a589" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:b9af59de-065f-47e9-a832-feaa4e164435" rel="">INTRODUCTION</a></li>
-<li><span class="section-num">3</span> <a href="#h:926a68c8-a7d2-4920-849c-b7ecbfc1027e" rel="">PIPELINE OVERVIEW</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:06b60011-63b4-4407-ab8d-f7118e58b203" rel="">notation</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:3fbe405a-7293-42f3-9b91-282093bc312a" rel="">better cache utilization,</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:78f26a30-9807-4abb-97e0-5908a368852a" rel="">4 Phases</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/p259-arman.pdf</p>
-<h2 id="h:30779f14-6c09-4a57-b1f2-6c8b6224a589"><span class="section-num">1</span> ABSTRACT</h2>
-<p>Mergesort 优点：</p>
-<ul>
-<li>不受数据倾斜影响</li>
-<li>适于通过向量化执行来进行并行处理</li>
-<li>适于多线程操作操作</li>
-</ul>
-<p>Origami:</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algrithm on 杂货铺</title><link>https://yangyingchao.github.io/tags/algrithm/</link><description>Recent content in Algrithm on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/algrithm/index.xml" rel="self" type="application/rss+xml"/><item><title>Origami: A High-Performance Mergesort Framework</title><link>https://yangyingchao.github.io/p259-arman/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p259-arman/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:30779f14-6c09-4a57-b1f2-6c8b6224a589" rel="">ABSTRACT&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:b9af59de-065f-47e9-a832-feaa4e164435" rel="">INTRODUCTION&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:926a68c8-a7d2-4920-849c-b7ecbfc1027e" rel="">PIPELINE OVERVIEW&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:06b60011-63b4-4407-ab8d-f7118e58b203" rel="">notation&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:3fbe405a-7293-42f3-9b91-282093bc312a" rel="">better cache utilization,&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:78f26a30-9807-4abb-97e0-5908a368852a" rel="">4 Phases&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/p259-arman.pdf&lt;/p>
+&lt;h2 id="h:30779f14-6c09-4a57-b1f2-6c8b6224a589">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
+&lt;p>Mergesort 优点：&lt;/p>
+&lt;ul>
+&lt;li>不受数据倾斜影响&lt;/li>
+&lt;li>适于通过向量化执行来进行并行处理&lt;/li>
+&lt;li>适于多线程操作操作&lt;/li>
+&lt;/ul>
+&lt;p>Origami:&lt;/p></description></item></channel></rss>

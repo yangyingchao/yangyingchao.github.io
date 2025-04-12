@@ -1,34 +1,34 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Hot - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/hot/</link><description>Hot - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/hot/" rel="self" type="application/rss+xml"/><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel="">什么是多版本并发控制？</a></li>
-<li><span class="section-num">2</span> <a href="#h:6d4191d2-59bb-4b0a-9d33-35f6dfb1a233" rel="">PostgreSQL 的多版本并发控制</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:65745514-9b1d-4b7c-96f9-71c9c8467a81" rel="">多版本存储</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:c78fa7fa-85b6-4964-aef9-744751c2d2db" rel="">Version Vacuum</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:4d04ba17-d382-433b-bcb8-1f0aa3362be6" rel="">为什么 PostgreSQL 的 MVCC 是最糟糕的</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:3082559f-73cc-4963-a475-f83fafea6148" rel="">Problem #1: Version Copying</a></li>
-<li><span class="section-num">3.2</span> <a href="#h:ba891e94-db54-4062-ba24-e4fe99c89e55" rel="">Problem #2: Table Bloat</a></li>
-<li><span class="section-num">3.3</span> <a href="#h:c1e21598-c3d4-4311-8008-f6fc9af9a5e3" rel="">Problem #3: Secondary Index Maintenance</a></li>
-<li><span class="section-num">3.4</span> <a href="#h:c28e3ac5-8660-487b-b98d-358af86e369b" rel="">Problem #4: Vacuum Management</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:2bafa9d8-72e6-462c-bb3f-7e0934bcf08f" rel="">Concluding Remarks</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/</a></p>
-<h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5"><span class="section-num">1</span> 什么是多版本并发控制？</h2>
-<ul>
-<li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。</li>
-<li>MVCC 的基本思想是，DBMS 永远不会覆盖现有行。
-<ul>
-<li>对于每个（逻辑）行，DBMS 维护多个（物理）版本。</li>
-<li>当应用程序执行查询时，DBMS 根据某个版本排序（例如创建时间戳），确定要检索哪个版本以满足请求。</li>
-</ul>
-</li>
-</ul>
-<p>这种方法的好处是，多个查询可以读取旧版本的行，而不会被更新它的其他查询阻塞。查询在数据库快照上观察到它开始查询事务时的状态（快照隔离）。</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hot on 杂货铺</title><link>https://yangyingchao.github.io/tags/hot/</link><description>Recent content in Hot on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/hot/index.xml" rel="self" type="application/rss+xml"/><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel="">什么是多版本并发控制？&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:6d4191d2-59bb-4b0a-9d33-35f6dfb1a233" rel="">PostgreSQL 的多版本并发控制&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:65745514-9b1d-4b7c-96f9-71c9c8467a81" rel="">多版本存储&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:c78fa7fa-85b6-4964-aef9-744751c2d2db" rel="">Version Vacuum&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:4d04ba17-d382-433b-bcb8-1f0aa3362be6" rel="">为什么 PostgreSQL 的 MVCC 是最糟糕的&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:3082559f-73cc-4963-a475-f83fafea6148" rel="">Problem #1: Version Copying&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:ba891e94-db54-4062-ba24-e4fe99c89e55" rel="">Problem #2: Table Bloat&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:c1e21598-c3d4-4311-8008-f6fc9af9a5e3" rel="">Problem #3: Secondary Index Maintenance&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:c28e3ac5-8660-487b-b98d-358af86e369b" rel="">Problem #4: Vacuum Management&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:2bafa9d8-72e6-462c-bb3f-7e0934bcf08f" rel="">Concluding Remarks&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/" target="_blank" rel="noopener noreffer ">https://ottertune.com/blog/the-part-of-postgresql-we-hate-the-most/&lt;/a>&lt;/p>
+&lt;h2 id="h:3e1d4668-8e85-43fc-877a-77a2ca94abf5">&lt;span class="section-num">1&lt;/span> 什么是多版本并发控制？&lt;/h2>
+&lt;ul>
+&lt;li>在 DBMS 中，MVCC 的目标是在可能的情况下允许多个查询同时读取和写入数据库而不相互干扰。&lt;/li>
+&lt;li>MVCC 的基本思想是，DBMS 永远不会覆盖现有行。
+&lt;ul>
+&lt;li>对于每个（逻辑）行，DBMS 维护多个（物理）版本。&lt;/li>
+&lt;li>当应用程序执行查询时，DBMS 根据某个版本排序（例如创建时间戳），确定要检索哪个版本以满足请求。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>这种方法的好处是，多个查询可以读取旧版本的行，而不会被更新它的其他查询阻塞。查询在数据库快照上观察到它开始查询事务时的状态（快照隔离）。&lt;/p></description></item></channel></rss>

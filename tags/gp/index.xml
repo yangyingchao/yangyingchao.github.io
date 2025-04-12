@@ -1,36 +1,36 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Gp - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/gp/</link><description>Gp - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gp/" rel="self" type="application/rss+xml"/><item><title>gp shared snapshot</title><link>https://yangyingchao.github.io/sharedsnapshot/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sharedsnapshot/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:6d1e31ba-8f2f-4776-8ba5-2f2e7a62301f" rel="">DtaStrutor</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： ../../../Work/pg_gpdb/src/backend/utils/time/sharedsnapshot.c</p>
-<p>在 Greenplum 中，作为切片计划的一部分，许多 PostgreSQL 进程（qExecs，QE）在单个段数据库上运行，作为同一用户 SQL 语句的一部分。属于特定用户在特定段数据库上的所有 qExecs 需要具有一致的可见性。为此，使用了一种称为“共享本地快照”（Shared Local Snapshot）的思想。共享内存数据结构 SharedSnapshotSlot 在特定数据库实例上的会话的统一流程（gang processes）之间共享会话和事务信息。这些流程被称为 SegMate 进程组。</p>]]></description></item><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpcheckcat/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:bfa36016-e178-44c5-b78a-c8c0bd52f193" rel="">概述</a></li>
-<li><span class="section-num">2</span> <a href="#h:85f7df11-2f89-46c4-909c-db8f5f11cd1b" rel="">pg_class</a></li>
-<li><span class="section-num">3</span> <a href="#h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f" rel="">namespace</a></li>
-<li><span class="section-num">4</span> <a href="#h:f8543ff9-a368-452c-a51f-a5c76ba2b516" rel="">unique_index_violation</a></li>
-<li><span class="section-num">5</span> <a href="#h:4aae321e-1ac2-462c-8adf-6ed7b44069d3" rel="">duplicate</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<h2 id="h:bfa36016-e178-44c5-b78a-c8c0bd52f193"><span class="section-num">1</span> 概述</h2>
-<p>GP 提供了 <a href="https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat" target="_blank" rel="noopener noreffer ">gpcheckcat</a> 用于在集群内检查系统表。</p>
-<p><a id="table--tbl-data-table"></a></p>
-<div class="table-caption">
-  <span class="table-number"><a href="#table--tbl-data-table">Table 1</a>:</span>
-  gpcheckcat
-</div>
-<p>| 检查项                 || 描述                                                                      || Utility 模式 || 复合查询 || 错误等级 |
-|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;|
-| pg_class               || Check pg_class entry that does not have any correspond pg_attribute entry || Y          || N    || NOREPAIR |
-| namespace              || Check for schemas with a missing schema definition                        || Y          || N    || NOREPAIR |
-| unique_index_violation || Check for violated unique indexes                                         || N          || Y    || NOREPAIR |
-| duplicate              || Check for duplicate entries                                               || N          || Y    ||          |
-| missing_extraneous     || Cross consistency check for missing or extraneous entries                 || N          || Y    ||          |
-| inconsistent           || Cross consistency check for coordinator segment inconsistency             || N          ||      ||          |
-| foreign_key            || Check foreign keys                                                        || N          ||      ||          |
-|                        ||                                                                           ||            ||      ||          |</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gp on 杂货铺</title><link>https://yangyingchao.github.io/tags/gp/</link><description>Recent content in Gp on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gp/index.xml" rel="self" type="application/rss+xml"/><item><title>gp shared snapshot</title><link>https://yangyingchao.github.io/sharedsnapshot/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sharedsnapshot/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:6d1e31ba-8f2f-4776-8ba5-2f2e7a62301f" rel="">DtaStrutor&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： ../../../Work/pg_gpdb/src/backend/utils/time/sharedsnapshot.c&lt;/p>
+&lt;p>在 Greenplum 中，作为切片计划的一部分，许多 PostgreSQL 进程（qExecs，QE）在单个段数据库上运行，作为同一用户 SQL 语句的一部分。属于特定用户在特定段数据库上的所有 qExecs 需要具有一致的可见性。为此，使用了一种称为“共享本地快照”（Shared Local Snapshot）的思想。共享内存数据结构 SharedSnapshotSlot 在特定数据库实例上的会话的统一流程（gang processes）之间共享会话和事务信息。这些流程被称为 SegMate 进程组。&lt;/p></description></item><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gpcheckcat/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:bfa36016-e178-44c5-b78a-c8c0bd52f193" rel="">概述&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:85f7df11-2f89-46c4-909c-db8f5f11cd1b" rel="">pg_class&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f" rel="">namespace&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:f8543ff9-a368-452c-a51f-a5c76ba2b516" rel="">unique_index_violation&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:4aae321e-1ac2-462c-8adf-6ed7b44069d3" rel="">duplicate&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;h2 id="h:bfa36016-e178-44c5-b78a-c8c0bd52f193">&lt;span class="section-num">1&lt;/span> 概述&lt;/h2>
+&lt;p>GP 提供了 &lt;a href="https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat" target="_blank" rel="noopener noreffer ">gpcheckcat&lt;/a> 用于在集群内检查系统表。&lt;/p>
+&lt;p>&lt;a id="table--tbl-data-table">&lt;/a>&lt;/p>
+&lt;div class="table-caption">
+ &lt;span class="table-number">&lt;a href="#table--tbl-data-table">Table 1&lt;/a>:&lt;/span>
+ gpcheckcat
+&lt;/div>
+&lt;p>| 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 |
+|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;|
+| pg_class || Check pg_class entry that does not have any correspond pg_attribute entry || Y || N || NOREPAIR |
+| namespace || Check for schemas with a missing schema definition || Y || N || NOREPAIR |
+| unique_index_violation || Check for violated unique indexes || N || Y || NOREPAIR |
+| duplicate || Check for duplicate entries || N || Y || |
+| missing_extraneous || Cross consistency check for missing or extraneous entries || N || Y || |
+| inconsistent || Cross consistency check for coordinator segment inconsistency || N || || |
+| foreign_key || Check foreign keys || N || || |
+| || || || || |&lt;/p></description></item></channel></rss>

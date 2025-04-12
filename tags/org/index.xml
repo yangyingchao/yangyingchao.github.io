@@ -1,25 +1,25 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Org - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/org/</link><description>Org - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 15 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/org/" rel="self" type="application/rss+xml"/><item><title>用 pandoc 从 org 生成 docx</title><link>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</link><pubDate>Sat, 15 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e6%89%80%e9%9c%80%e8%bd%af%e4%bb%b6" rel="">所需软件</a></li>
-<li><span class="section-num">2</span> <a href="#%e6%96%b9%e6%b3%95" rel="">方法</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#advice-to-org-odt-export-to-odt" rel="">advice to org-odt-export-to-odt</a></li>
-<li><span class="section-num">2.2</span> <a href="#%e7%94%a8%e5%88%b0%e7%9a%84%e8%b5%84%e6%ba%90%e6%96%87%e4%bb%b6" rel="">用到的资源文件</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。</p>]]></description></item><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552</a></p>
-<ul>
-<li>
-<p>将 CSV 转换为 org 表格 <br />
-将文本导入文件，标记文本，然后按下 <code>C-c |</code> 。它会将该区域转换为表格。</p>
-</li>
-<li>
-<p>要导出 <br />
-请使用 M-x org-table-export。</p>
-</li>
-</ul>
-<p>参考资料：</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Org on 杂货铺</title><link>https://yangyingchao.github.io/tags/org/</link><description>Recent content in Org on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 15 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/org/index.xml" rel="self" type="application/rss+xml"/><item><title>用 pandoc 从 org 生成 docx</title><link>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</link><pubDate>Sat, 15 Feb 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e6%89%80%e9%9c%80%e8%bd%af%e4%bb%b6" rel="">所需软件&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e6%96%b9%e6%b3%95" rel="">方法&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#advice-to-org-odt-export-to-odt" rel="">advice to org-odt-export-to-odt&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#%e7%94%a8%e5%88%b0%e7%9a%84%e8%b5%84%e6%ba%90%e6%96%87%e4%bb%b6" rel="">用到的资源文件&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>最近需要写一些 word 文档，因为一直在用 Emacs 的 org-mode, 不想离开 Emacs 环境，也不想去手动调整 word 格式，所以花些时间研究了一下怎么使用 pandoc 将 org 转换成 docx 。&lt;/p></description></item><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gist/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>将 CSV 转换为 org 表格 &lt;br />
+将文本导入文件，标记文本，然后按下 &lt;code>C-c |&lt;/code> 。它会将该区域转换为表格。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>要导出 &lt;br />
+请使用 M-x org-table-export。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>参考资料：&lt;/p></description></item></channel></rss>

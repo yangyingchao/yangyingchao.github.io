@@ -1,41 +1,41 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Process - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/process/</link><description>Process - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/process/" rel="self" type="application/rss+xml"/><item><title>Ways to Deal With a Frozen Linux System</title><link>https://yangyingchao.github.io/frozen-linux-system/</link><pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/frozen-linux-system/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:660feb15-1dc5-4890-a586-8f6445c1a928" rel="">When everything else fails, talk with the Kernel using SysReq</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
-<h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928"><span class="section-num">1</span> When everything else fails, talk with the Kernel using SysReq</h2>
-<p>有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。</p>]]></description></item><item><title>Linux Process States</title><link>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:e18e2a33-c94e-4632-9c81-2b7c968471ca" rel="">The Linux Process States</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:82e9a258-9ef3-4b9f-a6e0-43780e2f7c6b" rel="">Running or Runnable State (R)</a></li>
-<li><span class="section-num">1.2</span> <a href="#h:af5ed80e-75ba-46bf-bd3c-fc469ce02284" rel="">Sleeping State: Interruptible (S) and Uninterruptible (D)</a></li>
-<li><span class="section-num">1.3</span> <a href="#h:928eb1a4-c3a7-45e7-a8d8-031aefe9d89e" rel="">Stopped State (T)</a></li>
-<li><span class="section-num">1.4</span> <a href="#h:fc7301f8-68e6-4139-9663-7ea505a75521" rel="">Zombie State (Z)</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:0985a112-1b62-4921-9635-078e0ca52dca" rel="">Checking Process State</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:d36c6068-e0db-468a-8b7f-349412d139f2" rel="">Displaying Process State Using ps</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:4aa374a8-e81e-499a-aa03-63c5e0949411" rel="">Using the top Command</a></li>
-<li><span class="section-num">2.3</span> <a href="#h:5838f424-949c-4b9c-9c93-e77715bfe95c" rel="">The /proc Pseudo File</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:3fbb304e-adb8-4e74-94f9-e6a5944f1b26" rel="">Summary</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
-<h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
-<ul>
-<li>Running or Runnable (R)</li>
-<li>Uninterruptible Sleep (D)</li>
-<li>Interruptable Sleep (S)</li>
-<li>Stopped (T)</li>
-<li>Zombie (Z)</li>
-</ul>
-<p>状态机如下：</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Process on 杂货铺</title><link>https://yangyingchao.github.io/tags/process/</link><description>Recent content in Process on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/process/index.xml" rel="self" type="application/rss+xml"/><item><title>Ways to Deal With a Frozen Linux System</title><link>https://yangyingchao.github.io/frozen-linux-system/</link><pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/frozen-linux-system/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:660feb15-1dc5-4890-a586-8f6445c1a928" rel="">When everything else fails, talk with the Kernel using SysReq&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/&lt;/a>&lt;/p>
+&lt;h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928">&lt;span class="section-num">1&lt;/span> When everything else fails, talk with the Kernel using SysReq&lt;/h2>
+&lt;p>有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。&lt;/p></description></item><item><title>Linux Process States</title><link>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/linux-process-states-baeldung-on-linux/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:e18e2a33-c94e-4632-9c81-2b7c968471ca" rel="">The Linux Process States&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:82e9a258-9ef3-4b9f-a6e0-43780e2f7c6b" rel="">Running or Runnable State (R)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:af5ed80e-75ba-46bf-bd3c-fc469ce02284" rel="">Sleeping State: Interruptible (S) and Uninterruptible (D)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:928eb1a4-c3a7-45e7-a8d8-031aefe9d89e" rel="">Stopped State (T)&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:fc7301f8-68e6-4139-9663-7ea505a75521" rel="">Zombie State (Z)&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:0985a112-1b62-4921-9635-078e0ca52dca" rel="">Checking Process State&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:d36c6068-e0db-468a-8b7f-349412d139f2" rel="">Displaying Process State Using ps&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:4aa374a8-e81e-499a-aa03-63c5e0949411" rel="">Using the top Command&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#h:5838f424-949c-4b9c-9c93-e77715bfe95c" rel="">The /proc Pseudo File&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:3fbb304e-adb8-4e74-94f9-e6a5944f1b26" rel="">Summary&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states&lt;/a>&lt;/p>
+&lt;h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca">&lt;span class="section-num">1&lt;/span> The Linux Process States&lt;/h2>
+&lt;ul>
+&lt;li>Running or Runnable (R)&lt;/li>
+&lt;li>Uninterruptible Sleep (D)&lt;/li>
+&lt;li>Interruptable Sleep (S)&lt;/li>
+&lt;li>Stopped (T)&lt;/li>
+&lt;li>Zombie (Z)&lt;/li>
+&lt;/ul>
+&lt;p>状态机如下：&lt;/p></description></item></channel></rss>

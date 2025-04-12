@@ -1,12 +1,12 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Csv - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/csv/</link><description>Csv - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 07 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/csv/" rel="self" type="application/rss+xml"/><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552</a></p>
-<ul>
-<li>
-<p>将 CSV 转换为 org 表格 <br />
-将文本导入文件，标记文本，然后按下 <code>C-c |</code> 。它会将该区域转换为表格。</p>
-</li>
-<li>
-<p>要导出 <br />
-请使用 M-x org-table-export。</p>
-</li>
-</ul>
-<p>参考资料：</p>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Csv on 杂货铺</title><link>https://yangyingchao.github.io/tags/csv/</link><description>Recent content in Csv on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 07 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/csv/index.xml" rel="self" type="application/rss+xml"/><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gist/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>将 CSV 转换为 org 表格 &lt;br />
+将文本导入文件，标记文本，然后按下 &lt;code>C-c |&lt;/code> 。它会将该区域转换为表格。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>要导出 &lt;br />
+请使用 M-x org-table-export。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>参考资料：&lt;/p></description></item></channel></rss>

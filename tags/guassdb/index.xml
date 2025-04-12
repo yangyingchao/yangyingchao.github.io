@@ -1,53 +1,53 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Guassdb - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/guassdb/</link><description>Guassdb - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/guassdb/" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:5b21d35f-99bb-4d99-81d3-91a62417244e" rel="">什么是 HTAP？</a></li>
-<li><span class="section-num">2</span> <a href="#h:cf283d8d-9c7c-4a64-8102-e08cef75921f" rel="">HTAP 架构模式有哪些？</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:e50df0a5-f62c-4e9e-b225-236d99e8e439" rel="">IN-Memory Store 模式</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:d30833b8-2140-4152-9ea7-e8f70bf3e8d1" rel="">主备架构模式</a></li>
-<li><span class="section-num">2.3</span> <a href="#h:b651f209-8a4b-4faf-859e-e20feef34570" rel="">IN-Memory Computing 模式</a></li>
-<li><span class="section-num">2.4</span> <a href="#h:5b382630-9cd4-4651-a0b5-3184be1119fd" rel="">主列存+增量行存模式</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:05ee8b35-d261-4b7b-9f39-ba3c95542278" rel="">思考</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:19e241a9-66b3-446d-a2a7-cffe857e87d0" rel="">GaussDB 对 HTAP 的思考</a></li>
-</ul>
-</li>
-<li><span class="section-num">4</span> <a href="#h:fe8fe64e-4da2-4de3-8d67-65b166c68b46" rel="">GaussDB 在 HTAP 上的创新</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd</a></p>
-<h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"><span class="section-num">1</span> 什么是 HTAP？</h2>
-<ul>
-<li>
-<p>TP 和 AP 的特点</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： ../pptx/9/openGauss+技术架构.pptx</p>
-<h2 id="h:ffedcec1-02e6-45ff-b383-ae60f29ec920"><span class="section-num">1</span> 体系结构</h2>
-<p><a id="figure--fig:screenshot@2023-05-23-18:32:14"></a></p>
-<figure>
-</figure>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Guassdb on 杂货铺</title><link>https://yangyingchao.github.io/tags/guassdb/</link><description>Recent content in Guassdb on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/guassdb/index.xml" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:5b21d35f-99bb-4d99-81d3-91a62417244e" rel="">什么是 HTAP？&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:cf283d8d-9c7c-4a64-8102-e08cef75921f" rel="">HTAP 架构模式有哪些？&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:e50df0a5-f62c-4e9e-b225-236d99e8e439" rel="">IN-Memory Store 模式&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:d30833b8-2140-4152-9ea7-e8f70bf3e8d1" rel="">主备架构模式&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#h:b651f209-8a4b-4faf-859e-e20feef34570" rel="">IN-Memory Computing 模式&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2.4&lt;/span> &lt;a href="#h:5b382630-9cd4-4651-a0b5-3184be1119fd" rel="">主列存+增量行存模式&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:05ee8b35-d261-4b7b-9f39-ba3c95542278" rel="">思考&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:19e241a9-66b3-446d-a2a7-cffe857e87d0" rel="">GaussDB 对 HTAP 的思考&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:fe8fe64e-4da2-4de3-8d67-65b166c68b46" rel="">GaussDB 在 HTAP 上的创新&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;amp;mid=2247516317&amp;amp;idx=1&amp;amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;amp;sharer_sharetime=1692699939078&amp;amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd&lt;/a>&lt;/p>
+&lt;h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e">&lt;span class="section-num">1&lt;/span> 什么是 HTAP？&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>TP 和 AP 的特点&lt;/p></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： ../pptx/9/openGauss+技术架构.pptx&lt;/p>
+&lt;h2 id="h:ffedcec1-02e6-45ff-b383-ae60f29ec920">&lt;span class="section-num">1&lt;/span> 体系结构&lt;/h2>
+&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:32:14">&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:14.png" width="800px">
+&lt;/figure>
 
-<p><a id="figure--fig:screenshot@2023-05-23-18:32:47"></a></p>
-<figure>
-</figure>
+&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:32:47">&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:47.png" width="800px">
+&lt;/figure>
 
-<p><a id="figure--fig:screenshot@2023-05-23-18:34:33"></a></p>
-<figure>
-</figure>
+&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:34:33">&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:33.png" width="800px">
+&lt;/figure>
 
-<p><a id="figure--fig:screenshot@2023-05-23-18:34:47"></a></p>
-<figure>
-</figure>
+&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:34:47">&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:47.png" width="800px">
+&lt;/figure>
 
-<p><a id="figure--fig:screenshot@2023-05-23-18:36:47"></a></p>
-<figure>
-</figure>]]></description></item></channel></rss>
+&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:36:47">&lt;/a>&lt;/p>
+&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:36:47.png" width="800px">
+&lt;/figure></description></item></channel></rss>

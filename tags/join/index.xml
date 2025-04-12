@@ -1,22 +1,22 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Join - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/join/</link><description>Join - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/join/" rel="self" type="application/rss+xml"/><item><title>数据库 - StarRocks 技术内幕 | Join 查询优化</title><link>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#join-%e8%83%8c%e6%99%af" rel="">Join 背景</a></li>
-<li><span class="section-num">2</span> <a href="#join-%e9%80%bb%e8%be%91%e4%bc%98%e5%8c%96" rel="">Join 逻辑优化</a></li>
-<li><span class="section-num">3</span> <a href="#join-reorder" rel="">Join Reorder</a></li>
-<li><span class="section-num">4</span> <a href="#%e5%88%86%e5%b8%83%e5%bc%8f-join-%e8%a7%84%e5%88%92" rel="">分布式 Join 规划</a></li>
-<li><span class="section-num">5</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://segmentfault.com/a/1190000042739883" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042739883</a></p>
-<p>作者：贺凯，StarRocks Committer</p>
-<p>导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。</p>]]></description></item><item><title>Making RDBMSs Efficient on Graph Workloads Through Predefined Joins</title><link>https://yangyingchao.github.io/p1011-jin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1011-jin/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:9e32e840-e079-4e4f-b2dc-96119d5f58da" rel="">ABSTRACT</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1011-jin.pdf</p>
-<h2 id="h:9e32e840-e079-4e4f-b2dc-96119d5f58da"><span class="section-num">1</span> ABSTRACT</h2>]]></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Join on 杂货铺</title><link>https://yangyingchao.github.io/tags/join/</link><description>Recent content in Join on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/join/index.xml" rel="self" type="application/rss+xml"/><item><title>数据库 - StarRocks 技术内幕 | Join 查询优化</title><link>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#join-%e8%83%8c%e6%99%af" rel="">Join 背景&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#join-%e9%80%bb%e8%be%91%e4%bc%98%e5%8c%96" rel="">Join 逻辑优化&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#join-reorder" rel="">Join Reorder&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#%e5%88%86%e5%b8%83%e5%bc%8f-join-%e8%a7%84%e5%88%92" rel="">分布式 Join 规划&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#%e6%80%bb%e7%bb%93" rel="">总结&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://segmentfault.com/a/1190000042739883" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042739883&lt;/a>&lt;/p>
+&lt;p>作者：贺凯，StarRocks Committer&lt;/p>
+&lt;p>导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。&lt;/p></description></item><item><title>Making RDBMSs Efficient on Graph Workloads Through Predefined Joins</title><link>https://yangyingchao.github.io/p1011-jin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1011-jin/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+&lt;div class="heading">Table of Contents&lt;/div>
+&lt;ul>
+&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:9e32e840-e079-4e4f-b2dc-96119d5f58da" rel="">ABSTRACT&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;!--endtoc-->
+&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1011-jin.pdf&lt;/p>
+&lt;h2 id="h:9e32e840-e079-4e4f-b2dc-96119d5f58da">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2></description></item></channel></rss>
