@@ -69,7 +69,7 @@ card controls IP packet fragmentation and reassemblies.&lt;/p>
 &lt;p>If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
 a network, the IP layer fragments the message. (Refer to Networking later in this topic
 for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.&lt;/p></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
+fragments in a buffer before it can reorganize and reassemble the message.&lt;/p></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
 &lt;div class="heading">Table of Contents&lt;/div>
 &lt;ul>
 &lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel="">使用高速硬件，降低节点间的延迟&lt;/a>&lt;/li>
