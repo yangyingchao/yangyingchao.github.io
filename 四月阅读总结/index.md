@@ -6,6 +6,7 @@
 <div class="heading">Table of Contents</div>
 
 - <span class="section-num">1</span> [《沪上烟火》](#沪上烟火)
+- <span class="section-num">2</span> [数学的雨伞下](#数学的雨伞下--dot-笔记-数学的雨伞下-dot-md)
 
 </div>
 <!--endtoc-->
@@ -17,7 +18,7 @@
 四月份读完了两本书。
 
 
-## <span class="section-num">1</span> 《沪上烟火》 {#沪上烟火}
+## <span class="section-num">1</span> [《沪上烟火》]({{< relref "[笔记]沪上烟火-大姑娘浪" >}}) {#沪上烟火}
 
 <a id="figure--fig:siyu-25588928"></a>
 
@@ -31,7 +32,14 @@
 
 初中那个同学与之类似，不同之处是后来其父重新组建家庭，其后母对其不好；至今父亲仍在，他每年回来探望。
 
-同事就比较好了，是从天津下放到秦皇岛，没有下乡，比较顺利。
+同事就比较好了，是从天津下放到秦皇岛，没有下乡，家庭完整，比较顺利。
 
-\*
+
+## <span class="section-num">2</span> [数学的雨伞下]({{< relref "[笔记]数学的雨伞下" >}}) {#数学的雨伞下--dot-笔记-数学的雨伞下-dot-md}
+
+<a id="figure--fig:siyu-d41d8cd9"></a>
+
+{{< figure src="/ox-hugo/shuxueyusan.jpg" caption="<span class=\"figure-number\">Figure 2: </span>数学的雨伞下" width="800px" >}}
+
+科普读物？有趣的揭示了数学、天文、物理等知识。
 
