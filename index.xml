@@ -1,4 +1,12 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 01 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>五月读书笔记</title><link>https://yangyingchao.github.io/%E4%BA%94%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E4%BA%94%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>how to create alias for user in Linux</title><link>https://yangyingchao.github.io/how-to-create-alias-for-user-in-linux/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-create-alias-for-user-in-linux/</guid><description><![CDATA[<p>here:</p>
+<p><a href="https://unix.stackexchange.com/questions/758076/how-to-effectively-alias-a-user-on-linux" target="_blank" rel="noopener noreffer ">https://unix.stackexchange.com/questions/758076/how-to-effectively-alias-a-user-on-linux</a></p>
+<p>Users can share their UID, giving them the same user permissions.</p>
+<p>Some quick testing reveals that no matter which alias you are logged in as, the system will recognize you as the
+first user which matches the UID from the passwd database (normally /etc/passwd but can be elsewhere in advanced
+setups).</p>
+<p>I have not seen that groups behave the same way, each alias needs to be added to each group explicitly. It would
+seem that while users are mapped from UID, the groups look to be mapped from the name (check the contents of
+/etc/group to get a sense of what I mean).</p>]]></description></item><item><title>五月读书笔记</title><link>https://yangyingchao.github.io/%E4%BA%94%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E4%BA%94%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e6%ac%a2%e4%b9%90%e8%8b%b1%e9%9b%84" rel="">欢乐英雄</a></li>
@@ -75,8 +83,4 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer ">https://goteleport.com/learn/postgresql-ldap-authentication/</a></p>]]></description></item><item><title>沪上烟火-大姑娘浪</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B2%AA%E4%B8%8A%E7%83%9F%E7%81%AB-%E5%A4%A7%E5%A7%91%E5%A8%98%E6%B5%AA/</link><pubDate>Sat, 05 Apr 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B2%AA%E4%B8%8A%E7%83%9F%E7%81%AB-%E5%A4%A7%E5%A7%91%E5%A8%98%E6%B5%AA/</guid><description><![CDATA[<ul>
-<li>
-<p>84-88, 标注, 2025 年 4 月 2 日星期三 上午 7:50:37</p>
-<blockquote>
-<p>玉宝不语，开始一趟趟往楼上搬行李，第一趟上去下来，薛金花将面糊搓成粒，用筷子拨进钢钟锅内，再搅散，第二趟上去下来，薛金花将红番茄，切成小块摆进去、拿铁勺滑动滚汤。第三趟上去下来，薛金花洒一撮盐、打散蛋花，滴几滴小磨香油，红红黄黄白白一小锅，香味散开，蒸汽爬满油烟窗。第四趟上去下来，玉宝前脖后颈皆是黏汗，薛金花在和邻居搬弄事非，习惯性压低声音，嘀嘀咕咕，糊满油烟的电灯泡，令面孔蜡蜡黄，媚眼眯细，</p>]]></description></item></channel></rss>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer ">https://goteleport.com/learn/postgresql-ldap-authentication/</a></p>]]></description></item></channel></rss>
