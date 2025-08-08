@@ -1,4 +1,53 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 31 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>[笔记]夹缝中的总督:曾国藩的五次生死局 鞠海</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%B9%E7%BC%9D%E4%B8%AD%E7%9A%84%E6%80%BB%E7%9D%A3%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E4%BA%94%E6%AC%A1%E7%94%9F%E6%AD%BB%E5%B1%80-%E9%9E%A0%E6%B5%B7/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%B9%E7%BC%9D%E4%B8%AD%E7%9A%84%E6%80%BB%E7%9D%A3%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E4%BA%94%E6%AC%A1%E7%94%9F%E6%AD%BB%E5%B1%80-%E9%9E%A0%E6%B5%B7/</guid><description></description></item><item><title>[笔记]流俗地 黎紫書</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B5%81%E4%BF%97%E5%9C%B0-%E9%BB%8E%E7%B4%AB%E6%9B%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B5%81%E4%BF%97%E5%9C%B0-%E9%BB%8E%E7%B4%AB%E6%9B%B8/</guid><description><![CDATA[<ul>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 08 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Linkers</title><link>https://yangyingchao.github.io/www_airs_com_archives_38/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_airs_com_archives_38/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#linkers-part-1" rel="">Linkers part 1</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#%e9%93%be%e6%8e%a5%e5%99%a8%e5%81%9a%e4%bb%80%e4%b9%88" rel="">链接器做什么？</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#linkers-part-2" rel="">Linkers part 2</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#basic-linker-data-types" rel="">Basic Linker Data Types</a></li>
+<li><span class="section-num">2.2</span> <a href="#%e5%9f%ba%e6%9c%ac%e9%93%be%e6%8e%a5%e5%99%a8%e6%93%8d%e4%bd%9c" rel="">基本链接器操作</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#part-3" rel="">part 3</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4" rel="">地址空间</a></li>
+<li><span class="section-num">3.2</span> <a href="#%e5%af%b9%e8%b1%a1%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f" rel="">对象文件格式</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#shared-libraries" rel="">Shared Libraries</a></li>
+<li><span class="section-num">5</span> <a href="#linkers-part-5" rel="">Linkers part 5</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38</a></p>
+<h2 id="linkers-part-1"><span class="section-num">1</span> Linkers part 1</h2>
+<h3 id="链接器做什么"><span class="section-num">1.1</span> 链接器做什么？</h3>
+<p>很简单：链接器将目标文件转换为可执行文件和共享库。让我们看看这意味着什么。使用链接器的情况是，软件开发过程包括用某种语言编写程序代码：例如，C或 C++或 Fortran（但通常不包括 Java，因为 Java
+通常以不同的方式工作，使用加载器而不是链接器）。编译器将这种人类可读的程序代码转换为另一种人类可读的文本形式，称为汇编代码。汇编代码是机器语言的可读形式，计算机可以直接执行。汇编器用于将此汇编代码转换为目标文件。为了完整起见，我要提到某些编译器在内部包括一个汇编器，并直接生成目标文件。无论哪种方式，这就是事情变得有趣的地方。</p>]]></description></item><item><title>七月读书笔记</title><link>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e5%bc%83%e9%95%bf%e5%ae%89--%e7%ac%94%e8%ae%b0-%e5%bc%83%e9%95%bf%e5%ae%89-%e5%bc%a0%e6%98%8e%e6%89%ac-dot-md" rel="">弃长安</a></li>
+<li><span class="section-num">2</span> <a href="#%e9%95%bf%e5%ae%89%e7%9a%84%e8%8d%94%e6%9e%9d--%e7%ac%94%e8%ae%b0-%e9%95%bf%e5%ae%89%e7%9a%84%e8%8d%94%e6%9e%9d-%e9%a9%ac%e4%bc%af%e5%ba%b8-dot-md" rel="">长安的荔枝</a></li>
+<li><span class="section-num">3</span> <a href="#%e6%a1%83%e8%8a%b1%e6%ba%90%e6%b2%a1%e4%ba%8b%e5%84%bf--%e7%ac%94%e8%ae%b0-%e6%a1%83%e8%8a%b1%e6%ba%90%e6%b2%a1%e4%ba%8b%e5%84%bf-%e9%a9%ac%e4%bc%af%e5%ba%b8-dot-md" rel="">桃花源没事儿</a></li>
+<li><span class="section-num">4</span> <a href="#%e6%b5%81%e4%bf%97%e5%9c%b0--%e7%ac%94%e8%ae%b0-%e6%b5%81%e4%bf%97%e5%9c%b0-%e9%bb%8e%e7%b4%ab%e6%9b%b8-dot-md" rel="">流俗地</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<h2 id="弃长安--笔记-弃长安-张明扬-dot-md"><span class="section-num">1</span> <a href="/%E7%AC%94%E8%AE%B0%E5%BC%83%E9%95%BF%E5%AE%89-%E5%BC%A0%E6%98%8E%E6%89%AC/" rel="">弃长安</a></h2>
+<p>从唐明皇弃长安开始，到李亨最终收回长安，从盛世到衰败，真的不需要多长时间，让人感慨。</p>
+<blockquote>
+<p>我的写作激情是什么？ 大概，是大唐盛世在天宝十四载的轰然倾圮，是长安这座世界之都在渔阳鼙鼓声中的脆弱与窘迫无计，是李隆基君臣从自负颟顸到仓皇辞庙的骤然切换，是李林甫和杨国忠这两位宰相的逢君之恶，是杨玉环的“明眸皓齿今何在”，是太子李亨的隐忍与浮夸表演，是安禄山的胡旋舞与曳落河，是血色残阳中的张睢阳齿与颜常山舌，是李白、杜甫、王维等人的盛世求不得与乱世离散……</p>]]></description></item><item><title>[笔记]夹缝中的总督:曾国藩的五次生死局 鞠海</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%B9%E7%BC%9D%E4%B8%AD%E7%9A%84%E6%80%BB%E7%9D%A3%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E4%BA%94%E6%AC%A1%E7%94%9F%E6%AD%BB%E5%B1%80-%E9%9E%A0%E6%B5%B7/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%A4%B9%E7%BC%9D%E4%B8%AD%E7%9A%84%E6%80%BB%E7%9D%A3%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E4%BA%94%E6%AC%A1%E7%94%9F%E6%AD%BB%E5%B1%80-%E9%9E%A0%E6%B5%B7/</guid><description><![CDATA[<ul>
+<li>
+<p>109-110, 标注, 2025 年 5 月 25 日星期日 下午 10:54:10</p>
+<blockquote>
+<p>中国古人推崇“三不朽”：立德、立功与立言。但在中国历史上真正做到三不朽的却为数极少，“</p></blockquote>
+</li>
+<li>
+<p>172-176, 标注, 2025 年 6 月 29 日星期日 上午 10:16:12</p>]]></description></item><item><title>[笔记]流俗地 黎紫書</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B5%81%E4%BF%97%E5%9C%B0-%E9%BB%8E%E7%B4%AB%E6%9B%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B5%81%E4%BF%97%E5%9C%B0-%E9%BB%8E%E7%B4%AB%E6%9B%B8/</guid><description><![CDATA[<ul>
 <li>
 <p>347-348, 标注, 2025 年 7 月 2 日星期三 上午 8:39:34</p>
 <blockquote>
@@ -7,7 +56,16 @@
 <li>
 <p>411-412, 标注, 2025 年 7 月 2 日星期三 下午 12:47:22</p>
 <blockquote>
-<p>莲珠的声音，银霞听着舒服。尽管只是一般的市井口吻，莲珠说话还带着渔村的乡音，听着却像被太阳熏了一整天的海潮，灌得人耳道里暖暖的。</p>]]></description></item><item><title>[笔记]弃长安 张明扬</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%BC%83%E9%95%BF%E5%AE%89-%E5%BC%A0%E6%98%8E%E6%89%AC/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%BC%83%E9%95%BF%E5%AE%89-%E5%BC%A0%E6%98%8E%E6%89%AC/</guid><description></description></item><item><title>[笔记]桃花源没事儿 马伯庸</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A1%83%E8%8A%B1%E6%BA%90%E6%B2%A1%E4%BA%8B%E5%84%BF-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A1%83%E8%8A%B1%E6%BA%90%E6%B2%A1%E4%BA%8B%E5%84%BF-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</guid><description></description></item><item><title>[笔记]悟空传:完美纪念版 今何在</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%82%9F%E7%A9%BA%E4%BC%A0%E5%AE%8C%E7%BE%8E%E7%BA%AA%E5%BF%B5%E7%89%88-%E4%BB%8A%E4%BD%95%E5%9C%A8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%82%9F%E7%A9%BA%E4%BC%A0%E5%AE%8C%E7%BE%8E%E7%BA%AA%E5%BF%B5%E7%89%88-%E4%BB%8A%E4%BD%95%E5%9C%A8/</guid><description></description></item><item><title>[笔记]亵渎 烟雨江南</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%B5%E6%B8%8E-%E7%83%9F%E9%9B%A8%E6%B1%9F%E5%8D%97/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%BA%B5%E6%B8%8E-%E7%83%9F%E9%9B%A8%E6%B1%9F%E5%8D%97/</guid><description></description></item><item><title>[笔记]源代码:比尔·盖茨首部自传 [美] 比尔·盖茨;鲁伊</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</guid><description></description></item><item><title>[笔记]长安的荔枝 马伯庸</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</guid><description><![CDATA[<ul>
+<p>莲珠的声音，银霞听着舒服。尽管只是一般的市井口吻，莲珠说话还带着渔村的乡音，听着却像被太阳熏了一整天的海潮，灌得人耳道里暖暖的。</p>]]></description></item><item><title>[笔记]弃长安 张明扬</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%BC%83%E9%95%BF%E5%AE%89-%E5%BC%A0%E6%98%8E%E6%89%AC/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%BC%83%E9%95%BF%E5%AE%89-%E5%BC%A0%E6%98%8E%E6%89%AC/</guid><description><![CDATA[<ul>
+<li>
+<p>368-368, 标注, 2025 年 7 月 14 日星期一 下午 12:41:20</p>
+<blockquote>
+<p>朝乾夕惕已</p></blockquote>
+</li>
+<li>
+<p>384-389, 标注, 2025 年 7 月 14 日星期一 下午 12:45:25</p>
+<blockquote>
+<p>据说就在被贬这一年，厌烦了政治争斗的张九龄送给了李林甫一首“求和诗”： 海燕何微眇，乘春亦暂来。 岂知泥滓贱，只见玉堂开。 绣户时双入，华轩日几回。 无心与物竞，鹰隼莫相猜。 ——《归燕诗》 但鹰隼终究没有放过归燕。约二十年后，流亡蜀中的李隆基感念张九龄，尤其是“乱幽州者，必此胡也”的预言，遣使至曲江（今广东省韶关市）祭拜张九龄，追赠其为司徒。</p>]]></description></item><item><title>[笔记]桃花源没事儿 马伯庸</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A1%83%E8%8A%B1%E6%BA%90%E6%B2%A1%E4%BA%8B%E5%84%BF-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A1%83%E8%8A%B1%E6%BA%90%E6%B2%A1%E4%BA%8B%E5%84%BF-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</guid><description></description></item><item><title>[笔记]源代码:比尔·盖茨首部自传 [美] 比尔·盖茨;鲁伊</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</guid><description></description></item><item><title>[笔记]长安的荔枝 马伯庸</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</guid><description><![CDATA[<ul>
 <li>
 <p>45-46, 标注, 2025 年 7 月 21 日星期一 上午 8:17:30</p>
 <blockquote>
@@ -20,15 +78,14 @@
 <li>
 <p>383-386, 标注, 2025 年 7 月 23 日星期三 上午 8:01:29</p>
 <blockquote>
-<p>开元十三年，有个叫李泌的七岁神童入宫朝觐。天子正在和中书令张说弈棋。天子令张说、李泌二人以“方圆动静”为题吟棋。张说写的是：“方如棋局，圆如棋子。动如棋生，静如棋死。”而李泌则开口说道：“方如行义，圆如用智。动如逞才，静如遂意。”大得天子赞赏，送其入东宫陪太子读书。</p>]]></description></item><item><title>六月读书笔记</title><link>https://yangyingchao.github.io/%E5%85%AD%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E5%85%AD%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e4%ba%b5%e6%b8%8e--%e7%ac%94%e8%ae%b0-%e4%ba%b5%e6%b8%8e-%e7%83%9f%e9%9b%a8%e6%b1%9f%e5%8d%97-dot-md" rel="">亵渎</a></li>
-<li><span class="section-num">2</span> <a href="#%e6%ba%90%e4%bb%a3%e7%a0%81--%e7%ac%94%e8%ae%b0-%e6%ba%90%e4%bb%a3%e7%a0%81-dot-md" rel="">源代码</a></li>
+<p>开元十三年，有个叫李泌的七岁神童入宫朝觐。天子正在和中书令张说弈棋。天子令张说、李泌二人以“方圆动静”为题吟棋。张说写的是：“方如棋局，圆如棋子。动如棋生，静如棋死。”而李泌则开口说道：“方如行义，圆如用智。动如逞才，静如遂意。”大得天子赞赏，送其入东宫陪太子读书。</p>]]></description></item><item><title>[笔记]悟空传:完美纪念版 今何在</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%82%9F%E7%A9%BA%E4%BC%A0%E5%AE%8C%E7%BE%8E%E7%BA%AA%E5%BF%B5%E7%89%88-%E4%BB%8A%E4%BD%95%E5%9C%A8/</link><pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%82%9F%E7%A9%BA%E4%BC%A0%E5%AE%8C%E7%BE%8E%E7%BA%AA%E5%BF%B5%E7%89%88-%E4%BB%8A%E4%BD%95%E5%9C%A8/</guid><description><![CDATA[<ul>
+<li>
+<p>121-122, 标注, 2025 年 5 月 21 日星期三 上午 8:30:29</p>
+<blockquote>
+<p>每个人的人生中都会做出无数次选择，这些选择是会改变你的一生，还是无论如何选择都会走向同一种命运呢？</p></blockquote>
+</li>
 </ul>
-</div>
-<!--endtoc-->
-<h2 id="亵渎--笔记-亵渎-烟雨江南-dot-md"><span class="section-num">1</span> <a href="/%E7%AC%94%E8%AE%B0%E4%BA%B5%E6%B8%8E-%E7%83%9F%E9%9B%A8%E6%B1%9F%E5%8D%97/" rel="">亵渎</a></h2>
-<p>时过境迁，十九年后重读此书，完全没有了当时追书的快乐，只有面对命运洪流时的困苦与无奈，以及，深藏其中的，一点点希望。</p>
-<h2 id="源代码--笔记-源代码-dot-md"><span class="section-num">2</span> <a href="/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81/" rel="">源代码</a></h2>
-<p>看着也比较又感触，还专门给孩子买了一本纸质书，当作暑假的阅读材料。</p>]]></description></item></channel></rss>
+<!--listend-->
+<ul>
+<li>
+<p>124-127, 标注, 2025 年 5 月 21 日星期三 上午 8:30:57</p>]]></description></item></channel></rss>
