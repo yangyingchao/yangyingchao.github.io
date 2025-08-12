@@ -19,7 +19,13 @@
 </ul>
 </li>
 <li><span class="section-num">4</span> <a href="#shared-libraries" rel="">Shared Libraries</a></li>
-<li><span class="section-num">5</span> <a href="#linkers-part-5" rel="">Linkers part 5</a></li>
+<li><span class="section-num">5</span> <a href="#part-5" rel="">Part 5</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#shared-libraries-redux" rel="">Shared Libraries Redux</a></li>
+<li><span class="section-num">5.2</span> <a href="#elf-symbols" rel="">ELF Symbols</a></li>
+</ul>
+</li>
+<li><span class="section-num">6</span> <a href="#linkers-part-6" rel="">Linkers part 6</a></li>
 </ul>
 </div>
 <!--endtoc-->

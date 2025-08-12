@@ -14,7 +14,10 @@
     - <span class="section-num">3.1</span> [地址空间](#地址空间)
     - <span class="section-num">3.2</span> [对象文件格式](#对象文件格式)
 - <span class="section-num">4</span> [Shared Libraries](#shared-libraries)
-- <span class="section-num">5</span> [Linkers part 5](#linkers-part-5)
+- <span class="section-num">5</span> [Part 5](#part-5)
+    - <span class="section-num">5.1</span> [Shared Libraries Redux](#shared-libraries-redux)
+    - <span class="section-num">5.2</span> [ELF Symbols](#elf-symbols)
+- <span class="section-num">6</span> [Linkers part 6](#linkers-part-6)
 
 </div>
 <!--endtoc-->
@@ -194,5 +197,90 @@ jmp *8(%ebx)
 在其他处理器上，细节自然有所不同。然而，整体风格是相似的：位置无关代码在共享库中启动更快，但运行稍微慢一些。
 
 
-## <span class="section-num">5</span> Linkers part 5 {#linkers-part-5}
+## <span class="section-num">5</span> Part 5 {#part-5}
+
+
+### <span class="section-num">5.1</span> Shared Libraries Redux {#shared-libraries-redux}
+
+当程序链接器将依赖于位置的代码放入共享库时，它必须将对象文件中的更多重定位信息复制到共享库中。这些重定位信息将在运行时由动态链接器计算为动态重定位。有些重定位信息不必被复制；例如，指向共享库中局部符号的相对程序计数器重定位可以由程序链接器完全解析，而不需要动态重定位。然而，请注意，指向全局符号的相对程序计数器重定位确实需要动态重定位；否则，主可执行文件将无法覆盖该符号。有些重定位信息必须存在于共享库中，但不需要是对象文件中重定位信息的实际副本；例如，一个计算共享库中局部符号绝对地址的重定位通常可以用 RELATIVE 重定位替代，该重定位仅指示动态链接器添加共享库加载地址与其基址之间的差值。使用 RELATIVE
+重定位的优势在于动态链接器可以在运行时快速计算，因为它不需要确定符号的值。
+
+对于位置无关代码，程序链接器的工作更加复杂。编译器和汇编器会协同生成位置无关代码的特殊重定位。虽然各个处理器的细节有所不同，但通常会有一个 PLT 重定位和一个 GOT 重定位。这些重定位会指导程序链接器为 PLT 或
+GOT 添加一个条目，同时执行一些计算。例如，在 i386 上，位置无关代码中的函数调用会生成一个 R_386_PLT32 重定位。该重定位将像往常一样引用一个符号。它会指导程序链接器为该符号添加一个 PLT 条目，如果尚不存在的话。重定位的计算随后是对 PLT 条目的 PC 相对引用。（重定位名称中的 32 指的是引用的大小，即 32 位）。昨天我描述了在
+i386 上每个 PLT 条目也都有一个对应的 GOT 条目，因此 R_386_PLT32 重定位实际上指导程序链接器同时创建一个 PLT
+条目和一个 GOT 条目。
+
+当程序链接器在 PLT 或 GOT 中创建一个条目时，它还必须生成一个动态重定位以告知动态链接器有关该条目的信息。通常这将是一个 JMP_SLOT 或 GLOB_DAT 重定位。
+
+这就意味着程序链接器必须跟踪每个符号的 PLT 条目和 GOT 条目。当然，最初不会有这样的条目。当链接器看到 PLT 或 GOT
+重定位时，它必须检查重定位所引用的符号是否已经有 PLT 或 GOT 条目，如果没有则创建一个。注意，单个符号可能同时具有
+PLT 条目和 GOT 条目；这会发生在位置无关代码中，该代码既调用函数又取其地址。
+
+动态链接器在 PLT 和 GOT 表中的工作是简单地在运行时计算 JMP_SLOT 和 GLOB_DAT 重定位。这里的主要复杂性是我昨天描述的 PLT 条目的惰性求值。
+
+C 语言允许取函数地址，这引入了一个有趣的复杂性。在 C 中，您可以取函数的地址，并且可以将这个地址与另一个函数地址进行比较。问题在于，如果您在共享库中取一个函数的地址，得到的自然结果将是 PLT
+条目的地址。毕竟，调用函数的跳转就是跳转到这个地址。然而，每个共享库都有其自己的 PLT，因此特定函数的地址在每个共享库中都会有所不同。这意味着在不同共享库中生成的函数指针的比较可能不同，而它们应该相同。这不是一个纯假设的问题；当我做一个错误端口时，在我修复错误之前，我看到在 Tcl
+共享库中比较函数指针时失败了。
+
+在大多数处理器上，解决此错误的办法是对具有 PLT 条目但未定义的符号进行特殊标记。通常符号将被标记为未定义，但带有非零值——该值将设置为 PLT 条目的地址。当动态链接器在搜索用于重定位的符号值时，如果它发现这样的特殊标记符号，它将使用非零值。这将确保所有非函数调用的符号引用都将使用相同的值。为了使这项工作正常，编译器和汇编器必须确保任何不涉及调用的函数引用都不会携带标准 PLT 重定位。这种对函数地址的特殊处理需要在程序链接器和动态链接器中实现。
+
+
+### <span class="section-num">5.2</span> ELF Symbols {#elf-symbols}
+
+好了，关于共享库的内容够多了。让我们更详细地讨论 ELF 符号。我不打算详细列出确切的数据结构——您可以查阅 ELF ABI。我要讨论的是不同的字段及其含义。许多不同类型的 ELF 符号也被其他目标文件格式使用，但我不会涵盖这一点。
+
+ELF 符号表中的一个条目有八个部分信息：一个名称，一个值，一个大小，一个节，绑定，一个类型，一个可见性，以及未定义的附加信息（目前有六个位未定义，尽管可能会添加更多）。在共享对象中定义的 ELF
+符号也可能有一个关联的版本名称。
+
+名称显而易见。
+
+对于普通定义的符号，节是在文件中的某个节（具体而言，符号表条目保存了指向节表的索引）。对于目标文件，值是相对于节的起始位置。对于可执行文件，值是绝对地址。对于共享库，值是相对于基地址。
+
+对于未定义引用符号，节索引是特殊值 SHN_UNDEF，其值为 0。节索引 SHN_ABS（0xfff1）表示符号的值是一个绝对值，而不是相对于任何节。
+
+节索引 SHN_COMMON（0xfff2）表示公共符号。公共符号是为处理 Fortran 公共块而发明的，它们通常也用于 C
+语言中的未初始化全局变量。公共符号具有不寻常的语义。公共符号的值为零，但将大小字段设置为所需的大小。如果一个目标文件有一个公共符号，而另一个文件有一个定义，该公共符号将被视为未定义引用。如果公共符号没有定义，程序链接器会假装看到一个初始化为零的适当大小的定义。两个目标文件可能有不同大小的公共符号，在这种情况下，程序链接器将使用最大的大小。在共享库之间实现公共符号的语义是一个棘手的问题，最近通过引入公共符号的类型和特殊节索引有所缓解（见下面关于符号类型的讨论）。
+
+除了公共符号外，ELF 符号的大小是变量或函数的大小。这主要用于调试目的。
+
+ELF 符号的绑定可以是全局的、本地的或弱的。全局符号是全局可见的。本地符号只有在本地可见（例如，一个静态函数）。弱符号有两种类型。弱未定义引用类似于普通未定义引用，除了如果重定位引用了一个没有定义符号的弱未定义引用符号，则它不是错误。相反，重定位的计算就像该符号的值为零一样。
+
+弱定义符号允许与同名的非弱定义符号链接，而不引起多重定义错误。历史上，程序链接器处理弱定义符号有两种方式。在
+SVR4 上，如果程序链接器看到一个弱定义符号后跟同名的非弱定义符号，它将发出多重定义错误。然而，非弱定义符号后跟弱定义符号不会导致错误。在 Solaris 上，一个弱定义符号后跟一个非弱定义符号会导致所有引用附加到非弱定义符号，而没有错误。行为上的差异是由于 ELF ABI
+中的模糊性，不同的人有不同的解读。GNU 链接器遵循 Solaris 的行为。
+
+ELF 符号的类型如下所示：
+
+-   STT_NOTYPE: no particular type.
+
+-   STT_OBJECT: a data object, such as a variable.
+
+-   STT_FUNC: a function
+
+-   STT_SECTION: a local symbol associated with a section. This type of symbol is used to reduce the number of
+    local symbols required, by changing all relocations against local symbols in a specific section to use the
+    STT_SECTION symbol instead.
+
+-   STT_FILE: a special symbol whose name is the name of the source file which produced the object file.
+
+-   STT_COMMON: a common symbol. This is the same as setting the section index to SHN_COMMON, except in a shared object.
+    The program linker will normally have allocated space for the common symbol in the shared object, so it will have a
+    real section index. The STT_COMMON type tells the dynamic linker that although the symbol has a regular definition,
+    it is a common symbol.
+
+-   STT_TLS: a symbol in the Thread Local Storage area. I will describe this in more detail some other day.
+
+ELF 符号的可见性是为提供更好的控制符号在共享库之外的可访问性而发明的。基本思想是符号在共享库内可能是全局的，但在共享库外是本地的。
+
+-   STV_DEFAULT: the usual visibility rules apply: global symbols are visible everywhere.
+-   STV_INTERNAL: the symbol is not accessible outside the current executable or shared library.
+-   STV_HIDDEN: the symbol is not visible outside the current executable or shared library, but it may be accessed
+    indirectly, probably because some code took its address.
+-   STV_PROTECTED: the symbol is visible outside the current executable or shared object, but it may not be overridden.
+    That is, if a protected symbol in a shared library is referenced by other code in the shared library, that other
+    code will always reference the symbol in the shared library, even if the executable defines a symbol with the same
+    name.
+
+
+## <span class="section-num">6</span> Linkers part 6 {#linkers-part-6}
 

@@ -19,7 +19,13 @@
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#shared-libraries" rel="">Shared Libraries&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#linkers-part-5" rel="">Linkers part 5&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#part-5" rel="">Part 5&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#shared-libraries-redux" rel="">Shared Libraries Redux&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">5.2&lt;/span> &lt;a href="#elf-symbols" rel="">ELF Symbols&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#linkers-part-6" rel="">Linkers part 6&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/div>
 &lt;!--endtoc-->
