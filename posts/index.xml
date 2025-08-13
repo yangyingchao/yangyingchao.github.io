@@ -25,7 +25,13 @@
 <li><span class="section-num">5.2</span> <a href="#elf-symbols" rel="">ELF Symbols</a></li>
 </ul>
 </li>
-<li><span class="section-num">6</span> <a href="#linkers-part-6" rel="">Linkers part 6</a></li>
+<li><span class="section-num">6</span> <a href="#linkers-part-6" rel="">Linkers part 6</a>
+<ul>
+<li><span class="section-num">6.1</span> <a href="#%e9%87%8d%e5%ae%9a%e4%bd%8d--relocations" rel="">重定位 (Relocations)</a></li>
+<li><span class="section-num">6.2</span> <a href="#position-dependent-shared-libraries" rel="">Position Dependent Shared Libraries</a></li>
+</ul>
+</li>
+<li><span class="section-num">7</span> <a href="#linkers-part-7" rel="">Linkers part 7</a></li>
 </ul>
 </div>
 <!--endtoc-->
