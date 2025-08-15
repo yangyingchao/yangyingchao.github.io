@@ -31,15 +31,12 @@
 <li><span class="section-num">6.2</span> <a href="#position-dependent-shared-libraries" rel="">Position Dependent Shared Libraries</a></li>
 </ul>
 </li>
-<li><span class="section-num">7</span> <a href="#linkers-part-7" rel="">Linkers part 7</a></li>
+<li><span class="section-num">7</span> <a href="#linkers-part-7-classic-small-optimization-thread-local-storage" rel="">Linkers part 7: classic small optimization: Thread Local Storage</a></li>
+<li><span class="section-num">8</span> <a href="#linkers-part-8" rel="">Linkers part 8</a></li>
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38</a></p>
-<h2 id="linkers-part-1"><span class="section-num">1</span> Linkers part 1</h2>
-<h3 id="链接器做什么"><span class="section-num">1.1</span> 链接器做什么？</h3>
-<p>很简单：链接器将目标文件转换为可执行文件和共享库。让我们看看这意味着什么。使用链接器的情况是，软件开发过程包括用某种语言编写程序代码：例如，C或 C++或 Fortran（但通常不包括 Java，因为 Java
-通常以不同的方式工作，使用加载器而不是链接器）。编译器将这种人类可读的程序代码转换为另一种人类可读的文本形式，称为汇编代码。汇编代码是机器语言的可读形式，计算机可以直接执行。汇编器用于将此汇编代码转换为目标文件。为了完整起见，我要提到某些编译器在内部包括一个汇编器，并直接生成目标文件。无论哪种方式，这就是事情变得有趣的地方。</p>]]></description></item><item><title>七月读书笔记</title><link>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38</a></p>]]></description></item><item><title>七月读书笔记</title><link>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E4%B8%83%E6%9C%88%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e5%bc%83%e9%95%bf%e5%ae%89--%e7%ac%94%e8%ae%b0-%e5%bc%83%e9%95%bf%e5%ae%89-%e5%bc%a0%e6%98%8e%e6%89%ac-dot-md" rel="">弃长安</a></li>

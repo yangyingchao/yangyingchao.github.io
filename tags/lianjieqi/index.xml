@@ -31,12 +31,9 @@
 &lt;li>&lt;span class="section-num">6.2&lt;/span> &lt;a href="#position-dependent-shared-libraries" rel="">Position Dependent Shared Libraries&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#linkers-part-7" rel="">Linkers part 7&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#linkers-part-7-classic-small-optimization-thread-local-storage" rel="">Linkers part 7: classic small optimization: Thread Local Storage&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">8&lt;/span> &lt;a href="#linkers-part-8" rel="">Linkers part 8&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/div>
 &lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38&lt;/a>&lt;/p>
-&lt;h2 id="linkers-part-1">&lt;span class="section-num">1&lt;/span> Linkers part 1&lt;/h2>
-&lt;h3 id="链接器做什么">&lt;span class="section-num">1.1&lt;/span> 链接器做什么？&lt;/h3>
-&lt;p>很简单：链接器将目标文件转换为可执行文件和共享库。让我们看看这意味着什么。使用链接器的情况是，软件开发过程包括用某种语言编写程序代码：例如，C或 C++或 Fortran（但通常不包括 Java，因为 Java
-通常以不同的方式工作，使用加载器而不是链接器）。编译器将这种人类可读的程序代码转换为另一种人类可读的文本形式，称为汇编代码。汇编代码是机器语言的可读形式，计算机可以直接执行。汇编器用于将此汇编代码转换为目标文件。为了完整起见，我要提到某些编译器在内部包括一个汇编器，并直接生成目标文件。无论哪种方式，这就是事情变得有趣的地方。&lt;/p></description></item></channel></rss>
+&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38&lt;/a>&lt;/p></description></item></channel></rss>

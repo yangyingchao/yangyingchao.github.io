@@ -20,7 +20,8 @@
 - <span class="section-num">6</span> [Linkers part 6](#linkers-part-6)
     - <span class="section-num">6.1</span> [重定位 (Relocations)](#重定位--relocations)
     - <span class="section-num">6.2</span> [Position Dependent Shared Libraries](#position-dependent-shared-libraries)
-- <span class="section-num">7</span> [Linkers part 7](#linkers-part-7)
+- <span class="section-num">7</span> [Linkers part 7: classic small optimization: Thread Local Storage](#linkers-part-7-classic-small-optimization-thread-local-storage)
+- <span class="section-num">8</span> [Linkers part 8](#linkers-part-8)
 
 </div>
 <!--endtoc-->
@@ -353,5 +354,80 @@ stw 1,g@l(9) // 将寄存器 1 的值存储到寄存器 9 中地址加上 g 的�
 PLT 和 GOT 的优点在于它们将重定位移到其他地方，即 PLT 和 GOT 表本身。这些表可以放入共享库的读写部分。这个共享库的这一部分将远小于代码。使用共享库的每个进程中的 PLT 和 GOT 表会有所不同，但代码将是相同的。
 
 
-## <span class="section-num">7</span> Linkers part 7 {#linkers-part-7}
+## <span class="section-num">7</span> Linkers part 7: classic small optimization: Thread Local Storage {#linkers-part-7-classic-small-optimization-thread-local-storage}
+
+我假设你知道什么是线程。通常情况下，拥有一个全局变量在每个线程中可以取不同的值是非常有用的（如果你不明白这有什么用，听我说就行）。也就是说，这个变量对程序是全局的，但具体的值是线程局部的。如果线程 A
+将线程局部变量设置为 1，而线程 B 随后将其设置为 2，那么在线程 A 中运行的代码将继续看到变量的值为 1，而在线程 B
+中运行的代码看到的值为 2。在 Posix 线程中，这种类型的变量可以通过 `pthread_key_create` 创建，通过
+`pthread_getspecific` 和 `pthread_setspecific` 访问。
+
+这些函数的工作效果还不错，但每次访问都要进行一次函数调用是很麻烦也很不方便。如果你可以只是声明一个普通的全局变量并将其标记为线程局部，那将更有用。这就是线程局部存储（Thread Local Storage，
+TLS）的概念，我相信这是在 Sun 发明的。在支持 TLS 的系统上，任何全局（或静态）变量都可以用 `__thread` 注解。这样，变量就是线程局部的。
+
+显然，这需要编译器的支持。它还需要程序链接器和动态链接器的支持。为了获得最大效率——如果不追求最大效率，那为什么要这样做呢？——还需要一些内核支持。在 ELF 系统上，线程局部存储（TLS）的设计完全支持共享库，包括多个共享库和可执行文件本身使用相同的名称来引用单个 TLS 变量。TLS 变量可以初始化。程序可以获取 TLS
+变量的地址，并在线程之间传递指针，因此 TLS 变量的地址是一个动态值，必须是全局唯一的。
+
+这个是怎么实现的？第一步：为 TLS 变量定义不同的存储模型。
+
+这些存储模型按灵活性递减的顺序定义。为了提高效率和简化，支持 TLS 的编译器允许开发者指定使用的适当 TLS 模型（在
+gcc 中，可以使用-ftls-model 选项来实现，尽管全局动态和局部动态模型还需要使用-fpic）。因此，当编译将被放入可执行文件且永远不会在共享库中的代码时，开发者可以选择将 TLS 存储模型设置为初始可执行文件。
+
+当然，在实践中，开发者往往不知道代码将如何使用。开发者也可能对 TLS 模型的复杂性不够了解。另一方面，程序链接器知道它是在创建一个可执行文件还是一个共享库，并且知道 TLS 变量是否在本地定义。因此，程序链接器负责在可能的情况下自动优化对 TLS 变量的引用。这些引用以重定位的形式出现，链接器通过以不同的方式更改代码来优化引用。
+
+程序链接器还负责将所有 TLS 变量汇总到一个单独的 TLS 段中（稍后我会更多地谈论段，暂时可以将它们视为一个节）。动态链接器必须将可执行文件和所有包含的共享库的 TLS 段进行分组，解决动态 TLS 重定位，并在使用 dlopen 时动态构建
+TLS 段。内核必须确保对 TLS 段的访问是高效的。
+
+以上都是相当一般性的内容。我们做一个例子，再次以 i386 ELF 为例。i386 ELF TLS 有三种不同的实现；我将着眼于 gnu
+实现。考虑这段简单代码：
+
+```c
+__thread int i;
+int foo() { return i; }
+```
+
+在全局动态模式下，这会生成类似于以下的 i386 汇编代码：
+
+```asm
+leal i@TLSGD(,%ebx,1), %eax
+call ___tls_get_addr@PLT
+movl (%eax), %eax
+```
+
+回想一下第 4 部分， `%ebx` 保存了 GOT 表的地址。第一条指令将对变量 i 具有 `R_386_TLS_GD` 重定位；重定位将应用于
+`leal` 指令的偏移量。当程序链接器看到这个重定位时，它将为 TLS 变量 i 在 GOT 表中创建两个连续的条目。第一个条目会获得一个 `R_386_TLS_DTPMOD32` 动态重定位，第二个条目会获得一个 `R_386_TLS_DTPOFF32` 动态重定位。动态链接器将把 DTPMOD32 GOT 条目设置为保存定义该变量的对象的模块 ID。模块 ID
+是在动态链接器表中标识可执行文件或特定共享库的索引。动态链接器将把 DTPOFF32 GOT 条目设置为该模块在 TLS
+段中的偏移量。 `_tls_get_addr` 函数将使用这些值来计算地址（该函数还处理 TLS 变量的延迟分配，这是动态链接器特有的进一步优化）。注意， `__tls_get_addr` 实际上是由动态链接器本身实现的；因此，全局动态 TLS
+变量在静态链接的可执行文件中不被支持（也没有必要）。
+
+在这个时候，你可能在想 `pthread_getspecific` 有什么效率问题。TLS 的真正优势在于当你看到程序链接器可以做什么时。上面显示的 `leal; call` 序列是经典的：编译器总是会生成相同的序列来访问全局动态模式下的 TLS 变量。程序链接器利用了这一事实。如果程序链接器看到上面的代码将进入到一个可执行文件中，它知道访问不必被视为全局动态；可以将其视为初始可执行文件。程序链接器实际上会将代码重写为如下：
+
+```asm
+movl %gs:0, %eax
+subl $i@GOTTPOFF(%ebx), %eax
+```
+
+在这里我们看到，TLS 系统利用 `%gs` 段寄存器（在操作系统的配合下），指向可执行文件的 TLS 段。对于每个支持 TLS
+的处理器，都会做一些类似的效率优化。由于程序链接器在构建可执行文件，它构建 TLS 段，并知道 i 在该段中的偏移量。
+GOTTPOFF 并不是一个真正的重定位；它是在程序链接器中创建并解析的。它当然是从 GOT 表到 TLS 段中 i 的地址的偏移量。原始序列中的 `movl (%eax), %eax` 仍然保留，用于实际加载变量的值。
+
+实际上，如果 i 没有在可执行文件中定义，那就是会发生的情况。在我展示的例子中，i在可执行文件中定义，因此程序链接器可以真正从全局动态访问一直到局部可执行访问。这看起来如下：
+
+```asm
+movl %gs:0,%eax
+subl $i@TPOFF,%eax
+```
+
+这里 `i@TPOFF` 仅仅是 i 在 TLS 段中的已知偏移量。我不会深入探讨为什么使用 `subl` 而不是 `addl` ；只需说这又是动态链接器中的一个效率优化。
+
+如果你关注到这些，你会看到，当一个可执行文件访问在该可执行文件中定义的 TLS 变量时，通常需要两个指令来计算地址，通常后面还有另一个指令来实际加载或存储值。这比调用 pthread_getspecific 高效得多。可以承认，当共享库访问 TLS
+变量时，结果与 pthread_getspecific 并没有什么太大区别，但也不应该更差。而且使用\__thread 的代码更容易编写和阅读。
+
+这是一场真正的疾风之旅。i386 上有三种独立但相关的 TLS 实现（称为 sun、gnu 和 gnu2），定义了 23
+种不同的重定位类型。我当然不会尝试描述所有细节；无论如何我也不知道所有细节。所有这些都旨在为给定存储模型提供高效访问 TLS 变量。
+
+TLS 是否值得在程序链接器和动态链接器中增加额外的复杂性？由于这些工具被每个程序使用，并且由于 C 标准全局变量
+errno 尤其可以使用 TLS 实现，因此答案很可能是肯定的。
+
+
+## <span class="section-num">8</span> Linkers part 8 {#linkers-part-8}
 
