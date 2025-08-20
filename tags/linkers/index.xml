@@ -32,7 +32,15 @@
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#linkers-part-7-classic-small-optimization-thread-local-storage" rel="">Linkers part 7: classic small optimization: Thread Local Storage&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">8&lt;/span> &lt;a href="#linkers-part-8" rel="">Linkers part 8&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">8&lt;/span> &lt;a href="#linkers-part-8-elf-segments" rel="">Linkers part 8: ELF Segments&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">9&lt;/span> &lt;a href="#linkers-part-9" rel="">Linkers part 9&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">9.1&lt;/span> &lt;a href="#symbol-versions" rel="">Symbol Versions&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">9.2&lt;/span> &lt;a href="#relaxation" rel="">Relaxation&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">10&lt;/span> &lt;a href="#linkers-part-10-parallel-linking" rel="">Linkers part 10： Parallel Linking&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">11&lt;/span> &lt;a href="#linkers-part-11" rel="">Linkers part 11&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/div>
 &lt;!--endtoc-->
