@@ -40,7 +40,19 @@
 &lt;/ul>
 &lt;/li>
 &lt;li>&lt;span class="section-num">10&lt;/span> &lt;a href="#linkers-part-10-parallel-linking" rel="">Linkers part 10： Parallel Linking&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">11&lt;/span> &lt;a href="#linkers-part-11" rel="">Linkers part 11&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">11&lt;/span> &lt;a href="#linkers-part-11-archives" rel="">Linkers part 11: Archives&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">12&lt;/span> &lt;a href="#linkers-part-12-symbol-resolution-%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90" rel="">Linkers part 12: Symbol Resolution, 符号解析&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">13&lt;/span> &lt;a href="#linkers-part-13-symbol-versions-redux" rel="">Linkers part 13: Symbol Versions Redux&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">13.1&lt;/span> &lt;a href="#%e5%90%91%e5%90%8e%e5%85%bc%e5%ae%b9%e6%80%a7" rel="">向后兼容性&lt;/a>&lt;/li>
+&lt;li>&lt;span class="section-num">13.2&lt;/span> &lt;a href="#%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%e4%b8%8e%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5" rel="">静态链接与动态链接&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;span class="section-num">14&lt;/span> &lt;a href="#linkers-part-14-link-time-optimization--lto" rel="">Linkers part 14: Link Time Optimization (LTO)&lt;/a>
+&lt;ul>
+&lt;li>&lt;span class="section-num">14.1&lt;/span> &lt;a href="#initialization-code" rel="">Initialization Code&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;/ul>
 &lt;/div>
 &lt;!--endtoc-->

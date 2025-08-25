@@ -53,7 +53,19 @@
 </ul>
 </li>
 <li><span class="section-num">10</span> <a href="#linkers-part-10-parallel-linking" rel="">Linkers part 10： Parallel Linking</a></li>
-<li><span class="section-num">11</span> <a href="#linkers-part-11" rel="">Linkers part 11</a></li>
+<li><span class="section-num">11</span> <a href="#linkers-part-11-archives" rel="">Linkers part 11: Archives</a></li>
+<li><span class="section-num">12</span> <a href="#linkers-part-12-symbol-resolution-%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90" rel="">Linkers part 12: Symbol Resolution, 符号解析</a></li>
+<li><span class="section-num">13</span> <a href="#linkers-part-13-symbol-versions-redux" rel="">Linkers part 13: Symbol Versions Redux</a>
+<ul>
+<li><span class="section-num">13.1</span> <a href="#%e5%90%91%e5%90%8e%e5%85%bc%e5%ae%b9%e6%80%a7" rel="">向后兼容性</a></li>
+<li><span class="section-num">13.2</span> <a href="#%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%e4%b8%8e%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5" rel="">静态链接与动态链接</a></li>
+</ul>
+</li>
+<li><span class="section-num">14</span> <a href="#linkers-part-14-link-time-optimization--lto" rel="">Linkers part 14:  Link Time Optimization (LTO)</a>
+<ul>
+<li><span class="section-num">14.1</span> <a href="#initialization-code" rel="">Initialization Code</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <!--endtoc-->
