@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jumbo on 杂货铺</title><link>https://yangyingchao.github.io/tags/jumbo/</link><description>Recent content in Jumbo on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/jumbo/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel="">使用高速硬件，降低节点间的延迟&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:03c174a0-65c0-4f2a-b79d-4edb9c800952" rel="">尽量降低网络中断的次数。&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:b3d4e6ca-be20-4350-bfa7-2f3496f86aab" rel="">尽量提高每一个数据包的有效载荷&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jumbo on 杂货铺</title><link>https://yangyingchao.github.io/tags/jumbo/</link><description>Recent content in Jumbo on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/jumbo/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel=""&gt;使用高速硬件，降低节点间的延迟&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:03c174a0-65c0-4f2a-b79d-4edb9c800952" rel=""&gt;尽量降低网络中断的次数。&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:b3d4e6ca-be20-4350-bfa7-2f3496f86aab" rel=""&gt;尽量提高每一个数据包的有效载荷&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p&gt;</description></item></channel></rss>

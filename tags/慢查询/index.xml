@@ -1,29 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>慢查询 on 杂货铺</title><link>https://yangyingchao.github.io/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/</link><description>Recent content in 慢查询 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 15 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/index.xml" rel="self" type="application/rss+xml"/><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/10790/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:6019344d-20aa-4954-b9ed-429bc6cf3cdc" rel="">慢查询&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:d92eb969-c035-4657-ac55-97449699f838" rel="">功能说明&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:48d6dc25-ade1-49c2-9ce0-01d0ecbd8a70" rel="">监控视图&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:07fca319-fb97-4c7b-a284-91bad80ce140" rel="">慢 SQL 列表&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:e8ff9b3e-464b-436e-8cee-3fabc34a65b1" rel="">慢 SQL 统计分析&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.5&lt;/span> &lt;a href="#h:ec0e6696-823d-4eb2-8916-b979e9aa045b" rel="">功能说明&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:674b234e-48fd-42bf-a2ce-904622df68ef" rel="">错误日志&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:224bdb02-4654-4c42-963f-6e8ca391f4e9" rel="">错误日志默认设置&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:62c155e2-aeaa-4b3e-9e5e-e1c5ac54a187" rel="">运行日志管理&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:a3fb6be9-2579-4a55-a635-798f91063de3" rel="">PG_LOG 介绍&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:f07d52de-34f0-4c36-84ed-b1592578e807" rel="">修改 PG_LOG 保留时长&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/10790&lt;/a>&lt;/p>
-&lt;p>摘自：&lt;a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer ">https://cloud.tencent.com/document/product/409/49546&lt;/a>&lt;/p>
-&lt;h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc">&lt;span class="section-num">1&lt;/span> 慢查询&lt;/h2>
-&lt;h3 id="h:d92eb969-c035-4657-ac55-97449699f838">&lt;span class="section-num">1.1&lt;/span> 功能说明&lt;/h3>
-&lt;p>默认数据库对超过 1s 的 SQL 语句查询判断为 “ &lt;strong>慢查询&lt;/strong> ”，对应语句称为“ &lt;strong>慢查询语句&lt;/strong> （俗称 &lt;strong>慢 SQL&lt;/strong> ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
-&lt;strong>慢查询分析&lt;/strong> 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>慢查询 on 杂货铺</title><link>https://yangyingchao.github.io/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/</link><description>Recent content in 慢查询 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 15 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/%E6%85%A2%E6%9F%A5%E8%AF%A2/index.xml" rel="self" type="application/rss+xml"/><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/10790/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:6019344d-20aa-4954-b9ed-429bc6cf3cdc" rel=""&gt;慢查询&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:d92eb969-c035-4657-ac55-97449699f838" rel=""&gt;功能说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#h:48d6dc25-ade1-49c2-9ce0-01d0ecbd8a70" rel=""&gt;监控视图&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#h:07fca319-fb97-4c7b-a284-91bad80ce140" rel=""&gt;慢 SQL 列表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#h:e8ff9b3e-464b-436e-8cee-3fabc34a65b1" rel=""&gt;慢 SQL 统计分析&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; &lt;a href="#h:ec0e6696-823d-4eb2-8916-b979e9aa045b" rel=""&gt;功能说明&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:674b234e-48fd-42bf-a2ce-904622df68ef" rel=""&gt;错误日志&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:224bdb02-4654-4c42-963f-6e8ca391f4e9" rel=""&gt;错误日志默认设置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:62c155e2-aeaa-4b3e-9e5e-e1c5ac54a187" rel=""&gt;运行日志管理&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:a3fb6be9-2579-4a55-a635-798f91063de3" rel=""&gt;PG_LOG 介绍&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:f07d52de-34f0-4c36-84ed-b1592578e807" rel=""&gt;修改 PG_LOG 保留时长&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://cloud.tencent.com/document/product/409/10790" target="_blank" rel="noopener noreffer "&gt;https://cloud.tencent.com/document/product/409/10790&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;摘自：&lt;a href="https://cloud.tencent.com/document/product/409/49546" target="_blank" rel="noopener noreffer "&gt;https://cloud.tencent.com/document/product/409/49546&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 慢查询&lt;/h2&gt;
+&lt;h3 id="h:d92eb969-c035-4657-ac55-97449699f838"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; 功能说明&lt;/h3&gt;
+&lt;p&gt;默认数据库对超过 1s 的 SQL 语句查询判断为 “ &lt;strong&gt;慢查询&lt;/strong&gt; ”，对应语句称为“ &lt;strong&gt;慢查询语句&lt;/strong&gt; （俗称 &lt;strong&gt;慢 SQL&lt;/strong&gt; ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
+&lt;strong&gt;慢查询分析&lt;/strong&gt; 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：&lt;/p&gt;</description></item></channel></rss>

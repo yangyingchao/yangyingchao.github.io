@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sqlserver on 杂货铺</title><link>https://yangyingchao.github.io/tags/sqlserver/</link><description>Recent content in Sqlserver on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlserver/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:a4fb225f-a49e-4a9e-927c-a0173212264d" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:a555d6ac-abe7-471a-872e-af21f9cfa13c" rel="">APPLICATION EXAMPLE&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:e89b04c8-78da-49f9-ae2b-4b9de35e7442" rel="">Project Siberia&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/f/p1714-kossmann.pdf&lt;/p>
-&lt;p>对目前的架构来讲，和 &lt;strong>粗糙索引&lt;/strong> 作用重叠。。&lt;/p>
-&lt;h2 id="h:925d40ea-36be-4f97-92e1-5a9583172847">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
-&lt;ul>
-&lt;li>&lt;strong>ARF&lt;/strong>: Adaptive Range Filter, 自适应范围过滤器&lt;/li>
-&lt;li>ARF is for Range queries, while&lt;/li>
-&lt;li>BloomFilter is for Point queries&lt;/li>
-&lt;/ul>
-&lt;h2 id="h:a4fb225f-a49e-4a9e-927c-a0173212264d">&lt;span class="section-num">2&lt;/span> INTRODUCTION&lt;/h2>
-&lt;h2 id="h:a555d6ac-abe7-471a-872e-af21f9cfa13c">&lt;span class="section-num">3&lt;/span> APPLICATION EXAMPLE&lt;/h2>
-&lt;h3 id="h:e89b04c8-78da-49f9-ae2b-4b9de35e7442">&lt;span class="section-num">3.1&lt;/span> Project Siberia&lt;/h3>
-&lt;ul>
-&lt;li>Siberia 是 Hekaton 项目用于管理冷数据的一个项目
-&lt;ul>
-&lt;li>Hekaton 则是 SQL Server 套件中的内存数据库&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;!--listend-->
-&lt;ul>
-&lt;li>查询处理&lt;/li>
-&lt;/ul>
-&lt;p>&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07">&lt;/a>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sqlserver on 杂货铺</title><link>https://yangyingchao.github.io/tags/sqlserver/</link><description>Recent content in Sqlserver on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/sqlserver/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:a4fb225f-a49e-4a9e-927c-a0173212264d" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:a555d6ac-abe7-471a-872e-af21f9cfa13c" rel=""&gt;APPLICATION EXAMPLE&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:e89b04c8-78da-49f9-ae2b-4b9de35e7442" rel=""&gt;Project Siberia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/f/p1714-kossmann.pdf&lt;/p&gt;
+&lt;p&gt;对目前的架构来讲，和 &lt;strong&gt;粗糙索引&lt;/strong&gt; 作用重叠。。&lt;/p&gt;
+&lt;h2 id="h:925d40ea-36be-4f97-92e1-5a9583172847"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;ARF&lt;/strong&gt;: Adaptive Range Filter, 自适应范围过滤器&lt;/li&gt;
+&lt;li&gt;ARF is for Range queries, while&lt;/li&gt;
+&lt;li&gt;BloomFilter is for Point queries&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="h:a4fb225f-a49e-4a9e-927c-a0173212264d"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; INTRODUCTION&lt;/h2&gt;
+&lt;h2 id="h:a555d6ac-abe7-471a-872e-af21f9cfa13c"&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; APPLICATION EXAMPLE&lt;/h2&gt;
+&lt;h3 id="h:e89b04c8-78da-49f9-ae2b-4b9de35e7442"&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; Project Siberia&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Siberia 是 Hekaton 项目用于管理冷数据的一个项目
+&lt;ul&gt;
+&lt;li&gt;Hekaton 则是 SQL Server 套件中的内存数据库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;ul&gt;
+&lt;li&gt;查询处理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07"&gt;&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

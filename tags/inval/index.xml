@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Inval on 杂货铺</title><link>https://yangyingchao.github.io/tags/inval/</link><description>Recent content in Inval on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/inval/index.xml" rel="self" type="application/rss+xml"/><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#prelog" rel="">prelog&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#configurable-parameters" rel="">Configurable parameters&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#sicleanupqueue" rel="">SICleanupQueue&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86" rel="">重置后的处理&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86" rel="">信号的处理&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c&lt;/a>&lt;/p>
-&lt;h2 id="prelog">&lt;span class="section-num">1&lt;/span> prelog&lt;/h2>
-&lt;p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Inval on 杂货铺</title><link>https://yangyingchao.github.io/tags/inval/</link><description>Recent content in Inval on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/inval/index.xml" rel="self" type="application/rss+xml"/><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#prelog" rel=""&gt;prelog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#configurable-parameters" rel=""&gt;Configurable parameters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#sicleanupqueue" rel=""&gt;SICleanupQueue&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86" rel=""&gt;重置后的处理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86" rel=""&gt;信号的处理&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c" target="_blank" rel="noopener noreffer "&gt;https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="prelog"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; prelog&lt;/h2&gt;
+&lt;p&gt;共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
 minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &amp;gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
-maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p></description></item></channel></rss>
+maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p&gt;</description></item></channel></rss>

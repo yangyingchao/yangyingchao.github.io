@@ -1,33 +1,33 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>QueryFormer on 杂货铺</title><link>https://yangyingchao.github.io/tags/queryformer/</link><description>Recent content in QueryFormer on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/queryformer/index.xml" rel="self" type="application/rss+xml"/><item><title>QueryFormer: A Tree Transformer Model for Query Plan Representation</title><link>https://yangyingchao.github.io/p1658-zhao/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1658-zhao/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:183f9122-54a5-402b-a116-7c3d46e8969d" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/0/p1658-zhao.pdf&lt;/p>
-&lt;p>QueryFormer:&lt;/p>
-&lt;ul>
-&lt;li>learning-based query planer representation model&lt;/li>
-&lt;li>with tree-structured Transformer architecture&lt;/li>
-&lt;/ul>
-&lt;p>-integrate histograms from database into query plan encoding&lt;/p>
-&lt;h2 id="h:183f9122-54a5-402b-a116-7c3d46e8969d">&lt;span class="section-num">1&lt;/span> INTRODUCTION&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>Physical Query Plan As DAG (Directed Acyclic Graph)&lt;/p>
-&lt;p>&lt;a id="figure--fig:screenshot@2022-11-03-11:43:04">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2022-11-03_11:43:04.png"
- alt="Figure 1: Example query and query plan">&lt;figcaption>
- &lt;p>&lt;span class="figure-number">Figure 1: &lt;/span>Example query and query plan&lt;/p>
- &lt;/figcaption>
- &lt;/figure>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>QueryFormer on 杂货铺</title><link>https://yangyingchao.github.io/tags/queryformer/</link><description>Recent content in QueryFormer on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/queryformer/index.xml" rel="self" type="application/rss+xml"/><item><title>QueryFormer: A Tree Transformer Model for Query Plan Representation</title><link>https://yangyingchao.github.io/p1658-zhao/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1658-zhao/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:183f9122-54a5-402b-a116-7c3d46e8969d" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/0/p1658-zhao.pdf&lt;/p&gt;
+&lt;p&gt;QueryFormer:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;learning-based query planer representation model&lt;/li&gt;
+&lt;li&gt;with tree-structured Transformer architecture&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;-integrate histograms from database into query plan encoding&lt;/p&gt;
+&lt;h2 id="h:183f9122-54a5-402b-a116-7c3d46e8969d"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; INTRODUCTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Physical Query Plan As DAG (Directed Acyclic Graph)&lt;/p&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-11-03-11:43:04"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2022-11-03_11:43:04.png"
+ alt="Figure 1: Example query and query plan"&gt;&lt;figcaption&gt;
+ &lt;p&gt;&lt;span class="figure-number"&gt;Figure 1: &lt;/span&gt;Example query and query plan&lt;/p&gt;
+ &lt;/figcaption&gt;
+ &lt;/figure&gt;
 
-&lt;ul>
-&lt;li>node 表示操作&lt;/li>
-&lt;li>edge 表示方向&lt;/li>
-&lt;li>子节点先执行，执行结果给父节点作为输入&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>Physical Query Plan 作为机器学习的输入，用以数据库优化&lt;/p></description></item></channel></rss>
+&lt;ul&gt;
+&lt;li&gt;node 表示操作&lt;/li&gt;
+&lt;li&gt;edge 表示方向&lt;/li&gt;
+&lt;li&gt;子节点先执行，执行结果给父节点作为输入&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Physical Query Plan 作为机器学习的输入，用以数据库优化&lt;/p&gt;</description></item></channel></rss>

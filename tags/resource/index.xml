@@ -1,46 +1,46 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Resource on 杂货铺</title><link>https://yangyingchao.github.io/tags/resource/</link><description>Recent content in Resource on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/resource/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:6543d92b-650b-4a86-a5f4-d93974938e1e" rel="">Resource Group 简介&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:87ff1e45-30e4-4099-aad9-e1064281c0be" rel="">Resource Group 使用&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:1c08605f-36f7-4a1a-87cc-037efa150149" rel="">创建资源组&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:70a522e2-3bb5-48ac-85cb-397ab7c54842" rel="">将资源组分配给角色&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#h:56b07b4f-c8cd-4a61-bb05-a0aa53c4e729" rel="">修改资源组配置&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.4&lt;/span> &lt;a href="#h:e0d0a541-5d0d-4bda-9e66-3f90d4d32462" rel="">删除资源组&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.5&lt;/span> &lt;a href="#h:3305964b-23b6-44fd-9dbc-bb12603f1ef4" rel="">取消资源组中的正在运行或已排队的事务&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:44d4e11a-9bbe-4e4b-b53c-ae006a8a6f40" rel="">Resource Group 监控&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:0ad80fcc-a86a-4d19-9709-45bdbafa50a8" rel="">查看资源组限制&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:632da5d7-0508-4e3e-8b29-94f5b789fbbb" rel="">查看资源组查询状态和 CPU/ 内存使用情况&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:cb00d02d-61d4-4228-afca-7e142d2a349e" rel="">查看每个主机的资源组 CPU/ 内存使用情况&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:c0b260c5-68c3-428f-972a-20eb9a3f274a" rel="">查看每个 segment 的资源组 CPU/ 内存使用情况&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.5&lt;/span> &lt;a href="#h:b9c1e5c1-8c90-4224-bd01-3b6de293e9e6" rel="">查看分配给角色的资源组&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.6&lt;/span> &lt;a href="#h:b163affe-2a54-40b0-845f-e40858e66496" rel="">查看资源组的运行和待定查询&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:3ae3d47a-5c9e-4b2a-a623-026e4c4f83d1" rel="">Resource Group 实现分析&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:ec7e1268-e7ff-4c64-871d-14a2293b643b" rel="">并发限制&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:2198a469-e00c-4b27-864d-8656dd1f6fa6" rel="">CPU 限制&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:fcfdc2a3-257b-4933-a006-936a2a2bed67" rel="">内存限制&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.4&lt;/span> &lt;a href="#h:8ecbe497-b8b4-45c7-a5e6-dc2f77ec5d96" rel="">Resource Group 监控&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:e568b217-3c31-4927-9089-767c8315acf6" rel="">常见问题&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:c00cc42c-b314-4054-bba3-36cde40afb7a" rel="">Resource Group 是如何利用操作系统的 cgroup 能力的？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.2&lt;/span> &lt;a href="#h:37c03467-dd66-447b-a12c-461c8efda2d5" rel="">Resource Group 是如何进行事务级别的资源限制的？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.3&lt;/span> &lt;a href="#h:6748afca-9c0f-40bc-bea4-11c1644d4fd1" rel="">Resource Group 的各种操作加不加锁，加什么锁？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.4&lt;/span> &lt;a href="#h:b4a09810-858a-4dc0-b9a6-e3b6287399d0" rel="">数据库基于 cgroup 对资源组进行限制，如果某个数据库节点故障，跨机迁移到其他节点，而 cgroup 的配置和路径结构无法迁移，会不会导致对应机器上的 resource group 功能失效？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.5&lt;/span> &lt;a href="#h:56086067-6fa2-4b51-8470-01255694316b" rel="">为什么资源组的 CPU 使用率高于配置的 CPU_RATE_LIMIT ？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.6&lt;/span> &lt;a href="#h:c21e8b97-177d-4ea2-bbc4-4a2ec11f70b6" rel="">Resource Group 在部署上有什么要求？&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:eec633c6-3777-4c48-bb09-3dc52d9653ff" rel="">总结&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://blog.csdn.net/u013970710/article/details/115433014" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/u013970710/article/details/115433014&lt;/a>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Resource on 杂货铺</title><link>https://yangyingchao.github.io/tags/resource/</link><description>Recent content in Resource on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/resource/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:6543d92b-650b-4a86-a5f4-d93974938e1e" rel=""&gt;Resource Group 简介&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:87ff1e45-30e4-4099-aad9-e1064281c0be" rel=""&gt;Resource Group 使用&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:1c08605f-36f7-4a1a-87cc-037efa150149" rel=""&gt;创建资源组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:70a522e2-3bb5-48ac-85cb-397ab7c54842" rel=""&gt;将资源组分配给角色&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#h:56b07b4f-c8cd-4a61-bb05-a0aa53c4e729" rel=""&gt;修改资源组配置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.4&lt;/span&gt; &lt;a href="#h:e0d0a541-5d0d-4bda-9e66-3f90d4d32462" rel=""&gt;删除资源组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.5&lt;/span&gt; &lt;a href="#h:3305964b-23b6-44fd-9dbc-bb12603f1ef4" rel=""&gt;取消资源组中的正在运行或已排队的事务&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:44d4e11a-9bbe-4e4b-b53c-ae006a8a6f40" rel=""&gt;Resource Group 监控&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:0ad80fcc-a86a-4d19-9709-45bdbafa50a8" rel=""&gt;查看资源组限制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:632da5d7-0508-4e3e-8b29-94f5b789fbbb" rel=""&gt;查看资源组查询状态和 CPU/ 内存使用情况&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:cb00d02d-61d4-4228-afca-7e142d2a349e" rel=""&gt;查看每个主机的资源组 CPU/ 内存使用情况&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.4&lt;/span&gt; &lt;a href="#h:c0b260c5-68c3-428f-972a-20eb9a3f274a" rel=""&gt;查看每个 segment 的资源组 CPU/ 内存使用情况&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.5&lt;/span&gt; &lt;a href="#h:b9c1e5c1-8c90-4224-bd01-3b6de293e9e6" rel=""&gt;查看分配给角色的资源组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.6&lt;/span&gt; &lt;a href="#h:b163affe-2a54-40b0-845f-e40858e66496" rel=""&gt;查看资源组的运行和待定查询&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:3ae3d47a-5c9e-4b2a-a623-026e4c4f83d1" rel=""&gt;Resource Group 实现分析&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:ec7e1268-e7ff-4c64-871d-14a2293b643b" rel=""&gt;并发限制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:2198a469-e00c-4b27-864d-8656dd1f6fa6" rel=""&gt;CPU 限制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:fcfdc2a3-257b-4933-a006-936a2a2bed67" rel=""&gt;内存限制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.4&lt;/span&gt; &lt;a href="#h:8ecbe497-b8b4-45c7-a5e6-dc2f77ec5d96" rel=""&gt;Resource Group 监控&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:e568b217-3c31-4927-9089-767c8315acf6" rel=""&gt;常见问题&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:c00cc42c-b314-4054-bba3-36cde40afb7a" rel=""&gt;Resource Group 是如何利用操作系统的 cgroup 能力的？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.2&lt;/span&gt; &lt;a href="#h:37c03467-dd66-447b-a12c-461c8efda2d5" rel=""&gt;Resource Group 是如何进行事务级别的资源限制的？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.3&lt;/span&gt; &lt;a href="#h:6748afca-9c0f-40bc-bea4-11c1644d4fd1" rel=""&gt;Resource Group 的各种操作加不加锁，加什么锁？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.4&lt;/span&gt; &lt;a href="#h:b4a09810-858a-4dc0-b9a6-e3b6287399d0" rel=""&gt;数据库基于 cgroup 对资源组进行限制，如果某个数据库节点故障，跨机迁移到其他节点，而 cgroup 的配置和路径结构无法迁移，会不会导致对应机器上的 resource group 功能失效？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.5&lt;/span&gt; &lt;a href="#h:56086067-6fa2-4b51-8470-01255694316b" rel=""&gt;为什么资源组的 CPU 使用率高于配置的 CPU_RATE_LIMIT ？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.6&lt;/span&gt; &lt;a href="#h:c21e8b97-177d-4ea2-bbc4-4a2ec11f70b6" rel=""&gt;Resource Group 在部署上有什么要求？&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:eec633c6-3777-4c48-bb09-3dc52d9653ff" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://blog.csdn.net/u013970710/article/details/115433014" target="_blank" rel="noopener noreffer "&gt;https://blog.csdn.net/u013970710/article/details/115433014&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

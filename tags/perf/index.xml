@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Perf on 杂货铺</title><link>https://yangyingchao.github.io/tags/perf/</link><description>Recent content in Perf on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/perf/index.xml" rel="self" type="application/rss+xml"/><item><title> 调优"四剑客"的实战演练，福尔摩斯•K带你轻松优化性能</title><link>https://yangyingchao.github.io/kingbase-perf-analyze.org/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/kingbase-perf-analyze.org/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:181c6e2a-6c88-472a-9347-59fec0ec00f1" rel="">几个重要的库&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MjM5NjgwMDMxMg==&amp;amp;mid=2652164045&amp;amp;idx=1&amp;amp;sn=305c8d05c0b8b41827a9d4062c44a4a8&amp;amp;chksm=bd03dd9a8a74548c907bc3f1ffac82db0207e14bdd6c2398fa798187b9ea449371a9f0ec1f6f&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1205yZcXcCHhOMmAZpuiFyFo&amp;amp;sharer_sharetime=1688349494576&amp;amp;sharer_shareid=a1eb8d286d4dcd42a0c884a984d12f54#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MjM5NjgwMDMxMg==&amp;mid=2652164045&amp;idx=1&amp;sn=305c8d05c0b8b41827a9d4062c44a4a8&amp;chksm=bd03dd9a8a74548c907bc3f1ffac82db0207e14bdd6c2398fa798187b9ea449371a9f0ec1f6f&amp;mpshare=1&amp;scene=1&amp;srcid=1205yZcXcCHhOMmAZpuiFyFo&amp;sharer_sharetime=1688349494576&amp;sharer_shareid=a1eb8d286d4dcd42a0c884a984d12f54#rd&lt;/a>&lt;/p>
-&lt;h2 id="h:181c6e2a-6c88-472a-9347-59fec0ec00f1">&lt;span class="section-num">1&lt;/span> 几个重要的库&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>&lt;strong>KWR&lt;/strong> ： &lt;br />
-KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能调优提供指导。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Perf on 杂货铺</title><link>https://yangyingchao.github.io/tags/perf/</link><description>Recent content in Perf on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/perf/index.xml" rel="self" type="application/rss+xml"/><item><title> 调优"四剑客"的实战演练，福尔摩斯•K带你轻松优化性能</title><link>https://yangyingchao.github.io/kingbase-perf-analyze.org/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/kingbase-perf-analyze.org/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:181c6e2a-6c88-472a-9347-59fec0ec00f1" rel=""&gt;几个重要的库&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MjM5NjgwMDMxMg==&amp;amp;mid=2652164045&amp;amp;idx=1&amp;amp;sn=305c8d05c0b8b41827a9d4062c44a4a8&amp;amp;chksm=bd03dd9a8a74548c907bc3f1ffac82db0207e14bdd6c2398fa798187b9ea449371a9f0ec1f6f&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1205yZcXcCHhOMmAZpuiFyFo&amp;amp;sharer_sharetime=1688349494576&amp;amp;sharer_shareid=a1eb8d286d4dcd42a0c884a984d12f54#rd" target="_blank" rel="noopener noreffer "&gt;https://mp.weixin.qq.com/s?__biz=MjM5NjgwMDMxMg==&amp;mid=2652164045&amp;idx=1&amp;sn=305c8d05c0b8b41827a9d4062c44a4a8&amp;chksm=bd03dd9a8a74548c907bc3f1ffac82db0207e14bdd6c2398fa798187b9ea449371a9f0ec1f6f&amp;mpshare=1&amp;scene=1&amp;srcid=1205yZcXcCHhOMmAZpuiFyFo&amp;sharer_sharetime=1688349494576&amp;sharer_shareid=a1eb8d286d4dcd42a0c884a984d12f54#rd&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:181c6e2a-6c88-472a-9347-59fec0ec00f1"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 几个重要的库&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;KWR&lt;/strong&gt; ： &lt;br /&gt;
+KES 自动负载信息库（Automatic Workload Repertories），每小时自动采集性能指标生成快照，建立数据库时间模型、IO 模型、等待事件、TOP SQL 和操作系统统计等性能指标，为数据库性能调优提供指导。&lt;/p&gt;</description></item></channel></rss>

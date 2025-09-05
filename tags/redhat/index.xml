@@ -1,34 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redhat on 杂货铺</title><link>https://yangyingchao.github.io/tags/redhat/</link><description>Recent content in Redhat on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/redhat/index.xml" rel="self" type="application/rss+xml"/><item><title>Red Hat Enterprise Linux 7 Performance Tuning Guide</title><link>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:1a35c677-f00f-4065-8677-6c23aa72fa3a" rel="">TOOLS&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:1ea5eef4-6983-4810-a21f-1e24673a0b07" rel="">top&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:1099edda-bbac-4396-bed3-41bc97732644" rel="">ps&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:28bdc842-2f41-4a74-9b2c-941ddd7b392d" rel="">vmstat – Virtual Memory Statistics&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:356fe62a-2a11-45cc-95ee-7ff233bfd25e" rel="">sar – System Activity Repoter&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.5&lt;/span> &lt;a href="#h:59f585f6-b2c3-485f-ae9a-ae5bc411d608" rel="">perf&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.6&lt;/span> &lt;a href="#h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f" rel="">tubostat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.7&lt;/span> &lt;a href="#h:beb68901-f122-48d9-b5e9-a0bf2c7ae668" rel="">iostat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.8&lt;/span> &lt;a href="#h:b9edc259-c08f-42a1-bf32-a12dc326881d" rel="">irqbalance&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.9&lt;/span> &lt;a href="#h:a1b0576a-074d-4fc9-9386-58fb3d25d492" rel="">ss – socket statistics&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.10&lt;/span> &lt;a href="#h:04ebff72-f620-42af-ad32-c98fe5cc3e8d" rel="">numastat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.11&lt;/span> &lt;a href="#h:02113b83-fb83-49fd-bfcc-45c773daa67d" rel="">numad&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf&lt;/p>
-&lt;h2 id="h:1a35c677-f00f-4065-8677-6c23aa72fa3a">&lt;span class="section-num">1&lt;/span> TOOLS&lt;/h2>
-&lt;h3 id="h:1ea5eef4-6983-4810-a21f-1e24673a0b07">&lt;span class="section-num">1.1&lt;/span> top&lt;/h3>
-&lt;h3 id="h:1099edda-bbac-4396-bed3-41bc97732644">&lt;span class="section-num">1.2&lt;/span> ps&lt;/h3>
-&lt;h3 id="h:28bdc842-2f41-4a74-9b2c-941ddd7b392d">&lt;span class="section-num">1.3&lt;/span> vmstat – Virtual Memory Statistics&lt;/h3>
-&lt;h3 id="h:356fe62a-2a11-45cc-95ee-7ff233bfd25e">&lt;span class="section-num">1.4&lt;/span> sar – System Activity Repoter&lt;/h3>
-&lt;h3 id="h:59f585f6-b2c3-485f-ae9a-ae5bc411d608">&lt;span class="section-num">1.5&lt;/span> perf&lt;/h3>
-&lt;h3 id="h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f">&lt;span class="section-num">1.6&lt;/span> tubostat&lt;/h3>
-&lt;h3 id="h:beb68901-f122-48d9-b5e9-a0bf2c7ae668">&lt;span class="section-num">1.7&lt;/span> iostat&lt;/h3>
-&lt;h3 id="h:b9edc259-c08f-42a1-bf32-a12dc326881d">&lt;span class="section-num">1.8&lt;/span> irqbalance&lt;/h3>
-&lt;h3 id="h:a1b0576a-074d-4fc9-9386-58fb3d25d492">&lt;span class="section-num">1.9&lt;/span> ss – socket statistics&lt;/h3>
-&lt;h3 id="h:04ebff72-f620-42af-ad32-c98fe5cc3e8d">&lt;span class="section-num">1.10&lt;/span> numastat&lt;/h3>
-&lt;h3 id="h:02113b83-fb83-49fd-bfcc-45c773daa67d">&lt;span class="section-num">1.11&lt;/span> numad&lt;/h3></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redhat on 杂货铺</title><link>https://yangyingchao.github.io/tags/redhat/</link><description>Recent content in Redhat on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/redhat/index.xml" rel="self" type="application/rss+xml"/><item><title>Red Hat Enterprise Linux 7 Performance Tuning Guide</title><link>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:1a35c677-f00f-4065-8677-6c23aa72fa3a" rel=""&gt;TOOLS&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:1ea5eef4-6983-4810-a21f-1e24673a0b07" rel=""&gt;top&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#h:1099edda-bbac-4396-bed3-41bc97732644" rel=""&gt;ps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#h:28bdc842-2f41-4a74-9b2c-941ddd7b392d" rel=""&gt;vmstat – Virtual Memory Statistics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#h:356fe62a-2a11-45cc-95ee-7ff233bfd25e" rel=""&gt;sar – System Activity Repoter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; &lt;a href="#h:59f585f6-b2c3-485f-ae9a-ae5bc411d608" rel=""&gt;perf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; &lt;a href="#h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f" rel=""&gt;tubostat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; &lt;a href="#h:beb68901-f122-48d9-b5e9-a0bf2c7ae668" rel=""&gt;iostat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.8&lt;/span&gt; &lt;a href="#h:b9edc259-c08f-42a1-bf32-a12dc326881d" rel=""&gt;irqbalance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.9&lt;/span&gt; &lt;a href="#h:a1b0576a-074d-4fc9-9386-58fb3d25d492" rel=""&gt;ss – socket statistics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.10&lt;/span&gt; &lt;a href="#h:04ebff72-f620-42af-ad32-c98fe5cc3e8d" rel=""&gt;numastat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.11&lt;/span&gt; &lt;a href="#h:02113b83-fb83-49fd-bfcc-45c773daa67d" rel=""&gt;numad&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf&lt;/p&gt;
+&lt;h2 id="h:1a35c677-f00f-4065-8677-6c23aa72fa3a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; TOOLS&lt;/h2&gt;
+&lt;h3 id="h:1ea5eef4-6983-4810-a21f-1e24673a0b07"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; top&lt;/h3&gt;
+&lt;h3 id="h:1099edda-bbac-4396-bed3-41bc97732644"&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; ps&lt;/h3&gt;
+&lt;h3 id="h:28bdc842-2f41-4a74-9b2c-941ddd7b392d"&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; vmstat – Virtual Memory Statistics&lt;/h3&gt;
+&lt;h3 id="h:356fe62a-2a11-45cc-95ee-7ff233bfd25e"&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; sar – System Activity Repoter&lt;/h3&gt;
+&lt;h3 id="h:59f585f6-b2c3-485f-ae9a-ae5bc411d608"&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; perf&lt;/h3&gt;
+&lt;h3 id="h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f"&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; tubostat&lt;/h3&gt;
+&lt;h3 id="h:beb68901-f122-48d9-b5e9-a0bf2c7ae668"&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; iostat&lt;/h3&gt;
+&lt;h3 id="h:b9edc259-c08f-42a1-bf32-a12dc326881d"&gt;&lt;span class="section-num"&gt;1.8&lt;/span&gt; irqbalance&lt;/h3&gt;
+&lt;h3 id="h:a1b0576a-074d-4fc9-9386-58fb3d25d492"&gt;&lt;span class="section-num"&gt;1.9&lt;/span&gt; ss – socket statistics&lt;/h3&gt;
+&lt;h3 id="h:04ebff72-f620-42af-ad32-c98fe5cc3e8d"&gt;&lt;span class="section-num"&gt;1.10&lt;/span&gt; numastat&lt;/h3&gt;
+&lt;h3 id="h:02113b83-fb83-49fd-bfcc-45c773daa67d"&gt;&lt;span class="section-num"&gt;1.11&lt;/span&gt; numad&lt;/h3&gt;</description></item></channel></rss>

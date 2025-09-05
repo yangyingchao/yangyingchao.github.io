@@ -1,151 +1,151 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Database on 杂货铺</title><link>https://yangyingchao.github.io/tags/database/</link><description>Recent content in Database on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/database/index.xml" rel="self" type="application/rss+xml"/><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/docs_starrocks_io_features/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#mpp-%e5%88%86%e5%b8%83%e5%bc%8f%e6%89%a7%e8%a1%8c%e6%a1%86%e6%9e%b6" rel="">MPP 分布式执行框架&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e5%85%a8%e9%9d%a2%e5%90%91%e9%87%8f%e5%8c%96%e6%89%a7%e8%a1%8c%e5%bc%95%e6%93%8e" rel="">全面向量化执行引擎&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e5%ad%98%e5%82%a8%e8%ae%a1%e7%ae%97%e5%88%86%e7%a6%bb" rel="">存储计算分离&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8" rel="">CBO 优化器&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#%e5%8f%af%e5%ae%9e%e6%97%b6%e6%9b%b4%e6%96%b0%e7%9a%84%e5%88%97%e5%bc%8f%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e" rel="">可实时更新的列式存储引擎&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#%e6%99%ba%e8%83%bd%e7%9a%84%e7%89%a9%e5%8c%96%e8%a7%86%e5%9b%be" rel="">智能的物化视图&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#%e6%95%b0%e6%8d%ae%e6%b9%96%e5%88%86%e6%9e%90" rel="">数据湖分析&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://docs.starrocks.io/zh/docs/introduction/Features/" target="_blank" rel="noopener noreffer ">https://docs.starrocks.io/zh/docs/introduction/Features/&lt;/a>&lt;/p>
-&lt;h2 id="mpp-分布式执行框架">&lt;span class="section-num">1&lt;/span> MPP 分布式执行框架&lt;/h2>
-&lt;p>StarRocks 采用 MPP (Massively Parallel Processing) 分布式执行框架。在 MPP 执行框架中，一条查询请求会被拆分成多个物理计算单元，在多机并行执行。每个执行节点拥有独享的资源（CPU、内存）。
-MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集群的水平扩展而不断提升。&lt;/p></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： ../pptx/9/openGauss+技术架构.pptx&lt;/p>
-&lt;h2 id="h:ffedcec1-02e6-45ff-b383-ae60f29ec920">&lt;span class="section-num">1&lt;/span> 体系结构&lt;/h2>
-&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:32:14">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:14.png" width="800px">
-&lt;/figure>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Database on 杂货铺</title><link>https://yangyingchao.github.io/tags/database/</link><description>Recent content in Database on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/database/index.xml" rel="self" type="application/rss+xml"/><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/docs_starrocks_io_features/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#mpp-%e5%88%86%e5%b8%83%e5%bc%8f%e6%89%a7%e8%a1%8c%e6%a1%86%e6%9e%b6" rel=""&gt;MPP 分布式执行框架&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e5%85%a8%e9%9d%a2%e5%90%91%e9%87%8f%e5%8c%96%e6%89%a7%e8%a1%8c%e5%bc%95%e6%93%8e" rel=""&gt;全面向量化执行引擎&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e5%ad%98%e5%82%a8%e8%ae%a1%e7%ae%97%e5%88%86%e7%a6%bb" rel=""&gt;存储计算分离&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8" rel=""&gt;CBO 优化器&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#%e5%8f%af%e5%ae%9e%e6%97%b6%e6%9b%b4%e6%96%b0%e7%9a%84%e5%88%97%e5%bc%8f%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e" rel=""&gt;可实时更新的列式存储引擎&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#%e6%99%ba%e8%83%bd%e7%9a%84%e7%89%a9%e5%8c%96%e8%a7%86%e5%9b%be" rel=""&gt;智能的物化视图&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#%e6%95%b0%e6%8d%ae%e6%b9%96%e5%88%86%e6%9e%90" rel=""&gt;数据湖分析&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://docs.starrocks.io/zh/docs/introduction/Features/" target="_blank" rel="noopener noreffer "&gt;https://docs.starrocks.io/zh/docs/introduction/Features/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="mpp-分布式执行框架"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; MPP 分布式执行框架&lt;/h2&gt;
+&lt;p&gt;StarRocks 采用 MPP (Massively Parallel Processing) 分布式执行框架。在 MPP 执行框架中，一条查询请求会被拆分成多个物理计算单元，在多机并行执行。每个执行节点拥有独享的资源（CPU、内存）。
+MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集群的水平扩展而不断提升。&lt;/p&gt;</description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel=""&gt;体系结构&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： ../pptx/9/openGauss+技术架构.pptx&lt;/p&gt;
+&lt;h2 id="h:ffedcec1-02e6-45ff-b383-ae60f29ec920"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 体系结构&lt;/h2&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-05-23-18:32:14"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:14.png" width="800px"&gt;
+&lt;/figure&gt;
 
-&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:32:47">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:47.png" width="800px">
-&lt;/figure>
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-05-23-18:32:47"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:32:47.png" width="800px"&gt;
+&lt;/figure&gt;
 
-&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:34:33">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:33.png" width="800px">
-&lt;/figure>
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-05-23-18:34:33"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:33.png" width="800px"&gt;
+&lt;/figure&gt;
 
-&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:34:47">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:47.png" width="800px">
-&lt;/figure>
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-05-23-18:34:47"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:34:47.png" width="800px"&gt;
+&lt;/figure&gt;
 
-&lt;p>&lt;a id="figure--fig:screenshot@2023-05-23-18:36:47">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:36:47.png" width="800px">
-&lt;/figure></description></item><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description/></item><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3058-liakos/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel="">ABSTRACT&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:402fb889-e9f7-4816-83ac-5edfbc857d66" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:4d0e1916-a961-460c-b04b-37bf987e0d1d" rel="">PRELIMINARIES&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:eb874834-0cf9-4a3d-a6c2-37fe0153d2de" rel="">Floating Point Time Series&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:87f9b9e3-a90d-404a-9c99-aaa46efe6355" rel="">IEEE 754 Double Precision Floating Point Format&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:b534c224-1e44-453d-8ac1-5d03f6b7e9a7" rel="">Gorilla Compression&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:e61dbfe2-662e-4db1-8de6-33ccd572b0a1" rel="">PROPERTIES OF REAL-WORLD TIME SERIES&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:50b69b70-1b4b-4e2c-8c37-8d851fb920ce" rel="">Trailing Zeros&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:06702259-3ebc-4672-b24b-d7f28c4eaedd" rel="">Leading Zeros&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:8c80901f-346f-4b1d-ba11-411436fd4516" rel="">Revisiting Gorilla Compression&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:3d2a78fa-6eed-4738-8d3d-5d4771119d8c" rel="">OVERVIEW&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:2ff4f7f7-de49-4982-86c5-e33535c188eb" rel="">Our Chimp Algorithm&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:7aa7a756-dc81-4885-822b-de57dc9a59aa" rel="">效果对比&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">6.1&lt;/span> &lt;a href="#h:2bd0b50a-9cc3-478d-90d2-e3a44cefe53e" rel="">Compression size result&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6.2&lt;/span> &lt;a href="#h:7127ad57-9105-42b2-ac2c-0cfb641b6946" rel="">Compression and decompression time&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/1/p3058-liakos.pdf&lt;/p>
-&lt;h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>时序数据难以高效存储，导致存储代价高昂。&lt;/p></description></item><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3548-yan/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel="">ABSTRACT&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf&lt;/p>
-&lt;h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
-&lt;p>下一代向量数据库应该有的特性：&lt;/p>
-&lt;ul>
-&lt;li>可长期演进&lt;/li>
-&lt;li>tunable consistency&lt;/li>
-&lt;li>good elasticity&lt;/li>
-&lt;li>high performance&lt;/li>
-&lt;/ul>
-&lt;p>Manu 通过放宽数据模型和一致性约束来换取上述特性：&lt;/p></description></item><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3385-xu/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:0a45267f-a3ae-43ad-8a8a-2a8ff4d14e35" rel="">Introduction&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:81c079a8-b5c8-4073-b6dc-4390e495b9ac" rel="">DESIGN OVERVIEW&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:89cbb686-47c9-439f-94af-5baf3dbdec55" rel="">Goals&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:d8875fcd-41a7-4eb3-bcdb-7f4698884d41" rel="">Criteria of Design&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:1d973c3d-dfa5-4501-806a-a3691d5f5ddb" rel="">架构图&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:8c3fca18-cdec-4d5c-a080-0d9f7ce5d187" rel="">Application Layer&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:02cd8c19-34d7-4bbd-8ec9-c5e1df9a54b2" rel="">Proxy Layer&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:dda54135-ae89-427a-88cd-a83212f504d5" rel="">Data Service Layer&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.4&lt;/span> &lt;a href="#h:e6097928-8983-4e4e-a6e7-789f28d6ba2c" rel="">Zones&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.5&lt;/span> &lt;a href="#h:e7b840bd-069f-43ac-9f26-efd8b9d23815" rel="">表&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.6&lt;/span> &lt;a href="#h:b613b575-2ec7-4ac9-af01-6abc2ac33597" rel="">Node&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.7&lt;/span> &lt;a href="#h:93134f71-c553-4bdf-85d9-b635dc2e6cfa" rel="">SQL Engine&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.8&lt;/span> &lt;a href="#h:3ff4162e-c44a-44bf-a591-06272e393a61" rel="">Multi-tenancy&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.9&lt;/span> &lt;a href="#h:795aebda-ad5d-423b-bbd8-18e201a3ea05" rel="">Resource Isolation.&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.10&lt;/span> &lt;a href="#h:d1d0b2ec-39d3-4860-a5e2-1fc17e06cb0a" rel="">Features&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:b529b550-1b76-4517-b51e-c2ef317a50e8" rel="">STORAGE ENGINE&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:2d0129de-6b8c-4123-bcae-3381d34e2426" rel="">LSM Tree-Based Architecture&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:3b88b7f0-2a81-46b3-a504-81ead89714dc" rel="">Asymmetric Read and Write&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:fd24213c-c8e8-47e2-b267-b650ade48456" rel="">Daily Incremental Major Compaction&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.4&lt;/span> &lt;a href="#h:38ef652e-1cac-4458-ab8d-c5a450387a17" rel="">Replica Type&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:daef193b-c166-40bc-897c-1ba68e6d2e7e" rel="">TRANSACTION PROCESSING ENGINE&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:9ddf467b-d11e-4b8e-9056-ff15b67602fe" rel="">Partition and Paxos Group&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.2&lt;/span> &lt;a href="#h:af98d321-1caf-4efe-811a-12302ffb7321" rel="">Timestamp Service&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.3&lt;/span> &lt;a href="#h:3fa0c121-d1e6-41d0-94b0-aba40baa6340" rel="">Transaction Processing&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.4&lt;/span> &lt;a href="#h:48068368-5e2c-46d7-8973-fcd6ed207b2e" rel="">Isolation Level&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.5&lt;/span> &lt;a href="#h:9c090d3d-1284-4a59-8748-5f4f41d92fd4" rel="">Replicated Table&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:b9272e56-7a6c-4576-bb2e-07d908598d53" rel="">TPC-C BENCHMARK TEST&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#h:dd8ffbcb-ac77-4683-ae5b-4bdb8f828c61" rel="">LESSONS IN BUILDING OCEANBASE&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">7.1&lt;/span> &lt;a href="#h:bba12c9f-9272-42f1-ba0f-121f5f6a19fa" rel="">From NoSQL to NewSQL&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7.2&lt;/span> &lt;a href="#h:a901f7ee-f75f-41b7-aa25-cafb87bf5a98" rel="">Both cost and performance&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7.3&lt;/span> &lt;a href="#h:c0fcd1a9-665b-43af-b2be-8b02b1349136" rel="">Data validation&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7.4&lt;/span> &lt;a href="#h:823cf2bc-3ef4-4e03-b67d-154e672b80ec" rel="">Partitioning vs. sharding&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/d/p3385-xu.pdf&lt;/p></description></item></channel></rss>
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-05-23-18:36:47"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-05-23_18:36:47.png" width="800px"&gt;
+&lt;/figure&gt;</description></item><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description/></item><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3058-liakos/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:402fb889-e9f7-4816-83ac-5edfbc857d66" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:4d0e1916-a961-460c-b04b-37bf987e0d1d" rel=""&gt;PRELIMINARIES&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:eb874834-0cf9-4a3d-a6c2-37fe0153d2de" rel=""&gt;Floating Point Time Series&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:87f9b9e3-a90d-404a-9c99-aaa46efe6355" rel=""&gt;IEEE 754 Double Precision Floating Point Format&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:b534c224-1e44-453d-8ac1-5d03f6b7e9a7" rel=""&gt;Gorilla Compression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:e61dbfe2-662e-4db1-8de6-33ccd572b0a1" rel=""&gt;PROPERTIES OF REAL-WORLD TIME SERIES&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:50b69b70-1b4b-4e2c-8c37-8d851fb920ce" rel=""&gt;Trailing Zeros&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:06702259-3ebc-4672-b24b-d7f28c4eaedd" rel=""&gt;Leading Zeros&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:8c80901f-346f-4b1d-ba11-411436fd4516" rel=""&gt;Revisiting Gorilla Compression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:3d2a78fa-6eed-4738-8d3d-5d4771119d8c" rel=""&gt;OVERVIEW&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:2ff4f7f7-de49-4982-86c5-e33535c188eb" rel=""&gt;Our Chimp Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:7aa7a756-dc81-4885-822b-de57dc9a59aa" rel=""&gt;效果对比&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.1&lt;/span&gt; &lt;a href="#h:2bd0b50a-9cc3-478d-90d2-e3a44cefe53e" rel=""&gt;Compression size result&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.2&lt;/span&gt; &lt;a href="#h:7127ad57-9105-42b2-ac2c-0cfb641b6946" rel=""&gt;Compression and decompression time&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/1/p3058-liakos.pdf&lt;/p&gt;
+&lt;h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;时序数据难以高效存储，导致存储代价高昂。&lt;/p&gt;</description></item><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3548-yan/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf&lt;/p&gt;
+&lt;h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
+&lt;p&gt;下一代向量数据库应该有的特性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可长期演进&lt;/li&gt;
+&lt;li&gt;tunable consistency&lt;/li&gt;
+&lt;li&gt;good elasticity&lt;/li&gt;
+&lt;li&gt;high performance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Manu 通过放宽数据模型和一致性约束来换取上述特性：&lt;/p&gt;</description></item><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3385-xu/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:0a45267f-a3ae-43ad-8a8a-2a8ff4d14e35" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:81c079a8-b5c8-4073-b6dc-4390e495b9ac" rel=""&gt;DESIGN OVERVIEW&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:89cbb686-47c9-439f-94af-5baf3dbdec55" rel=""&gt;Goals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:d8875fcd-41a7-4eb3-bcdb-7f4698884d41" rel=""&gt;Criteria of Design&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:1d973c3d-dfa5-4501-806a-a3691d5f5ddb" rel=""&gt;架构图&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:8c3fca18-cdec-4d5c-a080-0d9f7ce5d187" rel=""&gt;Application Layer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:02cd8c19-34d7-4bbd-8ec9-c5e1df9a54b2" rel=""&gt;Proxy Layer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:dda54135-ae89-427a-88cd-a83212f504d5" rel=""&gt;Data Service Layer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.4&lt;/span&gt; &lt;a href="#h:e6097928-8983-4e4e-a6e7-789f28d6ba2c" rel=""&gt;Zones&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.5&lt;/span&gt; &lt;a href="#h:e7b840bd-069f-43ac-9f26-efd8b9d23815" rel=""&gt;表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.6&lt;/span&gt; &lt;a href="#h:b613b575-2ec7-4ac9-af01-6abc2ac33597" rel=""&gt;Node&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.7&lt;/span&gt; &lt;a href="#h:93134f71-c553-4bdf-85d9-b635dc2e6cfa" rel=""&gt;SQL Engine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.8&lt;/span&gt; &lt;a href="#h:3ff4162e-c44a-44bf-a591-06272e393a61" rel=""&gt;Multi-tenancy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.9&lt;/span&gt; &lt;a href="#h:795aebda-ad5d-423b-bbd8-18e201a3ea05" rel=""&gt;Resource Isolation.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.10&lt;/span&gt; &lt;a href="#h:d1d0b2ec-39d3-4860-a5e2-1fc17e06cb0a" rel=""&gt;Features&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:b529b550-1b76-4517-b51e-c2ef317a50e8" rel=""&gt;STORAGE ENGINE&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:2d0129de-6b8c-4123-bcae-3381d34e2426" rel=""&gt;LSM Tree-Based Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:3b88b7f0-2a81-46b3-a504-81ead89714dc" rel=""&gt;Asymmetric Read and Write&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:fd24213c-c8e8-47e2-b267-b650ade48456" rel=""&gt;Daily Incremental Major Compaction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.4&lt;/span&gt; &lt;a href="#h:38ef652e-1cac-4458-ab8d-c5a450387a17" rel=""&gt;Replica Type&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:daef193b-c166-40bc-897c-1ba68e6d2e7e" rel=""&gt;TRANSACTION PROCESSING ENGINE&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:9ddf467b-d11e-4b8e-9056-ff15b67602fe" rel=""&gt;Partition and Paxos Group&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.2&lt;/span&gt; &lt;a href="#h:af98d321-1caf-4efe-811a-12302ffb7321" rel=""&gt;Timestamp Service&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.3&lt;/span&gt; &lt;a href="#h:3fa0c121-d1e6-41d0-94b0-aba40baa6340" rel=""&gt;Transaction Processing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.4&lt;/span&gt; &lt;a href="#h:48068368-5e2c-46d7-8973-fcd6ed207b2e" rel=""&gt;Isolation Level&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.5&lt;/span&gt; &lt;a href="#h:9c090d3d-1284-4a59-8748-5f4f41d92fd4" rel=""&gt;Replicated Table&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:b9272e56-7a6c-4576-bb2e-07d908598d53" rel=""&gt;TPC-C BENCHMARK TEST&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#h:dd8ffbcb-ac77-4683-ae5b-4bdb8f828c61" rel=""&gt;LESSONS IN BUILDING OCEANBASE&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7.1&lt;/span&gt; &lt;a href="#h:bba12c9f-9272-42f1-ba0f-121f5f6a19fa" rel=""&gt;From NoSQL to NewSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7.2&lt;/span&gt; &lt;a href="#h:a901f7ee-f75f-41b7-aa25-cafb87bf5a98" rel=""&gt;Both cost and performance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7.3&lt;/span&gt; &lt;a href="#h:c0fcd1a9-665b-43af-b2be-8b02b1349136" rel=""&gt;Data validation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7.4&lt;/span&gt; &lt;a href="#h:823cf2bc-3ef4-4e03-b67d-154e672b80ec" rel=""&gt;Partitioning vs. sharding&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/d/p3385-xu.pdf&lt;/p&gt;</description></item></channel></rss>

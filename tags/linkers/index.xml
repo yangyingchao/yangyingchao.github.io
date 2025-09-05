@@ -1,59 +1,75 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linkers on 杂货铺</title><link>https://yangyingchao.github.io/tags/linkers/</link><description>Recent content in Linkers on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 08 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/linkers/index.xml" rel="self" type="application/rss+xml"/><item><title>Linkers</title><link>https://yangyingchao.github.io/www_airs_com_archives_38/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www_airs_com_archives_38/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#linkers-part-1" rel="">Linkers part 1&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#%e9%93%be%e6%8e%a5%e5%99%a8%e5%81%9a%e4%bb%80%e4%b9%88" rel="">链接器做什么？&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#linkers-part-2" rel="">Linkers part 2&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#basic-linker-data-types" rel="">Basic Linker Data Types&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#%e5%9f%ba%e6%9c%ac%e9%93%be%e6%8e%a5%e5%99%a8%e6%93%8d%e4%bd%9c" rel="">基本链接器操作&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#part-3" rel="">part 3&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4" rel="">地址空间&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#%e5%af%b9%e8%b1%a1%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f" rel="">对象文件格式&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#shared-libraries" rel="">Shared Libraries&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#part-5" rel="">Part 5&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#shared-libraries-redux" rel="">Shared Libraries Redux&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5.2&lt;/span> &lt;a href="#elf-symbols" rel="">ELF Symbols&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#linkers-part-6" rel="">Linkers part 6&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">6.1&lt;/span> &lt;a href="#%e9%87%8d%e5%ae%9a%e4%bd%8d--relocations" rel="">重定位 (Relocations)&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6.2&lt;/span> &lt;a href="#position-dependent-shared-libraries" rel="">Position Dependent Shared Libraries&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#linkers-part-7-classic-small-optimization-thread-local-storage" rel="">Linkers part 7: classic small optimization: Thread Local Storage&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">8&lt;/span> &lt;a href="#linkers-part-8-elf-segments" rel="">Linkers part 8: ELF Segments&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">9&lt;/span> &lt;a href="#linkers-part-9" rel="">Linkers part 9&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">9.1&lt;/span> &lt;a href="#symbol-versions" rel="">Symbol Versions&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">9.2&lt;/span> &lt;a href="#relaxation" rel="">Relaxation&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">10&lt;/span> &lt;a href="#linkers-part-10-parallel-linking" rel="">Linkers part 10： Parallel Linking&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">11&lt;/span> &lt;a href="#linkers-part-11-archives" rel="">Linkers part 11: Archives&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">12&lt;/span> &lt;a href="#linkers-part-12-symbol-resolution-%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90" rel="">Linkers part 12: Symbol Resolution, 符号解析&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">13&lt;/span> &lt;a href="#linkers-part-13-symbol-versions-redux" rel="">Linkers part 13: Symbol Versions Redux&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">13.1&lt;/span> &lt;a href="#%e5%90%91%e5%90%8e%e5%85%bc%e5%ae%b9%e6%80%a7" rel="">向后兼容性&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">13.2&lt;/span> &lt;a href="#%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%e4%b8%8e%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5" rel="">静态链接与动态链接&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">14&lt;/span> &lt;a href="#linkers-part-14-link-time-optimization--lto" rel="">Linkers part 14: Link Time Optimization (LTO)&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">14.1&lt;/span> &lt;a href="#initialization-code" rel="">Initialization Code&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer ">https://www.airs.com/blog/archives/38&lt;/a>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linkers on 杂货铺</title><link>https://yangyingchao.github.io/tags/linkers/</link><description>Recent content in Linkers on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 08 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/linkers/index.xml" rel="self" type="application/rss+xml"/><item><title>Linkers</title><link>https://yangyingchao.github.io/www_airs_com_archives_38/</link><pubDate>Fri, 08 Aug 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www_airs_com_archives_38/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#linkers-part-1" rel=""&gt;Linkers part 1&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#%e9%93%be%e6%8e%a5%e5%99%a8%e5%81%9a%e4%bb%80%e4%b9%88" rel=""&gt;链接器做什么？&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#linkers-part-2" rel=""&gt;Linkers part 2&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#basic-linker-data-types" rel=""&gt;Basic Linker Data Types&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#%e5%9f%ba%e6%9c%ac%e9%93%be%e6%8e%a5%e5%99%a8%e6%93%8d%e4%bd%9c" rel=""&gt;基本链接器操作&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#part-3" rel=""&gt;part 3&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4" rel=""&gt;地址空间&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#%e5%af%b9%e8%b1%a1%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f" rel=""&gt;对象文件格式&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#shared-libraries" rel=""&gt;Shared Libraries&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#part-5" rel=""&gt;Part 5&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#shared-libraries-redux" rel=""&gt;Shared Libraries Redux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.2&lt;/span&gt; &lt;a href="#elf-symbols" rel=""&gt;ELF Symbols&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#linkers-part-6" rel=""&gt;Linkers part 6&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.1&lt;/span&gt; &lt;a href="#%e9%87%8d%e5%ae%9a%e4%bd%8d--relocations" rel=""&gt;重定位 (Relocations)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.2&lt;/span&gt; &lt;a href="#position-dependent-shared-libraries" rel=""&gt;Position Dependent Shared Libraries&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#linkers-part-7-classic-small-optimization-thread-local-storage" rel=""&gt;Linkers part 7: classic small optimization: Thread Local Storage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#linkers-part-8-elf-segments" rel=""&gt;Linkers part 8: ELF Segments&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;9&lt;/span&gt; &lt;a href="#linkers-part-9" rel=""&gt;Linkers part 9&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;9.1&lt;/span&gt; &lt;a href="#symbol-versions" rel=""&gt;Symbol Versions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;9.2&lt;/span&gt; &lt;a href="#relaxation" rel=""&gt;Relaxation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;10&lt;/span&gt; &lt;a href="#linkers-part-10-parallel-linking" rel=""&gt;Linkers part 10： Parallel Linking&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;11&lt;/span&gt; &lt;a href="#linkers-part-11-archives" rel=""&gt;Linkers part 11: Archives&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;12&lt;/span&gt; &lt;a href="#linkers-part-12-symbol-resolution-%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90" rel=""&gt;Linkers part 12: Symbol Resolution, 符号解析&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;13&lt;/span&gt; &lt;a href="#linkers-part-13-symbol-versions-redux" rel=""&gt;Linkers part 13: Symbol Versions Redux&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;13.1&lt;/span&gt; &lt;a href="#%e5%90%91%e5%90%8e%e5%85%bc%e5%ae%b9%e6%80%a7" rel=""&gt;向后兼容性&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;13.2&lt;/span&gt; &lt;a href="#%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5%e4%b8%8e%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5" rel=""&gt;静态链接与动态链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;14&lt;/span&gt; &lt;a href="#linkers-part-14-link-time-optimization--lto" rel=""&gt;Linkers part 14: Link Time Optimization (LTO)&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;14.1&lt;/span&gt; &lt;a href="#initialization-code" rel=""&gt;Initialization Code&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;15&lt;/span&gt; &lt;a href="#linkers-part-15-comdat-sections" rel=""&gt;Linkers part 15 COMDAT sections&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;16&lt;/span&gt; &lt;a href="#linkers-part-16-c-plus-plus-template-instantiation" rel=""&gt;Linkers part 16: C++ Template Instantiation&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;16.1&lt;/span&gt; &lt;a href="#c-plus-plus-template-instantiation" rel=""&gt;C++ Template Instantiation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;16.2&lt;/span&gt; &lt;a href="#exception-frames" rel=""&gt;Exception Frames&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;17&lt;/span&gt; &lt;a href="#linkers-part-17-warning-symbols" rel=""&gt;Linkers part 17: Warning Symbols&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;18&lt;/span&gt; &lt;a href="#linkers-part-18-incremental-linking" rel=""&gt;Linkers part 18: Incremental Linking&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;19&lt;/span&gt; &lt;a href="#linkers-part-19" rel=""&gt;Linkers part 19&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;19.1&lt;/span&gt; &lt;a href="#start-and-stop-symbols" rel=""&gt;&lt;code&gt;__start&lt;/code&gt; and &lt;code&gt;__stop&lt;/code&gt; Symbols&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;19.2&lt;/span&gt; &lt;a href="#byte-swapping" rel=""&gt;Byte Swapping&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;20&lt;/span&gt; &lt;a href="#linkers-part-20" rel=""&gt;Linkers part 20&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.airs.com/blog/archives/38" target="_blank" rel="noopener noreffer "&gt;https://www.airs.com/blog/archives/38&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

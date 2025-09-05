@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Eu-Strip on 杂货铺</title><link>https://yangyingchao.github.io/tags/eu-strip/</link><description>Recent content in Eu-Strip on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 14 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/eu-strip/index.xml" rel="self" type="application/rss+xml"/><item><title>What is the difference between elfutils and binutils</title><link>https://yangyingchao.github.io/what-is-the-difference-between-elfutils-and-binutils/</link><pubDate>Tue, 14 Nov 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/what-is-the-difference-between-elfutils-and-binutils/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:443ee8f8-59ff-491c-bcdd-72574d1de216" rel="">What is the difference between elfutils and binutils&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:bf05ca98-b7e2-484f-ad03-49782c53bd91" rel="">eu-stack vs gdb&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:0c4a6f39-b67b-4eff-bda5-a6875530cb81" rel="">eu-strip vs strip&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:ee772e2d-f68c-4687-a4a8-f37b34dd8926" rel="">eu-addr2line vs addr2line&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use" target="_blank" rel="noopener noreffer ">https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use&lt;/a>&lt;/p>
-&lt;h2 id="h:443ee8f8-59ff-491c-bcdd-72574d1de216">&lt;span class="section-num">1&lt;/span> What is the difference between elfutils and binutils&lt;/h2>
-&lt;p>根据维基百科的介绍，elfutils 被描述为“Ulrich Drepper 编写了 elfutils，以取代 GNU Binutils，专门为 Linux 开发，并仅支持 ELF 和 DWARF 格式”。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Eu-Strip on 杂货铺</title><link>https://yangyingchao.github.io/tags/eu-strip/</link><description>Recent content in Eu-Strip on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 14 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/eu-strip/index.xml" rel="self" type="application/rss+xml"/><item><title>What is the difference between elfutils and binutils</title><link>https://yangyingchao.github.io/what-is-the-difference-between-elfutils-and-binutils/</link><pubDate>Tue, 14 Nov 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/what-is-the-difference-between-elfutils-and-binutils/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:443ee8f8-59ff-491c-bcdd-72574d1de216" rel=""&gt;What is the difference between elfutils and binutils&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:bf05ca98-b7e2-484f-ad03-49782c53bd91" rel=""&gt;eu-stack vs gdb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:0c4a6f39-b67b-4eff-bda5-a6875530cb81" rel=""&gt;eu-strip vs strip&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:ee772e2d-f68c-4687-a4a8-f37b34dd8926" rel=""&gt;eu-addr2line vs addr2line&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use" target="_blank" rel="noopener noreffer "&gt;https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:443ee8f8-59ff-491c-bcdd-72574d1de216"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; What is the difference between elfutils and binutils&lt;/h2&gt;
+&lt;p&gt;根据维基百科的介绍，elfutils 被描述为“Ulrich Drepper 编写了 elfutils，以取代 GNU Binutils，专门为 Linux 开发，并仅支持 ELF 和 DWARF 格式”。&lt;/p&gt;</description></item></channel></rss>

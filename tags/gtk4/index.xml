@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gtk4 on 杂货铺</title><link>https://yangyingchao.github.io/tags/gtk4/</link><description>Recent content in Gtk4 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gtk4/index.xml" rel="self" type="application/rss+xml"/><item><title>google chrome in hyprland</title><link>https://yangyingchao.github.io/google-chrome-in-hyprland/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/google-chrome-in-hyprland/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:cbfab3b5-9e52-4ce4-8506-6bc38f923a78" rel="">google chrome in hyprland&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:f7d88655-4a2d-4274-8e1b-d02839183604" rel="">Weird crash when running chrome with: –gtk-version=4&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;h2 id="h:cbfab3b5-9e52-4ce4-8506-6bc38f923a78">&lt;span class="section-num">1&lt;/span> google chrome in hyprland&lt;/h2>
-&lt;p>Hyprland is cool, but it may not work smoothly on default Google Chrome. The borders
-appear distorted and blurry.&lt;/p>
-&lt;p>To resolve this issue, simply open the Chrome settings, navigate to appearance
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gtk4 on 杂货铺</title><link>https://yangyingchao.github.io/tags/gtk4/</link><description>Recent content in Gtk4 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gtk4/index.xml" rel="self" type="application/rss+xml"/><item><title>google chrome in hyprland</title><link>https://yangyingchao.github.io/google-chrome-in-hyprland/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/google-chrome-in-hyprland/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:cbfab3b5-9e52-4ce4-8506-6bc38f923a78" rel=""&gt;google chrome in hyprland&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:f7d88655-4a2d-4274-8e1b-d02839183604" rel=""&gt;Weird crash when running chrome with: –gtk-version=4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;h2 id="h:cbfab3b5-9e52-4ce4-8506-6bc38f923a78"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; google chrome in hyprland&lt;/h2&gt;
+&lt;p&gt;Hyprland is cool, but it may not work smoothly on default Google Chrome. The borders
+appear distorted and blurry.&lt;/p&gt;
+&lt;p&gt;To resolve this issue, simply open the Chrome settings, navigate to appearance
 (chrome://settings/appearance), and enable &amp;ldquo;Use system title bar and borders.&amp;rdquo;
-Afterwards, restart the browser.&lt;/p>
-&lt;p>&lt;a id="figure--fig:screenshot@2023-08-11-16:46:02">&lt;/a>&lt;/p>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-08-11_16:46:02.png" width="800px">
-&lt;/figure>
+Afterwards, restart the browser.&lt;/p&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2023-08-11-16:46:02"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/screenshot@2023-08-11_16:46:02.png" width="800px"&gt;
+&lt;/figure&gt;
 
-&lt;h2 id="h:f7d88655-4a2d-4274-8e1b-d02839183604">&lt;span class="section-num">2&lt;/span> Weird crash when running chrome with: –gtk-version=4&lt;/h2>
-&lt;p>This happens when use GTK theme as shown in above screenshot. Use classic them as a worksaround…&lt;/p></description></item></channel></rss>
+&lt;h2 id="h:f7d88655-4a2d-4274-8e1b-d02839183604"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; Weird crash when running chrome with: –gtk-version=4&lt;/h2&gt;
+&lt;p&gt;This happens when use GTK theme as shown in above screenshot. Use classic them as a worksaround…&lt;/p&gt;</description></item></channel></rss>

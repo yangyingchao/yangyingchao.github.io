@@ -1,34 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LearnedBloomFilter on 杂货铺</title><link>https://yangyingchao.github.io/tags/learnedbloomfilter/</link><description>Recent content in LearnedBloomFilter on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/learnedbloomfilter/index.xml" rel="self" type="application/rss+xml"/><item><title>New Wine in an Old Bottle: Data-Aware Hash Functions for Bloom Filter</title><link>https://yangyingchao.github.io/p1924-bhattacharya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1924-bhattacharya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:c589c3c7-e91c-477d-8ee8-7566656fbd63" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1924-bhattacharya.pdf&lt;/p>
-&lt;p>FPR: Fault Positive Rate&lt;/p>
-&lt;p>Partitioned Bloom Filter ,&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>方法&lt;/p>
-&lt;ul>
-&lt;li>将 BloomFilter 划分成 segments&lt;/li>
-&lt;li>每个 segment 使用简单的、基于投影的哈希函数，
-&lt;ul>
-&lt;li>函数通过数据计算得来&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>效果&lt;/p>
-&lt;ul>
-&lt;li>减少误报 （两个数量级）&lt;/li>
-&lt;li>相同误报率的话，提升 50% 的压缩率&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;h2 id="h:c589c3c7-e91c-477d-8ee8-7566656fbd63">&lt;span class="section-num">1&lt;/span> INTRODUCTION&lt;/h2>
-&lt;ul>
-&lt;li>Projection Hash Bloom Filter (PHBF)&lt;/li>
-&lt;/ul></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LearnedBloomFilter on 杂货铺</title><link>https://yangyingchao.github.io/tags/learnedbloomfilter/</link><description>Recent content in LearnedBloomFilter on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/learnedbloomfilter/index.xml" rel="self" type="application/rss+xml"/><item><title>New Wine in an Old Bottle: Data-Aware Hash Functions for Bloom Filter</title><link>https://yangyingchao.github.io/p1924-bhattacharya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1924-bhattacharya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:c589c3c7-e91c-477d-8ee8-7566656fbd63" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1924-bhattacharya.pdf&lt;/p&gt;
+&lt;p&gt;FPR: Fault Positive Rate&lt;/p&gt;
+&lt;p&gt;Partitioned Bloom Filter ,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;方法&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将 BloomFilter 划分成 segments&lt;/li&gt;
+&lt;li&gt;每个 segment 使用简单的、基于投影的哈希函数，
+&lt;ul&gt;
+&lt;li&gt;函数通过数据计算得来&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;效果&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;减少误报 （两个数量级）&lt;/li&gt;
+&lt;li&gt;相同误报率的话，提升 50% 的压缩率&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="h:c589c3c7-e91c-477d-8ee8-7566656fbd63"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; INTRODUCTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Projection Hash Bloom Filter (PHBF)&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

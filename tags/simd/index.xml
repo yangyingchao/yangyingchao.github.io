@@ -1,37 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Simd on 杂货铺</title><link>https://yangyingchao.github.io/tags/simd/</link><description>Recent content in Simd on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/simd/index.xml" rel="self" type="application/rss+xml"/><item><title>SIMD-Scan: Ultra Fast in-Memory Table Scan using onChip Vector Processing Units</title><link>https://yangyingchao.github.io/willhalm-vldb2009/</link><pubDate>Tue, 12 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/willhalm-vldb2009/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#introduction" rel="">Introduction&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#background" rel="">BACKGROUND&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#related-work" rel="">Related Work&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#light-weight-database-compression" rel="">Light-Weight Database Compression&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/willhalm-vldb2009.pdf&lt;/p>
-&lt;p>现代服务器上的巨大系统内存可用性引起了对主内存数据库引擎的热情。数据仓库系统中，高度压缩的列式数据结构很突出。&lt;/p></description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel="">Introduction&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel="">Related Work&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel="">Storage Layouts&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel="">Bit-(Un)Packing&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel="">SIMD-Friendly Bit-(Un)Packing&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel="">Composable Functions&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel="">Composable Compression Schemes&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf&lt;/p>
-&lt;h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a">&lt;span class="section-num">1&lt;/span> Introduction&lt;/h2>
-&lt;h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf">&lt;span class="section-num">2&lt;/span> Related Work&lt;/h2>
-&lt;h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b">&lt;span class="section-num">2.1&lt;/span> Storage Layouts&lt;/h3>
-&lt;h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3">&lt;span class="section-num">2.1.1&lt;/span> NSM&lt;/h4>
-&lt;p>传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
-存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Simd on 杂货铺</title><link>https://yangyingchao.github.io/tags/simd/</link><description>Recent content in Simd on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/simd/index.xml" rel="self" type="application/rss+xml"/><item><title>SIMD-Scan: Ultra Fast in-Memory Table Scan using onChip Vector Processing Units</title><link>https://yangyingchao.github.io/willhalm-vldb2009/</link><pubDate>Tue, 12 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/willhalm-vldb2009/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#background" rel=""&gt;BACKGROUND&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#related-work" rel=""&gt;Related Work&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#light-weight-database-compression" rel=""&gt;Light-Weight Database Compression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/willhalm-vldb2009.pdf&lt;/p&gt;
+&lt;p&gt;现代服务器上的巨大系统内存可用性引起了对主内存数据库引擎的热情。数据仓库系统中，高度压缩的列式数据结构很突出。&lt;/p&gt;</description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel=""&gt;Related Work&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel=""&gt;Storage Layouts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel=""&gt;Bit-(Un)Packing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel=""&gt;SIMD-Friendly Bit-(Un)Packing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel=""&gt;Composable Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel=""&gt;Composable Compression Schemes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf&lt;/p&gt;
+&lt;h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Introduction&lt;/h2&gt;
+&lt;h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; Related Work&lt;/h2&gt;
+&lt;h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b"&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; Storage Layouts&lt;/h3&gt;
+&lt;h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3"&gt;&lt;span class="section-num"&gt;2.1.1&lt;/span&gt; NSM&lt;/h4&gt;
+&lt;p&gt;传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
+存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。&lt;/p&gt;</description></item></channel></rss>

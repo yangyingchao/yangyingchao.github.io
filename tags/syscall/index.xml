@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Syscall on 杂货铺</title><link>https://yangyingchao.github.io/tags/syscall/</link><description>Recent content in Syscall on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 21 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/syscall/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Rootkits — Multiple ways to hook syscall(s)</title><link>https://yangyingchao.github.io/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6/</link><pubDate>Thu, 21 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:98e4d628-ec24-45db-b9b1-fff7eba4a0af" rel="">Syscall Table hijacking — The good old way, 系统调用表劫持&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:45798689-8b14-43ec-8000-bbecea4d896c" rel="">sys_close — The brute force method&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:889b5097-0190-4799-a9c6-5cb7d50ad082" rel="">VFS hooking&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:ccc260a9-1238-4340-9ad4-0bd94a9a1d1e" rel="">The ftrace helper method&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6" target="_blank" rel="noopener noreffer ">https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6&lt;/a>&lt;/p>
-&lt;p>我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探讨一些现有的方法，根据不同的 Linux 内核版本来挂钩系统调用。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Syscall on 杂货铺</title><link>https://yangyingchao.github.io/tags/syscall/</link><description>Recent content in Syscall on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 21 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/syscall/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Rootkits — Multiple ways to hook syscall(s)</title><link>https://yangyingchao.github.io/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6/</link><pubDate>Thu, 21 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:98e4d628-ec24-45db-b9b1-fff7eba4a0af" rel=""&gt;Syscall Table hijacking — The good old way, 系统调用表劫持&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:45798689-8b14-43ec-8000-bbecea4d896c" rel=""&gt;sys_close — The brute force method&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:889b5097-0190-4799-a9c6-5cb7d50ad082" rel=""&gt;VFS hooking&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:ccc260a9-1238-4340-9ad4-0bd94a9a1d1e" rel=""&gt;The ftrace helper method&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6" target="_blank" rel="noopener noreffer "&gt;https://foxtrot-sq.medium.com/linux-rootkits-multiple-ways-to-hook-syscall-s-7001cc02a1e6&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我们所见到的大多数恶意软件攻击中使用的 rootkit 都是开源的，其行为几乎与在系统中运行的正常进程相同（隐藏和挂钩）。从行为上来看，它们与正常进程几乎没有任何区别。在本文中，我们将探讨一些现有的方法，根据不同的 Linux 内核版本来挂钩系统调用。&lt;/p&gt;</description></item></channel></rss>

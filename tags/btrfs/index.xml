@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Btrfs on 杂货铺</title><link>https://yangyingchao.github.io/tags/btrfs/</link><description>Recent content in Btrfs on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 25 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/btrfs/index.xml" rel="self" type="application/rss+xml"/><item><title>BTRFS and free space - emergency response</title><link>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</link><pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e6%88%91%e8%bf%98%e6%9c%89%e5%a4%9a%e5%b0%91%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel="">我还有多少自由空间？&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e5%b0%86%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%9a%84%e5%88%86%e9%85%8d%e8%bd%ac%e6%8d%a2%e4%b8%ba%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel="">将未使用的分配转换为自由空间&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e5%a6%82%e6%9e%9c%e6%82%a8%e5%b7%b2%e7%bb%8f%e7%94%a8%e5%b0%bd%e7%a9%ba%e9%97%b4" rel="">如果您已经用尽空间&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/" target="_blank" rel="noopener noreffer ">https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/&lt;/a>&lt;/p>
-&lt;p>我在我的根文件系统（Linux 上）上使用 BTRFS，主要是为了快速快照和恢复的功能。昨天我遇到了一个常见的问题：我的驱动器突然满了。我从系统驱动器上的 4GB 的可用空间瞬间变为 0，导致我的系统出现各种混乱。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Btrfs on 杂货铺</title><link>https://yangyingchao.github.io/tags/btrfs/</link><description>Recent content in Btrfs on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 25 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/btrfs/index.xml" rel="self" type="application/rss+xml"/><item><title>BTRFS and free space - emergency response</title><link>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</link><pubDate>Tue, 25 Mar 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/ohthehugemanatee_org_btrfs-out-of-space-emergency-response/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e6%88%91%e8%bf%98%e6%9c%89%e5%a4%9a%e5%b0%91%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel=""&gt;我还有多少自由空间？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e5%b0%86%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%9a%84%e5%88%86%e9%85%8d%e8%bd%ac%e6%8d%a2%e4%b8%ba%e8%87%aa%e7%94%b1%e7%a9%ba%e9%97%b4" rel=""&gt;将未使用的分配转换为自由空间&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e5%a6%82%e6%9e%9c%e6%82%a8%e5%b7%b2%e7%bb%8f%e7%94%a8%e5%b0%bd%e7%a9%ba%e9%97%b4" rel=""&gt;如果您已经用尽空间&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/" target="_blank" rel="noopener noreffer "&gt;https://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我在我的根文件系统（Linux 上）上使用 BTRFS，主要是为了快速快照和恢复的功能。昨天我遇到了一个常见的问题：我的驱动器突然满了。我从系统驱动器上的 4GB 的可用空间瞬间变为 0，导致我的系统出现各种混乱。&lt;/p&gt;</description></item></channel></rss>

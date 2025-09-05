@@ -1,43 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Optimizer on 杂货铺</title><link>https://yangyingchao.github.io/tags/optimizer/</link><description>Recent content in Optimizer on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/optimizer/index.xml" rel="self" type="application/rss+xml"/><item><title>A Learned Query Rewrite System using Monte Carlo Tree Search</title><link>https://yangyingchao.github.io/p46-li/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p46-li/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:46536eca-7ea9-4ca8-80f5-de498e0868a9" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:a4cf4c8f-4467-4181-b74c-5347a4209ae6" rel="">LearnedRewrite&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:4e4f4b6c-db9f-46e4-8921-1ff6007daec1" rel="">树形结构&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:44d869de-543c-466b-850e-e8f46557dcc5" rel="">PRELIMINARIES&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:5fd43385-0787-467c-9b88-873a9dca9406" rel="">Query Rewrite Rules&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:a32a0924-5b47-4885-9cea-878cb01dd027" rel="">Query Rewrite&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:31bb8cdf-d5e0-41fe-a908-17e696dca69a" rel="">TREE SEARCH FOR QUERY REWRITE&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:75f54fbc-fec3-421e-80be-b95c589828aa" rel="">Overview of Policy Tree Search&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p46-li.pdf&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>查询重写使用启发式算法来实现，有两个限制&lt;/p>
-&lt;ul>
-&lt;li>规则的应用顺序严重影响查询性能，但
-&lt;ul>
-&lt;li>可能的重写顺序随查询涉及到的算子指数增长&lt;/li>
-&lt;li>受限于搜索空间大小限制，很难找到最佳的顺序&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>针对不同的查询，不同的重写规则的收益也不同
-&lt;ul>
-&lt;li>当前的方法，只能应用于单个计划，而不能有效的估计查询重写的收益&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>提出了基于策略树树的查询重写框架&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Optimizer on 杂货铺</title><link>https://yangyingchao.github.io/tags/optimizer/</link><description>Recent content in Optimizer on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/optimizer/index.xml" rel="self" type="application/rss+xml"/><item><title>A Learned Query Rewrite System using Monte Carlo Tree Search</title><link>https://yangyingchao.github.io/p46-li/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p46-li/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:46536eca-7ea9-4ca8-80f5-de498e0868a9" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:a4cf4c8f-4467-4181-b74c-5347a4209ae6" rel=""&gt;LearnedRewrite&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:4e4f4b6c-db9f-46e4-8921-1ff6007daec1" rel=""&gt;树形结构&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:44d869de-543c-466b-850e-e8f46557dcc5" rel=""&gt;PRELIMINARIES&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:5fd43385-0787-467c-9b88-873a9dca9406" rel=""&gt;Query Rewrite Rules&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:a32a0924-5b47-4885-9cea-878cb01dd027" rel=""&gt;Query Rewrite&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:31bb8cdf-d5e0-41fe-a908-17e696dca69a" rel=""&gt;TREE SEARCH FOR QUERY REWRITE&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:75f54fbc-fec3-421e-80be-b95c589828aa" rel=""&gt;Overview of Policy Tree Search&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p46-li.pdf&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;查询重写使用启发式算法来实现，有两个限制&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;规则的应用顺序严重影响查询性能，但
+&lt;ul&gt;
+&lt;li&gt;可能的重写顺序随查询涉及到的算子指数增长&lt;/li&gt;
+&lt;li&gt;受限于搜索空间大小限制，很难找到最佳的顺序&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;针对不同的查询，不同的重写规则的收益也不同
+&lt;ul&gt;
+&lt;li&gt;当前的方法，只能应用于单个计划，而不能有效的估计查询重写的收益&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;提出了基于策略树树的查询重写框架&lt;/p&gt;</description></item></channel></rss>

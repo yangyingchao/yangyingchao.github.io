@@ -1,38 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Runtime on 杂货铺</title><link>https://yangyingchao.github.io/tags/runtime/</link><description>Recent content in Runtime on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/runtime/index.xml" rel="self" type="application/rss+xml"/><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel="">Abstract&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： ../pdf/d/p1311-even.pdf&lt;/p>
-&lt;h2 id="h:1786f904-c305-4cb3-9883-b0040924d2b1">&lt;span class="section-num">1&lt;/span> Abstract&lt;/h2>
-&lt;h2 id="h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903">&lt;span class="section-num">2&lt;/span> INTRODUCTION&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>What is a filter&lt;/p>
-&lt;p>属于近似查询 (approximate membership query), 用于判断独具是否在集合中。&lt;/p>
-&lt;ul>
-&lt;li>如果输入在集合中，则必定输出 Yes&lt;/li>
-&lt;li>如果不在集合中，则输出 Yes 的概率不能多于 \(\Sigma\)&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;!--listend-->
-&lt;ul>
-&lt;li>What are filters used for
-&lt;ul>
-&lt;li>与精确查询相比
-&lt;ul>
-&lt;li>更省资源， 与数据量无关，而与 Σ （误报率）有关&lt;/li>
-&lt;li>适于放在内存中，用于真正操作之前来过滤掉无效数据
-&lt;ul>
-&lt;li>比如 join&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Runtime on 杂货铺</title><link>https://yangyingchao.github.io/tags/runtime/</link><description>Recent content in Runtime on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/runtime/index.xml" rel="self" type="application/rss+xml"/><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel=""&gt;Abstract&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： ../pdf/d/p1311-even.pdf&lt;/p&gt;
+&lt;h2 id="h:1786f904-c305-4cb3-9883-b0040924d2b1"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Abstract&lt;/h2&gt;
+&lt;h2 id="h:4f4c58e1-3516-4df3-84ee-a73bb2ec5903"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; INTRODUCTION&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;What is a filter&lt;/p&gt;
+&lt;p&gt;属于近似查询 (approximate membership query), 用于判断独具是否在集合中。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果输入在集合中，则必定输出 Yes&lt;/li&gt;
+&lt;li&gt;如果不在集合中，则输出 Yes 的概率不能多于 \(\Sigma\)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;ul&gt;
+&lt;li&gt;What are filters used for
+&lt;ul&gt;
+&lt;li&gt;与精确查询相比
+&lt;ul&gt;
+&lt;li&gt;更省资源， 与数据量无关，而与 Σ （误报率）有关&lt;/li&gt;
+&lt;li&gt;适于放在内存中，用于真正操作之前来过滤掉无效数据
+&lt;ul&gt;
+&lt;li&gt;比如 join&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

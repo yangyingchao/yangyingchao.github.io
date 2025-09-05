@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Perl on 杂货铺</title><link>https://yangyingchao.github.io/tags/perl/</link><description>Recent content in Perl on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 04 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml"/><item><title>perl begginer note</title><link>https://yangyingchao.github.io/perl-begginer-note/</link><pubDate>Mon, 04 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/perl-begginer-note/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:b6801896-14cc-40fc-ae0e-ba5a5e72ba62" rel="">pos2usage&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:7bf6a392-7f59-4e97-8920-51f304ffc357" rel="">pod2usage 是作什么的&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:c6fe3dca-2a93-44f4-b1ac-212382383d4a" rel="">pod2usage 输出的文档，是在哪里定义的&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:05d56de5-9cd9-41f0-b7a0-bd64e64239b9" rel="">代码中的 =head1 是什么意思？&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:1eabc14a-0303-4f40-9313-1bcee7157522" rel="">use 是什么意思&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:b830abd9-6b0f-4741-bcd2-f7bef02eafe8" rel="">die hook&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:229abac2-9ec9-48b5-8b47-9b70d05bfa80" rel="">常量&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:31eb38d0-dd42-40b6-ae7b-2e5740695928" rel="">变量&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>不懂 perl, 所以看代码时候问了 chatGPT 这些很基础的问题，简单整理记录一下。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Perl on 杂货铺</title><link>https://yangyingchao.github.io/tags/perl/</link><description>Recent content in Perl on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 04 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/perl/index.xml" rel="self" type="application/rss+xml"/><item><title>perl begginer note</title><link>https://yangyingchao.github.io/perl-begginer-note/</link><pubDate>Mon, 04 Sep 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/perl-begginer-note/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:b6801896-14cc-40fc-ae0e-ba5a5e72ba62" rel=""&gt;pos2usage&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:7bf6a392-7f59-4e97-8920-51f304ffc357" rel=""&gt;pod2usage 是作什么的&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#h:c6fe3dca-2a93-44f4-b1ac-212382383d4a" rel=""&gt;pod2usage 输出的文档，是在哪里定义的&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#h:05d56de5-9cd9-41f0-b7a0-bd64e64239b9" rel=""&gt;代码中的 =head1 是什么意思？&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:1eabc14a-0303-4f40-9313-1bcee7157522" rel=""&gt;use 是什么意思&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:b830abd9-6b0f-4741-bcd2-f7bef02eafe8" rel=""&gt;die hook&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:229abac2-9ec9-48b5-8b47-9b70d05bfa80" rel=""&gt;常量&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:31eb38d0-dd42-40b6-ae7b-2e5740695928" rel=""&gt;变量&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;不懂 perl, 所以看代码时候问了 chatGPT 这些很基础的问题，简单整理记录一下。&lt;/p&gt;</description></item></channel></rss>

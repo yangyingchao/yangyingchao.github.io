@@ -1,4 +1,40 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 20 Aug 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>如何在有限的阅读时间里做到过目不忘</title><link>https://yangyingchao.github.io/bookfere_com_post_186/</link><pubDate>Wed, 20 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/bookfere_com_post_186/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 05 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>AIO in pg_18</title><link>https://yangyingchao.github.io/aio-in-pg_18/</link><pubDate>Fri, 05 Sep 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/aio-in-pg_18/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#motivation" rel="">Motivation</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#why-asynchronous-io" rel="">Why Asynchronous IO</a></li>
+<li><span class="section-num">1.2</span> <a href="#why-direct-unbuffered-io" rel="">Why Direct / unbuffered IO</a></li>
+<li><span class="section-num">1.3</span> <a href="#aio-usage-example" rel="">AIO Usage Example</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#design-criteria-and-motivation" rel="">Design Criteria &amp; Motivation</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#deadlock-and-starvation-dangers-due-to-aio" rel="">Deadlock and Starvation Dangers due to AIO</a></li>
+<li><span class="section-num">2.2</span> <a href="#io-%e5%8f%af%e4%bb%a5%e5%9c%a8%e5%85%b3%e9%94%ae%e5%8c%ba%e6%ae%b5%e4%b8%ad%e5%90%af%e5%8a%a8" rel="">IO 可以在关键区段中启动</a></li>
+<li><span class="section-num">2.3</span> <a href="#state-for-aio-needs-to-live-in-shared-memory" rel="">State for AIO needs to live in shared memory</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#design-of-the-aio-subsystem" rel="">Design of the AIO Subsystem</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#aio-methods" rel="">AIO Methods</a></li>
+<li><span class="section-num">3.2</span> <a href="#aio-%e5%8f%a5%e6%9f%84" rel="">AIO 句柄</a></li>
+<li><span class="section-num">3.3</span> <a href="#aio-callbacks" rel="">AIO Callbacks</a></li>
+<li><span class="section-num">3.4</span> <a href="#aio-targets" rel="">AIO Targets</a></li>
+<li><span class="section-num">3.5</span> <a href="#aio-wait-references" rel="">AIO Wait References</a></li>
+<li><span class="section-num">3.6</span> <a href="#aio-results" rel="">AIO Results</a></li>
+<li><span class="section-num">3.7</span> <a href="#aio-errors" rel="">AIO Errors</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#helpers" rel="">Helpers</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#%e8%af%bb%e5%8f%96%e6%b5%81" rel="">读取流</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/README.md</p>]]></description></item><item><title>如何在有限的阅读时间里做到过目不忘</title><link>https://yangyingchao.github.io/bookfere_com_post_186/</link><pubDate>Wed, 20 Aug 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/bookfere_com_post_186/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e6%83%85%e7%bb%aa%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7" rel="">情绪的重要性</a></li>
@@ -66,6 +102,22 @@
 <li><span class="section-num">14.1</span> <a href="#initialization-code" rel="">Initialization Code</a></li>
 </ul>
 </li>
+<li><span class="section-num">15</span> <a href="#linkers-part-15-comdat-sections" rel="">Linkers part 15  COMDAT sections</a></li>
+<li><span class="section-num">16</span> <a href="#linkers-part-16-c-plus-plus-template-instantiation" rel="">Linkers part 16:  C++ Template Instantiation</a>
+<ul>
+<li><span class="section-num">16.1</span> <a href="#c-plus-plus-template-instantiation" rel="">C++ Template Instantiation</a></li>
+<li><span class="section-num">16.2</span> <a href="#exception-frames" rel="">Exception Frames</a></li>
+</ul>
+</li>
+<li><span class="section-num">17</span> <a href="#linkers-part-17-warning-symbols" rel="">Linkers part 17:  Warning Symbols</a></li>
+<li><span class="section-num">18</span> <a href="#linkers-part-18-incremental-linking" rel="">Linkers part 18:  Incremental Linking</a></li>
+<li><span class="section-num">19</span> <a href="#linkers-part-19" rel="">Linkers part 19</a>
+<ul>
+<li><span class="section-num">19.1</span> <a href="#start-and-stop-symbols" rel=""><code>__start</code> and <code>__stop</code> Symbols</a></li>
+<li><span class="section-num">19.2</span> <a href="#byte-swapping" rel="">Byte Swapping</a></li>
+</ul>
+</li>
+<li><span class="section-num">20</span> <a href="#linkers-part-20" rel="">Linkers part 20</a></li>
 </ul>
 </div>
 <!--endtoc-->
@@ -116,13 +168,4 @@
 <li>
 <p>733-734, 标注, 2025 年 7 月 11 日星期五 上午 7:04:56</p>
 <blockquote>
-<p>机缘是执念所引，执念为意念所凝，你从小到大什么都不缺，没有执念，自然也就没有机缘啰。</p>]]></description></item><item><title>[笔记]源代码:比尔·盖茨首部自传 [美] 比尔·盖茨;鲁伊</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</guid><description></description></item><item><title>[笔记]长安的荔枝 马伯庸</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D-%E9%A9%AC%E4%BC%AF%E5%BA%B8/</guid><description><![CDATA[<ul>
-<li>
-<p>45-46, 标注, 2025 年 7 月 21 日星期一 上午 8:17:30</p>
-<blockquote>
-<p>一股淡淡的喜悦，像古井里莫名泛起的小水泡，在李善德心中咕嘟咕嘟地浮起来。</p></blockquote>
-</li>
-<li>
-<p>45-47, 标注, 2025 年 7 月 21 日星期一 上午 8:17:38</p>
-<blockquote>
-<p>一股淡淡的喜悦，像古井里莫名泛起的小水泡，在李善德心中咕嘟咕嘟地浮起来。二十八年了，他终于在长安城有了一席之地，一家人可以高枕无忧了。庭中桂树仿佛提前开放了一般，香馥浓郁之味，扑鼻而来，浸沁全身。</p>]]></description></item></channel></rss>
+<p>机缘是执念所引，执念为意念所凝，你从小到大什么都不缺，没有执念，自然也就没有机缘啰。</p>]]></description></item><item><title>[笔记]源代码:比尔·盖茨首部自传 [美] 比尔·盖茨;鲁伊</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</link><pubDate>Thu, 31 Jul 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%A6%96%E9%83%A8%E8%87%AA%E4%BC%A0-%E7%BE%8E-%E6%AF%94%E5%B0%94%E7%9B%96%E8%8C%A8%E9%B2%81%E4%BC%8A/</guid><description></description></item></channel></rss>

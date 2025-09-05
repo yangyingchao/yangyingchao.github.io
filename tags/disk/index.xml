@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disk on 杂货铺</title><link>https://yangyingchao.github.io/tags/disk/</link><description>Recent content in Disk on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/disk/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 中如何安全地抹去磁盘数据</title><link>https://yangyingchao.github.io/w-pmu3_td3depow-xede-a/</link><pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/w-pmu3_td3depow-xede-a/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:2cbbde01-1566-4ece-b655-010ab5108341" rel="">rm 不能安全擦除&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:68545edf-ca95-4f46-b212-5a6c980ccc12" rel="">shred&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:a19812b4-93b3-4891-afdc-b90917e37962" rel="">wipe&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:25009ce5-a75d-4363-bef1-79876a0318e3" rel="">dd&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A&lt;/a>&lt;/p>
-&lt;h2 id="h:2cbbde01-1566-4ece-b655-010ab5108341">&lt;span class="section-num">1&lt;/span> rm 不能安全擦除&lt;/h2>
-&lt;p>因为 rm 命令或者文件管理器删除文件只是删除指向文件系统的指针（inode），所以原始数据仍可以使用&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disk on 杂货铺</title><link>https://yangyingchao.github.io/tags/disk/</link><description>Recent content in Disk on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/disk/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux 中如何安全地抹去磁盘数据</title><link>https://yangyingchao.github.io/w-pmu3_td3depow-xede-a/</link><pubDate>Fri, 20 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/w-pmu3_td3depow-xede-a/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:2cbbde01-1566-4ece-b655-010ab5108341" rel=""&gt;rm 不能安全擦除&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:68545edf-ca95-4f46-b212-5a6c980ccc12" rel=""&gt;shred&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:a19812b4-93b3-4891-afdc-b90917e37962" rel=""&gt;wipe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:25009ce5-a75d-4363-bef1-79876a0318e3" rel=""&gt;dd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer "&gt;https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A" target="_blank" rel="noopener noreffer "&gt;https://mp.weixin.qq.com/s/w-pMU3_TD3dEPoW-XEde-A&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:2cbbde01-1566-4ece-b655-010ab5108341"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; rm 不能安全擦除&lt;/h2&gt;
+&lt;p&gt;因为 rm 命令或者文件管理器删除文件只是删除指向文件系统的指针（inode），所以原始数据仍可以使用&lt;/p&gt;</description></item></channel></rss>

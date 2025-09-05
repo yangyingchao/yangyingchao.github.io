@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ipcrm on 杂货铺</title><link>https://yangyingchao.github.io/tags/ipcrm/</link><description>Recent content in Ipcrm on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ipcrm/index.xml" rel="self" type="application/rss+xml"/><item><title>shared memory utilities</title><link>https://yangyingchao.github.io/shared-memory-utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/shared-memory-utilities/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:c32fe430-3144-4745-8d64-a0bce73720c9" rel="">RTFM…&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:aa00c038-6852-443e-8679-c0081f6bcbd9" rel="">ipcs&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:528e7c73-98e2-4f52-b45a-0715874093fd" rel="">ipcrm&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:06646b4f-87e4-4591-919b-cce0fe1f3983" rel="">Check shared memory in Linux&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://linuxopsys.com/topics/check-shared-memory-in-linux" target="_blank" rel="noopener noreffer ">https://linuxopsys.com/topics/check-shared-memory-in-linux&lt;/a>&lt;/p>
-&lt;h2 id="h:c32fe430-3144-4745-8d64-a0bce73720c9">&lt;span class="section-num">1&lt;/span> RTFM…&lt;/h2>
-&lt;h3 id="h:aa00c038-6852-443e-8679-c0081f6bcbd9">&lt;span class="section-num">1.1&lt;/span> ipcs&lt;/h3>
-&lt;h3 id="h:528e7c73-98e2-4f52-b45a-0715874093fd">&lt;span class="section-num">1.2&lt;/span> ipcrm&lt;/h3>
-&lt;h2 id="h:06646b4f-87e4-4591-919b-cce0fe1f3983">&lt;span class="section-num">2&lt;/span> &lt;a href="https://linuxopsys.com/topics/check-shared-memory-in-linux#:~:text=Check%20shared%20memory%20in%20Linux" target="_blank" rel="noopener noreffer ">Check shared memory in Linux&lt;/a>&lt;/h2>
-&lt;p>Print active shared memory segments using -m option.&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"># ipcs -m
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">------ Shared Memory Segments --------
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">key shmid owner perms bytes nattch status
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x00000000 65536 root 600 393216 2 dest
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">0x00000000 98305 root 600 393216 2 dest
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>where,&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ipcrm on 杂货铺</title><link>https://yangyingchao.github.io/tags/ipcrm/</link><description>Recent content in Ipcrm on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/ipcrm/index.xml" rel="self" type="application/rss+xml"/><item><title>shared memory utilities</title><link>https://yangyingchao.github.io/shared-memory-utilities/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/shared-memory-utilities/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:c32fe430-3144-4745-8d64-a0bce73720c9" rel=""&gt;RTFM…&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:aa00c038-6852-443e-8679-c0081f6bcbd9" rel=""&gt;ipcs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#h:528e7c73-98e2-4f52-b45a-0715874093fd" rel=""&gt;ipcrm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:06646b4f-87e4-4591-919b-cce0fe1f3983" rel=""&gt;Check shared memory in Linux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://linuxopsys.com/topics/check-shared-memory-in-linux" target="_blank" rel="noopener noreffer "&gt;https://linuxopsys.com/topics/check-shared-memory-in-linux&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:c32fe430-3144-4745-8d64-a0bce73720c9"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; RTFM…&lt;/h2&gt;
+&lt;h3 id="h:aa00c038-6852-443e-8679-c0081f6bcbd9"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; ipcs&lt;/h3&gt;
+&lt;h3 id="h:528e7c73-98e2-4f52-b45a-0715874093fd"&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; ipcrm&lt;/h3&gt;
+&lt;h2 id="h:06646b4f-87e4-4591-919b-cce0fe1f3983"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="https://linuxopsys.com/topics/check-shared-memory-in-linux#:~:text=Check%20shared%20memory%20in%20Linux" target="_blank" rel="noopener noreffer "&gt;Check shared memory in Linux&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Print active shared memory segments using -m option.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# ipcs -m
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;------ Shared Memory Segments --------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;key shmid owner perms bytes nattch status
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x00000000 65536 root 600 393216 2 dest
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0x00000000 98305 root 600 393216 2 dest
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;where,&lt;/p&gt;</description></item></channel></rss>

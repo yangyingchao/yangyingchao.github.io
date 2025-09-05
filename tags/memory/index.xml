@@ -1,106 +1,106 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Memory on 杂货铺</title><link>https://yangyingchao.github.io/tags/memory/</link><description>Recent content in Memory on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 16 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/memory/index.xml" rel="self" type="application/rss+xml"/><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:a69e195a-92fb-405b-9b6c-ec86c0015e47" rel="">mlockall()&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:694a46e8-f346-48c2-a21e-a71751c8643d" rel="">how to do this after program started and program does not call &lt;code>mlockall()&lt;/code> ?&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:a99f5c47-b061-4e47-a7f0-51dcf4e3b852" rel="">内核实现&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:6ff510c5-4a77-4766-b6ec-49b25660504a" rel="">mlockall()&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:75a484c0-9716-44e8-8811-9041f9878f19" rel="">内存区域标记&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:7ad9b325-1adc-4075-ac3b-3e92208ae6a6" rel="">Swap&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:ddbd6d4f-ac07-456e-a148-dcdeac5f975d" rel="">Swap info&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:1fe99bb1-aeb0-4a49-9efe-56e123310ee6" rel="">Locks&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:36e44df6-8e26-4bd4-bfc8-80df31b3614b" rel="">fork 时候复制 swap…&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.4&lt;/span> &lt;a href="#h:cb155170-b5a3-421f-9f98-090780fbf82a" rel="">进程退出时候清理 swap 。。。&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:e5964c54-29f4-42fa-af12-10ca1093f20b" rel="">RLIMIT_MEMLOCK&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory&lt;/a>&lt;/p>
-&lt;h2 id="h:a69e195a-92fb-405b-9b6c-ec86c0015e47">&lt;span class="section-num">1&lt;/span> mlockall()&lt;/h2>
-&lt;p>from manpage:&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;span class="lnt">30
-&lt;/span>&lt;span class="lnt">31
-&lt;/span>&lt;span class="lnt">32
-&lt;/span>&lt;span class="lnt">33
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mlockall() and munlockall()
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mlockall() locks all pages mapped into the address space of the calling process. This in‐
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cludes the pages of the code, data, and stack segment, as well as shared libraries, user space
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> kernel data, shared memory, and memory-mapped files. All mapped pages are guaranteed to be
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> resident in RAM when the call returns successfully; the pages are guaranteed to stay in RAM
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> until later unlocked.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> The flags argument is constructed as the bitwise OR of one or more of the following constants:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MCL_CURRENT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Lock all pages which are currently mapped into the address space of the process.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MCL_FUTURE
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Lock all pages which will become mapped into the address space of the process in the
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> future. These could be, for instance, new pages required by a growing heap and stack
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> as well as new memory-mapped files or shared memory regions.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> MCL_ONFAULT (since Linux 4.4)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Used together with MCL_CURRENT, MCL_FUTURE, or both. Mark all current (with MCL_CUR‐
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> RENT) or future (with MCL_FUTURE) mappings to lock pages when they are faulted in.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> When used with MCL_CURRENT, all present pages are locked, but mlockall() will not fault
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> in non-present pages. When used with MCL_FUTURE, all future mappings will be marked to
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> lock pages when they are faulted in, but they will not be populated by the lock when
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> the mapping is created. MCL_ONFAULT must be used with either MCL_CURRENT or MCL_FUTURE
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> or both.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> If MCL_FUTURE has been specified, then a later system call (e.g., mmap(2), sbrk(2), mal‐
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> loc(3)), may fail if it would cause the number of locked bytes to exceed the permitted maximum
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> (see below). In the same circumstances, stack growth may likewise fail: the kernel will deny
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> stack expansion and deliver a SIGSEGV signal to the process.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">munlockall() unlocks all pages mapped into the address space of the calling process.
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="h:694a46e8-f346-48c2-a21e-a71751c8643d">&lt;span class="section-num">2&lt;/span> how to do this after program started and program does not call &lt;code>mlockall()&lt;/code> ?&lt;/h2>
-&lt;p>Make a GDB command file that contains something like this:&lt;/p></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>&lt;strong>PM&lt;/strong> stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>eADR&lt;/strong> 保证了 CPU 缓存中的数据在电源故障时会被刷新到 PM 中&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Memory on 杂货铺</title><link>https://yangyingchao.github.io/tags/memory/</link><description>Recent content in Memory on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 16 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/memory/index.xml" rel="self" type="application/rss+xml"/><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:a69e195a-92fb-405b-9b6c-ec86c0015e47" rel=""&gt;mlockall()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:694a46e8-f346-48c2-a21e-a71751c8643d" rel=""&gt;how to do this after program started and program does not call &lt;code&gt;mlockall()&lt;/code&gt; ?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:a99f5c47-b061-4e47-a7f0-51dcf4e3b852" rel=""&gt;内核实现&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:6ff510c5-4a77-4766-b6ec-49b25660504a" rel=""&gt;mlockall()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:75a484c0-9716-44e8-8811-9041f9878f19" rel=""&gt;内存区域标记&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:7ad9b325-1adc-4075-ac3b-3e92208ae6a6" rel=""&gt;Swap&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:ddbd6d4f-ac07-456e-a148-dcdeac5f975d" rel=""&gt;Swap info&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:1fe99bb1-aeb0-4a49-9efe-56e123310ee6" rel=""&gt;Locks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:36e44df6-8e26-4bd4-bfc8-80df31b3614b" rel=""&gt;fork 时候复制 swap…&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.4&lt;/span&gt; &lt;a href="#h:cb155170-b5a3-421f-9f98-090780fbf82a" rel=""&gt;进程退出时候清理 swap 。。。&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:e5964c54-29f4-42fa-af12-10ca1093f20b" rel=""&gt;RLIMIT_MEMLOCK&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer "&gt;https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:a69e195a-92fb-405b-9b6c-ec86c0015e47"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; mlockall()&lt;/h2&gt;
+&lt;p&gt;from manpage:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mlockall() and munlockall()
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; mlockall() locks all pages mapped into the address space of the calling process. This in‐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; cludes the pages of the code, data, and stack segment, as well as shared libraries, user space
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; kernel data, shared memory, and memory-mapped files. All mapped pages are guaranteed to be
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; resident in RAM when the call returns successfully; the pages are guaranteed to stay in RAM
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; until later unlocked.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; The flags argument is constructed as the bitwise OR of one or more of the following constants:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; MCL_CURRENT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Lock all pages which are currently mapped into the address space of the process.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; MCL_FUTURE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Lock all pages which will become mapped into the address space of the process in the
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; future. These could be, for instance, new pages required by a growing heap and stack
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; as well as new memory-mapped files or shared memory regions.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; MCL_ONFAULT (since Linux 4.4)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Used together with MCL_CURRENT, MCL_FUTURE, or both. Mark all current (with MCL_CUR‐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; RENT) or future (with MCL_FUTURE) mappings to lock pages when they are faulted in.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; When used with MCL_CURRENT, all present pages are locked, but mlockall() will not fault
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; in non-present pages. When used with MCL_FUTURE, all future mappings will be marked to
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; lock pages when they are faulted in, but they will not be populated by the lock when
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; the mapping is created. MCL_ONFAULT must be used with either MCL_CURRENT or MCL_FUTURE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; or both.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; If MCL_FUTURE has been specified, then a later system call (e.g., mmap(2), sbrk(2), mal‐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; loc(3)), may fail if it would cause the number of locked bytes to exceed the permitted maximum
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; (see below). In the same circumstances, stack growth may likewise fail: the kernel will deny
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; stack expansion and deliver a SIGSEGV signal to the process.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;munlockall() unlocks all pages mapped into the address space of the calling process.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="h:694a46e8-f346-48c2-a21e-a71751c8643d"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; how to do this after program started and program does not call &lt;code&gt;mlockall()&lt;/code&gt; ?&lt;/h2&gt;
+&lt;p&gt;Make a GDB command file that contains something like this:&lt;/p&gt;</description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description>&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PM&lt;/strong&gt; stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;eADR&lt;/strong&gt; 保证了 CPU 缓存中的数据在电源故障时会被刷新到 PM 中&lt;/p&gt;</description></item></channel></rss>

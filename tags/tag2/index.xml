@@ -1,77 +1,77 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tag2 on 杂货铺</title><link>https://yangyingchao.github.io/tags/tag2/</link><description>Recent content in Tag2 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tag2/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕：查询原理浅析</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e4%bb%8e-sql-%e6%96%87%e6%9c%ac%e5%88%b0%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92" rel="">从 SQL 文本到执行计划&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#sql-parse" rel="">SQL Parse&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#sql-analyze" rel="">SQL Analyze&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#sql-logical-plan" rel="">SQL Logical Plan&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#sql-optimize" rel="">SQL Optimize&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.5&lt;/span> &lt;a href="#logical-plan-rewrite" rel="">Logical Plan Rewrite&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.6&lt;/span> &lt;a href="#cbo-transform" rel="">CBO Transform&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.7&lt;/span> &lt;a href="#%e7%bb%9f%e8%ae%a1%e4%bf%a1%e6%81%af%e5%92%8c-cost-%e4%bc%b0%e8%ae%a1" rel="">统计信息和 Cost 估计&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.8&lt;/span> &lt;a href="#%e7%94%9f%e6%88%90-plan-fragment" rel="">生成 Plan fragment&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92%e7%9a%84%e8%b0%83%e5%ba%a6" rel="">执行计划的调度&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92%e7%9a%84%e6%89%a7%e8%a1%8c" rel="">执行计划的执行&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#mpp-%e5%a4%9a%e6%9c%ba%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" rel="">MPP 多机并行执行&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#pipeline-%e5%8d%95%e6%9c%ba%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" rel="">Pipeline 单机并行执行&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#%e5%90%91%e9%87%8f%e5%8c%96%e6%89%a7%e8%a1%8c" rel="">向量化执行&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#%e6%80%bb%e7%bb%93" rel="">总结&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer ">https://my.oschina.net/u/5658056/blog/5519656&lt;/a>&lt;/p></description></item><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#%e4%b8%80" rel="">一&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#%e4%ba%8c" rel="">二&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#%e4%b8%89" rel="">三&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;h2 id="一">&lt;span class="section-num">1&lt;/span> 一&lt;/h2>
-&lt;p>刚刚读完了韩国作家崔恩荣的《明亮的夜晚》，作者以细腻的笔法，将八十年来几代人的故事娓娓道来：&lt;/p>
-&lt;blockquote>
-&lt;p>和丈夫离婚后，三十一岁的我独自来到海边小城熙岭，却在那里邂逅多年未见的祖母。尴尬和沉默之后，孤独的心一点点靠近，我和祖母成为相互倾吐心声的朋友。在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去的无数个我吗？&lt;/p></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description>&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>&lt;strong>PM&lt;/strong> stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>eADR&lt;/strong> 保证了 CPU 缓存中的数据在电源故障时会被刷新到 PM 中&lt;/p></description></item><item><title>std::initializer_list in C++</title><link>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:bfb895f8-a465-4cb7-a534-ad7148fe328d" rel="">Referencing local array&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:e1ac2da6-09b6-49cc-95eb-c30b134cd45c" rel="">The cost of copying elements&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/initializer_list_improvements/&lt;/a>&lt;/p>
-&lt;h2 id="h:bfb895f8-a465-4cb7-a534-ad7148fe328d">&lt;span class="section-num">1&lt;/span> &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/#1-referencing-local-array" target="_blank" rel="noopener noreffer ">Referencing local array&lt;/a>&lt;/h2>
-&lt;p>&lt;code>std::initializer_list&lt;/code> 在使用中会转化成为常量对象的匿名局部数组：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-c++" data-lang="c++">&lt;span class="line">&lt;span class="cl">&lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">initializer_list&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">wrong&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="c1">// for illustration only!
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">};&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">initializer_list&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">wrong&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>The above code is equivalent to the following:&lt;/p></description></item><item><title>大数据已死</title><link>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</guid><description>&lt;p>&lt;a href="https://motherduck.com/blog/big-data-is-dead/" target="_blank" rel="noopener noreffer ">https://motherduck.com/blog/big-data-is-dead/&lt;/a>&lt;/p>
-&lt;p>谷歌的大数据工程师乔丹·蒂加尼 （Jordan Tigani），最近直言不讳地说：&amp;ldquo;大数据已死&amp;rdquo;。&lt;/p>
-&lt;p>他认为，大数据时代已经结束了，大数据的存储和分析，作为一个技术问题已经解决了。 用户已经不必担心数据大小了，再多的数据都不是问题。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tag2 on 杂货铺</title><link>https://yangyingchao.github.io/tags/tag2/</link><description>Recent content in Tag2 on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 02 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tag2/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕：查询原理浅析</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%bb%8e-sql-%e6%96%87%e6%9c%ac%e5%88%b0%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92" rel=""&gt;从 SQL 文本到执行计划&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#sql-parse" rel=""&gt;SQL Parse&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#sql-analyze" rel=""&gt;SQL Analyze&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#sql-logical-plan" rel=""&gt;SQL Logical Plan&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#sql-optimize" rel=""&gt;SQL Optimize&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; &lt;a href="#logical-plan-rewrite" rel=""&gt;Logical Plan Rewrite&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; &lt;a href="#cbo-transform" rel=""&gt;CBO Transform&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; &lt;a href="#%e7%bb%9f%e8%ae%a1%e4%bf%a1%e6%81%af%e5%92%8c-cost-%e4%bc%b0%e8%ae%a1" rel=""&gt;统计信息和 Cost 估计&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.8&lt;/span&gt; &lt;a href="#%e7%94%9f%e6%88%90-plan-fragment" rel=""&gt;生成 Plan fragment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92%e7%9a%84%e8%b0%83%e5%ba%a6" rel=""&gt;执行计划的调度&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92%e7%9a%84%e6%89%a7%e8%a1%8c" rel=""&gt;执行计划的执行&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#mpp-%e5%a4%9a%e6%9c%ba%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" rel=""&gt;MPP 多机并行执行&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#pipeline-%e5%8d%95%e6%9c%ba%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" rel=""&gt;Pipeline 单机并行执行&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#%e5%90%91%e9%87%8f%e5%8c%96%e6%89%a7%e8%a1%8c" rel=""&gt;向量化执行&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#%e6%80%bb%e7%bb%93" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer "&gt;https://my.oschina.net/u/5658056/blog/5519656&lt;/a&gt;&lt;/p&gt;</description></item><item><title>明亮的夜晚所感</title><link>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</link><pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/wechat-%E6%98%8E%E4%BA%AE%E7%9A%84%E5%A4%9C%E6%99%9A%E6%89%80%E6%84%9F/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%b8%80" rel=""&gt;一&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e4%ba%8c" rel=""&gt;二&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e4%b8%89" rel=""&gt;三&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;h2 id="一"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 一&lt;/h2&gt;
+&lt;p&gt;刚刚读完了韩国作家崔恩荣的《明亮的夜晚》，作者以细腻的笔法，将八十年来几代人的故事娓娓道来：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;和丈夫离婚后，三十一岁的我独自来到海边小城熙岭，却在那里邂逅多年未见的祖母。尴尬和沉默之后，孤独的心一点点靠近，我和祖母成为相互倾吐心声的朋友。在祖母家老屋的旧相册里，我发现一位和我长相非常相似的女子，依偎在少女时代的祖母身旁。一个个鲜活的面孔逐渐从一张张黑白相片中，从一封封感人至深的书信中，从久远的回忆里，穿过女人生如飘萍、命如草芥的时代，走到我面前。经过曾祖母、祖母和母亲，来到我身边的故事，她们的人生在我的眼前重现。现在的我能够触及她们吗? 正如过去无数的我组成了现在的我，现在的我也能见到过去的无数个我吗？&lt;/p&gt;</description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description>&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;PM&lt;/strong&gt; stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;eADR&lt;/strong&gt; 保证了 CPU 缓存中的数据在电源故障时会被刷新到 PM 中&lt;/p&gt;</description></item><item><title>std::initializer_list in C++</title><link>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/stdinitializer_list_caveats_and_improvements/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:bfb895f8-a465-4cb7-a534-ad7148fe328d" rel=""&gt;Referencing local array&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:e1ac2da6-09b6-49cc-95eb-c30b134cd45c" rel=""&gt;The cost of copying elements&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/" target="_blank" rel="noopener noreffer "&gt;https://www.cppstories.com/2023/initializer_list_improvements/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:bfb895f8-a465-4cb7-a534-ad7148fe328d"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="https://www.cppstories.com/2023/initializer_list_improvements/#1-referencing-local-array" target="_blank" rel="noopener noreffer "&gt;Referencing local array&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;std::initializer_list&lt;/code&gt; 在使用中会转化成为常量对象的匿名局部数组：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c++" data-lang="c++"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;initializer_list&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;wrong&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// for illustration only!
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;initializer_list&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;wrong&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The above code is equivalent to the following:&lt;/p&gt;</description></item><item><title>大数据已死</title><link>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B7%B2%E6%AD%BB/</guid><description>&lt;p&gt;&lt;a href="https://motherduck.com/blog/big-data-is-dead/" target="_blank" rel="noopener noreffer "&gt;https://motherduck.com/blog/big-data-is-dead/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;谷歌的大数据工程师乔丹·蒂加尼 （Jordan Tigani），最近直言不讳地说：&amp;ldquo;大数据已死&amp;rdquo;。&lt;/p&gt;
+&lt;p&gt;他认为，大数据时代已经结束了，大数据的存储和分析，作为一个技术问题已经解决了。 用户已经不必担心数据大小了，再多的数据都不是问题。&lt;/p&gt;</description></item></channel></rss>

@@ -1,86 +1,86 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Performance on 杂货铺</title><link>https://yangyingchao.github.io/tags/performance/</link><description>Recent content in Performance on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/performance/index.xml" rel="self" type="application/rss+xml"/><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description/></item><item><title>Performance of 10 G Ethernet Using Commodity Hardware</title><link>https://yangyingchao.github.io/performanceof10gbe/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/performanceof10gbe/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:ff062e17-a590-447b-af94-db765fe35d49" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:79aa9e78-e621-4482-a37f-6c4e9faa51ed" rel="">NETWORK PROCESSING IN THE LINUX KERNEL&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:ae958029-e093-4749-8e53-86bbf3c625c0" rel="">Kernel Accounting&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:becafb3e-b9d7-42ce-a7f6-ef239ea75c5a" rel="">Packet Transmission 发送&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.3&lt;/span> &lt;a href="#h:89c95fde-f17c-4f48-a103-2c4f8a22c09c" rel="">Packet Reception 接收&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.4&lt;/span> &lt;a href="#h:9010c7b0-db9f-4169-8ec4-b8905c4dd54a" rel="">Incorrect SoftIRQ Accounting&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:aaaa327c-4cf8-4784-a699-88f940bd6e60" rel="">TESTBED AND KERNEL CONFIGURATION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:8168452b-6b7f-4d83-91b1-33a6df8d63fc" rel="">UDP TRANSMISSION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:3d1a9962-b03b-481c-8098-aeaaad110f71" rel="">TCP TRANSMISSION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:b3dad9b5-5d55-4dbb-ad94-74e11ba80a91" rel="">TCP TRANSMISSION WITH ZERO-COPY&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">7&lt;/span> &lt;a href="#h:566096d2-c034-451a-9844-517b5b69c0f0" rel="">THE HARDWARE OFFLOAD FUNCTIONALITIES OF THE NETWORK ADAPTER&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">8&lt;/span> &lt;a href="#h:321ebff8-6056-49e5-9deb-bfc61ccb5011" rel="">FIBRE CHANNEL TO 10 GIGABIT ETHERNET TESTS&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">9&lt;/span> &lt;a href="#h:77721e10-4994-4b5b-97c8-6d13ef405b68" rel="">CONCLUSIONS&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/3/performanceOf10GbE.pdf&lt;/p></description></item><item><title>Red Hat Enterprise Linux 7 Performance Tuning Guide</title><link>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:1a35c677-f00f-4065-8677-6c23aa72fa3a" rel="">TOOLS&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1.1&lt;/span> &lt;a href="#h:1ea5eef4-6983-4810-a21f-1e24673a0b07" rel="">top&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.2&lt;/span> &lt;a href="#h:1099edda-bbac-4396-bed3-41bc97732644" rel="">ps&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.3&lt;/span> &lt;a href="#h:28bdc842-2f41-4a74-9b2c-941ddd7b392d" rel="">vmstat – Virtual Memory Statistics&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.4&lt;/span> &lt;a href="#h:356fe62a-2a11-45cc-95ee-7ff233bfd25e" rel="">sar – System Activity Repoter&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.5&lt;/span> &lt;a href="#h:59f585f6-b2c3-485f-ae9a-ae5bc411d608" rel="">perf&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.6&lt;/span> &lt;a href="#h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f" rel="">tubostat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.7&lt;/span> &lt;a href="#h:beb68901-f122-48d9-b5e9-a0bf2c7ae668" rel="">iostat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.8&lt;/span> &lt;a href="#h:b9edc259-c08f-42a1-bf32-a12dc326881d" rel="">irqbalance&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.9&lt;/span> &lt;a href="#h:a1b0576a-074d-4fc9-9386-58fb3d25d492" rel="">ss – socket statistics&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.10&lt;/span> &lt;a href="#h:04ebff72-f620-42af-ad32-c98fe5cc3e8d" rel="">numastat&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">1.11&lt;/span> &lt;a href="#h:02113b83-fb83-49fd-bfcc-45c773daa67d" rel="">numad&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf&lt;/p>
-&lt;h2 id="h:1a35c677-f00f-4065-8677-6c23aa72fa3a">&lt;span class="section-num">1&lt;/span> TOOLS&lt;/h2>
-&lt;h3 id="h:1ea5eef4-6983-4810-a21f-1e24673a0b07">&lt;span class="section-num">1.1&lt;/span> top&lt;/h3>
-&lt;h3 id="h:1099edda-bbac-4396-bed3-41bc97732644">&lt;span class="section-num">1.2&lt;/span> ps&lt;/h3>
-&lt;h3 id="h:28bdc842-2f41-4a74-9b2c-941ddd7b392d">&lt;span class="section-num">1.3&lt;/span> vmstat – Virtual Memory Statistics&lt;/h3>
-&lt;h3 id="h:356fe62a-2a11-45cc-95ee-7ff233bfd25e">&lt;span class="section-num">1.4&lt;/span> sar – System Activity Repoter&lt;/h3>
-&lt;h3 id="h:59f585f6-b2c3-485f-ae9a-ae5bc411d608">&lt;span class="section-num">1.5&lt;/span> perf&lt;/h3>
-&lt;h3 id="h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f">&lt;span class="section-num">1.6&lt;/span> tubostat&lt;/h3>
-&lt;h3 id="h:beb68901-f122-48d9-b5e9-a0bf2c7ae668">&lt;span class="section-num">1.7&lt;/span> iostat&lt;/h3>
-&lt;h3 id="h:b9edc259-c08f-42a1-bf32-a12dc326881d">&lt;span class="section-num">1.8&lt;/span> irqbalance&lt;/h3>
-&lt;h3 id="h:a1b0576a-074d-4fc9-9386-58fb3d25d492">&lt;span class="section-num">1.9&lt;/span> ss – socket statistics&lt;/h3>
-&lt;h3 id="h:04ebff72-f620-42af-ad32-c98fe5cc3e8d">&lt;span class="section-num">1.10&lt;/span> numastat&lt;/h3>
-&lt;h3 id="h:02113b83-fb83-49fd-bfcc-45c773daa67d">&lt;span class="section-num">1.11&lt;/span> numad&lt;/h3></description></item><item><title>Your Read is Our Priority in Flash Storage</title><link>https://yangyingchao.github.io/p1911-lee/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1911-lee/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:ebffcd16-173e-4644-a00f-8f6d92c798f0" rel="">ABSTRACT&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:f8ebb4bf-cdee-4786-920f-9e5cca36c7ca" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:3fd376b5-2ff5-4320-b346-b0e2e679ba7f" rel="">BACKGROUND&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:d5416d09-f7a7-4448-b41e-c5f56ce6dc40" rel="">I/O Asymmetry in Flash SSDs&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:5a068019-5346-450f-b2b9-bb52b0395dfe" rel="">RAW Protocol in DBMS Buffer&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:b1ad1102-62a1-4ebf-a3d0-5175fb229e15" rel="">RAW Protocol in Storage Buffer&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:120954ae-7c0b-4356-9db3-2603f1c95561" rel="">READ STALL IN DBMS AND RW COMMAND&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:1961aec8-3148-4626-8ea7-d7aa8e3630c7" rel="">Read Stalls inRelational DBMS Buffer&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:f4ca1bee-0c63-49d3-ad37-d8b7ba336e23" rel="">RW Command&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:83365df9-93ca-4225-93ac-036eb29a80cf" rel="">READ STALL IN STORAGE AND R-BUF&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:4af9a557-45e7-494e-8d5b-540929258590" rel="">Read Stalls in SSD Buffer&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/e/p1911-lee.pdf&lt;/p>
-&lt;h2 id="h:ebffcd16-173e-4644-a00f-8f6d92c798f0">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>问题： &lt;strong>读阻塞&lt;/strong>&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Performance on 杂货铺</title><link>https://yangyingchao.github.io/tags/performance/</link><description>Recent content in Performance on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/performance/index.xml" rel="self" type="application/rss+xml"/><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description/></item><item><title>Performance of 10 G Ethernet Using Commodity Hardware</title><link>https://yangyingchao.github.io/performanceof10gbe/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/performanceof10gbe/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:ff062e17-a590-447b-af94-db765fe35d49" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:79aa9e78-e621-4482-a37f-6c4e9faa51ed" rel=""&gt;NETWORK PROCESSING IN THE LINUX KERNEL&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:ae958029-e093-4749-8e53-86bbf3c625c0" rel=""&gt;Kernel Accounting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:becafb3e-b9d7-42ce-a7f6-ef239ea75c5a" rel=""&gt;Packet Transmission 发送&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#h:89c95fde-f17c-4f48-a103-2c4f8a22c09c" rel=""&gt;Packet Reception 接收&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.4&lt;/span&gt; &lt;a href="#h:9010c7b0-db9f-4169-8ec4-b8905c4dd54a" rel=""&gt;Incorrect SoftIRQ Accounting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:aaaa327c-4cf8-4784-a699-88f940bd6e60" rel=""&gt;TESTBED AND KERNEL CONFIGURATION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:8168452b-6b7f-4d83-91b1-33a6df8d63fc" rel=""&gt;UDP TRANSMISSION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:3d1a9962-b03b-481c-8098-aeaaad110f71" rel=""&gt;TCP TRANSMISSION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:b3dad9b5-5d55-4dbb-ad94-74e11ba80a91" rel=""&gt;TCP TRANSMISSION WITH ZERO-COPY&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#h:566096d2-c034-451a-9844-517b5b69c0f0" rel=""&gt;THE HARDWARE OFFLOAD FUNCTIONALITIES OF THE NETWORK ADAPTER&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#h:321ebff8-6056-49e5-9deb-bfc61ccb5011" rel=""&gt;FIBRE CHANNEL TO 10 GIGABIT ETHERNET TESTS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;9&lt;/span&gt; &lt;a href="#h:77721e10-4994-4b5b-97c8-6d13ef405b68" rel=""&gt;CONCLUSIONS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/3/performanceOf10GbE.pdf&lt;/p&gt;</description></item><item><title>Red Hat Enterprise Linux 7 Performance Tuning Guide</title><link>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/red_hat_enterprise_linux-7-performance_tuning_guide-en-us/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:1a35c677-f00f-4065-8677-6c23aa72fa3a" rel=""&gt;TOOLS&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:1ea5eef4-6983-4810-a21f-1e24673a0b07" rel=""&gt;top&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#h:1099edda-bbac-4396-bed3-41bc97732644" rel=""&gt;ps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#h:28bdc842-2f41-4a74-9b2c-941ddd7b392d" rel=""&gt;vmstat – Virtual Memory Statistics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#h:356fe62a-2a11-45cc-95ee-7ff233bfd25e" rel=""&gt;sar – System Activity Repoter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; &lt;a href="#h:59f585f6-b2c3-485f-ae9a-ae5bc411d608" rel=""&gt;perf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; &lt;a href="#h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f" rel=""&gt;tubostat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; &lt;a href="#h:beb68901-f122-48d9-b5e9-a0bf2c7ae668" rel=""&gt;iostat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.8&lt;/span&gt; &lt;a href="#h:b9edc259-c08f-42a1-bf32-a12dc326881d" rel=""&gt;irqbalance&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.9&lt;/span&gt; &lt;a href="#h:a1b0576a-074d-4fc9-9386-58fb3d25d492" rel=""&gt;ss – socket statistics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.10&lt;/span&gt; &lt;a href="#h:04ebff72-f620-42af-ad32-c98fe5cc3e8d" rel=""&gt;numastat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.11&lt;/span&gt; &lt;a href="#h:02113b83-fb83-49fd-bfcc-45c773daa67d" rel=""&gt;numad&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/c/red_hat_enterprise_linux-7-performance_tuning_guide-en-us.pdf&lt;/p&gt;
+&lt;h2 id="h:1a35c677-f00f-4065-8677-6c23aa72fa3a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; TOOLS&lt;/h2&gt;
+&lt;h3 id="h:1ea5eef4-6983-4810-a21f-1e24673a0b07"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; top&lt;/h3&gt;
+&lt;h3 id="h:1099edda-bbac-4396-bed3-41bc97732644"&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; ps&lt;/h3&gt;
+&lt;h3 id="h:28bdc842-2f41-4a74-9b2c-941ddd7b392d"&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; vmstat – Virtual Memory Statistics&lt;/h3&gt;
+&lt;h3 id="h:356fe62a-2a11-45cc-95ee-7ff233bfd25e"&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; sar – System Activity Repoter&lt;/h3&gt;
+&lt;h3 id="h:59f585f6-b2c3-485f-ae9a-ae5bc411d608"&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; perf&lt;/h3&gt;
+&lt;h3 id="h:aa1c7c86-31ee-47d9-83ac-25a1ed90cf1f"&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; tubostat&lt;/h3&gt;
+&lt;h3 id="h:beb68901-f122-48d9-b5e9-a0bf2c7ae668"&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; iostat&lt;/h3&gt;
+&lt;h3 id="h:b9edc259-c08f-42a1-bf32-a12dc326881d"&gt;&lt;span class="section-num"&gt;1.8&lt;/span&gt; irqbalance&lt;/h3&gt;
+&lt;h3 id="h:a1b0576a-074d-4fc9-9386-58fb3d25d492"&gt;&lt;span class="section-num"&gt;1.9&lt;/span&gt; ss – socket statistics&lt;/h3&gt;
+&lt;h3 id="h:04ebff72-f620-42af-ad32-c98fe5cc3e8d"&gt;&lt;span class="section-num"&gt;1.10&lt;/span&gt; numastat&lt;/h3&gt;
+&lt;h3 id="h:02113b83-fb83-49fd-bfcc-45c773daa67d"&gt;&lt;span class="section-num"&gt;1.11&lt;/span&gt; numad&lt;/h3&gt;</description></item><item><title>Your Read is Our Priority in Flash Storage</title><link>https://yangyingchao.github.io/p1911-lee/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1911-lee/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:ebffcd16-173e-4644-a00f-8f6d92c798f0" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:f8ebb4bf-cdee-4786-920f-9e5cca36c7ca" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:3fd376b5-2ff5-4320-b346-b0e2e679ba7f" rel=""&gt;BACKGROUND&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:d5416d09-f7a7-4448-b41e-c5f56ce6dc40" rel=""&gt;I/O Asymmetry in Flash SSDs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:5a068019-5346-450f-b2b9-bb52b0395dfe" rel=""&gt;RAW Protocol in DBMS Buffer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:b1ad1102-62a1-4ebf-a3d0-5175fb229e15" rel=""&gt;RAW Protocol in Storage Buffer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:120954ae-7c0b-4356-9db3-2603f1c95561" rel=""&gt;READ STALL IN DBMS AND RW COMMAND&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:1961aec8-3148-4626-8ea7-d7aa8e3630c7" rel=""&gt;Read Stalls inRelational DBMS Buffer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:f4ca1bee-0c63-49d3-ad37-d8b7ba336e23" rel=""&gt;RW Command&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:83365df9-93ca-4225-93ac-036eb29a80cf" rel=""&gt;READ STALL IN STORAGE AND R-BUF&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:4af9a557-45e7-494e-8d5b-540929258590" rel=""&gt;Read Stalls in SSD Buffer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/e/p1911-lee.pdf&lt;/p&gt;
+&lt;h2 id="h:ebffcd16-173e-4644-a00f-8f6d92c798f0"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;问题： &lt;strong&gt;读阻塞&lt;/strong&gt;&lt;/p&gt;</description></item></channel></rss>

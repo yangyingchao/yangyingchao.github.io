@@ -1,60 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Compression on 杂货铺</title><link>https://yangyingchao.github.io/tags/compression/</link><description>Recent content in Compression on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/compression/index.xml" rel="self" type="application/rss+xml"/><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3058-liakos/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel="">ABSTRACT&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:402fb889-e9f7-4816-83ac-5edfbc857d66" rel="">INTRODUCTION&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:4d0e1916-a961-460c-b04b-37bf987e0d1d" rel="">PRELIMINARIES&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">3.1&lt;/span> &lt;a href="#h:eb874834-0cf9-4a3d-a6c2-37fe0153d2de" rel="">Floating Point Time Series&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.2&lt;/span> &lt;a href="#h:87f9b9e3-a90d-404a-9c99-aaa46efe6355" rel="">IEEE 754 Double Precision Floating Point Format&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">3.3&lt;/span> &lt;a href="#h:b534c224-1e44-453d-8ac1-5d03f6b7e9a7" rel="">Gorilla Compression&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:e61dbfe2-662e-4db1-8de6-33ccd572b0a1" rel="">PROPERTIES OF REAL-WORLD TIME SERIES&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:50b69b70-1b4b-4e2c-8c37-8d851fb920ce" rel="">Trailing Zeros&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.2&lt;/span> &lt;a href="#h:06702259-3ebc-4672-b24b-d7f28c4eaedd" rel="">Leading Zeros&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4.3&lt;/span> &lt;a href="#h:8c80901f-346f-4b1d-ba11-411436fd4516" rel="">Revisiting Gorilla Compression&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:3d2a78fa-6eed-4738-8d3d-5d4771119d8c" rel="">OVERVIEW&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">5.1&lt;/span> &lt;a href="#h:2ff4f7f7-de49-4982-86c5-e33535c188eb" rel="">Our Chimp Algorithm&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:7aa7a756-dc81-4885-822b-de57dc9a59aa" rel="">效果对比&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">6.1&lt;/span> &lt;a href="#h:2bd0b50a-9cc3-478d-90d2-e3a44cefe53e" rel="">Compression size result&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6.2&lt;/span> &lt;a href="#h:7127ad57-9105-42b2-ac2c-0cfb641b6946" rel="">Compression and decompression time&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/1/p3058-liakos.pdf&lt;/p>
-&lt;h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6">&lt;span class="section-num">1&lt;/span> ABSTRACT&lt;/h2>
-&lt;ul>
-&lt;li>
-&lt;p>时序数据难以高效存储，导致存储代价高昂。&lt;/p></description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel="">Introduction&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel="">Related Work&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel="">Storage Layouts&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel="">Bit-(Un)Packing&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel="">SIMD-Friendly Bit-(Un)Packing&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel="">Composable Functions&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel="">Composable Compression Schemes&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf&lt;/p>
-&lt;h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a">&lt;span class="section-num">1&lt;/span> Introduction&lt;/h2>
-&lt;h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf">&lt;span class="section-num">2&lt;/span> Related Work&lt;/h2>
-&lt;h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b">&lt;span class="section-num">2.1&lt;/span> Storage Layouts&lt;/h3>
-&lt;h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3">&lt;span class="section-num">2.1.1&lt;/span> NSM&lt;/h4>
-&lt;p>传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
-存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Compression on 杂货铺</title><link>https://yangyingchao.github.io/tags/compression/</link><description>Recent content in Compression on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/compression/index.xml" rel="self" type="application/rss+xml"/><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p3058-liakos/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:402fb889-e9f7-4816-83ac-5edfbc857d66" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:4d0e1916-a961-460c-b04b-37bf987e0d1d" rel=""&gt;PRELIMINARIES&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:eb874834-0cf9-4a3d-a6c2-37fe0153d2de" rel=""&gt;Floating Point Time Series&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:87f9b9e3-a90d-404a-9c99-aaa46efe6355" rel=""&gt;IEEE 754 Double Precision Floating Point Format&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:b534c224-1e44-453d-8ac1-5d03f6b7e9a7" rel=""&gt;Gorilla Compression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:e61dbfe2-662e-4db1-8de6-33ccd572b0a1" rel=""&gt;PROPERTIES OF REAL-WORLD TIME SERIES&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:50b69b70-1b4b-4e2c-8c37-8d851fb920ce" rel=""&gt;Trailing Zeros&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:06702259-3ebc-4672-b24b-d7f28c4eaedd" rel=""&gt;Leading Zeros&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:8c80901f-346f-4b1d-ba11-411436fd4516" rel=""&gt;Revisiting Gorilla Compression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:3d2a78fa-6eed-4738-8d3d-5d4771119d8c" rel=""&gt;OVERVIEW&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:2ff4f7f7-de49-4982-86c5-e33535c188eb" rel=""&gt;Our Chimp Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:7aa7a756-dc81-4885-822b-de57dc9a59aa" rel=""&gt;效果对比&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.1&lt;/span&gt; &lt;a href="#h:2bd0b50a-9cc3-478d-90d2-e3a44cefe53e" rel=""&gt;Compression size result&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6.2&lt;/span&gt; &lt;a href="#h:7127ad57-9105-42b2-ac2c-0cfb641b6946" rel=""&gt;Compression and decompression time&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/1/p3058-liakos.pdf&lt;/p&gt;
+&lt;h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;时序数据难以高效存储，导致存储代价高昂。&lt;/p&gt;</description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel=""&gt;Related Work&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel=""&gt;Storage Layouts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel=""&gt;Bit-(Un)Packing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel=""&gt;SIMD-Friendly Bit-(Un)Packing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel=""&gt;Composable Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel=""&gt;Composable Compression Schemes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf&lt;/p&gt;
+&lt;h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Introduction&lt;/h2&gt;
+&lt;h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; Related Work&lt;/h2&gt;
+&lt;h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b"&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; Storage Layouts&lt;/h3&gt;
+&lt;h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3"&gt;&lt;span class="section-num"&gt;2.1.1&lt;/span&gt; NSM&lt;/h4&gt;
+&lt;p&gt;传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
+存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。&lt;/p&gt;</description></item></channel></rss>

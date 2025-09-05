@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Time-Wait on 杂货铺</title><link>https://yangyingchao.github.io/tags/time-wait/</link><description>Recent content in Time-Wait on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/time-wait/index.xml" rel="self" type="application/rss+xml"/><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers">
-&lt;div class="heading">Table of Contents&lt;/div>
-&lt;ul>
-&lt;li>&lt;span class="section-num">1&lt;/span> &lt;a href="#h:871f360d-063e-46ff-9c0a-18322d91be4c" rel="">TL;DR&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2&lt;/span> &lt;a href="#h:096c1a95-20d2-4ac1-b6f2-fac0a6b2e233" rel="">About the TIME-WAIT state&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">2.1&lt;/span> &lt;a href="#h:0a4a593c-1032-4cbd-bb0d-89c43f6348c0" rel="">TCP state diagram&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">2.2&lt;/span> &lt;a href="#h:761d930e-9258-42e1-8792-75aafd6a4642" rel="">Purpose&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">3&lt;/span> &lt;a href="#h:90387b11-15a7-43e6-9d48-031298e3c45a" rel="">Problems&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">4&lt;/span> &lt;a href="#h:fe22875f-822e-470b-a2cf-8ca13e804920" rel="">Other solutions&lt;/a>
-&lt;ul>
-&lt;li>&lt;span class="section-num">4.1&lt;/span> &lt;a href="#h:27aabe51-3f44-40ac-a21e-f9de9dbb9254" rel="">net.ipv4.tcp_tw_reuse&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;span class="section-num">5&lt;/span> &lt;a href="#h:27aabe51-3f44-40ac-a21e-f9de9dbb9254" rel="">Another&lt;/a>&lt;/li>
-&lt;li>&lt;span class="section-num">6&lt;/span> &lt;a href="#h:d0c1d159-905d-4598-a15c-ffb80f1d452d" rel="">总结&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/div>
-&lt;!--endtoc-->
-&lt;p>本文为摘录(或转载)，侵删，原文为： &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary" target="_blank" rel="noopener noreffer ">https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary&lt;/a>&lt;/p>
-&lt;h2 id="h:871f360d-063e-46ff-9c0a-18322d91be4c">&lt;span class="section-num">1&lt;/span> &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TL;DR" target="_blank" rel="noopener noreffer ">TL;DR&lt;/a>&lt;/h2>
-&lt;ul>
-&lt;li>不用启用 &lt;code>net.ipv4.tcp_tw_recycle&lt;/code> ， 该选项已在 Linux4.12 废弃&lt;/li>
-&lt;li>多数情况下， &lt;code>TIME-WAIT&lt;/code> 状态的 socket 无害&lt;/li>
-&lt;/ul>
-&lt;h2 id="h:096c1a95-20d2-4ac1-b6f2-fac0a6b2e233">&lt;span class="section-num">2&lt;/span> &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#about-the-time-wait-state" target="_blank" rel="noopener noreffer ">About the TIME-WAIT state&lt;/a>&lt;/h2>
-&lt;h3 id="h:0a4a593c-1032-4cbd-bb0d-89c43f6348c0">&lt;span class="section-num">2.1&lt;/span> &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TCP%20state%20diagram" target="_blank" rel="noopener noreffer ">TCP state diagram&lt;/a>&lt;/h3>
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/tcp-state-diagram-v2.svg" width="727px">
-&lt;/figure>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Time-Wait on 杂货铺</title><link>https://yangyingchao.github.io/tags/time-wait/</link><description>Recent content in Time-Wait on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/time-wait/index.xml" rel="self" type="application/rss+xml"/><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:871f360d-063e-46ff-9c0a-18322d91be4c" rel=""&gt;TL;DR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:096c1a95-20d2-4ac1-b6f2-fac0a6b2e233" rel=""&gt;About the TIME-WAIT state&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:0a4a593c-1032-4cbd-bb0d-89c43f6348c0" rel=""&gt;TCP state diagram&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:761d930e-9258-42e1-8792-75aafd6a4642" rel=""&gt;Purpose&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:90387b11-15a7-43e6-9d48-031298e3c45a" rel=""&gt;Problems&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:fe22875f-822e-470b-a2cf-8ca13e804920" rel=""&gt;Other solutions&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:27aabe51-3f44-40ac-a21e-f9de9dbb9254" rel=""&gt;net.ipv4.tcp_tw_reuse&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:27aabe51-3f44-40ac-a21e-f9de9dbb9254" rel=""&gt;Another&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:d0c1d159-905d-4598-a15c-ffb80f1d452d" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary" target="_blank" rel="noopener noreffer "&gt;https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="h:871f360d-063e-46ff-9c0a-18322d91be4c"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TL;DR" target="_blank" rel="noopener noreffer "&gt;TL;DR&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;不用启用 &lt;code&gt;net.ipv4.tcp_tw_recycle&lt;/code&gt; ， 该选项已在 Linux4.12 废弃&lt;/li&gt;
+&lt;li&gt;多数情况下， &lt;code&gt;TIME-WAIT&lt;/code&gt; 状态的 socket 无害&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="h:096c1a95-20d2-4ac1-b6f2-fac0a6b2e233"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#about-the-time-wait-state" target="_blank" rel="noopener noreffer "&gt;About the TIME-WAIT state&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="h:0a4a593c-1032-4cbd-bb0d-89c43f6348c0"&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TCP%20state%20diagram" target="_blank" rel="noopener noreffer "&gt;TCP state diagram&lt;/a&gt;&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/tcp-state-diagram-v2.svg" width="727px"&gt;
+&lt;/figure&gt;
 
-&lt;figure>&lt;img src="https://yangyingchao.github.io/ox-hugo/tcpfsm.png" width="562px">
-&lt;/figure>
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/tcpfsm.png" width="562px"&gt;
+&lt;/figure&gt;
 
-&lt;p>&lt;a href="http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank" rel="noopener noreffer ">http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm&lt;/a>&lt;/p></description></item></channel></rss>
+&lt;p&gt;&lt;a href="http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank" rel="noopener noreffer "&gt;http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
