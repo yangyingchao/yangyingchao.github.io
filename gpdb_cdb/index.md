@@ -178,7 +178,7 @@ SegmentDatabaseDescriptor o-- CdbComponentDatabaseInfo
 @enduml
 ```
 
-<a id="orgd0d25b7"></a>
+<a id="orgbe60d0d"></a>
 
 2![](/ox-hugo/SliceTable-gen-e3de35057480a3f67a59b81aff9b1a55.png)
 
