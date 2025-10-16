@@ -1,4 +1,25 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 14 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>帛书道德经-张松辉</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B8%9B%E4%B9%A6%E9%81%93%E5%BE%B7%E7%BB%8F-%E5%BC%A0%E6%9D%BE%E8%BE%89/</link><pubDate>Tue, 14 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B8%9B%E4%B9%A6%E9%81%93%E5%BE%B7%E7%BB%8F-%E5%BC%A0%E6%9D%BE%E8%BE%89/</guid><description></description></item><item><title>江城-[美]-彼得·海斯勒;李雪顺</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B1%9F%E5%9F%8E-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</link><pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B1%9F%E5%9F%8E-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</guid><description><![CDATA[<ul>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 16 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL 的灾难恢复</title><link>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</link><pubDate>Thu, 16 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#what-is-disaster-recovery-%e4%bb%80%e4%b9%88%e6%98%af%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel="">What is Disaster Recovery? 什么是灾难恢复？</a></li>
+<li><span class="section-num">2</span> <a href="#the-pillars-of-business-continuity-rto-and-rpo-and-x2013-%e4%b8%9a%e5%8a%a1%e8%bf%9e%e7%bb%ad%e6%80%a7%e7%9a%84%e6%94%af%e6%9f%b1-%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%9b%ae%e6%a0%87-rto-%e5%92%8c%e6%81%a2%e5%a4%8d%e7%82%b9%e7%9b%ae%e6%a0%87-rpo" rel="">The Pillars of Business Continuity: RTO and RPO – 业务连续性的支柱：恢复时间目标（RTO）和恢复点目标（RPO）</a></li>
+<li><span class="section-num">3</span> <a href="#the-postgresql-evolution--postgresql-%e7%9a%84%e5%8f%91%e5%b1%95" rel="">The PostgreSQL Evolution (PostgreSQL 的发展)</a></li>
+<li><span class="section-num">4</span> <a href="#what-is-a-backup-%e4%bb%80%e4%b9%88%e6%98%af%e5%a4%87%e4%bb%bd" rel="">What is a Backup? 什么是备份？</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#logical-backups-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd" rel="">Logical Backups 逻辑备份</a></li>
+<li><span class="section-num">4.2</span> <a href="#physical-backups-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd" rel="">Physical Backups 物理备份</a></li>
+<li><span class="section-num">4.3</span> <a href="#pros-and-cons-of-logical-vs-dot-physical-backup-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd%e4%b8%8e%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9" rel="">Pros and Cons of Logical vs. Physical Backup: 逻辑备份与物理备份的优缺点：</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#write-ahead-logging--wal--%e9%a2%84%e5%86%99%e6%97%a5%e5%bf%97-wal" rel="">Write-Ahead Logging (WAL) 预写日志（WAL）</a></li>
+<li><span class="section-num">6</span> <a href="#continuous-backup-and-wal-archiving-%e6%8c%81%e7%bb%ad%e5%a4%87%e4%bb%bd%e5%92%8c-wal-%e5%bd%92%e6%a1%a3" rel="">Continuous Backup and WAL Archiving 持续备份和 WAL 归档</a></li>
+<li><span class="section-num">7</span> <a href="#point-in-time-recovery--pitr--%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d--pitr" rel="">Point-in-Time Recovery (PITR) 时间点恢复 (PITR)</a></li>
+<li><span class="section-num">8</span> <a href="#high-availability-vs-dot-disaster-recovery-%e9%ab%98%e5%8f%af%e7%94%a8%e6%80%a7%e4%b8%8e%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel="">High Availability vs. Disaster Recovery 高可用性与灾难恢复</a></li>
+<li><span class="section-num">9</span> <a href="#conclusion-%e7%bb%93%e8%ae%ba" rel="">Conclusion 结论</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7i" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7i</a>_</p>]]></description></item><item><title>帛书道德经-张松辉</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B8%9B%E4%B9%A6%E9%81%93%E5%BE%B7%E7%BB%8F-%E5%BC%A0%E6%9D%BE%E8%BE%89/</link><pubDate>Tue, 14 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B8%9B%E4%B9%A6%E9%81%93%E5%BE%B7%E7%BB%8F-%E5%BC%A0%E6%9D%BE%E8%BE%89/</guid><description></description></item><item><title>江城-[美]-彼得·海斯勒;李雪顺</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B1%9F%E5%9F%8E-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</link><pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%B1%9F%E5%9F%8E-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</guid><description><![CDATA[<ul>
 <li>
 <p>69-69, 标注, 2025 年 10 月 5 日星期日 下午 5:23:11</p>
 <blockquote>
@@ -65,8 +86,4 @@
 <li>
 <p>1455-1457, 标注, 2025 年 9 月 7 日星期日 下午 9:21:47</p>
 <blockquote>
-<p>这个世界上树木花草最是豁达，人间再大的苦难也妨碍不了它们的生长节律与热情。天牛庙围墙内外的血腥味还没有散尽，洋槐花就铺天盖地地开了。</p>]]></description></item><item><title>世上为什么要有图书馆（译文纪实）-杨素秋</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%96%E4%B8%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%AF%91%E6%96%87%E7%BA%AA%E5%AE%9E-%E6%9D%A8%E7%B4%A0%E7%A7%8B/</link><pubDate>Sat, 13 Sep 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E4%B8%96%E4%B8%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%AF%91%E6%96%87%E7%BA%AA%E5%AE%9E-%E6%9D%A8%E7%B4%A0%E7%A7%8B/</guid><description><![CDATA[<ul>
-<li>
-<p>103-105, 标注, 2025 年 9 月 12 日星期五 下午 1:33:20</p>
-<blockquote>
-<p>记不清从什么时候开始，启蒙无数青年学子走向文学道路的语文课变得枯索无聊，记不清从什么时候开始我们不再信任语文课能够帮助学子抵达文学，也记不清从什么时候开始“鲁迅”变成了一些有标准答案的习题。“</p>]]></description></item></channel></rss>
+<p>这个世界上树木花草最是豁达，人间再大的苦难也妨碍不了它们的生长节律与热情。天牛庙围墙内外的血腥味还没有散尽，洋槐花就铺天盖地地开了。</p>]]></description></item></channel></rss>
