@@ -24,7 +24,18 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>AIO in pg_18</title><link>https://yangyingchao.github.io/aio-in-pg_18/</link><pubDate>Fri, 05 Sep 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/aio-in-pg_18/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Performance gains for postgres on Linux with hugepages</title><link>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e5%ae%9e%e9%aa%8c" rel=""&gt;实验&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e7%bb%93%e6%9e%9c" rel=""&gt;结果&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e5%90%af%e7%94%a8%e5%a4%a7%e9%a1%b5" rel=""&gt;启用大页&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.n0derunner.com/performance-gains-for-postgres-on-linux-with-hugepages/" target="_blank" rel="noopener noreffer "&gt;https://www.n0derunner.com/performance-gains-for-postgres-on-linux-with-hugepages/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;对于这个实验，我使用的是 Linux 3.10 内核上的 Postgres v11。目标是查看使用大页可以获得什么收益。我使用“内置”基准
+pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><title>AIO in pg_18</title><link>https://yangyingchao.github.io/aio-in-pg_18/</link><pubDate>Fri, 05 Sep 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/aio-in-pg_18/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#motivation" rel=""&gt;Motivation&lt;/a&gt;
