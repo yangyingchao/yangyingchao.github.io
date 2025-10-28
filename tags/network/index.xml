@@ -1,8 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on 杂货铺</title><link>https://yangyingchao.github.io/tags/network/</link><description>Recent content in Network on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 22 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>NMap_ Port Scanning Techniques and Algorithms</title><link>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</link><pubDate>Wed, 22 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on 杂货铺</title><link>https://yangyingchao.github.io/tags/network/</link><description>Recent content in Network on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 28 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#ip-header" rel=""&gt;IP header&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#tcp-header" rel=""&gt;TCP header&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#udp-header" rel=""&gt;UDP header&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#icmp-header" rel=""&gt;ICMP header&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;From: &lt;a href="https://nmap.org/book/tcpip-ref.html" target="_blank" rel="noopener noreffer "&gt;https://nmap.org/book/tcpip-ref.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="ip-header"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; IP header&lt;/h2&gt;
+&lt;p&gt;&lt;a id="figure--fig:wang-9915a410"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/ip_header.jpg"
+ alt="Figure 1: ip header" width="800px"&gt;&lt;figcaption&gt;
+ &lt;p&gt;&lt;span class="figure-number"&gt;Figure 1: &lt;/span&gt;ip header&lt;/p&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id="tcp-header"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; TCP header&lt;/h2&gt;
+&lt;p&gt;&lt;a id="figure--fig:wang-f4d49110"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/tcp_header.jpg"
+ alt="Figure 2: tcp header" width="800px"&gt;&lt;figcaption&gt;
+ &lt;p&gt;&lt;span class="figure-number"&gt;Figure 2: &lt;/span&gt;tcp header&lt;/p&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id="udp-header"&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; UDP header&lt;/h2&gt;
+&lt;p&gt;&lt;a id="figure--fig:wang-630ff401"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/udp_header.jpg"
+ alt="Figure 3: udp header" width="800px"&gt;&lt;figcaption&gt;
+ &lt;p&gt;&lt;span class="figure-number"&gt;Figure 3: &lt;/span&gt;udp header&lt;/p&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id="icmp-header"&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; ICMP header&lt;/h2&gt;
+&lt;p&gt;&lt;a id="figure--fig:wang-d41d8cd9"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://yangyingchao.github.io/ox-hugo/icmp_header.jpg"
+ alt="Figure 4: icmp header" width="800px"&gt;&lt;figcaption&gt;
+ &lt;p&gt;&lt;span class="figure-number"&gt;Figure 4: &lt;/span&gt;icmp header&lt;/p&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;</description></item><item><title>NMap_ Port Scanning Techniques and Algorithms</title><link>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</link><pubDate>Wed, 22 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#tcp-syn--stealth--scan--ss" rel=""&gt;TCP SYN (Stealth) Scan (-sS)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#tcp-syn--stealth--scan--ss--%e5%8d%8a%e5%bc%80%e6%94%be%e6%89%ab%e6%8f%8f" rel=""&gt;TCP SYN (Stealth) Scan (-sS) 半开放扫描&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#%e5%bc%80%e6%94%be%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;开放端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#%e5%85%b3%e9%97%ad%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;关闭端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#%e8%bf%87%e6%bb%a4%e6%8e%89%e7%9a%84%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;过滤掉的端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#tcp-connect-scan--st" rel=""&gt;TCP Connect Scan (-sT)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;

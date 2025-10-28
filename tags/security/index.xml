@@ -2,7 +2,14 @@
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#tcp-syn--stealth--scan--ss" rel=""&gt;TCP SYN (Stealth) Scan (-sS)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#tcp-syn--stealth--scan--ss--%e5%8d%8a%e5%bc%80%e6%94%be%e6%89%ab%e6%8f%8f" rel=""&gt;TCP SYN (Stealth) Scan (-sS) 半开放扫描&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#%e5%bc%80%e6%94%be%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;开放端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#%e5%85%b3%e9%97%ad%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;关闭端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#%e8%bf%87%e6%bb%a4%e6%8e%89%e7%9a%84%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel=""&gt;过滤掉的端口的扫描&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#tcp-connect-scan--st" rel=""&gt;TCP Connect Scan (-sT)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
