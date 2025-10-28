@@ -143,12 +143,12 @@ Nmap 知道要等待多长时间，最终放弃接收。当一个端口没有响
   How Nmap interprets responses to a SYN probe
 </div>
 
-| **Probe Response**                                          || **Assigned State** |
+| **Probe Response**                                          | **Assigned State** |
 |-------------------------------------------------------------|--------------------|
-| TCP SYN/ACK response                                        || open               |
-| TCP RST response                                            || closed             |
-| No response received (even after retransmissions)           || filtered           |
-| ICMP unreachable error (type 3, code 1, 2, 3, 9, 10, or 13) || filtered           |
+| TCP SYN/ACK response                                        | open               |
+| TCP RST response                                            | closed             |
+| No response received (even after retransmissions)           | filtered           |
+| ICMP unreachable error (type 3, code 1, 2, 3, 9, 10, or 13) | filtered           |
 
 虽然这一部分中的漂亮插图在有它们时非常有用，但当你在指定其他所需命令行标志时添加 `--packet-trace` 选项，Nmap
 会准确报告它在数据包级别上所做的事情。这是新手理解 Nmap 行为的好方法，尤其是在 Ereet 不在身边帮忙的情况下。即使是高级用户在 Nmap 产生他们不期望的结果时也会觉得这很方便。你可能还想通过 `-d` （或甚至 `-d5` ）来提高调试级别。然后扫描为你的目的所需的最少数量的端口和主机，否则你可能会得到几百万行输出。示例 5.2 重复了
