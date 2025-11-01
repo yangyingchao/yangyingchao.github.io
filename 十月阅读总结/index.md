@@ -1,4 +1,4 @@
-# 十月阅读总结                                                                                                                                             org   tags: weixin
+# 十月阅读总结
 
 
 <div class="ox-hugo-toc toc has-section-numbers">
