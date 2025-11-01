@@ -1,4 +1,17 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 28 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>十月阅读总结 org tags: weixin</title><link>https://yangyingchao.github.io/%E5%8D%81%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93-org-tags-weixin/</link><pubDate>Sat, 01 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E5%8D%81%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93-org-tags-weixin/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e7%8c%ae%e7%bb%99%e9%98%bf%e5%b0%94%e5%90%89%e4%be%ac%e7%9a%84%e8%8a%b1%e6%9d%9f" rel="">献给阿尔吉侬的花束</a></li>
+<li><span class="section-num">2</span> <a href="#%e6%b1%9f%e5%9f%8e" rel="">江城</a></li>
+<li><span class="section-num">3</span> <a href="#%e5%8e%86%e5%8f%b2%e6%b7%b1%e5%a4%84%e7%9a%84%e5%bf%a7%e8%99%91" rel="">历史深处的忧虑</a></li>
+<li><span class="section-num">4</span> <a href="#%e5%8a%a8%e7%89%a9%e5%86%9c%e5%9c%ba" rel="">动物农场</a></li>
+<li><span class="section-num">5</span> <a href="#%e7%bd%97%e6%9d%b0%e7%96%91%e6%a1%88" rel="">罗杰疑案</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>又是一个月。。。</p>
+<h2 id="献给阿尔吉侬的花束"><span class="section-num">1</span> <a href="/%E7%AC%94%E8%AE%B0%E7%8C%AE%E7%BB%99%E9%98%BF%E5%B0%94%E5%90%89%E4%BE%AC%E7%9A%84%E8%8A%B1%E6%9D%9F-%E7%BE%8E-%E4%B8%B9%E5%B0%BC%E5%B0%94%E5%87%AF%E6%96%AF%E9%99%88%E6%BE%84%E5%92%8C/" rel="">献给阿尔吉侬的花束</a></h2>
+<p>《献给阿尔吉侬的花束》（英语：Flowers for Algernon），又译作《献给阿尔吉侬的花》、《献给阿尔杰侬的花》，是美国作家丹尼尔·凯斯的一部科幻小说。故事叙述一名心智障碍者查理在接受脑部手术之后，由智能障碍急遽跃升为无人可及的天才，而后又因手术副作用而衰退变回智能障碍的过程。该书特色是以查理的第一人称观点来叙事，遣词用字、思维方式随着他的心智变迁而有显著的差异。阿尔吉侬是在查理之前接受脑部改造手术实验的一只白老鼠的名字。</p>]]></description></item><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#ip-header" rel="">IP header</a></li>
@@ -35,7 +48,20 @@
 <figure><figcaption>
       <p><span class="figure-number">Figure 4: </span>icmp header</p>
     </figcaption>
-</figure>]]></description></item><item><title>动物农场-乔治•奥威尔;李元莘</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</guid><description></description></item><item><title>历史深处的忧虑_近距离看美国之一-林达</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</guid><description><![CDATA[<ul>
+</figure>]]></description></item><item><title>动物农场-乔治•奥威尔;李元莘</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</guid><description><![CDATA[<ul>
+<li>
+<p>26-27, 标注, 2025 年 10 月 20 日星期一 下午 1:29:23</p>
+<blockquote>
+<p>谁控制了过去，谁就控制了未来； 谁控制了现在，谁就控制了过去。</p>
+</blockquote>
+</li>
+</ul>
+<!--listend-->
+<ul>
+<li>
+<p>793-798, 标注, 2025 年 10 月 22 日星期三 上午 7:54:43</p>
+<blockquote>
+<p>当处决叛徒的恐怖气氛消散以后，有些动物才想起了第六条诫律中已经规定：”任何动物不得伤害其他动物”，至少他们自以为记得有这条规定。尽管在提起这个话题时，谁也不愿让猪和狗听见，但他们还是觉得这次杀戮与这一条诫律不相符。克拉弗请求本杰明给她念一下第六条诫律，而本杰明却像往常一样说他不愿介入这类事情。她又找来穆丽尔。穆丽尔就给她念了，上面写着：“任何动物不得无缘无故伤害其他动物。”不知怎么回事，对于“无缘无故”这几个字，动物们就是不记得了。但他们现在却清楚地看到，杀掉那些与斯诺鲍串通一气的叛徒是有充分根据的，它并没有违犯诫律。</p>]]></description></item><item><title>历史深处的忧虑_近距离看美国之一-林达</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</guid><description><![CDATA[<ul>
 <li>
 <p>43-47, 标注, 2025 年 10 月 14 日星期二 下午 6:39:09</p>
 <blockquote>
@@ -126,8 +152,4 @@ pgbench 来运行一组简单的查询。</p>]]></description></item><item><titl
 <p>我觉得那是我二十几岁时写得比较好的作品之一，但我发觉还是有点差强人意。</p>
 </blockquote>
 <p>。。。。差强人意不是这么用的。。。。</p>
-<p>差强人意的意思是说，基本满意，勉强满意，而非不满意。</p>]]></description></item><item><title>献给阿尔吉侬的花束-[美]-丹尼尔·凯斯;陈澄和</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%8C%AE%E7%BB%99%E9%98%BF%E5%B0%94%E5%90%89%E4%BE%AC%E7%9A%84%E8%8A%B1%E6%9D%9F-%E7%BE%8E-%E4%B8%B9%E5%B0%BC%E5%B0%94%E5%87%AF%E6%96%AF%E9%99%88%E6%BE%84%E5%92%8C/</link><pubDate>Fri, 10 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E7%8C%AE%E7%BB%99%E9%98%BF%E5%B0%94%E5%90%89%E4%BE%AC%E7%9A%84%E8%8A%B1%E6%9D%9F-%E7%BE%8E-%E4%B8%B9%E5%B0%BC%E5%B0%94%E5%87%AF%E6%96%AF%E9%99%88%E6%BE%84%E5%92%8C/</guid><description><![CDATA[<ul>
-<li>
-<p>14-17, 标注, 2025 年 10 月 1 日星期三 下午 9:00:58</p>
-<blockquote>
-<p>有些常识的人都会记得，眼睛的困惑有两种，来自两种起因，不是因为走出光明，就是因为走进光明所致，不论是人体的眼睛或心灵的眼睛，都是如此。记得这件事的人，当他们看到别人迷茫、虚弱的眼神，他们不会任意嘲笑，而会先询问这个人的灵魂是否刚从更明亮的生命走出来，因为不适应黑暗而无法看清周遭；或是他刚从黑暗走入光明，因为过多的光芒而目眩。</p>]]></description></item></channel></rss>
+<p>差强人意的意思是说，基本满意，勉强满意，而非不满意。</p>]]></description></item></channel></rss>
