@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mem on 杂货铺</title><link>https://yangyingchao.github.io/tags/mem/</link><description>Recent content in Mem on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/mem/index.xml" rel="self" type="application/rss+xml"/><item><title>Don't give Postgres too much memory</title><link>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#issue" rel=""&gt;issue&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#why-is-this-happening" rel=""&gt;Why is this happening?&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#l3-%e7%bc%93%e5%ad%98" rel=""&gt;L3 缓存&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#%e5%86%85%e5%ad%98%e5%86%99%e5%85%a5%e6%97%b6%e6%9c%ba" rel=""&gt;内存写入时机&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#summary" rel=""&gt;Summary&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kj" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kj&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="issue"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; issue&lt;/h2&gt;
+&lt;p&gt;不时，我会调查与某种批处理过程相关的问题。如今，这些过程越来越常用非常高的内存限制（ &lt;code&gt;maintenance_work_mem&lt;/code&gt; 和
+&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item></channel></rss>
