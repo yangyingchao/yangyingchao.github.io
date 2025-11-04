@@ -36,7 +36,22 @@
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kj" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kj&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="issue"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; issue&lt;/h2&gt;
 &lt;p&gt;不时，我会调查与某种批处理过程相关的问题。如今，这些过程越来越常用非常高的内存限制（ &lt;code&gt;maintenance_work_mem&lt;/code&gt; 和
-&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>PostgreSQL and NUMA</title><link>https://yangyingchao.github.io/postgresql-and-numa/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgresql-and-numa/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-numa-and-why-do-we-need-it" rel=""&gt;What is NUMA and why do we need it?&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#historical-background" rel=""&gt;Historical Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#how-numa-works" rel=""&gt;How NUMA works&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#linux-and-numa" rel=""&gt;Linux and NUMA&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#conclusions" rel=""&gt;Conclusions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7ka&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这一系列文章涵盖了在多处理器的大型系统上运行 PostgreSQL 的具体细节。我的经验是，当人们面临这个问题时，通常需要花费数月的时间来学习基本知识。这一系列文章旨在通过提供清晰的背景知识来消除这些困难。希望未来一代的数据库工程师和管理员不必通过反复试验花费数月的时间来弄明白这些问题。&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#simple-things" rel=""&gt;Simple things&lt;/a&gt;&lt;/li&gt;
