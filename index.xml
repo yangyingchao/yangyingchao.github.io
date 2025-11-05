@@ -1,4 +1,25 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 04 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#what-is-transparent-data-encryption-and-what-problem-does-it-solve-%e4%bb%80%e4%b9%88%e6%98%af%e9%80%8f%e6%98%8e%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86-tde-%e5%ae%83%e8%a7%a3%e5%86%b3%e4%ba%86%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" rel="">What is Transparent Data Encryption and What Problem Does It Solve? 什么是透明数据加密（TDE），它解决了什么问题？</a></li>
+<li><span class="section-num">2</span> <a href="#how-does-transparent-data-encryption-work" rel="">How Does Transparent Data Encryption Work?</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#edb-s-tde-implementation" rel="">EDB’s TDE Implementation</a></li>
+<li><span class="section-num">2.2</span> <a href="#the-commitfest-submission" rel="">The Commitfest Submission</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#what-kinds-of-new-problems-does-tde-pose-tde-%e5%b8%a6%e6%9d%a5%e4%ba%86%e5%93%aa%e4%ba%9b%e6%96%b0%e7%9a%84%e9%97%ae%e9%a2%98" rel="">What Kinds of New Problems does TDE Pose? TDE 带来了哪些新的问题？</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#key-management-problems-%e5%af%86%e9%92%a5%e7%ae%a1%e7%90%86%e9%97%ae%e9%a2%98" rel="">Key Management Problems 密钥管理问题</a></li>
+<li><span class="section-num">3.2</span> <a href="#operational-problems-%e6%93%8d%e4%bd%9c%e9%97%ae%e9%a2%98" rel="">Operational Problems 操作问题</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#the-alternative-to-edb-tde-edb-tde-%e7%9a%84%e6%9b%bf%e4%bb%a3%e6%96%b9%e6%a1%88" rel="">The Alternative to EDB TDE EDB TDE 的替代方案</a></li>
+<li><span class="section-num">5</span> <a href="#some-general-guidelines-for-key-management-%e5%af%86%e9%92%a5%e7%ae%a1%e7%90%86%e7%9a%84%e4%b8%80%e8%88%ac%e6%8c%87%e5%8d%97" rel="">Some General Guidelines For Key Management 密钥管理的一般指南</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption" target="_blank" rel="noopener noreffer ">https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption</a></p>]]></description></item><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#bug-not-invented-here" rel="">Bug Not Invented Here</a></li>
@@ -157,26 +178,4 @@
 <li>
 <p>43-47, 标注, 2025 年 10 月 14 日星期二 下午 6:39:09</p>
 <blockquote>
-<p>好像在作出举手相迎或严词相拒的决定之前，还有一段相当艰苦而漫长的互相了解的路必须去走。否则，轻易称“是”显得没有根据，动辄言“不”也容易文不对题。更何况，历史已经规定了它们不可能永远回避。它们都已尝试过这样做，但是，眼看着毫无结果，于是，它们又试图相互走近。有时，如果不暂时和自己的习惯思维方式生生拉开一段距离，就无法在相互了解的路上走出一步。</p>]]></description></item><item><title>NMap_ Port Scanning Techniques and Algorithms</title><link>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</link><pubDate>Wed, 22 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>
-<li><span class="section-num">2</span> <a href="#tcp-syn--stealth--scan--ss--%e5%8d%8a%e5%bc%80%e6%94%be%e6%89%ab%e6%8f%8f" rel="">TCP SYN (Stealth) Scan (-sS) 半开放扫描</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e5%bc%80%e6%94%be%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel="">开放端口的扫描</a></li>
-<li><span class="section-num">2.2</span> <a href="#%e5%85%b3%e9%97%ad%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel="">关闭端口的扫描</a></li>
-<li><span class="section-num">2.3</span> <a href="#%e8%bf%87%e6%bb%a4%e6%8e%89%e7%9a%84%e7%ab%af%e5%8f%a3%e7%9a%84%e6%89%ab%e6%8f%8f" rel="">过滤掉的端口的扫描</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#tcp-connect-scan--st--%e8%bf%9e%e6%8e%a5%e6%89%ab%e6%8f%8f" rel="">TCP Connect Scan (-sT) 连接扫描</a></li>
-<li><span class="section-num">4</span> <a href="#udp-scan--su" rel="">UDP Scan (-sU)</a>
-<ul>
-<li><span class="section-num">4.1</span> <a href="#%e5%8c%ba%e5%88%86%e5%bc%80%e6%94%be%e7%9a%84-udp-%e7%ab%af%e5%8f%a3%e5%92%8c%e8%a2%ab%e8%bf%87%e6%bb%a4%e7%9a%84-udp-%e7%ab%af%e5%8f%a3" rel="">区分开放的 UDP 端口和被过滤的 UDP 端口</a></li>
-<li><span class="section-num">4.2</span> <a href="#%e5%8a%a0%e5%bf%ab-udp-%e6%89%ab%e6%8f%8f%e9%80%9f%e5%ba%a6-speeding-up-udp-scans" rel="">加快 UDP 扫描速度 Speeding Up UDP Scans</a></li>
-</ul>
-</li>
-<li><span class="section-num">5</span> <a href="#tcp-fin-null-and-xmas-scans--sf-sn-sx" rel="">TCP FIN, NULL, and Xmas Scans (-sF, -sN, -sX)</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://nmap.org/book/scan-methods.html" target="_blank" rel="noopener noreffer ">https://nmap.org/book/scan-methods.html</a></p>]]></description></item></channel></rss>
+<p>好像在作出举手相迎或严词相拒的决定之前，还有一段相当艰苦而漫长的互相了解的路必须去走。否则，轻易称“是”显得没有根据，动辄言“不”也容易文不对题。更何况，历史已经规定了它们不可能永远回避。它们都已尝试过这样做，但是，眼看着毫无结果，于是，它们又试图相互走近。有时，如果不暂时和自己的习惯思维方式生生拉开一段距离，就无法在相互了解的路上走出一步。</p>]]></description></item></channel></rss>

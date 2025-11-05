@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tde on 杂货铺</title><link>https://yangyingchao.github.io/tags/tde/</link><description>Recent content in Tde on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 04 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tde/index.xml" rel="self" type="application/rss+xml"/><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-transparent-data-encryption-and-what-problem-does-it-solve-%e4%bb%80%e4%b9%88%e6%98%af%e9%80%8f%e6%98%8e%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86-tde-%e5%ae%83%e8%a7%a3%e5%86%b3%e4%ba%86%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" rel=""&gt;What is Transparent Data Encryption and What Problem Does It Solve? 什么是透明数据加密（TDE），它解决了什么问题？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#how-does-transparent-data-encryption-work" rel=""&gt;How Does Transparent Data Encryption Work?&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#edb-s-tde-implementation" rel=""&gt;EDB’s TDE Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#the-commitfest-submission" rel=""&gt;The Commitfest Submission&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#what-kinds-of-new-problems-does-tde-pose-tde-%e5%b8%a6%e6%9d%a5%e4%ba%86%e5%93%aa%e4%ba%9b%e6%96%b0%e7%9a%84%e9%97%ae%e9%a2%98" rel=""&gt;What Kinds of New Problems does TDE Pose? TDE 带来了哪些新的问题？&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#key-management-problems-%e5%af%86%e9%92%a5%e7%ae%a1%e7%90%86%e9%97%ae%e9%a2%98" rel=""&gt;Key Management Problems 密钥管理问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#operational-problems-%e6%93%8d%e4%bd%9c%e9%97%ae%e9%a2%98" rel=""&gt;Operational Problems 操作问题&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#the-alternative-to-edb-tde-edb-tde-%e7%9a%84%e6%9b%bf%e4%bb%a3%e6%96%b9%e6%a1%88" rel=""&gt;The Alternative to EDB TDE EDB TDE 的替代方案&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#some-general-guidelines-for-key-management-%e5%af%86%e9%92%a5%e7%ae%a1%e7%90%86%e7%9a%84%e4%b8%80%e8%88%ac%e6%8c%87%e5%8d%97" rel=""&gt;Some General Guidelines For Key Management 密钥管理的一般指南&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!--endtoc--&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
