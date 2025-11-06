@@ -69,7 +69,7 @@ Giscus 是一个由 Github Discussions 驱动的评论系统，无需自己单�
 
 -   选择页面与嵌入的 discussion 之间的映射关系，如下图
 
-<a id="org61ebe84"></a>
+<a id="orgf30a201"></a>
 
 ![](/ox-hugo/PicGo_2F202306191027361.webp)
 pic-06
@@ -86,7 +86,7 @@ pic-06
 
 -   其他选项默认，我们往下滑，找到配置文件，如下图
 
-<a id="org09575bc"></a>
+<a id="org3a589e4"></a>
 
 <img src="/ox-hugo/PicGo_2F202306191354061.webp" alt="PicGo_2F202306191354061.webp" width="800px" />
 pic-08

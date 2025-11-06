@@ -68,11 +68,18 @@
 <li><span class="section-num">1.4</span> <a href="#conclusions" rel="">Conclusions</a></li>
 </ul>
 </li>
+<li><span class="section-num">2</span> <a href="#numa-linux-and-postgresql-before-libnuma-support" rel="">NUMA, Linux, and PostgreSQL before libnuma Support</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#postgresql-numa-linux-and-huge-pages" rel="">PostgreSQL, NUMA, Linux, and Huge Pages</a></li>
+<li><span class="section-num">2.2</span> <a href="#how-postgresql-s-architecture-intersects-with-numa" rel="">How PostgreSQL’s Architecture Intersects with NUMA</a></li>
+<li><span class="section-num">2.3</span> <a href="#how-numa-policies-affect-postgresql" rel="">How NUMA Policies affect PostgreSQL</a></li>
+<li><span class="section-num">2.4</span> <a href="#recommendations" rel="">Recommendations</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7ka</a></p>
-<p>这一系列文章涵盖了在多处理器的大型系统上运行 PostgreSQL 的具体细节。我的经验是，当人们面临这个问题时，通常需要花费数月的时间来学习基本知识。这一系列文章旨在通过提供清晰的背景知识来消除这些困难。希望未来一代的数据库工程师和管理员不必通过反复试验花费数月的时间来弄明白这些问题。</p>]]></description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7ka</a></p>]]></description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#simple-things" rel="">Simple things</a></li>
