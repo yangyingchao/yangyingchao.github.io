@@ -99,65 +99,6 @@ EOF
 
 ## <span class="section-num">3</span> special expansion: {#h:e6d62956-9ea2-45cb-805a-200499519c7c}
 
-```sh
-
-cat <<-'EOF'
-### ${PARAMETER:+WORD}
-`${PARAMETER:+WORD}` 是一种 bash shell 中的参数扩展语法，它的含义如下：
-
-- 如果变量 `PARAMETER` 已经被设置并且不是空值，那么该表达式的值为 `WORD`。
-- 如果变量 `PARAMETER` 没有被设置或者是空值，那么该表达式的值为为空字符串。
-
-在这种情况下，`${PARAMETER:+WORD}` 的作用是在变量 `PARAMETER` 已经被设置并且不是空值时，返回 `WORD`；否则返回空字符串。
-
-EOF
-
-A=MMM
-echo "1: ${A:+WORD}"
-A=
-echo "2: ${A:+WORD}"
-
-
-cat <<-'EOF'
-### ${PARAMETER:-WORD}
-
-`${PARAMETER:-WORD}` 是一种 bash shell 中的参数扩展语法，它的含义如下：
-
-- 如果变量 `PARAMETER` 已经被设置并且不是空值，那么该表达式的值为变量 `PARAMETER` 的值。
-- 如果变量 `PARAMETER` 没有被设置或者是空值，那么该表达式的值为 `WORD`。
-
-在这种情况下，`${PARAMETER:-WORD}` 的作用是在变量 `PARAMETER` 未设置或者为空值时提供一个默认值 `WORD`。
-
-EOF
-
-echo "----"
-A=MMM
-echo "1: ${A:-WORD}"
-A=
-echo "2: ${A:-WORD}"
-
-
-cat <<-'EOF'
-
-### ${PARAMETER:=WORD}
-
-`${PARAMETER:=WORD}` 是一种 bash shell 中的参数扩展语法，它的含义如下：
-
-- 如果变量 `PARAMETER` 已经被设置并且不是空值，那么该表达式的值为变量 `PARAMETER` 的值。
-- 如果变量 `PARAMETER` 没有被设置或者是空值，那么该表达式的值为 `WORD`，并且同时将变量 `PARAMETER` 设置为 `WORD` 的值。
-
-在这种情况下，`${PARAMETER:=WORD}` 的作用是在变量 `PARAMETER` 未设置或者为空值时，用默认值 `WORD` 初始化该变量。
-
-EOF
-
-echo "----"
-A=MMM
-echo "1: ${A:=WORD}"
-A=
-echo "2: ${A:=WORD}"
-
-```
-
 
 ## <span class="section-num">4</span> will .bash_profile be sourced when executing scripts? {#h:6ddc502c-c88b-4d32-9b95-10e2c0d4e77e}
 
