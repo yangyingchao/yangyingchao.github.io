@@ -1,4 +1,72 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 04 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>PKGBUILD - ArchWiki</title><link>https://yangyingchao.github.io/pkgbuild---archwiki/</link><pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/pkgbuild---archwiki/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%90%8d%e7%a7%b0" rel="">软件包名称</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#pkgbase" rel="">pkgbase</a></li>
+<li><span class="section-num">1.2</span> <a href="#pkgname" rel="">pkgname</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#%e7%89%88%e6%9c%ac" rel="">版本</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#pkgver" rel="">pkgver</a></li>
+<li><span class="section-num">2.2</span> <a href="#pkgrel" rel="">pkgrel</a></li>
+<li><span class="section-num">2.3</span> <a href="#epoch" rel="">epoch</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e9%80%9a%e7%94%a8" rel="">通用</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#pkgdesc" rel="">pkgdesc</a></li>
+<li><span class="section-num">3.2</span> <a href="#arch" rel="">arch</a></li>
+<li><span class="section-num">3.3</span> <a href="#url" rel="">url</a></li>
+<li><span class="section-num">3.4</span> <a href="#license" rel="">license</a></li>
+<li><span class="section-num">3.5</span> <a href="#groups" rel="">groups</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb" rel="">依赖关系</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#depends" rel="">depends</a></li>
+<li><span class="section-num">4.2</span> <a href="#makedepends" rel="">makedepends</a></li>
+<li><span class="section-num">4.3</span> <a href="#checkdepends" rel="">checkdepends</a></li>
+<li><span class="section-num">4.4</span> <a href="#optdepends" rel="">optdepends</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%85%b3%e7%b3%bb" rel="">软件包关系</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#provides" rel="">provides</a></li>
+<li><span class="section-num">5.2</span> <a href="#conflicts" rel="">conflicts</a></li>
+<li><span class="section-num">5.3</span> <a href="#replaces" rel="">replaces</a></li>
+</ul>
+</li>
+<li><span class="section-num">6</span> <a href="#%e5%85%b6%e4%bb%96" rel="">其他</a>
+<ul>
+<li><span class="section-num">6.1</span> <a href="#backup" rel="">backup</a></li>
+<li><span class="section-num">6.2</span> <a href="#options" rel="">options</a></li>
+<li><span class="section-num">6.3</span> <a href="#install" rel="">install</a></li>
+<li><span class="section-num">6.4</span> <a href="#changelog" rel="">changelog</a></li>
+</ul>
+</li>
+<li><span class="section-num">7</span> <a href="#%e6%ba%90" rel="">源</a>
+<ul>
+<li><span class="section-num">7.1</span> <a href="#source" rel="">source</a></li>
+<li><span class="section-num">7.2</span> <a href="#noextract" rel="">noextract</a></li>
+<li><span class="section-num">7.3</span> <a href="#validpgpkeys" rel="">validpgpkeys</a></li>
+</ul>
+</li>
+<li><span class="section-num">8</span> <a href="#%e5%ae%8c%e6%95%b4%e6%80%a7" rel="">完整性</a>
+<ul>
+<li><span class="section-num">8.1</span> <a href="#b2sums" rel="">b2sums</a></li>
+<li><span class="section-num">8.2</span> <a href="#sha512sums-sha384sums-sha256sums-sha224sums" rel="">sha512sums、sha384sums、sha256sums、sha224sums</a></li>
+<li><span class="section-num">8.3</span> <a href="#sha1sums" rel="">sha1sums</a></li>
+<li><span class="section-num">8.4</span> <a href="#md5sums" rel="">md5sums</a></li>
+<li><span class="section-num">8.5</span> <a href="#cksums" rel="">cksums</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://wiki.archlinux.org/title/PKGBUILD#Package_name" target="_blank" rel="noopener noreffer ">https://wiki.archlinux.org/title/PKGBUILD#Package_name</a></p>
+<p>本文讨论了在 PKGBUILD 中由维护者定义的变量。有关 PKGBUILD 函数和创建软件包的一般信息，请参考《创建软件包》。同时也请查阅 PKGBUILD(5)。</p>]]></description></item><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#what-is-transparent-data-encryption-and-what-problem-does-it-solve-%e4%bb%80%e4%b9%88%e6%98%af%e9%80%8f%e6%98%8e%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86-tde-%e5%ae%83%e8%a7%a3%e5%86%b3%e4%ba%86%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" rel="">What is Transparent Data Encryption and What Problem Does It Solve? 什么是透明数据加密（TDE），它解决了什么问题？</a></li>
@@ -181,8 +249,4 @@
 <li>
 <p>793-798, 标注, 2025 年 10 月 22 日星期三 上午 7:54:43</p>
 <blockquote>
-<p>当处决叛徒的恐怖气氛消散以后，有些动物才想起了第六条诫律中已经规定：”任何动物不得伤害其他动物”，至少他们自以为记得有这条规定。尽管在提起这个话题时，谁也不愿让猪和狗听见，但他们还是觉得这次杀戮与这一条诫律不相符。克拉弗请求本杰明给她念一下第六条诫律，而本杰明却像往常一样说他不愿介入这类事情。她又找来穆丽尔。穆丽尔就给她念了，上面写着：“任何动物不得无缘无故伤害其他动物。”不知怎么回事，对于“无缘无故”这几个字，动物们就是不记得了。但他们现在却清楚地看到，杀掉那些与斯诺鲍串通一气的叛徒是有充分根据的，它并没有违犯诫律。</p>]]></description></item><item><title>历史深处的忧虑_近距离看美国之一-林达</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8E%86%E5%8F%B2%E6%B7%B1%E5%A4%84%E7%9A%84%E5%BF%A7%E8%99%91_%E8%BF%91%E8%B7%9D%E7%A6%BB%E7%9C%8B%E7%BE%8E%E5%9B%BD%E4%B9%8B%E4%B8%80-%E6%9E%97%E8%BE%BE/</guid><description><![CDATA[<ul>
-<li>
-<p>43-47, 标注, 2025 年 10 月 14 日星期二 下午 6:39:09</p>
-<blockquote>
-<p>好像在作出举手相迎或严词相拒的决定之前，还有一段相当艰苦而漫长的互相了解的路必须去走。否则，轻易称“是”显得没有根据，动辄言“不”也容易文不对题。更何况，历史已经规定了它们不可能永远回避。它们都已尝试过这样做，但是，眼看着毫无结果，于是，它们又试图相互走近。有时，如果不暂时和自己的习惯思维方式生生拉开一段距离，就无法在相互了解的路上走出一步。</p>]]></description></item></channel></rss>
+<p>当处决叛徒的恐怖气氛消散以后，有些动物才想起了第六条诫律中已经规定：”任何动物不得伤害其他动物”，至少他们自以为记得有这条规定。尽管在提起这个话题时，谁也不愿让猪和狗听见，但他们还是觉得这次杀戮与这一条诫律不相符。克拉弗请求本杰明给她念一下第六条诫律，而本杰明却像往常一样说他不愿介入这类事情。她又找来穆丽尔。穆丽尔就给她念了，上面写着：“任何动物不得无缘无故伤害其他动物。”不知怎么回事，对于“无缘无故”这几个字，动物们就是不记得了。但他们现在却清楚地看到，杀掉那些与斯诺鲍串通一气的叛徒是有充分根据的，它并没有违犯诫律。</p>]]></description></item></channel></rss>
