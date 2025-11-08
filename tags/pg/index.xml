@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pg on 杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Recent content in Pg on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 04 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/index.xml" rel="self" type="application/rss+xml"/><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pg on 杂货铺</title><link>https://yangyingchao.github.io/tags/pg/</link><description>Recent content in Pg on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 04 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pg/index.xml" rel="self" type="application/rss+xml"/><item><title>An Introduction to EDB's Transparent Data Encryption</title><link>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</link><pubDate>Tue, 04 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/an-introduction-to-edbs-transparent-data-encryption/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-transparent-data-encryption-and-what-problem-does-it-solve-%e4%bb%80%e4%b9%88%e6%98%af%e9%80%8f%e6%98%8e%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86-tde-%e5%ae%83%e8%a7%a3%e5%86%b3%e4%ba%86%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" rel=""&gt;What is Transparent Data Encryption and What Problem Does It Solve? 什么是透明数据加密（TDE），它解决了什么问题？&lt;/a&gt;&lt;/li&gt;
@@ -19,7 +19,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/an-introduction-to-edbs-transparent-data-encryption&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#bug-not-invented-here" rel=""&gt;Bug Not Invented Here&lt;/a&gt;&lt;/li&gt;
@@ -40,7 +40,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Don't give Postgres too much memory</title><link>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Don't give Postgres too much memory</title><link>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#issue" rel=""&gt;issue&lt;/a&gt;&lt;/li&gt;
@@ -57,7 +57,7 @@
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kj" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kj&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="issue"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; issue&lt;/h2&gt;
 &lt;p&gt;不时，我会调查与某种批处理过程相关的问题。如今，这些过程越来越常用非常高的内存限制（ &lt;code&gt;maintenance_work_mem&lt;/code&gt; 和
-&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#simple-things" rel=""&gt;Simple things&lt;/a&gt;&lt;/li&gt;
@@ -85,7 +85,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer "&gt;https://boringsql.com/posts/know-the-time-in-postgresql/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer "&gt;https://boringsql.com/posts/know-the-time-in-postgresql/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#when-to-use-huge-pages-and-why-they-matter-%e4%bd%95%e6%97%b6%e4%bd%bf%e7%94%a8%e5%a4%a7%e9%a1%b5%e9%9d%a2%e4%bb%a5%e5%8f%8a%e5%ae%83%e4%bb%ac%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7" rel=""&gt;When to use huge pages and why they matter 何时使用大页面以及它们的重要性&lt;/a&gt;&lt;/li&gt;
@@ -111,7 +111,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Performance gains for postgres on Linux with hugepages</title><link>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Performance gains for postgres on Linux with hugepages</title><link>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/performance-gains-for-postgres-on-linux-with-hugepages/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e5%ae%9e%e9%aa%8c" rel=""&gt;实验&lt;/a&gt;&lt;/li&gt;
@@ -122,7 +122,7 @@
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.n0derunner.com/performance-gains-for-postgres-on-linux-with-hugepages/" target="_blank" rel="noopener noreffer "&gt;https://www.n0derunner.com/performance-gains-for-postgres-on-linux-with-hugepages/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;对于这个实验，我使用的是 Linux 3.10 内核上的 Postgres v11。目标是查看使用大页可以获得什么收益。我使用“内置”基准
-pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><title>AIO in pg_18</title><link>https://yangyingchao.github.io/aio-in-pg_18/</link><pubDate>Fri, 05 Sep 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/aio-in-pg_18/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><title>AIO in pg_18</title><link>https://yangyingchao.github.io/aio-in-pg_18/</link><pubDate>Fri, 05 Sep 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/aio-in-pg_18/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#motivation" rel=""&gt;Motivation&lt;/a&gt;
@@ -158,7 +158,7 @@ pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><t
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/README.md&lt;/p&gt;</description></item><item><title>PostgreSQL LDAP Authentication: A Step-by-Step Guide</title><link>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/README.md&lt;/p&gt;</description></item><item><title>PostgreSQL LDAP Authentication: A Step-by-Step Guide</title><link>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/goteleport_com_postgresql-ldap-authentication/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#postgresql-ldap-%e8%ae%a4%e8%af%81%e7%9a%84%e5%a5%bd%e5%a4%84" rel=""&gt;PostgreSQL LDAP 认证的好处&lt;/a&gt;&lt;/li&gt;
@@ -176,7 +176,7 @@ pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><t
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer "&gt;https://goteleport.com/learn/postgresql-ldap-authentication/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/6J3&lt;/a&gt;&lt;/p&gt;</description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://goteleport.com/learn/postgresql-ldap-authentication/" target="_blank" rel="noopener noreffer "&gt;https://goteleport.com/learn/postgresql-ldap-authentication/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Implementing Time Travel In PostgreSQL</title><link>https://yangyingchao.github.io/postgr_es_p_6j3/</link><pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgr_es_p_6j3/</guid><description>&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6J3" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/6J3&lt;/a&gt;&lt;/p&gt;</description></item><item><title>分布式 PostgreSQL之Citus 架构-postgresql 分布式</title><link>https://yangyingchao.github.io/www.51cto.com_article_703272/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/www.51cto.com_article_703272/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e8%8a%82%e7%82%b9" rel=""&gt;节点&lt;/a&gt;
@@ -196,7 +196,7 @@ pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><t
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.51cto.com/article/703272.html" target="_blank" rel="noopener noreffer "&gt;https://www.51cto.com/article/703272.html&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="节点"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 节点&lt;/h2&gt;
-&lt;p&gt;Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据库。&lt;/p&gt;</description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;Citus 是一种 PostgreSQL 扩展，它允许数据库服务器(称为节点)在“无共享(shared nothing)”架构中相互协调。这些节点形成一个集群，允许 PostgreSQL 保存比单台计算机上更多的数据和使用更多的 CPU 内核。这种架构还允许通过简单地向集群添加更多节点来扩容数据库。&lt;/p&gt;</description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#prelog" rel=""&gt;prelog&lt;/a&gt;&lt;/li&gt;
@@ -214,7 +214,7 @@ pgbench 来运行一组简单的查询。&lt;/p&gt;</description></item><item><t
 &lt;h2 id="prelog"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; prelog&lt;/h2&gt;
 &lt;p&gt;共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
 minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum &amp;gt;= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
-maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p&gt;</description></item><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p&gt;</description></item><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
@@ -230,7 +230,7 @@ maxMsgNum &amp;gt;= nextMsgNum &amp;gt;= minMsgNum。&lt;/p&gt;</description></i
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/6s9&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="introduction"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Introduction&lt;/h2&gt;
-&lt;p&gt;当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：&lt;/p&gt;</description></item><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/20-product-guide/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：&lt;/p&gt;</description></item><item><title>HashData|产品介绍</title><link>https://yangyingchao.github.io/20-product-guide/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/20-product-guide/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:2786e008-f119-411c-9a74-c638782209f4" rel=""&gt;Abort HashData&lt;/a&gt;&lt;/li&gt;
@@ -263,7 +263,7 @@ advanced SQL on Hadoop solutions. As the flagship product of the company, HashDa
 Warehousing is a data warehouse service built for the cloud. While 100% compatible with
 the analytics interfaces of the open source MPP database Greenplum，HashData&amp;rsquo;s unique
 architecture delivers proven breakthroughs in performance, concurrency, elasticity and
-simplicity.&lt;/p&gt;</description></item><item><title>OCI Database with PostgreSQL: 完善OCI的云数据库套件以满足各种需求</title><link>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</link><pubDate>Fri, 08 Dec 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+simplicity.&lt;/p&gt;</description></item><item><title>OCI Database with PostgreSQL: 完善OCI的云数据库套件以满足各种需求</title><link>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</link><pubDate>Fri, 08 Dec 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/oci-database-with-postgresql-%E5%AE%8C%E5%96%84oci%E7%9A%84%E4%BA%91%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A5%97%E4%BB%B6%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%90%84%E7%A7%8D%E9%9C%80%E6%B1%82/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:2f8a6966-c6d0-4c53-bd48-a538dcab3522" rel=""&gt;为什么 OCI Database for PostgreSQL 脱颖而出&lt;/a&gt;&lt;/li&gt;
@@ -279,7 +279,7 @@ simplicity.&lt;/p&gt;</description></item><item><title>OCI Database with Postgre
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;amp;mid=2247497316&amp;amp;idx=1&amp;amp;sn=d08b84d63ab2e4b69949af9170762189&amp;amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd" target="_blank" rel="noopener noreffer "&gt;https://mp.weixin.qq.com/s?__biz=MzI3OTM3MDkyNg==&amp;mid=2247497316&amp;idx=1&amp;sn=d08b84d63ab2e4b69949af9170762189&amp;chksm=eb4a7ba5dc3df2b3ca2b3721e5614ab5711be6e984ec44173035323953d193440240f8412591&amp;mpshare=1&amp;scene=1&amp;srcid=1208AtRH30qSa2LdMxzmf3sV&amp;sharer_shareinfo=9a0858a92025bbb0e8887abc9a5eee8a&amp;sharer_shareinfo_first=9a0858a92025bbb0e8887abc9a5eee8a#rd&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并减少了管理需求。&lt;/p&gt;</description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;对于希望在云中轻松扩展且无需更改应用程序的组织来说，OCI Database with PostgreSQL 数据库是理想的解决方案。它提供完全的 PostgreSQL 兼容性，同时让用户利用 OCI 灵活、高性能、高可用性的基础设施以及内置的安全性和简单的定价。此外，这种 OCI 实施还提供了卓越的可扩展性并减少了管理需求。&lt;/p&gt;</description></item><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel=""&gt;Barriers: 协调进程的同步屏障&lt;/a&gt;
@@ -295,7 +295,7 @@ simplicity.&lt;/p&gt;</description></item><item><title>OCI Database with Postgre
 &lt;p&gt;简单总结一下 PG 中进程同步用到的屏障：
 &lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c" target="_blank" rel="noopener noreffer "&gt;https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Barriers: 协调进程的同步屏障&lt;/h2&gt;
-&lt;p&gt;来自维基百科[1]：&lt;/p&gt;</description></item><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/10790/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;来自维基百科[1]：&lt;/p&gt;</description></item><item><title>云数据库 PostgreSQL 日志管理及分析-操作指南-文档中心-腾讯云</title><link>https://yangyingchao.github.io/10790/</link><pubDate>Tue, 15 Aug 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/10790/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:6019344d-20aa-4954-b9ed-429bc6cf3cdc" rel=""&gt;慢查询&lt;/a&gt;
@@ -323,7 +323,7 @@ simplicity.&lt;/p&gt;</description></item><item><title>OCI Database with Postgre
 &lt;h2 id="h:6019344d-20aa-4954-b9ed-429bc6cf3cdc"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 慢查询&lt;/h2&gt;
 &lt;h3 id="h:d92eb969-c035-4657-ac55-97449699f838"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; 功能说明&lt;/h3&gt;
 &lt;p&gt;默认数据库对超过 1s 的 SQL 语句查询判断为 “ &lt;strong&gt;慢查询&lt;/strong&gt; ”，对应语句称为“ &lt;strong&gt;慢查询语句&lt;/strong&gt; （俗称 &lt;strong&gt;慢 SQL&lt;/strong&gt; ）”，而数据库管理员（DBA）对慢查询语句进行分析并找到慢查询出现原因的过程叫做
-&lt;strong&gt;慢查询分析&lt;/strong&gt; 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：&lt;/p&gt;</description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;strong&gt;慢查询分析&lt;/strong&gt; 。﻿云数据库 PostgreSQL 控制台 在实例管理页的性能优化模块下，提供慢查询分析能力。如下图：&lt;/p&gt;</description></item><item><title>The Part of PostgreSQL We Hate the Most</title><link>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/the-part-of-postgresql-we-hate-the-most/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:3e1d4668-8e85-43fc-877a-77a2ca94abf5" rel=""&gt;什么是多版本并发控制？&lt;/a&gt;&lt;/li&gt;

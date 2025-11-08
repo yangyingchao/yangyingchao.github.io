@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gpdb on 杂货铺</title><link>https://yangyingchao.github.io/tags/gpdb/</link><description>Recent content in Gpdb on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/gpdb/index.xml" rel="self" type="application/rss+xml"/><item><title>gpdb memory control</title><link>https://yangyingchao.github.io/gpdb-memory-control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gpdb-memory-control/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gpdb on 杂货铺</title><link>https://yangyingchao.github.io/tags/gpdb/</link><description>Recent content in Gpdb on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://yangyingchao.github.io/tags/gpdb/index.xml" rel="self" type="application/rss+xml"/><item><title>gpdb memory control</title><link>https://yangyingchao.github.io/gpdb-memory-control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gpdb-memory-control/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:3ca2edd6-a67c-49c7-a59e-fcb2eea8be86" rel=""&gt;&lt;span class="org-todo todo TODO"&gt;TODO&lt;/span&gt; VMem&lt;/a&gt;&lt;/li&gt;
@@ -53,7 +53,7 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Or command is one of:&lt;/p&gt;</description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;Or command is one of:&lt;/p&gt;</description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel=""&gt;IP Fragmentation Settings&lt;/a&gt;&lt;/li&gt;
@@ -69,7 +69,7 @@ card controls IP packet fragmentation and reassemblies.&lt;/p&gt;
 &lt;p&gt;If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
 a network, the IP layer fragments the message. (Refer to Networking later in this topic
 for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.&lt;/p&gt;</description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+fragments in a buffer before it can reorganize and reassemble the message.&lt;/p&gt;</description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel=""&gt;使用高速硬件，降低节点间的延迟&lt;/a&gt;&lt;/li&gt;
@@ -78,7 +78,7 @@ fragments in a buffer before it can reorganize and reassemble the message.&lt;/p
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p&gt;</description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p&gt;</description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:6543d92b-650b-4a86-a5f4-d93974938e1e" rel=""&gt;Resource Group 简介&lt;/a&gt;&lt;/li&gt;

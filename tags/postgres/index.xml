@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Postgres on 杂货铺</title><link>https://yangyingchao.github.io/tags/postgres/</link><description>Recent content in Postgres on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/postgres/index.xml" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Postgres on 杂货铺</title><link>https://yangyingchao.github.io/tags/postgres/</link><description>Recent content in Postgres on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/postgres/index.xml" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#bug-not-invented-here" rel=""&gt;Bug Not Invented Here&lt;/a&gt;&lt;/li&gt;
@@ -19,7 +19,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Don't give Postgres too much memory</title><link>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Don't give Postgres too much memory</title><link>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/dont-give-postgres-too-much-memory---tomas-vondra/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#issue" rel=""&gt;issue&lt;/a&gt;&lt;/li&gt;
@@ -36,7 +36,7 @@
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kj" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kj&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="issue"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; issue&lt;/h2&gt;
 &lt;p&gt;不时，我会调查与某种批处理过程相关的问题。如今，这些过程越来越常用非常高的内存限制（ &lt;code&gt;maintenance_work_mem&lt;/code&gt; 和
-&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>PostgreSQL and NUMA</title><link>https://yangyingchao.github.io/postgresql-and-numa/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgresql-and-numa/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;code&gt;work_mem&lt;/code&gt; ）。我想有些数据库管理员遵循“更多就是更好”的逻辑，却没有意识到这可能会严重影响性能。&lt;/p&gt;</description></item><item><title>PostgreSQL and NUMA</title><link>https://yangyingchao.github.io/postgresql-and-numa/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgresql-and-numa/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-numa-and-why-do-we-need-it" rel=""&gt;What is NUMA and why do we need it?&lt;/a&gt;
@@ -58,7 +58,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7ka&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7ka&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Time to Better Know The Time in PostgreSQL</title><link>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/time-to-better-know-the-time-in-postgresql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#simple-things" rel=""&gt;Simple things&lt;/a&gt;&lt;/li&gt;
@@ -86,7 +86,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer "&gt;https://boringsql.com/posts/know-the-time-in-postgresql/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer "&gt;https://boringsql.com/posts/know-the-time-in-postgresql/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#when-to-use-huge-pages-and-why-they-matter-%e4%bd%95%e6%97%b6%e4%bd%bf%e7%94%a8%e5%a4%a7%e9%a1%b5%e9%9d%a2%e4%bb%a5%e5%8f%8a%e5%ae%83%e4%bb%ac%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7" rel=""&gt;When to use huge pages and why they matter 何时使用大页面以及它们的重要性&lt;/a&gt;&lt;/li&gt;
@@ -112,7 +112,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>PostgreSQL 的灾难恢复</title><link>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</link><pubDate>Thu, 16 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer "&gt;https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql&lt;/a&gt;&lt;/p&gt;</description></item><item><title>PostgreSQL 的灾难恢复</title><link>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</link><pubDate>Thu, 16 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-disaster-recovery-%e4%bb%80%e4%b9%88%e6%98%af%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel=""&gt;What is Disaster Recovery? 什么是灾难恢复？&lt;/a&gt;&lt;/li&gt;
@@ -133,7 +133,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7i" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7i&lt;/a&gt;_&lt;/p&gt;</description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7i" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7i&lt;/a&gt;_&lt;/p&gt;</description></item><item><title>shared cache invalidation</title><link>https://yangyingchao.github.io/sinvaladt/</link><pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/sinvaladt/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#prelog" rel=""&gt;prelog&lt;/a&gt;&lt;/li&gt;

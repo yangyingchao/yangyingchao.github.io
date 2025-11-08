@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Starrocks on 杂货铺</title><link>https://yangyingchao.github.io/tags/starrocks/</link><description>Recent content in Starrocks on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/starrocks/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Starrocks on 杂货铺</title><link>https://yangyingchao.github.io/tags/starrocks/</link><description>Recent content in Starrocks on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/starrocks/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%bc%95%e5%85%a5%e4%bd%8e%e5%9f%ba%e6%95%b0%e5%ad%97%e5%85%b8%e4%bc%98%e5%8c%96" rel=""&gt;为什么要引入低基数字典优化&lt;/a&gt;&lt;/li&gt;
@@ -21,7 +21,7 @@
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://segmentfault.com/a/1190000042326071" target="_blank" rel="noopener noreffer "&gt;https://segmentfault.com/a/1190000042326071&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer&lt;/code&gt;&lt;/p&gt;</description></item><item><title>数据库 - StarRocks 技术内幕 | Join 查询优化</title><link>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;&lt;code&gt;作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer&lt;/code&gt;&lt;/p&gt;</description></item><item><title>数据库 - StarRocks 技术内幕 | Join 查询优化</title><link>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/segmentfault_com_a_1190000042739883/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#join-%e8%83%8c%e6%99%af" rel=""&gt;Join 背景&lt;/a&gt;&lt;/li&gt;
@@ -34,7 +34,7 @@
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://segmentfault.com/a/1190000042739883" target="_blank" rel="noopener noreffer "&gt;https://segmentfault.com/a/1190000042739883&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;作者：贺凯，StarRocks Committer&lt;/p&gt;
-&lt;p&gt;导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。&lt;/p&gt;</description></item><item><title>StarRocks 技术内幕：查询原理浅析</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。&lt;/p&gt;</description></item><item><title>StarRocks 技术内幕：查询原理浅析</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/my_oschina_net_blog_5519656/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%bb%8e-sql-%e6%96%87%e6%9c%ac%e5%88%b0%e6%89%a7%e8%a1%8c%e8%ae%a1%e5%88%92" rel=""&gt;从 SQL 文本到执行计划&lt;/a&gt;
@@ -61,7 +61,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer "&gt;https://my.oschina.net/u/5658056/blog/5519656&lt;/a&gt;&lt;/p&gt;</description></item><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/docs_starrocks_io_features/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://my.oschina.net/u/5658056/blog/5519656" target="_blank" rel="noopener noreffer "&gt;https://my.oschina.net/u/5658056/blog/5519656&lt;/a&gt;&lt;/p&gt;</description></item><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/docs_starrocks_io_features/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#mpp-%e5%88%86%e5%b8%83%e5%bc%8f%e6%89%a7%e8%a1%8c%e6%a1%86%e6%9e%b6" rel=""&gt;MPP 分布式执行框架&lt;/a&gt;&lt;/li&gt;

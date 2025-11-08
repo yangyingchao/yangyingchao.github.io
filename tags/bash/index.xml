@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bash on 杂货铺</title><link>https://yangyingchao.github.io/tags/bash/</link><description>Recent content in Bash on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Fri, 13 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml"/><item><title>Advanced Shell Scripting Techniques: Automating Complex Tasks with Bash</title><link>https://yangyingchao.github.io/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</link><pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bash on 杂货铺</title><link>https://yangyingchao.github.io/tags/bash/</link><description>Recent content in Bash on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 13 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml"/><item><title>Advanced Shell Scripting Techniques: Automating Complex Tasks with Bash</title><link>https://yangyingchao.github.io/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</link><pubDate>Fri, 13 Sep 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e8%84%9a%e6%9c%ac%e4%bc%98%e5%8c%96" rel=""&gt;脚本优化&lt;/a&gt;
@@ -26,7 +26,7 @@
 &lt;!--endtoc--&gt;
 &lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/" target="_blank" rel="noopener noreffer "&gt;https://omid.dev/2024/06/19/advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id="脚本优化"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 脚本优化&lt;/h2&gt;
-&lt;p&gt;优化对于确保脚本高效运行至关重要，特别是在处理大型数据集或密集任务时。以下是一些优化 Bash 脚本的关键技巧。&lt;/p&gt;</description></item><item><title>Bash Mapfile Builtin Command Help and Examples</title><link>https://yangyingchao.github.io/mapfile/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/mapfile/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;优化对于确保脚本高效运行至关重要，特别是在处理大型数据集或密集任务时。以下是一些优化 Bash 脚本的关键技巧。&lt;/p&gt;</description></item><item><title>Bash Mapfile Builtin Command Help and Examples</title><link>https://yangyingchao.github.io/mapfile/</link><pubDate>Thu, 19 Oct 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/mapfile/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:11d958d0-32e8-40f0-8b56-88270fd85ed4" rel=""&gt;语法&lt;/a&gt;
@@ -58,7 +58,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id="h:7ebb0f59-ff05-4de9-9346-346ac68e6cff"&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; 选项&lt;/h3&gt;
-&lt;p&gt;mapfile 内建命令接受以下选项：&lt;/p&gt;</description></item><item><title>google shell style guide | Style guides for Google-originated open-source projects</title><link>https://yangyingchao.github.io/shellguide/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/shellguide/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;mapfile 内建命令接受以下选项：&lt;/p&gt;</description></item><item><title>google shell style guide | Style guides for Google-originated open-source projects</title><link>https://yangyingchao.github.io/shellguide/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/shellguide/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:f6a55800-10d4-4052-be0f-f0d7053dd7b6" rel=""&gt;Background&lt;/a&gt;&lt;/li&gt;
@@ -127,7 +127,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://google.github.io/styleguide/shellguide.html" target="_blank" rel="noopener noreffer "&gt;https://google.github.io/styleguide/shellguide.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Tips of Bash/Zsh</title><link>https://yangyingchao.github.io/tips-of-bash-zsh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/tips-of-bash-zsh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://google.github.io/styleguide/shellguide.html" target="_blank" rel="noopener noreffer "&gt;https://google.github.io/styleguide/shellguide.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Tips of Bash/Zsh</title><link>https://yangyingchao.github.io/tips-of-bash-zsh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/tips-of-bash-zsh/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:c2349cd1-7eb4-4ae1-9eea-323aea44ee72" rel=""&gt;展开 Bash 数组 (array) 时候， &lt;code&gt;${ARRARY[@]}&lt;/code&gt; 和 &lt;code&gt;${ARRARY[*]}&lt;/code&gt; 有什么区别？&lt;/a&gt;&lt;/li&gt;

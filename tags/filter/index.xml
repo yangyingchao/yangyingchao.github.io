@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Filter on 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Recent content in Filter on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><atom:link href="https://yangyingchao.github.io/tags/filter/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Filter on 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Recent content in Filter on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://yangyingchao.github.io/tags/filter/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
@@ -33,7 +33,7 @@
 &lt;ul&gt;
 &lt;li&gt;查询处理&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07"&gt;&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07"&gt;&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/prefix-filter-better-than-bloom/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel=""&gt;Abstract&lt;/a&gt;&lt;/li&gt;
@@ -70,7 +70,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;/ul&gt;</description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on 杂货铺</title><link>https://yangyingchao.github.io/tags/network/</link><description>Recent content in Network on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Tue, 28 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on 杂货铺</title><link>https://yangyingchao.github.io/tags/network/</link><description>Recent content in Network on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 28 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#ip-header" rel=""&gt;IP header&lt;/a&gt;&lt;/li&gt;
@@ -39,7 +39,7 @@
  alt="Figure 4: icmp header" width="800px"&gt;&lt;figcaption&gt;
  &lt;p&gt;&lt;span class="figure-number"&gt;Figure 4: &lt;/span&gt;icmp header&lt;/p&gt;
  &lt;/figcaption&gt;
-&lt;/figure&gt;</description></item><item><title>NMap_ Port Scanning Techniques and Algorithms</title><link>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</link><pubDate>Wed, 22 Oct 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;/figure&gt;</description></item><item><title>NMap_ Port Scanning Techniques and Algorithms</title><link>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</link><pubDate>Wed, 22 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/nmap_-port-scanning-techniques-and-algorithms/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
@@ -61,7 +61,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://nmap.org/book/scan-methods.html" target="_blank" rel="noopener noreffer "&gt;https://nmap.org/book/scan-methods.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://nmap.org/book/scan-methods.html" target="_blank" rel="noopener noreffer "&gt;https://nmap.org/book/scan-methods.html&lt;/a&gt;&lt;/p&gt;</description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel=""&gt;IP Fragmentation Settings&lt;/a&gt;&lt;/li&gt;
@@ -77,7 +77,7 @@ card controls IP packet fragmentation and reassemblies.&lt;/p&gt;
 &lt;p&gt;If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
 a network, the IP layer fragments the message. (Refer to Networking later in this topic
 for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.&lt;/p&gt;</description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+fragments in a buffer before it can reorganize and reassemble the message.&lt;/p&gt;</description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel=""&gt;使用高速硬件，降低节点间的延迟&lt;/a&gt;&lt;/li&gt;
@@ -86,7 +86,7 @@ fragments in a buffer before it can reorganize and reassemble the message.&lt;/p
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p&gt;</description></item><item><title>Stream Control Transmission Protocol (SCTP)</title><link>https://yangyingchao.github.io/sctp/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/sctp/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf&lt;/p&gt;</description></item><item><title>Stream Control Transmission Protocol (SCTP)</title><link>https://yangyingchao.github.io/sctp/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/sctp/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:2815bca8-e6bb-4b22-93b8-52266d83331a" rel=""&gt;SCTP Associations&lt;/a&gt;&lt;/li&gt;

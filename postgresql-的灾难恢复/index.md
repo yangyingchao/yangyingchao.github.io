@@ -199,7 +199,7 @@ Postgres 的设计就是优雅地处理这种情况，通过预写日志（WAL�
 
 在恢复过程中，Postgres 首先恢复基础备份，然后按顺序重放 WAL 文件。这个重放过程会重新应用备份开始后发生的每一个已记录的更改，将数据库恢复到一个完全一致的状态，就像从未发生过中断一样。
 
-<a id="org178f052"></a>
+<a id="org1dae12f"></a>
 
 <img src="/ox-hugo/Screenshot-2025-10-09-at-8.24.02-PM-1.png" alt="Screenshot-2025-10-09-at-8.24.02-PM-1.png" width="800px" />
 Image Credits:<https://shrturl.app/a2zfKi>

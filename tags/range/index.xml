@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Range on 杂货铺</title><link>https://yangyingchao.github.io/tags/range/</link><description>Recent content in Range on 杂货铺</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/range/index.xml" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Range on 杂货铺</title><link>https://yangyingchao.github.io/tags/range/</link><description>Recent content in Range on 杂货铺</description><generator>Hugo</generator><language>zh-CN</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/range/index.xml" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#bug-not-invented-here" rel=""&gt;Bug Not Invented Here&lt;/a&gt;&lt;/li&gt;
@@ -19,7 +19,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7kw&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
@@ -54,7 +54,7 @@
 &lt;ul&gt;
 &lt;li&gt;查询处理&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07"&gt;&lt;/a&gt;&lt;/p&gt;</description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
+&lt;p&gt;&lt;a id="figure--fig:screenshot@2022-10-19-08:47:07"&gt;&lt;/a&gt;&lt;/p&gt;</description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
 &lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
