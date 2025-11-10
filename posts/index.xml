@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>PKGBUILD - ArchWiki</title><link>https://yangyingchao.github.io/pkgbuild---archwiki/</link><pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/pkgbuild---archwiki/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 10 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>尘埃落定_十五周年纪念版-阿来</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</link><pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</guid><description></description></item><item><title>横空出世_核物理与原子弹的诞生-[美] 理查德·罗兹;江向东;廖湘彧</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96_%E6%A0%B8%E7%89%A9%E7%90%86%E4%B8%8E%E5%8E%9F%E5%AD%90%E5%BC%B9%E7%9A%84%E8%AF%9E%E7%94%9F-%E7%BE%8E-%E7%90%86%E6%9F%A5%E5%BE%B7%E7%BD%97%E5%85%B9%E6%B1%9F%E5%90%91%E4%B8%9C%E5%BB%96%E6%B9%98%E5%BD%A7/</link><pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E6%A8%AA%E7%A9%BA%E5%87%BA%E4%B8%96_%E6%A0%B8%E7%89%A9%E7%90%86%E4%B8%8E%E5%8E%9F%E5%AD%90%E5%BC%B9%E7%9A%84%E8%AF%9E%E7%94%9F-%E7%BE%8E-%E7%90%86%E6%9F%A5%E5%BE%B7%E7%BD%97%E5%85%B9%E6%B1%9F%E5%90%91%E4%B8%9C%E5%BB%96%E6%B9%98%E5%BD%A7/</guid><description></description></item><item><title>PKGBUILD - ArchWiki</title><link>https://yangyingchao.github.io/pkgbuild---archwiki/</link><pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/pkgbuild---archwiki/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%90%8d%e7%a7%b0" rel="">软件包名称</a>
@@ -199,54 +199,4 @@
 <!--listend-->
 <ul>
 <li>
-<p>9336-9337, 标注, 2025 年 10 月 29 日星期三 上午 8:11:10</p>]]></description></item><item><title>网络协议头</title><link>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</link><pubDate>Tue, 28 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%A4%B4/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#ip-header" rel="">IP header</a></li>
-<li><span class="section-num">2</span> <a href="#tcp-header" rel="">TCP header</a></li>
-<li><span class="section-num">3</span> <a href="#udp-header" rel="">UDP header</a></li>
-<li><span class="section-num">4</span> <a href="#icmp-header" rel="">ICMP header</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>From: <a href="https://nmap.org/book/tcpip-ref.html" target="_blank" rel="noopener noreffer ">https://nmap.org/book/tcpip-ref.html</a></p>
-<h2 id="ip-header"><span class="section-num">1</span> IP header</h2>
-<p><a id="figure--fig:wang-9915a410"></a></p>
-<figure><figcaption>
-      <p><span class="figure-number">Figure 1: </span>ip header</p>
-    </figcaption>
-</figure>
-
-<h2 id="tcp-header"><span class="section-num">2</span> TCP header</h2>
-<p><a id="figure--fig:wang-f4d49110"></a></p>
-<figure><figcaption>
-      <p><span class="figure-number">Figure 2: </span>tcp header</p>
-    </figcaption>
-</figure>
-
-<h2 id="udp-header"><span class="section-num">3</span> UDP header</h2>
-<p><a id="figure--fig:wang-630ff401"></a></p>
-<figure><figcaption>
-      <p><span class="figure-number">Figure 3: </span>udp header</p>
-    </figcaption>
-</figure>
-
-<h2 id="icmp-header"><span class="section-num">4</span> ICMP header</h2>
-<p><a id="figure--fig:wang-d41d8cd9"></a></p>
-<figure><figcaption>
-      <p><span class="figure-number">Figure 4: </span>icmp header</p>
-    </figcaption>
-</figure>]]></description></item><item><title>动物农场-乔治•奥威尔;李元莘</title><link>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</link><pubDate>Thu, 23 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/%E7%AC%94%E8%AE%B0%E5%8A%A8%E7%89%A9%E5%86%9C%E5%9C%BA-%E4%B9%94%E6%B2%BB%E5%A5%A5%E5%A8%81%E5%B0%94%E6%9D%8E%E5%85%83%E8%8E%98/</guid><description><![CDATA[<ul>
-<li>
-<p>26-27, 标注, 2025 年 10 月 20 日星期一 下午 1:29:23</p>
-<blockquote>
-<p>谁控制了过去，谁就控制了未来； 谁控制了现在，谁就控制了过去。</p>
-</blockquote>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>
-<p>793-798, 标注, 2025 年 10 月 22 日星期三 上午 7:54:43</p>
-<blockquote>
-<p>当处决叛徒的恐怖气氛消散以后，有些动物才想起了第六条诫律中已经规定：”任何动物不得伤害其他动物”，至少他们自以为记得有这条规定。尽管在提起这个话题时，谁也不愿让猪和狗听见，但他们还是觉得这次杀戮与这一条诫律不相符。克拉弗请求本杰明给她念一下第六条诫律，而本杰明却像往常一样说他不愿介入这类事情。她又找来穆丽尔。穆丽尔就给她念了，上面写着：“任何动物不得无缘无故伤害其他动物。”不知怎么回事，对于“无缘无故”这几个字，动物们就是不记得了。但他们现在却清楚地看到，杀掉那些与斯诺鲍串通一气的叛徒是有充分根据的，它并没有违犯诫律。</p>]]></description></item></channel></rss>
+<p>9336-9337, 标注, 2025 年 10 月 29 日星期三 上午 8:11:10</p>]]></description></item></channel></rss>
