@@ -11,7 +11,7 @@
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://segmentfault.com/a/1190000042739883" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042739883</a></p>
 <p>作者：贺凯，StarRocks Committer</p>
-<p>导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。</p>]]></description></item><item><title>Making RDBMSs Efficient on Graph Workloads Through Predefined Joins</title><link>https://yangyingchao.github.io/1/01/p1011-jin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1011-jin/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>导读：欢迎来到 StarRocks 技术内幕系列文章，我们将为你全方位揭晓 StarRocks 背后的技术原理和实践细节，助你逐步上手这款明星开源数据库产品。</p>]]></description></item><item><title>Making RDBMSs Efficient on Graph Workloads Through Predefined Joins</title><link>https://yangyingchao.github.io/2022/05/p1011-jin/</link><pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/05/p1011-jin/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:9e32e840-e079-4e4f-b2dc-96119d5f58da" rel="">ABSTRACT</a></li>

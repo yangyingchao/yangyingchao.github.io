@@ -87,7 +87,38 @@ pgbench 来运行一组简单的查询。</p>]]></description></item><item><titl
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference</a></p>
-<p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。</p>]]></description></item><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/1/01/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。</p>]]></description></item><item><title>Linux Process States</title><link>https://yangyingchao.github.io/2023/02/linux-process-states-baeldung-on-linux/</link><pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/02/linux-process-states-baeldung-on-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:e18e2a33-c94e-4632-9c81-2b7c968471ca" rel="">The Linux Process States</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#h:82e9a258-9ef3-4b9f-a6e0-43780e2f7c6b" rel="">Running or Runnable State (R)</a></li>
+<li><span class="section-num">1.2</span> <a href="#h:af5ed80e-75ba-46bf-bd3c-fc469ce02284" rel="">Sleeping State: Interruptible (S) and Uninterruptible (D)</a></li>
+<li><span class="section-num">1.3</span> <a href="#h:928eb1a4-c3a7-45e7-a8d8-031aefe9d89e" rel="">Stopped State (T)</a></li>
+<li><span class="section-num">1.4</span> <a href="#h:fc7301f8-68e6-4139-9663-7ea505a75521" rel="">Zombie State (Z)</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#h:0985a112-1b62-4921-9635-078e0ca52dca" rel="">Checking Process State</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:d36c6068-e0db-468a-8b7f-349412d139f2" rel="">Displaying Process State Using ps</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:4aa374a8-e81e-499a-aa03-63c5e0949411" rel="">Using the top Command</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:5838f424-949c-4b9c-9c93-e77715bfe95c" rel="">The /proc Pseudo File</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:3fbb304e-adb8-4e74-94f9-e6a5944f1b26" rel="">Summary</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
+<h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
+<ul>
+<li>Running or Runnable (R)</li>
+<li>Uninterruptible Sleep (D)</li>
+<li>Interruptable Sleep (S)</li>
+<li>Stopped (T)</li>
+<li>Zombie (Z)</li>
+</ul>
+<p>状态机如下：</p>]]></description></item><item><title>Coping with the TCP TIME-WAIT state on busy Linux servers</title><link>https://yangyingchao.github.io/2022/10/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/coping-with-the-tcp-time-wait-state-on-busy-linux-servers/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:871f360d-063e-46ff-9c0a-18322d91be4c" rel="">TL;DR</a></li>
@@ -122,35 +153,4 @@ pgbench 来运行一组简单的查询。</p>]]></description></item><item><titl
 <figure>
 </figure>
 
-<p><a href="http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank" rel="noopener noreffer ">http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm</a></p>]]></description></item><item><title>Linux Process States</title><link>https://yangyingchao.github.io/1/01/linux-process-states-baeldung-on-linux/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/linux-process-states-baeldung-on-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:e18e2a33-c94e-4632-9c81-2b7c968471ca" rel="">The Linux Process States</a>
-<ul>
-<li><span class="section-num">1.1</span> <a href="#h:82e9a258-9ef3-4b9f-a6e0-43780e2f7c6b" rel="">Running or Runnable State (R)</a></li>
-<li><span class="section-num">1.2</span> <a href="#h:af5ed80e-75ba-46bf-bd3c-fc469ce02284" rel="">Sleeping State: Interruptible (S) and Uninterruptible (D)</a></li>
-<li><span class="section-num">1.3</span> <a href="#h:928eb1a4-c3a7-45e7-a8d8-031aefe9d89e" rel="">Stopped State (T)</a></li>
-<li><span class="section-num">1.4</span> <a href="#h:fc7301f8-68e6-4139-9663-7ea505a75521" rel="">Zombie State (Z)</a></li>
-</ul>
-</li>
-<li><span class="section-num">2</span> <a href="#h:0985a112-1b62-4921-9635-078e0ca52dca" rel="">Checking Process State</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:d36c6068-e0db-468a-8b7f-349412d139f2" rel="">Displaying Process State Using ps</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:4aa374a8-e81e-499a-aa03-63c5e0949411" rel="">Using the top Command</a></li>
-<li><span class="section-num">2.3</span> <a href="#h:5838f424-949c-4b9c-9c93-e77715bfe95c" rel="">The /proc Pseudo File</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:3fbb304e-adb8-4e74-94f9-e6a5944f1b26" rel="">Summary</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.baeldung.com/linux/process-states" target="_blank" rel="noopener noreffer ">https://www.baeldung.com/linux/process-states</a></p>
-<h2 id="h:e18e2a33-c94e-4632-9c81-2b7c968471ca"><span class="section-num">1</span> The Linux Process States</h2>
-<ul>
-<li>Running or Runnable (R)</li>
-<li>Uninterruptible Sleep (D)</li>
-<li>Interruptable Sleep (S)</li>
-<li>Stopped (T)</li>
-<li>Zombie (Z)</li>
-</ul>
-<p>状态机如下：</p>]]></description></item></channel></rss>
+<p><a href="http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank" rel="noopener noreffer ">http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm</a></p>]]></description></item></channel></rss>

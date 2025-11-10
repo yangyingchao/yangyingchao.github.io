@@ -1,4 +1,26 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Compression - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/compression/</link><description>Compression - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/compression/" rel="self" type="application/rss+xml"/><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/1/01/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3058-liakos/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Compression - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/compression/</link><description>Compression - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Thu, 01 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/compression/" rel="self" type="application/rss+xml"/><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/2023/06/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/06/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel="">Introduction</a></li>
+<li><span class="section-num">2</span> <a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel="">Related Work</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel="">Storage Layouts</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel="">Bit-(Un)Packing</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel="">SIMD-Friendly Bit-(Un)Packing</a></li>
+<li><span class="section-num">4</span> <a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel="">Composable Functions</a></li>
+<li><span class="section-num">5</span> <a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel="">Composable Compression Schemes</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf</p>
+<h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a"><span class="section-num">1</span> Introduction</h2>
+<h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf"><span class="section-num">2</span> Related Work</h2>
+<h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b"><span class="section-num">2.1</span> Storage Layouts</h3>
+<h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3"><span class="section-num">2.1.1</span> NSM</h4>
+<p>传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
+存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。</p>]]></description></item><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/2022/10/p3058-liakos/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/p3058-liakos/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel="">ABSTRACT</a></li>
@@ -35,26 +57,4 @@
 <h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6"><span class="section-num">1</span> ABSTRACT</h2>
 <ul>
 <li>
-<p>时序数据难以高效存储，导致存储代价高昂。</p>]]></description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/1/01/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel="">Introduction</a></li>
-<li><span class="section-num">2</span> <a href="#h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf" rel="">Related Work</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b" rel="">Storage Layouts</a></li>
-<li><span class="section-num">2.2</span> <a href="#h:ed60df52-edbb-4a50-97fc-7fdb583c275c" rel="">Bit-(Un)Packing</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:d68b112b-a914-43aa-8e0f-d15256f92412" rel="">SIMD-Friendly Bit-(Un)Packing</a></li>
-<li><span class="section-num">4</span> <a href="#h:f92acd3a-f139-465a-9376-9098f4ed8ed4" rel="">Composable Functions</a></li>
-<li><span class="section-num">5</span> <a href="#h:a085ae14-3c24-42f3-8747-92eef98eda99" rel="">Composable Compression Schemes</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf</p>
-<h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a"><span class="section-num">1</span> Introduction</h2>
-<h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf"><span class="section-num">2</span> Related Work</h2>
-<h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b"><span class="section-num">2.1</span> Storage Layouts</h3>
-<h4 id="h:afb0adde-6373-4a75-bcca-8531a04288a3"><span class="section-num">2.1.1</span> NSM</h4>
-<p>传统上，在数据库系统中，表格数据通常按照磁盘页的起始行逐行存储。这种存储方式被称为 N-ary
-存储模型（NSM）。如图 2.1 所示，如果元组大小是可变的，NSM 可能会在页面末尾使用偏移表来定位每个元组的起始位置。此外，每个元组都以元组头（RH）开头，包含有关元组的信息。RH 以空位图开头，用于支持空值；以偏移量开头，用于支持可变属性的变量长度值；以及其他实现特定的细节，以使布局更加灵活。</p>]]></description></item></channel></rss>
+<p>时序数据难以高效存储，导致存储代价高昂。</p>]]></description></item></channel></rss>

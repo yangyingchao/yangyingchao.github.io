@@ -23,7 +23,7 @@
 <h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"><span class="section-num">1</span> 什么是 HTAP？</h2>
 <ul>
 <li>
-<p>TP 和 AP 的特点</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>TP 和 AP 的特点</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Mon, 01 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构</a></li>

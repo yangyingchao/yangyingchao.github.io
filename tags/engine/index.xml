@@ -1,21 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Engine - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/engine/</link><description>Engine - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/engine/" rel="self" type="application/rss+xml"/><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/1/01/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3548-yan/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel="">INTRODUCTION</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf</p>
-<h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"><span class="section-num">1</span> ABSTRACT</h2>
-<p>下一代向量数据库应该有的特性：</p>
-<ul>
-<li>可长期演进</li>
-<li>tunable consistency</li>
-<li>good elasticity</li>
-<li>high performance</li>
-</ul>
-<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item><item><title>Velox: Meta’s Unified Execution Engine</title><link>https://yangyingchao.github.io/1/01/p3372-pedreira/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3372-pedreira/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Engine - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/engine/</link><description>Engine - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sat, 01 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/engine/" rel="self" type="application/rss+xml"/><item><title>Velox: Meta’s Unified Execution Engine</title><link>https://yangyingchao.github.io/2022/10/p3372-pedreira/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/p3372-pedreira/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:2feba2b4-8c5e-43d1-a350-894f13c55f6d" rel="">ABSTRACT</a></li>
@@ -54,4 +37,60 @@
 </ul>
 </li>
 <li>
-<p>倚赖：</p>]]></description></item></channel></rss>
+<p>倚赖：</p>]]></description></item><item><title>Velox: Meta’s Unified Execution Engine</title><link>https://yangyingchao.github.io/2022/10/velox_meta_s_unified_execution_engine/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/velox_meta_s_unified_execution_engine/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:2feba2b4-8c5e-43d1-a350-894f13c55f6d" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:894af9fe-ef1a-4830-bb2d-66fa3658ed9a" rel="">INTRODUCTION</a></li>
+<li><span class="section-num">3</span> <a href="#h:45c2ace0-0c5d-4839-bd76-e8fc71c4a50e" rel="">LIBRARY OVERVIEW</a></li>
+<li><span class="section-num">4</span> <a href="#h:02b95a98-47dd-4cc4-b09d-5e4961eb13ef" rel="">USE CASES</a></li>
+<li><span class="section-num">5</span> <a href="#h:28e04c87-3ab7-49ae-8dd2-2c9f60d16e72" rel="">DEEP DIVE</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#h:721c90b1-0101-4889-af09-0d80b80be023" rel=""><span class="org-todo todo TODO">TODO</span> Type System</a></li>
+<li><span class="section-num">5.2</span> <a href="#h:c3f011fb-9660-4857-a677-9ccd96a0a439" rel="">Vectors</a></li>
+<li><span class="section-num">5.3</span> <a href="#h:a55899bf-019b-484b-9fa0-6ad73151ac95" rel="">Expression Eval</a></li>
+<li><span class="section-num">5.4</span> <a href="#h:b4d3982d-525d-467a-88c2-a4ac41eabd2b" rel="">Functions</a></li>
+<li><span class="section-num">5.5</span> <a href="#h:424ea8dc-5e15-4660-be04-855440d1184e" rel="">Operators</a></li>
+<li><span class="section-num">5.6</span> <a href="#h:ea91d67f-7e9d-4ff3-8c27-62cc34336120" rel="">Memory Management</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3372-pedreira.pdf</p>
+<h2 id="h:2feba2b4-8c5e-43d1-a350-894f13c55f6d"><span class="section-num">1</span> ABSTRACT</h2>
+<p>Velox:</p>
+<ul>
+<li>
+<p>C++ database acceleration library</p>
+</li>
+<li>
+<p>用来：</p>
+<ul>
+<li>构建执行引擎
+<ul>
+<li>应对复杂数据类型</li>
+</ul>
+</li>
+<li>增强数据管理系统 (enhance data management system)</li>
+</ul>
+</li>
+<li>
+<p>倚赖：</p>]]></description></item><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/2022/05/p3548-yan/</link><pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/05/p3548-yan/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf</p>
+<h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"><span class="section-num">1</span> ABSTRACT</h2>
+<p>下一代向量数据库应该有的特性：</p>
+<ul>
+<li>可长期演进</li>
+<li>tunable consistency</li>
+<li>good elasticity</li>
+<li>high performance</li>
+</ul>
+<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item></channel></rss>

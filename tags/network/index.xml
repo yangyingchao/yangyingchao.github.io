@@ -57,23 +57,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://nmap.org/book/scan-methods.html" target="_blank" rel="noopener noreffer ">https://nmap.org/book/scan-methods.html</a></p>]]></description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/1/01/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/gpdb-configuring-your-systems/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel="">IP Fragmentation Settings</a></li>
-<li><span class="section-num">2</span> <a href="#h:8109178d-d6f2-4bf1-9213-38024fbf79b1" rel="">Networking</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
-<h2 id="h:3127b791-8437-4d53-bf04-17e651151969"><span class="section-num">1</span> <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer ">IP Fragmentation Settings</a></h2>
-<p>IP Fragmentation Settings</p>
-<p>When the Greenplum Database interconnect uses UDP (the default), the network interface
-card controls IP packet fragmentation and reassemblies.</p>
-<p>If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
-a network, the IP layer fragments the message. (Refer to Networking later in this topic
-for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.</p>]]></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/1/01/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://nmap.org/book/scan-methods.html" target="_blank" rel="noopener noreffer ">https://nmap.org/book/scan-methods.html</a></p>]]></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/2022/10/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel="">使用高速硬件，降低节点间的延迟</a></li>
@@ -82,7 +66,7 @@ fragments in a buffer before it can reorganize and reassemble the message.</p>]]
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Stream Control Transmission Protocol (SCTP)</title><link>https://yangyingchao.github.io/1/01/sctp/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/sctp/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Stream Control Transmission Protocol (SCTP)</title><link>https://yangyingchao.github.io/2022/06/sctp/</link><pubDate>Wed, 01 Jun 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/06/sctp/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:2815bca8-e6bb-4b22-93b8-52266d83331a" rel="">SCTP Associations</a></li>
@@ -103,4 +87,20 @@ fragments in a buffer before it can reorganize and reassemble the message.</p>]]
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/article/9749" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/article/9749</a></p>
 <h2 id="h:2815bca8-e6bb-4b22-93b8-52266d83331a"><span class="section-num">1</span> SCTP Associations</h2>
-<p>SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有不同：</p>]]></description></item></channel></rss>
+<p>SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有不同：</p>]]></description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/2022/05/gpdb-configuring-your-systems/</link><pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/05/gpdb-configuring-your-systems/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel="">IP Fragmentation Settings</a></li>
+<li><span class="section-num">2</span> <a href="#h:8109178d-d6f2-4bf1-9213-38024fbf79b1" rel="">Networking</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
+<h2 id="h:3127b791-8437-4d53-bf04-17e651151969"><span class="section-num">1</span> <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer ">IP Fragmentation Settings</a></h2>
+<p>IP Fragmentation Settings</p>
+<p>When the Greenplum Database interconnect uses UDP (the default), the network interface
+card controls IP packet fragmentation and reassemblies.</p>
+<p>If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
+a network, the IP layer fragments the message. (Refer to Networking later in this topic
+for more information about MTU sizes for Greenplum Database.) The receiver must store the
+fragments in a buffer before it can reorganize and reassemble the message.</p>]]></description></item></channel></rss>

@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Filter - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Filter - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/filter/" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/1/01/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Filter - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/filter/</link><description>Filter - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sat, 01 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/filter/" rel="self" type="application/rss+xml"/><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/2022/10/p1714-kossmann/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT</a></li>
@@ -33,7 +33,40 @@
 <ul>
 <li>查询处理</li>
 </ul>
-<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/1/01/prefix-filter-better-than-bloom/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/prefix-filter-better-than-bloom/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/2022/10/p1632-vaidya/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/10/p1632-vaidya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:4d4ce086-8979-4ce0-8e14-e0771827e7ad" rel="">INTRODUCTION</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:06c300b0-ac2c-4743-a09c-abb6ee673074" rel="">Range Filters</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:9ad4603f-9ca9-4dd4-a11b-086b2d5967fb" rel="">SNARF: A LEARNED FILTER</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:1952086c-7e65-4eee-b93d-38bb90429836" rel="">SNARF Description</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1632-vaidya.pdf</p>
+<h2 id="h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d"><span class="section-num">1</span> ABSTRACT</h2>
+<ul>
+<li>
+<p><strong>SNARF</strong>: Sparse Numerical Array-Based Range Filters
+基于稀疏数组的范围过滤器</p>
+</li>
+<li>
+<p>用于数值类型的范围过滤</p>
+</li>
+</ul>
+<h2 id="h:4d4ce086-8979-4ce0-8e14-e0771827e7ad"><span class="section-num">2</span> INTRODUCTION</h2>
+<ul>
+<li>Filters
+<ul>
+<li>
+<p>are space efficient but appropriate</p>]]></description></item><item><title>Prefix Filter: Better Than Bloom</title><link>https://yangyingchao.github.io/2022/05/prefix-filter-better-than-bloom/</link><pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2022/05/prefix-filter-better-than-bloom/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:1786f904-c305-4cb3-9883-b0040924d2b1" rel="">Abstract</a></li>
@@ -70,37 +103,4 @@
 </li>
 </ul>
 </li>
-</ul>]]></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/1/01/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1632-vaidya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel="">ABSTRACT</a></li>
-<li><span class="section-num">2</span> <a href="#h:4d4ce086-8979-4ce0-8e14-e0771827e7ad" rel="">INTRODUCTION</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#h:06c300b0-ac2c-4743-a09c-abb6ee673074" rel="">Range Filters</a></li>
-</ul>
-</li>
-<li><span class="section-num">3</span> <a href="#h:9ad4603f-9ca9-4dd4-a11b-086b2d5967fb" rel="">SNARF: A LEARNED FILTER</a>
-<ul>
-<li><span class="section-num">3.1</span> <a href="#h:1952086c-7e65-4eee-b93d-38bb90429836" rel="">SNARF Description</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1632-vaidya.pdf</p>
-<h2 id="h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d"><span class="section-num">1</span> ABSTRACT</h2>
-<ul>
-<li>
-<p><strong>SNARF</strong>: Sparse Numerical Array-Based Range Filters
-基于稀疏数组的范围过滤器</p>
-</li>
-<li>
-<p>用于数值类型的范围过滤</p>
-</li>
-</ul>
-<h2 id="h:4d4ce086-8979-4ce0-8e14-e0771827e7ad"><span class="section-num">2</span> INTRODUCTION</h2>
-<ul>
-<li>Filters
-<ul>
-<li>
-<p>are space efficient but appropriate</p>]]></description></item></channel></rss>
+</ul>]]></description></item></channel></rss>

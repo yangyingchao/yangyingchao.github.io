@@ -12,7 +12,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/6/willhalm-vldb2009.pdf</p>
-<p>现代服务器上的巨大系统内存可用性引起了对主内存数据库引擎的热情。数据仓库系统中，高度压缩的列式数据结构很突出。</p>]]></description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/1/01/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>现代服务器上的巨大系统内存可用性引起了对主内存数据库引擎的热情。数据仓库系统中，高度压缩的列式数据结构很突出。</p>]]></description></item><item><title>Towards a New File Format for Big Data - SIMD-Friendly Composable Compression</title><link>https://yangyingchao.github.io/2023/06/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</link><pubDate>Thu, 01 Jun 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/06/towards-a-new-file-format-for-big-data-simd-friendly-composable-compression-2020-azimafroozeh/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:580c0cb0-61f9-4a43-ac02-4fad348cc20a" rel="">Introduction</a></li>
