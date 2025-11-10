@@ -1,0 +1,144 @@
+<!doctype html><html lang=zh-CH><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>C4 & Plantuml - 杂货铺</title><meta name=Description content="杂七杂八的，随手记录。"><meta property="og:url" content="https://yangyingchao.github.io/2025/02/c4-model/"><meta property="og:site_name" content="杂货铺"><meta property="og:title" content="C4 & Plantuml"><meta property="og:description" content='Table of Contents 1 Stop drawing, Start coding 2 Threat modeling and beyond 3 REFERENCE: 本文为摘录(或转载)，侵删，原文为： https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024
+这个图解释了它为什么叫 C4:
+Figure 1: C4
+1 Stop drawing, Start coding 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 @startuml !include <C4/C4_Container.puml> Person(person1, "Person 1","") System(system1, System 1, "Description System 1") System_Boundary(bounday1, "Cloud Boundary 1") { Container(container1, Container 1, "Description Container 1") ContainerDb(database1, Database 1, "Description Database 1") } Rel(person1, container1, Uses, "HTTPS Request with JWT token") Rel(container1, system1, Uses, "Request to external API with Access Token") Rel(container1, database1, "Queries", "Data information per user identifier") @enduml'><meta property="og:locale" content="zh_CH"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-02-14T00:00:00+00:00"><meta property="article:modified_time" content="2025-02-14T00:00:00+00:00"><meta property="og:image" content="https://yangyingchao.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://yangyingchao.github.io/logo.png"><meta name=twitter:title content="C4 & Plantuml"><meta name=twitter:description content='Table of Contents 1 Stop drawing, Start coding 2 Threat modeling and beyond 3 REFERENCE: 本文为摘录(或转载)，侵删，原文为： https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024
+这个图解释了它为什么叫 C4:
+Figure 1: C4
+1 Stop drawing, Start coding 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 @startuml !include <C4/C4_Container.puml> Person(person1, "Person 1","") System(system1, System 1, "Description System 1") System_Boundary(bounday1, "Cloud Boundary 1") { Container(container1, Container 1, "Description Container 1") ContainerDb(database1, Database 1, "Description Database 1") } Rel(person1, container1, Uses, "HTTPS Request with JWT token") Rel(container1, system1, Uses, "Request to external API with Access Token") Rel(container1, database1, "Queries", "Data information per user identifier") @enduml'><meta name=application-name content="杂货铺"><meta name=apple-mobile-web-app-title content="杂货铺"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://yangyingchao.github.io/2025/02/c4-model/><link rel=prev href=https://yangyingchao.github.io/2025/02/%E7%AC%94%E8%AE%B0%E4%BC%A0%E4%B9%A0%E5%BD%95%E4%B8%AD%E5%8D%8E%E7%BB%8F%E5%85%B8%E5%90%8D%E8%91%97%E5%85%A8%E6%9C%AC%E5%85%A8%E6%B3%A8%E5%85%A8%E8%AF%91-%E4%B8%89%E5%85%A8%E6%9C%AC-%E7%8E%8B%E9%98%B3%E6%98%8E%E9%99%86%E6%B0%B8%E8%83%9C/><link rel=next href=https://yangyingchao.github.io/2025/02/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"C4 \u0026 Plantuml","inLanguage":"zh-CH","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/yangyingchao.github.io\/2025\/02\/c4-model\/"},"image":["https:\/\/yangyingchao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","wordcount":601,"url":"https:\/\/yangyingchao.github.io\/2025\/02\/c4-model\/","datePublished":"2025-02-14T00:00:00+00:00","dateModified":"2025-02-14T00:00:00+00:00","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/yangyingchao.github.io\/images\/avatar.jpg","width":160,"height":160}},"author":{"@type":"Person","name":"yc"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">C4 & Plantuml</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>yc</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2025-02-14>2025-02-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 601 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 2 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#stop-drawing-start-coding><span class=section-num>1</span> Stop drawing, Start coding</a></li><li><a href=#threat-modeling-and-beyond><span class=section-num>2</span> Threat modeling and beyond</a></li><li><a href=#reference><span class=section-num>3</span> REFERENCE:</a></li></ul></nav></div></div><div class=content id=content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#stop-drawing-start-coding rel>Stop drawing, Start coding</a></li><li><span class=section-num>2</span> <a href=#threat-modeling-and-beyond rel>Threat modeling and beyond</a></li><li><span class=section-num>3</span> <a href=#reference rel>REFERENCE:</a></li></ul></div><p>本文为摘录(或转载)，侵删，原文为： <a href=https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024 target=_blank rel="noopener noreffer">https://medium.com/flat-pack-tech/threat-modeling-as-code-f3555f5d9024</a></p><p>这个图解释了它为什么叫 C4:</p><p><a id=figure--fig:images-C4></a></p><figure><img src=/ox-hugo/C4.png alt="Figure 1: C4" width=800px><figcaption><p><span class=figure-number>Figure 1: </span>C4</p></figcaption></figure><h2 id=stop-drawing-start-coding><span class=section-num>1</span> Stop drawing, Start coding</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@startuml
+</span></span><span class=line><span class=cl>!include &lt;C4/C4_Container.puml&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Person(person1, &#34;Person 1&#34;,&#34;&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>System(system1, System 1, &#34;Description System 1&#34;)
+</span></span><span class=line><span class=cl>System_Boundary(bounday1, &#34;Cloud Boundary 1&#34;) {
+</span></span><span class=line><span class=cl>    Container(container1, Container 1, &#34;Description Container 1&#34;)
+</span></span><span class=line><span class=cl>    ContainerDb(database1, Database 1, &#34;Description Database 1&#34;)
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Rel(person1, container1, Uses, &#34;HTTPS Request with JWT token&#34;)
+</span></span><span class=line><span class=cl>Rel(container1, system1, Uses, &#34;Request to external API with Access Token&#34;)
+</span></span><span class=line><span class=cl>Rel(container1, database1, &#34;Queries&#34;, &#34;Data information per user identifier&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>@enduml
+</span></span></code></pre></td></tr></table></div></div><p><a id=figure--fig:simple-c4></a></p><figure><img src=/ox-hugo/simple-c4-b67-716b3fe4.png alt="Figure 2: simple c4"><figcaption><p><span class=figure-number>Figure 2: </span>simple c4</p></figcaption></figure><p>In this example, we have used C4 Container level with the following entities:</p><ul><li>Person: Developers, end-users or attackers.</li><li>System: External platforms.</li><li>System Boundary: Cloud environments.</li><li>Container: Our backend/frontend application.</li><li>ContainerDb: Databases.</li></ul><h2 id=threat-modeling-and-beyond><span class=section-num>2</span> Threat modeling and beyond</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@startuml
+</span></span><span class=line><span class=cl>!include &lt;C4/C4_Container.puml&gt;
+</span></span><span class=line><span class=cl>!include iuml_files/stride.puml
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Person(person1, &#34;Person 1&#34;,&#34;&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>System(system1, System 1, &#34;Description System 1&#34;)
+</span></span><span class=line><span class=cl>System_Boundary(bounday1, &#34;Cloud Boundary 1&#34;) {
+</span></span><span class=line><span class=cl>        Container(container1, Container 1, &#34;Description Container 1&#34;)
+</span></span><span class=line><span class=cl>        ContainerDb(database1, $Stride(&#34;RI&#34;)\n===Database 1, &#34;Description Database 1&#34;)
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        Rel(person1, container1, $AggregatedRisk(&#34;R1&#34;) Uses, &#34;HTTPS Request with JWT token&#34;)
+</span></span><span class=line><span class=cl>        Rel(container1, system1, $AggregatedRisk(&#34;R2&#34;) Uses, &#34;Request to external API with Access Token&#34;)
+</span></span><span class=line><span class=cl>        Rel(container1, database1, &#34;Queries&#34;, &#34;Data information per user identifier&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        $RiskTable() [
+</span></span><span class=line><span class=cl>        === Aggregated Risks
+</span></span><span class=line><span class=cl>        ----
+</span></span><span class=line><span class=cl>        $AggregatedRisk(&#34;R1&#34;) Details of aggregated risk number 1.
+</span></span><span class=line><span class=cl>        ----
+</span></span><span class=line><span class=cl>        $AggregatedRisk(&#34;R2&#34;) Details of aggregated risk number 2
+</span></span><span class=line><span class=cl>        ]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> @enduml
+</span></span></code></pre></td></tr></table></div></div><p><a id=figure--fig:stride-model></a></p><figure><img src=/ox-hugo/stride-model-0ef-716b3fe4.png alt="Figure 3: stride model" width=800px><figcaption><p><span class=figure-number>Figure 3: </span>stride model</p></figcaption></figure><p>通过这种方法，我们正在将信任边界从经典的威胁建模扩展到任何类型的系统表示。然而，我们并没有提供一种清晰的方法来表示模型中每个组件的信任和价值，因此我们需要创建一个信任:价值比率。</p><ul><li><p><strong>信任</strong> 是一个信心、完整性和可用性的评分模式，范围从 1 到 5，但下限和上限可以由您定义。例如，外围可能是 1，DMZ 也许是 3，而后端服务是 5。</p></li><li><p><strong>价值</strong> 表示一种确定敏感数据在存储、转发和处理方面重要性的方法。 您的评分模式的边界应与信任比率中的边界相同。</p></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@startuml
+</span></span><span class=line><span class=cl>!include &lt;C4/C4_Container.puml&gt;
+</span></span><span class=line><span class=cl>!include iuml_files/stride.puml
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Person(person1, &#34;Person 1&#34;,&#34;&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>System(system1, &lt;size:5&gt;$TrustValueRatio(&#34;1:3&#34;)\n===System 1, &#34;Description System 1&#34;)
+</span></span><span class=line><span class=cl>System_Boundary(bounday1, &#34;Cloud Boundary 1&#34;) {
+</span></span><span class=line><span class=cl>    Container(container1, &lt;size:5&gt;$TrustValueRatio(&#34;2:5&#34;)\n===Container 1, &#34;Description Container 1&#34;)
+</span></span><span class=line><span class=cl>    ContainerDb(database1, &lt;size:5&gt;$TrustValueRatio(&#34;2:5&#34;)\n$Stride(&#34;RI&#34;)\n===Database 1, &#34;Description Database 1&#34;)
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Rel(person1, container1, $AggregatedRisk(&#34;R1&#34;) Uses, &#34;HTTPS Request with JWT token&#34;)
+</span></span><span class=line><span class=cl>Rel(container1, system1, $AggregatedRisk(&#34;R2&#34;) Uses, &#34;Request to external API with Access Token&#34;)
+</span></span><span class=line><span class=cl>Rel(container1, database1, &#34;Queries&#34;, &#34;Data information per user identifier&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$RiskTable() [
+</span></span><span class=line><span class=cl>=== Aggregated Risks
+</span></span><span class=line><span class=cl>----
+</span></span><span class=line><span class=cl>$AggregatedRisk(&#34;R1&#34;) Details of aggregated risk number 1.
+</span></span><span class=line><span class=cl>----
+</span></span><span class=line><span class=cl>$AggregatedRisk(&#34;R2&#34;) Details of aggregated risk number 2
+</span></span><span class=line><span class=cl>]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>@enduml
+</span></span></code></pre></td></tr></table></div></div><p><a id=figure--fig:stride-with-trust-value></a></p><figure><img src=/ox-hugo/stride-with-trust-value-144-716b3fe4.png alt="Figure 4: stride-with-trust-value" width=500px><figcaption><p><span class=figure-number>Figure 4: </span>stride-with-trust-value</p></figcaption></figure><h2 id=reference><span class=section-num>3</span> REFERENCE:</h2><ul><li><a href=https://www.oreilly.com/library/view/threat-modeling/9781492056546/ch04.html target=_blank rel="noopener noreffer">https://www.oreilly.com/library/view/threat-modeling/9781492056546/ch04.html</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2025-02-14</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2025/02/%E7%AC%94%E8%AE%B0%E4%BC%A0%E4%B9%A0%E5%BD%95%E4%B8%AD%E5%8D%8E%E7%BB%8F%E5%85%B8%E5%90%8D%E8%91%97%E5%85%A8%E6%9C%AC%E5%85%A8%E6%B3%A8%E5%85%A8%E8%AF%91-%E4%B8%89%E5%85%A8%E6%9C%AC-%E7%8E%8B%E9%98%B3%E6%98%8E%E9%99%86%E6%B0%B8%E8%83%9C/ class=prev rel=prev title=[笔记]传习录（中华经典名著全本全注全译/三全本）-王阳明;陆永胜><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>[笔记]传习录（中华经典名著全本全注全译/三全本）-王阳明;陆永胜</a>
+<a href=/2025/02/%E7%94%A8-pandoc-%E4%BB%8E-org-%E7%94%9F%E6%88%90-docx/ class=next rel=next title="用 pandoc 从 org 生成 docx">用 pandoc 从 org 生成 docx<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

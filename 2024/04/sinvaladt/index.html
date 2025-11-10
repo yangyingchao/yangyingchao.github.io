@@ -1,0 +1,280 @@
+<!doctype html><html lang=zh-CH><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>shared cache invalidation - 杂货铺</title><meta name=Description content="杂七杂八的，随手记录。"><meta property="og:url" content="https://yangyingchao.github.io/2024/04/sinvaladt/"><meta property="og:site_name" content="杂货铺"><meta property="og:title" content="shared cache invalidation"><meta property="og:description" content="Table of Contents 1 prelog 2 Configurable parameters 3 SICleanupQueue 3.1 重置后的处理 3.2 信号的处理 本文为摘录(或转载)，侵删，原文为： https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c
+1 prelog 共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息， minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum >= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有 maxMsgNum >= nextMsgNum >= minMsgNum。"><meta property="og:locale" content="zh_CH"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-04-25T00:00:00+00:00"><meta property="article:modified_time" content="2024-04-25T00:00:00+00:00"><meta property="article:tag" content="Pg"><meta property="article:tag" content="Cache"><meta property="article:tag" content="Inval"><meta property="article:tag" content="Msg"><meta property="og:image" content="https://yangyingchao.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://yangyingchao.github.io/logo.png"><meta name=twitter:title content="shared cache invalidation"><meta name=twitter:description content="Table of Contents 1 prelog 2 Configurable parameters 3 SICleanupQueue 3.1 重置后的处理 3.2 信号的处理 本文为摘录(或转载)，侵删，原文为： https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c
+1 prelog 共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息， minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum >= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有 maxMsgNum >= nextMsgNum >= minMsgNum。"><meta name=application-name content="杂货铺"><meta name=apple-mobile-web-app-title content="杂货铺"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://yangyingchao.github.io/2024/04/sinvaladt/><link rel=prev href=https://yangyingchao.github.io/2024/04/%E8%A7%A3%E5%86%B3calibre%E5%AF%BC%E5%85%A5%E4%B9%A6%E7%B1%8D%E5%92%8C%E4%BC%A0%E8%BE%93%E4%B9%A6%E7%B1%8D%E4%B8%8D%E6%98%AF%E4%B8%AD%E6%96%87%E5%90%8D%E7%A7%B0%E9%97%AE%E9%A2%98/><link rel=next href=https://yangyingchao.github.io/2024/05/stackoverflow.com_33655700_github-api-fetch-issues-with-exceeds-rate-limit-prematurely/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"shared cache invalidation","inLanguage":"zh-CH","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/yangyingchao.github.io\/2024\/04\/sinvaladt\/"},"image":["https:\/\/yangyingchao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"pg, cache, inval, msg","wordcount":2288,"url":"https:\/\/yangyingchao.github.io\/2024\/04\/sinvaladt\/","datePublished":"2024-04-25T00:00:00+00:00","dateModified":"2024-04-25T00:00:00+00:00","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/yangyingchao.github.io\/images\/avatar.jpg","width":160,"height":160}},"author":{"@type":"Person","name":"yc"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">shared cache invalidation</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>yc</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024-04-25>2024-04-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2288 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#prelog><span class=section-num>1</span> prelog</a></li><li><a href=#configurable-parameters><span class=section-num>2</span> Configurable parameters</a></li><li><a href=#sicleanupqueue><span class=section-num>3</span> SICleanupQueue</a><ul><li><a href=#重置后的处理><span class=section-num>3.1</span> 重置后的处理</a></li><li><a href=#信号的处理><span class=section-num>3.2</span> 信号的处理</a></li></ul></li></ul></nav></div></div><div class=content id=content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#prelog rel>prelog</a></li><li><span class=section-num>2</span> <a href=#configurable-parameters rel>Configurable parameters</a></li><li><span class=section-num>3</span> <a href=#sicleanupqueue rel>SICleanupQueue</a><ul><li><span class=section-num>3.1</span> <a href=#%e9%87%8d%e7%bd%ae%e5%90%8e%e7%9a%84%e5%a4%84%e7%90%86 rel>重置后的处理</a></li><li><span class=section-num>3.2</span> <a href=#%e4%bf%a1%e5%8f%b7%e7%9a%84%e5%a4%84%e7%90%86 rel>信号的处理</a></li></ul></li></ul></div><p>本文为摘录(或转载)，侵删，原文为： <a href=https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c target=_blank rel="noopener noreffer">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/sinval.c</a></p><h2 id=prelog><span class=section-num>1</span> prelog</h2><p>共享缓存失效消息在一个无限数组中存储，maxMsgNum 是下一个数组下标来存储提交的消息，
+minMsgNum 是最小的数组下标，包含尚未被所有后端读取的消息，始终满足 maxMsgNum >= minMsgNum。每个活跃后端都有一个 nextMsgNum 指针，指示下一个需要读取的消息；对每个后端都有
+maxMsgNum >= nextMsgNum >= minMsgNum。</p><p>消息实际上存储在一个 MAXNUMMESSAGES 条目的循环缓冲区中。我们将 MsgNum 值转换为循环缓冲区索引，通过计算 MsgNum % MAXNUMMESSAGES。只要 maxMsgNum 不比 minMsgNum 多出超过
+MAXNUMMESSAGES，缓冲区就足够大。如果缓冲区溢出，我们通过为每个已经太落后的后端设置
+&ldquo;reset&rdquo; 标志来恢复。</p><p>为降低需要重置的概率，我们向任何看起来严重滞后的后端发送“catchup” 中断。当一个后端完成处理 catchup 中断后，它执行 SICleanupQueue，这将在需要时向滞后最远的后端发送信号。这避免了多个后端同时尝试赶上导致的不必要争用。然而，最落后的后端可能被困在无法赶上的状态。最终，它会被重置，因此不会再给其他任何人带来问题。</p><p>对共享 sinval 数组访问受两个锁的保护，SInvalReadLock 和 SInvalWriteLock。读者以共享模式获取 SInvalReadLock；这允许它们修改自己的 ProcState，但不能修改或查看其他读者的。写者总是以独占模式获取 SInvalWriteLock，以串行化向列队添加消息。最多一个这样的中断正在飞行，当一个后端完成处理 catchup 中断后，它执行 SICleanupQueue，如果需要，则将信号传递给下一个最落后的后端。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl>  <span class=cm>/* 共享失效结构状态， 存在于每个后端中 */</span>
+</span></span><span class=line><span class=cl>  <span class=k>typedef</span> <span class=k>struct</span> <span class=n>ProcState</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=cm>/* 如果 ProcState 数组条目处于非活动状态，procPid 为零。 */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>pid_t</span>		<span class=n>procPid</span><span class=p>;</span>		<span class=c1>// 后端的 PID，用于信号传递 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=cm>/* 如果 procPid == 0 或 resetState 为真，则 nextMsgNum 没有意义。 */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>int</span>			<span class=n>nextMsgNum</span><span class=p>;</span>		<span class=cm>/* 下一个要读取的消息号 */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>bool</span>		<span class=n>resetState</span><span class=p>;</span>		<span class=cm>/* 后端需要重置其状态 */</span>
+</span></span><span class=line><span class=cl>      <span class=kt>bool</span>		<span class=n>signaled</span><span class=p>;</span>		<span class=c1>// 后端已发送“追赶”信号 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>      <span class=kt>bool</span>		<span class=n>hasMessages</span><span class=p>;</span>	<span class=c1>// 后端有未读消息 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>      <span class=cm>/*  */</span>
+</span></span><span class=line><span class=cl>       <span class=o>*</span> <span class=err>后端只发送失效信息，不接收失效信息。只有在恢复期间的启动进程才有意义，</span>
+</span></span><span class=line><span class=cl>       <span class=o>*</span> <span class=err>因为它不维护</span> <span class=n>relcache</span><span class=err>，但会发送失效消息以让查询后端看到模式更改。</span>
+</span></span><span class=line><span class=cl>       <span class=err>*/</span>
+</span></span><span class=line><span class=cl>      <span class=kt>bool</span>		<span class=n>sendOnly</span><span class=p>;</span>		<span class=c1>// 后端只发送，不接收 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>      <span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>       * 每个空闲后端槽使用的下一个LocalTransactionId。 我们将其保存在这里是因为它由ProcNumber索引，
+</span></span></span><span class=line><span class=cl><span class=cm>       * 并且在设置MyProcNumber时将值从本地内存复制到其中非常方便。在活动ProcState条目中没有意义。
+</span></span></span><span class=line><span class=cl><span class=cm>       */</span>
+</span></span><span class=line><span class=cl>      <span class=n>LocalTransactionId</span> <span class=n>nextLXID</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=n>ProcState</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/* 共享缓存失效内存段, 存在于共享内存中 */</span>
+</span></span><span class=line><span class=cl><span class=k>typedef</span> <span class=k>struct</span> <span class=n>SISeg</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* 通用状态信息   */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span>         <span class=n>minMsgNum</span><span class=p>;</span>        <span class=cm>/* 最早仍然需要的消息 */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span>         <span class=n>maxMsgNum</span><span class=p>;</span>        <span class=c1>// 下一个要分配的消息数字 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kt>int</span>         <span class=n>nextThreshold</span><span class=p>;</span>    <span class=cm>/* 调用 SICleanupQueue 的消息数量 */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>slock_t</span>     <span class=n>msgnumLock</span><span class=p>;</span>       <span class=c1>// 保护 maxMsgNum 的自旋锁 */
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* 保存共享失效消息的循环缓冲区    */</span>
+</span></span><span class=line><span class=cl>    <span class=n>SharedInvalidationMessage</span> <span class=n>buffer</span><span class=p>[</span><span class=n>MAXNUMMESSAGES</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>     * 每个后端失效状态信息
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * &#39;procState&#39; 有 NumProcStateSlots 个条目，并且由 pgprocno 进行索引。
+</span></span></span><span class=line><span class=cl><span class=cm>     * &#39;numProcs&#39; 是当前使用的插槽数，&#39;pgprocnos&#39; 是它们索引的稠密数组，以加快扫描所有正在使用的插槽的速度。
+</span></span></span><span class=line><span class=cl><span class=cm>     *
+</span></span></span><span class=line><span class=cl><span class=cm>     * &#39;pgprocnos&#39; 在很大程度上与 ProcArrayStruct-&gt;pgprocnos 重复，但有了我们单独的副本，避免了
+</span></span></span><span class=line><span class=cl><span class=cm>     * ProcArrayLock 上的争用，并允许我们仅跟踪参与共享缓存失效的进程。
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span>         <span class=n>numProcs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span>         <span class=o>*</span><span class=n>pgprocnos</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>ProcState</span>   <span class=n>procState</span><span class=p>[</span><span class=n>FLEXIBLE_ARRAY_MEMBER</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>SISeg</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=configurable-parameters><span class=section-num>2</span> Configurable parameters</h2><ul><li><p><code>MAXNUMMESSAGES</code><br>我们可以缓冲的共享失效消息的最大数量。为了提高速度，必须是 2 的幂次方。</p></li><li><p><code>MSGNUMWRAPAROUND</code><br>多久将 MsgNum 变量减小一次以避免溢出。必须是 MAXNUMMESSAGES 的倍数。应该足够大。</p></li><li><p><code>CLEANUP_MIN</code><br>在我们打扰调用 SICleanupQueue 之前必须在缓冲区中存在的消息的最小数目。</p></li><li><p><code>CLEANUP_QUANTUM</code><br>一旦超过 <code>CLEANUP_MIN</code> ，调用 SICleanupQueue 的频率（以消息数计）。为了提高速度，应为 2 的幂次方。</p></li><li><p><code>SIG_THRESHOLD</code><br>后端必须落后多少个消息才会发送 <code>PROCSIG_CATCHUP_INTERRUPT</code> 的最小消息数量。</p></li><li><p><code>WRITE_QUANTUM</code><br>在 SIInsertDataEntries 的每次迭代中将推送到缓冲区的最大消息数。非关键，但应该小于 <code>CLEANUP_QUANTUM</code> ，因为我们每次迭代只考虑调用 SICleanupQueue 一次。</p></li></ul><h2 id=sicleanupqueue><span class=section-num>3</span> SICleanupQueue</h2><p>删除已被所有活跃后端进程消费的消息</p><p>如果调用者持有 SInvalWriteLock，则 callerHasWriteLock 为 true。
+minFree 是要释放的最小消息槽数量。</p><ul><li>落后太多的会被重置 (<code>stateP->resetState = true</code>)</li><li>严重落后但不至于重置的，会被发送信号 <code>PROCSIG_CATCHUP_INTERRUPT</code><br>一次最多对一个后端进行信号处理。</li></ul><p>注意：由于我们在信号其他后端进程时瞬时释放写锁，退出时不保证仍有 minFree 个空闲消息槽。调用者必须重新检查并可能重试。</p><h3 id=重置后的处理><span class=section-num>3.1</span> 重置后的处理</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt id=org-coderef--cd71af-1><a class=lnlinks href=#org-coderef--cd71af-1> 1</a>
+</span><span class=lnt id=org-coderef--cd71af-2><a class=lnlinks href=#org-coderef--cd71af-2> 2</a>
+</span><span class=lnt id=org-coderef--cd71af-3><a class=lnlinks href=#org-coderef--cd71af-3> 3</a>
+</span><span class=lnt id=org-coderef--cd71af-4><a class=lnlinks href=#org-coderef--cd71af-4> 4</a>
+</span><span class=lnt id=org-coderef--cd71af-5><a class=lnlinks href=#org-coderef--cd71af-5> 5</a>
+</span><span class=lnt id=org-coderef--cd71af-6><a class=lnlinks href=#org-coderef--cd71af-6> 6</a>
+</span><span class=lnt id=org-coderef--cd71af-7><a class=lnlinks href=#org-coderef--cd71af-7> 7</a>
+</span><span class=lnt id=org-coderef--cd71af-8><a class=lnlinks href=#org-coderef--cd71af-8> 8</a>
+</span><span class=lnt id=org-coderef--cd71af-9><a class=lnlinks href=#org-coderef--cd71af-9> 9</a>
+</span><span class=lnt id=org-coderef--cd71af-10><a class=lnlinks href=#org-coderef--cd71af-10>10</a>
+</span><span class=lnt id=org-coderef--cd71af-11><a class=lnlinks href=#org-coderef--cd71af-11>11</a>
+</span><span class=lnt id=org-coderef--cd71af-12><a class=lnlinks href=#org-coderef--cd71af-12>12</a>
+</span><span class=lnt id=org-coderef--cd71af-13><a class=lnlinks href=#org-coderef--cd71af-13>13</a>
+</span><span class=lnt id=org-coderef--cd71af-14><a class=lnlinks href=#org-coderef--cd71af-14>14</a>
+</span><span class=lnt id=org-coderef--cd71af-15><a class=lnlinks href=#org-coderef--cd71af-15>15</a>
+</span><span class=lnt id=org-coderef--cd71af-16><a class=lnlinks href=#org-coderef--cd71af-16>16</a>
+</span><span class=lnt id=org-coderef--cd71af-17><a class=lnlinks href=#org-coderef--cd71af-17>17</a>
+</span><span class=lnt id=org-coderef--cd71af-18><a class=lnlinks href=#org-coderef--cd71af-18>18</a>
+</span><span class=lnt id=org-coderef--cd71af-19><a class=lnlinks href=#org-coderef--cd71af-19>19</a>
+</span><span class=lnt id=org-coderef--cd71af-20><a class=lnlinks href=#org-coderef--cd71af-20>20</a>
+</span><span class=lnt id=org-coderef--cd71af-21><a class=lnlinks href=#org-coderef--cd71af-21>21</a>
+</span><span class=lnt id=org-coderef--cd71af-22><a class=lnlinks href=#org-coderef--cd71af-22>22</a>
+</span><span class=lnt id=org-coderef--cd71af-23><a class=lnlinks href=#org-coderef--cd71af-23>23</a>
+</span><span class=lnt id=org-coderef--cd71af-24><a class=lnlinks href=#org-coderef--cd71af-24>24</a>
+</span><span class=lnt id=org-coderef--cd71af-25><a class=lnlinks href=#org-coderef--cd71af-25>25</a>
+</span><span class=lnt id=org-coderef--cd71af-26><a class=lnlinks href=#org-coderef--cd71af-26>26</a>
+</span><span class=lnt id=org-coderef--cd71af-27><a class=lnlinks href=#org-coderef--cd71af-27>27</a>
+</span><span class=lnt id=org-coderef--cd71af-28><a class=lnlinks href=#org-coderef--cd71af-28>28</a>
+</span><span class=lnt id=org-coderef--cd71af-29><a class=lnlinks href=#org-coderef--cd71af-29>29</a>
+</span><span class=lnt id=org-coderef--cd71af-30><a class=lnlinks href=#org-coderef--cd71af-30>30</a>
+</span><span class=lnt id=org-coderef--cd71af-31><a class=lnlinks href=#org-coderef--cd71af-31>31</a>
+</span><span class=lnt id=org-coderef--cd71af-32><a class=lnlinks href=#org-coderef--cd71af-32>32</a>
+</span><span class=lnt id=org-coderef--cd71af-33><a class=lnlinks href=#org-coderef--cd71af-33>33</a>
+</span><span class=lnt id=org-coderef--cd71af-34><a class=lnlinks href=#org-coderef--cd71af-34>34</a>
+</span><span class=lnt id=org-coderef--cd71af-35><a class=lnlinks href=#org-coderef--cd71af-35>35</a>
+</span><span class=lnt id=org-coderef--cd71af-36><a class=lnlinks href=#org-coderef--cd71af-36>36</a>
+</span><span class=lnt id=org-coderef--cd71af-37><a class=lnlinks href=#org-coderef--cd71af-37>37</a>
+</span><span class=lnt id=org-coderef--cd71af-38><a class=lnlinks href=#org-coderef--cd71af-38>38</a>
+</span><span class=lnt id=org-coderef--cd71af-39><a class=lnlinks href=#org-coderef--cd71af-39>39</a>
+</span><span class=lnt id=org-coderef--cd71af-40><a class=lnlinks href=#org-coderef--cd71af-40>40</a>
+</span><span class=lnt id=org-coderef--cd71af-41><a class=lnlinks href=#org-coderef--cd71af-41>41</a>
+</span><span class=lnt id=org-coderef--cd71af-42><a class=lnlinks href=#org-coderef--cd71af-42>42</a>
+</span><span class=lnt id=org-coderef--cd71af-43><a class=lnlinks href=#org-coderef--cd71af-43>43</a>
+</span><span class=lnt id=org-coderef--cd71af-44><a class=lnlinks href=#org-coderef--cd71af-44>44</a>
+</span><span class=lnt id=org-coderef--cd71af-45><a class=lnlinks href=#org-coderef--cd71af-45>45</a>
+</span><span class=lnt id=org-coderef--cd71af-46><a class=lnlinks href=#org-coderef--cd71af-46>46</a>
+</span><span class=lnt id=org-coderef--cd71af-47><a class=lnlinks href=#org-coderef--cd71af-47>47</a>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span>
+</span></span><span class=line><span class=cl><span class=nf>AcceptInvalidationMessages</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>ReceiveSharedInvalidMessages</span><span class=p>(</span><span class=n>LocalExecuteInvalidationMessage</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                                 <span class=n>InvalidateSystemCaches</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ... skipped ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span>
+</span></span><span class=line><span class=cl><span class=nf>ReceiveSharedInvalidMessages</span><span class=p>(</span><span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>invalFunction</span><span class=p>)</span> <span class=p>(</span><span class=n>SharedInvalidationMessage</span> <span class=o>*</span><span class=n>msg</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                             <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>resetFunction</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ... skipped ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=n>getResult</span> <span class=o>=</span> <span class=nf>SIGetDataEntries</span><span class=p>(</span><span class=n>messages</span><span class=p>,</span> <span class=n>MAXINVALMSGS</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>getResult</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* got a reset message */</span>
+</span></span><span class=line><span class=cl>        <span class=nf>elog</span><span class=p>(</span><span class=n>DEBUG4</span><span class=p>,</span> <span class=s>&#34;cache state reset&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>SharedInvalidMessageCounter</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nf>resetFunction</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=k>break</span><span class=p>;</span>				<span class=cm>/* nothing more to do */</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ... skipped ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span>
+</span></span><span class=line><span class=cl><span class=nf>SIGetDataEntries</span><span class=p>(</span><span class=n>SharedInvalidationMessage</span> <span class=o>*</span><span class=n>data</span><span class=p>,</span> <span class=kt>int</span> <span class=n>datasize</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// ... skipped ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>stateP</span><span class=o>-&gt;</span><span class=n>resetState</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>         * Force reset.  We can say we have dealt with any messages added
+</span></span></span><span class=line><span class=cl><span class=cm>         * since the reset, as well; and that means we should clear the
+</span></span></span><span class=line><span class=cl><span class=cm>         * signaled flag, too.
+</span></span></span><span class=line><span class=cl><span class=cm>         */</span>
+</span></span><span class=line><span class=cl>        <span class=n>stateP</span><span class=o>-&gt;</span><span class=n>nextMsgNum</span> <span class=o>=</span> <span class=n>max</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>stateP</span><span class=o>-&gt;</span><span class=n>resetState</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>stateP</span><span class=o>-&gt;</span><span class=n>signaled</span> <span class=o>=</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nf>LWLockRelease</span><span class=p>(</span><span class=n>SInvalReadLock</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// ... skipped ...
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>ReceiveSharedInvalidMessages()</code> 中调用 <code>SIGetDataEntries()</code> 来取得未处理的消息</li><li><code>SIGetDataEntries()</code> 发现被重置后，返回 <code>-1</code></li><li><code>ReceiveSharedInvalidMessages()</code> 检查到返回值小于 <code>0</code> ，则调用传入的回调函数
+<code>InvalidateSystemCaches()</code> 来进行清理缓存</li></ul><h3 id=信号的处理><span class=section-num>3.2</span> 信号的处理</h3><p>信号处理最终会调到函数 <code>ProcessCatchupInterrupt()</code> ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * ProcessCatchupInterrupt
+</span></span></span><span class=line><span class=cl><span class=cm> *
+</span></span></span><span class=line><span class=cl><span class=cm> * 处理追赶中断的部分，运行在信号处理程序之外，使其能够实际处理待处理的失效消息。
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span>
+</span></span><span class=line><span class=cl><span class=nf>ProcessCatchupInterrupt</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>catchupInterruptPending</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>         * 在这里我们需要让 ReceiveSharedInvalidMessages() 函数运行，它将进行必要的处理并重置
+</span></span></span><span class=line><span class=cl><span class=cm>         * catchupInterruptPending 标志。如果我们正在事务中，可以直接调用 AcceptInvalidationMessages()
+</span></span></span><span class=line><span class=cl><span class=cm>         * 来执行这个操作。如果不是，在这里启动并立即结束一个事务；AcceptInvalidationMessages() 的调用
+</span></span></span><span class=line><span class=cl><span class=cm>         * 发生在事务启动内部。
+</span></span></span><span class=line><span class=cl><span class=cm>         *
+</span></span></span><span class=line><span class=cl><span class=cm>         * 很诱人地，我们可以尝试只调用 AcceptInvalidationMessages()，而不执行事务启动/停止的其他操作，
+</span></span></span><span class=line><span class=cl><span class=cm>         * 我认为在正常情况下这样做是可行的；但是如果出现错误，我不确定处理会不会很顺利。
+</span></span></span><span class=line><span class=cl><span class=cm>         */</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nf>IsTransactionOrTransactionBlock</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nf>elog</span><span class=p>(</span><span class=n>DEBUG4</span><span class=p>,</span> <span class=s>&#34;ProcessCatchupEvent inside transaction&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nf>AcceptInvalidationMessages</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nf>elog</span><span class=p>(</span><span class=n>DEBUG4</span><span class=p>,</span> <span class=s>&#34;ProcessCatchupEvent outside transaction&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nf>StartTransactionCommand</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=nf>CommitTransactionCommand</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>AcceptInvalidationMessages()</code> 见 <a href=#org-coderef--cd71af-2 rel>2</a> 。</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-04-25</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/pg/>Pg</a>,&nbsp;<a href=/tags/cache/>Cache</a>,&nbsp;<a href=/tags/inval/>Inval</a>,&nbsp;<a href=/tags/msg/>Msg</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/04/%E8%A7%A3%E5%86%B3calibre%E5%AF%BC%E5%85%A5%E4%B9%A6%E7%B1%8D%E5%92%8C%E4%BC%A0%E8%BE%93%E4%B9%A6%E7%B1%8D%E4%B8%8D%E6%98%AF%E4%B8%AD%E6%96%87%E5%90%8D%E7%A7%B0%E9%97%AE%E9%A2%98/ class=prev rel=prev title=解决calibre导入书籍和传输书籍不是中文名称问题><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>解决calibre导入书籍和传输书籍不是中文名称问题</a>
+<a href=/2024/05/stackoverflow.com_33655700_github-api-fetch-issues-with-exceeds-rate-limit-prematurely/ class=next rel=next title="Github API: Fetch issues with exceeds rate limit prematurely">Github API: Fetch issues with exceeds rate limit prematurely<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

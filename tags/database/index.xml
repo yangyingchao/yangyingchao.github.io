@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Database - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/database/</link><description>Database - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 20 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/database/" rel="self" type="application/rss+xml"/><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/configuring-linux-huge-pages-for-postgresql-performance/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Database - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/database/</link><description>Database - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 20 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/database/" rel="self" type="application/rss+xml"/><item><title>Configuring Linux Huge Pages for PostgreSQL Performance</title><link>https://yangyingchao.github.io/2025/10/configuring-linux-huge-pages-for-postgresql-performance/</link><pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/10/configuring-linux-huge-pages-for-postgresql-performance/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#when-to-use-huge-pages-and-why-they-matter-%e4%bd%95%e6%97%b6%e4%bd%bf%e7%94%a8%e5%a4%a7%e9%a1%b5%e9%9d%a2%e4%bb%a5%e5%8f%8a%e5%ae%83%e4%bb%ac%e7%9a%84%e9%87%8d%e8%a6%81%e6%80%a7" rel="">When to use huge pages and why they matter 何时使用大页面以及它们的重要性</a></li>
@@ -24,7 +24,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer ">https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql</a></p>]]></description></item><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/docs_starrocks_io_features/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql" target="_blank" rel="noopener noreffer ">https://stormatics.tech/blogs/configuring-linux-huge-pages-for-postgresql</a></p>]]></description></item><item><title>产品特性 | StarRocks</title><link>https://yangyingchao.github.io/2025/01/docs_starrocks_io_features/</link><pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/01/docs_starrocks_io_features/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#mpp-%e5%88%86%e5%b8%83%e5%bc%8f%e6%89%a7%e8%a1%8c%e6%a1%86%e6%9e%b6" rel="">MPP 分布式执行框架</a></li>
@@ -40,7 +40,7 @@
 <p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.starrocks.io/zh/docs/introduction/Features/" target="_blank" rel="noopener noreffer ">https://docs.starrocks.io/zh/docs/introduction/Features/</a></p>
 <h2 id="mpp-分布式执行框架"><span class="section-num">1</span> MPP 分布式执行框架</h2>
 <p>StarRocks 采用 MPP (Massively Parallel Processing) 分布式执行框架。在 MPP 执行框架中，一条查询请求会被拆分成多个物理计算单元，在多机并行执行。每个执行节点拥有独享的资源（CPU、内存）。
-MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集群的水平扩展而不断提升。</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+MPP 执行框架能够使得单个查询请求可以充分利用所有执行节点的资源，所以单个查询的性能可以随着集群的水平扩展而不断提升。</p>]]></description></item><item><title>openGauss+技术架构</title><link>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</link><pubDate>Fri, 05 May 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/05/opengauss-%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:ffedcec1-02e6-45ff-b383-ae60f29ec920" rel="">体系结构</a></li>
@@ -67,7 +67,7 @@ MPP 执行框架能够使得单个查询请求可以充分利用所有执行节�
 
 <p><a id="figure--fig:screenshot@2023-05-23-18:36:47"></a></p>
 <figure>
-</figure>]]></description></item><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description></description></item><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3058-liakos/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+</figure>]]></description></item><item><title>A Study of Database Performance Sensitivity to Experiment Settings</title><link>https://yangyingchao.github.io/1/01/a-study-of-database-performance-sensitivity-to-experiment-settings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/a-study-of-database-performance-sensitivity-to-experiment-settings/</guid><description></description></item><item><title>Chimp: Efficient Lossless Floating Point Compression for Time Series Databases</title><link>https://yangyingchao.github.io/1/01/p3058-liakos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3058-liakos/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:9d71575b-ba21-4317-b723-f2c924610db6" rel="">ABSTRACT</a></li>
@@ -104,7 +104,7 @@ MPP 执行框架能够使得单个查询请求可以充分利用所有执行节�
 <h2 id="h:9d71575b-ba21-4317-b723-f2c924610db6"><span class="section-num">1</span> ABSTRACT</h2>
 <ul>
 <li>
-<p>时序数据难以高效存储，导致存储代价高昂。</p>]]></description></item><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3548-yan/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>时序数据难以高效存储，导致存储代价高昂。</p>]]></description></item><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/1/01/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3548-yan/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel="">ABSTRACT</a></li>
@@ -121,7 +121,7 @@ MPP 执行框架能够使得单个查询请求可以充分利用所有执行节�
 <li>good elasticity</li>
 <li>high performance</li>
 </ul>
-<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3385-xu/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item><item><title>OceanBase 707M tpmC</title><link>https://yangyingchao.github.io/1/01/p3385-xu/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p3385-xu/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:0a45267f-a3ae-43ad-8a8a-2a8ff4d14e35" rel="">Introduction</a></li>

@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Range - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/range/</link><description>Range - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/range/" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/beyond-start-and-end_-postgresql-range-types/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Range - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/range/</link><description>Range - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/range/" rel="self" type="application/rss+xml"/><item><title>Beyond Start and End_ PostgreSQL Range Types</title><link>https://yangyingchao.github.io/2025/11/beyond-start-and-end_-postgresql-range-types/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/beyond-start-and-end_-postgresql-range-types/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#bug-not-invented-here" rel="">Bug Not Invented Here</a></li>
@@ -19,7 +19,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7kw</a></p>]]></description></item><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7kw" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7kw</a></p>]]></description></item><item><title>Adaptive Range Filters for Cold Data: Avoiding Trips to Siberia</title><link>https://yangyingchao.github.io/1/01/p1714-kossmann/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1714-kossmann/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:925d40ea-36be-4f97-92e1-5a9583172847" rel="">ABSTRACT</a></li>
@@ -54,7 +54,7 @@
 <ul>
 <li>查询处理</li>
 </ul>
-<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1632-vaidya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p><a id="figure--fig:screenshot@2022-10-19-08:47:07"></a></p>]]></description></item><item><title>SNARF: A Learning-Enhanced Range Filter</title><link>https://yangyingchao.github.io/1/01/p1632-vaidya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1632-vaidya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:815ddced-2940-4ddc-a8f1-e53eeb9c4c7d" rel="">ABSTRACT</a></li>

@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Gp - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/gp/</link><description>Gp - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/gp/" rel="self" type="application/rss+xml"/><item><title>gp shared snapshot</title><link>https://yangyingchao.github.io/sharedsnapshot/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sharedsnapshot/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Gp - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/gp/</link><description>Gp - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/gp/" rel="self" type="application/rss+xml"/><item><title>gp shared snapshot</title><link>https://yangyingchao.github.io/1/01/sharedsnapshot/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/sharedsnapshot/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:6d1e31ba-8f2f-4776-8ba5-2f2e7a62301f" rel="">DtaStrutor</a></li>
@@ -6,7 +6,7 @@
 </div>
 <!--endtoc-->
 <p>本文为摘录(或转载)，侵删，原文为： ../../../Work/pg_gpdb/src/backend/utils/time/sharedsnapshot.c</p>
-<p>在 Greenplum 中，作为切片计划的一部分，许多 PostgreSQL 进程（qExecs，QE）在单个段数据库上运行，作为同一用户 SQL 语句的一部分。属于特定用户在特定段数据库上的所有 qExecs 需要具有一致的可见性。为此，使用了一种称为“共享本地快照”（Shared Local Snapshot）的思想。共享内存数据结构 SharedSnapshotSlot 在特定数据库实例上的会话的统一流程（gang processes）之间共享会话和事务信息。这些流程被称为 SegMate 进程组。</p>]]></description></item><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpcheckcat/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>在 Greenplum 中，作为切片计划的一部分，许多 PostgreSQL 进程（qExecs，QE）在单个段数据库上运行，作为同一用户 SQL 语句的一部分。属于特定用户在特定段数据库上的所有 qExecs 需要具有一致的可见性。为此，使用了一种称为“共享本地快照”（Shared Local Snapshot）的思想。共享内存数据结构 SharedSnapshotSlot 在特定数据库实例上的会话的统一流程（gang processes）之间共享会话和事务信息。这些流程被称为 SegMate 进程组。</p>]]></description></item><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/1/01/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/gpcheckcat/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:bfa36016-e178-44c5-b78a-c8c0bd52f193" rel="">概述</a></li>
@@ -86,7 +86,7 @@
       </tr>
   </tbody>
 </table>
-<p>Note:</p>]]></description></item><item><title>gpdb memory control</title><link>https://yangyingchao.github.io/gpdb-memory-control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpdb-memory-control/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>Note:</p>]]></description></item><item><title>gpdb memory control</title><link>https://yangyingchao.github.io/1/01/gpdb-memory-control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/gpdb-memory-control/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:3ca2edd6-a67c-49c7-a59e-fcb2eea8be86" rel=""><span class="org-todo todo TODO">TODO</span> VMem</a></li>
@@ -141,7 +141,7 @@
 </div>
 </div></li>
 <li>
-<p>Or command is one of:</p>]]></description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>Or command is one of:</p>]]></description></item><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/1/01/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/gpdb-configuring-your-systems/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel="">IP Fragmentation Settings</a></li>
@@ -157,7 +157,7 @@ card controls IP packet fragmentation and reassemblies.</p>
 <p>If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
 a network, the IP layer fragments the message. (Refer to Networking later in this topic
 for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.</p>]]></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+fragments in a buffer before it can reorganize and reassemble the message.</p>]]></description></item><item><title>Greenplum 部署最佳实践: 网络篇</title><link>https://yangyingchao.github.io/1/01/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/cn.greenplum.org-greenplum%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5-%E7%BD%91%E7%BB%9C%E7%AF%87/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:84b43caf-b824-4f29-9bec-b8e1ffde6d0e" rel="">使用高速硬件，降低节点间的延迟</a></li>
@@ -166,7 +166,7 @@ fragments in a buffer before it can reorganize and reassemble the message.</p>]]
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/cn.greenplum.org-Greenplum部署最佳实践-网络篇.pdf</p>]]></description></item><item><title>Greenplum 资源管理——Resource Group使用和实现分析</title><link>https://yangyingchao.github.io/1/01/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/greenplum%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86resource-group%E4%BD%BF%E7%94%A8%E5%92%8C%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:6543d92b-650b-4a86-a5f4-d93974938e1e" rel="">Resource Group 简介</a></li>

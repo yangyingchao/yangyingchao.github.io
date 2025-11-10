@@ -1,0 +1,370 @@
+<!doctype html><html lang=zh-CH><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Linux Asynchronous I/O - 杂货铺</title><meta name=Description content="杂七杂八的，随手记录。"><meta property="og:url" content="https://yangyingchao.github.io/2024/06/oxnz_github_io_linux-aio/"><meta property="og:site_name" content="杂货铺"><meta property="og:title" content="Linux Asynchronous I/O"><meta property="og:description" content="Table of Contents 1 Introduction 2 I/O Models 3 AIO System Calls 3.1 ABI Interface 3.2 struct io_event 3.3 struct iocb 3.4 AIO Command 3.5 AIO Context 3.6 syscall() 3.7 Example 4 libaio 4.1 安装 4.2 系统调用包装器 4.3 辅助函数 4.4 接口 5 参考资料 本文为摘录(或转载)，侵删，原文为： https://oxnz.github.io/2016/10/13/linux-aio/
+1 Introduction 异步 I/O（AIO）是一种执行 I/O 操作的方法，使得发出 I/O 请求的进程在操作完成之前不被阻塞。相反，在提交 I/O 请求后，该进程继续执行其代码，并可以随后检查所提交请求的状态。"><meta property="og:locale" content="zh_CH"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-20T00:00:00+00:00"><meta property="article:modified_time" content="2024-06-20T00:00:00+00:00"><meta property="og:image" content="https://yangyingchao.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://yangyingchao.github.io/logo.png"><meta name=twitter:title content="Linux Asynchronous I/O"><meta name=twitter:description content="Table of Contents 1 Introduction 2 I/O Models 3 AIO System Calls 3.1 ABI Interface 3.2 struct io_event 3.3 struct iocb 3.4 AIO Command 3.5 AIO Context 3.6 syscall() 3.7 Example 4 libaio 4.1 安装 4.2 系统调用包装器 4.3 辅助函数 4.4 接口 5 参考资料 本文为摘录(或转载)，侵删，原文为： https://oxnz.github.io/2016/10/13/linux-aio/
+1 Introduction 异步 I/O（AIO）是一种执行 I/O 操作的方法，使得发出 I/O 请求的进程在操作完成之前不被阻塞。相反，在提交 I/O 请求后，该进程继续执行其代码，并可以随后检查所提交请求的状态。"><meta name=application-name content="杂货铺"><meta name=apple-mobile-web-app-title content="杂货铺"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://yangyingchao.github.io/2024/06/oxnz_github_io_linux-aio/><link rel=prev href=https://yangyingchao.github.io/2024/06/mysql_taobao_org_01/><link rel=next href=https://yangyingchao.github.io/2024/09/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Linux Asynchronous I/O","inLanguage":"zh-CH","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/yangyingchao.github.io\/2024\/06\/oxnz_github_io_linux-aio\/"},"image":["https:\/\/yangyingchao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","wordcount":2907,"url":"https:\/\/yangyingchao.github.io\/2024\/06\/oxnz_github_io_linux-aio\/","datePublished":"2024-06-20T00:00:00+00:00","dateModified":"2024-06-20T00:00:00+00:00","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/yangyingchao.github.io\/images\/avatar.jpg","width":160,"height":160}},"author":{"@type":"Person","name":"yc"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux Asynchronous I/O</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>yc</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2024-06-20>2024-06-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2907 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#introduction><span class=section-num>1</span> Introduction</a></li><li><a href=#i-o-models><span class=section-num>2</span> I/O Models</a></li><li><a href=#aio-system-calls><span class=section-num>3</span> AIO System Calls</a><ul><li><a href=#abi-interface><span class=section-num>3.1</span> ABI Interface</a></li><li><a href=#struct-io-event><span class=section-num>3.2</span> struct io_event</a></li><li><a href=#struct-iocb><span class=section-num>3.3</span> struct iocb</a></li><li><a href=#aio-command><span class=section-num>3.4</span> AIO Command</a></li><li><a href=#aio-context><span class=section-num>3.5</span> AIO Context</a></li><li><a href=#syscall><span class=section-num>3.6</span> syscall()</a></li><li><a href=#example><span class=section-num>3.7</span> Example</a></li></ul></li><li><a href=#libaio><span class=section-num>4</span> libaio</a><ul><li><a href=#安装><span class=section-num>4.1</span> 安装</a></li><li><a href=#系统调用包装器><span class=section-num>4.2</span> 系统调用包装器</a></li><li><a href=#辅助函数><span class=section-num>4.3</span> 辅助函数</a></li><li><a href=#接口><span class=section-num>4.4</span> 接口</a></li></ul></li><li><a href=#参考资料><span class=section-num>5</span> 参考资料</a></li></ul></nav></div></div><div class=content id=content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#introduction rel>Introduction</a></li><li><span class=section-num>2</span> <a href=#i-o-models rel>I/O Models</a></li><li><span class=section-num>3</span> <a href=#aio-system-calls rel>AIO System Calls</a><ul><li><span class=section-num>3.1</span> <a href=#abi-interface rel>ABI Interface</a></li><li><span class=section-num>3.2</span> <a href=#struct-io-event rel>struct io_event</a></li><li><span class=section-num>3.3</span> <a href=#struct-iocb rel>struct iocb</a></li><li><span class=section-num>3.4</span> <a href=#aio-command rel>AIO Command</a></li><li><span class=section-num>3.5</span> <a href=#aio-context rel>AIO Context</a></li><li><span class=section-num>3.6</span> <a href=#syscall rel>syscall()</a></li><li><span class=section-num>3.7</span> <a href=#example rel>Example</a></li></ul></li><li><span class=section-num>4</span> <a href=#libaio rel>libaio</a><ul><li><span class=section-num>4.1</span> <a href=#%e5%ae%89%e8%a3%85 rel>安装</a></li><li><span class=section-num>4.2</span> <a href=#%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%8c%85%e8%a3%85%e5%99%a8 rel>系统调用包装器</a></li><li><span class=section-num>4.3</span> <a href=#%e8%be%85%e5%8a%a9%e5%87%bd%e6%95%b0 rel>辅助函数</a></li><li><span class=section-num>4.4</span> <a href=#%e6%8e%a5%e5%8f%a3 rel>接口</a></li></ul></li><li><span class=section-num>5</span> <a href=#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99 rel>参考资料</a></li></ul></div><p>本文为摘录(或转载)，侵删，原文为： <a href=https://oxnz.github.io/2016/10/13/linux-aio/ target=_blank rel="noopener noreffer">https://oxnz.github.io/2016/10/13/linux-aio/</a></p><h2 id=introduction><span class=section-num>1</span> Introduction</h2><p>异步 I/O（AIO）是一种执行 I/O 操作的方法，使得发出 I/O 请求的进程在操作完成之前不被阻塞。相反，在提交 I/O 请求后，该进程继续执行其代码，并可以随后检查所提交请求的状态。</p><p>在 Linux 中实现异步 I/O 有几种方式：</p><ul><li>内核系统调用</li><li>用户空间库的实现并在内部使用系统调用（libaio）</li><li>在用户空间完全模拟 AIO 而不依赖任何内核支持（例如使用 librt，属于 libc 的一部分）</li></ul><h2 id=i-o-models><span class=section-num>2</span> I/O Models</h2><p><a id=table--tbl:oxnz-6ee86d96></a></p><div class=table-caption><span class=table-number><a href=#table--tbl:oxnz-6ee86d96>Table 1</a>:</span>
+IO 模型</div><p>| Mode || Blocking || Non-blocking |
+|&mdash;&mdash;&mdash;&mdash;&ndash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|
+| Synchronous || read/write || read/write <code>(O_NONBLOCK)</code> |
+| Asynchronous || I/O <code>(select/poll/epoll)</code> || multiplexing AIO |</p><h2 id=aio-system-calls><span class=section-num>3</span> AIO System Calls</h2><h3 id=abi-interface><span class=section-num>3.1</span> ABI Interface</h3><p>AIO 系统调用入口点位于内核源代码中的 <code>fs/aio.c</code> 文件中。导出到用户空间的类型和常数位于 <code>/usr/include/linux/aio_abi.h</code>
+头文件中。</p><p>Linux 内核仅提供了 5 个用于执行异步 I/O 的系统调用。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/aio_abi.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nr_events</span><span class=p>,</span> <span class=kt>aio_context_t</span> <span class=o>*</span><span class=n>ctxp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_submit</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>**</span><span class=n>iocbpp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_cancel</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>*</span><span class=p>,</span> <span class=k>struct</span> <span class=n>io_event</span> <span class=o>*</span><span class=n>result</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_getevents</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>min_nr</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>struct</span> <span class=n>io_event</span> <span class=o>*</span><span class=n>events</span><span class=p>,</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>timeout</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><code>struct iocb</code>: 每个提交到 AIO 上下文的 I/O 请求都由一个 I/O 控制块结构表示 - <code>struct iocb</code></li><li><code>io_submit()</code> 接受 AIO 上下文 ID、数组的大小和数组本身作为参数。<br>需要注意的是，数组应包含指向 iocb 结构的指针，而不是结构本身。</li></ul><p><code>io_submit()</code> 的返回代码可以是以下值之一：</p><ol><li><p><code>ret = （已提交的 iocbs 数量）</code><br></p><p>理想情况，所有 iocbs 都被接受并正在处理。</p></li><li><p><code>0 &lt; ret &lt; （已提交的 iocbs 数量）</code><br></p><p><code>io_submit()</code> 系统调用会逐个处理传递数组中的 iocbs，从第一个条目开始。如果某个 iocb 的提交失败，系统会在这一点停止并返回失败的 iocb 的索引。无法知道具体的失败原因。然而，如果第一个 iocb 的提交失败，请参考点 C。</p></li><li><p><code>ret &lt; 0</code></p><p>出现这种情况有两个原因：</p><ol><li>在 <code>io_submit()</code> 开始迭代数组中的 iocbs 之前，出现了某些错误（例如，AIO 上下文无效）。</li><li>第一个 iocb (cbx[0]) 的提交失败。</li></ol></li></ol><p>在提交 iocb 后，我们可以在不等待 I/O 完成的情况下执行其他操作。每个完成的 I/O 请求（成功或失败）都会由内核创建一个 io_event 结构。要获取 io_events 的列表（从而获取所有已完成的 iocb），应使用 <code>io_getevent()</code> 系统调用。调用 <code>io_getevents()</code> 时，需要指定：</p><ol><li><p>从哪个 AIO 上下文获取事件（ctx 变量）</p></li><li><p>内核应该将事件加载到的缓冲区（events 变量）</p></li><li><p>想要获取的最小事件数量。<br>如果当前完成的 iocbs 数量少于这个数字，io_getevents()将阻塞，直到足够的事件出现。有关如何控制阻塞时间的更多细节，请参见 e)点。</p></li><li><p>想要获取的最大事件数量。这通常是事件缓冲区的大小（在我们程序中的第二个 1）</p></li><li><p>如果可用事件数量不足，我们不想永远等待。可以将相对截止日期指定为最后一个参数。在这种情况下，NULL
+意味着无限等待。如果想要 io_getevents()根本不阻塞，则需要将 timespec 超时结构初始化为零秒和零纳秒。</p></li></ol><p><code>io_getevents</code> 的返回代码可以是：</p><ol><li><p><code>ret = (最大事件数量)</code></p><p>所有适合用户提供的缓冲区的事件都从内核获得。内核中可能还有更多待处理事件。</p></li><li><p><code>(最小事件数量) &lt;</code> ret &lt;= (最大事件数量)=</p><p>所有当前可用事件已从内核读取，且没有发生阻塞。</p></li><li><p><code>0 &lt; ret &lt; (最小事件数量)</code></p><p>所有当前可用事件已从内核读取，我们阻塞以等待用户指定的时间。</p></li><li><p><code>ret = 0</code></p><p>没有可用事件 XXX:? 在这种情况下是否发生阻塞？..</p></li><li><p><code>ret &lt; 0</code></p><p>发生了一个错误。</p></li></ol><h3 id=struct-io-event><span class=section-num>3.2</span> struct io_event</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/* read() from /dev/aio returns these structures. */</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>io_event</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>           <span class=n>data</span><span class=p>;</span>           <span class=cm>/* the data field from the iocb */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>           <span class=n>obj</span><span class=p>;</span>            <span class=cm>/* what iocb this event came from */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__s64</span>           <span class=n>res</span><span class=p>;</span>            <span class=cm>/* result code for this event */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__s64</span>           <span class=n>res2</span><span class=p>;</span>           <span class=cm>/* secondary result */</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=struct-iocb><span class=section-num>3.3</span> struct iocb</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm> * we always use a 64bit off_t when communicating
+</span></span></span><span class=line><span class=cl><span class=cm> * with userland.  its up to libraries to do the
+</span></span></span><span class=line><span class=cl><span class=cm> * proper padding and aio_error abstraction
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>iocb</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* these are internal to the kernel/libc. */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>   <span class=n>aio_data</span><span class=p>;</span>       <span class=cm>/* data to be returned in event&#39;s data */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u32</span>   <span class=nf>PADDED</span><span class=p>(</span><span class=n>aio_key</span><span class=p>,</span> <span class=n>aio_reserved1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                                <span class=cm>/* the kernel sets aio_key to the req # */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* common fields */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u16</span>   <span class=n>aio_lio_opcode</span><span class=p>;</span> <span class=cm>/* see IOCB_CMD_ above */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__s16</span>   <span class=n>aio_reqprio</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u32</span>   <span class=n>aio_fildes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>   <span class=n>aio_buf</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>   <span class=n>aio_nbytes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>__s64</span>   <span class=n>aio_offset</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* extra parameters */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u64</span>   <span class=n>aio_reserved2</span><span class=p>;</span>  <span class=cm>/* TODO: use this for a (struct sigevent *) */</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* flags for the &#34;struct iocb&#34; */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u32</span>   <span class=n>aio_flags</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>         * if the IOCB_FLAG_RESFD flag of &#34;aio_flags&#34; is set, this is an
+</span></span></span><span class=line><span class=cl><span class=cm>         * eventfd to signal AIO readiness to
+</span></span></span><span class=line><span class=cl><span class=cm>         */</span>
+</span></span><span class=line><span class=cl>        <span class=n>__u32</span>   <span class=n>aio_resfd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span> <span class=cm>/* 64 bytes */</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=aio-command><span class=section-num>3.4</span> AIO Command</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp># /usr/include</span><span class=cpf>/linux/aio_abi.h</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>enum</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PREAD</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PWRITE</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_FSYNC</span> <span class=o>=</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_FDSYNC</span> <span class=o>=</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=cm>/* These two are experimental.
+</span></span></span><span class=line><span class=cl><span class=cm>         * IOCB_CMD_PREADX = 4,
+</span></span></span><span class=line><span class=cl><span class=cm>         * IOCB_CMD_POLL = 5,
+</span></span></span><span class=line><span class=cl><span class=cm>         */</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_NOOP</span> <span class=o>=</span> <span class=mi>6</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PREADV</span> <span class=o>=</span> <span class=mi>7</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PWRITEV</span> <span class=o>=</span> <span class=mi>8</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li><p><code>IOCB_CMD_PREAD</code><br>定位读取；对应于 pread() 系统调用。</p></li><li><p><code>IOCB_CMD_PWRITE</code><br>定位写入；对应于 pwrite() 系统调用。</p></li><li><p><code>IOCB_CMD_FSYNC</code><br>将文件的数据和元数据与磁盘同步；对应于 fsync() 系统调用。</p></li><li><p><code>IOCB_CMD_FDSYNC</code><br>将文件的数据和元数据与磁盘同步，但仅写入访问已修改文件数据所需的元数据；对应于 fdatasync() 系统调用。</p></li><li><p><code>IOCB_CMD_PREADV</code><br>向量化定位读取，有时称为“分散输入”；对应于 preadv() 系统调用。</p></li><li><p><code>IOCB_CMD_PWRITEV</code><br>向量化定位写入，有时称为“聚集输出”；对应于 pwritev() 系统调用。</p></li><li><p><code>IOCB_CMD_NOOP</code><br>在头文件中定义，但在内核的其他地方未使用。</p></li></ul><p>iocb 结构中其他字段的语义依赖于指定的命令。</p><h3 id=aio-context><span class=section-num>3.5</span> AIO Context</h3><p>AIO 上下文是一组数据结构，内核支持这些结构以执行 AIO。</p><p>每个进程可以拥有多个 AIO 上下文，因此每个进程中的每个 AIO 上下文都需要一个标识符。</p><p>一个指向 ctx 变量的指针作为第二个参数传递给 <code>io_setup()</code> ，内核用一个上下文标识符填充这个变量。有趣的是，
+<code>aio_context_t</code> 实际上只是内核中定义的一个无符号长整型（linux/aio_abi.h），定义如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>aio_context_t</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>io_setup()</code> 函数的第一个参数是可以同时存在于上下文中的最大请求数量。</p><h3 id=syscall><span class=section-num>3.6</span> syscall()</h3><p>man syscall</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>#define _GNU_SOURCE         /* See feature_test_macros(7) */
+</span></span><span class=line><span class=cl>#include &lt;unistd.h&gt;
+</span></span><span class=line><span class=cl>#include &lt;sys/syscall.h&gt;   /* For SYS_xxx definitions */
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>int syscall(int number, ...);
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>syscall() 是一个小型库函数，它根据指定的编号和参数调用具有汇编语言接口的系统调用。例如，当调用 C
+</span></span><span class=line><span class=cl>库中没有包装函数的系统调用时，使用 syscall() 是很有用的。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>syscall() 在进行系统调用之前保存 CPU 寄存器，系统调用返回时恢复寄存器，并且如果发生错误，
+</span></span><span class=line><span class=cl>将系统调用返回的任何错误代码存储在 errno(3) 中。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>系统调用号的符号常量可以在头文件 &lt;sys/syscall.h&gt; 中找到。
+</span></span></code></pre></td></tr></table></div></div><h3 id=example><span class=section-num>3.7</span> Example</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;inttypes.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/syscall.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/aio_abi.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nr</span><span class=p>,</span> <span class=kt>aio_context_t</span> <span class=o>*</span><span class=n>ctxp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>__NR_io_setup</span><span class=p>,</span> <span class=n>nr</span><span class=p>,</span> <span class=n>ctxp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>int</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>__NR_io_destroy</span><span class=p>,</span> <span class=n>ctx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>int</span> <span class=nf>io_submit</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>**</span><span class=n>iocbpp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>__NR_io_submit</span><span class=p>,</span> <span class=n>ctx</span><span class=p>,</span> <span class=n>nr</span><span class=p>,</span> <span class=n>iocbpp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>int</span> <span class=nf>io_getevents</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>min_nr</span><span class=p>,</span> <span class=kt>long</span> <span class=n>max_nr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=k>struct</span> <span class=n>io_event</span> <span class=o>*</span><span class=n>events</span><span class=p>,</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>*</span><span class=n>timeout</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>__NR_io_getevents</span><span class=p>,</span> <span class=n>ctx</span><span class=p>,</span> <span class=n>min_nr</span><span class=p>,</span> <span class=n>max_nr</span><span class=p>,</span> <span class=n>events</span><span class=p>,</span> <span class=n>timeout</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>struct</span> <span class=n>iocb</span> <span class=n>cb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>struct</span> <span class=n>iocb</span> <span class=o>*</span><span class=n>cbs</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=kt>char</span> <span class=n>data</span><span class=p>[</span><span class=mi>4096</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>struct</span> <span class=n>io_event</span> <span class=n>events</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>fd</span> <span class=o>=</span> <span class=nf>open</span><span class=p>(</span><span class=s>&#34;/tmp/test&#34;</span><span class=p>,</span> <span class=n>O_RDWR</span> <span class=o>|</span> <span class=n>O_CREAT</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>fd</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nf>perror</span><span class=p>(</span><span class=s>&#34;open&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>ctx</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>ret</span> <span class=o>=</span> <span class=nf>io_setup</span><span class=p>(</span><span class=mi>128</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ctx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>ret</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nf>perror</span><span class=p>(</span><span class=s>&#34;io_setup&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* setup I/O control block */</span>
+</span></span><span class=line><span class=cl>        <span class=nf>memset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>cb</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>cb</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=n>cb</span><span class=p>.</span><span class=n>aio_fildes</span> <span class=o>=</span> <span class=n>fd</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>cb</span><span class=p>.</span><span class=n>aio_lio_opcode</span> <span class=o>=</span> <span class=n>IOCB_CMD_PWRITE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* command-specific options */</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>4096</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=sc>&#39;A&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>cb</span><span class=p>.</span><span class=n>aio_buf</span> <span class=o>=</span> <span class=p>(</span><span class=kt>uint64_t</span><span class=p>)</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>cb</span><span class=p>.</span><span class=n>aio_offset</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>cb</span><span class=p>.</span><span class=n>aio_nbytes</span> <span class=o>=</span> <span class=mi>4096</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>cbs</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>cb</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>ret</span> <span class=o>=</span> <span class=nf>io_submit</span><span class=p>(</span><span class=n>ctx</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>cbs</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>ret</span> <span class=o>!=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>ret</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=nf>perror</span><span class=p>(</span><span class=s>&#34;io_submit&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>else</span> <span class=nf>fprintf</span><span class=p>(</span><span class=n>stderr</span><span class=p>,</span> <span class=s>&#34;io_submit failed</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=cm>/* get reply */</span>
+</span></span><span class=line><span class=cl>        <span class=n>ret</span> <span class=o>=</span> <span class=nf>io_getevents</span><span class=p>(</span><span class=n>ctx</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>events</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;events: %d</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>ret</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>ret</span> <span class=o>=</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=n>ctx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>ret</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nf>perror</span><span class=p>(</span><span class=s>&#34;io_destroy&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=libaio><span class=section-num>4</span> libaio</h2><h3 id=安装><span class=section-num>4.1</span> 安装</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=o>[</span>oxnz@localhost aio<span class=o>]</span>$ sudo yum install libaio-devel
+</span></span><span class=line><span class=cl><span class=o>[</span>oxnz@localhost aio<span class=o>]</span>$ rpm -ql libaio
+</span></span><span class=line><span class=cl>/lib64/libaio.so.1
+</span></span><span class=line><span class=cl>/lib64/libaio.so.1.0.0
+</span></span><span class=line><span class=cl>/lib64/libaio.so.1.0.1
+</span></span><span class=line><span class=cl>/usr/share/doc/libaio-0.3.109
+</span></span><span class=line><span class=cl>/usr/share/doc/libaio-0.3.109/COPYING
+</span></span><span class=line><span class=cl>/usr/share/doc/libaio-0.3.109/TODO
+</span></span><span class=line><span class=cl><span class=o>[</span>oxnz@localhost aio<span class=o>]</span>$ rpm -ql libaio-devel
+</span></span><span class=line><span class=cl>/usr/include/libaio.h
+</span></span><span class=line><span class=cl>/usr/lib64/libaio.so
+</span></span></code></pre></td></tr></table></div></div><h3 id=系统调用包装器><span class=section-num>4.2</span> 系统调用包装器</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// /usr/include/libaio.h //
+</span></span></span><span class=line><span class=cl><span class=c1>// 实际系统调用 //
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>int</span> <span class=n>maxevents</span><span class=p>,</span> <span class=kt>io_context_t</span> <span class=o>/</span><span class=n>ctxp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_submit</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>/</span><span class=n>ios</span><span class=p>[]);</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_cancel</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>/</span><span class=n>iocb</span><span class=p>,</span> <span class=k>struct</span> <span class=n>io_event</span> <span class=o>/</span><span class=n>evt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_getevents</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx_id</span><span class=p>,</span> <span class=kt>long</span> <span class=n>min_nr</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>io_event</span> <span class=o>/</span><span class=n>events</span><span class=p>,</span> <span class=k>struct</span> <span class=n>timespec</span> <span class=o>/</span><span class=n>timeout</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=辅助函数><span class=section-num>4.3</span> 辅助函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl>/lib64/librt.so
+</span></span><span class=line><span class=cl>/usr/include/aio.h
+</span></span></code></pre></td></tr></table></div></div><h3 id=接口><span class=section-num>4.4</span> 接口</h3><p>POSIX AIO 接口包含以下函数：</p><ul><li>aio_read(3) 将读取请求加入队列。这是读取操作的异步版本。</li><li>aio_write(3) 将写入请求加入队列。这是写入操作的异步版本。</li><li>aio_fsync(3) 对文件描述符上的 I/O 操作加入同步请求。这是 fsync 和 fdatasync 的异步版本。</li><li>aio_error(3) 获取已加入队列的 I/O 请求的错误状态。</li><li>aio_return(3) 获取已完成 I/O 请求的返回状态。</li><li>aio_suspend(3) 暂停调用者，直到一组特定的 I/O 请求完成。</li><li>aio_cancel(3) 尝试取消在特定文件描述符上的未处理 I/O 请求。</li><li>lio_listio(3) 使用单个函数调用入队多个 I/O 请求。</li></ul><p>man 7 aio</p><p>当前 Linux 的 POSIX AIO 实现是由 glibc 在用户空间提供的。这个实现有许多限制，最显著的是维护多个线程以执行 I/O
+操作是昂贵且扩展性差的。已经有一段时间进行内核状态机基础的异步 I/O 实现的工作（参见 io_submit(2)，io_setup(2)，
+io_cancel(2)，io_destroy(2)，io_getevents(2)），但该实现尚未成熟到能够完全使用内核系统调用重新实现 POSIX AIO
+实现的程度。</p><h2 id=参考资料><span class=section-num>5</span> 参考资料</h2><ul><li><a href=http://www.fsl.cs.sunysb.edu/~vass/linux-aio.txt target=_blank rel="noopener noreffer">http://www.fsl.cs.sunysb.edu/~vass/linux-aio.txt</a></li><li>通过异步 I/O 提升应用性能</li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-06-20</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/06/mysql_taobao_org_01/ class=prev rel=prev title=聊聊日志即数据库><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>聊聊日志即数据库</a>
+<a href=/2024/09/omid_dev_advanced-shell-scripting-techniques-automating-complex-tasks-with-bash/ class=next rel=next title="Advanced Shell Scripting Techniques: Automating Complex Tasks with Bash">Advanced Shell Scripting Techniques: Automating Complex Tasks with Bash<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

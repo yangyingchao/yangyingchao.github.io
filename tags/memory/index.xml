@@ -1,4 +1,4 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Memory - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/memory/</link><description>Memory - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/memory/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL and NUMA</title><link>https://yangyingchao.github.io/postgresql-and-numa/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgresql-and-numa/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Memory - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/memory/</link><description>Memory - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 03 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/memory/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL and NUMA</title><link>https://yangyingchao.github.io/2025/11/postgresql-and-numa/</link><pubDate>Mon, 03 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/postgresql-and-numa/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#what-is-numa-and-why-do-we-need-it" rel="">What is NUMA and why do we need it?</a>
@@ -20,7 +20,7 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7ka</a></p>]]></description></item><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/how-to-avoid-memory-being-swapped/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7ka</a></p>]]></description></item><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:a69e195a-92fb-405b-9b6c-ec86c0015e47" rel="">mlockall()</a></li>
@@ -119,7 +119,7 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="h:694a46e8-f346-48c2-a21e-a71751c8643d"><span class="section-num">2</span> how to do this after program started and program does not call <code>mlockall()</code> ?</h2>
-<p>Make a GDB command file that contains something like this:</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
+<p>Make a GDB command file that contains something like this:</p>]]></description></item><item><title>NBTree: a Lock-free PM-friendly Persistent B+-Tree for eADR-enabled PM Systems</title><link>https://yangyingchao.github.io/1/01/p1187-zhang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/1/01/p1187-zhang/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/p1187-zhang.pdf</p>
 <ul>
 <li>
 <p><strong>PM</strong> stands for Persistent Memory， 持久内存，它是一种非易失性内存，即使断电也能保留数据。</p>

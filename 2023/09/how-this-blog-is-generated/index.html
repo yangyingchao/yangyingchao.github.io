@@ -1,0 +1,527 @@
+<!doctype html><html lang=zh-CH><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>这个博客是怎么生成的？ - 杂货铺</title><meta name=Description content="杂七杂八的，随手记录。"><meta property="og:url" content="https://yangyingchao.github.io/2023/09/how-this-blog-is-generated/"><meta property="og:site_name" content="杂货铺"><meta property="og:title" content="这个博客是怎么生成的？"><meta property="og:description" content="Table of Contents 1 用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages 1.1 准备工作 1.2 写博客 1.3 部署篇 1.4 遇到的问题 2 使用 Emacs Script 自动将 org 文件导出为 Markdown 2.1 痛点 2.2 如何解决 2.3 存在的问题 2.4 遇到的问题 3 附录 3.1 我正在用的 github actions 3.2 当前用的脚本 参考这里：
+https://superbear.github.io/post/2021/11/use-org-mode-and-hugo-to-write-blog/ https://superbear.github.io/post/2021/12/batch-export-org-files-to-markdown-with-emacs-script-and-ox-hugo/ 搬运一下，放丢。。。"><meta property="og:locale" content="zh_CH"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-09-05T00:00:00+00:00"><meta property="article:modified_time" content="2023-09-05T00:00:00+00:00"><meta property="article:tag" content="Hugo"><meta property="article:tag" content="Blog"><meta property="og:image" content="https://yangyingchao.github.io/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://yangyingchao.github.io/logo.png"><meta name=twitter:title content="这个博客是怎么生成的？"><meta name=twitter:description content="Table of Contents 1 用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages 1.1 准备工作 1.2 写博客 1.3 部署篇 1.4 遇到的问题 2 使用 Emacs Script 自动将 org 文件导出为 Markdown 2.1 痛点 2.2 如何解决 2.3 存在的问题 2.4 遇到的问题 3 附录 3.1 我正在用的 github actions 3.2 当前用的脚本 参考这里：
+https://superbear.github.io/post/2021/11/use-org-mode-and-hugo-to-write-blog/ https://superbear.github.io/post/2021/12/batch-export-org-files-to-markdown-with-emacs-script-and-ox-hugo/ 搬运一下，放丢。。。"><meta name=application-name content="杂货铺"><meta name=apple-mobile-web-app-title content="杂货铺"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://yangyingchao.github.io/2023/09/how-this-blog-is-generated/><link rel=prev href=https://yangyingchao.github.io/2023/09/perl-begginer-note/><link rel=next href=https://yangyingchao.github.io/2023/09/back-to-sway/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"这个博客是怎么生成的？","inLanguage":"zh-CH","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/yangyingchao.github.io\/2023\/09\/how-this-blog-is-generated\/"},"image":["https:\/\/yangyingchao.github.io\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"hugo, blog","wordcount":2809,"url":"https:\/\/yangyingchao.github.io\/2023\/09\/how-this-blog-is-generated\/","datePublished":"2023-09-05T00:00:00+00:00","dateModified":"2023-09-05T00:00:00+00:00","publisher":{"@type":"Organization","name":"xxxx","logo":{"@type":"ImageObject","url":"https:\/\/yangyingchao.github.io\/images\/avatar.jpg","width":160,"height":160}},"author":{"@type":"Person","name":"yc"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=杂货铺><span class=header-title-pre><i class='fa-solid fa-house-chimney'></i></span>老杨的杂货铺</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=https://github.com/yangyingchao title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">这个博客是怎么生成的？</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>yc</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023-09-05>2023-09-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2809 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#h:77d4f63b-c1fa-4f57-93b5-c757e41e1a71><span class=section-num>1</span> 用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages</a><ul><li><a href=#h:ae0cb92a-bd96-42bf-9858-deed2ae7d6e4><span class=section-num>1.1</span> 准备工作</a><ul><li><a href=#h:be11c5fd-358f-4257-a3de-991dacf33dfa><span class=section-num>1.1.1</span> 创建两个 Github 仓库</a></li><li><a href=#h:590f68ab-9703-405b-8365-c2b1805bb518><span class=section-num>1.1.2</span> 安装 Hugo</a></li><li><a href=#h:16bf7be3-b1f1-480f-a90a-194c11970799><span class=section-num>1.1.3</span> 安装 ox-hugo</a></li><li><a href=#h:221b082e-bedf-46ae-9957-6eb4272b962d><span class=section-num>1.1.4</span> 配置环境</a></li></ul></li><li><a href=#h:a50720d1-7467-43fe-96bf-c99596239cae><span class=section-num>1.2</span> 写博客</a><ul><li><a href=#h:2a8af21d-c8c0-41f1-8925-1c7a68063f84><span class=section-num>1.2.1</span> 目录结构</a></li></ul></li><li><a href=#h:fb08f300-8df9-412a-8a7e-0a5978f7d02a><span class=section-num>1.3</span> 部署篇</a><ul><li><a href=#h:c47c61b5-6463-4b58-a111-0c975a87abf2><span class=section-num>1.3.1</span> 配置 Github Action</a></li><li><a href=#h:fe0a2943-fea6-4455-a7c4-3300df3ed776><span class=section-num>1.3.2</span> 配置 DEPLOY_KEY</a></li></ul></li><li><a href=#h:3d56e5b1-24da-4c13-a233-241622c7a523><span class=section-num>1.4</span> 遇到的问题</a></li></ul></li><li><a href=#h:3dab7760-3b4f-456e-b112-e2e740204576><span class=section-num>2</span> 使用 Emacs Script 自动将 org 文件导出为 Markdown</a><ul><li><a href=#h:d959fa6b-ae45-41e4-8da5-fd800606a0e6><span class=section-num>2.1</span> 痛点</a></li><li><a href=#h:c5499c54-d782-4a29-b13c-e4e74d749915><span class=section-num>2.2</span> 如何解决</a></li><li><a href=#h:b08e34c0-315f-43a9-9b4a-cc087fb86323><span class=section-num>2.3</span> 存在的问题</a></li><li><a href=#h:43b5e31b-6034-4c46-bb48-782b103d0536><span class=section-num>2.4</span> 遇到的问题</a></li></ul></li><li><a href=#h:7d9d2a30-9a98-4243-8da6-51eb1201b20e><span class=section-num>3</span> 附录</a><ul><li><a href=#h:bbb920e4-d3fe-48e3-9221-e4c6c5b53844><span class=section-num>3.1</span> 我正在用的 github actions</a></li><li><a href=#h:006ec282-c3c0-4055-9d39-f9f564afd922><span class=section-num>3.2</span> 当前用的脚本</a></li></ul></li></ul></nav></div></div><div class=content id=content><div class="ox-hugo-toc toc has-section-numbers"><div class=heading>Table of Contents</div><ul><li><span class=section-num>1</span> <a href=#h:77d4f63b-c1fa-4f57-93b5-c757e41e1a71 rel>用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages</a><ul><li><span class=section-num>1.1</span> <a href=#h:ae0cb92a-bd96-42bf-9858-deed2ae7d6e4 rel>准备工作</a></li><li><span class=section-num>1.2</span> <a href=#h:a50720d1-7467-43fe-96bf-c99596239cae rel>写博客</a></li><li><span class=section-num>1.3</span> <a href=#h:fb08f300-8df9-412a-8a7e-0a5978f7d02a rel>部署篇</a></li><li><span class=section-num>1.4</span> <a href=#h:3d56e5b1-24da-4c13-a233-241622c7a523 rel>遇到的问题</a></li></ul></li><li><span class=section-num>2</span> <a href=#h:3dab7760-3b4f-456e-b112-e2e740204576 rel>使用 Emacs Script 自动将 org 文件导出为 Markdown</a><ul><li><span class=section-num>2.1</span> <a href=#h:d959fa6b-ae45-41e4-8da5-fd800606a0e6 rel>痛点</a></li><li><span class=section-num>2.2</span> <a href=#h:c5499c54-d782-4a29-b13c-e4e74d749915 rel>如何解决</a></li><li><span class=section-num>2.3</span> <a href=#h:b08e34c0-315f-43a9-9b4a-cc087fb86323 rel>存在的问题</a></li><li><span class=section-num>2.4</span> <a href=#h:43b5e31b-6034-4c46-bb48-782b103d0536 rel>遇到的问题</a></li></ul></li><li><span class=section-num>3</span> <a href=#h:7d9d2a30-9a98-4243-8da6-51eb1201b20e rel>附录</a><ul><li><span class=section-num>3.1</span> <a href=#h:bbb920e4-d3fe-48e3-9221-e4c6c5b53844 rel>我正在用的 github actions</a></li><li><span class=section-num>3.2</span> <a href=#h:006ec282-c3c0-4055-9d39-f9f564afd922 rel>当前用的脚本</a></li></ul></li></ul></div><p>参考这里：</p><ul><li><a href=https://superbear.github.io/post/2021/11/use-org-mode-and-hugo-to-write-blog/ target=_blank rel="noopener noreffer">https://superbear.github.io/post/2021/11/use-org-mode-and-hugo-to-write-blog/</a></li><li><a href=https://superbear.github.io/post/2021/12/batch-export-org-files-to-markdown-with-emacs-script-and-ox-hugo/ target=_blank rel="noopener noreffer">https://superbear.github.io/post/2021/12/batch-export-org-files-to-markdown-with-emacs-script-and-ox-hugo/</a></li></ul><p>搬运一下，放丢。。。</p><p>以下内容转自 superbear 的博客。</p><h2 id=h:77d4f63b-c1fa-4f57-93b5-c757e41e1a71><span class=section-num>1</span> 用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages</h2><h3 id=h:ae0cb92a-bd96-42bf-9858-deed2ae7d6e4><span class=section-num>1.1</span> 准备工作</h3><h4 id=h:be11c5fd-358f-4257-a3de-991dacf33dfa><span class=section-num>1.1.1</span> 创建两个 Github 仓库</h4><ul><li>用来放 org 文件. markdown 文件及 Hugo 相关配置，可以设置成私有，如 blog。</li><li>Github Pages 仓库，用来放生成的静态文件。一般是{username}.github.io。</li></ul><h4 id=h:590f68ab-9703-405b-8365-c2b1805bb518><span class=section-num>1.1.2</span> 安装 Hugo</h4><ul><li>a static site generator written in Go</li></ul><h4 id=h:16bf7be3-b1f1-480f-a90a-194c11970799><span class=section-num>1.1.3</span> 安装 ox-hugo</h4><ul><li>将 org 文件翻译成 markdown 文件，written in Emacs Lisp。Hugo 支持 Org Mode，但据说支持得不是很好 1。毕竟 Emacs Lisp 处理 org 文件相关的包比 Go 多，就直接用 ox-hugo 转 markdown 的方案了。</li></ul><p>不是 Emacs 用户？</p><ul><li>可跳过 Org Mode 相关内容</li></ul><h4 id=h:221b082e-bedf-46ae-9957-6eb4272b962d><span class=section-num>1.1.4</span> 配置环境</h4><p>各软件版本</p><ul><li><p>Emacs 27.1</p></li><li><p>Org Mode 9.3</p></li><li><p>ox-hugo 20210916.1332</p></li><li><p>Hugo v0.89.4</p></li><li><p>配置 Hugo</p><ol><li># 在 blog 仓库中新建 hugo site</li><li>cd /path/to/blog && hugo new site hugo</li><li># 选个主题，并设置成子模块（后续升级/替换都比较方便）</li><li>git submodule add <a href=https://github.com/olOwOlo/hugo-theme-even.git target=_blank rel="noopener noreffer">https://github.com/olOwOlo/hugo-theme-even.git</a> hugo/themes/even</li><li># 修改默认配置</li></ol></li><li><p>开启本地实时预览</p><ol><li># 配置修改. markdown 文件改动都会被监控到</li><li>cd blog && hugo –source hugo server -D</li></ol></li><li><p>配置 ox-hugo</p></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-emacs-lisp data-lang=emacs-lisp><span class=line><span class=cl><span class=c1>;;; 在 init.el 里或其他文件里加以下代码</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>with-eval-after-load</span> <span class=ss>&#39;ox</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>require</span> <span class=ss>&#39;ox-hugo</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=c1>;;; 可选。全局配置，如导出目录等字段，也可以在 org 文件里进行配置</span>
+</span></span><span class=line><span class=cl><span class=c1>;;; M-x customize-variable org-hugo</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=h:a50720d1-7467-43fe-96bf-c99596239cae><span class=section-num>1.2</span> 写博客</h3><ol><li><p>新建 org 目录及文件</p><ol><li>cd blog && mkdir -p org/2021/11</li><li># 可选，可以不按年月日分拆分目录。拆分后方便管理，但如果用户直接访问某年的数据，页面就会 404</li></ol></li><li><p>新建 org 文件，如 test.org</p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-org data-lang=org><span class=line><span class=cl><span class=cs>#+OPTIONS</span><span class=c>: author:nil ^:{}</span>
+</span></span><span class=line><span class=cl><span class=c># 告诉 ox-hugo 将导出的 markdown 文件放到哪里。注意：even 主题需要发布到 post 目录。</span>
+</span></span><span class=line><span class=cl><span class=c># see: https://ox-hugo.scripter.co/#before-you-export</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_BASE_DIR</span><span class=c>: ../../../hugo</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_SECTION</span><span class=c>: post/2021/11</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_CUSTOM_FRONT_MATTER</span><span class=c>: :toc true</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_AUTO_SET_LASTMOD</span><span class=c>: t</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_DRAFT</span><span class=c>: false</span>
+</span></span><span class=line><span class=cl><span class=cs>#+DATE</span><span class=c>: [2021-11-28 Sun 19:28]</span>
+</span></span><span class=line><span class=cl><span class=cs>#+TITLE</span><span class=c>: 标题</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_TAGS</span><span class=c>: tag1 tag2</span>
+</span></span><span class=line><span class=cl><span class=cs>#+HUGO_CATEGORIES</span><span class=c>: category1 category2</span>
+</span></span><span class=line><span class=cl>Hello，World
+</span></span></code></pre></td></tr></table></div></div><ol><li><p>导出 org 到 markdown 文件</p></li><li><p>在 Emacs 里执行 C-c C-e H h（File to Md file）导出整个 org 文件到 markdown 文件，也可以导出 subtree，具体看个人喜好</p></li><li><p>访问<a href=http://127.0.0.1:1313/ target=_blank rel="noopener noreffer">http://127.0.0.1:1313/</a></p></li><li><p>正常情况就会看到博客界面啦</p></li><li><p>提交 org 及 markdown 文件到 blog 仓库</p></li><li><p>使用 Yasnippet（推荐） 下次新建文件就不用 copy 一些元数据</p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># -*- mode: snippet -*-
+</span></span><span class=line><span class=cl># name: hugo
+</span></span><span class=line><span class=cl># key: hugo
+</span></span><span class=line><span class=cl># --
+</span></span><span class=line><span class=cl>#+OPTIONS: author:nil ^:{}
+</span></span><span class=line><span class=cl>#+HUGO_BASE_DIR: ../../../hugo
+</span></span><span class=line><span class=cl>#+HUGO_SECTION: post/`(format-time-string &#34;%Y/%m&#34;)`
+</span></span><span class=line><span class=cl>#+HUGO_CUSTOM_FRONT_MATTER: :toc true
+</span></span><span class=line><span class=cl>#+HUGO_AUTO_SET_LASTMOD: t
+</span></span><span class=line><span class=cl>#+HUGO_DRAFT: false
+</span></span><span class=line><span class=cl>#+DATE: `(format-time-string &#34;[%Y-%m-%d %a %H:%M]&#34;)`
+</span></span><span class=line><span class=cl>#+TITLE: $1
+</span></span><span class=line><span class=cl>#+HUGO_TAGS: $2
+</span></span><span class=line><span class=cl>#+HUGO_CATEGORIES: $3
+</span></span><span class=line><span class=cl>$0
+</span></span></code></pre></td></tr></table></div></div><h4 id=h:2a8af21d-c8c0-41f1-8925-1c7a68063f84><span class=section-num>1.2.1</span> 目录结构</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=cl> &lt;!-- blog 仓库目录结构如下 --&gt;
+</span></span><span class=line><span class=cl>  &lt;!-- tree -a -d -L 3 -I .git --&gt;
+</span></span><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── .github
+</span></span><span class=line><span class=cl>│   └── workflows
+</span></span><span class=line><span class=cl>├── hugo
+</span></span><span class=line><span class=cl>│   ├── archetypes
+</span></span><span class=line><span class=cl>│   ├── content
+</span></span><span class=line><span class=cl>│   │   └── post
+</span></span><span class=line><span class=cl>│   ├── data
+</span></span><span class=line><span class=cl>│   ├── layouts
+</span></span><span class=line><span class=cl>│   │   └── _internal
+</span></span><span class=line><span class=cl>│   ├── static
+</span></span><span class=line><span class=cl>│   └── themes
+</span></span><span class=line><span class=cl>│       └── even
+</span></span><span class=line><span class=cl>├── org
+</span></span><span class=line><span class=cl>│   └── 2021
+</span></span><span class=line><span class=cl>│       └── 11
+</span></span><span class=line><span class=cl>└── scripts
+</span></span></code></pre></td></tr></table></div></div><h3 id=h:fb08f300-8df9-412a-8a7e-0a5978f7d02a><span class=section-num>1.3</span> 部署篇</h3><h4 id=h:c47c61b5-6463-4b58-a111-0c975a87abf2><span class=section-num>1.3.1</span> 配置 Github Action</h4><p>在 blog 仓库下新增.github/workflows/main.yml 文件，内容如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>GitHub Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>main </span><span class=w> </span><span class=c># Set a branch to deploy</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>pull_request</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-20.04</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>concurrency</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>group</span><span class=p>:</span><span class=w> </span><span class=l>${{ github.workflow }}-${{ github.ref }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c># 修改时区</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Set Timezone</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=l>sudo timedatectl set-timezone &#39;Asia/Shanghai&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>submodules</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>  </span><span class=c># Fetch Hugo themes (true OR recursive)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>fetch-depth</span><span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>    </span><span class=c># Fetch all history for .GitInfo and .Lastmod</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Setup Hugo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-hugo@v2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># 建议和本地用的版本保持一致，从而获得一致的体验</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>hugo-version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;0.89.4&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># extended: true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Build</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span></span></span><span class=line><span class=cl><span class=sd>          hugo --source hugo --minify --buildFuture --buildExpired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-gh-pages@v3</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>if</span><span class=p>:</span><span class=w> </span><span class=l>${{ github.ref == &#39;refs/heads/main&#39; }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># publish_branch: gh-pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># publish_dir: hugo/public</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>deploy_key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.DEPLOY_KEY }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>external_repository</span><span class=p>:</span><span class=w> </span><span class=l>superbear/superbear.github.io</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=c># 默认是 master 目录，github 上可修改</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>publish_branch</span><span class=p>:</span><span class=w> </span><span class=l>master</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>publish_dir</span><span class=p>:</span><span class=w> </span><span class=l>hugo/public</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h4 id=h:fe0a2943-fea6-4455-a7c4-3300df3ed776><span class=section-num>1.3.2</span> 配置 DEPLOY_KEY</h4><p>生成 github deploy-keys</p><ol><li>将公钥添加至{username}.github.io 仓的 Deploy keys（Settings -> Deploy keys）中；</li><li>将私钥添加至 blog 仓库的 secrets（Settings -> Secrets）中；</li><li>将本地 blog 目录的改动 push 到远程 blog 仓库 master 分支；</li><li>正常情况下，一段时间之后，可以在{username}.github.io 的 master 分支下看到 hugo 生成的静态文件；</li><li>没有的话，可以根据 blog 仓库的 Github Actions 日志排查下。</li></ol><h3 id=h:3d56e5b1-24da-4c13-a233-241622c7a523><span class=section-num>1.4</span> 遇到的问题</h3><ol><li><p>部署完成却没有生成文件，就只有一个.nojekyll 文件</p><p>1 &lt;!– actions log –>
+2 cp: no such file or directory: /home/runner/work/blog/hugo/public/*</p></li></ol><p>排查思路：排查 Github Actions 日志，以及写一些 shell 命令查看路径相关信息</p><ol><li><p>Hugo 生成静态文件报错，报错信息如下：</p><p>1 - unmarshal failed: Near line 4 (last key parsed &rsquo;tags&rsquo;): Array contains values of type &lsquo;Integer&rsquo; and &lsquo;String&rsquo;, but arrays must be homogeneous.</p></li></ol><p>原因：tags 的类型不一致，标签混用了数字和字符串解决方案：去掉数字类型的标签或升级至最新版本的 hugo</p><h2 id=h:3dab7760-3b4f-456e-b112-e2e740204576><span class=section-num>2</span> 使用 Emacs Script 自动将 org 文件导出为 Markdown</h2><p>接上篇 用 Org Mode + Hugo 写博客，并通过 Github Action 自动部署到 Github Pages</p><h3 id=h:d959fa6b-ae45-41e4-8da5-fd800606a0e6><span class=section-num>2.1</span> 痛点</h3><p>代码仓库里会同时保存 org 文件和 markdown 文件，markdown 文件其实是中间产物，不想保存。</p><h3 id=h:c5499c54-d782-4a29-b13c-e4e74d749915><span class=section-num>2.2</span> 如何解决</h3><p>首先，Emacs 是可以执行 Emacs Script 的，写个脚本，然后在 Github Action 里执行即可。Emacs 环境哪里来？
+purcell 大神已经准备好了。</p><p>废话不多说，直接上代码。</p><p>嵌入 Gist</p><p>1 #+BEGIN_EXPORT html
+2 &lt;script src="<a href=https://gist.github.com/superbear/28fb0dbbca505b5d7d83e10e35b822a4.js target=_blank rel="noopener noreffer">https://gist.github.com/superbear/28fb0dbbca505b5d7d83e10e35b822a4.js</a>">&lt;/script>
+3 #+END_EXPORT</p><p>等等，直接用 markdown 写是不是就没有这个痛点了？嗯😄。</p><h3 id=h:b08e34c0-315f-43a9-9b4a-cc087fb86323><span class=section-num>2.3</span> 存在的问题</h3><p>目前是全量导出，找到指定目录下的全部 org 文件，然后转成 markdown 文件。 这样每提交一篇文章，就需要处理全部存量文章。另外，全部文章的更新时间都会跟着变，这个和 HUGO_AUTO_SET_LASTMOD 这个 property
+设置有关。详见：ox-hugo last modified 。待改成增量导出。</p><h3 id=h:43b5e31b-6034-4c46-bb48-782b103d0536><span class=section-num>2.4</span> 遇到的问题</h3><ol><li>org 导出 markdown 文件了，但未生成静态文件<br></li></ol><p>原因：时区问题。Github Action 是按 UTC 时间执行的，而文件的发布日期是东八区的，这样 Hugo 可能会看到发布日期还未到，就不处理了 1。解决方案：修改 Github Action job 的时区，可一并解决文件修改时间不对的问题；或修改 Hugo 运行时的配置，增加–buildFuture 参数。</p><h2 id=h:7d9d2a30-9a98-4243-8da6-51eb1201b20e><span class=section-num>3</span> 附录</h2><h3 id=h:bbb920e4-d3fe-48e3-9221-e4c6c5b53844><span class=section-num>3.1</span> 我正在用的 github actions</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># Sample workflow for building and deploying a Hugo site to GitHub Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy Hugo site to Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Runs on pushes targeting the default branch</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;master&#34;</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Allows you to run this workflow manually from the Actions tab</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>workflow_dispatch</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>permissions</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>contents</span><span class=p>:</span><span class=w> </span><span class=l>read</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>pages</span><span class=p>:</span><span class=w> </span><span class=l>write</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>id-token</span><span class=p>:</span><span class=w> </span><span class=l>write</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>concurrency</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>group</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;pages&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cancel-in-progress</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Default to bash</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>defaults</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>run</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>shell</span><span class=p>:</span><span class=w> </span><span class=l>bash</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>build</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-20.04</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>concurrency</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>group</span><span class=p>:</span><span class=w> </span><span class=l>${{ github.workflow }}-${{ github.ref }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/checkout@v2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>submodules</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>  </span><span class=c># Fetch Hugo themes (true OR recursive)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>fetch-depth</span><span class=p>:</span><span class=w> </span><span class=m>0</span><span class=w>    </span><span class=c># Fetch all history for .GitInfo and .Lastmod</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Setup Hugo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-hugo@v2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>hugo-version</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;0.115.0&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>extended</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Setup Emacs</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>purcell/setup-emacs@master</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=m>29.1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Export Markdown</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span></span></span><span class=line><span class=cl><span class=sd>          # 将org文件导出成md文件
+</span></span></span><span class=line><span class=cl><span class=sd>          mkdir ~/.emacs.d
+</span></span></span><span class=line><span class=cl><span class=sd>          cd script &amp;&amp; sh batch-export-org-files-to-md-with-ox-hugo.el</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Build</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span></span></span><span class=line><span class=cl><span class=sd>          cd hugo &amp;&amp; hugo --minify --buildFuture --buildExpired</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Upload artifact</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>actions/upload-pages-artifact@v2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>path</span><span class=p>:</span><span class=w> </span><span class=l>./hugo/public</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>peaceiris/actions-gh-pages@v3</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c># If you&#39;re changing the branch from main,</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c># also change the `main` in `refs/heads/main`</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=c># below accordingly.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>if</span><span class=p>:</span><span class=w> </span><span class=l>github.ref == &#39;refs/heads/master&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>publish_branch</span><span class=p>:</span><span class=w> </span><span class=l>master</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>publish_dir</span><span class=p>:</span><span class=w> </span><span class=l>hugo/public</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>deploy_key</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.DEPLOY }}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>external_repository</span><span class=p>:</span><span class=w> </span><span class=l>yangyingchao/yangyingchao.github.io</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=h:006ec282-c3c0-4055-9d39-f9f564afd922><span class=section-num>3.2</span> 当前用的脚本</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-emacs-lisp data-lang=emacs-lisp><span class=line><span class=cl><span class=err>#</span><span class=nv>!/usr/bin/env</span> <span class=nv>sh</span>
+</span></span><span class=line><span class=cl><span class=o>:</span><span class=c1>; set -e # -*- mode: emacs-lisp; lexical-binding: t -*-</span>
+</span></span><span class=line><span class=cl><span class=o>:</span><span class=c1>; emacs --no-site-file --script &#34;$0&#34; -- &#34;$@&#34; || __EXITCODE=$?</span>
+</span></span><span class=line><span class=cl><span class=o>:</span><span class=c1>; exit 0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>;;; Code:</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defvar</span> <span class=nv>bootstrap-version</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defvar</span> <span class=nv>straight-base-dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defvar</span> <span class=nv>straight-fix-org</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defvar</span> <span class=nv>straight-vc-git-default-clone-depth</span> <span class=mi>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defvar</span> <span class=nv>publish--straight-repos-dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>setq</span> <span class=nv>gc-cons-threshold</span> <span class=mi>83886080</span> <span class=c1>; 80MiB</span>
+</span></span><span class=line><span class=cl>      <span class=nv>straight-base-dir</span> <span class=p>(</span><span class=nf>expand-file-name</span> <span class=s>&#34;../..&#34;</span> <span class=p>(</span><span class=nb>or</span> <span class=nv>load-file-name</span> <span class=nf>buffer-file-name</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=nv>straight-fix-org</span> <span class=no>t</span>
+</span></span><span class=line><span class=cl>      <span class=nv>straight-vc-git-default-clone-depth</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl>      <span class=nv>publish--straight-repos-dir</span> <span class=p>(</span><span class=nf>expand-file-name</span> <span class=s>&#34;straight/repos/&#34;</span> <span class=nv>straight-base-dir</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>let</span> <span class=p>((</span><span class=nv>bootstrap-file</span> <span class=p>(</span><span class=nf>expand-file-name</span> <span class=s>&#34;straight/repos/straight.el/bootstrap.el&#34;</span> <span class=nv>straight-base-dir</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>bootstrap-version</span> <span class=mi>5</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>unless</span> <span class=p>(</span><span class=nf>file-exists-p</span> <span class=nv>bootstrap-file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=nb>with-current-buffer</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nv>url-retrieve-synchronously</span>
+</span></span><span class=line><span class=cl>         <span class=s>&#34;https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el&#34;</span>
+</span></span><span class=line><span class=cl>         <span class=ss>&#39;silent</span> <span class=ss>&#39;inhibit-cookies</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nf>goto-char</span> <span class=p>(</span><span class=nf>point-max</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nv>eval-print-last-sexp</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>load</span> <span class=nv>bootstrap-file</span> <span class=no>nil</span> <span class=ss>&#39;nomessage</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>;;; org &amp;&amp; ox-hugo</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nv>straight-use-package</span> <span class=o>&#39;</span><span class=p>(</span><span class=nv>org</span> <span class=nb>:type</span> <span class=nv>built-in</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nv>straight-use-package</span>
+</span></span><span class=line><span class=cl> <span class=o>&#39;</span><span class=p>(</span><span class=nv>ox-hugo</span> <span class=nb>:type</span> <span class=nv>git</span>
+</span></span><span class=line><span class=cl>           <span class=nb>:host</span> <span class=nv>github</span>
+</span></span><span class=line><span class=cl>           <span class=nb>:repo</span> <span class=s>&#34;kaushalmodi/ox-hugo&#34;</span>
+</span></span><span class=line><span class=cl>           <span class=nb>:nonrecursive</span> <span class=no>t</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>require</span> <span class=ss>&#39;ox-hugo</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defun</span> <span class=nv>yc/org-hugo--build-toc-a</span> <span class=p>(</span><span class=nv>content</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;Append my markers.
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>These markers are used to identify original source of this note.&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>concat</span> <span class=p>(</span><span class=nb>or</span> <span class=nv>content</span> <span class=s>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=nb>save-excursion</span>
+</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nf>goto-char</span> <span class=p>(</span><span class=nf>point-min</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>(</span><span class=nb>if</span> <span class=p>(</span><span class=nf>re-search-forward</span> <span class=p>(</span><span class=nb>rx</span> <span class=nv>bol</span> <span class=s>&#34;:NOTER_DOCUMENT:&#34;</span> <span class=p>(</span><span class=nf>*</span> <span class=nv>space</span><span class=p>)</span> <span class=p>(</span><span class=nv>group</span> <span class=p>(</span><span class=nf>+</span> <span class=nv>nonl</span><span class=p>))</span> <span class=nv>eol</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>          <span class=p>(</span><span class=nb>let</span> <span class=p>((</span><span class=nv>orig</span> <span class=p>(</span><span class=nv>match-string</span> <span class=mi>1</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=nf>format</span> <span class=s>&#34;\n\n本文为摘录，原文为： %s\n&#34;</span> <span class=nv>orig</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=s>&#34;&#34;</span><span class=p>))))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nv>advice-add</span> <span class=nf>#&#39;</span><span class=nv>org-hugo--build-toc</span> <span class=nb>:filter-return</span> <span class=nf>#&#39;</span><span class=nv>yc/org-hugo--build-toc-a</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defun</span> <span class=nv>tnote/export-org-file-to-md</span> <span class=p>(</span><span class=nv>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;Export single FILE to markdown.&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;Checking file %s&#34;</span> <span class=nv>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>if</span> <span class=p>(</span><span class=nb>and</span> <span class=p>(</span><span class=nf>file-exists-p</span> <span class=nv>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>           <span class=p>(</span><span class=nf>string-equal</span> <span class=p>(</span><span class=nv>file-name-extension</span> <span class=nv>file</span><span class=p>)</span> <span class=s>&#34;org&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>           <span class=p>(</span><span class=nv>not</span> <span class=p>(</span><span class=nv>string-match-p</span> <span class=p>(</span><span class=nb>rx</span> <span class=p>(</span><span class=nb>or</span> <span class=s>&#34;inbox&#34;</span> <span class=s>&#34;gtd&#34;</span><span class=p>))</span> <span class=nv>file</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=nb>with-current-buffer</span> <span class=p>(</span><span class=nv>find-file-noselect</span> <span class=nv>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;    Processing file: %s&#34;</span> <span class=nv>file</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nb>condition-case</span> <span class=nv>var</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=nv>org-hugo-export-wim-to-md</span> <span class=no>t</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=p>(</span><span class=ne>error</span> <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;ERROR: %s&#34;</span> <span class=nv>var</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;    .... done&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;    Skipping file: %s&#34;</span> <span class=nv>file</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defun</span> <span class=nv>batch-export-all-org-files-to-md</span> <span class=p>(</span><span class=nv>dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;Export all org files in directory DIR to markdown.
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>To perform a full export of all org files in the directory DIR to
+</span></span></span><span class=line><span class=cl><span class=s>markdown format, use this command. It should be called when a
+</span></span></span><span class=line><span class=cl><span class=s>full export is required, typically for the first time..&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>message</span> <span class=s>&#34;DIR: %s&#34;</span> <span class=nv>dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nf>mapc</span> <span class=nf>#&#39;</span><span class=nv>tnote/export-org-file-to-md</span> <span class=p>(</span><span class=nv>directory-files-recursively</span> <span class=nv>dir</span> <span class=s>&#34;\\`[^.#].*\\.org\\&#39;&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>defun</span> <span class=nv>batch-export-HEAD-files-to-md</span> <span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=s>&#34;Export the files in the HEAD branch to markdown format.
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>This command should be called in an incremental manner to
+</span></span></span><span class=line><span class=cl><span class=s>effectively export updated files..&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>(</span><span class=nb>dolist</span> <span class=p>(</span><span class=nv>it</span> <span class=p>(</span><span class=nf>cdr</span> <span class=p>(</span><span class=nv>string-lines</span> <span class=p>(</span><span class=nv>shell-command-to-string</span> <span class=s>&#34;git show --oneline --name-only HEAD&#34;</span><span class=p>))))</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=nv>tnote/export-org-file-to-md</span> <span class=p>(</span><span class=nf>expand-file-name</span> <span class=nv>it</span> <span class=s>&#34;..&#34;</span><span class=p>))))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>;;; export</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>setq</span> <span class=nv>org-hugo-base-dir</span> <span class=p>(</span><span class=nf>concat</span> <span class=nv>default-directory</span> <span class=s>&#34;../hugo&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nb>setq</span> <span class=nv>org-file-dir</span> <span class=p>(</span><span class=nf>concat</span> <span class=nv>default-directory</span> <span class=s>&#34;../org/&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=nv>batch-export-all-org-files-to-md</span> <span class=nv>org-file-dir</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-09-05</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/hugo/>Hugo</a>,&nbsp;<a href=/tags/blog/>Blog</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2023/09/perl-begginer-note/ class=prev rel=prev title="perl begginer note"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>perl begginer note</a>
+<a href=/2023/09/back-to-sway/ class=next rel=next title="Back to Sway">Back to Sway<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
