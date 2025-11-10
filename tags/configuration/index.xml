@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Configuration on 杂货铺</title><link>https://yangyingchao.github.io/tags/configuration/</link><description>Recent content in Configuration on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/configuration/index.xml" rel="self" type="application/rss+xml"/><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel=""&gt;IP Fragmentation Settings&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:8109178d-d6f2-4bf1-9213-38024fbf79b1" rel=""&gt;Networking&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer "&gt;https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:3127b791-8437-4d53-bf04-17e651151969"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer "&gt;IP Fragmentation Settings&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;IP Fragmentation Settings&lt;/p&gt;
-&lt;p&gt;When the Greenplum Database interconnect uses UDP (the default), the network interface
-card controls IP packet fragmentation and reassemblies.&lt;/p&gt;
-&lt;p&gt;If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Configuration - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/configuration/</link><description>Configuration - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/configuration/" rel="self" type="application/rss+xml"/><item><title>GPDB: Configuring Your Systems</title><link>https://yangyingchao.github.io/gpdb-configuring-your-systems/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpdb-configuring-your-systems/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:3127b791-8437-4d53-bf04-17e651151969" rel="">IP Fragmentation Settings</a></li>
+<li><span class="section-num">2</span> <a href="#h:8109178d-d6f2-4bf1-9213-38024fbf79b1" rel="">Networking</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
+<h2 id="h:3127b791-8437-4d53-bf04-17e651151969"><span class="section-num">1</span> <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer ">IP Fragmentation Settings</a></h2>
+<p>IP Fragmentation Settings</p>
+<p>When the Greenplum Database interconnect uses UDP (the default), the network interface
+card controls IP packet fragmentation and reassemblies.</p>
+<p>If the UDP message size is larger than the size of the maximum transmission unit (MTU) of
 a network, the IP layer fragments the message. (Refer to Networking later in this topic
 for more information about MTU sizes for Greenplum Database.) The receiver must store the
-fragments in a buffer before it can reorganize and reassemble the message.&lt;/p&gt;</description></item></channel></rss>
+fragments in a buffer before it can reorganize and reassemble the message.</p>]]></description></item></channel></rss>

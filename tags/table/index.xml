@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Table on 杂货铺</title><link>https://yangyingchao.github.io/tags/table/</link><description>Recent content in Table on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sun, 07 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/table/index.xml" rel="self" type="application/rss+xml"/><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description>&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer "&gt;https://gist.github.com/alesk/3826552&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;将 CSV 转换为 org 表格 &lt;br /&gt;
-将文本导入文件，标记文本，然后按下 &lt;code&gt;C-c |&lt;/code&gt; 。它会将该区域转换为表格。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;要导出 &lt;br /&gt;
-请使用 M-x org-table-export。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;参考资料：&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Table - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/table/</link><description>Table - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sun, 07 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/table/" rel="self" type="application/rss+xml"/><item><title>Emacs org mode hints – convert between csv &amp; org table</title><link>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</link><pubDate>Sun, 07 Apr 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gist.github.com_alesk_3826552/</guid><description><![CDATA[<p>本文为摘录(或转载)，侵删，原文为： <a href="https://gist.github.com/alesk/3826552" target="_blank" rel="noopener noreffer ">https://gist.github.com/alesk/3826552</a></p>
+<ul>
+<li>
+<p>将 CSV 转换为 org 表格 <br />
+将文本导入文件，标记文本，然后按下 <code>C-c |</code> 。它会将该区域转换为表格。</p>
+</li>
+<li>
+<p>要导出 <br />
+请使用 M-x org-table-export。</p>
+</li>
+</ul>
+<p>参考资料：</p>]]></description></item></channel></rss>

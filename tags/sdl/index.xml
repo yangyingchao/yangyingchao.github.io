@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sdl on 杂货铺</title><link>https://yangyingchao.github.io/tags/sdl/</link><description>Recent content in Sdl on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 21 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sdl/index.xml" rel="self" type="application/rss+xml"/><item><title>sdl_note</title><link>https://yangyingchao.github.io/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/sdl_note/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%bb%80%e4%b9%88%e6%98%af-sdl" rel=""&gt;什么是 SDL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9a-sdl" rel=""&gt;为什么要做 SDL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e5%be%ae%e8%bd%af-sdl" rel=""&gt;微软 SDL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#%e5%ae%89%e5%85%a8%e8%ae%be%e8%ae%a1%e6%a0%b8%e5%bf%83%e5%8e%9f%e5%88%99" rel=""&gt;安全设计核心原则&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#sdl-%e5%9b%b0%e9%9a%be" rel=""&gt;SDL 困难&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#%e6%80%bb%e7%bb%93" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#reference" rel=""&gt;reference：&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD" target="_blank" rel="noopener noreffer "&gt;https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="什么是-sdl"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 什么是 SDL&lt;/h2&gt;
-&lt;p&gt;SDL 其实是由微软提出并应用一个帮助开发人员构建更安全的软件和解决安全合规要求的同时降低开发成本的软件开发过程，侧重于软件开发的安全保证过程，旨在开发出安全的软件应用。&lt;/p&gt;</description></item><item><title>微软软件安全开发流程（SDL） security-development-lifecycle</title><link>https://yangyingchao.github.io/blog_csdn_net_details_122882914/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/blog_csdn_net_details_122882914/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#microsoft-%e5%ae%89%e5%85%a8%e5%bc%80%e5%8f%91%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f--sdl" rel=""&gt;Microsoft 安全开发生命周期(SDL)&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#%e5%9f%b9%e8%ae%ad" rel=""&gt;培训&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#%e8%a6%81%e6%b1%82" rel=""&gt;要求&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.3&lt;/span&gt; &lt;a href="#design" rel=""&gt;Design&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.4&lt;/span&gt; &lt;a href="#%e5%ae%9e%e7%8e%b0" rel=""&gt;实现&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.5&lt;/span&gt; &lt;a href="#%e9%aa%8c%e8%af%81" rel=""&gt;验证&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.6&lt;/span&gt; &lt;a href="#%e5%8f%91%e5%b8%83" rel=""&gt;发布&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.7&lt;/span&gt; &lt;a href="#%e5%93%8d%e5%ba%94" rel=""&gt;响应&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e5%be%ae%e8%bd%af-sdl-%e6%b5%81%e7%a8%8b%e7%bb%88%e6%9e%81%e6%95%b4%e7%90%86%e6%80%bb%e7%bb%93" rel=""&gt;微软 SDL 流程终极整理总结&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#%e4%b8%80-%e5%be%ae%e8%bd%af-sdl--security-development-lifecycle--%e6%b5%81%e7%a8%8b%e6%a1%86%e6%9e%b6" rel=""&gt;一、微软 SDL(Security Development Lifecycle)流程框架&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#%e4%ba%8c-%e4%b8%bb%e8%a6%81%e6%ad%a5%e9%aa%a4" rel=""&gt;二、主要步骤&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#%e4%b8%89-sdl-%e5%ae%9e%e6%88%98%e7%bb%8f%e9%aa%8c%e5%87%86%e5%88%99" rel=""&gt;三、SDL 实战经验准则&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.4&lt;/span&gt; &lt;a href="#%e5%9b%9b-%e4%b8%8e-samm-%e5%af%b9%e6%af%94" rel=""&gt;四、与 SAMM 对比&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.5&lt;/span&gt; &lt;a href="#%e4%ba%94-%e5%b8%b8%e7%94%a8-sdl-%e5%ae%9e%e6%96%bd%e6%96%b9%e6%b3%95%e5%92%8c%e5%b7%a5%e5%85%b7" rel=""&gt;五、常用 SDL 实施方法和工具&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.6&lt;/span&gt; &lt;a href="#%e5%85%ad-%e6%95%8f%e6%8d%b7-sdl" rel=""&gt;六、敏捷 SDL&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.7&lt;/span&gt; &lt;a href="#%e4%b8%83-%e8%bd%af%e4%bb%b6%e5%ae%89%e5%85%a8%e5%bc%80%e5%8f%91%e6%b5%81%e7%a8%8b%e6%96%b0%e5%a2%9e%e7%9a%84%e5%ae%89%e5%85%a8%e6%b4%bb%e5%8a%a8" rel=""&gt;七、软件安全开发流程新增的安全活动&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.8&lt;/span&gt; &lt;a href="#%e5%85%ab-%e9%99%84%e4%bb%b6-%e5%ae%89%e5%85%a8%e9%80%89%e9%a1%b9%e8%a1%a8" rel=""&gt;八、附件《安全选项表》&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://blog.csdn.net/weixin_43965597/article/details/122882914" target="_blank" rel="noopener noreffer "&gt;https://blog.csdn.net/weixin_43965597/article/details/122882914&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sdl - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/sdl/</link><description>Sdl - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 21 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sdl/" rel="self" type="application/rss+xml"/><item><title>sdl_note</title><link>https://yangyingchao.github.io/sdl_note/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/sdl_note/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e4%bb%80%e4%b9%88%e6%98%af-sdl" rel="">什么是 SDL</a></li>
+<li><span class="section-num">2</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9a-sdl" rel="">为什么要做 SDL</a></li>
+<li><span class="section-num">3</span> <a href="#%e5%be%ae%e8%bd%af-sdl" rel="">微软 SDL</a></li>
+<li><span class="section-num">4</span> <a href="#%e5%ae%89%e5%85%a8%e8%ae%be%e8%ae%a1%e6%a0%b8%e5%bf%83%e5%8e%9f%e5%88%99" rel="">安全设计核心原则</a></li>
+<li><span class="section-num">5</span> <a href="#sdl-%e5%9b%b0%e9%9a%be" rel="">SDL 困难</a></li>
+<li><span class="section-num">6</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
+<li><span class="section-num">7</span> <a href="#reference" rel="">reference：</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD" target="_blank" rel="noopener noreffer ">https://xz.aliyun.com/t/11922?time__1311=Cq0xuD2DgAexlxGghKIxGKj2ewfxG8AeD</a></p>
+<h2 id="什么是-sdl"><span class="section-num">1</span> 什么是 SDL</h2>
+<p>SDL 其实是由微软提出并应用一个帮助开发人员构建更安全的软件和解决安全合规要求的同时降低开发成本的软件开发过程，侧重于软件开发的安全保证过程，旨在开发出安全的软件应用。</p>]]></description></item><item><title>微软软件安全开发流程（SDL） security-development-lifecycle</title><link>https://yangyingchao.github.io/blog_csdn_net_details_122882914/</link><pubDate>Tue, 21 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/blog_csdn_net_details_122882914/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#microsoft-%e5%ae%89%e5%85%a8%e5%bc%80%e5%8f%91%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f--sdl" rel="">Microsoft 安全开发生命周期(SDL)</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#%e5%9f%b9%e8%ae%ad" rel="">培训</a></li>
+<li><span class="section-num">1.2</span> <a href="#%e8%a6%81%e6%b1%82" rel="">要求</a></li>
+<li><span class="section-num">1.3</span> <a href="#design" rel="">Design</a></li>
+<li><span class="section-num">1.4</span> <a href="#%e5%ae%9e%e7%8e%b0" rel="">实现</a></li>
+<li><span class="section-num">1.5</span> <a href="#%e9%aa%8c%e8%af%81" rel="">验证</a></li>
+<li><span class="section-num">1.6</span> <a href="#%e5%8f%91%e5%b8%83" rel="">发布</a></li>
+<li><span class="section-num">1.7</span> <a href="#%e5%93%8d%e5%ba%94" rel="">响应</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#%e5%be%ae%e8%bd%af-sdl-%e6%b5%81%e7%a8%8b%e7%bb%88%e6%9e%81%e6%95%b4%e7%90%86%e6%80%bb%e7%bb%93" rel="">微软 SDL 流程终极整理总结</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#%e4%b8%80-%e5%be%ae%e8%bd%af-sdl--security-development-lifecycle--%e6%b5%81%e7%a8%8b%e6%a1%86%e6%9e%b6" rel="">一、微软 SDL(Security Development Lifecycle)流程框架</a></li>
+<li><span class="section-num">2.2</span> <a href="#%e4%ba%8c-%e4%b8%bb%e8%a6%81%e6%ad%a5%e9%aa%a4" rel="">二、主要步骤</a></li>
+<li><span class="section-num">2.3</span> <a href="#%e4%b8%89-sdl-%e5%ae%9e%e6%88%98%e7%bb%8f%e9%aa%8c%e5%87%86%e5%88%99" rel="">三、SDL 实战经验准则</a></li>
+<li><span class="section-num">2.4</span> <a href="#%e5%9b%9b-%e4%b8%8e-samm-%e5%af%b9%e6%af%94" rel="">四、与 SAMM 对比</a></li>
+<li><span class="section-num">2.5</span> <a href="#%e4%ba%94-%e5%b8%b8%e7%94%a8-sdl-%e5%ae%9e%e6%96%bd%e6%96%b9%e6%b3%95%e5%92%8c%e5%b7%a5%e5%85%b7" rel="">五、常用 SDL 实施方法和工具</a></li>
+<li><span class="section-num">2.6</span> <a href="#%e5%85%ad-%e6%95%8f%e6%8d%b7-sdl" rel="">六、敏捷 SDL</a></li>
+<li><span class="section-num">2.7</span> <a href="#%e4%b8%83-%e8%bd%af%e4%bb%b6%e5%ae%89%e5%85%a8%e5%bc%80%e5%8f%91%e6%b5%81%e7%a8%8b%e6%96%b0%e5%a2%9e%e7%9a%84%e5%ae%89%e5%85%a8%e6%b4%bb%e5%8a%a8" rel="">七、软件安全开发流程新增的安全活动</a></li>
+<li><span class="section-num">2.8</span> <a href="#%e5%85%ab-%e9%99%84%e4%bb%b6-%e5%ae%89%e5%85%a8%e9%80%89%e9%a1%b9%e8%a1%a8" rel="">八、附件《安全选项表》</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://blog.csdn.net/weixin_43965597/article/details/122882914" target="_blank" rel="noopener noreffer ">https://blog.csdn.net/weixin_43965597/article/details/122882914</a></p>]]></description></item></channel></rss>

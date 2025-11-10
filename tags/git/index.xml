@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on 杂货铺</title><link>https://yangyingchao.github.io/tags/git/</link><description>Recent content in Git on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Thu, 27 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e7%bb%99-git-%e6%b7%bb%e5%8a%a0%e6%96%b0%e7%9a%84%e6%96%87%e6%9c%ac%e8%bd%ac%e6%8d%a2%e5%a4%84%e7%90%86%e5%99%a8" rel=""&gt;给 git 添加新的文本转换处理器&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e6%8c%87%e7%a4%ba-git-%e4%b8%ba%e6%af%8f%e7%a7%8d%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e5%ba%94%e7%94%a8%e6%ad%a3%e7%a1%ae%e7%9a%84%e5%a4%84%e7%90%86%e5%99%a8" rel=""&gt;指示 git 为每种文件类型应用正确的处理器&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html" target="_blank" rel="noopener noreffer "&gt;https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;处理二进制文件类型，如 Microsoft Word XML 格式的文档 docx、OpenDocument 文本 odt 格式和便携式文档格式 pdf，搭配
-git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式的差异比较。不支持以文本格式比较二进制文件。&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Git - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/git/</link><description>Git - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Thu, 27 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/git/" rel="self" type="application/rss+xml"/><item><title>Diff binary files like docx, odt and pdf with git</title><link>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/www_onwebsecurity_com_configuration_diff-binary-files-docx-odt-pdf-with-git/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e7%bb%99-git-%e6%b7%bb%e5%8a%a0%e6%96%b0%e7%9a%84%e6%96%87%e6%9c%ac%e8%bd%ac%e6%8d%a2%e5%a4%84%e7%90%86%e5%99%a8" rel="">给 git 添加新的文本转换处理器</a></li>
+<li><span class="section-num">2</span> <a href="#%e6%8c%87%e7%a4%ba-git-%e4%b8%ba%e6%af%8f%e7%a7%8d%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e5%ba%94%e7%94%a8%e6%ad%a3%e7%a1%ae%e7%9a%84%e5%a4%84%e7%90%86%e5%99%a8" rel="">指示 git 为每种文件类型应用正确的处理器</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html" target="_blank" rel="noopener noreffer ">https://www.onwebsecurity.com/configuration/diff-binary-files-docx-odt-pdf-with-git.html</a></p>
+<p>处理二进制文件类型，如 Microsoft Word XML 格式的文档 docx、OpenDocument 文本 odt 格式和便携式文档格式 pdf，搭配
+git 使用时会遇到一些困难。默认情况下，git 仅提供文本格式的差异比较。不支持以文本格式比较二进制文件。</p>]]></description></item></channel></rss>

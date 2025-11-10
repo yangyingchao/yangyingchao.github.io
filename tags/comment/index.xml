@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Comment on 杂货铺</title><link>https://yangyingchao.github.io/tags/comment/</link><description>Recent content in Comment on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sun, 16 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/comment/index.xml" rel="self" type="application/rss+xml"/><item><title>（转载）Hugo 添加 Giscus 评论</title><link>https://yangyingchao.github.io/stilig_me_hugo-adds-giscus/</link><pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/stilig_me_hugo-adds-giscus/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e9%85%8d%e7%bd%ae-github-%e4%bb%93%e5%ba%93" rel=""&gt;配置 Github 仓库&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e4%bd%bf%e9%85%8d%e7%bd%ae%e5%a5%bd%e7%9a%84%e4%bb%93%e5%ba%93%e5%ae%89%e8%a3%85-giscus" rel=""&gt;使配置好的仓库安装 Giscus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e4%bb%8e%e5%ae%98%e7%bd%91%e8%8e%b7%e5%8f%96%e9%85%8d%e7%bd%ae%e4%bf%a1%e6%81%af" rel=""&gt;从官网获取配置信息&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%ab%a0" rel=""&gt;参考文章&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://stilig.me/posts/hugo-adds-giscus/" target="_blank" rel="noopener noreffer "&gt;https://stilig.me/posts/hugo-adds-giscus/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而这时我找到了 Giscus。&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Comment - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/comment/</link><description>Comment - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sun, 16 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/comment/" rel="self" type="application/rss+xml"/><item><title>（转载）Hugo 添加 Giscus 评论</title><link>https://yangyingchao.github.io/stilig_me_hugo-adds-giscus/</link><pubDate>Sun, 16 Feb 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/stilig_me_hugo-adds-giscus/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e9%85%8d%e7%bd%ae-github-%e4%bb%93%e5%ba%93" rel="">配置 Github 仓库</a></li>
+<li><span class="section-num">2</span> <a href="#%e4%bd%bf%e9%85%8d%e7%bd%ae%e5%a5%bd%e7%9a%84%e4%bb%93%e5%ba%93%e5%ae%89%e8%a3%85-giscus" rel="">使配置好的仓库安装 Giscus</a></li>
+<li><span class="section-num">3</span> <a href="#%e4%bb%8e%e5%ae%98%e7%bd%91%e8%8e%b7%e5%8f%96%e9%85%8d%e7%bd%ae%e4%bf%a1%e6%81%af" rel="">从官网获取配置信息</a></li>
+<li><span class="section-num">4</span> <a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%ab%a0" rel="">参考文章</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stilig.me/posts/hugo-adds-giscus/" target="_blank" rel="noopener noreffer ">https://stilig.me/posts/hugo-adds-giscus/</a></p>
+<p>捣鼓了这么多天，看见别人的博客都有评论功能，十分羡慕，所以我在想有什么轻量又简单的方法，能让我的博客也能有评论功能，而这时我找到了 Giscus。</p>]]></description></item></channel></rss>

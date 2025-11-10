@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ulimit on 杂货铺</title><link>https://yangyingchao.github.io/tags/ulimit/</link><description>Recent content in Ulimit on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/ulimit/index.xml" rel="self" type="application/rss+xml"/><item><title>Ulimit conflict with PAM and Systemd</title><link>https://yangyingchao.github.io/ulimit-conflict-with-pam-and-systemd/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/ulimit-conflict-with-pam-and-systemd/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:4f03ce15-57e7-4a81-9960-895d5e88acb4" rel=""&gt;&lt;code&gt;ulimit&lt;/code&gt; 是做什么的&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:09c51108-3b02-4b55-9d68-399352d01d07" rel=""&gt;ulimit 从哪里读取配置文件&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:9f953590-6cd4-4b57-9a09-cd2ecbed0f7d" rel=""&gt;How PAM Modules related to /etc/security/limit.d/*.conf&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content" target="_blank" rel="noopener noreffer "&gt;https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:4f03ce15-57e7-4a81-9960-895d5e88acb4"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;code&gt;ulimit&lt;/code&gt; 是做什么的&lt;/h2&gt;
-&lt;p&gt;User limits command, limit the use of system-wide resources.&lt;/p&gt;
-&lt;h2 id="h:09c51108-3b02-4b55-9d68-399352d01d07"&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; ulimit 从哪里读取配置文件&lt;/h2&gt;
-&lt;figure&gt;&lt;img src="images/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/screen-shot-2017-12-08-at-3-24-21-pm.png" width="800px"&gt;
-&lt;/figure&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ulimit - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/ulimit/</link><description>Ulimit - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/ulimit/" rel="self" type="application/rss+xml"/><item><title>Ulimit conflict with PAM and Systemd</title><link>https://yangyingchao.github.io/ulimit-conflict-with-pam-and-systemd/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/ulimit-conflict-with-pam-and-systemd/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:4f03ce15-57e7-4a81-9960-895d5e88acb4" rel=""><code>ulimit</code> 是做什么的</a></li>
+<li><span class="section-num">2</span> <a href="#h:09c51108-3b02-4b55-9d68-399352d01d07" rel="">ulimit 从哪里读取配置文件</a></li>
+<li><span class="section-num">3</span> <a href="#h:9f953590-6cd4-4b57-9a09-cd2ecbed0f7d" rel="">How PAM Modules related to  /etc/security/limit.d/*.conf</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content" target="_blank" rel="noopener noreffer ">https://mydbops.wordpress.com/2017/12/10/ulimit-conflict-with-pam-and-systemd%E2%80%8B%E2%80%8B%E2%80%8B/#content</a></p>
+<h2 id="h:4f03ce15-57e7-4a81-9960-895d5e88acb4"><span class="section-num">1</span> <code>ulimit</code> 是做什么的</h2>
+<p>User limits command, limit the use of system-wide resources.</p>
+<h2 id="h:09c51108-3b02-4b55-9d68-399352d01d07"><span class="section-num">2</span> ulimit 从哪里读取配置文件</h2>
+<figure>
+</figure>
 
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;从下面的文件、目录中读取配置文件&lt;/p&gt;</description></item></channel></rss>
+<ul>
+<li>
+<p>从下面的文件、目录中读取配置文件</p>]]></description></item></channel></rss>

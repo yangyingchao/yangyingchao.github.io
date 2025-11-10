@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sysrq on 杂货铺</title><link>https://yangyingchao.github.io/tags/sysrq/</link><description>Recent content in Sysrq on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sysrq/index.xml" rel="self" type="application/rss+xml"/><item><title>Ways to Deal With a Frozen Linux System</title><link>https://yangyingchao.github.io/frozen-linux-system/</link><pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/frozen-linux-system/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:660feb15-1dc5-4890-a586-8f6445c1a928" rel=""&gt;When everything else fails, talk with the Kernel using SysReq&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer "&gt;https://linuxhandbook.com/frozen-linux-system/&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; When everything else fails, talk with the Kernel using SysReq&lt;/h2&gt;
-&lt;p&gt;有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Sysrq - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/sysrq/</link><description>Sysrq - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/sysrq/" rel="self" type="application/rss+xml"/><item><title>Ways to Deal With a Frozen Linux System</title><link>https://yangyingchao.github.io/frozen-linux-system/</link><pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/frozen-linux-system/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:660feb15-1dc5-4890-a586-8f6445c1a928" rel="">When everything else fails, talk with the Kernel using SysReq</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://linuxhandbook.com/frozen-linux-system/" target="_blank" rel="noopener noreffer ">https://linuxhandbook.com/frozen-linux-system/</a></p>
+<h2 id="h:660feb15-1dc5-4890-a586-8f6445c1a928"><span class="section-num">1</span> When everything else fails, talk with the Kernel using SysReq</h2>
+<p>有时，甚至切换到 TTY 也无法正常工作。整个系统都死了。但是不要放弃，很可能是一种假象。Linux 在这种情况下提供了一种更多的功能。</p>]]></description></item></channel></rss>

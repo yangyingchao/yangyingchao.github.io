@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disaster on 杂货铺</title><link>https://yangyingchao.github.io/tags/disaster/</link><description>Recent content in Disaster on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Thu, 16 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/disaster/index.xml" rel="self" type="application/rss+xml"/><item><title>PostgreSQL 的灾难恢复</title><link>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</link><pubDate>Thu, 16 Oct 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#what-is-disaster-recovery-%e4%bb%80%e4%b9%88%e6%98%af%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel=""&gt;What is Disaster Recovery? 什么是灾难恢复？&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#the-pillars-of-business-continuity-rto-and-rpo-and-x2013-%e4%b8%9a%e5%8a%a1%e8%bf%9e%e7%bb%ad%e6%80%a7%e7%9a%84%e6%94%af%e6%9f%b1-%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%9b%ae%e6%a0%87-rto-%e5%92%8c%e6%81%a2%e5%a4%8d%e7%82%b9%e7%9b%ae%e6%a0%87-rpo" rel=""&gt;The Pillars of Business Continuity: RTO and RPO – 业务连续性的支柱：恢复时间目标（RTO）和恢复点目标（RPO）&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#the-postgresql-evolution--postgresql-%e7%9a%84%e5%8f%91%e5%b1%95" rel=""&gt;The PostgreSQL Evolution (PostgreSQL 的发展)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#what-is-a-backup-%e4%bb%80%e4%b9%88%e6%98%af%e5%a4%87%e4%bb%bd" rel=""&gt;What is a Backup? 什么是备份？&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#logical-backups-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd" rel=""&gt;Logical Backups 逻辑备份&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#physical-backups-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd" rel=""&gt;Physical Backups 物理备份&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#pros-and-cons-of-logical-vs-dot-physical-backup-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd%e4%b8%8e%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9" rel=""&gt;Pros and Cons of Logical vs. Physical Backup: 逻辑备份与物理备份的优缺点：&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#write-ahead-logging--wal--%e9%a2%84%e5%86%99%e6%97%a5%e5%bf%97-wal" rel=""&gt;Write-Ahead Logging (WAL) 预写日志（WAL）&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#continuous-backup-and-wal-archiving-%e6%8c%81%e7%bb%ad%e5%a4%87%e4%bb%bd%e5%92%8c-wal-%e5%bd%92%e6%a1%a3" rel=""&gt;Continuous Backup and WAL Archiving 持续备份和 WAL 归档&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#point-in-time-recovery--pitr--%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d--pitr" rel=""&gt;Point-in-Time Recovery (PITR) 时间点恢复 (PITR)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#high-availability-vs-dot-disaster-recovery-%e9%ab%98%e5%8f%af%e7%94%a8%e6%80%a7%e4%b8%8e%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel=""&gt;High Availability vs. Disaster Recovery 高可用性与灾难恢复&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;9&lt;/span&gt; &lt;a href="#conclusion-%e7%bb%93%e8%ae%ba" rel=""&gt;Conclusion 结论&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/7i" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/7i&lt;/a&gt;_&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Disaster - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/disaster/</link><description>Disaster - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Thu, 16 Oct 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/disaster/" rel="self" type="application/rss+xml"/><item><title>PostgreSQL 的灾难恢复</title><link>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</link><pubDate>Thu, 16 Oct 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgresql-%E7%9A%84%E7%81%BE%E9%9A%BE%E6%81%A2%E5%A4%8D/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#what-is-disaster-recovery-%e4%bb%80%e4%b9%88%e6%98%af%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel="">What is Disaster Recovery? 什么是灾难恢复？</a></li>
+<li><span class="section-num">2</span> <a href="#the-pillars-of-business-continuity-rto-and-rpo-and-x2013-%e4%b8%9a%e5%8a%a1%e8%bf%9e%e7%bb%ad%e6%80%a7%e7%9a%84%e6%94%af%e6%9f%b1-%e6%81%a2%e5%a4%8d%e6%97%b6%e9%97%b4%e7%9b%ae%e6%a0%87-rto-%e5%92%8c%e6%81%a2%e5%a4%8d%e7%82%b9%e7%9b%ae%e6%a0%87-rpo" rel="">The Pillars of Business Continuity: RTO and RPO – 业务连续性的支柱：恢复时间目标（RTO）和恢复点目标（RPO）</a></li>
+<li><span class="section-num">3</span> <a href="#the-postgresql-evolution--postgresql-%e7%9a%84%e5%8f%91%e5%b1%95" rel="">The PostgreSQL Evolution (PostgreSQL 的发展)</a></li>
+<li><span class="section-num">4</span> <a href="#what-is-a-backup-%e4%bb%80%e4%b9%88%e6%98%af%e5%a4%87%e4%bb%bd" rel="">What is a Backup? 什么是备份？</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#logical-backups-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd" rel="">Logical Backups 逻辑备份</a></li>
+<li><span class="section-num">4.2</span> <a href="#physical-backups-%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd" rel="">Physical Backups 物理备份</a></li>
+<li><span class="section-num">4.3</span> <a href="#pros-and-cons-of-logical-vs-dot-physical-backup-%e9%80%bb%e8%be%91%e5%a4%87%e4%bb%bd%e4%b8%8e%e7%89%a9%e7%90%86%e5%a4%87%e4%bb%bd%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9" rel="">Pros and Cons of Logical vs. Physical Backup: 逻辑备份与物理备份的优缺点：</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#write-ahead-logging--wal--%e9%a2%84%e5%86%99%e6%97%a5%e5%bf%97-wal" rel="">Write-Ahead Logging (WAL) 预写日志（WAL）</a></li>
+<li><span class="section-num">6</span> <a href="#continuous-backup-and-wal-archiving-%e6%8c%81%e7%bb%ad%e5%a4%87%e4%bb%bd%e5%92%8c-wal-%e5%bd%92%e6%a1%a3" rel="">Continuous Backup and WAL Archiving 持续备份和 WAL 归档</a></li>
+<li><span class="section-num">7</span> <a href="#point-in-time-recovery--pitr--%e6%97%b6%e9%97%b4%e7%82%b9%e6%81%a2%e5%a4%8d--pitr" rel="">Point-in-Time Recovery (PITR) 时间点恢复 (PITR)</a></li>
+<li><span class="section-num">8</span> <a href="#high-availability-vs-dot-disaster-recovery-%e9%ab%98%e5%8f%af%e7%94%a8%e6%80%a7%e4%b8%8e%e7%81%be%e9%9a%be%e6%81%a2%e5%a4%8d" rel="">High Availability vs. Disaster Recovery 高可用性与灾难恢复</a></li>
+<li><span class="section-num">9</span> <a href="#conclusion-%e7%bb%93%e8%ae%ba" rel="">Conclusion 结论</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7i" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7i</a>_</p>]]></description></item></channel></rss>

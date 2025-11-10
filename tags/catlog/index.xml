@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Catlog on 杂货铺</title><link>https://yangyingchao.github.io/tags/catlog/</link><description>Recent content in Catlog on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/catlog/index.xml" rel="self" type="application/rss+xml"/><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gpcheckcat/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:bfa36016-e178-44c5-b78a-c8c0bd52f193" rel=""&gt;概述&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:85f7df11-2f89-46c4-909c-db8f5f11cd1b" rel=""&gt;pg_class&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f" rel=""&gt;namespace&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:f8543ff9-a368-452c-a51f-a5c76ba2b516" rel=""&gt;unique_index_violation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:4aae321e-1ac2-462c-8adf-6ed7b44069d3" rel=""&gt;duplicate&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;h2 id="h:bfa36016-e178-44c5-b78a-c8c0bd52f193"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 概述&lt;/h2&gt;
-&lt;p&gt;GP 提供了 &lt;a href="https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat" target="_blank" rel="noopener noreffer "&gt;gpcheckcat&lt;/a&gt; 用于在集群内检查系统表。&lt;/p&gt;
-&lt;p&gt;&lt;a id="table--tbl-data-table"&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;div class="table-caption"&gt;
- &lt;span class="table-number"&gt;&lt;a href="#table--tbl-data-table"&gt;Table 1&lt;/a&gt;:&lt;/span&gt;
- gpcheckcat
-&lt;/div&gt;
-&lt;p&gt;| 检查项 || 描述 || Utility 模式 || 复合查询 || 错误等级 |
-|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;-|&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;|&amp;mdash;&amp;mdash;|
-| pg_class || Check pg_class entry that does not have any correspond pg_attribute entry || Y || N || NOREPAIR |
-| namespace || Check for schemas with a missing schema definition || Y || N || NOREPAIR |
-| unique_index_violation || Check for violated unique indexes || N || Y || NOREPAIR |
-| duplicate || Check for duplicate entries || N || Y || |
-| missing_extraneous || Cross consistency check for missing or extraneous entries || N || Y || |
-| inconsistent || Cross consistency check for coordinator segment inconsistency || N || || |
-| foreign_key || Check foreign keys || N || || |
-| || || || || |&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Catlog - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/catlog/</link><description>Catlog - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/catlog/" rel="self" type="application/rss+xml"/><item><title>gpcheckcat</title><link>https://yangyingchao.github.io/gpcheckcat/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gpcheckcat/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:bfa36016-e178-44c5-b78a-c8c0bd52f193" rel="">概述</a></li>
+<li><span class="section-num">2</span> <a href="#h:85f7df11-2f89-46c4-909c-db8f5f11cd1b" rel="">pg_class</a></li>
+<li><span class="section-num">3</span> <a href="#h:d87adc91-5c8e-46a9-84fd-1e5415b0bc5f" rel="">namespace</a></li>
+<li><span class="section-num">4</span> <a href="#h:f8543ff9-a368-452c-a51f-a5c76ba2b516" rel="">unique_index_violation</a></li>
+<li><span class="section-num">5</span> <a href="#h:4aae321e-1ac2-462c-8adf-6ed7b44069d3" rel="">duplicate</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<h2 id="h:bfa36016-e178-44c5-b78a-c8c0bd52f193"><span class="section-num">1</span> 概述</h2>
+<p>GP 提供了 <a href="https://github.com/greenplum-db/gpdb/blob/master/gpMgmt/bin/gpcheckcat" target="_blank" rel="noopener noreffer ">gpcheckcat</a> 用于在集群内检查系统表。</p>
+<p><a id="table--tbl-data-table"></a></p>
+<div class="table-caption">
+  <span class="table-number"><a href="#table--tbl-data-table">Table 1</a>:</span>
+  gpcheckcat
+</div>
+<p>| 检查项                 || 描述                                                                      || Utility 模式 || 复合查询 || 错误等级 |
+|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;-|&mdash;&mdash;&mdash;&mdash;|&mdash;&mdash;|&mdash;&mdash;|
+| pg_class               || Check pg_class entry that does not have any correspond pg_attribute entry || Y          || N    || NOREPAIR |
+| namespace              || Check for schemas with a missing schema definition                        || Y          || N    || NOREPAIR |
+| unique_index_violation || Check for violated unique indexes                                         || N          || Y    || NOREPAIR |
+| duplicate              || Check for duplicate entries                                               || N          || Y    ||          |
+| missing_extraneous     || Cross consistency check for missing or extraneous entries                 || N          || Y    ||          |
+| inconsistent           || Cross consistency check for coordinator segment inconsistency             || N          ||      ||          |
+| foreign_key            || Check foreign keys                                                        || N          ||      ||          |
+|                        ||                                                                           ||            ||      ||          |</p>]]></description></item></channel></rss>

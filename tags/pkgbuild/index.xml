@@ -1,69 +1,69 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pkgbuild on 杂货铺</title><link>https://yangyingchao.github.io/tags/pkgbuild/</link><description>Recent content in Pkgbuild on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pkgbuild/index.xml" rel="self" type="application/rss+xml"/><item><title>PKGBUILD - ArchWiki</title><link>https://yangyingchao.github.io/pkgbuild---archwiki/</link><pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/pkgbuild---archwiki/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%90%8d%e7%a7%b0" rel=""&gt;软件包名称&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#pkgbase" rel=""&gt;pkgbase&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.2&lt;/span&gt; &lt;a href="#pkgname" rel=""&gt;pkgname&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e7%89%88%e6%9c%ac" rel=""&gt;版本&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#pkgver" rel=""&gt;pkgver&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#pkgrel" rel=""&gt;pkgrel&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#epoch" rel=""&gt;epoch&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e9%80%9a%e7%94%a8" rel=""&gt;通用&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#pkgdesc" rel=""&gt;pkgdesc&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#arch" rel=""&gt;arch&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#url" rel=""&gt;url&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.4&lt;/span&gt; &lt;a href="#license" rel=""&gt;license&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.5&lt;/span&gt; &lt;a href="#groups" rel=""&gt;groups&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb" rel=""&gt;依赖关系&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#depends" rel=""&gt;depends&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#makedepends" rel=""&gt;makedepends&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#checkdepends" rel=""&gt;checkdepends&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.4&lt;/span&gt; &lt;a href="#optdepends" rel=""&gt;optdepends&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%85%b3%e7%b3%bb" rel=""&gt;软件包关系&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#provides" rel=""&gt;provides&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5.2&lt;/span&gt; &lt;a href="#conflicts" rel=""&gt;conflicts&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5.3&lt;/span&gt; &lt;a href="#replaces" rel=""&gt;replaces&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#%e5%85%b6%e4%bb%96" rel=""&gt;其他&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.1&lt;/span&gt; &lt;a href="#backup" rel=""&gt;backup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.2&lt;/span&gt; &lt;a href="#options" rel=""&gt;options&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.3&lt;/span&gt; &lt;a href="#install" rel=""&gt;install&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.4&lt;/span&gt; &lt;a href="#changelog" rel=""&gt;changelog&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#%e6%ba%90" rel=""&gt;源&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7.1&lt;/span&gt; &lt;a href="#source" rel=""&gt;source&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7.2&lt;/span&gt; &lt;a href="#noextract" rel=""&gt;noextract&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7.3&lt;/span&gt; &lt;a href="#validpgpkeys" rel=""&gt;validpgpkeys&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#%e5%ae%8c%e6%95%b4%e6%80%a7" rel=""&gt;完整性&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8.1&lt;/span&gt; &lt;a href="#b2sums" rel=""&gt;b2sums&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8.2&lt;/span&gt; &lt;a href="#sha512sums-sha384sums-sha256sums-sha224sums" rel=""&gt;sha512sums、sha384sums、sha256sums、sha224sums&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8.3&lt;/span&gt; &lt;a href="#sha1sums" rel=""&gt;sha1sums&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8.4&lt;/span&gt; &lt;a href="#md5sums" rel=""&gt;md5sums&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8.5&lt;/span&gt; &lt;a href="#cksums" rel=""&gt;cksums&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://wiki.archlinux.org/title/PKGBUILD#Package_name" target="_blank" rel="noopener noreffer "&gt;https://wiki.archlinux.org/title/PKGBUILD#Package_name&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;本文讨论了在 PKGBUILD 中由维护者定义的变量。有关 PKGBUILD 函数和创建软件包的一般信息，请参考《创建软件包》。同时也请查阅 PKGBUILD(5)。&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Pkgbuild - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/pkgbuild/</link><description>Pkgbuild - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 07 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/pkgbuild/" rel="self" type="application/rss+xml"/><item><title>PKGBUILD - ArchWiki</title><link>https://yangyingchao.github.io/pkgbuild---archwiki/</link><pubDate>Fri, 07 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/pkgbuild---archwiki/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%90%8d%e7%a7%b0" rel="">软件包名称</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#pkgbase" rel="">pkgbase</a></li>
+<li><span class="section-num">1.2</span> <a href="#pkgname" rel="">pkgname</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#%e7%89%88%e6%9c%ac" rel="">版本</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#pkgver" rel="">pkgver</a></li>
+<li><span class="section-num">2.2</span> <a href="#pkgrel" rel="">pkgrel</a></li>
+<li><span class="section-num">2.3</span> <a href="#epoch" rel="">epoch</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#%e9%80%9a%e7%94%a8" rel="">通用</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#pkgdesc" rel="">pkgdesc</a></li>
+<li><span class="section-num">3.2</span> <a href="#arch" rel="">arch</a></li>
+<li><span class="section-num">3.3</span> <a href="#url" rel="">url</a></li>
+<li><span class="section-num">3.4</span> <a href="#license" rel="">license</a></li>
+<li><span class="section-num">3.5</span> <a href="#groups" rel="">groups</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb" rel="">依赖关系</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#depends" rel="">depends</a></li>
+<li><span class="section-num">4.2</span> <a href="#makedepends" rel="">makedepends</a></li>
+<li><span class="section-num">4.3</span> <a href="#checkdepends" rel="">checkdepends</a></li>
+<li><span class="section-num">4.4</span> <a href="#optdepends" rel="">optdepends</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#%e8%bd%af%e4%bb%b6%e5%8c%85%e5%85%b3%e7%b3%bb" rel="">软件包关系</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#provides" rel="">provides</a></li>
+<li><span class="section-num">5.2</span> <a href="#conflicts" rel="">conflicts</a></li>
+<li><span class="section-num">5.3</span> <a href="#replaces" rel="">replaces</a></li>
+</ul>
+</li>
+<li><span class="section-num">6</span> <a href="#%e5%85%b6%e4%bb%96" rel="">其他</a>
+<ul>
+<li><span class="section-num">6.1</span> <a href="#backup" rel="">backup</a></li>
+<li><span class="section-num">6.2</span> <a href="#options" rel="">options</a></li>
+<li><span class="section-num">6.3</span> <a href="#install" rel="">install</a></li>
+<li><span class="section-num">6.4</span> <a href="#changelog" rel="">changelog</a></li>
+</ul>
+</li>
+<li><span class="section-num">7</span> <a href="#%e6%ba%90" rel="">源</a>
+<ul>
+<li><span class="section-num">7.1</span> <a href="#source" rel="">source</a></li>
+<li><span class="section-num">7.2</span> <a href="#noextract" rel="">noextract</a></li>
+<li><span class="section-num">7.3</span> <a href="#validpgpkeys" rel="">validpgpkeys</a></li>
+</ul>
+</li>
+<li><span class="section-num">8</span> <a href="#%e5%ae%8c%e6%95%b4%e6%80%a7" rel="">完整性</a>
+<ul>
+<li><span class="section-num">8.1</span> <a href="#b2sums" rel="">b2sums</a></li>
+<li><span class="section-num">8.2</span> <a href="#sha512sums-sha384sums-sha256sums-sha224sums" rel="">sha512sums、sha384sums、sha256sums、sha224sums</a></li>
+<li><span class="section-num">8.3</span> <a href="#sha1sums" rel="">sha1sums</a></li>
+<li><span class="section-num">8.4</span> <a href="#md5sums" rel="">md5sums</a></li>
+<li><span class="section-num">8.5</span> <a href="#cksums" rel="">cksums</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://wiki.archlinux.org/title/PKGBUILD#Package_name" target="_blank" rel="noopener noreffer ">https://wiki.archlinux.org/title/PKGBUILD#Package_name</a></p>
+<p>本文讨论了在 PKGBUILD 中由维护者定义的变量。有关 PKGBUILD 函数和创建软件包的一般信息，请参考《创建软件包》。同时也请查阅 PKGBUILD(5)。</p>]]></description></item></channel></rss>

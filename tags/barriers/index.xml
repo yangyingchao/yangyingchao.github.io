@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Barriers on 杂货铺</title><link>https://yangyingchao.github.io/tags/barriers/</link><description>Recent content in Barriers on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sat, 21 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/barriers/index.xml" rel="self" type="application/rss+xml"/><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel=""&gt;Barriers: 协调进程的同步屏障&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1.1&lt;/span&gt; &lt;a href="#h:2d66dbfb-2295-40bf-bab2-22f8c77a3414" rel=""&gt;静态参与&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:d5dd2d64-5c1c-470a-bc3b-d3a9acbd7356" rel=""&gt;TODO: Barriers API&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:4733ab46-ff4d-47aa-93eb-44dcbfba482a" rel=""&gt;TODO: how it is used in hash jon…&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;简单总结一下 PG 中进程同步用到的屏障：
-&lt;a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c" target="_blank" rel="noopener noreffer "&gt;https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Barriers: 协调进程的同步屏障&lt;/h2&gt;
-&lt;p&gt;来自维基百科[1]：&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Barriers - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/barriers/</link><description>Barriers - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Sat, 21 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/barriers/" rel="self" type="application/rss+xml"/><item><title>Barriers in PostgresSQL</title><link>https://yangyingchao.github.io/barriers-in-postgressql/</link><pubDate>Sat, 21 Oct 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/barriers-in-postgressql/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c" rel="">Barriers: 协调进程的同步屏障</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#h:2d66dbfb-2295-40bf-bab2-22f8c77a3414" rel="">静态参与</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#h:d5dd2d64-5c1c-470a-bc3b-d3a9acbd7356" rel="">TODO: Barriers API</a></li>
+<li><span class="section-num">3</span> <a href="#h:4733ab46-ff4d-47aa-93eb-44dcbfba482a" rel="">TODO: how it is used in hash jon…</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>简单总结一下 PG 中进程同步用到的屏障：
+<a href="https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/src/backend/storage/ipc/barrier.c</a></p>
+<h2 id="h:88e9d8e9-1ea1-450e-bd7c-cfc191923b9c"><span class="section-num">1</span> Barriers: 协调进程的同步屏障</h2>
+<p>来自维基百科[1]：</p>]]></description></item></channel></rss>

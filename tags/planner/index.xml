@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Planner on 杂货铺</title><link>https://yangyingchao.github.io/tags/planner/</link><description>Recent content in Planner on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 25 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/planner/index.xml" rel="self" type="application/rss+xml"/><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#introduction" rel=""&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#where-it-all-start" rel=""&gt;Where it all start&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#what-happens-behind-pg-plan-query" rel=""&gt;What happens behind &lt;code&gt;pg_plan_query&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#set-base-rel-sizes" rel=""&gt;set_base_rel_sizes()&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#set-base-rel-pathlist" rel=""&gt;set_base_rel_pathlist()&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#generate-gather-paths" rel=""&gt;generate_gather_paths&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#get-cheapest-fractional-path-and-create-plan" rel=""&gt;get_cheapest_fractional_path and create_plan&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#examine-the-plan" rel=""&gt;Examine the Plan&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer "&gt;https://postgr.es/p/6s9&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="introduction"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Introduction&lt;/h2&gt;
-&lt;p&gt;当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Planner - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/planner/</link><description>Planner - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 25 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/planner/" rel="self" type="application/rss+xml"/><item><title>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</title><link>https://yangyingchao.github.io/postgr.es_p_6s9/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/postgr.es_p_6s9/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>
+<li><span class="section-num">2</span> <a href="#where-it-all-start" rel="">Where it all start</a></li>
+<li><span class="section-num">3</span> <a href="#what-happens-behind-pg-plan-query" rel="">What happens behind <code>pg_plan_query</code></a></li>
+<li><span class="section-num">4</span> <a href="#set-base-rel-sizes" rel="">set_base_rel_sizes()</a></li>
+<li><span class="section-num">5</span> <a href="#set-base-rel-pathlist" rel="">set_base_rel_pathlist()</a></li>
+<li><span class="section-num">6</span> <a href="#generate-gather-paths" rel="">generate_gather_paths</a></li>
+<li><span class="section-num">7</span> <a href="#get-cheapest-fractional-path-and-create-plan" rel="">get_cheapest_fractional_path and create_plan</a></li>
+<li><span class="section-num">8</span> <a href="#examine-the-plan" rel="">Examine the Plan</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/6s9" target="_blank" rel="noopener noreffer ">https://postgr.es/p/6s9</a></p>
+<h2 id="introduction"><span class="section-num">1</span> Introduction</h2>
+<p>当你向 PostgreSQL 发送查询时，通常会经历查询处理的各个阶段，并在最后返回结果。这些阶段被称为：</p>]]></description></item></channel></rss>

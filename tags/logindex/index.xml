@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Logindex on 杂货铺</title><link>https://yangyingchao.github.io/tags/logindex/</link><description>Recent content in Logindex on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 11 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/logindex/index.xml" rel="self" type="application/rss+xml"/><item><title>LogIndex | PolarDB for PostgreSQL</title><link>https://yangyingchao.github.io/logindex/</link><pubDate>Mon, 11 Dec 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/logindex/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:d8904674-f80c-4a35-9330-9aced14d44dc" rel=""&gt;背景介绍&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:e3c2df1f-fbcd-4486-90b1-4860d3c32d5d" rel=""&gt;RO 内存同步架构&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:d5723eaa-8395-4fc7-8991-ff1df89f537c" rel=""&gt;WAL Meta&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:6f657dbb-5cff-45a3-af7e-9f3f13c90502" rel=""&gt;LogIndex&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:6a5fd70c-9346-4cf7-9d32-10bd6f8c64d3" rel=""&gt;内存数据结构&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:0bc1158e-9125-4656-801c-9fd472160b03" rel=""&gt;磁盘数据结构&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:d3ee0114-79af-4af3-a7c0-d984b289515e" rel=""&gt;日志回放&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5.1&lt;/span&gt; &lt;a href="#h:e9306eb7-c9bd-444d-9d37-a8b2471b936a" rel=""&gt;延迟回放&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5.2&lt;/span&gt; &lt;a href="#h:9fc15f98-21cf-4d60-85bb-0a6a4e6a5147" rel=""&gt;Mini Transaction&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:10fd2c47-d2a8-4c4e-9621-09687964e806" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html" target="_blank" rel="noopener noreffer "&gt;https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:d8904674-f80c-4a35-9330-9aced14d44dc"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 背景介绍&lt;/h2&gt;
-&lt;p&gt;PolarDB 采用了共享存储一写多读架构，读写节点 RW 和多个只读节点 RO 共享同一份存储，读写节点可以读写共享存储中的数据；只读节点仅能各自通过回放日志，从共享存储中读取数据，而不能写入，只读节点 RO 通过内存同步来维护数据的一致性。此外，只读节点可同时对外提供服务用于实现读写分离与负载均衡，在读写节点异常 crash 时，可将只读节点提升为读写节点，保证集群的高可用。基本架构图如下所示：&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Logindex - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/logindex/</link><description>Logindex - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 11 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/logindex/" rel="self" type="application/rss+xml"/><item><title>LogIndex | PolarDB for PostgreSQL</title><link>https://yangyingchao.github.io/logindex/</link><pubDate>Mon, 11 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/logindex/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:d8904674-f80c-4a35-9330-9aced14d44dc" rel="">背景介绍</a></li>
+<li><span class="section-num">2</span> <a href="#h:e3c2df1f-fbcd-4486-90b1-4860d3c32d5d" rel="">RO 内存同步架构</a></li>
+<li><span class="section-num">3</span> <a href="#h:d5723eaa-8395-4fc7-8991-ff1df89f537c" rel="">WAL Meta</a></li>
+<li><span class="section-num">4</span> <a href="#h:6f657dbb-5cff-45a3-af7e-9f3f13c90502" rel="">LogIndex</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#h:6a5fd70c-9346-4cf7-9d32-10bd6f8c64d3" rel="">内存数据结构</a></li>
+<li><span class="section-num">4.2</span> <a href="#h:0bc1158e-9125-4656-801c-9fd472160b03" rel="">磁盘数据结构</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#h:d3ee0114-79af-4af3-a7c0-d984b289515e" rel="">日志回放</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#h:e9306eb7-c9bd-444d-9d37-a8b2471b936a" rel="">延迟回放</a></li>
+<li><span class="section-num">5.2</span> <a href="#h:9fc15f98-21cf-4d60-85bb-0a6a4e6a5147" rel="">Mini Transaction</a></li>
+</ul>
+</li>
+<li><span class="section-num">6</span> <a href="#h:10fd2c47-d2a8-4c4e-9621-09687964e806" rel="">总结</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html" target="_blank" rel="noopener noreffer ">https://apsaradb.github.io/PolarDB-for-PostgreSQL/zh/theory/logindex.html</a></p>
+<h2 id="h:d8904674-f80c-4a35-9330-9aced14d44dc"><span class="section-num">1</span> 背景介绍</h2>
+<p>PolarDB 采用了共享存储一写多读架构，读写节点 RW 和多个只读节点 RO 共享同一份存储，读写节点可以读写共享存储中的数据；只读节点仅能各自通过回放日志，从共享存储中读取数据，而不能写入，只读节点 RO 通过内存同步来维护数据的一致性。此外，只读节点可同时对外提供服务用于实现读写分离与负载均衡，在读写节点异常 crash 时，可将只读节点提升为读写节点，保证集群的高可用。基本架构图如下所示：</p>]]></description></item></channel></rss>

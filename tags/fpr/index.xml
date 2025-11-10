@@ -1,34 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FPR on 杂货铺</title><link>https://yangyingchao.github.io/tags/fpr/</link><description>Recent content in FPR on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/fpr/index.xml" rel="self" type="application/rss+xml"/><item><title>New Wine in an Old Bottle: Data-Aware Hash Functions for Bloom Filter</title><link>https://yangyingchao.github.io/p1924-bhattacharya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p1924-bhattacharya/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:c589c3c7-e91c-477d-8ee8-7566656fbd63" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1924-bhattacharya.pdf&lt;/p&gt;
-&lt;p&gt;FPR: Fault Positive Rate&lt;/p&gt;
-&lt;p&gt;Partitioned Bloom Filter ,&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;方法&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;将 BloomFilter 划分成 segments&lt;/li&gt;
-&lt;li&gt;每个 segment 使用简单的、基于投影的哈希函数，
-&lt;ul&gt;
-&lt;li&gt;函数通过数据计算得来&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;效果&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;减少误报 （两个数量级）&lt;/li&gt;
-&lt;li&gt;相同误报率的话，提升 50% 的压缩率&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id="h:c589c3c7-e91c-477d-8ee8-7566656fbd63"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; INTRODUCTION&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Projection Hash Bloom Filter (PHBF)&lt;/li&gt;
-&lt;/ul&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>FPR - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/fpr/</link><description>FPR - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/fpr/" rel="self" type="application/rss+xml"/><item><title>New Wine in an Old Bottle: Data-Aware Hash Functions for Bloom Filter</title><link>https://yangyingchao.github.io/p1924-bhattacharya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p1924-bhattacharya/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:c589c3c7-e91c-477d-8ee8-7566656fbd63" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/4/p1924-bhattacharya.pdf</p>
+<p>FPR: Fault Positive Rate</p>
+<p>Partitioned Bloom Filter ,</p>
+<ul>
+<li>
+<p>方法</p>
+<ul>
+<li>将 BloomFilter 划分成 segments</li>
+<li>每个 segment 使用简单的、基于投影的哈希函数，
+<ul>
+<li>函数通过数据计算得来</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>效果</p>
+<ul>
+<li>减少误报 （两个数量级）</li>
+<li>相同误报率的话，提升 50% 的压缩率</li>
+</ul>
+</li>
+</ul>
+<h2 id="h:c589c3c7-e91c-477d-8ee8-7566656fbd63"><span class="section-num">1</span> INTRODUCTION</h2>
+<ul>
+<li>Projection Hash Bloom Filter (PHBF)</li>
+</ul>]]></description></item></channel></rss>

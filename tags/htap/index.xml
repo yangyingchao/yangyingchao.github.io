@@ -1,57 +1,57 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Htap on 杂货铺</title><link>https://yangyingchao.github.io/tags/htap/</link><description>Recent content in Htap on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/htap/index.xml" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:5b21d35f-99bb-4d99-81d3-91a62417244e" rel=""&gt;什么是 HTAP？&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:cf283d8d-9c7c-4a64-8102-e08cef75921f" rel=""&gt;HTAP 架构模式有哪些？&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.1&lt;/span&gt; &lt;a href="#h:e50df0a5-f62c-4e9e-b225-236d99e8e439" rel=""&gt;IN-Memory Store 模式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.2&lt;/span&gt; &lt;a href="#h:d30833b8-2140-4152-9ea7-e8f70bf3e8d1" rel=""&gt;主备架构模式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.3&lt;/span&gt; &lt;a href="#h:b651f209-8a4b-4faf-859e-e20feef34570" rel=""&gt;IN-Memory Computing 模式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2.4&lt;/span&gt; &lt;a href="#h:5b382630-9cd4-4651-a0b5-3184be1119fd" rel=""&gt;主列存+增量行存模式&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:05ee8b35-d261-4b7b-9f39-ba3c95542278" rel=""&gt;思考&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:19e241a9-66b3-446d-a2a7-cffe857e87d0" rel=""&gt;GaussDB 对 HTAP 的思考&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:fe8fe64e-4da2-4de3-8d67-65b166c68b46" rel=""&gt;GaussDB 在 HTAP 上的创新&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;amp;mid=2247516317&amp;amp;idx=1&amp;amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;amp;sharer_sharetime=1692699939078&amp;amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer "&gt;https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; 什么是 HTAP？&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;TP 和 AP 的特点&lt;/p&gt;</description></item><item><title>ByteHTAP: ByteDance’s HTAP System with High Data Freshness and Strong Data Consistency</title><link>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:1d0256eb-7020-40a9-8734-ff2cd768b879" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:f8850aab-d346-4ff0-9db5-7a5014c2be57" rel=""&gt;RELATED WORK&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:2b77a1b6-e6f1-4061-9ba0-b25ce802c414" rel=""&gt;SYSTEM ARCHITECTURE&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#h:12bb623b-2631-4d79-a371-c3f4e2d4f331" rel=""&gt;ByteNDB Overview&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#h:0e2a5f9a-94a5-468d-b067-77b7e5b84e75" rel=""&gt;System Overview&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.3&lt;/span&gt; &lt;a href="#h:bbd56a7b-4e5b-417f-9186-7d8a6a2ea1cd" rel=""&gt;Metadata Service&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.4&lt;/span&gt; &lt;a href="#h:e1123c8f-6aaa-4885-b6f6-60ba97a24542" rel=""&gt;OLAP Engine&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:efe671ff-4fbf-4403-93e8-dace57e327e3" rel=""&gt;SHARED STORAGE WITH HIGH DATA FRESHNESS&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#h:a2a82346-1519-440d-a9ea-5dc25449b2bc" rel=""&gt;Delta Store&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#h:0c98ab5d-943f-4a7d-95e6-e7c13a230012" rel=""&gt;Base Store&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.3&lt;/span&gt; &lt;a href="#h:bb669fd7-9dac-4593-954c-febfc556e2d9" rel=""&gt;High Data Freshness&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:1a6bd9a4-09ea-406c-b57d-ab9ac767366e" rel=""&gt;LSN-BASED STRONG DATA CONSISTENCY&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:c50f0fdb-da92-467e-a262-6eaf4fe962b1" rel=""&gt;OLAP QUERY PERFORMANCE OPTIMIZATION&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.1&lt;/span&gt; &lt;a href="#h:43cd5013-4a01-4792-8ddd-dad936aebd11" rel=""&gt;Delete Optimization for Scans&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.2&lt;/span&gt; &lt;a href="#h:6529c719-ecf6-4f88-81ca-b2b81039ac09" rel=""&gt;Computation Pushdown to Storage Engine&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6.3&lt;/span&gt; &lt;a href="#h:c9ff9c1e-96b2-488b-94d5-3b35d3a459d7" rel=""&gt;OLAP Query Engine Optimization&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Htap - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/htap/</link><description>Htap - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 22 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/htap/" rel="self" type="application/rss+xml"/><item><title>GaussDB技术解读系列之HTAP方向的探索与发展</title><link>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/gaussdb%E6%8A%80%E6%9C%AF%E8%A7%A3%E8%AF%BB%E7%B3%BB%E5%88%97%E4%B9%8Bhtap%E6%96%B9%E5%90%91%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%8F%91%E5%B1%95/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:5b21d35f-99bb-4d99-81d3-91a62417244e" rel="">什么是 HTAP？</a></li>
+<li><span class="section-num">2</span> <a href="#h:cf283d8d-9c7c-4a64-8102-e08cef75921f" rel="">HTAP 架构模式有哪些？</a>
+<ul>
+<li><span class="section-num">2.1</span> <a href="#h:e50df0a5-f62c-4e9e-b225-236d99e8e439" rel="">IN-Memory Store 模式</a></li>
+<li><span class="section-num">2.2</span> <a href="#h:d30833b8-2140-4152-9ea7-e8f70bf3e8d1" rel="">主备架构模式</a></li>
+<li><span class="section-num">2.3</span> <a href="#h:b651f209-8a4b-4faf-859e-e20feef34570" rel="">IN-Memory Computing 模式</a></li>
+<li><span class="section-num">2.4</span> <a href="#h:5b382630-9cd4-4651-a0b5-3184be1119fd" rel="">主列存+增量行存模式</a></li>
+</ul>
+</li>
+<li><span class="section-num">3</span> <a href="#h:05ee8b35-d261-4b7b-9f39-ba3c95542278" rel="">思考</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:19e241a9-66b3-446d-a2a7-cffe857e87d0" rel="">GaussDB 对 HTAP 的思考</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#h:fe8fe64e-4da2-4de3-8d67-65b166c68b46" rel="">GaussDB 在 HTAP 上的创新</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&amp;mid=2247516317&amp;idx=1&amp;sn=1ce041534c61c34cd1ab12d90df7c1d6&amp;chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&amp;mpshare=1&amp;scene=1&amp;srcid=0822kXJqkOrYaspzxxbWHkai&amp;sharer_sharetime=1692699939078&amp;sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd" target="_blank" rel="noopener noreffer ">https://mp.weixin.qq.com/s?__biz=MzU2MDcxODEyOA==&mid=2247516317&idx=1&sn=1ce041534c61c34cd1ab12d90df7c1d6&chksm=fc0108c2cb7681d4be8d3c1fdb3a10662ad10562288d149c964e8a3f99b3d8cbeb804039be2a&mpshare=1&scene=1&srcid=0822kXJqkOrYaspzxxbWHkai&sharer_sharetime=1692699939078&sharer_shareid=9e76a16cd9cee4d8b92e9f0cc7b3921c#rd</a></p>
+<h2 id="h:5b21d35f-99bb-4d99-81d3-91a62417244e"><span class="section-num">1</span> 什么是 HTAP？</h2>
+<ul>
+<li>
+<p>TP 和 AP 的特点</p>]]></description></item><item><title>ByteHTAP: ByteDance’s HTAP System with High Data Freshness and Strong Data Consistency</title><link>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/bytehtap-bytedances-htap-system-with-high-data-freshness-and-strong-data-consistency/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:1d0256eb-7020-40a9-8734-ff2cd768b879" rel="">INTRODUCTION</a></li>
+<li><span class="section-num">2</span> <a href="#h:f8850aab-d346-4ff0-9db5-7a5014c2be57" rel="">RELATED WORK</a></li>
+<li><span class="section-num">3</span> <a href="#h:2b77a1b6-e6f1-4061-9ba0-b25ce802c414" rel="">SYSTEM ARCHITECTURE</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#h:12bb623b-2631-4d79-a371-c3f4e2d4f331" rel="">ByteNDB Overview</a></li>
+<li><span class="section-num">3.2</span> <a href="#h:0e2a5f9a-94a5-468d-b067-77b7e5b84e75" rel="">System Overview</a></li>
+<li><span class="section-num">3.3</span> <a href="#h:bbd56a7b-4e5b-417f-9186-7d8a6a2ea1cd" rel="">Metadata Service</a></li>
+<li><span class="section-num">3.4</span> <a href="#h:e1123c8f-6aaa-4885-b6f6-60ba97a24542" rel="">OLAP Engine</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#h:efe671ff-4fbf-4403-93e8-dace57e327e3" rel="">SHARED STORAGE WITH HIGH DATA FRESHNESS</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#h:a2a82346-1519-440d-a9ea-5dc25449b2bc" rel="">Delta Store</a></li>
+<li><span class="section-num">4.2</span> <a href="#h:0c98ab5d-943f-4a7d-95e6-e7c13a230012" rel="">Base Store</a></li>
+<li><span class="section-num">4.3</span> <a href="#h:bb669fd7-9dac-4593-954c-febfc556e2d9" rel="">High Data Freshness</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#h:1a6bd9a4-09ea-406c-b57d-ab9ac767366e" rel="">LSN-BASED STRONG DATA CONSISTENCY</a></li>
+<li><span class="section-num">6</span> <a href="#h:c50f0fdb-da92-467e-a262-6eaf4fe962b1" rel="">OLAP QUERY PERFORMANCE OPTIMIZATION</a>
+<ul>
+<li><span class="section-num">6.1</span> <a href="#h:43cd5013-4a01-4792-8ddd-dad936aebd11" rel="">Delete Optimization for Scans</a></li>
+<li><span class="section-num">6.2</span> <a href="#h:6529c719-ecf6-4f88-81ca-b2b81039ac09" rel="">Computation Pushdown to Storage Engine</a></li>
+<li><span class="section-num">6.3</span> <a href="#h:c9ff9c1e-96b2-488b-94d5-3b35d3a459d7" rel="">OLAP Query Engine Optimization</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： ../pdf/5/p3411-chen.pdf</p>]]></description></item></channel></rss>

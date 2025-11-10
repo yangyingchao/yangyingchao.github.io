@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Po on 杂货铺</title><link>https://yangyingchao.github.io/tags/po/</link><description>Recent content in Po on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 18 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/po/index.xml" rel="self" type="application/rss+xml"/><item><title>Note about PO file in PostgreSQL</title><link>https://yangyingchao.github.io/note-about-po-file/</link><pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/note-about-po-file/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:7cc071ca-9356-4d53-94ff-f0819cc97b5e" rel=""&gt;Concepts&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52" target="_blank" rel="noopener noreffer "&gt;https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id="h:7cc071ca-9356-4d53-94ff-f0819cc97b5e"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; Concepts&lt;/h2&gt;
-&lt;p&gt;The pairs of original (English) messages and their (possibly) translated equivalents are
-kept in &lt;code&gt;message catalogs&lt;/code&gt; , one for each program (although related programs can share a
-message catalog) and for each target language. There are two file formats for message
-catalogs: The first is the &lt;code&gt;PO&lt;/code&gt; file (for Portable Object), which is a plain text file
-with special syntax that translators edit. The second is the &lt;code&gt;MO&lt;/code&gt; file
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Po - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/po/</link><description>Po - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 18 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/po/" rel="self" type="application/rss+xml"/><item><title>Note about PO file in PostgreSQL</title><link>https://yangyingchao.github.io/note-about-po-file/</link><pubDate>Mon, 18 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/note-about-po-file/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:7cc071ca-9356-4d53-94ff-f0819cc97b5e" rel="">Concepts</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52" target="_blank" rel="noopener noreffer ">https://github.com/postgres/postgres/blob/master/doc/src/sgml/nls.sgml#L52</a></p>
+<h2 id="h:7cc071ca-9356-4d53-94ff-f0819cc97b5e"><span class="section-num">1</span> Concepts</h2>
+<p>The pairs of original (English) messages and their (possibly) translated equivalents are
+kept in <code>message catalogs</code> , one for each program (although related programs can share a
+message catalog) and for each target language.  There are two file formats for message
+catalogs: The first is the <code>PO</code> file (for Portable Object), which is a plain text file
+with special syntax that translators edit.  The second is the <code>MO</code> file
 (for Machine Object), which is a binary file generated from the respective PO file and
-is used while the internationalized program is run. Translators do not deal with MO
-files; in fact hardly anyone does.&lt;/p&gt;</description></item></channel></rss>
+is used while the internationalized program is run.  Translators do not deal with MO
+files; in fact hardly anyone does.</p>]]></description></item></channel></rss>

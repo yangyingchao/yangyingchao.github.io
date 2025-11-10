@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ai on 杂货铺</title><link>https://yangyingchao.github.io/tags/ai/</link><description>Recent content in Ai on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>UDO: Universal Database Optimization using Reinforcement Learning</title><link>https://yangyingchao.github.io/p3402-wang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p3402-wang/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:c5af75eb-2734-48dd-9281-7ce95ec73184" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p3402-wang.pdf&lt;/p&gt;
-&lt;h2 id="h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;UDO:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Universal Database Optimization, 通用数据库优化&lt;/li&gt;
-&lt;li&gt;为数据库的某种工作负载所做的特殊优化&lt;/li&gt;
-&lt;li&gt;包含多种调优：从索引选择到系统参数&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;基于强化学习&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ai - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/ai/</link><description>Ai - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/ai/" rel="self" type="application/rss+xml"/><item><title>UDO: Universal Database Optimization using Reinforcement Learning</title><link>https://yangyingchao.github.io/p3402-wang/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3402-wang/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:c5af75eb-2734-48dd-9281-7ce95ec73184" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/7/p3402-wang.pdf</p>
+<h2 id="h:6b1b4a85-ca06-4a51-99d2-2f06dcb728fc"><span class="section-num">1</span> ABSTRACT</h2>
+<ul>
+<li>
+<p>UDO:</p>
+<ul>
+<li>Universal Database Optimization, 通用数据库优化</li>
+<li>为数据库的某种工作负载所做的特殊优化</li>
+<li>包含多种调优：从索引选择到系统参数</li>
+</ul>
+</li>
+<li>
+<p>基于强化学习</p>]]></description></item></channel></rss>

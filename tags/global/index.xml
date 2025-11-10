@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Global on 杂货铺</title><link>https://yangyingchao.github.io/tags/global/</link><description>Recent content in Global on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/global/index.xml" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%bc%95%e5%85%a5%e4%bd%8e%e5%9f%ba%e6%95%b0%e5%ad%97%e5%85%b8%e4%bc%98%e5%8c%96" rel=""&gt;为什么要引入低基数字典优化&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel=""&gt;为什么需要全局字典&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e6%9e%84%e5%bb%ba%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel=""&gt;如何高效构建全局字典&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.1&lt;/span&gt; &lt;a href="#%e9%80%9a%e5%b8%b8%e7%9a%84%e5%88%86%e5%b8%83%e5%bc%8f%e5%ad%97%e5%85%b8%e6%9e%84%e5%bb%ba%e6%96%b9%e5%bc%8f" rel=""&gt;通常的分布式字典构建方式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3.2&lt;/span&gt; &lt;a href="#starrocks-%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e6%9e%84%e5%bb%ba" rel=""&gt;StarRocks 全局字典的构建&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e4%bd%bf%e7%94%a8%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel=""&gt;如何高效使用全局字典&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.1&lt;/span&gt; &lt;a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8%e7%9a%84%e7%b4%a7%e5%af%86%e9%85%8d%e5%90%88" rel=""&gt;CBO 优化器的紧密配合&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4.2&lt;/span&gt; &lt;a href="#%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%87%bd%e6%95%b0%e4%bc%98%e5%8c%96" rel=""&gt;全局字典的字符串函数优化&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#%e4%bc%98%e5%8c%96%e6%95%88%e6%9e%9c" rel=""&gt;优化效果&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#%e6%80%bb%e7%bb%93" rel=""&gt;总结&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://segmentfault.com/a/1190000042326071" target="_blank" rel="noopener noreffer "&gt;https://segmentfault.com/a/1190000042326071&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer&lt;/code&gt;&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Global - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/global/</link><description>Global - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/global/" rel="self" type="application/rss+xml"/><item><title>StarRocks 技术内幕 | 基于全局字典的极速字符串查询</title><link>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</link><pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/my_oschina_net_blog_5566031/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%bc%95%e5%85%a5%e4%bd%8e%e5%9f%ba%e6%95%b0%e5%ad%97%e5%85%b8%e4%bc%98%e5%8c%96" rel="">为什么要引入低基数字典优化</a></li>
+<li><span class="section-num">2</span> <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">为什么需要全局字典</a></li>
+<li><span class="section-num">3</span> <a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e6%9e%84%e5%bb%ba%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效构建全局字典</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#%e9%80%9a%e5%b8%b8%e7%9a%84%e5%88%86%e5%b8%83%e5%bc%8f%e5%ad%97%e5%85%b8%e6%9e%84%e5%bb%ba%e6%96%b9%e5%bc%8f" rel="">通常的分布式字典构建方式</a></li>
+<li><span class="section-num">3.2</span> <a href="#starrocks-%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e6%9e%84%e5%bb%ba" rel="">StarRocks 全局字典的构建</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#%e5%a6%82%e4%bd%95%e9%ab%98%e6%95%88%e4%bd%bf%e7%94%a8%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8" rel="">如何高效使用全局字典</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#cbo-%e4%bc%98%e5%8c%96%e5%99%a8%e7%9a%84%e7%b4%a7%e5%af%86%e9%85%8d%e5%90%88" rel="">CBO 优化器的紧密配合</a></li>
+<li><span class="section-num">4.2</span> <a href="#%e5%85%a8%e5%b1%80%e5%ad%97%e5%85%b8%e7%9a%84%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%87%bd%e6%95%b0%e4%bc%98%e5%8c%96" rel="">全局字典的字符串函数优化</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#%e4%bc%98%e5%8c%96%e6%95%88%e6%9e%9c" rel="">优化效果</a></li>
+<li><span class="section-num">6</span> <a href="#%e6%80%bb%e7%bb%93" rel="">总结</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://segmentfault.com/a/1190000042326071" target="_blank" rel="noopener noreffer ">https://segmentfault.com/a/1190000042326071</a></p>
+<p><code>作者：冯浩桉，StarRocks 核心研发工程师，StarRocks Committer</code></p>]]></description></item></channel></rss>

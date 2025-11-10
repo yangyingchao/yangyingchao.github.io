@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Compare on 杂货铺</title><link>https://yangyingchao.github.io/tags/compare/</link><description>Recent content in Compare on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Wed, 23 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/compare/index.xml" rel="self" type="application/rss+xml"/><item><title>UNIX vs Linux: What's the Difference?</title><link>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</link><pubDate>Wed, 23 Aug 2023 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:96bcfbdc-a176-46f0-8ef4-f896231011df" rel=""&gt;Historical Context&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:b88361c2-1e1d-41ea-8db2-385848fe3b07" rel=""&gt;Licensing and Distribution&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;3&lt;/span&gt; &lt;a href="#h:d5b11cf5-af8b-44c4-be05-5f429b7e5add" rel=""&gt;Kernel and System Architecture&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;4&lt;/span&gt; &lt;a href="#h:8277c50e-efce-4969-b1f5-710aba15b454" rel=""&gt;Community and Development&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;5&lt;/span&gt; &lt;a href="#h:e598928c-ec79-4065-a6a4-a127e374aa94" rel=""&gt;Customization and Flexibility&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;6&lt;/span&gt; &lt;a href="#h:fdc8a361-b8e2-43d2-bcd1-996f9187ac25" rel=""&gt;User Interface&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;7&lt;/span&gt; &lt;a href="#h:2d40a1f8-35bb-4873-bacd-84d517da8458" rel=""&gt;Market Share and Industry Application&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;8&lt;/span&gt; &lt;a href="#h:650684d8-0cd6-4be4-a77a-3cc97b85fc40" rel=""&gt;Security and Stability&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;9&lt;/span&gt; &lt;a href="#h:50d558df-80f3-42a0-8dda-954fd9071ee9" rel=""&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： &lt;a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer "&gt;https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Compare - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/compare/</link><description>Compare - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Wed, 23 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/compare/" rel="self" type="application/rss+xml"/><item><title>UNIX vs Linux: What's the Difference?</title><link>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</link><pubDate>Wed, 23 Aug 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/unix-vs-linux-what-is-the-difference/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:96bcfbdc-a176-46f0-8ef4-f896231011df" rel="">Historical Context</a></li>
+<li><span class="section-num">2</span> <a href="#h:b88361c2-1e1d-41ea-8db2-385848fe3b07" rel="">Licensing and Distribution</a></li>
+<li><span class="section-num">3</span> <a href="#h:d5b11cf5-af8b-44c4-be05-5f429b7e5add" rel="">Kernel and System Architecture</a></li>
+<li><span class="section-num">4</span> <a href="#h:8277c50e-efce-4969-b1f5-710aba15b454" rel="">Community and Development</a></li>
+<li><span class="section-num">5</span> <a href="#h:e598928c-ec79-4065-a6a4-a127e374aa94" rel="">Customization and Flexibility</a></li>
+<li><span class="section-num">6</span> <a href="#h:fdc8a361-b8e2-43d2-bcd1-996f9187ac25" rel="">User Interface</a></li>
+<li><span class="section-num">7</span> <a href="#h:2d40a1f8-35bb-4873-bacd-84d517da8458" rel="">Market Share and Industry Application</a></li>
+<li><span class="section-num">8</span> <a href="#h:650684d8-0cd6-4be4-a77a-3cc97b85fc40" rel="">Security and Stability</a></li>
+<li><span class="section-num">9</span> <a href="#h:50d558df-80f3-42a0-8dda-954fd9071ee9" rel="">Conclusion</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/unix-vs-linux-what-is-the-difference</a></p>
+<p>在复杂多变的操作系统领域里，UNIX 和 Linux 这两个显赫的巨头已经塑造了数字领域数十年。尽管这两个系统乍一看起来很相似，但深入分析后会发现它们存在根本性的区别，这些区别对开发人员、管理员和用户都有着重要的影响。在本文中，我们将踏上一段旅程，揭示 UNIX 和 Linux 之间的微妙差异，阐明它们的历史起源、许可模式、系统架构、社区、用户界面、市场应用、安全范式等方面的情况。</p>]]></description></item></channel></rss>

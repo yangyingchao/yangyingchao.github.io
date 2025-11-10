@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vector on 杂货铺</title><link>https://yangyingchao.github.io/tags/vector/</link><description>Recent content in Vector on 杂货铺</description><generator>Hugo</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/vector/index.xml" rel="self" type="application/rss+xml"/><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yang.yingchao@qq.com (yc)</author><guid>https://yangyingchao.github.io/p3548-yan/</guid><description>&lt;div class="ox-hugo-toc toc has-section-numbers"&gt;
-&lt;div class="heading"&gt;Table of Contents&lt;/div&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; &lt;a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel=""&gt;ABSTRACT&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="section-num"&gt;2&lt;/span&gt; &lt;a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel=""&gt;INTRODUCTION&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;!--endtoc--&gt;
-&lt;p&gt;本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf&lt;/p&gt;
-&lt;h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"&gt;&lt;span class="section-num"&gt;1&lt;/span&gt; ABSTRACT&lt;/h2&gt;
-&lt;p&gt;下一代向量数据库应该有的特性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;可长期演进&lt;/li&gt;
-&lt;li&gt;tunable consistency&lt;/li&gt;
-&lt;li&gt;good elasticity&lt;/li&gt;
-&lt;li&gt;high performance&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Manu 通过放宽数据模型和一致性约束来换取上述特性：&lt;/p&gt;</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Vector - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/vector/</link><description>Vector - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><atom:link href="https://yangyingchao.github.io/tags/vector/" rel="self" type="application/rss+xml"/><item><title>Manu: A Cloud Native Vector Database Management System</title><link>https://yangyingchao.github.io/p3548-yan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/p3548-yan/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a" rel="">ABSTRACT</a></li>
+<li><span class="section-num">2</span> <a href="#h:21580be0-85a4-4596-838b-f76c80a9b8c8" rel="">INTRODUCTION</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/8/p3548-yan.pdf</p>
+<h2 id="h:5628f2fa-3be2-4312-8bb1-d8da17d2d39a"><span class="section-num">1</span> ABSTRACT</h2>
+<p>下一代向量数据库应该有的特性：</p>
+<ul>
+<li>可长期演进</li>
+<li>tunable consistency</li>
+<li>good elasticity</li>
+<li>high performance</li>
+</ul>
+<p>Manu 通过放宽数据模型和一致性约束来换取上述特性：</p>]]></description></item></channel></rss>
