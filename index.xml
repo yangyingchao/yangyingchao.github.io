@@ -1,4 +1,43 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Wed, 19 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>我不知道该说什么，关于死亡还是爱情_来自切尔诺贝利的声音-[白俄] S·a·阿列克谢耶维奇;方祖芳;郭成业</title><link>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E8%AF%A5%E8%AF%B4%E4%BB%80%E4%B9%88%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1%E8%BF%98%E6%98%AF%E7%88%B1%E6%83%85_%E6%9D%A5%E8%87%AA%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%A3%B0%E9%9F%B3-%E7%99%BD%E4%BF%84-sa%E9%98%BF%E5%88%97%E5%85%8B%E8%B0%A2%E8%80%B6%E7%BB%B4%E5%A5%87%E6%96%B9%E7%A5%96%E8%8A%B3%E9%83%AD%E6%88%90%E4%B8%9A/</link><pubDate>Wed, 19 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E8%AF%A5%E8%AF%B4%E4%BB%80%E4%B9%88%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1%E8%BF%98%E6%98%AF%E7%88%B1%E6%83%85_%E6%9D%A5%E8%87%AA%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%A3%B0%E9%9F%B3-%E7%99%BD%E4%BF%84-sa%E9%98%BF%E5%88%97%E5%85%8B%E8%B0%A2%E8%80%B6%E7%BB%B4%E5%A5%87%E6%96%B9%E7%A5%96%E8%8A%B3%E9%83%AD%E6%88%90%E4%B8%9A/</guid><description></description></item><item><title>尘埃落定_十五周年纪念版-阿来</title><link>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</link><pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</guid><description><![CDATA[<ul>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 21 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>fix issue: hyprland startup hangs for 20 seconds</title><link>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</link><pubDate>Fri, 21 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</guid><description><![CDATA[<p>奇怪的现象，不知道从什么时候开始，每次 Hyprland 启动都会卡上 20 多秒，今天才注意到有如下错误：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: [drm:atom_op_jump [amdgpu]] *ERROR* atombios stuck in loop for more than 20secs aborting
+</span></span><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck executing D7F8 (len 282, WS 4, PS 4) @ 0xD8EF
+</span></span><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck executing B57C (len 293, WS 4, PS 0) @ 0xB681
+</span></span><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck executing B3D4 (len 140, WS 0, PS 8) @ 0xB42D
+</span></span><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: amdgpu asic init failed
+</span></span><span class="line"><span class="cl">11月 21 12:07:39 DFJX-TJ00676 kernel: [drm] PCIE GART of 256M enabled (table at 0x000000F400000000).
+</span></span><span class="line"><span class="cl">11月 21 12:07:44 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: last message was failed ret is 0
+</span></span><span class="line"><span class="cl">11月 21 12:07:47 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: last message was failed ret is 0
+</span></span><span class="line"><span class="cl">11月 21 12:07:50 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: last message was failed ret is 0
+</span></span><span class="line"><span class="cl">11月 21 12:07:54 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: last message was failed ret is 0
+</span></span><span class="line"><span class="cl">11月 21 12:07:57 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: last message was failed ret is 0
+</span></span><span class="line"><span class="cl">11月 21 12:07:59 DFJX-TJ00676 kernel: amdgpu: SMU load firmware failed
+</span></span><span class="line"><span class="cl">11月 21 12:07:59 DFJX-TJ00676 kernel: amdgpu: fw load failed
+</span></span><span class="line"><span class="cl">11月 21 12:07:59 DFJX-TJ00676 kernel: amdgpu: smu firmware loading failed
+</span></span><span class="line"><span class="cl">11月 21 12:07:59 DFJX-TJ00676 kernel: amdgpu 0000:02:00.0: amdgpu: amdgpu_device_ip_resume failed (-22).
+</span></span><span class="line"><span class="cl">11月 21 12:08:01 DFJX-TJ00676 kernel: pcieport 0000:00:1c.0: broken device, retraining non-functional downstream link at 2.5GT/s
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>禁用了 amdgpu 的电源管理解决了问题：</p>]]></description></item><item><title>我不知道该说什么，关于死亡还是爱情_来自切尔诺贝利的声音-[白俄] S·a·阿列克谢耶维奇;方祖芳;郭成业</title><link>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E8%AF%A5%E8%AF%B4%E4%BB%80%E4%B9%88%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1%E8%BF%98%E6%98%AF%E7%88%B1%E6%83%85_%E6%9D%A5%E8%87%AA%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%A3%B0%E9%9F%B3-%E7%99%BD%E4%BF%84-sa%E9%98%BF%E5%88%97%E5%85%8B%E8%B0%A2%E8%80%B6%E7%BB%B4%E5%A5%87%E6%96%B9%E7%A5%96%E8%8A%B3%E9%83%AD%E6%88%90%E4%B8%9A/</link><pubDate>Wed, 19 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E8%AF%A5%E8%AF%B4%E4%BB%80%E4%B9%88%E5%85%B3%E4%BA%8E%E6%AD%BB%E4%BA%A1%E8%BF%98%E6%98%AF%E7%88%B1%E6%83%85_%E6%9D%A5%E8%87%AA%E5%88%87%E5%B0%94%E8%AF%BA%E8%B4%9D%E5%88%A9%E7%9A%84%E5%A3%B0%E9%9F%B3-%E7%99%BD%E4%BF%84-sa%E9%98%BF%E5%88%97%E5%85%8B%E8%B0%A2%E8%80%B6%E7%BB%B4%E5%A5%87%E6%96%B9%E7%A5%96%E8%8A%B3%E9%83%AD%E6%88%90%E4%B8%9A/</guid><description></description></item><item><title>尘埃落定_十五周年纪念版-阿来</title><link>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</link><pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</guid><description><![CDATA[<ul>
 <li>
 <p>285-286, 标注, 2025 年 11 月 7 日星期五 下午 10:24:24</p>
 <blockquote>
@@ -186,17 +225,4 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer ">https://boringsql.com/posts/know-the-time-in-postgresql/</a></p>]]></description></item><item><title>十月阅读总结</title><link>https://yangyingchao.github.io/2025/11/%E5%8D%81%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93/</link><pubDate>Sat, 01 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E5%8D%81%E6%9C%88%E9%98%85%E8%AF%BB%E6%80%BB%E7%BB%93/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#%e7%8c%ae%e7%bb%99%e9%98%bf%e5%b0%94%e5%90%89%e4%be%ac%e7%9a%84%e8%8a%b1%e6%9d%9f" rel="">献给阿尔吉侬的花束</a></li>
-<li><span class="section-num">2</span> <a href="#%e6%b1%9f%e5%9f%8e" rel="">江城</a></li>
-<li><span class="section-num">3</span> <a href="#%e5%8e%86%e5%8f%b2%e6%b7%b1%e5%a4%84%e7%9a%84%e5%bf%a7%e8%99%91" rel="">历史深处的忧虑</a></li>
-<li><span class="section-num">4</span> <a href="#%e5%8a%a8%e7%89%a9%e5%86%9c%e5%9c%ba" rel="">动物农场</a></li>
-<li><span class="section-num">5</span> <a href="#%e7%bd%97%e6%9d%b0%e7%96%91%e6%a1%88" rel="">罗杰疑案</a></li>
-</ul>
-</div>
-<!--endtoc-->
-<p>又是一个月。。。</p>
-<h2 id="献给阿尔吉侬的花束"><span class="section-num">1</span> <a href="/2025/10/%E7%AC%94%E8%AE%B0%E7%8C%AE%E7%BB%99%E9%98%BF%E5%B0%94%E5%90%89%E4%BE%AC%E7%9A%84%E8%8A%B1%E6%9D%9F-%E7%BE%8E-%E4%B8%B9%E5%B0%BC%E5%B0%94%E5%87%AF%E6%96%AF%E9%99%88%E6%BE%84%E5%92%8C/" rel="">献给阿尔吉侬的花束</a></h2>
-<p>《献给阿尔吉侬的花束》（英语：Flowers for Algernon），又译作《献给阿尔吉侬的花》、《献给阿尔杰侬的花》，是美国作家丹尼尔·凯斯的一部科幻小说。故事叙述一名心智障碍者查理在接受脑部手术之后，由智能障碍急遽跃升为无人可及的天才，而后又因手术副作用而衰退变回智能障碍的过程。该书特色是以查理的第一人称观点来叙事，遣词用字、思维方式随着他的心智变迁而有显著的差异。阿尔吉侬是在查理之前接受脑部改造手术实验的一只白老鼠的名字。</p>]]></description></item></channel></rss>
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://boringsql.com/posts/know-the-time-in-postgresql/" target="_blank" rel="noopener noreffer ">https://boringsql.com/posts/know-the-time-in-postgresql/</a></p>]]></description></item></channel></rss>
