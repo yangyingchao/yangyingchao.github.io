@@ -11,7 +11,37 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.esecurityplanet.com/networks/penetration-testing/" target="_blank" rel="noopener noreffer ">https://www.esecurityplanet.com/networks/penetration-testing/</a></p>]]></description></item><item><title>Hacking Made Easy_ A Beginner's Guide to Penetration Testing with Kali Linux</title><link>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.esecurityplanet.com/networks/penetration-testing/" target="_blank" rel="noopener noreffer ">https://www.esecurityplanet.com/networks/penetration-testing/</a></p>]]></description></item><item><title>Pre-engagement - The Penetration Testing Execution Standard</title><link>https://yangyingchao.github.io/2025/12/pre-engagement---the-penetration-testing-execution-standard/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/pre-engagement---the-penetration-testing-execution-standard/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#overview" rel="">Overview</a></li>
+<li><span class="section-num">2</span> <a href="#introduction-to-scope-%e8%8c%83%e5%9b%b4%e7%9a%84%e4%bb%8b%e7%bb%8d" rel="">Introduction to Scope 范围的介绍</a></li>
+<li><span class="section-num">3</span> <a href="#metrics-for-time-estimation-%e6%97%b6%e9%97%b4%e4%bc%b0%e7%ae%97%e6%8c%87%e6%a0%87" rel="">Metrics for Time Estimation 时间估算指标</a></li>
+<li><span class="section-num">4</span> <a href="#questionnaires-%e9%97%ae%e5%8d%b7%e8%b0%83%e6%9f%a5" rel="">Questionnaires 问卷调查</a></li>
+<li><span class="section-num">5</span> <a href="#general-questions-%e4%b8%80%e8%88%ac%e9%97%ae%e9%a2%98" rel="">General Questions 一般问题</a>
+<ul>
+<li><span class="section-num">5.1</span> <a href="#network-penetration-test" rel="">Network Penetration Test</a></li>
+<li><span class="section-num">5.2</span> <a href="#web-application-penetration-test" rel="">Web Application Penetration Test</a></li>
+<li><span class="section-num">5.3</span> <a href="#wireless-network-penetration-test" rel="">Wireless Network Penetration Test</a></li>
+<li><span class="section-num">5.4</span> <a href="#physical-penetration-test" rel="">Physical Penetration Test</a></li>
+<li><span class="section-num">5.5</span> <a href="#social-engineering" rel="">Social Engineering</a></li>
+<li><span class="section-num">5.6</span> <a href="#questions-for-business-unit-managers" rel="">Questions for Business Unit Managers</a></li>
+<li><span class="section-num">5.7</span> <a href="#questions-for-systems-administrators" rel="">Questions for Systems Administrators</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="http://www.pentest-standard.org/index.php/Pre-engagement" target="_blank" rel="noopener noreffer ">http://www.pentest-standard.org/index.php/Pre-engagement</a></p>]]></description></item><item><title>渗透测试执行标准 The Penetration Testing Execution Standard</title><link>https://yangyingchao.github.io/2025/12/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C%E6%A0%87%E5%87%86-the-penetration-testing-execution-standard/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C%E6%A0%87%E5%87%86-the-penetration-testing-execution-standard/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#high-level-organization-of-the-standard" rel="">High Level Organization of the Standard</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="http://www.pentest-standard.org/index.php/Main_Page" target="_blank" rel="noopener noreffer ">http://www.pentest-standard.org/index.php/Main_Page</a></p>
+<h2 id="high-level-organization-of-the-standard"><span class="section-num">1</span> High Level Organization of the Standard</h2>
+<p>渗透测试执行标准 （Penetration Testing Execution Standard, PTES）由七（7）个主要部分组成。这些部分涵盖了与渗透测试相关的方方面面——从初步沟通和渗透测试的理由开始，通过情报收集和威胁建模阶段，测试人员在幕后工作以更好地理解被测试的组织，再到漏洞分析、利用和利用后阶段，在这些阶段中，测试人员的技术安全专业知识与业务理解相结合，最后到报告阶段，捕捉整个过程，以一种对客户有意义且提供最大价值的方式呈现。</p>]]></description></item><item><title>Hacking Made Easy_ A Beginner's Guide to Penetration Testing with Kali Linux</title><link>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>

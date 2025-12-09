@@ -11,7 +11,16 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.esecurityplanet.com/networks/penetration-testing/" target="_blank" rel="noopener noreffer ">https://www.esecurityplanet.com/networks/penetration-testing/</a></p>]]></description></item><item><title>Hacking Made Easy_ A Beginner's Guide to Penetration Testing with Kali Linux</title><link>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.esecurityplanet.com/networks/penetration-testing/" target="_blank" rel="noopener noreffer ">https://www.esecurityplanet.com/networks/penetration-testing/</a></p>]]></description></item><item><title>渗透测试执行标准 The Penetration Testing Execution Standard</title><link>https://yangyingchao.github.io/2025/12/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C%E6%A0%87%E5%87%86-the-penetration-testing-execution-standard/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%89%A7%E8%A1%8C%E6%A0%87%E5%87%86-the-penetration-testing-execution-standard/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#high-level-organization-of-the-standard" rel="">High Level Organization of the Standard</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="http://www.pentest-standard.org/index.php/Main_Page" target="_blank" rel="noopener noreffer ">http://www.pentest-standard.org/index.php/Main_Page</a></p>
+<h2 id="high-level-organization-of-the-standard"><span class="section-num">1</span> High Level Organization of the Standard</h2>
+<p>渗透测试执行标准 （Penetration Testing Execution Standard, PTES）由七（7）个主要部分组成。这些部分涵盖了与渗透测试相关的方方面面——从初步沟通和渗透测试的理由开始，通过情报收集和威胁建模阶段，测试人员在幕后工作以更好地理解被测试的组织，再到漏洞分析、利用和利用后阶段，在这些阶段中，测试人员的技术安全专业知识与业务理解相结合，最后到报告阶段，捕捉整个过程，以一种对客户有意义且提供最大价值的方式呈现。</p>]]></description></item><item><title>Hacking Made Easy_ A Beginner's Guide to Penetration Testing with Kali Linux</title><link>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>
