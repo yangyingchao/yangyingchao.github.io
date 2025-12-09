@@ -1,4 +1,17 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Mon, 08 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>寻路中国_从乡村到工厂的自驾之旅-[美] 彼得·海斯勒;李雪顺</title><link>https://yangyingchao.github.io/2025/12/%E7%AC%94%E8%AE%B0%E5%AF%BB%E8%B7%AF%E4%B8%AD%E5%9B%BD_%E4%BB%8E%E4%B9%A1%E6%9D%91%E5%88%B0%E5%B7%A5%E5%8E%82%E7%9A%84%E8%87%AA%E9%A9%BE%E4%B9%8B%E6%97%85-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</link><pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/%E7%AC%94%E8%AE%B0%E5%AF%BB%E8%B7%AF%E4%B8%AD%E5%9B%BD_%E4%BB%8E%E4%B9%A1%E6%9D%91%E5%88%B0%E5%B7%A5%E5%8E%82%E7%9A%84%E8%87%AA%E9%A9%BE%E4%B9%8B%E6%97%85-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 杂货铺</title><link>https://yangyingchao.github.io/posts/</link><description>所有文章 | 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 09 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Penetration Testing_ Discovering Network Vulnerabilities</title><link>https://yangyingchao.github.io/2025/12/penetration-testing_-discovering-network-vulnerabilities/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/penetration-testing_-discovering-network-vulnerabilities/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#different-methods-and-types-of-penetration-testing-%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95%e7%9a%84%e4%b8%8d%e5%90%8c%e7%b1%bb%e5%9e%8b%e5%92%8c%e6%96%b9%e6%b3%95" rel="">Different Methods and Types of Penetration Testing 渗透测试的不同类型和方法</a></li>
+<li><span class="section-num">2</span> <a href="#comprehensive-and-limited-testing-%e5%85%a8%e9%9d%a2%e4%b8%8e%e6%9c%89%e9%99%90%e6%b5%8b%e8%af%95" rel="">Comprehensive &amp; Limited Testing 全面与有限测试</a></li>
+<li><span class="section-num">3</span> <a href="#red-and-blue-teams-%e7%ba%a2%e9%98%9f%e4%b8%8e%e8%93%9d%e9%98%9f" rel="">Red &amp; Blue Teams 红队与蓝队</a></li>
+<li><span class="section-num">4</span> <a href="#starting-a-pentesting-program" rel="">Starting a Pentesting Program</a></li>
+<li><span class="section-num">5</span> <a href="#penetration-testing-methodologies-%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95%e6%96%b9%e6%b3%95%e8%ae%ba" rel="">Penetration Testing Methodologies 渗透测试方法论</a></li>
+<li><span class="section-num">6</span> <a href="#top-pentesting-tools" rel="">Top Pentesting Tools</a></li>
+<li><span class="section-num">7</span> <a href="#what-to-do-after-a-penetration-test" rel="">What to Do After a Penetration Test</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.esecurityplanet.com/networks/penetration-testing/" target="_blank" rel="noopener noreffer ">https://www.esecurityplanet.com/networks/penetration-testing/</a></p>]]></description></item><item><title>寻路中国_从乡村到工厂的自驾之旅-[美] 彼得·海斯勒;李雪顺</title><link>https://yangyingchao.github.io/2025/12/%E7%AC%94%E8%AE%B0%E5%AF%BB%E8%B7%AF%E4%B8%AD%E5%9B%BD_%E4%BB%8E%E4%B9%A1%E6%9D%91%E5%88%B0%E5%B7%A5%E5%8E%82%E7%9A%84%E8%87%AA%E9%A9%BE%E4%B9%8B%E6%97%85-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</link><pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/%E7%AC%94%E8%AE%B0%E5%AF%BB%E8%B7%AF%E4%B8%AD%E5%9B%BD_%E4%BB%8E%E4%B9%A1%E6%9D%91%E5%88%B0%E5%B7%A5%E5%8E%82%E7%9A%84%E8%87%AA%E9%A9%BE%E4%B9%8B%E6%97%85-%E7%BE%8E-%E5%BD%BC%E5%BE%97%E6%B5%B7%E6%96%AF%E5%8B%92%E6%9D%8E%E9%9B%AA%E9%A1%BA/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#unwashed-entries" rel="">Unwashed Entries</a></li>
@@ -143,15 +156,4 @@ Linux，这是一种基于 Debian 的发行版，专门为渗透测试和安全�
 <li>
 <p>142-144, 标注, 2025 年 11 月 18 日星期二 下午 1:29:32</p>
 <blockquote>
-<p>我当时遇到很多好人，有些我都忘了，不过我记得一位看门的老太太教我：“有些病是治不好的，你只能坐在旁边照顾他们。”</p>]]></description></item><item><title>尘埃落定_十五周年纪念版-阿来</title><link>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</link><pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/%E7%AC%94%E8%AE%B0%E5%B0%98%E5%9F%83%E8%90%BD%E5%AE%9A_%E5%8D%81%E4%BA%94%E5%91%A8%E5%B9%B4%E7%BA%AA%E5%BF%B5%E7%89%88-%E9%98%BF%E6%9D%A5/</guid><description><![CDATA[<ul>
-<li>
-<p>285-286, 标注, 2025 年 11 月 7 日星期五 下午 10:24:24</p>
-<blockquote>
-<p>总而言之，我们在那个时代订出的规矩是叫人向下而不是叫人向上的。骨头沉重高贵的人是制作这种规范的艺术家。</p>
-</blockquote>
-</li>
-</ul>
-<!--listend-->
-<ul>
-<li>
-<p>290-292, 标注, 2025 年 11 月 7 日星期五 下午 10:26:19</p>]]></description></item></channel></rss>
+<p>我当时遇到很多好人，有些我都忘了，不过我记得一位看门的老太太教我：“有些病是治不好的，你只能坐在旁边照顾他们。”</p>]]></description></item></channel></rss>
