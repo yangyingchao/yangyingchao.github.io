@@ -1,4 +1,26 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Tag2 - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/tag2/</link><description>Tag2 - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 21 Nov 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tag2/" rel="self" type="application/rss+xml"/><item><title>fix issue: hyprland startup hangs for 20 seconds</title><link>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</link><pubDate>Fri, 21 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</guid><description><![CDATA[<p>奇怪的现象，不知道从什么时候开始，每次 Hyprland 启动都会卡上 20 多秒，今天才注意到有如下错误：</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Tag2 - 标签 - 杂货铺</title><link>https://yangyingchao.github.io/tags/tag2/</link><description>Tag2 - 标签 - 杂货铺</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Tue, 09 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/tags/tag2/" rel="self" type="application/rss+xml"/><item><title>Database Penetration Testing 数据库渗透测</title><link>https://yangyingchao.github.io/2025/12/database-penetration-testing/</link><pubDate>Tue, 09 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/database-penetration-testing/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#what-is-database-penetration-testing-%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95%e6%98%af%e4%bb%80%e4%b9%88" rel="">What is Database Penetration Testing? 数据库渗透测试是什么？</a></li>
+<li><span class="section-num">2</span> <a href="#why-is-database-penetration-testing-important-%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95%e4%b8%ba%e4%bd%95%e9%87%8d%e8%a6%81" rel="">Why is database penetration testing important?数据库渗透测试为何重要？</a></li>
+<li><span class="section-num">3</span> <a href="#types-of-vulnerabilities-that-affect-database-system-%e5%bd%b1%e5%93%8d%e6%95%b0%e6%8d%ae%e5%ba%93%e7%b3%bb%e7%bb%9f%e7%9a%84%e6%bc%8f%e6%b4%9e%e7%b1%bb%e5%9e%8b" rel="">Types of Vulnerabilities that affect database system 影响数据库系统的漏洞类型</a></li>
+<li><span class="section-num">4</span> <a href="#how-to-perform-database-penetration-testing-%e5%a6%82%e4%bd%95%e6%89%a7%e8%a1%8c%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95" rel="">How to Perform Database Penetration Testing? 如何执行数据库渗透测试？</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#planning-and-preparation-%e8%ae%a1%e5%88%92%e4%b8%8e%e5%87%86%e5%a4%87" rel="">Planning and Preparation 计划与准备</a></li>
+<li><span class="section-num">4.2</span> <a href="#information-gathering-and-reconnaissance-%e4%bf%a1%e6%81%af%e6%94%b6%e9%9b%86%e4%b8%8e%e4%be%a6%e6%9f%a5" rel="">Information Gathering and Reconnaissance 信息收集与侦查</a></li>
+<li><span class="section-num">4.3</span> <a href="#vulnerability-assessment-%e6%bc%8f%e6%b4%9e%e8%af%84%e4%bc%b0" rel="">Vulnerability Assessment 漏洞评估</a></li>
+<li><span class="section-num">4.4</span> <a href="#exploitatio-%e6%bc%8f%e6%b4%9e%e5%88%a9%e7%94%a8" rel="">Exploitatio 漏洞利用</a></li>
+<li><span class="section-num">4.5</span> <a href="#post-exploitation-%e5%90%8e%e6%9c%9f%e5%88%a9%e7%94%a8" rel="">Post-Exploitation 后期利用</a></li>
+<li><span class="section-num">4.6</span> <a href="#analysis-and-reporting-%e5%88%86%e6%9e%90%e4%b8%8e%e6%8a%a5%e5%91%8a" rel="">Analysis and Reporting 分析与报告</a></li>
+<li><span class="section-num">4.7</span> <a href="#remediation-support-and-retesting-%e8%a1%a5%e6%95%91%e6%94%af%e6%8c%81%e4%b8%8e%e9%87%8d%e6%96%b0%e6%b5%8b%e8%af%95" rel="">Remediation Support and Retesting 补救支持与重新测试</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#database-security-testing-tools-%e6%95%b0%e6%8d%ae%e5%ba%93%e5%ae%89%e5%85%a8%e6%b5%8b%e8%af%95%e5%b7%a5%e5%85%b7" rel="">Database Security Testing Tools 数据库安全测试工具</a></li>
+<li><span class="section-num">6</span> <a href="#database-penetration-testing-checklist-%e6%95%b0%e6%8d%ae%e5%ba%93%e6%b8%97%e9%80%8f%e6%b5%8b%e8%af%95%e6%a3%80%e6%9f%a5%e8%a1%a8" rel="">Database Penetration Testing Checklist 数据库渗透测试检查表</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为： <a href="https://thecyphere.com/blog/database-penetration-testing/" target="_blank" rel="noopener noreffer ">https://thecyphere.com/blog/database-penetration-testing/</a></p>]]></description></item><item><title>fix issue: hyprland startup hangs for 20 seconds</title><link>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</link><pubDate>Fri, 21 Nov 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/11/fix-issue-hyprland-startup-hangs-for-20-seconds/</guid><description><![CDATA[<p>奇怪的现象，不知道从什么时候开始，每次 Hyprland 启动都会卡上 20 多秒，今天才注意到有如下错误：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
