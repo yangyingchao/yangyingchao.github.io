@@ -17,6 +17,8 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/article/9749" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/article/9749</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-attachments/pdf/9/masterraghu.com-92-Interface-Models.pdf
+-https://www.linuxjournal.com/article/9749</p>
 <h2 id="h:2815bca8-e6bb-4b22-93b8-52266d83331a"><span class="section-num">1</span> SCTP Associations</h2>
 <p>SCTP 的联合 (association) 类似于 TCP 的连接 (connection) ， 但又有不同：</p>]]></description></item></channel></rss>

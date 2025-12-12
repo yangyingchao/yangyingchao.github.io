@@ -21,7 +21,9 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://github.com/torvalds/linux/blob/master/mm/mlock.c#L756
+-https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</p>
 <h2 id="h:a69e195a-92fb-405b-9b6c-ec86c0015e47"><span class="section-num">1</span> mlockall()</h2>
 <p>from manpage:</p>
 <div class="highlight"><div class="chroma">

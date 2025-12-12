@@ -20,7 +20,10 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://postgr.es/p/7ka" target="_blank" rel="noopener noreffer ">https://postgr.es/p/7ka</a></p>]]></description></item><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://postgr.es/p/7kL
+-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/assembly_configuring-cpu-affinity-and-numa-policies-using-systemd_managing-monitoring-and-updating-the-kernel#proc_configuring-numa-using-systemd_assembly_configuring-cpu-affinity-and-numa-policies-using-systemd
+-https://postgr.es/p/7ka</p>]]></description></item><item><title>how to avoid memory being swapped (locking memory pages)</title><link>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</link><pubDate>Sat, 16 Dec 2023 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2023/12/how-to-avoid-memory-being-swapped/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
 <div class="heading">Table of Contents</div>
 <ul>
 <li><span class="section-num">1</span> <a href="#h:a69e195a-92fb-405b-9b6c-ec86c0015e47" rel="">mlockall()</a></li>
@@ -43,7 +46,9 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory" target="_blank" rel="noopener noreffer ">https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://github.com/torvalds/linux/blob/master/mm/mlock.c#L756
+-https://stackoverflow.com/questions/12520499/linux-how-to-lock-the-pages-of-a-process-in-memory</p>
 <h2 id="h:a69e195a-92fb-405b-9b6c-ec86c0015e47"><span class="section-num">1</span> mlockall()</h2>
 <p>from manpage:</p>
 <div class="highlight"><div class="chroma">

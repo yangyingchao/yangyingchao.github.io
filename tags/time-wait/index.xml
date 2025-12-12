@@ -19,7 +19,9 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary" target="_blank" rel="noopener noreffer ">https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://draveness.me/whys-the-design-tcp-time-wait/
+-https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary</p>
 <h2 id="h:871f360d-063e-46ff-9c0a-18322d91be4c"><span class="section-num">1</span> <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux#summary%23:~:text=TL;DR" target="_blank" rel="noopener noreffer ">TL;DR</a></h2>
 <ul>
 <li>不用启用 <code>net.ipv4.tcp_tw_recycle</code> ， 该选项已在 Linux4.12 废弃</li>

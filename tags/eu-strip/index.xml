@@ -8,6 +8,8 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use" target="_blank" rel="noopener noreffer ">https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://blog.csdn.net/nirendao/article/details/104107608
+-https://lynxbee.com/what-is-the-difference-between-elfutils-and-binutils/#:~:text=Ulrich%20Drepper%20who%20authored%20elfutils%20has%20mentioned%20the,available%20in%20binutils%20which%20are%20in%20%28wide%29%20use</p>
 <h2 id="h:443ee8f8-59ff-491c-bcdd-72574d1de216"><span class="section-num">1</span> What is the difference between elfutils and binutils</h2>
 <p>根据维基百科的介绍，elfutils 被描述为“Ulrich Drepper 编写了 elfutils，以取代 GNU Binutils，专门为 Linux 开发，并仅支持 ELF 和 DWARF 格式”。</p>]]></description></item></channel></rss>

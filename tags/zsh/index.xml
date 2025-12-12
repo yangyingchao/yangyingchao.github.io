@@ -13,6 +13,8 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc" target="_blank" rel="noopener noreffer ">https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://www.google.com/search?q=will+.bash_profile+be+sourced+when+executing+scripts%3F&amp;oq=will+.bash_profile++be+sourced+when+executing+scripts%3F&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigAdIBCTE3NDk3ajBqOagCALACAA&amp;sourceid=chrome&amp;ie=UTF-8
+-https://unix.stackexchange.com/questions/505949/expanding-only-certain-variables-inside-a-heredoc</p>
 <h2 id="h:c2349cd1-7eb4-4ae1-9eea-323aea44ee72"><span class="section-num">1</span> 展开 Bash 数组 (array) 时候， <code>${ARRARY[@]}</code> 和 <code>${ARRARY[*]}</code> 有什么区别？</h2>
 <p>INFO 中有相关说明：</p>]]></description></item></channel></rss>

@@ -28,7 +28,9 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf</p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-../pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf
+-attachments/pdf/a/Towards a New File Format for Big Data - SIMD-Friendly Composable Compression (2020-AzimAfroozeh).pdf</p>
 <h2 id="h:580c0cb0-61f9-4a43-ac02-4fad348cc20a"><span class="section-num">1</span> Introduction</h2>
 <h2 id="h:03a34d6a-6bc6-438c-8f2d-9edd1ffaacdf"><span class="section-num">2</span> Related Work</h2>
 <h3 id="h:0f05328b-cb9e-4cd6-98de-0224bc4b0b1b"><span class="section-num">2.1</span> Storage Layouts</h3>

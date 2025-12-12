@@ -14,6 +14,8 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.cppstories.com/2023/four-views-in-cpp23/" target="_blank" rel="noopener noreffer ">https://www.cppstories.com/2023/four-views-in-cpp23/</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://stackoverflow.com/questions/40127965/how-exactly-is-stdstring-view-faster-than-const-stdstring
+-https://www.cppstories.com/2023/four-views-in-cpp23/</p>
 <p>在本博客文章中，我们将探讨现代 C++中引入的几种不同的视图/引用类型。第一种是 C++17 中新增的 <code>string_view</code> 。
 C++20 引入了 <code>std::span</code> 和 <code>ranges</code> 视图。最后新增的是来自 C++23 的 <code>std::mdspan</code> 。</p>]]></description></item></channel></rss>

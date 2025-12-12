@@ -6,7 +6,9 @@
 </ul>
 </div>
 <!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html" target="_blank" rel="noopener noreffer ">https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</a></p>
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#networking
+-https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html</p>
 <h2 id="h:3127b791-8437-4d53-bf04-17e651151969"><span class="section-num">1</span> <a href="https://docs.vmware.com/en/VMware-Tanzu-Greenplum/6/greenplum-database/GUID-install_guide-prep_os.html#:~:text=IP%20Fragmentation%20Settings" target="_blank" rel="noopener noreffer ">IP Fragmentation Settings</a></h2>
 <p>IP Fragmentation Settings</p>
 <p>When the Greenplum Database interconnect uses UDP (the default), the network interface
