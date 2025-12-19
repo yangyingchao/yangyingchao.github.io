@@ -1,4 +1,60 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Wed, 17 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Failed to get D-Bus connection: Operation not permitted</title><link>https://yangyingchao.github.io/2025/12/failed-to-get-d-bus-connection-operation-not-permitted/</link><pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/failed-to-get-d-bus-connection-operation-not-permitted/</guid><description><![CDATA[<p>when meet this wiered error inside docker, you may try:</p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>杂货铺</title><link>https://yangyingchao.github.io/</link><description>杂七杂八的，随手记录。</description><generator>Hugo -- gohugo.io</generator><language>zh-CH</language><managingEditor>yang.yingchao@qq.com (yc)</managingEditor><webMaster>yang.yingchao@qq.com (yc)</webMaster><lastBuildDate>Fri, 19 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://yangyingchao.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>How SQLite Is Tested (SQLite 是怎么测试的)</title><link>https://yangyingchao.github.io/2025/12/how-sqlite-is-tested/</link><pubDate>Fri, 19 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/how-sqlite-is-tested/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
+<div class="heading">Table of Contents</div>
+<ul>
+<li><span class="section-num">1</span> <a href="#introduction-%e7%ae%80%e4%bb%8b" rel="">Introduction 简介</a>
+<ul>
+<li><span class="section-num">1.1</span> <a href="#executive-summary-%e6%89%a7%e8%a1%8c%e6%91%98%e8%a6%81" rel="">Executive Summary 执行摘要</a></li>
+</ul>
+</li>
+<li><span class="section-num">2</span> <a href="#test-harnesses-%e6%b5%8b%e8%af%95%e5%b7%a5%e5%85%b7%e5%a5%97%e4%bb%b6" rel="">Test Harnesses 测试工具套件</a></li>
+<li><span class="section-num">3</span> <a href="#anomaly-testing-%e5%bc%82%e5%b8%b8%e6%b5%8b%e8%af%95" rel="">Anomaly Testing 异常测试</a>
+<ul>
+<li><span class="section-num">3.1</span> <a href="#out-of-memory-testing-%e5%86%85%e5%ad%98%e6%ba%a2%e5%87%ba%e6%b5%8b%e8%af%95" rel="">Out-Of-Memory Testing 内存溢出测试</a></li>
+<li><span class="section-num">3.2</span> <a href="#i-o-error-testing-%e8%be%93%e5%85%a5-%e8%be%93%e5%87%ba%e9%94%99%e8%af%af%e6%b5%8b%e8%af%95" rel=""><span class="org-todo todo TODO">TODO</span> I/O Error Testing 输入/输出错误测试</a></li>
+<li><span class="section-num">3.3</span> <a href="#crash-testing-%e5%b4%a9%e6%ba%83%e6%b5%8b%e8%af%95" rel="">Crash Testing 崩溃测试</a></li>
+<li><span class="section-num">3.4</span> <a href="#compound-failure-tests-%e5%a4%8d%e5%90%88%e6%95%85%e9%9a%9c%e6%b5%8b%e8%af%95" rel="">Compound failure tests 复合故障测试</a></li>
+</ul>
+</li>
+<li><span class="section-num">4</span> <a href="#fuzz-testing-%e6%a8%a1%e7%b3%8a%e6%b5%8b%e8%af%95" rel="">Fuzz Testing 模糊测试</a>
+<ul>
+<li><span class="section-num">4.1</span> <a href="#sql-fuzz" rel="">SQL Fuzz</a></li>
+<li><span class="section-num">4.2</span> <a href="#malformed-database-files-%e6%a0%bc%e5%bc%8f%e9%94%99%e8%af%af%e7%9a%84%e6%95%b0%e6%8d%ae%e5%ba%93%e6%96%87%e4%bb%b6" rel="">Malformed Database Files 格式错误的数据库文件</a></li>
+<li><span class="section-num">4.3</span> <a href="#boundary-value-tests-%e8%be%b9%e7%95%8c%e5%80%bc%e6%b5%8b%e8%af%95" rel="">Boundary Value Tests 边界值测试</a></li>
+</ul>
+</li>
+<li><span class="section-num">5</span> <a href="#regression-testing-%e5%9b%9e%e5%bd%92%e6%b5%8b%e8%af%95" rel="">Regression Testing 回归测试</a></li>
+<li><span class="section-num">6</span> <a href="#automatic-resource-leak-detection-%e8%87%aa%e5%8a%a8%e8%b5%84%e6%ba%90%e6%b3%84%e6%bc%8f%e6%a3%80%e6%b5%8b" rel="">Automatic Resource Leak Detection 自动资源泄漏检测</a></li>
+<li><span class="section-num">7</span> <a href="#test-coverage-%e6%b5%8b%e8%af%95%e8%a6%86%e7%9b%96%e7%8e%87" rel="">Test Coverage 测试覆盖率</a>
+<ul>
+<li><span class="section-num">7.1</span> <a href="#statement-versus-branch-coverage-%e8%af%ad%e5%8f%a5%e8%a6%86%e7%9b%96%e7%8e%87%e4%b8%8e%e5%88%86%e6%94%af%e8%a6%86%e7%9b%96%e7%8e%87" rel="">Statement versus branch coverage 语句覆盖率与分支覆盖率</a></li>
+<li><span class="section-num">7.2</span> <a href="#coverage-testing-of-defensive-code-%e9%98%b2%e5%be%a1%e6%80%a7%e4%bb%a3%e7%a0%81%e7%9a%84%e8%a6%86%e7%9b%96%e7%8e%87%e6%b5%8b%e8%af%95" rel="">Coverage testing of defensive code 防御性代码的覆盖率测试</a></li>
+<li><span class="section-num">7.3</span> <a href="#forcing-coverage-of-boundary-values-and-boolean-vector-tests-%e5%bc%ba%e5%88%b6%e8%a6%86%e7%9b%96%e8%be%b9%e7%95%8c%e5%80%bc%e5%92%8c%e5%b8%83%e5%b0%94%e5%90%91%e9%87%8f%e6%b5%8b%e8%af%95" rel="">Forcing coverage of boundary values and boolean vector tests 强制覆盖边界值和布尔向量测试</a></li>
+<li><span class="section-num">7.4</span> <a href="#%e5%88%86%e6%94%af%e8%a6%86%e7%9b%96%e7%8e%87%e4%b8%8e-mc-dc-%e8%a6%86%e7%9b%96%e7%8e%87%e6%af%94%e8%be%83" rel="">分支覆盖率与 MC/DC 覆盖率比较</a></li>
+<li><span class="section-num">7.5</span> <a href="#%e6%b5%8b%e9%87%8f%e5%88%86%e6%94%af%e8%a6%86%e7%9b%96%e7%8e%87" rel="">测量分支覆盖率</a></li>
+<li><span class="section-num">7.6</span> <a href="#%e5%8f%98%e5%bc%82%e6%b5%8b%e8%af%95" rel="">变异测试</a></li>
+<li><span class="section-num">7.7</span> <a href="#%e5%ae%8c%e6%95%b4%e6%b5%8b%e8%af%95%e8%a6%86%e7%9b%96%e7%8e%87%e7%9a%84%e7%bb%8f%e9%aa%8c" rel="">完整测试覆盖率的经验</a></li>
+</ul>
+</li>
+<li><span class="section-num">8</span> <a href="#%e5%8a%a8%e6%80%81%e5%88%86%e6%9e%90-dynamic-analysis" rel="">动态分析 Dynamic Analysis</a>
+<ul>
+<li><span class="section-num">8.1</span> <a href="#assert-%e6%96%ad%e8%a8%80" rel="">Assert 断言</a></li>
+<li><span class="section-num">8.2</span> <a href="#valgrind" rel="">Valgrind</a></li>
+<li><span class="section-num">8.3</span> <a href="#memsys2" rel="">Memsys2</a></li>
+<li><span class="section-num">8.4</span> <a href="#mutex-asserts" rel="">Mutex Asserts</a></li>
+<li><span class="section-num">8.5</span> <a href="#journal-tests" rel="">Journal Tests</a></li>
+<li><span class="section-num">8.6</span> <a href="#undefined-behavior-checks" rel="">Undefined Behavior Checks</a></li>
+</ul>
+</li>
+<li><span class="section-num">9</span> <a href="#%e7%a6%81%e7%94%a8%e4%bc%98%e5%8c%96%e6%b5%8b%e8%af%95-disabled-optimization-tests" rel="">禁用优化测试 Disabled Optimization Tests</a></li>
+<li><span class="section-num">10</span> <a href="#checklists-%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95" rel="">Checklists 检查清单</a></li>
+<li><span class="section-num">11</span> <a href="#static-analysis" rel="">Static Analysis</a></li>
+<li><span class="section-num">12</span> <a href="#summary" rel="">Summary</a></li>
+</ul>
+</div>
+<!--endtoc-->
+<p>本文为摘录(或转载)，侵删，原文为：
+-https://sqlite.org/testing.html#defcode
+-https://sqlite.org/testing.html</p>]]></description></item><item><title>Failed to get D-Bus connection: Operation not permitted</title><link>https://yangyingchao.github.io/2025/12/failed-to-get-d-bus-connection-operation-not-permitted/</link><pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/failed-to-get-d-bus-connection-operation-not-permitted/</guid><description><![CDATA[<p>when meet this wiered error inside docker, you may try:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -13836,24 +13892,4 @@
 </div>
 <!--endtoc-->
 <h2 id="青山"><span class="section-num">1</span> <a href="/2025/10/%E7%AC%94%E8%AE%B0%E9%9D%92%E5%B1%B1-%E4%BC%9A%E8%AF%B4%E8%AF%9D%E7%9A%84%E8%82%98%E5%AD%90/" rel="">青山</a></h2>
-<p>看个网文放松一下。《青山》的作者是“会说话的肘子”，之前看过他的《大王饶命》和《第一序列》，《夜的命名术》似乎是看过一部分，没看完。这个作者文笔在一众网文作者中属于靠前的，而且不同于一般作者之处在于，也许是因为他自己存在某种信念，他笔下的人物，始终有自己的某种坚持，于黑暗中仰望光明的一种坚持，从《大王饶命》中吕树，到《第一序列》中的任小粟，再到《青山》中的陈迹，均是如此。</p>]]></description></item><item><title>Hacking Made Easy_ A Beginner's Guide to Penetration Testing with Kali Linux</title><link>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</link><pubDate>Thu, 04 Dec 2025 00:00:00 +0000</pubDate><author>yc</author><guid>https://yangyingchao.github.io/2025/12/hacking-made-easy_-a-beginners-guide-to-penetration-testing-with-kali-linux/</guid><description><![CDATA[<div class="ox-hugo-toc toc has-section-numbers">
-<div class="heading">Table of Contents</div>
-<ul>
-<li><span class="section-num">1</span> <a href="#introduction" rel="">Introduction</a></li>
-<li><span class="section-num">2</span> <a href="#essential-tools-in-kali-linux" rel="">Essential Tools in Kali Linux</a>
-<ul>
-<li><span class="section-num">2.1</span> <a href="#%e4%bf%a1%e6%81%af%e6%94%b6%e9%9b%86" rel="">信息收集</a></li>
-<li><span class="section-num">2.2</span> <a href="#%e6%bc%8f%e6%b4%9e%e5%88%86%e6%9e%90-vulnerability-analysis" rel="">漏洞分析 Vulnerability Analysis</a></li>
-<li><span class="section-num">2.3</span> <a href="#%e5%88%a9%e7%94%a8%e5%b7%a5%e5%85%b7-exploitation-tools" rel="">利用工具 Exploitation Tools</a></li>
-<li><span class="section-num">2.4</span> <a href="#%e5%af%86%e7%a0%81%e6%94%bb%e5%87%bb" rel="">密码攻击</a></li>
-<li><span class="section-num">2.5</span> <a href="#%e6%97%a0%e7%ba%bf%e6%94%bb%e5%87%bb" rel="">无线攻击</a></li>
-<li><span class="section-num">2.6</span> <a href="#%e5%8f%96%e8%af%81%e5%b7%a5%e5%85%b7-forensics-tools" rel="">取证工具 Forensics Tools</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<!--endtoc-->
-<p>本文为摘录(或转载)，侵删，原文为： <a href="https://www.linuxjournal.com/content/hacking-made-easy-beginners-guide-penetration-testing-kali-linux" target="_blank" rel="noopener noreffer ">https://www.linuxjournal.com/content/hacking-made-easy-beginners-guide-penetration-testing-kali-linux</a></p>
-<h2 id="introduction"><span class="section-num">1</span> Introduction</h2>
-<p>渗透测试，是网络安全领域中的一项关键实践。它涉及对系统、网络或网络应用程序进行模拟网络攻击，以识别可能被恶意行为者利用的漏洞。这种主动的方式使组织能够在实际攻击发生之前增强他们的防御能力。为了进行有效的渗透测试，安全专业人员依赖于为此而设计的专业工具和平台。在这个领域中，最著名的平台之一是 Kali
-Linux，这是一种基于 Debian 的发行版，专门为渗透测试和安全审计而定制。</p>]]></description></item></channel></rss>
+<p>看个网文放松一下。《青山》的作者是“会说话的肘子”，之前看过他的《大王饶命》和《第一序列》，《夜的命名术》似乎是看过一部分，没看完。这个作者文笔在一众网文作者中属于靠前的，而且不同于一般作者之处在于，也许是因为他自己存在某种信念，他笔下的人物，始终有自己的某种坚持，于黑暗中仰望光明的一种坚持，从《大王饶命》中吕树，到《第一序列》中的任小粟，再到《青山》中的陈迹，均是如此。</p>]]></description></item></channel></rss>
