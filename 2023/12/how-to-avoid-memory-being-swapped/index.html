@@ -505,7 +505,7 @@
 </span></span><span class=line><span class=cl><span class=cp>#define MAX_SWAPFILES                              \
 </span></span></span><span class=line><span class=cl><span class=cp>    ((1 &lt;&lt; MAX_SWAPFILES_SHIFT) - SWP_DEVICE_NUM - \
 </span></span></span><span class=line><span class=cl><span class=cp>    SWP_MIGRATION_NUM - SWP_HWPOISON_NUM)
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>  <span class=k>struct</span> <span class=n>swap_info_struct</span> <span class=o>*</span><span class=n>swap_info</span><span class=p>[</span><span class=n>MAX_SWAPFILES</span><span class=p>];</span>
 </span></span></code></pre></td></tr></table></div></div><p>最多 <code>MAX_SWAPFILES</code> 个 swap 设备。</p><h3 id=h:1fe99bb1-aeb0-4a49-9efe-56e123310ee6><span class=section-num>4.2</span> Locks</h3><h4 id=h:4542388b-4a23-4f9a-afc5-7d3afbbaf6c5><span class=section-num>4.2.1</span> 全局锁</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=nf>DEFINE_SPINLOCK</span><span class=p>(</span><span class=n>swap_lock</span><span class=p>);</span>

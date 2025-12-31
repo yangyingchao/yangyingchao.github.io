@@ -65,9 +65,9 @@ caption</div><p>| 返回条件 || from_chars_result 的状态 |
 </span><span class=lnt>23
 </span><span class=lnt>24
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;charconv&gt;</span><span class=cp> </span><span class=c1>// from_char, to_char
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>str</span> <span class=p>{</span> <span class=s>&#34;12345678901234&#34;</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>value</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=k>auto</span> <span class=n>res</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>from_chars</span><span class=p>(</span><span class=n>str</span><span class=p>.</span><span class=n>data</span><span class=p>(),</span>
@@ -115,9 +115,9 @@ caption</div><p>| 返回条件 || from_chars_result 的状态 |
 </span><span class=lnt>25
 </span><span class=lnt>26
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;charconv&gt;</span><span class=cp> </span><span class=c1>// from_char, to_char
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=n>std</span><span class=o>::</span><span class=n>string</span> <span class=n>str</span> <span class=p>{</span> <span class=s>&#34;16.78&#34;</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>value</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=k>auto</span> <span class=n>format</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chars_format</span><span class=o>::</span><span class=n>general</span><span class=p>;</span>
@@ -158,7 +158,7 @@ caption</div><p>| 返回条件 || from_chars_result 的状态 |
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;charconv&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;optional&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string_view&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>constexpr</span> <span class=n>std</span><span class=o>::</span><span class=n>optional</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>to_int</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>string_view</span> <span class=n>sv</span><span class=p>)</span>
+</span></span></span><span class=line><span class=cl><span class=k>constexpr</span> <span class=n>std</span><span class=o>::</span><span class=n>optional</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>to_int</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>string_view</span> <span class=n>sv</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>value</span> <span class=p>{};</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=k>auto</span> <span class=n>ret</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>from_chars</span><span class=p>(</span><span class=n>sv</span><span class=p>.</span><span class=n>begin</span><span class=p>(),</span> <span class=n>sv</span><span class=p>.</span><span class=n>end</span><span class=p>(),</span> <span class=n>value</span><span class=p>);</span>
@@ -188,7 +188,7 @@ caption</div><p>| 返回条件 || from_chars_result 的状态 |
 </span><span class=lnt>10
 </span><span class=lnt>11
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=c1>// ...
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>const</span> <span class=k>auto</span> <span class=n>res</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>from_chars</span><span class=p>(</span><span class=n>str</span><span class=p>.</span><span class=n>data</span><span class=p>(),</span>
+</span></span></span><span class=line><span class=cl><span class=k>const</span> <span class=k>auto</span> <span class=n>res</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>from_chars</span><span class=p>(</span><span class=n>str</span><span class=p>.</span><span class=n>data</span><span class=p>(),</span>
 </span></span><span class=line><span class=cl>                                 <span class=n>str</span><span class=p>.</span><span class=n>data</span><span class=p>()</span> <span class=o>+</span> <span class=n>str</span><span class=p>.</span><span class=n>size</span><span class=p>(),</span>
 </span></span><span class=line><span class=cl>                                 <span class=n>value</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>                                 <span class=n>format</span><span class=p>);</span>

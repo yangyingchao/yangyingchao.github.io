@@ -8,8 +8,8 @@ PostgreSQL 文档指出，大页“减少了开销……从而导致更小的页
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>postgres --shared-buffers<span class=o>=</span>20GB <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>         --min-dynamic-shared-memory<span class=o>=</span>2GB <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>         -C shared_memory_size_in_huge_pages
+</span></span></span><span class=line><span class=cl>         --min-dynamic-shared-memory<span class=o>=</span>2GB <span class=se>\
+</span></span></span><span class=line><span class=cl>         -C shared_memory_size_in_huge_pages
 </span></span></code></pre></td></tr></table></div></div><p>此命令输出所需的确切数量的 2 MB 大页（例如，对于 20 GiB 的缓冲区加上 2 GiB 的动态共享内存，大约需要 <code>~11,499</code>
 页）。您还可以通过 <code>-C dynamic_shared_memory_type</code> 检查动态共享内存，或通过 <code>min_dynamic_shared_memory</code>
 分配特定大小，以确保并行工作进程也使用大页。</p><h3 id=pre-15-releases-compute-manually><span class=section-num>2.2</span> Pre‑15 releases - compute manually</h3><p>对于 PostgreSQL 14 及更早版本，手动计算所需的巨页数量：</p><ol><li>找到您想要运行的 Linux 系统上的巨页大小（通常为 2MB）。</li><li>将 shared_buffers （以 MB 为单位）除以 2（巨页的大小）。</li><li>加上 <code>5%</code> 的缓冲，以确保 PostgreSQL 始终拥有所需的巨页数量。</li><li>结果数字就是您应该分配的巨页数量。</li></ol><h3 id=1-gb-huge-pages><span class=section-num>2.3</span> 1 GB huge pages</h3><p>大多数部署使用 2 MB 页面，但一些 CPU 支持 1 GB 页面。您可以通过在 <strong>postgresql.conf</strong> 中设置 <code>huge_page_size = 1GB</code> 并通过 <code>/sys/kernel/mm/hugepages/hugepages-1048576kB/nr_hugepages</code> 分配它们。大页面进一步减少了 TLB 压力，但内存碎片使其更难分配；通常需要重启。</p><p>*</p><h2 id=allocating-huge-pages-at-the-operating-system-level-在操作系统层面分配大页><span class=section-num>3</span> Allocating huge pages at the operating system level 在操作系统层面分配大页</h2><p>一旦您知道所需的页面数量，请在内核中预分配这些页面。以下步骤适用于大多数 Linux 发行版（RHEL、Ubuntu、Debian、SUSE 等）：</p><ol><li><p>通过 sysctl 保留大页：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1

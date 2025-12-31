@@ -16,7 +16,7 @@ IO 模型</div><p>| Mode || Blocking || Non-blocking |
 </span><span class=lnt>6
 </span><span class=lnt>7
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/aio_abi.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nr_events</span><span class=p>,</span> <span class=kt>aio_context_t</span> <span class=o>*</span><span class=n>ctxp</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nr_events</span><span class=p>,</span> <span class=kt>aio_context_t</span> <span class=o>*</span><span class=n>ctxp</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_submit</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>**</span><span class=n>iocbpp</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>io_cancel</span><span class=p>(</span><span class=kt>aio_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>*</span><span class=p>,</span> <span class=k>struct</span> <span class=n>io_event</span> <span class=o>*</span><span class=n>result</span><span class=p>);</span>
@@ -118,7 +118,7 @@ IO 模型</div><p>| Mode || Blocking || Non-blocking |
 </span><span class=lnt>13
 </span><span class=lnt>14
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp># /usr/include</span><span class=cpf>/linux/aio_abi.h</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>enum</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl><span class=k>enum</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PREAD</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_PWRITE</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>        <span class=n>IOCB_CMD_FSYNC</span> <span class=o>=</span> <span class=mi>2</span><span class=p>,</span>
@@ -244,12 +244,12 @@ IO 模型</div><p>| Mode || Blocking || Non-blocking |
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;string.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;inttypes.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;unistd.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;fcntl.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sys/syscall.h&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;linux/aio_abi.h&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kr>inline</span> <span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nr</span><span class=p>,</span> <span class=kt>aio_context_t</span> <span class=o>*</span><span class=n>ctxp</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nf>syscall</span><span class=p>(</span><span class=n>__NR_io_setup</span><span class=p>,</span> <span class=n>nr</span><span class=p>,</span> <span class=n>ctxp</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
@@ -353,7 +353,7 @@ IO 模型</div><p>| Mode || Blocking || Non-blocking |
 </span><span class=lnt>7
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// /usr/include/libaio.h //
 </span></span></span><span class=line><span class=cl><span class=c1>// 实际系统调用 //
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>int</span> <span class=n>maxevents</span><span class=p>,</span> <span class=kt>io_context_t</span> <span class=o>/</span><span class=n>ctxp</span><span class=p>);</span>
+</span></span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_setup</span><span class=p>(</span><span class=kt>int</span> <span class=n>maxevents</span><span class=p>,</span> <span class=kt>io_context_t</span> <span class=o>/</span><span class=n>ctxp</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_destroy</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_submit</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=kt>long</span> <span class=n>nr</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>/</span><span class=n>ios</span><span class=p>[]);</span>
 </span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>int</span> <span class=nf>io_cancel</span><span class=p>(</span><span class=kt>io_context_t</span> <span class=n>ctx</span><span class=p>,</span> <span class=k>struct</span> <span class=n>iocb</span> <span class=o>/</span><span class=n>iocb</span><span class=p>,</span> <span class=k>struct</span> <span class=n>io_event</span> <span class=o>/</span><span class=n>evt</span><span class=p>);</span>

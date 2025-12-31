@@ -78,13 +78,13 @@ i386 上，编译器会将其转换为汇编语言指令，这很可能是 <code
 </span></span></code></pre></td></tr></table></div></div><ul><li><code>c7 05</code> 是指令（ <code>movl</code> , 将常量移动到地址）。</li><li>前四个 <code>00</code> 字节是 32 位常量 <code>0</code> 。</li><li>后四个 00 字节是地址。</li></ul><p>汇编器通过生成（在这种情况下）一个 <code>R_386_32</code> 重定位告诉链接器将符号 <code>g</code> 的值放入那四个字节。对于这个重定位，符号将是 <code>g</code> ，偏移量将是指令的最后四个字节，类型将是 <code>R_386_32</code> ，增量将是 <code>0=（在 i386 的情况下，增量存储在内容中，而不是在重定位本身中，但这是一个细节）。类型 =R_386_32</code> 表示一个特定的计算，即：将符号的值与增量的 32 位和放入偏移量中。由于对于 i386 增量存储在内容中，这也可以表示为：将符号的值加到偏移位置的 32 位字段中。当链接器执行这个计算时，指令中的地址将是全局变量 g 的地址。无论细节如何，重要的一点是重定位通过应用根据类型选择的特定计算来调整内容。</p><p>一个使用加数的简单案例示例是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=n>a</span><span class=p>[</span><span class=mi>10</span><span class=p>];</span> <span class=c1>// 一个全局数组。
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>char</span><span class=o>*</span> <span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span> <span class=c1>// 在一个函数中。
+</span></span></span><span class=line><span class=cl><span class=kt>char</span><span class=o>*</span> <span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span> <span class=c1>// 在一个函数中。
 </span></span></span></code></pre></td></tr></table></div></div><p>对 p 的赋值最终需要对符号 a 进行重定位。在这里，加数将是 1，以便生成的指令引用 <code>a + 1</code> 而不是 <code>a + 0</code> 。</p><p>为了指出重定位是如何依赖于处理器的，我们来考虑在 RISC 处理器上执行 g = 0; 的情况：PowerPC（在 32 位模式下）。在这种情况下，需要多个汇编语言指令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl><span class=nf>li</span> <span class=mi>1</span><span class=p>,</span><span class=mi>0</span> <span class=c1>// 将寄存器 1 设置为 0
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>lis</span> <span class=mi>9</span><span class=p>,</span><span class=no>g@ha</span> <span class=c1>// 将 g 的高调整部分加载到寄存器 9 中
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nf>stw</span> <span class=mi>1</span><span class=p>,</span><span class=no>g@l</span><span class=p>(</span><span class=mi>9</span><span class=p>)</span> <span class=c1>// 将寄存器 1 的值存储到寄存器 9 中地址加上 g 的低调整部分的地址
+</span></span></span><span class=line><span class=cl><span class=nf>lis</span> <span class=mi>9</span><span class=p>,</span><span class=no>g@ha</span> <span class=c1>// 将 g 的高调整部分加载到寄存器 9 中
+</span></span></span><span class=line><span class=cl><span class=nf>stw</span> <span class=mi>1</span><span class=p>,</span><span class=no>g@l</span><span class=p>(</span><span class=mi>9</span><span class=p>)</span> <span class=c1>// 将寄存器 1 的值存储到寄存器 9 中地址加上 g 的低调整部分的地址
 </span></span></span></code></pre></td></tr></table></div></div><ul><li><code>lis</code> 指令将一个值加载到寄存器 9 的高 16 位中，将低 16 位设置为零。</li><li>stw 指令将一个带符号的 16 位值添加到寄存器 9，以形成一个地址，然后将寄存器 1 的值存储到该地址。</li><li>操作数的 @ha 部分指示汇编器生成一个 R_PPC_ADDR16_HA 重定位。</li><li>@l 生成一个 R_PPC_ADDR16_LO 重定位。</li></ul><p>这些重定位的目标是计算符号 g 的值并将其用作存储地址。</p><p>这些信息足够确定这些重定位所执行的计算。</p><ul><li><code>R_PPC_ADDR16_HA</code> 重定位计算为 <code>(SYMBOL >> 16) + ((SYMBOL & 0x8000) ? 1 : 0)</code> 。</li><li><code>R_PPC_ADDR16_LO</code> 计算为 <code>SYMBOL & 0xffff</code> 。</li></ul><p><code>R_PPC_ADDR16_HA</code> 的额外计算是因为 <code>stw</code> 指令添加的是带符号的 16 位值，这意味着如果低 16 位出现负数，我们必须相应地调整高 16 位。重定位的偏移量使得 16 位结果值被存储到机器指令的适当部分。</p><p>我在这里讨论的具体重定位示例是针对 ELF 格式的，但同样类型的重定位在任何对象文件格式中都会出现。</p><p>我展示的示例是出现在对象文件中的重定位。如第 4 部分所述，这些类型的重定位也可能出现在共享库中，如果它们被程序链接器复制到那里。在 ELF 中，还有一些特定的重定位类型只出现在共享库或可执行文件中，而从未出现在对象文件中。这些是先前讨论的 JMP_SLOT、GLOB_DAT 和 RELATIVE 重定位。另一种只出现在可执行文件中的重定位类型是 COPY 重定位，我将在后面讨论。</p><h3 id=position-dependent-shared-libraries><span class=section-num>6.2</span> Position Dependent Shared Libraries</h3><p>我意识到在第 4 部分中，我忘记提到 ELF 共享库使用 PLT 和 GOT 表的一个重要原因。共享库的概念是允许将相同的共享库映射到不同的进程中。只有当共享库代码在每个进程中看起来都一样时，这种做法才能达到最大的效率。如果看起来不一样，那么每个进程将需要自己的私有副本，这样就会失去在物理内存和共享上的节省。</p><p>如第 4 部分所讨论，当动态链接器加载一个包含位置依赖代码的共享库时，它必须应用一组动态重定位。这些重定位将改变共享库中的代码，从而使其不再可共享。</p><p>PLT 和 GOT 的优点在于它们将重定位移到其他地方，即 PLT 和 GOT 表本身。这些表可以放入共享库的读写部分。这个共享库的这一部分将远小于代码。使用共享库的每个进程中的 PLT 和 GOT 表会有所不同，但代码将是相同的。</p><h2 id=linkers-part-7-classic-small-optimization-thread-local-storage><span class=section-num>7</span> Linkers part 7: classic small optimization: Thread Local Storage</h2><p>我假设你知道什么是线程。通常情况下，拥有一个全局变量在每个线程中可以取不同的值是非常有用的（如果你不明白这有什么用，听我说就行）。也就是说，这个变量对程序是全局的，但具体的值是线程局部的。如果线程 A
 将线程局部变量设置为 1，而线程 B 随后将其设置为 2，那么在线程 A 中运行的代码将继续看到变量的值为 1，而在线程 B
 中运行的代码看到的值为 2。在 Posix 线程中，这种类型的变量可以通过 <code>pthread_key_create</code> 创建，通过
@@ -233,18 +233,18 @@ gets 的同一个目标文件中创建一个名为 .gnu.warning.gets 的节来�
 </span><span class=lnt>86
 </span><span class=lnt>87
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// Endian simply indicates whether the host is big endian or not.
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Endian</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl><span class=k>public</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>    <span class=c1>// Used for template specializations.
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>static</span> <span class=k>const</span> <span class=kt>bool</span> <span class=n>host_big_endian</span> <span class=o>=</span> <span class=n>__BYTE_ORDER</span> <span class=o>==</span> <span class=n>__BIG_ENDIAN</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=k>const</span> <span class=kt>bool</span> <span class=n>host_big_endian</span> <span class=o>=</span> <span class=n>__BYTE_ORDER</span> <span class=o>==</span> <span class=n>__BIG_ENDIAN</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>};</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// Valtype_base is a template based on size (8, 16, 32, 64) which
 </span></span></span><span class=line><span class=cl><span class=c1>// defines the type Valtype as the unsigned integer of the specified
 </span></span></span><span class=line><span class=cl><span class=c1>// size.
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Valtype_base</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -259,7 +259,7 @@ gets 的同一个目标文件中创建一个名为 .gnu.warning.gets 的节来�
 </span></span></span><span class=line><span class=cl><span class=c1>// as Valtype_base does, and also defines a function convert_host
 </span></span></span><span class=line><span class=cl><span class=c1>// which takes an argument of type Valtype and returns the same value,
 </span></span></span><span class=line><span class=cl><span class=c1>// but swapped if the host and target have different endianness.
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Convert_endian</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
@@ -287,7 +287,7 @@ gets 的同一个目标文件中创建一个名为 .gnu.warning.gets 的节来�
 </span></span></span><span class=line><span class=cl><span class=c1>// big endian. It defines Valtype and convert_host like
 </span></span></span><span class=line><span class=cl><span class=c1>// Convert_endian. That is, it is just like Convert_endian except in
 </span></span></span><span class=line><span class=cl><span class=c1>// the meaning of the second template parameter.
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Convert</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
@@ -305,7 +305,7 @@ gets 的同一个目标文件中创建一个名为 .gnu.warning.gets 的节来�
 </span></span></span><span class=line><span class=cl><span class=c1>// endian. It defines the type Valtype and the functions readval and
 </span></span></span><span class=line><span class=cl><span class=c1>// writeval. The functions read and write values of the appropriate
 </span></span></span><span class=line><span class=cl><span class=c1>// size out of buffers, swapping them if necessary.
-</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=k>template</span>
 </span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Swap</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>

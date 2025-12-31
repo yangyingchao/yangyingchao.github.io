@@ -10,7 +10,7 @@
 </span><span class=lnt>5
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>template</span> <span class=o>&lt;</span><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span><span class=p>...</span><span class=o>&gt;</span> <span class=k>typename</span> <span class=n>Container</span><span class=o>&gt;</span>
 </span></span><span class=line><span class=cl><span class=c1>//            used to be invalid ^^^^^^^^
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>struct</span> <span class=nc>foo</span><span class=p>;</span>
+</span></span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>foo</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>foo</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>vector</span><span class=o>&gt;</span> <span class=n>my_foo</span><span class=p>;</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=h:e5f75c48-e26e-445d-91cd-cb819d8017c4><span class=section-num>1.4</span> <a href=https://www.cppstories.com/2017/01/cpp17features/#nested-namespace-definition target=_blank rel="noopener noreffer">Nested namespace definition</a></h3><p>Allows to write:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
@@ -28,7 +28,7 @@
 </span><span class=lnt>13
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c++ data-lang=c++><span class=line><span class=cl><span class=k>namespace</span> <span class=n>A</span><span class=o>::</span><span class=n>B</span><span class=o>::</span><span class=n>C</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>   <span class=c1>// ...
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>Rather</span> <span class=nl>than</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>
@@ -36,7 +36,7 @@
 </span></span><span class=line><span class=cl>    <span class=k>namespace</span> <span class=n>B</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>        <span class=k>namespace</span> <span class=n>C</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=c1>// ...
-</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=p>}</span>
+</span></span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-05-01</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/cpp/>Cpp</a>,&nbsp;<a href=/tags/c++17/>C++17</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2022/05/p752-zhu/ class=prev rel=prev title="Cardinality Estimation in DBMS: A Comprehensive Benchmark Evaluation"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Cardinality Estimation in DBMS: A Comprehensive Benchmark Evaluation</a>

@@ -148,12 +148,12 @@ https://superbear.github.io/post/2021/11/use-org-mode-and-hugo-to-write-blog/ ht
 </span><span class=lnt>39
 </span><span class=lnt>40
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>GitHub Pages</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>on</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>main </span><span class=w> </span><span class=c># Set a branch to deploy</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>pull_request</span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>jobs</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>deploy</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-20.04</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>concurrency</span><span class=p>:</span><span class=w>
@@ -269,9 +269,9 @@ purcell 大神已经准备好了。</p><p>废话不多说，直接上代码。</
 </span><span class=lnt>75
 </span><span class=lnt>76
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># Sample workflow for building and deploying a Hugo site to GitHub Pages</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy Hugo site to Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Deploy Hugo site to Pages</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>on</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Runs on pushes targeting the default branch</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branches</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;master&#34;</span><span class=p>]</span><span class=w>
@@ -279,24 +279,24 @@ purcell 大神已经准备好了。</p><p>废话不多说，直接上代码。</
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Allows you to run this workflow manually from the Actions tab</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>workflow_dispatch</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>permissions</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c># Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>permissions</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>contents</span><span class=p>:</span><span class=w> </span><span class=l>read</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>pages</span><span class=p>:</span><span class=w> </span><span class=l>write</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>id-token</span><span class=p>:</span><span class=w> </span><span class=l>write</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>concurrency</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c># Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c># However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>concurrency</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>group</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;pages&#34;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>cancel-in-progress</span><span class=p>:</span><span class=w> </span><span class=kc>false</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># Default to bash</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>defaults</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=c># Default to bash</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>defaults</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>run</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>shell</span><span class=p>:</span><span class=w> </span><span class=l>bash</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=nt>jobs</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>build</span><span class=p>:</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-20.04</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>concurrency</span><span class=p>:</span><span class=w>

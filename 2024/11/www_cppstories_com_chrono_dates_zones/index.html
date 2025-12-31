@@ -12,7 +12,7 @@
 </span><span class=lnt>7
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C++ data-lang=C++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;chrono&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;print&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>now</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>system_clock</span><span class=o>::</span><span class=n>now</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>print</span><span class=p>(</span><span class=s>&#34;now is {}&#34;</span><span class=p>,</span> <span class=n>now</span><span class=p>);</span>
@@ -33,7 +33,7 @@
 </span><span class=lnt>12
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C++ data-lang=C++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;chrono&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;print&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>now</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>system_clock</span><span class=o>::</span><span class=n>now</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>print</span><span class=p>(</span><span class=s>&#34;Full date and time: {0:%Y-%m-%d %H:%M:%S}</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>now</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>print</span><span class=p>(</span><span class=s>&#34;Date only: {0:%F}</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>now</span><span class=p>);</span>
@@ -85,7 +85,7 @@
 </span><span class=lnt>26
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C++ data-lang=C++><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;chrono&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;print&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=k>auto</span> <span class=n>now</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>system_clock</span><span class=o>::</span><span class=n>now</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>zt_local</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>zoned_time</span><span class=p>{</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>current_zone</span><span class=p>(),</span> <span class=n>now</span> <span class=p>};</span>
@@ -140,7 +140,7 @@
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;chrono&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;print&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>try</span>
 </span></span><span class=line><span class=cl>    <span class=p>{</span>
@@ -180,7 +180,7 @@
 </span><span class=lnt>21
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;chrono&gt;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;print&gt;</span><span class=cp>
-</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>printInfo</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>sys_days</span> <span class=n>sd</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>string_view</span> <span class=n>zone</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>zt_local</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>zoned_time</span><span class=p>{</span> <span class=s>&#34;Europe/Warsaw&#34;</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>sys_days</span><span class=p>{</span><span class=n>sd</span><span class=p>}</span> <span class=p>};</span>
 </span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>info</span> <span class=o>=</span> <span class=n>zt_local</span><span class=p>.</span><span class=n>get_info</span><span class=p>();</span>

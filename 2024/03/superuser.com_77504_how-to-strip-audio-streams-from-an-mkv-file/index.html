@@ -47,13 +47,13 @@
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>find ./ -maxdepth <span class=m>1</span> -type f <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     -exec mkvmerge -o ./output/<span class=s2>&#34;{}&#34;</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --audio-tracks <span class=m>2</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --video-tracks <span class=m>0</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --subtitle-tracks <span class=m>5</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --default-track-flag <span class=m>2</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --default-track-fla g <span class=m>5</span> <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>     --forced-display-flag <span class=m>5</span> <span class=s2>&#34;{}&#34;</span> <span class=se>\;</span>
+</span></span></span><span class=line><span class=cl>     -exec mkvmerge -o ./output/<span class=s2>&#34;{}&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --audio-tracks <span class=m>2</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --video-tracks <span class=m>0</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --subtitle-tracks <span class=m>5</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --default-track-flag <span class=m>2</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --default-track-fla g <span class=m>5</span> <span class=se>\
+</span></span></span><span class=line><span class=cl>     --forced-display-flag <span class=m>5</span> <span class=s2>&#34;{}&#34;</span> <span class=se>\;</span>
 </span></span></code></pre></td></tr></table></div></div><p>This finds all files in current directory, include only audio track 2 video track 0, and
 subtitle track 5. Also makes track 5 default subtitle and forces it. Then save each file
 in ./output directoy.</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2024-03-27</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/2024/03/postgr.es_p_6s9/ class=prev rel=prev title="cary huang:  PostgreSQL’s Planner – Simple Scan Paths vs Plans"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>cary huang: PostgreSQL’s Planner – Simple Scan Paths vs Plans</a>

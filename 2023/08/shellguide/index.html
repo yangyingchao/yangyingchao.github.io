@@ -22,7 +22,7 @@ SUID 变得困难，但在某些平台上仍然有可能实现，这就是为什
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=cp>#!/bin/bash
-</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1>#</span>
+</span></span></span><span class=line><span class=cl><span class=c1>#</span>
 </span></span><span class=line><span class=cl><span class=c1># Perform hot backups of Oracle databases.</span>
 </span></span></code></pre></td></tr></table></div></div><h3 id=h:43e7e163-58c6-4932-b309-95390eea923d><span class=section-num>4.2</span> Function Comments</h3><ul><li>任何不明显且不简短的函数必须注释。</li><li>无论长度或复杂性如何，库中的每个函数都必须注释。</li></ul><p>通过阅读注释（和提供的自助信息）而无需阅读代码，他人应能够了解如何使用您的程序或使用库中的函数。</p><p>所有函数的注释应描述预期的 API 行为，包括：</p><ul><li>函数的描述。</li><li>全局变量：使用和修改的全局变量列表。</li><li>参数：接受的参数。</li><li>输出：STDOUT 或 STDERR 的输出。</li><li>返回值：除最后一条运行命令的默认退出状态之外的返回值。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
@@ -83,9 +83,9 @@ SUID 变得困难，但在某些平台上仍然有可能实现，这就是为什
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1># Long commands</span>
 </span></span><span class=line><span class=cl>command1 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=p>|</span> command2 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=p>|</span> command3 <span class=se>\
-</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=p>|</span> command4
+</span></span></span><span class=line><span class=cl>  <span class=p>|</span> command2 <span class=se>\
+</span></span></span><span class=line><span class=cl>  <span class=p>|</span> command3 <span class=se>\
+</span></span></span><span class=line><span class=cl>  <span class=p>|</span> command4
 </span></span></code></pre></td></tr></table></div></div><h3 id=h:d5df6dad-79a8-4531-af28-a3e4a797d193><span class=section-num>5.4</span> Loops</h3><p>将 <code>; do</code> 和 <code>; then</code> 放在与 <code>while</code> 、 <code>for</code> 或 <code>if</code> 同一行。</p><p>在 shell 中的循环有点不同，但我们遵循与声明函数时相同的原则。也就是说：</p><ul><li>; then 和 ; do 应该与 if/for/while 放在同一行</li><li>else 应该自成一行，</li><li>关闭语句应该垂直对齐于开放语句的行。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
