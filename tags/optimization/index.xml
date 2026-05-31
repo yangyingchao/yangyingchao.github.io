@@ -18,8 +18,8 @@
 <p>Physical Query Plan As DAG (Directed Acyclic Graph)</p>
 <p><a id="figure--fig:screenshot@2022-11-03-11:43:04"></a></p>
 <figure><figcaption>
-          <p><span class="figure-number">Figure 1: </span>Example query and query plan</p>
-        </figcaption>
+    			<p><span class="figure-number">Figure 1: </span>Example query and query plan</p>
+    		</figcaption>
     </figure>
 
 <ul>

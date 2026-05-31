@@ -12,27 +12,27 @@
 <h2 id="ip-header"><span class="section-num">1</span> IP header</h2>
 <p><a id="figure--fig:wang-9915a410"></a></p>
 <figure><figcaption>
-      <p><span class="figure-number">Figure 1: </span>ip header</p>
-    </figcaption>
+			<p><span class="figure-number">Figure 1: </span>ip header</p>
+		</figcaption>
 </figure>
 
 <h2 id="tcp-header"><span class="section-num">2</span> TCP header</h2>
 <p><a id="figure--fig:wang-f4d49110"></a></p>
 <figure><figcaption>
-      <p><span class="figure-number">Figure 2: </span>tcp header</p>
-    </figcaption>
+			<p><span class="figure-number">Figure 2: </span>tcp header</p>
+		</figcaption>
 </figure>
 
 <h2 id="udp-header"><span class="section-num">3</span> UDP header</h2>
 <p><a id="figure--fig:wang-630ff401"></a></p>
 <figure><figcaption>
-      <p><span class="figure-number">Figure 3: </span>udp header</p>
-    </figcaption>
+			<p><span class="figure-number">Figure 3: </span>udp header</p>
+		</figcaption>
 </figure>
 
 <h2 id="icmp-header"><span class="section-num">4</span> ICMP header</h2>
 <p><a id="figure--fig:wang-d41d8cd9"></a></p>
 <figure><figcaption>
-      <p><span class="figure-number">Figure 4: </span>icmp header</p>
-    </figcaption>
+			<p><span class="figure-number">Figure 4: </span>icmp header</p>
+		</figcaption>
 </figure>]]></description></item></channel></rss>

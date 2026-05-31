@@ -17,65 +17,65 @@
   gpcheckcat
 </div>
 <table>
-  <thead>
-      <tr>
-          <th>检查项</th>
-          <th>描述</th>
-          <th>Utility 模式</th>
-          <th>复合查询</th>
-          <th>错误等级</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>pg_class</td>
-          <td>Check pg_class entry that does not have any correspond pg_attribute entry</td>
-          <td>Y</td>
-          <td>N</td>
-          <td>NOREPAIR</td>
-      </tr>
-      <tr>
-          <td>namespace</td>
-          <td>Check for schemas with a missing schema definition</td>
-          <td>Y</td>
-          <td>N</td>
-          <td>NOREPAIR</td>
-      </tr>
-      <tr>
-          <td>unique_index_violation</td>
-          <td>Check for violated unique indexes</td>
-          <td>N</td>
-          <td>Y</td>
-          <td>NOREPAIR</td>
-      </tr>
-      <tr>
-          <td>duplicate</td>
-          <td>Check for duplicate entries</td>
-          <td>N</td>
-          <td>Y</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>missing_extraneous</td>
-          <td>Cross consistency check for missing or extraneous entries</td>
-          <td>N</td>
-          <td>Y</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>inconsistent</td>
-          <td>Cross consistency check for coordinator segment inconsistency</td>
-          <td>N</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>foreign_key</td>
-          <td>Check foreign keys</td>
-          <td>N</td>
-          <td></td>
-          <td></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th>检查项</th>
+					<th>描述</th>
+					<th>Utility 模式</th>
+					<th>复合查询</th>
+					<th>错误等级</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>pg_class</td>
+					<td>Check pg_class entry that does not have any correspond pg_attribute entry</td>
+					<td>Y</td>
+					<td>N</td>
+					<td>NOREPAIR</td>
+			</tr>
+			<tr>
+					<td>namespace</td>
+					<td>Check for schemas with a missing schema definition</td>
+					<td>Y</td>
+					<td>N</td>
+					<td>NOREPAIR</td>
+			</tr>
+			<tr>
+					<td>unique_index_violation</td>
+					<td>Check for violated unique indexes</td>
+					<td>N</td>
+					<td>Y</td>
+					<td>NOREPAIR</td>
+			</tr>
+			<tr>
+					<td>duplicate</td>
+					<td>Check for duplicate entries</td>
+					<td>N</td>
+					<td>Y</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>missing_extraneous</td>
+					<td>Cross consistency check for missing or extraneous entries</td>
+					<td>N</td>
+					<td>Y</td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>inconsistent</td>
+					<td>Cross consistency check for coordinator segment inconsistency</td>
+					<td>N</td>
+					<td></td>
+					<td></td>
+			</tr>
+			<tr>
+					<td>foreign_key</td>
+					<td>Check foreign keys</td>
+					<td>N</td>
+					<td></td>
+					<td></td>
+			</tr>
+	</tbody>
 </table>
 <p>Note:</p>]]></description></item></channel></rss>
